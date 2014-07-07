@@ -35,7 +35,9 @@ class RelatedController extends BaseController {
         $related->url = Input::get('url');
 
         if (Input::get('nsfw') == 'on')
+        {
             $related->nsfw = true;
+        }
 
         if (Input::get('thumbnail') == 'on') {
             try {
@@ -56,7 +58,7 @@ class RelatedController extends BaseController {
         return Redirect::route('content_comments', $content->_id);
     }
 
-    public function removeRelated($related)
+    public function removeRelated($related = null)
     {
         $related = ($related instanceof ContentRelated) ?: ContentRelated::findOrFail(Input::get('id'));
 
