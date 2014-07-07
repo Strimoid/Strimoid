@@ -7,7 +7,7 @@ class NotificationController extends BaseController {
         if ($count > 50 || $count < 0)
             $count = 50;
 
-        $notifications = Notification::where('users', 'elemmatch', ['_id' => Auth::id()])
+        $notifications = Notification::target(['user_id' => Auth::id()])
             ->orderBy('created_at', 'desc')
             ->take($count)->get();
 
@@ -30,9 +30,7 @@ class NotificationController extends BaseController {
 
     public function showJSONCount()
     {
-        $elemMatch = ['_id' => Auth::id(), 'read' => false];
-
-        $newNotificationsCount = Notification::where('users', 'elemmatch', $elemMatch);
+        $newNotificationsCount = Notification::target(['user_id' => Auth::id(), 'read' => false]);
 
         $results['new'] = intval($newNotificationsCount);
 
@@ -41,7 +39,7 @@ class NotificationController extends BaseController {
 
     public function showList()
     {
-        $notifications = Notification::where('users', 'elemmatch', ['_id' => Auth::id()])
+        $notifications = Notification::target(['user_id' => Auth::id()])
             ->orderBy('created_at', 'desc')->paginate(30);
 
         return View::make('notifications.list', ['notifications' => $notifications]);
@@ -49,9 +47,7 @@ class NotificationController extends BaseController {
 
     public function markAllAsRead()
     {
-        $elemMatch = ['_id' => Auth::id(), 'read' => false];
-
-        Notification::where('users', 'elemmatch', $elemMatch)->update(['users.$.read' => true]);
+        Notification::target(['user_id' => Auth::id(), 'read' => false])->update(['users.$.read' => true]);
 
         WS::send(json_encode([
             'topic' => 'u.'. Auth::id(),
@@ -79,7 +75,7 @@ class NotificationController extends BaseController {
     public function listNotifications()
     {
         $notifications = Notification::with('sourceUser')
-            ->where('users', 'elemmatch', ['_id' => Auth::id()])
+            ->target(['user_id' => Auth::id()])
             ->orderBy('created_at', 'desc')
             ->paginate(50);
 
@@ -88,12 +84,12 @@ class NotificationController extends BaseController {
 
     public function edit(Notification $notification)
     {
-        if (Auth::id() != $notification->users[0])
+        if (!in_array(Auth::id(), array_column($notification->_targets, 'user_id')))
         {
             App::abort(403, 'Access denied');
         }
 
-        $notification->where('users', 'elemmatch', ['_id' => Auth::id()])
+        $notification->target(['user_id' => Auth::id()])
             ->update(Input::only('read'));
 
         return Response::json(['status' => 'ok']);

@@ -67,22 +67,21 @@ class BaseController extends Controller {
             }
         }
 
-        $targets = array();
+        $notification = new Notification();
+        $notification->sourceUser()->associate($sourceUser);
 
         foreach ($uniqueUsers as $uniqueUser)
         {
-            $target = User::shadow($uniqueUser)->first();
+            $user = User::shadow($uniqueUser)->first();
 
-            if ($target && $target->_id != Auth::id() && !$target->isBlocking($sourceUser))
+            if ($user && $user->_id != Auth::id() && !$user->isBlocking($sourceUser))
             {
-                $targets[] = ['_id' => $target->_id, 'read' => false];
+                $target = new NotificationTarget();
+                $target->user()->attach($user);
+
+                $notification->targets()->associate($target);
             }
         }
-
-        $notification = new Notification();
-
-        $notification->sourceUser()->associate($sourceUser);
-        $notification->users = $targets;
 
         $callback($notification);
 

@@ -1,7 +1,5 @@
 <?php
 
-use Helpers\Base58;
-
 class Notification extends BaseModel
 {
 
@@ -48,6 +46,11 @@ class Notification extends BaseModel
         return $this->belongsTo('Group');
     }
 
+    public function targets()
+    {
+        return $this->embedsMany('NotificationTarget', 'targets');
+    }
+
     public function setTitle($title)
     {
         $clean = preg_replace('/<span class="spoiler">(.*?)<\/span>/s', '', $title);
@@ -70,7 +73,7 @@ class Notification extends BaseModel
         // Add parameter to mark notification as read
         if ($unread)
         {
-            $params .= '?ntf_read='. Base58::encode($this->_id);
+            $params .= '?ntf_read='. mid_to_b58($this->_id);
         }
 
         try {
@@ -130,5 +133,9 @@ class Notification extends BaseModel
         return $this->sourceUser->getAvatarPath();
     }
 
+    public function scopeTarget($query, $params)
+    {
+        return $query->where('_targets', 'elemmatch', $params);
+    }
 
 }

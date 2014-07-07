@@ -1,22 +1,10 @@
 <?php
 
-use Helpers\Base58;
-
 Event::listen('auth.login', function($user)
 {
-    $user->last_login = new DateTime();
+    $user->last_login = Carbon::now();
 
     $user->save();
-});
-
-/* Prevent sending notifications by blocked users */
-
-Notification::saving(function($notification)
-{
-    if ($notification->user->isBlockingUser($notification->sourceUser))
-    {
-        return false;
-    }
 });
 
 /*
@@ -26,11 +14,11 @@ Notification::saving(function($notification)
 
 Notification::created(function($notification)
 {
-    foreach($notification->users as $user)
+    foreach($notification->targets as $target)
     {
         WS::send(json_encode([
-            'topic' => 'u.'. $user->_id,
-            'tag' => Base58::encode($notification->_id),
+            'topic' => 'u.'. $target->user_id,
+            'tag' => mid_to_b58($notification->_id),
             'type' => $notification->getTypeDescription(),
             'title' => $notification->title,
             'img' => $notification->getThumbnailPath(),
@@ -46,11 +34,9 @@ Notification::created(function($notification)
 
 Notification::created(function($notification)
 {
-    foreach($notification->users as $user)
+    foreach($notification->targets as $target)
     {
-        $user = User::find($user->_id);
-
-        if ($user->gcm_regid)
+        if ($target->user->gcm_regid)
         {
             try {
                 $client = new Guzzle\Http\Client('http://android.googleapis.com', [
@@ -60,9 +46,9 @@ Notification::created(function($notification)
                 $client->setDefaultOption('headers/Authorization', 'key=AIzaSyC2sUrZ14yB_3ZTq2PPCy66nR5zaK_KtH4');
 
                 $request = $client->post('gcm/send', null, json_encode([
-                        'registration_ids' => [$notification->user->gcm_regid],
+                        'registration_ids' => [$target->user->gcm_regid],
                         'data' => [
-                            'tag' => substr($notification->_id, -6),
+                            'tag' => mid_to_b58($notification->_id),
                             'type' => $notification->getTypeDescription(),
                             'title' => $notification->title,
                             'img' => $notification->getThumbnailPath(),
