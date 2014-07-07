@@ -50,6 +50,11 @@ Validator::extend('safe_url', function($attribute, $value, $parameters)
     return starts_with($value, 'http');
 });
 
+Validator::extend('url_custom', function($attribute, $value, $parameters)
+{
+    return preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value);
+});
+
 Validator::extend('real_email', function($attribute, $value, $parameters)
 {
     $blockedDomains = array(

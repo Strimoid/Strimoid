@@ -8,7 +8,7 @@ class RelatedController extends BaseController {
     {
         $validator = Validator::make(Input::all(), [
             'title' => 'required|min:1|max:128',
-            'url' => 'required|url|safe_url',
+            'url' => 'required|url_custom',
         ]);
 
         if ($validator->fails())
@@ -75,7 +75,7 @@ class RelatedController extends BaseController {
     {
         $validator = Validator::make(Input::all(), [
             'title' => 'required|min:1|max:128',
-            'url' => 'required|url|safe_url',
+            'url' => 'required|url_custom',
         ]);
 
         if ($validator->fails())

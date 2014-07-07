@@ -207,7 +207,7 @@ class ContentController extends BaseController {
         ];
 
         if (Input::get('type') == 'link')
-            $rules['url'] = 'required|url|safe_url|max:2048';
+            $rules['url'] = 'required|url_custom|max:2048';
         else
             $rules['text'] = 'required|min:1|max:50000';
 
@@ -283,7 +283,7 @@ class ContentController extends BaseController {
         }
         else
         {
-            $rules['url'] = 'required|url|safe_url|max:2048';
+            $rules['url'] = 'required|url_custom|max:2048';
         }
 
         $validator = Validator::make(Input::all(), $rules);
@@ -499,7 +499,7 @@ class ContentController extends BaseController {
         if (Input::get('text'))
             $rules['text'] = 'required|min:1|max:50000';
         else
-            $rules['url'] = 'required|url|safe_url';
+            $rules['url'] = 'required|url_custom';
 
         $validator = Validator::make(Input::all(), $rules);
 
@@ -567,7 +567,7 @@ class ContentController extends BaseController {
         }
         else
         {
-            $rules['url'] = 'url|safe_url|max:2048';
+            $rules['url'] = 'url_custom|max:2048';
         }
 
         $validator = Validator::make(Input::all(), $rules);
