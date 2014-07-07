@@ -26,6 +26,9 @@ module.exports = function(grunt) {
         },
         uglify : {
             js: {
+                options: {
+                    sourceMap: true
+                },
                 files: {
                     'public/static/js/app.js' : [ 'public/static/js/app.js' ]
                 }
