@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+    <ShortName>Strimoid - treści</ShortName>
+    <Description>Strimoid.pl - wyszukiwarka treści</Description>
+    <InputEncoding>UTF-8</InputEncoding>
+    <Contact>admin@strimoid.pl</Contact>
+    <Image height="16" width="16" type="image/x-icon">http://strimoid.pl/favicon.ico</Image>
+    <Developer>duxet</Developer>
+    <Url type="text/html" method="get" template="http://strimoid.pl/search?q={searchTerms}" />
+</OpenSearchDescription>

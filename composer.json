@@ -1,0 +1,67 @@
+{
+	"name": "laravel/laravel",
+	"description": "The Laravel Framework.",
+	"keywords": ["framework", "laravel"],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/duxet/Laravel-MongoDB"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/duxet/oauth2-server-php"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/duxet/parsedown"
+        }
+    ],
+	"require": {
+    	"laravel/framework": "4.2.*",
+        "bshaffer/oauth2-server-php": "dev-mongo",
+        "bshaffer/oauth2-server-httpfoundation-bridge": "v1.0",
+        "intervention/image": "2.0.4",
+        "erusev/parsedown": "dev-strimoid",
+        "phindmarsh/summon": "dev-master",
+        "cohensive/embed": "dev-master",
+    	"juy/profiler": "dev-master",
+    	"jenssegers/mongodb": "dev-projections",
+        "jenssegers/mongodb-session": "*",
+	    "thujohn/rss": "dev-master",
+        "rollbar/rollbar": "dev-master",
+        "intouch/laravel-newrelic": "*",
+        "roumen/sitemap": "dev-master",
+        "iron-io/iron_mq": "dev-master",
+        "jenssegers/agent": "*",
+        "jeremykendall/php-domain-parser": "1.3.1"
+    },
+	"autoload": {
+		"classmap": [
+			"app/commands",
+			"app/controllers",
+			"app/models",
+			"app/database/migrations",
+			"app/database/seeds",
+            "app/handlers",
+			"app/tests/TestCase.php"
+		]
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"php artisan optimize"
+		],
+		"pre-update-cmd": [
+			"php artisan clear-compiled"
+		],
+		"post-update-cmd": [
+			"php artisan optimize"
+		],
+		"post-create-project-cmd": [
+			"php artisan key:generate"
+		]
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "dev"
+}
