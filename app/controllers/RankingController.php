@@ -26,6 +26,12 @@ class RankingController extends BaseController
             $user = User::where('shadow_name', Str::lower(Input::get('user')))->firstOrFail();
         }
 
+        // Time filter
+        if (Input::get('time'))
+        {
+            $query->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+        }
+
         $data['users'] = $query->paginate(50);
 
         return View::make('ranking.ranking', $data);
@@ -47,6 +53,12 @@ class RankingController extends BaseController
             $query->where('group_id', $group->_id);
 
             $data['group'] = $group;
+        }
+
+        // Time filter
+        if (Input::get('time'))
+        {
+            $query->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
         }
 
         return $query->paginate(50);
