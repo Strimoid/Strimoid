@@ -16,7 +16,7 @@ function hash_email($email)
 // Change "@username" and "g/groupname" into markdown links
 function parse_usernames($body)
 {
-    $body = preg_replace_callback('/(?<=^|\s)u\/([a-z0-9_-]+)(?=$|\s)/i', function($matches) {
+    $body = preg_replace_callback('/(?<=^|\s)u\/([a-z0-9_-]+)(?=$|\s|:|.)/i', function($matches) {
     $target = User::where('shadow_name', Str::lower($matches[1]))->first();
 
     if ($target)
@@ -29,7 +29,7 @@ function parse_usernames($body)
     }
     }, $body);
 
-    $body = preg_replace_callback('/(?<=^|\s)@([a-z0-9_-]+)(?=$|\s|:)/i', function($matches) {
+    $body = preg_replace_callback('/(?<=^|\s)@([a-z0-9_-]+)(?=$|\s|:|.)/i', function($matches) {
         $target = User::where('shadow_name', Str::lower($matches[1]))->first();
 
         if ($target)
@@ -42,7 +42,7 @@ function parse_usernames($body)
         }
     }, $body);
 
-    $body = preg_replace_callback('/(?<=^|\s)(?<=\s|^)g\/([a-z0-9_-żźćńółęąśŻŹĆĄŚĘŁÓŃ]+)(?=$|\s)/i', function($matches) {
+    $body = preg_replace_callback('/(?<=^|\s)(?<=\s|^)g\/([a-z0-9_-żźćńółęąśŻŹĆĄŚĘŁÓŃ]+)(?=$|\s|:|.)/i', function($matches) {
         $groupName = shadow($matches[1]);
 
         $target = Group::where('shadow_urlname', $groupName)->first();
