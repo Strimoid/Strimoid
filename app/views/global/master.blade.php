@@ -197,7 +197,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                         <div class="notifications_scroll">
                             <div class="notifications_list">
                                 @foreach ($notifications as $notification)
-                                <a href="{{ $notification->getURL() }}" class="@if (!$notification->read) new @endif" data-id="{{ Base58::encode($notification->_id) }}">
+                                <a href="{{ $notification->getURL() }}" class="@if (!$notification->read) new @endif" data-id="{{ mid_to_b58($notification->_id) }}">
                                     @if ($notification->sourceUser)
                                         <img src="{{ $notification->sourceUser->getAvatarPath() }}" class="pull-left">
                                     @endif
