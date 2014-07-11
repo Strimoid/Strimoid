@@ -677,7 +677,7 @@ $(document).ready(function() {
     });
 
     $('body').on('keypress', 'form.enter_send', function (e) {
-        if (e.which === 13 && !e.shiftKey && window.settings.enter_send) {
+        if (e.which === 13 && !e.shiftKey && window.settings && window.settings.enter_send) {
             e.preventDefault();
             $(this).submit();
         }
