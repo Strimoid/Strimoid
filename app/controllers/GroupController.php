@@ -458,21 +458,21 @@ class GroupController extends BaseController {
 
     public function subscribeGroup()
     {
-        $group = Group::where('urlname', Input::get('name'))->firstOrFail();
-        $user = Auth::user();
+        $group = Group::shadow(Input::get('name'))->firstOrFail();
 
         $group->checkAccess();
 
-        if (GroupSubscriber::where('group_id', $group->getKey())->where('user_id', $user->getKey())->first())
+        if (Auth::user()->isSubscriber($group))
+        {
             return Response::make('Already subscribed', 400);
+        }
 
         $subscriber = new GroupSubscriber();
-        $subscriber->user()->associate($user);
+        $subscriber->user()->associate(Auth::user());
         $subscriber->group()->associate($group);
         $subscriber->save();
 
-        $group->subscribers++;
-        $group->save();
+        $group->increment('subscribers');
 
         Cache::forget('user.'. Auth::id() . '.subscribed_groups');
 
@@ -481,18 +481,18 @@ class GroupController extends BaseController {
 
     public function unsubscribeGroup()
     {
-        $group = Group::where('urlname', Input::get('name'))->firstOrFail();
-        $user = Auth::user();
+        $group = Group::shadow(Input::get('name'))->firstOrFail();
 
-        $subscriber = GroupSubscriber::where('group_id', $group->getKey())->where('user_id', $user->getKey())->first();
+        $subscriber = GroupSubscriber::where('group_id', $group->_id)->where('user_id', Auth::id())->first();
 
         if (!$subscriber)
+        {
             return Response::make('Not subscribed', 400);
+        }
 
         $subscriber->delete();
 
-        $group->subscribers--;
-        $group->save();
+        $group->decrement('subscribers');
 
         Cache::forget('user.'. Auth::id() .'.subscribed_groups');
 

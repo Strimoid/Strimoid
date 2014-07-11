@@ -17,7 +17,7 @@ $isReply = isset($isReply) ? true : false;
 
         <span class="pull-right">
             @if (!$isReply)
-                <span class="glyphicon glyphicon-tag"></span> <a href="{{ route('group_entries', $entry->group_id) }}">g/{{{ $entry->group_id }}}</a>
+                <span class="glyphicon glyphicon-tag"></span> <a href="{{ route('group_entries', $entry->group_id) }}" class="entry_group">g/{{{ $entry->group_id }}}</a>
             @endif
 
             <span class="glyphicon glyphicon-time"></span> <a href="{{ $entry->getURL() }}"><time pubdate datetime="{{ $entry->created_at->format('c') }}" title="{{ $entry->getLocalTime() }}">{{ $entry->created_at->diffForHumans() }}</time></a>

@@ -1,6 +1,12 @@
 function GroupsModule() {
-    $('button.group_subscribe_btn').click(this.subscribeGroup);
-    $('button.group_block_btn').click(this.blockGroup);
+    if (window.username) {
+        $('body').on('click', 'button.group_subscribe_btn', this.subscribeGroup);
+        $('body').on('click', 'button.group_block_btn', this.blockGroup);
+
+        $('a.entry_group').popover({
+            html: true, placement: 'bottom', trigger: 'hover', delay: 500, content: this.renderActionsWidget
+        });
+    }
 }
 
 GroupsModule.prototype.subscribeGroup = function () {
@@ -43,4 +49,19 @@ GroupsModule.prototype.blockGroup = function () {
             }
         });
     }
+}
+
+GroupsModule.prototype.renderActionsWidget = function() {
+    var widget = $(this);
+    var groupname = $(this).parent().find('.entry_group').text();
+
+    groupname = groupname.replace(/^g\//, '');
+
+    var template = _.template('<div class="btn-group" data-name="<%= groupname %>"><button class="group_subscribe_btn btn btn-sm <%= subscribe_class %>"><span class="glyphicon glyphicon-eye-open"></span></button><button class="group_block_btn btn btn-sm <%= block_class %>"><span class="glyphicon glyphicon-ban-circle"></span></button></div>');
+
+    return template({
+        groupname: groupname,
+        subscribe_class: _.contains(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-default',
+        block_class: _.contains(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-default'
+    });
 }
