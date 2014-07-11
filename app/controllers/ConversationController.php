@@ -88,14 +88,13 @@ class ConversationController extends BaseController {
         $message->text = Parsedown::instance()->parse(Input::get('text'));
         $message->save();
 
-        $notification = new Notification();
-        $notification->type = 'conversation';
-        $notification->setTitle($message->text);
-        $notification->sourceUser()->associate(Auth::user());
-        $notification->user()->associate($target);
-        $notification->conversation()->associate($conversation);
-
-        $notification->save();
+        $this->sendNotifications([$target->_id], function($notification) use ($message, $conversation)
+        {
+            $notification->type = 'conversation';
+            $notification->setTitle($message->text);
+            $notification->conversation()->associate($conversation);
+            $notification->save(); // todo
+        });
 
         return Redirect::to('/conversations');
     }
@@ -132,14 +131,13 @@ class ConversationController extends BaseController {
         $message->text = Parsedown::instance()->parse(Input::get('text'));
         $message->save();
 
-        $notification = new Notification();
-        $notification->type = 'conversation';
-        $notification->setTitle($message->text);
-        $notification->sourceUser()->associate(Auth::user());
-        $notification->user()->associate($target);
-        $notification->conversation()->associate($conversation);
-
-        $notification->save();
+        $this->sendNotifications([$target->_id], function($notification) use ($message, $conversation)
+        {
+            $notification->type = 'conversation';
+            $notification->setTitle($message->text);
+            $notification->conversation()->associate($conversation);
+            $notification->save(); // todo
+        });
 
         return Redirect::route('conversation', $conversation->_id);
     }

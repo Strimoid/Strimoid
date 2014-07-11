@@ -47,7 +47,7 @@ class NotificationController extends BaseController {
 
     public function markAllAsRead()
     {
-        Notification::target(['user_id' => Auth::id(), 'read' => false])->update(['users.$.read' => true]);
+        Notification::target(['user_id' => Auth::id(), 'read' => false])->update(['_targets.$.read' => true]);
 
         WS::send(json_encode([
             'topic' => 'u.'. Auth::id(),

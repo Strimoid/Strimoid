@@ -9,7 +9,7 @@ class NotificationTarget extends BaseModel
 
     public function user()
     {
-        return $this->hasOne('User');
+        return $this->belongsTo('User');
     }
 
     public function setReadAttribute($value)

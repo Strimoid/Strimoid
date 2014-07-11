@@ -20,8 +20,8 @@ App::before(function($request)
         $id = b58_to_mid(Input::get('ntf_read'));
 
         Notification::where('_id', $id)
-            ->where('users', 'elemmatch', ['_id' => Auth::id()])
-            ->update(['users.read' => true]);
+            ->target(['user_id' => Auth::id()])
+            ->update(['_targets.$.read' => true]);
 
         WS::send(json_encode([
             'topic' => 'u.'. Auth::id(),

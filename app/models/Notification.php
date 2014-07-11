@@ -48,7 +48,7 @@ class Notification extends BaseModel
 
     public function targets()
     {
-        return $this->embedsMany('NotificationTarget', 'targets');
+        return $this->embedsMany('NotificationTarget', '_targets');
     }
 
     public function setTitle($title)
@@ -60,18 +60,25 @@ class Notification extends BaseModel
         $this->title = $text;
     }
 
+    public function getReadAttribute()
+    {
+        $target = $this->targets->first();
+
+        return $target->read;
+    }
+
     public function setReadAttribute($value)
     {
         $this->attributes['users.read'] = toBool($value);
     }
 
-    public function getURL($unread = false)
+    public function getURL()
     {
         $url = null;
         $params = null;
 
         // Add parameter to mark notification as read
-        if ($unread)
+        if (!$this->read)
         {
             $params .= '?ntf_read='. mid_to_b58($this->_id);
         }

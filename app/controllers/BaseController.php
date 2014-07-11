@@ -46,25 +46,34 @@ class BaseController extends Controller {
         return $body;
     }
 
-    protected function sendNotifications($text, Closure $callback, User $sourceUser = null)
+    protected function sendNotifications($targets, Closure $callback, User $sourceUser = null)
     {
         $sourceUser = $sourceUser ?: Auth::user();
 
-        preg_match_all('/@([a-z0-9_-]+)/i', $text, $mentionedUsers, PREG_SET_ORDER);
-
-        $uniqueUsers = array();
-
-        foreach ($mentionedUsers as $mentionedUser)
+        if (is_array($targets))
         {
-            if (!isset($mentionedUser[1]))
-            {
-                break;
-            }
+            $uniqueUsers = $targets;
+        }
+        else
+        {
+            preg_match_all('/@([a-z0-9_-]+)/i', $targets, $mentionedUsers, PREG_SET_ORDER);
 
-            if (!in_array(Str::lower($mentionedUser[1]), $uniqueUsers))
+            $uniqueUsers = array();
+
+            foreach ($mentionedUsers as $mentionedUser)
             {
+                if (!isset($mentionedUser[1]) || in_array(Str::lower($mentionedUser[1]), $uniqueUsers))
+                {
+                    break;
+                }
+
                 $uniqueUsers[] = Str::lower($mentionedUser[1]);
             }
+        }
+
+        if (!$uniqueUsers)
+        {
+            return;
         }
 
         $notification = new Notification();
@@ -74,10 +83,10 @@ class BaseController extends Controller {
         {
             $user = User::shadow($uniqueUser)->first();
 
-            if ($user && $user->_id != Auth::id() && !$user->isBlocking($sourceUser))
+            if ($user && $user->_id != Auth::id() && !$user->isBlockingUser($sourceUser))
             {
                 $target = new NotificationTarget();
-                $target->user()->attach($user);
+                $target->user()->associate($user);
 
                 $notification->targets()->associate($target);
             }

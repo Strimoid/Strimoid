@@ -8,18 +8,16 @@ View::composer('global.master', function($view)
     {
         // Load last 15 notifications
         $notifications = Notification::with(['sourceUser' => function($q) { $q->select('avatar')->remember(3); }])
-            ->where('users._id', Auth::id())
+            ->target(['user_id' => Auth::id()])
             ->orderBy('created_at', 'desc')
             ->take(15)->get();
 
         $view->with('notifications', $notifications);
 
         // And check how much unread notifications user has
-        $elemMatch = ['_id' => Auth::id(), 'read' => false];
+        $elemMatch = ['user_id' => Auth::id(), 'read' => false];
 
-        $newNotificationsCount = Notification::where('users', 'elemmatch', $elemMatch)
-            //->where('read', '!=', true)
-            ->count();
+        $newNotificationsCount = Notification::target($elemMatch)->count();
 
         $view->with('newNotificationsCount', $newNotificationsCount);
     }
