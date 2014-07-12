@@ -1,6 +1,8 @@
 <?php
 
-$builder = Content::where('created_at', '>', new MongoDate(time() - 3 * 86400));
+$fromTimestamp = Carbon::now()->subDay(3)->minute(0)->second(0);
+
+$builder = Content::where('created_at', '>', carbon_to_md($fromTimestamp));
 
 if (isset($group))
 {

@@ -1,11 +1,11 @@
 <?php
 
-$fromTimestamp = Carbon::now()->subDay(3)->minute(0)->second(0)->timestamp;
+$fromTimestamp = Carbon::now()->subDay(3)->minute(0)->second(0);
 
 $builder = Comment::with([
     'user' => function($q) { $q->select(['avatar', 'name'])->remember(60); },
     'content' => function($q) { $q->select('title')->remember(60); }
-])->where('created_at', '>', $fromTimestamp);
+])->where('created_at', '>', carbon_to_md($fromTimestamp));
 
 if (isset($group))
 {
