@@ -62,7 +62,14 @@ class Notification extends BaseModel
 
     public function getReadAttribute()
     {
-        $target = $this->targets->first();
+        $target = $this->targets->filter(function($x){
+            return $x->user_id == Auth::id();
+        })->first();
+
+        if (!$target)
+        {
+            return false;
+        }
 
         return $target->read;
     }
