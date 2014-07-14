@@ -3,7 +3,7 @@ function GroupsModule() {
         $('body').on('click', 'button.group_subscribe_btn', this.subscribeGroup);
         $('body').on('click', 'button.group_block_btn', this.blockGroup);
 
-        $('a.entry_group').popover({
+        $('[data-hover=group_widget]').popover({
             html: true, placement: 'bottom', trigger: 'hover', delay: 500, content: this.renderActionsWidget
         });
     }
@@ -53,7 +53,7 @@ GroupsModule.prototype.blockGroup = function () {
 
 GroupsModule.prototype.renderActionsWidget = function() {
     var widget = $(this);
-    var groupname = $(this).parent().find('.entry_group').text();
+    var groupname = $(this).attr('data-group');
 
     groupname = groupname.replace(/^g\//, '');
 

@@ -13,7 +13,7 @@ $isReply = isset($isReply) ? true : false;
     </div>
 
     <div class="panel-heading comment_header">
-        <a href="{{ route('user_profile', $comment->user->name) }}" class="comment_author">{{ $comment->user->getColoredName() }}</a>
+        <a href="{{ route('user_profile', $comment->user->name) }}" class="comment_author" data-hover="user_widget" data-user="{{ $comment->user_id }}">{{ $comment->user->getColoredName() }}</a>
 
         <span class="pull-right">
             <span class="glyphicon glyphicon-time"></span> <a href="{{ $comment->getURL() }}"><time pubdate datetime="{{ $comment->created_at->format('c') }}" title="{{ $comment->getLocalTime() }}">{{ $comment->created_at->diffForHumans() }}</time></a>

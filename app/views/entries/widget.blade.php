@@ -13,11 +13,11 @@ $isReply = isset($isReply) ? true : false;
     </div>
 
     <div class="panel-heading entry_header">
-        <a href="{{ route('user_profile', $entry->user->name) }}" class="entry_author">{{ $entry->user->getColoredName() }}</a>
+        <a href="{{ route('user_profile', $entry->user->name) }}" class="entry_author" data-hover="user_widget" data-user="{{ $entry->user_id }}">{{ $entry->user->getColoredName() }}</a>
 
         <span class="pull-right">
             @if (!$isReply)
-                <span class="glyphicon glyphicon-tag"></span> <a href="{{ route('group_entries', $entry->group_id) }}" class="entry_group">g/{{{ $entry->group_id }}}</a>
+                <span class="glyphicon glyphicon-tag"></span> <a href="{{ route('group_entries', $entry->group_id) }}" class="entry_group" data-hover="group_widget" data-group="{{ $entry->group_id }}">g/{{{ $entry->group_id }}}</a>
             @endif
 
             <span class="glyphicon glyphicon-time"></span> <a href="{{ $entry->getURL() }}"><time pubdate datetime="{{ $entry->created_at->format('c') }}" title="{{ $entry->getLocalTime() }}">{{ $entry->created_at->diffForHumans() }}</time></a>

@@ -88,25 +88,6 @@ $(document).ready(function() {
         }
     );
 
-    /*
-    $('body').popover({
-        selector: 'button.vote-btn-up,button.vote-btn-down',
-        html: true,
-        trigger: 'hover',
-        placement: 'right',
-        delay: 100,
-        content: function() {
-            console.log($(this).parent().find('.upvotes').html());
-
-            if ($(this).hasClass('.vote-btn-up'))
-                return $(this).parent().find('.upvotes').html();
-            else
-                return $(this).parent().find('.downvotes').html();
-
-        }
-    });
-    */
-
     $('.groupbar .dropdown').each(function(index) {
         var menu = $(this).find('.dropdown-menu');
         var menuElements = $(menu).children();

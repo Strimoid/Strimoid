@@ -3,13 +3,7 @@ function UsersModule() {
         $('body').on('click', 'button.user_observe_btn', this.observeUser);
         $('body').on('click', 'button.user_block_btn', this.blockUser);
 
-        /*
-        $('<span class="caret user_widget_caret" data-toggle="popover"></span>').insertAfter('.entry_author').popover({
-            html:true, placement:'bottom', content: this.renderActionsWidget
-        });
-        */
-
-        $('a.entry_author').popover({
+        $('[data-hover=user_widget]').popover({
             html:true, placement:'bottom', trigger: 'hover', delay: 500, content: this.renderActionsWidget
         });
     }
@@ -67,7 +61,7 @@ UsersModule.prototype.blockUser = function() {
 
 UsersModule.prototype.renderActionsWidget = function() {
     var widget = $(this);
-    var username = $(this).parent().find('.entry_author span').text();
+    var username = $(this).attr('data-user');
 
     var template = _.template('<div class="btn-group" data-name="<%= username %>"><a href="/conversations/new/<%= username %>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-envelope"></span></a><button class="user_observe_btn btn btn-sm <%= observe_class %>"><span class="glyphicon glyphicon-eye-open"></span></button><button class="user_block_btn btn btn-sm <%= block_class %>"><span class="glyphicon glyphicon-ban-circle"></span></button></div>');
 
