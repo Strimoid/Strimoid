@@ -728,6 +728,10 @@ $(document).ready(function() {
     Mousetrap.bind('ctrl+alt+m', function(e) {
         window.location = '/g/moderated';
     });
+
+    Mousetrap.bind('ctrl+alt+o', function(e) {
+        window.location = '/g/observed';
+    });
 });
 
 
