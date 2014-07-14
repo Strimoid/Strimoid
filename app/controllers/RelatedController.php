@@ -6,10 +6,7 @@ class RelatedController extends BaseController {
 
     public function addRelated(Content $content)
     {
-        $validator = Validator::make(Input::all(), [
-            'title' => 'required|min:1|max:128',
-            'url' => 'required|url_custom',
-        ]);
+        $validator = ContentRelated::validate(Input::all());
 
         if ($validator->fails())
         {
@@ -30,14 +27,9 @@ class RelatedController extends BaseController {
                 ->with('danger_msg', 'Nie możesz dodawać powiązanych w tej grupie');
         }
 
-        $related = new ContentRelated();
-        $related->title = Input::get('title');
-        $related->url = Input::get('url');
-
-        if (Input::get('nsfw') == 'on')
-        {
-            $related->nsfw = true;
-        }
+        $related = new ContentRelated(Input::only([
+            'title', 'url', 'nsfw', 'eng'
+        ]));
 
         if (Input::get('thumbnail') == 'on') {
             try {
@@ -88,14 +80,9 @@ class RelatedController extends BaseController {
             return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.']);
         }
 
-        $related = new ContentRelated();
-        $related->title = Input::get('title');
-        $related->url = Input::get('url');
-
-        if (Input::get('nsfw') == 'true' || Input::get('nsfw') == 'on')
-        {
-            $related->nsfw = true;
-        }
+        $related = new ContentRelated(Input::only([
+            'title', 'url', 'nsfw', 'eng'
+        ]));
 
         if (Input::get('thumbnail') != 'false' && Input::get('thumbnail') != 'off') {
             try {

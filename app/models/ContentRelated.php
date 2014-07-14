@@ -5,6 +5,11 @@ use Jenssegers\Mongodb\Model as Eloquent;
 class ContentRelated extends BaseModel
 {
 
+    protected static $rules = [
+        'title' => 'required|min:1|max:128',
+        'url' => 'required|url_custom',
+    ];
+
     protected $attributes = array(
         'uv' => 0,
         'dv' => 0,
@@ -12,7 +17,8 @@ class ContentRelated extends BaseModel
     );
 
     protected $collection = 'content_related';
-    protected $hidden = array('_id', 'content_id', 'user_id', 'updated_at');
+    protected $hidden = ['_id', 'content_id', 'user_id', 'updated_at'];
+    protected $fillable = ['title', 'nsfw', 'eng', 'url'];
 
     function __construct($attributes = array())
     {
@@ -36,6 +42,16 @@ class ContentRelated extends BaseModel
         Content::where('_id', $this->content_id)->decrement('related_count');
 
         return parent::delete();
+    }
+
+    public function setNsfwAttribute($value)
+    {
+        $this->attributes['nsfw'] = toBool($value);
+    }
+
+    public function setEngAttribute($value)
+    {
+        $this->attributes['eng'] = toBool($value);
     }
 
     public function getURL()

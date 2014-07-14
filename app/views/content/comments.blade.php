@@ -115,6 +115,11 @@
                 {{ Form::checkbox('nsfw', 'on', Input::old('nsfw')) }} Treść +18
             </label>
         </div>
+        <div class="checkbox">
+            <label>
+                {{ Form::checkbox('eng', 'on', Input::old('eng')) }} Treść w języku angielskim
+            </label>
+        </div>
     </div>
 </div>
 
@@ -149,7 +154,11 @@ Brak powiązanych.
 
     <div class="media-body">
         <h4 class="media-heading">
-            <a href="{{{ $related->url }}}">{{{ $related->title }}}</a> @if ($content->nsfw) <span class="nsfw">[+18]</span> @endif
+            <a href="{{{ $related->url }}}">{{{ $related->title }}}</a>
+
+            @if ($content->eng) <span class="eng">[ENG]</span> @endif
+            @if ($content->nsfw) <span class="nsfw">[+18]</span> @endif
+
             @if (Auth::check() && Auth::user()->getKey() == $related->user->getKey())
             <a class="related_remove_link" data-id="{{ $related->_id }}"><span class="glyphicon glyphicon-trash"></span></a>
             @endif
