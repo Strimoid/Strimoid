@@ -40,15 +40,18 @@ class DeleteUser extends Command {
 
         $user = User::findOrFail($this->argument('username'));
 
-        $user->removed_at = new MongoDate();
-        $user->type = 'deleted';
-        $user->unset(['age', 'description', 'email', 'last_login', 'last_ip',
-            'location', 'password', 'settings', 'sex', 'shadow_email']);
-        $user->deleteAvatar();
+        if ($this->confirm('Do you really want to remove user: '. $user->name .'? [yes|no]'))
+        {
+            $user->removed_at = new MongoDate();
+            $user->type = 'deleted';
+            $user->unset(['age', 'description', 'email', 'last_login', 'last_ip',
+                'location', 'password', 'settings', 'sex', 'shadow_email']);
+            $user->deleteAvatar();
 
-        $user->save();
+            $user->save();
 
-        $this->info('User deleted');
+            $this->info('User deleted');
+        }
 
         /*
 
