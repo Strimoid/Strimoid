@@ -17,7 +17,7 @@
 
     <title>@yield('title', e($pageTitle))</title>
 
-    <link href="/static/css/style.css?26" rel="stylesheet">
+    <link href="{{ $cssFilename }}" rel="stylesheet">
 
     @if (Input::get('night') || isset($_COOKIE['night_mode']))
         <link href="/static/css/night.css?1" rel="stylesheet" data-id="night_mode">
@@ -361,7 +361,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
 </footer>
 
-<script src="/static/js/app.js?105"></script>
+<script src="{{ $jsFilename }}"></script>
 
 @if (Auth::check())
 <script>

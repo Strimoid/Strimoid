@@ -18,10 +18,19 @@ module.exports = function(grunt) {
                 dest : 'public/static/js/app.js'
             }
         },
+        autoprefixer: {
+            build: {
+                options: {
+                    browsers: ['last 2 version', 'ie 9']
+                },
+                src: 'public/static/css/style.css',
+                dest: 'public/static/css/style.css'
+            }
+        },
         cssmin : {
             minify:{
                 src: 'public/static/css/style.css',
-                dest: 'public/static/css/style.css'
+                dest: 'public/static/css/style.min.css'
             }
         },
         uglify : {
@@ -30,8 +39,18 @@ module.exports = function(grunt) {
                     sourceMap: true
                 },
                 files: {
-                    'public/static/js/app.js' : [ 'public/static/js/app.js' ]
+                    'public/static/js/app.min.js' : [ 'public/static/js/app.js' ]
                 }
+            }
+        },
+        hashres: {
+            build: {
+                options: {
+                    renameFiles: false,
+                    fileNameFormat: '${name}.${hash}.${ext}'
+                },
+                src: [ 'public/static/css/style.min.css', 'public/static/js/app.min.js' ],
+                dest: 'app/config/assets.php'
             }
         }
     });
@@ -40,5 +59,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', [ 'concat:css', 'cssmin:minify', 'concat:js', 'uglify:js' ]);
+    grunt.loadNpmTasks('grunt-hashres');
+    grunt.loadNpmTasks('grunt-autoprefixer');
+
+    grunt.registerTask('default', [
+        'concat:css', 'autoprefixer:build', 'cssmin:minify', 'concat:js', 'uglify:js', 'hashres:build'
+    ]);
 };

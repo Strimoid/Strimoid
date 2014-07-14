@@ -4,11 +4,17 @@ View::composer('global.master', function($view)
 {
     $data = $view->getData();
 
+    $assetsHost = (Request::secure()) ? '' : 'http://static.strimoid.pl';
+
+    $view->with('cssFilename', $assetsHost . Config::get('assets.style.css'));
+    $view->with('jsFilename', $assetsHost . Config::get('assets.app.js'));
+
     if (Auth::check())
     {
         // Load last 15 notifications
         $notifications = Notification::with(['sourceUser' => function($q) { $q->select('avatar')->remember(3); }])
             ->target(['user_id' => Auth::id()])
+            //->elemMatch('_targets', 'user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->take(15)->get();
 
