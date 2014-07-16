@@ -34,7 +34,7 @@ $isReply = isset($isReply) ? true : false;
         </span>
     </div>
 
-    <div class="entry_text md @if ($entry->isHidden()) blocked @endif"">
+    <div class="entry_text md @if ($entry->isHidden()) blocked @endif">
         {{ $entry->text }}
     </div>
 

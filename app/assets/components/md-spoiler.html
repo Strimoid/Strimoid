@@ -1,0 +1,22 @@
+<element name="md-spoiler">
+    <style>
+
+    </style>
+    <template>
+
+    </template>
+    <script>
+        ({
+            createdCallback: function() {
+                this.spoiler = this.textContent;
+
+                this.textContent = 'Pokaż ukrytą treść';
+
+                this.addEventListener('click', this.clickHandler.bind(this), false);
+            },
+            clickHandler: function (e) {
+                this.textContent = this.spoiler;
+            }
+        });
+    </script>
+</element>

@@ -37,6 +37,8 @@
     <script src="/static/js/respond.min.js"></script>
     <![endif]-->
 
+    <script src="{{ $componentsFilename }}"></script>
+
     @yield('head')
 </head>
 

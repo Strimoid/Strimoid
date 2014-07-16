@@ -8,6 +8,7 @@ View::composer('global.master', function($view)
 
     $view->with('cssFilename', $assetsHost . Config::get('assets.style.css'));
     $view->with('jsFilename', $assetsHost . Config::get('assets.app.js'));
+    $view->with('componentsFilename', $assetsHost . Config::get('assets.components.js'));
 
     if (Auth::check())
     {

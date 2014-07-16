@@ -215,6 +215,11 @@ class Content extends BaseModel
         }
     }
 
+    public function isSaved()
+    {
+        return in_array($this->_id, (array) Auth::user()->data->_saved_contents);
+    }
+
     public static function validate($input)
     {
         $validator = Validator::make($input, static::$rules);

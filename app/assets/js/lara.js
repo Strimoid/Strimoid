@@ -331,7 +331,7 @@ $(document).ready(function() {
         if (next.length && $(next).hasClass('yt-embed'))
             $(next).remove();
         else
-            $(this).after('<iframe class="yt-embed" width="480" height="360" src="//www.youtube.com/embed/'+ id +'?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
+            $(this).after('<video-yt class="yt-embed" style="width: 480px; height: 360px;" vid="'+ id +'"></video-yt>');
 
         return false;
     });

@@ -1,10 +1,18 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        bosonic: {
+            build: {
+                src: ['app/assets/components/*.html'],
+                css: 'public/static/js/components.css',
+                js: 'public/static/js/components.js'
+            }
+        },
         concat: {
             css: {
                 src: [
-                    'app/assets/css/*'
+                    'app/assets/css/*.css',
+                    'public/static/js/components.css'
                 ],
                 dest: 'public/static/css/style.css'
             },
@@ -13,9 +21,16 @@ module.exports = function(grunt) {
                     'app/assets/js/libs/*.js',
                     'app/assets/js/plugins/*.js',
                     'app/assets/js/modules/*.js',
-                    'app/assets/js/*.js'
+                    'app/assets/js/lara.js'
                 ],
                 dest : 'public/static/js/app.js'
+            },
+            components : {
+                src : [
+                    'app/assets/js/bosonic.js',
+                    'public/static/js/components.js'
+                ],
+                dest : 'public/static/js/components.js'
             }
         },
         autoprefixer: {
@@ -39,7 +54,8 @@ module.exports = function(grunt) {
                     sourceMap: true
                 },
                 files: {
-                    'public/static/js/app.min.js' : [ 'public/static/js/app.js' ]
+                    'public/static/js/app.min.js' : [ 'public/static/js/app.js' ],
+                    'public/static/js/components.min.js' : [ 'public/static/js/components.js' ]
                 }
             }
         },
@@ -49,20 +65,27 @@ module.exports = function(grunt) {
                     renameFiles: false,
                     fileNameFormat: '${name}.${hash}.${ext}'
                 },
-                src: [ 'public/static/css/style.min.css', 'public/static/js/app.min.js' ],
+                src: [
+                    'public/static/css/style.min.css',
+                    'public/static/js/app.min.js',
+                    'public/static/js/components.min.js'
+                ],
                 dest: 'app/config/assets.php'
             }
         }
     });
 
+    grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-bosonic');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-hashres');
-    grunt.loadNpmTasks('grunt-autoprefixer');
 
     grunt.registerTask('default', [
-        'concat:css', 'autoprefixer:build', 'cssmin:minify', 'concat:js', 'uglify:js', 'hashres:build'
+        'bosonic:build', 'concat:components',
+        'concat:css', 'autoprefixer:build', 'cssmin:minify',
+        'concat:js', 'uglify:js', 'hashres:build'
     ]);
 };
