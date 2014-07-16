@@ -157,7 +157,7 @@ Validator::extend('reserved_groupnames', function($attribute, $value, $parameter
         'subskrybowane', 'moderowane', 'zablokowane', 'blokowane', 'losowa', 'losowe',
         'wszystko','wszystkie', 'obserwowani', 'obserwowane', 'zapisane', 'folder',
         'upvoted', 'downvoted', 'uv', 'dv', 'mod', 'sub', 'los', 'blok', 'blo', 'blocked',
-        'zbanowane', 'zbanowany', 'zbanowano', 'notvoted', 'nieocenione'
+        'zbanowane', 'zbanowany', 'zbanowano', 'notvoted', 'nieocenione', 'domain', 'domena'
     ];
 
     return !in_array($value, $names);
