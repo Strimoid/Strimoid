@@ -591,61 +591,9 @@
         eventClassName = null;
       };
 
-      var ieSupport = function (version) {
-        $this.addClass('ie').addClass('ie' + version);
-
-        var bindHoverHandlers = function () {
-          var mouseenter = function () {
-            $(this).addClass('hover');
-          };
-          var mouseleave = function () {
-            $(this).removeClass('hover');
-          };
-          $this.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
-          $scrollbarXRail.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
-          $scrollbarYRail.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
-          $scrollbarX.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
-          $scrollbarY.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
-        };
-
-        var fixIe6ScrollbarPosition = function () {
-          updateScrollbarCss = function () {
-            var scrollbarXStyles = {left: scrollbarXLeft + $this.scrollLeft(), width: scrollbarXWidth};
-            if (isScrollbarXUsingBottom) {
-              scrollbarXStyles.bottom = scrollbarXBottom;
-            } else {
-              scrollbarXStyles.top = scrollbarXTop;
-            }
-            $scrollbarX.css(scrollbarXStyles);
-
-            var scrollbarYStyles = {top: scrollbarYTop + $this.scrollTop(), height: scrollbarYHeight};
-            if (isScrollbarYUsingRight) {
-              scrollbarYStyles.right = scrollbarYRight;
-            } else {
-              scrollbarYStyles.left = scrollbarYLeft;
-            }
-
-            $scrollbarY.css(scrollbarYStyles);
-            $scrollbarX.hide().show();
-            $scrollbarY.hide().show();
-          };
-        };
-
-        if (version === 6) {
-          bindHoverHandlers();
-          fixIe6ScrollbarPosition();
-        }
-      };
-
       var supportsTouch = (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
 
       var initialize = function () {
-        var ieMatch = navigator.userAgent.toLowerCase().match(/(msie) ([\w.]+)/);
-        if (ieMatch && ieMatch[1] === 'msie') {
-          // must be executed at first, because 'ieSupport' may addClass to the container
-          ieSupport(parseInt(ieMatch[2], 10));
-        }
-
         updateBarSizeAndPosition();
         bindScrollHandler();
         bindMouseScrollXHandler();
