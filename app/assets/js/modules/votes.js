@@ -15,6 +15,11 @@ function VotesModule() {
         delay: 500
     });
 
+    // fix context menu instead of popover for mobile devices:
+    $('body').on('contextmenu', 'button.vote-btn-up, button.vote-btn-down', function(event) {
+        return false;
+    });
+
     $('body').on('show.bs.popover', 'button.vote-btn-up, button.vote-btn-down', function () {
         var button = this;
         var item = $(this).parent();
