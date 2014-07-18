@@ -147,6 +147,7 @@ return array(
         'Thujohn\Rss\RssServiceProvider',
         'Intouch\LaravelNewrelic\LaravelNewrelicServiceProvider',
         'Roumen\Sitemap\SitemapServiceProvider',
+        'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
 
 	),
 
