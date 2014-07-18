@@ -79,7 +79,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
     public function getAvatarPath($width = null, $height = null)
     {
-        $url = Request::secure() ? '//strimoid.pl' : 'http://static.strimoid.pl';
+        $url = Request::secure() ? '//strimoid.pl' : Config::get('app.cdn_host');
 
         // Show default avatar if user is blocked
         if (Auth::check() && Auth::user()->isBlockingUser($this))

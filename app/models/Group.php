@@ -78,8 +78,6 @@ class Group extends BaseModel
         $this->deleteAvatar();
         $this->deleteStyle();
 
-
-
         return parent::delete();
     }
 
@@ -164,12 +162,16 @@ class Group extends BaseModel
 
     public function getAvatarPathAttribute()
     {
-        $host = '//strimoid.pl/';
+        $host = Request::secure() ? '//strimoid.pl' : Config::get('app.cdn_host');
 
         if ($this->avatar)
-            return $host .'uploads/groups/'. $this->avatar;
+        {
+            return $host .'/uploads/groups/'. $this->avatar;
+        }
         else
+        {
             return $host .'/static/img/default_avatar.png';
+        }
     }
 
     public function setSidebarAttribute($text)

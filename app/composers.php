@@ -4,7 +4,7 @@ View::composer('global.master', function($view)
 {
     $data = $view->getData();
 
-    $assetsHost = (Request::secure()) ? '' : 'http://static.strimoid.pl';
+    $assetsHost = (Request::secure() || App::environment('development')) ? '' : 'http://static.strimoid.pl';
 
     $view->with('cssFilename', $assetsHost . Config::get('assets.style.css'));
     $view->with('jsFilename', $assetsHost . Config::get('assets.app.js'));

@@ -79,16 +79,6 @@ class Content extends BaseModel
             return $this->domain;
         }
 
-        /*
-        $pieces = parse_url($this->getURL());
-        $domain = isset($pieces['host']) ? $pieces['host'] : '';
-
-        if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs))
-        {
-            return $regs['domain'];
-        }
-        */
-
         return 'strimoid.pl';
     }
 
@@ -158,15 +148,15 @@ class Content extends BaseModel
 
     public function getThumbnailPath($width = null, $height = null)
     {
-        $url = Request::secure() ? '//strimoid.pl' : '//static.strimoid.pl';
+        $host = Request::secure() ? '//strimoid.pl' : Config::get('app.cdn_host');
 
         if ($this->thumbnail && $width && $height)
         {
-            return $url .'/uploads/'. $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
+            return $host .'/uploads/'. $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
         }
         elseif ($this->thumbnail)
         {
-            return $url .'/uploads/thumbnails/'. $this->thumbnail;
+            return $host .'/uploads/thumbnails/'. $this->thumbnail;
         }
 
         return '';
@@ -251,7 +241,16 @@ class Content extends BaseModel
 
     public function scopeFrontpage($query, $exists = true)
     {
-        return $query->where('frontpage_at', 'exists', $exists);
+        if ($exists)
+        {
+            return $query->whereRaw(['frontpage_at' => ['$gt' => new MongoDate(1)]]);
+        }
+        else
+        {
+            return $query->whereRaw(['frontpage_at' => null]);
+        }
+
+        //return $query->where('frontpage_at', 'exists', $exists);
     }
 
 }
