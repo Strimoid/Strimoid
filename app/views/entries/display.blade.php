@@ -87,6 +87,11 @@ if (is_object($entries))
 
 @include('group.sidebar.add_content')
 
+@if (isset($group))
+    @include('group.sidebar.description', compact($group))
+    @include('group.sidebar.stats', compact($group))
+@endif
+
 @include('group.sidebar.popular_entries')
 
 @stop
