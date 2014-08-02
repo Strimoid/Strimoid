@@ -264,34 +264,41 @@ class GroupController extends BaseController {
         }
 
         if ($user->isModerator($group))
+        {
             return Redirect::route('group_moderators', $group->urlname);
+        }
 
         if ($user->isBlocking($group))
+        {
             return Redirect::route('group_moderators', $group->urlname)
                 ->with('danger_msg', 'Nie możesz dodać wybranego użytkownika jako moderatora, ponieważ zablokował tą grupę.');
+        }
 
         $moderator = new GroupModerator();
         $moderator->group()->associate($group);
         $moderator->user()->associate($user);
 
         if (Input::get('admin') == 'on')
+        {
             $moderator->type = 'admin';
+        }
         else
+        {
             $moderator->type = 'moderator';
+        }
 
         $moderator->save();
 
         // Send notification to new moderator
-        $notification = new Notification();
-        $notification->type = 'moderator';
+        $this->sendNotifications([$user->_id], function($notification) use($moderator, $group) {
+            $notification->type = 'moderator';
 
-        $positionTitle = $moderator->type == 'admin' ? 'administratorem' : 'moderatorem';
-        $notification->setTitle('Zostałeś '. $positionTitle .' w grupie '. $group->urlname);
+            $positionTitle = $moderator->type == 'admin' ? 'administratorem' : 'moderatorem';
+            $notification->setTitle('Zostałeś '. $positionTitle .' w grupie '. $group->urlname);
 
-        $notification->sourceUser()->associate(Auth::user());
-        $notification->user()->associate($user);
-        $notification->group()->associate($group);
-        $notification->save();
+            $notification->group()->associate($group);
+            $notification->save();
+        });
 
         // Log this action
         $action = new ModeratorAction();
