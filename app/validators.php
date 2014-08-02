@@ -129,7 +129,7 @@ Validator::extend('real_email', function($attribute, $value, $parameters)
         'uyhip.com', 'coieo.com', 'disposable.name', 'spamobox.com', 'q314.net', 'forward.cat', 'dispomail.eu',
         'freemail.ms', 'hideme.be', 'anonymbox.com', 'poczter.eu', 'ssoia.com', 'my10minutemail.com',
         '10minutmail.pl', 'co.za', 'tryalert.com', 'tmpeml.info',
-        'mytrashmail.com',
+        'mytrashmail.com', 'cbair.com', 'doiea.com',
 
         'karpdami.linuxpl.info', 'cebuloid.pl', 'cebulion.pl', 'atingo.pl', 'reign77.pl', 'beltheze.edl.pl',
     );
@@ -157,7 +157,8 @@ Validator::extend('reserved_groupnames', function($attribute, $value, $parameter
         'subskrybowane', 'moderowane', 'zablokowane', 'blokowane', 'losowa', 'losowe',
         'wszystko','wszystkie', 'obserwowani', 'obserwowane', 'zapisane', 'folder',
         'upvoted', 'downvoted', 'uv', 'dv', 'mod', 'sub', 'los', 'blok', 'blo', 'blocked',
-        'zbanowane', 'zbanowany', 'zbanowano', 'notvoted', 'nieocenione', 'domain', 'domena'
+        'zbanowane', 'zbanowany', 'zbanowano', 'notvoted', 'nieocenione', 'domain', 'domena',
+        'popular', 'popularne'
     ];
 
     return !in_array($value, $names);
