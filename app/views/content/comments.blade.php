@@ -146,7 +146,7 @@ Brak powiązanych.
         </button>
     </div>
 
-    @if ($related->thumbnail && !$content->nsfw)
+    @if ($related->thumbnail && !$related->nsfw)
     <a class="pull-left">
         <img class="media-object" src="{{ $related->getThumbnailPath() }}" alt="{{{ $related->title }}}">
     </a>
@@ -156,8 +156,8 @@ Brak powiązanych.
         <h4 class="media-heading">
             <a href="{{{ $related->url }}}">{{{ $related->title }}}</a>
 
-            @if ($content->eng) <span class="eng">[ENG]</span> @endif
-            @if ($content->nsfw) <span class="nsfw">[+18]</span> @endif
+            @if ($related->eng) <span class="eng">[ENG]</span> @endif
+            @if ($related->nsfw) <span class="nsfw">[+18]</span> @endif
 
             @if (Auth::check() && Auth::user()->getKey() == $related->user->getKey())
             <a class="related_remove_link" data-id="{{ $related->_id }}"><span class="glyphicon glyphicon-trash"></span></a>
