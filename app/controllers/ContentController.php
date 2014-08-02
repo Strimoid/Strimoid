@@ -337,7 +337,7 @@ class ContentController extends BaseController {
     {
         $content = Content::findOrFail(Input::get('id'));
 
-        if (Auth::user()->isModerator($content->group))
+        if ($content->canRemove(Auth::user()))
         {
             $content->deleted_by()->associate(Auth::user());
             $content->save();
@@ -483,7 +483,9 @@ class ContentController extends BaseController {
 
     public function show(Content $content)
     {
-        $content->load(['related', 'comments', 'group', 'user']);
+        $content->load([
+            'related', 'comments', 'comments.user', 'comments.replies', 'group', 'user'
+        ]);
 
         return $content;
     }

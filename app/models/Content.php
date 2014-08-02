@@ -116,8 +116,13 @@ class Content extends BaseModel
         }
         else
         {
-            return route('content_comments_slug', [$this->_id, Str::slug($this->title)]);
+            return $this->getSlug();
         }
+    }
+
+    public function getSlug()
+    {
+        return route('content_comments_slug', [$this->_id, Str::slug($this->title)]);
     }
 
     public function setNsfwAttribute($value)
@@ -235,6 +240,11 @@ class Content extends BaseModel
         $isAdmin = $user->type == 'admin';
 
         return ($isAuthor && $hasTime) || $isAdmin;
+    }
+
+    public function canRemove(User $user = null)
+    {
+        return $user->isModerator($this->group);
     }
 
     /* Scopes */
