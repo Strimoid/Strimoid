@@ -231,6 +231,8 @@ class UserController extends BaseController {
         $user->settings = ['homepage_subscribed' => true];
         $user->save();
 
+        Log::info('New user with email from domain: '. strstr($email, '@'));
+
         Mail::send('emails.auth.activate', compact('user'), function($message) use($user, $email)
         {
             $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
@@ -481,21 +483,26 @@ class UserController extends BaseController {
         return Response::json(['status' => 'ok']);
     }
 
-    /**
-     *
-     * @SWG\Api(
-     *    path="/user/{userName}",
-     *    description="Users",
-     *    @SWG\Operation(
-     *       method="GET", summary="User info", type="User", nickname="getUser",
-     *       @SWG\Parameters(@SWG\Parameter(
-     *          name="userName", description="Name of user that needs to be fetched",
-     *          paramType="path", required=true, type="string"
-     *       ))
-     *    )
-     * )
-     *
-     */
+    public function blockDomain()
+    {
+        $domain = PDP::parseUrl(Input::get('domain'))->host->registerableDomain;
+
+        if (!$domain)
+        {
+            return Response::json(['status' => 'error', 'error' => 'Nieprawidłowa domena']);
+        }
+
+        Auth::user()->push('_blocked_domains', $domain);
+
+        return Response::json(['status' => 'ok', 'domain' => $domain]);
+    }
+
+    public function unblockDomain()
+    {
+        Auth::user()->pull('_blocked_domains', Input::get('domain'));
+
+        return Response::json(['status' => 'ok']);
+    }
 
     public function show($username)
     {
@@ -503,17 +510,6 @@ class UserController extends BaseController {
 
         return $this->getInfo($user);
     }
-
-    /**
-     *
-     * @SWG\Api(
-     *    path="/me",
-     *    @SWG\Operation(
-     *       method="GET", summary="Currently authenticated user info", type="User", nickname="getUser"
-     *    )
-     * )
-     *
-     */
 
     public function showCurrentUser()
     {
