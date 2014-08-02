@@ -23,6 +23,7 @@ Artisan::add(new ConvertVotes());
 Artisan::add(new GenerateSitemap());
 Artisan::add(new UpdateStats());
 Artisan::add(new UpdateThresholds());
+Artisan::add(new UpdateUserPoints());
 
 $providers = array(
     'Illuminate\Foundation\Providers\ArtisanServiceProvider',
