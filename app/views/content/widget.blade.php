@@ -4,7 +4,7 @@
 
         @if ($content->thumbnail && !$content->nsfw)
         <a class="pull-left" href="{{{ $content->getURL() }}}" rel="nofollow" target="_blank">
-            <img class="media-object img-thumbnail" src="{{ $content->getThumbnailPath(100, 75) }}">
+            <img class="media-object img-thumbnail" src="{{ $content->getThumbnailPath(100, 75) }}" srcset="{{ $content->getThumbnailPath(200, 150) }} 2x">
         </a>
         @endif
 
@@ -29,12 +29,9 @@
                     <span class="glyphicon glyphicon-globe"></span> <span class="content_domain">{{ $content->getDomain() }}</span>
                     <span class="glyphicon glyphicon-link"></span> <span class="content_comments">{{ intval($content->related_count) }}</span>
                     <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{{ $content->created_at->getTimestamp() }}" title="{{ $content->getLocalTime() }}">{{ $content->created_at->diffForHumans() }}</time>
+
                     @if (Auth::check())
-                        @if ($content->isSaved())
-                            <span class="glyphicon glyphicon-star action_link save_content" title="zapisz"></span>
-                        @else
-                            <span class="glyphicon glyphicon-star-empty action_link save_content" title="zapisz"></span>
-                        @endif
+                        <span class="glyphicon action_link save_content @if ($content->isSaved()) glyphicon-star @else glyphicon-star-empty @endif" title="zapisz"></span>
                     @endif
                 </small>
             </p>
