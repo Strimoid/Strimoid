@@ -20,6 +20,11 @@ class ContentController extends BaseController {
 
         $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
 
+        // Show popular instead of all as homepage for guests
+        if (Auth::guest() && !Route::input('group')) {
+            $groupName = 'popular';
+        }
+
         // Set proper group name if user is having subscribed set as his homepage
         if (Auth::check() && !Route::input('group') && $groupName == 'all'
             && @Auth::user()->settings['homepage_subscribed'])
@@ -456,7 +461,7 @@ class ContentController extends BaseController {
             $builder->orderBy('created_at', 'desc');
 
         // Show only contents from selected tab if all param doesn't exist
-        if($type == 'all')
+        if ($type == 'all')
             ;
         elseif ($groupName == 'all' && $type == 'popular')
             $builder->frontpage(true);
@@ -469,6 +474,12 @@ class ContentController extends BaseController {
         if (Input::get('time'))
         {
             $builder->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+        }
+
+        // Domain filter
+        if (Input::has('domain'))
+        {
+            $builder->where('domain', Input::get('domain'));
         }
 
         $perPage = 20;

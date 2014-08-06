@@ -8,6 +8,11 @@ class EntryController extends BaseController {
 
         $results['blockedUsers'] = array();
 
+        // Show popular instead of all as homepage for guests
+        if (Auth::guest() && !Route::input('group')) {
+            $groupName = 'popular';
+        }
+
         if (Auth::check()) {
             $results['blockedUsers'] = Auth::user()->blockedUsers();
 
