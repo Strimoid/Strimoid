@@ -11,4 +11,5 @@ return array(
     'notvoted' => 'nieocenione',
     'blocked' => 'zablokowane',
     'banned' => 'zbanowany',
+    'popular' => 'popularne',
 );
