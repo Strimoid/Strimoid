@@ -10,7 +10,8 @@ class Popular extends FakeGroup {
     {
         $builder = with(new $model)->newQuery();
 
-        $groups = ['Nauka',
+        $groups = 
+            'Nauka',
             'NiezlaStronkaWSieci',
             'ciekawostki',
             'Humor',
@@ -37,14 +38,10 @@ class Popular extends FakeGroup {
             'Informatyka',
             'GryTradycyjne',
             'Polandball',
-            'muzyka',
             'Mapy',
             'Fantastyka',
             'TED',
-            'StareGry',
-            'RozwojOsobisty',
             'Astronomia',
-            'ZacnaStronka',
             'humorInformatyczny',
             'Seriale',
             'Fotografia',
@@ -54,9 +51,42 @@ class Popular extends FakeGroup {
             'Psychologia',
             'DIY',
             'webdev',
+            'webdesign',
             'Polskie',
             'krajobrazy',
-            'ekonomia'];
+            'ekonomia',
+            'bitcoin',
+            'Wszechświat',
+            'pingwiny',
+            'kursprogramowania',
+            'gify',
+            'audio',
+            'sztuka',
+            'metasecurity',
+            'technologia',
+            'truelolcontent',
+            'cytaty',
+            'PogaduchyElita',
+            'słowodnia',
+            'reddit',
+            'OpenStreetMap',
+            'infografiki',
+            'LosowaWikipedia',
+            'TIL',
+            'Mozilla',
+            'prywatosc',
+            'jezyk',
+            'pogadachy',
+            'muzyka',
+            'RowerowyRównik',
+            'sugestie',
+            'wykop',
+            'oswiadczenie',
+            'strimoid',
+            'pytanie',
+            'FirstWorldProblems',
+            'zwierzeta'
+            ];
 
         $builder->whereIn('group_id', $groups);
 
