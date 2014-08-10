@@ -85,7 +85,13 @@ class Popular extends FakeGroup {
             'strimoid',
             'pytanie',
             'FirstWorldProblems',
-            'zwierzeta'
+            'zwierzeta',
+            'szachy',
+            'Polskie_krajobrazy',
+            'gitara',
+            'finanse',
+            'BirdwatchingPtaki',
+            'piractwo',
             ];
 
         $builder->whereIn('group_id', $groups);
