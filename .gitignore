@@ -1,0 +1,4 @@
+.idea/
+_ide_helper.php
+vendor/
+app/config/*/

@@ -1,0 +1,34 @@
+<element name="vote-buttons">
+    <style>
+    </style>
+    <template>
+        <button type="button" class="btn btn-default btn-sm pull-left vote-btn-up">
+            <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count"></span>
+        </button>
+
+        <button type="button" class="btn btn-default btn-sm pull-left vote-btn-down">
+            <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count"></span>
+        </button>
+    </template>
+    <script>
+        ({
+            createdCallback: function() {
+                this.appendChild(this.template.content.cloneNode(true));
+
+                var size = this.getAttribute('data-size') || 'sm';
+                this.querySelector('button').classList.add('btn-' + this.getAttribute('size'));
+
+                var state = this.getAttribute('data-state') || '';
+
+                if (state == 'uv') {
+                    this.querySelector('.vote-btn-up').classList.add('btn-success');
+                } else if (state == 'dv') {
+                    this.querySelector('.vote-btn-down').classList.add('btn-danger');
+                }
+
+                this.querySelector('.vote-btn-up .count').textContent = this.getAttribute('uv');
+                this.querySelector('.vote-btn-down .count').textContent = this.getAttribute('dv');
+            }
+        });
+    </script>
+</element>
