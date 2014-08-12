@@ -1,7 +1,7 @@
 Strimoid
 ========
 
-Source code of Strimoid.pl
+Source code of Strimoid.pl, brand-new social service.
 
 How to start?
 ========
