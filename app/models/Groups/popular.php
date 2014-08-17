@@ -10,7 +10,7 @@ class Popular extends FakeGroup {
     {
         $builder = with(new $model)->newQuery();
 
-        $groups = 
+        $groups = [
             'Nauka',
             'NiezlaStronkaWSieci',
             'ciekawostki',
@@ -92,7 +92,7 @@ class Popular extends FakeGroup {
             'finanse',
             'BirdwatchingPtaki',
             'piractwo',
-            ];
+        ];
 
         $builder->whereIn('group_id', $groups);
 
