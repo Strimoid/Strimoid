@@ -95,7 +95,9 @@ class Popular extends FakeGroup {
             'SztucznaInteligencja',
             'programujmy',
             'TheBestOfStrimoid',
-            'networking'
+            'networking',
+            'SpiewajZeStrimoidem',
+            'reklama'
             ];
 
         $builder->whereIn('group_id', $groups);
