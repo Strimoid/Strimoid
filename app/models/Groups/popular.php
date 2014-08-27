@@ -74,7 +74,7 @@ class Popular extends FakeGroup {
             'LosowaWikipedia',
             'TIL',
             'Mozilla',
-            'prywatosc',
+            'prywatnosc',
             'jezyk',
             'pogadachy',
             'muzyka',
@@ -92,6 +92,10 @@ class Popular extends FakeGroup {
             'finanse',
             'BirdwatchingPtaki',
             'piractwo',
+            'SztucznaInteligencja',
+            'programujmy',
+            'TheBestOfStrimoid',
+            'networking'
             ];
 
         $builder->whereIn('group_id', $groups);
