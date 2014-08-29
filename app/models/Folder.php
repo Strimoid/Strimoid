@@ -32,6 +32,16 @@ class Folder extends BaseModel
         throw new ModelNotFoundException;
     }
 
+    public function comments()
+    {
+        $builder = with(new Comment)->newQuery();
+
+        $groups = $this->groups;
+        $builder->whereIn('group_id', $groups);
+
+        return $builder;
+    }
+
     public function contents()
     {
         $builder = with(new Content)->newQuery();

@@ -202,6 +202,72 @@ class CommentController extends BaseController {
 
     /* === API === */
 
+    public function index()
+    {
+        $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
+
+        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed', 'saved']))
+        {
+            App::abort(403, 'Group available only for logged in users');
+        }
+
+        if (Input::has('folder'))
+        {
+            $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
+            $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
+
+            if (!$folder->public && (Auth::guest() || $user->_id != Auth::user()->_id))
+            {
+                App::abort(404);
+            }
+
+            $builder = $folder->comments();
+        }
+        elseif (class_exists('Groups\\'. studly_case($groupName)))
+        {
+            $class = 'Groups\\'. studly_case($groupName);
+            $fakeGroup = new $class;
+            $builder = $fakeGroup->comments();
+        }
+        else
+        {
+            $group = Group::where('shadow_urlname', $groupName)->firstOrFail();
+            $group->checkAccess();
+
+            $builder = $group->comments();
+        }
+
+        $builder->with([
+            'user' => function($q) { $q->remember(10); },
+            'group' => function($q) { $q->remember(10); }
+        ]);
+
+        // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
+        if (in_array(Input::get('sort'), ['uv', 'created_at']))
+        {
+            $builder->orderBy(Input::get('sort'), 'desc');
+        }
+        else
+        {
+            $builder->orderBy('created_at', 'desc');
+        }
+
+        // Time filter
+        if (Input::get('time'))
+        {
+            $builder->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+        }
+
+        $perPage = 20;
+
+        if (Input::has('per_page') && Input::get('per_page') > 0 &&  Input::get('per_page') <= 100)
+        {
+            $perPage = Input::get('per_page');
+        }
+
+        return $builder->paginate($perPage);
+    }
+
     public function store(Content $content)
     {
         $validator = Comment::validate(Input::all());

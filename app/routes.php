@@ -61,6 +61,7 @@ Route::group(['domain' => 'api.strimoid.pl'], function()
 
     // Comments
 
+    Route::get('/comments', ['uses' => 'CommentController@index']);
     Route::post('/content/{content}/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@store']);
     Route::post('/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@storeReply']);
     Route::patch('/comment/{comment}/{reply?}', ['before' => 'oauth:comments', 'uses' => 'CommentController@edit']);
