@@ -49,7 +49,7 @@ return array(
         'mongodb' => array(
             'driver'   => 'mongodb',
             'host'     => '/tmp/mongodb-27017.sock',
-            'port'     => 27017,
+            //'port'     => 27017,
             'username' => '',
             'password' => '',
             'database' => 'default'
