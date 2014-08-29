@@ -540,7 +540,7 @@ class GroupController extends BaseController {
 
         $block->delete();
 
-        Cache::forget('user'. Auth::user()->_id . '.blocked_groups');
+        Cache::forget('user.'. Auth::user()->_id . '.blocked_groups');
 
         return Response::json(['status' => 'ok']);
     }
