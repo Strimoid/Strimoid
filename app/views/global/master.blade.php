@@ -180,11 +180,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                 <li @if (ends_with($currentRoute, '_contents_new')) class="active" @endif>
                     <a href="{{ route($routeData['name'] .'_contents_new', $routeData['params']) }}">nowe</a>
                 </li>
-                <li @if (ends_with($currentRoute, '_entries')) class="active" @endif>
-                    <a href="{{ route($routeData['name'] .'_entries', $routeData['params']) }}">wpisy</a>
-                </li>
                 <li @if (ends_with($currentRoute, '_comments')) class="active" @endif>
                     <a href="{{ route($routeData['name'] .'_comments', $routeData['params']) }}">komentarze</a>
+                </li>
+                <li @if (ends_with($currentRoute, '_entries')) class="active" @endif>
+                    <a href="{{ route($routeData['name'] .'_entries', $routeData['params']) }}">wpisy</a>
                 </li>
             </ul>
 
