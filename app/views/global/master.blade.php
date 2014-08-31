@@ -182,6 +182,9 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                 <li @if (ends_with($currentRoute, 'contents_new')) class="active" @endif>
                     <a href="{{ $newTabURL }}">nowe</a>
                 </li>
+                <li @if (ends_with($currentRoute, 'comments')) class="active" @endif>
+                    <a href="{{ $entriesTabURL }}">komentarze</a>
+                </li>
                 <li @if (ends_with($currentRoute, 'entries')) class="active" @endif>
                     <a href="{{ $entriesTabURL }}">wpisy</a>
                 </li>
