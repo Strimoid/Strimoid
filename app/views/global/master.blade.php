@@ -155,35 +155,36 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
         if (!isset($groupURLName))
         {
-            $popularTabURL = route('global_contents');
-            $newTabURL = route('global_contents_new');
-            $entriesTabURL = route('global_entries');
+            $routeData = ['name' => 'global', 'params' => null];
         }
         elseif (isset($folder))
         {
-            $popularTabURL = route('user_folder_contents', [$folder->user->_id, $folder->_id]);
-            $newTabURL = route('user_folder_contents_new', [$folder->user->_id, $folder->_id]);
-            $entriesTabURL = route('user_folder_entries', [$folder->user->_id, $folder->_id]);
+            $routeData = ['name' => 'user_folder', 'params' => [
+                $folder->user->_id, $folder->_id
+            ]];
         }
         else
         {
-            $popularTabURL = route('group_contents', ['group' => $groupURLName]);
-            $newTabURL = route('group_contents_new', ['group' => $groupURLName]);
-            $entriesTabURL = route('group_entries', ['group' => $groupURLName]);
+            $routeData = ['name' => 'group', 'params' => [
+                'group' => $groupURLName
+            ]];
         }
 
         ?>
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li @if (ends_with($currentRoute, 'contents')) class="active" @endif>
-                    <a href="{{ $popularTabURL }}">{{{ $currentGroup->name or 'Strimoid' }}}</a>
+                <li @if (ends_with($currentRoute, '_contents')) class="active" @endif>
+                    <a href="{{ route($routeData['name'] .'_contents', $routeData['params']) }}">{{{ $currentGroup->name or 'Strimoid' }}}</a>
                 </li>
-                <li @if (ends_with($currentRoute, 'contents_new')) class="active" @endif>
-                    <a href="{{ $newTabURL }}">nowe</a>
+                <li @if (ends_with($currentRoute, '_contents_new')) class="active" @endif>
+                    <a href="{{ route($routeData['name'] .'_contents_new', $routeData['params']) }}">nowe</a>
                 </li>
-                <li @if (ends_with($currentRoute, 'entries')) class="active" @endif>
-                    <a href="{{ $entriesTabURL }}">wpisy</a>
+                <li @if (ends_with($currentRoute, '_entries')) class="active" @endif>
+                    <a href="{{ route($routeData['name'] .'_entries', $routeData['params']) }}">wpisy</a>
+                </li>
+                <li @if (ends_with($currentRoute, '_comments')) class="active" @endif>
+                    <a href="{{ route($routeData['name'] .'_comments', $routeData['params']) }}">komentarze</a>
                 </li>
             </ul>
 
