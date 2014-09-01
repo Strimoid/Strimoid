@@ -217,8 +217,6 @@ Route::get('/rss', ['as' => 'global_contents_rss', 'uses' => 'ContentController@
 Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@showContents']);
 Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContents']);
 
-Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showComments']);
-
 Route::get('/g/saved', [
     'as' => 'saved_contents',
     'before' => 'auth',
@@ -287,6 +285,8 @@ Route::post('/c/{content}/add_vote', ['before' => 'auth|anti_flood', 'uses' => '
 
 
 /* Comments ========================================================================================================= */
+
+Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showComments']);
 
 Route::post('/ajax/comment/add', ['before' => 'auth|anti_flood', 'uses' => 'CommentController@addComment']);
 Route::post('/ajax/comment/add/reply', ['before' => 'auth|anti_flood', 'uses' => 'CommentController@addReply']);
@@ -372,10 +372,12 @@ Route::get('/ajax/group/{group}/sidebar', ['before' => 'auth', 'uses' => 'GroupC
 Route::get('/f/{folder}', ['as' => 'folder_contents', 'before' => 'auth', 'uses' => 'ContentController@showContents']);
 Route::get('/f/{folder}/new', ['as' => 'folder_contents_new', 'before' => 'auth', 'uses' => 'ContentController@showContents']);
 Route::get('/f/{folder}/entries', ['as' => 'folder_entries', 'before' => 'auth', 'uses' => 'EntryController@showEntries']);
+Route::get('/f/{folder}/comments', ['as' => 'folder_comments', 'before' => 'auth', 'uses' => 'CommentController@showComments']);
 
 Route::get('/u/{user}/f/{folder}', ['as' => 'user_folder_contents', 'uses' => 'ContentController@showContents']);
 Route::get('/u/{user}/f/{folder}/new', ['as' => 'user_folder_contents_new', 'uses' => 'ContentController@showContents']);
 Route::get('/u/{user}/f/{folder}/entries', ['as' => 'user_folder_entries', 'uses' => 'EntryController@showEntries']);
+Route::get('/u/{user}/f/{folder}/comments', ['as' => 'user_folder_comments', 'uses' => 'CommentController@showComments']);
 
 Route::post('/ajax/folder/create', ['before' => 'auth', 'uses' => 'FolderController@createFolder']);
 Route::post('/ajax/folder/edit', ['before' => 'auth', 'uses' => 'FolderController@editFolder']);
