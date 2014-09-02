@@ -26,13 +26,6 @@ class RankingController extends BaseController
             $user = User::where('shadow_name', Str::lower(Input::get('user')))->firstOrFail();
         }
 
-        // Time filter
-        if (Input::get('time'))
-        {
-            $timestamp = Carbon::now(Input::get('time'))->subDay()->minute(0)->second(0);
-            $query->where('created_at', '>', carbon_to_md($timestamp));
-        }
-
         $data['users'] = $query->paginate(50);
 
         return View::make('ranking.ranking', $data);
@@ -57,10 +50,10 @@ class RankingController extends BaseController
         }
 
         // Time filter
-        if (Input::get('time'))
+        if (Input::has('time'))
         {
-            $timestamp = Carbon::now(Input::get('time'))->subDay()->minute(0)->second(0);
-            $query->where('created_at', '>', carbon_to_md($timestamp));
+            $fromDay = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1)) - Input::get('time');
+            $query->where('day', '>', $fromDay);
         }
 
         return $query->paginate(50);
