@@ -29,7 +29,8 @@ class RankingController extends BaseController
         // Time filter
         if (Input::get('time'))
         {
-            $query->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+            $timestamp = Carbon::now(Input::get('time'))->subDay()->minute(0)->second(0);
+            $query->where('created_at', '>', carbon_to_md($timestamp));
         }
 
         $data['users'] = $query->paginate(50);
@@ -58,7 +59,8 @@ class RankingController extends BaseController
         // Time filter
         if (Input::get('time'))
         {
-            $query->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+            $timestamp = Carbon::now(Input::get('time'))->subDay()->minute(0)->second(0);
+            $query->where('created_at', '>', carbon_to_md($timestamp));
         }
 
         return $query->paginate(50);
