@@ -27,8 +27,10 @@ class All extends FakeGroup {
     {
         $builder = static::getBuilder('Content');
 
-        $blockedDomains = Auth::user()->blockedDomains();
-        $builder->whereNotIn('domain', $blockedDomains);
+        if (Auth::check()) {
+            $blockedDomains = Auth::user()->blockedDomains();
+            $builder->whereNotIn('domain', $blockedDomains);
+        }
 
         return $builder;
     }
