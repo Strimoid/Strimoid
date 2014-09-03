@@ -156,7 +156,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
     public function blockedDomains()
     {
-        return (array) $this->_blocked_domains;
+        return (array) $this->attributes['_blocked_domains'];
     }
 
     public function blockedGroups()
