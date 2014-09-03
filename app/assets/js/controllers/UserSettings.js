@@ -7,7 +7,7 @@ angular.module('app').controller('UserSettings', function($scope, $http) {
 
     $scope.unblockDomain = function(domain) {
         $http.delete('/me/blocked_domain', { domain: domain }).success(function(data){
-            $scope.blockedDomains = _.without($scope.blockedDomains, data.domain);
+            $scope.blockedDomains = _.without($scope.blockedDomains, domain);
         });
     };
 });
