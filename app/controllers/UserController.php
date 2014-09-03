@@ -492,7 +492,7 @@ class UserController extends BaseController {
             return Response::json(['status' => 'error', 'error' => 'Nieprawidłowa domena']);
         }
 
-        Auth::user()->push('_blocked_domains', $domain);
+        Auth::user()->push('_blocked_domains', $domain, true);
 
         return Response::json(['status' => 'ok', 'domain' => $domain]);
     }
