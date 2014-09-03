@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" ng-app="app">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,11 +31,7 @@
         <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">
     @endif
 
-    {{-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries --}}
-    <!--[if lt IE 9]>
-    <script src="/static/js/html5shiv.js"></script>
-    <script src="/static/js/respond.min.js"></script>
-    <![endif]-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.13/angular.min.js"></script>
 
     <script src="{{ $componentsFilename }}"></script>
 

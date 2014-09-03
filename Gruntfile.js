@@ -1,6 +1,20 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        ngAnnotate: {
+            options: {
+                singleQuotes: true
+            },
+            js: {
+                files: {
+                    'app/assets/js/tmp/angular.js': [
+                        'app/assets/js/app.js',
+                        'app/assets/js/controllers/*.js'
+                    ]
+                }
+            }
+        },
         bosonic: {
             build: {
                 src: ['app/assets/components/*.html'],
@@ -21,6 +35,7 @@ module.exports = function(grunt) {
                     'app/assets/js/libs/*.js',
                     'app/assets/js/plugins/*.js',
                     'app/assets/js/modules/*.js',
+                    'app/assets/js/tmp/*.js',
                     'app/assets/js/lara.js'
                 ],
                 dest : 'public/static/js/app.js'
@@ -72,20 +87,25 @@ module.exports = function(grunt) {
                 ],
                 dest: 'app/config/assets.php'
             }
+        },
+        clean: {
+            tmpjs: ['app/assets/js/tmp']
         }
     });
 
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-bosonic');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-hashres');
+    grunt.loadNpmTasks('grunt-ng-annotate');
 
     grunt.registerTask('default', [
-        'bosonic:build', 'concat:components',
+        'ngAnnotate:js', 'bosonic:build', 'concat:components',
         'concat:css', 'autoprefixer:build', 'cssmin:minify',
-        'concat:js', 'uglify:js', 'hashres:build'
+        'concat:js', 'uglify:js', 'hashres:build', 'clean:tmpjs'
     ]);
 };
