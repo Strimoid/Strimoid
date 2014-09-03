@@ -337,7 +337,7 @@
         </div>
 
         <div class="tab-pane fade" id="domains">
-            <table class="table" ng-init="blockedDomains = {{  }}">
+            <table class="table" ng-init="blockedDomains = {{ json_encode(Auth::user()->blockedDomains()); }}">
                 <thead>
                 <tr>
                     <th>#</th>
