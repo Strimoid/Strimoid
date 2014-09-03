@@ -349,7 +349,7 @@
                 <tr ng-repeat="domain in blockedDomains">
                     <td>@{{ $index + 1 }}</td>
                     <td>@{{ domain }}</td>
-                    <td><button type="button" class="btn btn-xs group_block_btn btn-danger" ng-click="unblockDomain(domain)">Usuń</button></td>
+                    <td><button type="button" class="btn btn-xs btn-danger" ng-click="unblockDomain(domain)">Usuń</button></td>
                 </tr>
                 </tbody>
             </table>
