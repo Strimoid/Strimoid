@@ -149,31 +149,45 @@ class User extends Eloquent implements UserInterface, RemindableInterface
     public function bannedGroups()
     {
         $cacheKey = 'user.'. $this->_id . '.banned_groups';
-        return DB::table('group_bans')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+        $groups = DB::table('group_bans')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+
+        return (array) $groups;
+    }
+
+    public function blockedDomains()
+    {
+        return (array) $this->_blocked_domains;
     }
 
     public function blockedGroups()
     {
         $cacheKey = 'user.'. $this->_id . '.blocked_groups';
-        return DB::table('group_blocks')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+        $groups = DB::table('group_blocks')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+
+        return (array) $groups;
     }
 
     public function blockedUsers()
     {
         $cacheKey = 'user.'. $this->_id . '.blocked_users';
-        return DB::table('user_blocks')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('target_id');
+        $users = DB::table('user_blocks')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('target_id');
+
+        return (array) $users;
     }
 
     public function subscribedGroups()
     {
         $cacheKey = 'user.'. $this->_id . '.subscribed_groups';
-        return DB::table('group_subscribers')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+        $groups = DB::table('group_subscribers')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+        return (array) $groups;
     }
 
     public function moderatedGroups()
     {
         $cacheKey = 'user.'. $this->_id . '.moderated_groups';
-        return DB::table('group_moderators')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+        $groups =DB::table('group_moderators')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+
+        return (array) $groups;
     }
 
     public function folders()

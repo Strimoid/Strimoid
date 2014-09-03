@@ -1,18 +1,37 @@
 @extends('global.master')
 
 @section('content')
-<div class="bs-example bs-example-tabs">
+<div class="bs-example bs-example-tabs" ng-controller="UserSettings">
     <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-user"></span> Profil</a></li>
-        <li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-wrench"></span> Ustawienia</a></li>
+        <li class="active">
+            <a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-user"></span> Profil</a>
+        </li>
+        <li>
+            <a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-wrench"></span> Ustawienia</a>
+        </li>
 
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <span class="glyphicon glyphicon-lock"></span> Konto <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="#password" data-toggle="tab">Zmiana hasła</a></li>
-                <li><a href="#email" data-toggle="tab">Zmiana adresu email</a></li>
+                <li>
+                    <a href="#password" data-toggle="tab">Zmiana hasła</a>
+                </li>
+                <li>
+                    <a href="#email" data-toggle="tab">Zmiana adresu email</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Domeny <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#domains" data-toggle="tab">Zablokowane</a>
+                </li>
             </ul>
         </li>
 
@@ -315,6 +334,33 @@
 
                 </tbody>
             </table>
+        </div>
+
+        <div class="tab-pane fade" id="domains">
+            <table class="table" ng-init="blockedDomains = {{  }}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nazwa domeny</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="domain in blockedDomains">
+                    <td>@{{ $index + 1 }}</td>
+                    <td>@{{ domain }}</td>
+                    <td><button type="button" class="btn btn-xs group_block_btn btn-danger" ng-click="unblockDomain(domain)">Usuń</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <form role="form">
+              <div class="form-group">
+                <label for="domain">Domena</label>
+                <input type="email" class="form-control" id="domain" placeholder="np. strims.pl" ng-model="domain">
+              </div>
+              <button class="btn btn-default" ng-click="blockDomain(domain)">Zablokuj domenę</button>
+            </form>
         </div>
     </div>
 </div>

@@ -51,7 +51,10 @@ class Group extends BaseModel
         if (Auth::check())
         {
             $blockedUsers = Auth::user()->blockedUsers();
-            $relation->whereNotIn('user_id', (array) $blockedUsers);
+            $relation->whereNotIn('user_id', $blockedUsers);
+
+            $blockedDomains = Auth::user()->blockedDomains();
+            $relation->whereNotIn('domain', $blockedDomains);
         }
 
         return $relation;

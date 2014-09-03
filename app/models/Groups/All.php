@@ -23,4 +23,14 @@ class All extends FakeGroup {
         return $builder;
     }
 
+    public function contents()
+    {
+        $builder = static::getBuilder('Content');
+
+        $blockedDomains = Auth::user()->blockedDomains();
+        $builder->whereNotIn('domain', $blockedDomains);
+
+        return $builder;
+    }
+
 } 

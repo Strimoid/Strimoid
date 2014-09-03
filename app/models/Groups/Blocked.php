@@ -23,4 +23,14 @@ class Blocked extends FakeGroup {
         return $builder;
     }
 
+    public function contents()
+    {
+        $builder = static::getBuilder('Content');
+
+        $blockedDomains = Auth::user()->blockedDomains();
+        $builder->orWhereIn('domain', $blockedDomains);
+
+        return $builder;
+    }
+
 }
