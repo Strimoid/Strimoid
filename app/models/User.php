@@ -101,6 +101,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface
         }
     }
 
+    public function getBlockedDomainsAttribute($value)
+    {
+        $blockedDomains = $this->getAttributeFromArray('_blocked_domains');
+
+        return (array) $blockedDomains;
+    }
+
     public function getSexClass()
     {
         if ($this->sex == 'male')
@@ -152,11 +159,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface
         $groups = DB::table('group_bans')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
 
         return (array) $groups;
-    }
-
-    public function blockedDomains()
-    {
-        return (array) $this->getAttribute('_blocked_domains');
     }
 
     public function blockedGroups()
