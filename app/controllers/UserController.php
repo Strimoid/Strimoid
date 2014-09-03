@@ -483,9 +483,9 @@ class UserController extends BaseController {
         return Response::json(['status' => 'ok']);
     }
 
-    public function blockDomain()
+    public function blockDomain($domain)
     {
-        $domain = PDP::parseUrl(Input::get('domain'))->host->registerableDomain;
+        $domain = PDP::parseUrl($domain)->host->registerableDomain;
 
         if (!$domain)
         {
@@ -497,9 +497,9 @@ class UserController extends BaseController {
         return Response::json(['status' => 'ok', 'domain' => $domain]);
     }
 
-    public function unblockDomain()
+    public function unblockDomain($domain)
     {
-        Auth::user()->pull('_blocked_domains', Input::get('domain'));
+        Auth::user()->pull('_blocked_domains', $domain);
 
         return Response::json(['status' => 'ok']);
     }

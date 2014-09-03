@@ -145,8 +145,8 @@ Route::get('/oauth2/add_app', ['before' => 'auth', 'uses' => 'OAuthController@ad
 Route::post('/oauth2/add_app', ['before' => 'auth|anti_flood', 'uses' => 'OAuthController@addApp']);
 
 /* Users ============================================================================================================ */
-Route::post('/me/blocked_domain', ['before' => 'auth', 'uses' => 'UserController@blockDomain']);
-Route::delete('/me/blocked_domain', ['before' => 'auth', 'uses' => 'UserController@unblockDomain']);
+Route::post('/me/blocked_domain/{domain}', ['before' => 'auth', 'uses' => 'UserController@blockDomain']);
+Route::delete('/me/blocked_domain/{domain}', ['before' => 'auth', 'uses' => 'UserController@unblockDomain']);
 
 Route::get('/users.json', 'UserController@showJSONList');
 
