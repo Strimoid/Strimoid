@@ -10,7 +10,7 @@ class Popular extends FakeGroup {
     {
         $builder = with(new $model)->newQuery();
 
-        $groups = [
+        $groups = 
             'Nauka',
             'NiezlaStronkaWSieci',
             'ciekawostki',
@@ -74,7 +74,7 @@ class Popular extends FakeGroup {
             'LosowaWikipedia',
             'TIL',
             'Mozilla',
-            'prywatosc',
+            'prywatnosc',
             'jezyk',
             'pogadachy',
             'muzyka',
@@ -92,7 +92,13 @@ class Popular extends FakeGroup {
             'finanse',
             'BirdwatchingPtaki',
             'piractwo',
-        ];
+            'SztucznaInteligencja',
+            'programujmy',
+            'TheBestOfStrimoid',
+            'networking',
+            'SpiewajZeStrimoidem',
+            'reklama'
+            ];
 
         $builder->whereIn('group_id', $groups);
 
