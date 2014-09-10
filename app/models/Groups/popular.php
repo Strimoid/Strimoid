@@ -10,7 +10,7 @@ class Popular extends FakeGroup {
     {
         $builder = with(new $model)->newQuery();
 
-        $groups = 
+        $groups = [
             'Nauka',
             'NiezlaStronkaWSieci',
             'ciekawostki',
