@@ -98,9 +98,9 @@ class Popular extends FakeGroup {
             'networking',
             'SpiewajZeStrimoidem',
             'reklama',
-            'zdrowie',
+            'Zdrowie',
             'Polityka',
-            'metasecurity',
+            'MetaSecurity',
             ];
 
         $builder->whereIn('group_id', $groups);
