@@ -99,7 +99,7 @@ class Popular extends FakeGroup {
             'SpiewajZeStrimoidem',
             'reklama',
             'zdrowie',
-            'polityka',
+            'Polityka',
             'metasecurity',
             ];
 
