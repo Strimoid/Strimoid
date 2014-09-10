@@ -259,8 +259,9 @@ class UserController extends BaseController {
 
         Cache::put('registration.'. md5(Request::getClientIp()), 'true', 60 * 24 * 7);
 
-        return Redirect::to('')->with('success_msg',
-            'Witaj w gronie użytkowników serwisu '. Config::get('app.site_name') .'! ;)');
+        return Redirect::to('/kreator')->with('success_msg',
+            'Witaj w gronie użytkowników serwisu '. Config::get('app.site_name') .'! ;) '.
+            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.');
     }
 
     public function showRemoveAccountForm()
