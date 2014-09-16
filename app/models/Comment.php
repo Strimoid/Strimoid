@@ -17,7 +17,7 @@ class Comment extends BaseModel
 
     protected $collection = 'comments';
     protected $fillable = ['text'];
-    protected $hidden = ['content_id', 'text_source', 'updated_at'];
+    protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
 
     function __construct($attributes = array())
     {
