@@ -26,6 +26,11 @@ class RankingController extends BaseController
             $user = User::where('shadow_name', Str::lower(Input::get('user')))->firstOrFail();
         }
 
+        // Time filter
+        $time = intval(Input::get('time')) ?: 90;
+        $fromDay = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1)) - $time;
+        $query->where('day', '>', $fromDay);
+
         $data['users'] = $query->paginate(50);
 
         return View::make('ranking.ranking', $data);
