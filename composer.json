@@ -5,10 +5,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/duxet/Laravel-MongoDB"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/duxet/oauth2-server-php"
         },
         {
@@ -25,7 +21,7 @@
         "phindmarsh/summon": "dev-master",
         "cohensive/embed": "dev-master",
         "juy/profiler": "dev-master",
-        "jenssegers/mongodb": "dev-projections",
+        "jenssegers/mongodb": "dev-master",
         "jenssegers/mongodb-session": "*",
         "thujohn/rss": "dev-master",
         "rollbar/rollbar": "dev-master",
