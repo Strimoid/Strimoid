@@ -60,7 +60,7 @@ class EntryController extends BaseController {
 
         $builder->orderBy('created_at', 'desc')
             //->with(['user', 'replies.user' => function($q) { $q->remember(10); }])
-            ->project(['_replies' => ['slice' => -2]]);
+            ->project(['_replies' => ['$slice' => -2]]);
 
         // Paginate
         $entries = $this->cachedPaginate($builder, Settings::get('entries_per_page'), 10, ['*'], function($entries) {
@@ -201,7 +201,7 @@ class EntryController extends BaseController {
             $entry = EntryReply::findOrFail(Input::get('id'));
 
             $lastReply = Entry::where('_id', $entry->entry->_id)
-                ->project(['_replies' => ['slice' => -1]])
+                ->project(['_replies' => ['$slice' => -1]])
                 ->first()->replies->first();
 
             if ($lastReply->_id != $entry->_id)
