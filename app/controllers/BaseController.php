@@ -99,7 +99,10 @@ class BaseController extends Controller {
 
     protected function cachedPaginate($builder, $perPage, $minutes, $columns = ['*'], Closure $filter = null)
     {
-        $total = $builder->remember($minutes)->count();
+        $safeBuilder = $builder;
+        $safeBuilder->projections = null;
+
+        $total = $safeBuilder->remember($minutes)->count();
         $page = Paginator::getCurrentPage($total);
         $query = $builder->remember(null)->forPage($page, $perPage);
 
