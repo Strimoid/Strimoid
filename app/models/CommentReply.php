@@ -39,7 +39,7 @@ class CommentReply extends BaseModel
 
     public static function find($id, $columns = array('*')) {
         $parent = Comment::where('_replies._id', $id)
-            ->elemMatch('_replies', '_id', $id)
+            ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
             ->first(['created_at', 'content_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
 
         if (!$parent)
@@ -60,7 +60,7 @@ class CommentReply extends BaseModel
         Content::where('_id', $this->comment->content_id)->decrement('comments');
         $this->deleteNotifications();
 
-        return $this->comment->replies()->destroy($this->_id);
+        return parent::delete();
     }
 
     public function deleteNotifications()
@@ -79,10 +79,6 @@ class CommentReply extends BaseModel
 
         $this->attributes['text'] = $parser->parse(parse_usernames($text));
         $this->attributes['text_source'] = $text;
-    }
-
-    public function save(array $options = array()) {
-        return $this->comment->replies()->save($this);
     }
 
     public function mpush($column, $value = null, $unique = false)

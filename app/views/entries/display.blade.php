@@ -67,7 +67,12 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
             </div>
         @endif
 
-        @foreach ($entry->replies as $reply)
+        <?php
+         $replies = (starts_with(Route::current()->getName(), 'single_entry'))
+                ? $entry->replies : $entry->replies()->slice(-2, 2);
+         ?>
+
+        @foreach ($replies as $reply)
             @include('entries.widget', ['entry' => $reply, 'isReply' => true])
         @endforeach
     @endif

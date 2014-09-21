@@ -14,8 +14,7 @@ class Folder extends BaseModel
 
     public static function findUserFolder($userId, $id, $columns = array('*')) {
         $parent = User::where('_id', $userId)
-            //->where('_folders', 'elemMatch', ['_id' => $id])
-            ->elemMatch('_folders', '_id', $id)
+            ->project(['_folders' => ['$elemMatch' => ['_id' => $id]]])
             ->first();
 
         if (!$parent)

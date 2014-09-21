@@ -20,7 +20,6 @@
         "erusev/parsedown": "dev-strimoid",
         "phindmarsh/summon": "dev-master",
         "cohensive/embed": "dev-master",
-        "juy/profiler": "dev-master",
         "jenssegers/mongodb": "dev-master",
         "jenssegers/mongodb-session": "*",
         "thujohn/rss": "dev-master",
@@ -31,6 +30,9 @@
         "jenssegers/agent": "*",
         "jeremykendall/php-domain-parser": "1.3.1",
         "fitztrev/laravel-html-minify": "1.0.3"
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "1.*"
     },
 	"autoload": {
 		"classmap": [

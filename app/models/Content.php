@@ -26,7 +26,6 @@ class Content extends BaseModel
     protected $fillable = ['title', 'description', 'nsfw', 'eng', 'text', 'url'];
     protected $hidden = ['text', 'text_source', 'updated_at'];
 
-
     function __construct($attributes = array())
     {
         $this->_id = Str::random(6);

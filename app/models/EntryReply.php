@@ -27,7 +27,7 @@ class EntryReply extends BaseModel
 
     public static function find($id, $columns = array('*')) {
         $parent = Entry::where('_replies._id', $id)
-            ->elemMatch('_replies', '_id', $id)
+            ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
             ->first(['created_at', 'group_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
 
         if (!$parent)
@@ -48,7 +48,7 @@ class EntryReply extends BaseModel
         Entry::where('_id', $this->entry->_id)->decrement('replies_count');
         $this->deleteNotifications();
 
-        return $this->entry->replies()->destroy($this->_id);
+        return parent::delete();
     }
 
     public function deleteNotifications()
@@ -67,10 +67,6 @@ class EntryReply extends BaseModel
 
         $this->attributes['text'] = $parser->parse(parse_usernames($text));
         $this->attributes['text_source'] = $text;
-    }
-
-    public function save(array $options = array()) {
-        return $this->entry->replies()->save($this);
     }
 
     public function mpush($column, $value = null, $unique = false)
@@ -121,7 +117,9 @@ class EntryReply extends BaseModel
 
     public function isLast()
     {
-        $lastReply = Entry::where('_id', $this->entry->_id)->slice('_replies', -1)->first()->replies->first();
+        $lastReply = Entry::where('_id', $this->entry->_id)
+            ->project(['_replies' => ['$slice' => -1]])
+            ->first()->replies->first();
 
         return $lastReply->_id == $this->_id;
     }
