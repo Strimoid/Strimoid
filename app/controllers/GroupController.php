@@ -45,7 +45,7 @@ class GroupController extends BaseController {
                 'value' => $group->urlname,
                 'name' => $group->name,
                 'avatar' => $group->getAvatarPath(),
-                'contents' => intval(Content::where('group_id', $group->_id)->count())
+                'contents' => intval(Content::where('group_id', '=', $group->_id)->count())
             ];
         }
 
