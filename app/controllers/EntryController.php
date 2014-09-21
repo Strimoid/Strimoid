@@ -25,7 +25,8 @@ class EntryController extends BaseController {
 
         if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed']))
         {
-            return Redirect::route('login_form')->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
+            return Redirect::route('login_form')
+                ->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
         }
 
         if (Route::input('folder'))
@@ -60,12 +61,17 @@ class EntryController extends BaseController {
 
         $builder->orderBy('created_at', 'desc')
             //->with(['user', 'replies.user' => function($q) { $q->remember(10); }])
-            ->project(['_replies' => ['$slice' => -2]]);
+            //->project(['_replies' => ['$slice' => -2]]);
+        ;
 
         // Paginate
+        /*
         $entries = $this->cachedPaginate($builder, Settings::get('entries_per_page'), 10, ['*'], function($entries) {
             $entries->load(['user', 'replies.user']);
         });
+        */
+
+        $entries = $builder->paginate(Settings::get('entries_per_page'));
 
         $results['entries'] = $entries;
         $results['group_name'] = $groupName;
