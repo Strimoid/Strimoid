@@ -109,7 +109,7 @@ Route::group(['domain' => 'api.strimoid.pl'], function()
     Route::delete('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
 });
 
-Route::group(array('domain' => 'api.preview.strimoid.pl'), function()
+Route::group(['prefix' => 'api'], function()
 {
     Route::get('/', function() {
         return '<a href="http://developers.strimoid.pl">API Documentation</a>';
@@ -117,19 +117,68 @@ Route::group(array('domain' => 'api.preview.strimoid.pl'), function()
 
     Route::get('/me', ['before' => 'oauth:basic', 'uses' => 'UserController@showCurrentUser']);
 
-    Route::get('/contents', ['before' => 'oauth', 'uses' => 'ContentController@getIndex']);
-    Route::get('/content/{id}', 'ContentController@show');
-    Route::post('/content', ['before' => 'oauth:contents', 'uses' => 'ContentController@store']);
+    // Contents
 
-    Route::get('/entries', 'EntryController@getIndex');
-    Route::get('/entry/{id}', 'EntryController@show');
+    Route::get('/contents', ['before' => 'oauth', 'uses' => 'ContentController@getIndex']);
+
+    Route::get('/content/{content}', 'ContentController@show');
+    Route::post('/content', ['before' => 'oauth:contents', 'uses' => 'ContentController@store']);
+    Route::patch('/content/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@edit']);
+    Route::delete('/content/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@removeContent']);
+
+    Route::post('/content/{content}/related', ['before' => 'oauth:contents', 'uses' => 'RelatedController@store']);
+    Route::delete('/related/{related}', ['before' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
+
+    // Comments
+
+    Route::get('/comments', ['uses' => 'CommentController@index']);
+    Route::post('/content/{content}/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@store']);
+    Route::post('/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@storeReply']);
+    Route::patch('/comment/{comment}/{reply?}', ['before' => 'oauth:comments', 'uses' => 'CommentController@edit']);
+    Route::delete('/comment/{comment}/{reply?}', ['before' => 'oauth:comments', 'uses' => 'CommentController@remove']);
+
+    // Entries
+
+    Route::get('/entries', ['before' => 'oauth', 'uses' => 'EntryController@getIndex']);
+    Route::get('/entry/{entry}', 'EntryController@show');
     Route::post('/entry', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
+    Route::post('/entry/{entry}/reply', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
+    Route::delete('/entry/{entry}', ['before' => 'oauth:entries', 'uses' => 'EntryController@remove']);
+
+    // Groups
 
     Route::get('/groups', 'GroupController@getIndex');
     Route::get('/group/{id}', 'GroupController@show');
 
+    // Users
+
     Route::get('/user/{id}', 'UserController@show');
+
+    // Conversations
+    Route::get('/conversations', ['before' => 'oauth:conversations', 'uses' => 'ConversationController@getIndex']);
+    Route::get('/messages', ['before' => 'oauth:conversations', 'uses' => 'ConversationController@getMessages']);
+
+    // Notifications
+
+    Route::get('/notifications', [
+        'before' => 'oauth:notifications', 'uses' => 'NotificationController@listNotifications'
+    ]);
+    Route::patch('/notification/{notification}', [
+        'before' => 'oauth:notifications', 'uses' => 'NotificationController@edit'
+    ]);
+
+    Route::post('/notifications/register_gcm', [
+        'before' => 'oauth:notifications', 'uses' => 'NotificationController@registerGCM'
+    ]);
+
+    // Ranking
+    Route::get('/ranking', 'RankingController@getIndex');
+
+    // Voting
+    Route::post('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@addVote']);
+    Route::delete('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
 });
+
 
 
 
