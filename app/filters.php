@@ -85,6 +85,11 @@ Route::filter('auth.basic', function()
 
 Route::filter('oauth', function($route, $request, $value = '')
 {
+    if (Auth::check())
+    {
+        return;
+    }
+
     if ($request->getUser() && $request->getPassword())
     {
         return Auth::onceBasic('_id');
