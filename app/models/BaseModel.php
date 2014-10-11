@@ -38,6 +38,10 @@ class BaseModel extends Eloquent
         }
     }
 
+    public function getVoteStateAttribute() {
+        return $this->getVoteState();
+    }
+
     public function mpush($column, $value = null, $unique = false)
     {
         if (!$this->_id)
