@@ -453,7 +453,7 @@ class ContentController extends BaseController {
         ]);
 
         // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
-        if (in_array(Input::get('sort'), ['comments', 'uv', 'created_at', 'frontpage_at']))
+        if (in_array(Input::get('sort'), ['comments', 'score', 'uv', 'created_at', 'frontpage_at']))
             $builder->orderBy(Input::get('sort'), 'desc');
         elseif ($groupName == 'all' && $type == 'popular')
             $builder->orderBy('frontpage_at', 'desc');
