@@ -518,7 +518,9 @@ class ContentController extends BaseController {
 
         if ($validator->fails())
         {
-            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
+            return Response::json([
+                'status' => 'error', 'error' => $validator->messages()->first()
+            ], 400);
         }
 
         $group = Group::where('shadow_urlname', shadow(Input::get('group')))->firstOrFail();
@@ -526,12 +528,16 @@ class ContentController extends BaseController {
 
         if (Auth::user()->isBanned($group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.']);
+            return Response::json([
+                'status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'
+            ], 400);
         }
 
         if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Użytkownik nie może dodawać treści w tej grupie.']);
+            return Response::json([
+                'status' => 'error', 'error' => 'Użytkownik nie może dodawać treści w tej grupie.'
+            ], 400);
         }
 
         $content = new Content();
@@ -566,7 +572,9 @@ class ContentController extends BaseController {
     {
         if (!$content->canEdit(Auth::user()))
         {
-            return Response::json(['status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.']);
+            return Response::json([
+                'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.'
+            ], 400);
         }
 
         $rules = [
@@ -587,7 +595,9 @@ class ContentController extends BaseController {
 
         if ($validator->fails())
         {
-            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
+            return Response::json([
+                'status' => 'error', 'error' => $validator->messages()->first()
+            ], 400);
         }
 
         $fields = ['title', 'description', 'nsfw', 'eng'];
