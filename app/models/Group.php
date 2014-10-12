@@ -6,7 +6,7 @@ class Group extends BaseModel
 {
 
     protected $collection = 'groups';
-    protected $visible = ['_id', 'avatar', 'created_at', 'creator_id', 'description', 'subscribers'];
+    protected $visible = ['_id', 'avatar', 'created_at', 'creator_id', 'description', 'subscribers', 'name'];
 
     const TYPE_PUBLIC = 0;
     const TYPE_MODERATED = 1;
