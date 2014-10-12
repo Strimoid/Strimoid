@@ -31,6 +31,11 @@ class Folder extends BaseModel
         throw new ModelNotFoundException;
     }
 
+    public function getGroupsAttribute($value)
+    {
+        return Group::whereIn('_id', $value)->get(['name', 'avatar']);
+    }
+
     public function comments()
     {
         $builder = with(new Comment)->newQuery();

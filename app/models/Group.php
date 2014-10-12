@@ -165,11 +165,11 @@ class Group extends BaseModel
 
     public function getAvatarPathAttribute()
     {
-        $host = Request::secure() ? '//strimoid.pl' : Config::get('app.cdn_host');
+        $host = Config::get('app.cdn_host');
 
         if ($this->avatar)
         {
-            return $host .'/uploads/groups/'. $this->avatar;
+            return $host .'/groups/'. $this->avatar;
         }
         else
         {

@@ -153,15 +153,15 @@ class Content extends BaseModel
 
     public function getThumbnailPath($width = null, $height = null)
     {
-        $host = Request::secure() ? '//strimoid.pl' : Config::get('app.cdn_host');
+        $host = Config::get('app.cdn_host');
 
         if ($this->thumbnail && $width && $height)
         {
-            return $host .'/uploads/'. $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
+            return $host . $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
         }
         elseif ($this->thumbnail)
         {
-            return $host .'/uploads/thumbnails/'. $this->thumbnail;
+            return $host .'/thumbnails/'. $this->thumbnail;
         }
 
         return '';
