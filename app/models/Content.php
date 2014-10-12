@@ -157,7 +157,7 @@ class Content extends BaseModel
 
         if ($this->thumbnail && $width && $height)
         {
-            return $host . $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
+            return $host .'/'. $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
         }
         elseif ($this->thumbnail)
         {

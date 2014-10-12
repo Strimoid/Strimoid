@@ -89,7 +89,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
         if ($this->avatar && $width && $height)
         {
-            return $url . $width .'x'. $height .'/avatars/'. $this->avatar;
+            return $url .'/'. $width .'x'. $height .'/avatars/'. $this->avatar;
         }
         elseif ($this->avatar)
         {
