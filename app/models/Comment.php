@@ -15,6 +15,7 @@ class Comment extends BaseModel
         'text' => 'required|min:1|max:5000'
     ];
 
+    protected $appends = ['vote_state'];
     protected $collection = 'comments';
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
