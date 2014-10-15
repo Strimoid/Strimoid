@@ -47,6 +47,10 @@ Route::group(['domain' => 'api.strimoid.pl'], function()
 
     Route::get('/me', ['before' => 'oauth:basic', 'uses' => 'UserController@showCurrentUser']);
 
+    // Auth
+    Route::post('/login', ['before' => 'guest', 'uses' => 'AuthController@login']);
+    Route::post('/logout', ['before' => 'auth', 'uses' => 'AuthController@logout']);
+
     // Contents
 
     Route::get('/contents', ['before' => 'oauth', 'uses' => 'ContentController@getIndex']);

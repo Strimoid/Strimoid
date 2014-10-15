@@ -38,9 +38,6 @@ class UserController extends BaseController {
                 return Redirect::to('/login')->with('warning_msg', 'Błędna nazwa użytkownika lub hasło.');
             }
 
-            Auth::user()->last_ip = Request::getClientIp();
-            Auth::user()->save();
-
             $url = URL::previous() ? URL::previous() : '';
 
             return Redirect::intended($url);

@@ -3,6 +3,7 @@
 Event::listen('auth.login', function($user)
 {
     $user->last_login = Carbon::now();
+    $user->last_ip = Request::getClientIp();
 
     $user->save();
 });
