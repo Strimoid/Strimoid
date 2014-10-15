@@ -7,11 +7,11 @@ php:
 services: mongodb
 
 before_script:
+  - echo "testing" > bootstrap/environment.php
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = zmq.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer self-update
   - composer install --dev --no-interaction
-  - echo "testing" > bootstrap/environment.php
 
 script:
   - mkdir -p build/logs
