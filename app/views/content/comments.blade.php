@@ -5,7 +5,7 @@
 @stop
 
 @section('head')
-    @if ($content->thumbnail) <meta property="og:image" content="http://strimoid.pl{{ $content->getThumbnailPath() }}"> @endif
+    @if ($content->thumbnail) <meta property="og:image" content="{{ $content->getThumbnailPath() }}"> @endif
     @if ($content->description) <meta name="description" content="{{{ $content->description }}}"> @endif
 @stop
 
