@@ -32,7 +32,8 @@
         "fitztrev/laravel-html-minify": "1.0.3"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "1.*"
+        "barryvdh/laravel-debugbar": "1.*",
+        "satooshi/php-coveralls": "*"
     },
 	"autoload": {
 		"classmap": [
