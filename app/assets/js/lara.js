@@ -45,7 +45,7 @@ $(document).ready(function() {
 
     if (window.username && window.WebSocket)
     var conn = new ab.Session(
-        (window.location.protocol != 'https:' ? 'ws' : 'wss') + '://strimoid.pl/websocket/',
+        'wss://ws.strimoid.pl/',
         function() {
             conn.subscribe('u.' + window.username, function(topic, data) {
                 notificationsModule.onNotificationReceived(data);
