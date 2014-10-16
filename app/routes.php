@@ -17,26 +17,10 @@ Route::bind('group', function($value, $route)
 Route::model('content', 'Content');
 Route::model('related', 'ContentRelated');
 Route::model('notification', 'Notification');
-
-Route::bind('comment', function($value, $route)
-{
-    $class = (Route::input('reply')) ? 'CommentReply' : 'Comment';
-
-    return $class::findOrFail($value);
-});
-
-Route::bind('entry', function($value, $route)
-{
-    $class = (Route::input('reply')) ? 'EntryReply' : 'Entry';
-
-    return $class::findOrFail($value);
-});
-
-/*
 Route::model('comment', 'Comment');
+Route::model('comment_reply', 'CommentReply');
 Route::model('entry', 'Entry');
-*/
-
+Route::model('entry_reply', 'EntryReply');
 
 /* API ============================================================================================================== */
 Route::group(['domain' => 'api.strimoid.pl'], function()
@@ -66,17 +50,24 @@ Route::group(['domain' => 'api.strimoid.pl'], function()
     // Comments
 
     Route::get('/comments', ['uses' => 'CommentController@index']);
+
     Route::post('/content/{content}/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@store']);
     Route::post('/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@storeReply']);
-    Route::patch('/comment/{comment}/{reply?}', ['before' => 'oauth:comments', 'uses' => 'CommentController@edit']);
-    Route::delete('/comment/{comment}/{reply?}', ['before' => 'oauth:comments', 'uses' => 'CommentController@remove']);
+
+    Route::patch('/comment/{comment}', ['before' => 'oauth:comments', 'uses' => 'CommentController@edit']);
+    Route::patch('/comment/{comment_reply}/reply', ['before' => 'oauth:comments', 'uses' => 'CommentController@edit']);
+
+    Route::delete('/comment/{comment}', ['before' => 'oauth:comments', 'uses' => 'CommentController@remove']);
+    Route::delete('/comment/{comment_reply}/reply', ['before' => 'oauth:comments', 'uses' => 'CommentController@remove']);
 
     // Entries
 
     Route::get('/entries', ['before' => 'oauth', 'uses' => 'EntryController@getIndex']);
     Route::get('/entry/{entry}', 'EntryController@show');
+
     Route::post('/entry', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
     Route::post('/entry/{entry}/reply', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
+
     Route::delete('/entry/{entry}', ['before' => 'oauth:entries', 'uses' => 'EntryController@remove']);
 
     // Groups
