@@ -14,6 +14,7 @@ class EntryReply extends BaseModel
     );
 
     protected static $unguarded = true;
+    protected $appends = ['vote_state'];
     protected $collection = null;
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'text_source', 'updated_at'];

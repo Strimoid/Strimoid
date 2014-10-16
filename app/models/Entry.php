@@ -15,6 +15,7 @@ class Entry extends BaseModel
         'replies_count' => 0,
     );
 
+    protected $appends = ['vote_state'];
     protected $collection = 'entries';
     protected $fillable = ['text'];
     protected $visible = ['_id', 'created_at', 'group_id', 'user_id', 'user', 'group', 'text', 'uv', 'dv', 'votes', 'replies'];
