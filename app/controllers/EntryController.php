@@ -281,13 +281,6 @@ class EntryController extends BaseController {
 
     public function getIndex()
     {
-        $ids = array();
-        $blockedGroups = array();
-        $blockedUsers = array();
-
-        $builder = (new Entry)->newQuery();
-        $builder->with('user')->with('group')->with('replies')->with('replies.user');
-
         $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
 
         if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed', 'saved']))
