@@ -19,3 +19,9 @@ script:
 
 after_script:
   - php vendor/bin/coveralls -v
+
+notifications:
+  irc:
+    channels:
+      - "chat.freenode.net#strimoid-dev"
+    skip_join: true
