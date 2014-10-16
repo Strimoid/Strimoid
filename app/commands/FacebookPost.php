@@ -54,7 +54,7 @@ class FacebookPost extends Command {
             'description' => $content->description
         );
 
-        $params['picture'] = $content->thumbnail ? Config::get('app.url') . $content->getThumbnailPath() : '';
+        $params['picture'] = $content->thumbnail ? $content->getThumbnailPath(500, 250) : '';
 
         $request = $client->post('https://graph.facebook.com/strimoid/feed', array(), $params);
 
