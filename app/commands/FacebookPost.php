@@ -38,23 +38,19 @@ class FacebookPost extends Command {
      */
     public function fire()
     {
-        /*
-            CAATlXpExF3gBAE7UPHKsQrakZBTI5P1YeBZCIlD2ZCHi3mOJkGk7GRKNP3sZCswWBanhbXegYIc4tg4SoOEvmU0wjWk9JZAilJZAuPo4QDoeGXf2OGw9e8vEmOxWTq2jGuT1p569w2cLZCo2gFAYS02tZC6VZB3ufNkOhNCeuZCae5ZCI1jLQWcZAtG2
-         */
-
         $content = Content::where('created_at', '>', new MongoDate(time() - 86400))->orderBy('uv', 'desc')->firstOrFail();
 
         $client = new Client();
 
-        $params = array(
-            'access_token' => 'CAATlXpExF3gBAE7UPHKsQrakZBTI5P1YeBZCIlD2ZCHi3mOJkGk7GRKNP3sZCswWBanhbXegYIc4tg4SoOEvmU0wjWk9JZAilJZAuPo4QDoeGXf2OGw9e8vEmOxWTq2jGuT1p569w2cLZCo2gFAYS02tZC6VZB3ufNkOhNCeuZCae5ZCI1jLQWcZAtG2',
+        $params = [
+            'access_token' => Config::get('app.fb_page_token'),
             //'message' => $content->title,
             'name' => $content->title,
             'link' => route('content_comments', $content->_id),
             'description' => $content->description
-        );
+        ];
 
-        $params['picture'] = $content->thumbnail ? $content->getThumbnailPath(500, 250) : '';
+        $params['picture'] = $content->thumbnail ? 'https:' . $content->getThumbnailPath(500, 250) : '';
 
         $request = $client->post('https://graph.facebook.com/strimoid/feed', array(), $params);
 
