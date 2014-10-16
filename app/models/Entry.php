@@ -40,7 +40,7 @@ class Entry extends BaseModel
     public function replies()
     {
         //return $this->hasMany('EntryReply')->orderBy('created_at', 'asc');
-        return $this->embedsMany('EntryReply', '_replies');
+        return $this->embedsMany('EntryReply', '_replies')->with('user');
     }
 
     public function delete()
