@@ -7,16 +7,24 @@ Source code of Strimoid.pl, brand-new social service.
 
 How to start?
 ========
-Install dependencies:
+Create file with desired environment name:
+```
+echo "<?php return 'production';" > bootstrap/environment.php
+```
+
+Install dependencies using Composer:
 
 ```
 composer.phar install
-grunt 
 ```
 
-Compile resources using Grunt:
+Compile resources using Gulp:
 
 ```
 npm install
-grunt
+gulp
 ```
+
+Questions?
+========
+Just join #strimoid @ Freenode and feel free to ask.
