@@ -2,15 +2,6 @@
 
 use Summon\Summon;
 
-/**
- * @SWG\Resource(
- *     apiVersion="0.1",
- *     swaggerVersion="1.2",
- *     resourcePath="/contents",
- *     basePath="http://api.strimoid.pl"
- * )
- */
-
 class ContentController extends BaseController {
 
     public function showContents($groupName = 'all')

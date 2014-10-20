@@ -1,14 +1,5 @@
 <?php
 
-/**
- * @SWG\Resource(
- *     apiVersion="0.1",
- *     swaggerVersion="1.2",
- *     resourcePath="/groups",
- *     basePath="http://api.strimoid.pl"
- * )
- */
-
 class GroupController extends BaseController {
 
     public function showList()
@@ -567,21 +558,6 @@ class GroupController extends BaseController {
         return Response::json(compact('sidebar'));
     }
 
-    /**
-     *
-     * @SWG\Api(
-     *    path="/group/{groupName}",
-     *    @SWG\Operation(
-     *       method="GET", summary="Group info", type="Group", nickname="getGroup",
-     *       @SWG\Parameters(@SWG\Parameter(
-     *          name="groupName", description="Name of group that needs to be fetched",
-     *          paramType="path", required=true, type="string"
-     *       ))
-     *    )
-     * )
-     *
-     */
-
     public function show($groupName)
     {
         return $this->getInfo($groupName);
@@ -611,20 +587,6 @@ class GroupController extends BaseController {
             'stats' => $stats,
         );
     }
-
-    /**
-     *
-     * @SWG\Api(
-     *   path="/groups",
-     *   description="Groups",
-     *   @SWG\Operation(
-     *     method="GET", summary="List of groups", type="Group", nickname="getGroups",
-     *     @SWG\Parameters(
-     *     )
-     *   )
-     * )
-     *
-     **/
 
     public function getIndex()
     {

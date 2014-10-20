@@ -1,14 +1,5 @@
 <?php
 
-/**
- * @SWG\Resource(
- *     apiVersion="0.1",
- *     swaggerVersion="1.2",
- *     resourcePath="/users",
- *     basePath="http://api.strimoid.pl"
- * )
- */
-
 class UserController extends BaseController {
 
     public function showJSONList()
