@@ -6,3 +6,4 @@ node_modules/
 composer.lock
 composer.phar
 bootstrap/environment.php
+phpunit.phar

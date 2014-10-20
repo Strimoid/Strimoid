@@ -16,7 +16,7 @@
         "laravel/framework": "4.2.*",
         "bshaffer/oauth2-server-php": "dev-mongo",
         "bshaffer/oauth2-server-httpfoundation-bridge": "v1.0",
-        "intervention/image": "2.0.4",
+        "intervention/image": "2.0.*",
         "erusev/parsedown": "dev-strimoid",
         "phindmarsh/summon": "dev-master",
         "cohensive/embed": "dev-master",
@@ -33,7 +33,8 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "1.*",
-        "satooshi/php-coveralls": "*"
+        "satooshi/php-coveralls": "*",
+        "fzaninotto/faker": "*"
     },
 	"autoload": {
 		"classmap": [
@@ -42,7 +43,8 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-            "app/handlers"
+            "app/handlers",
+            "app/tests/TestCase.php"
 		]
 	},
 	"scripts": {

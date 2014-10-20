@@ -25,15 +25,7 @@ Route::model('entry_reply', 'EntryReply');
 /* API ============================================================================================================== */
 Route::group(['domain' => 'api.strimoid.pl'], function()
 {
-    Route::get('/', function() {
-        return '<a href="http://developers.strimoid.pl">API Documentation</a>';
-    });
-
     Route::get('/me', ['before' => 'oauth:basic', 'uses' => 'UserController@showCurrentUser']);
-
-    // Auth
-    Route::post('/login', ['before' => 'guest', 'uses' => 'AuthController@login']);
-    Route::post('/logout', ['before' => 'auth', 'uses' => 'AuthController@logout']);
 
     // Contents
 
@@ -112,6 +104,10 @@ Route::group(['prefix' => 'api'], function()
 
     Route::get('/me', ['before' => 'oauth:basic', 'uses' => 'UserController@showCurrentUser']);
 
+    // Auth
+    Route::post('/login', ['before' => 'guest', 'uses' => 'AuthController@login']);
+    Route::post('/logout', ['before' => 'auth', 'uses' => 'AuthController@logout']);
+
     // Contents
 
     Route::get('/contents', ['before' => 'oauth', 'uses' => 'ContentController@getIndex']);
@@ -173,9 +169,6 @@ Route::group(['prefix' => 'api'], function()
     Route::post('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@addVote']);
     Route::delete('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
 });
-
-
-
 
 /* OAuth2 =========================================================================================================== */
 Route::post('/oauth2/token', 'OAuthController@getAccessToken');

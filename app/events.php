@@ -89,7 +89,7 @@ Entry::created(function($entry)
 Content::created(function($content)
 {
     $action = new UserAction();
-    $action->user()->associate(Auth::user());
+    $action->user_id = $content->user_id;
     $action->type = UserAction::TYPE_CONTENT;
     $action->content()->associate($content);
     $action->save();
@@ -98,7 +98,7 @@ Content::created(function($content)
 Comment::created(function($comment)
 {
     $action = new UserAction();
-    $action->user()->associate(Auth::user());
+    $action->user_id = $comment->user_id;
     $action->type = UserAction::TYPE_COMMENT;
     $action->comment()->associate($comment);
     $action->save();
@@ -107,7 +107,7 @@ Comment::created(function($comment)
 CommentReply::created(function($comment)
 {
     $action = new UserAction();
-    $action->user()->associate(Auth::user());
+    $action->user_id = $comment->user_id;
     $action->type = UserAction::TYPE_COMMENT_REPLY;
     $action->commentReply()->associate($comment);
     $action->save();
@@ -116,7 +116,7 @@ CommentReply::created(function($comment)
 Entry::created(function($entry)
 {
     $action = new UserAction();
-    $action->user()->associate(Auth::user());
+    $action->user_id = $entry->user_id;
     $action->type = UserAction::TYPE_ENTRY;
     $action->entry()->associate($entry);
     $action->save();
@@ -125,7 +125,7 @@ Entry::created(function($entry)
 EntryReply::created(function($entry)
 {
     $action = new UserAction();
-    $action->user()->associate(Auth::user());
+    $action->user_id = $entry->user_id;
     $action->type = UserAction::TYPE_ENTRY_REPLY;
     $action->entryReply()->associate($entry);
     $action->save();
