@@ -5,6 +5,12 @@ Strimoid
 
 Source code of Strimoid.pl, brand-new social service.
 
+Requirements
+========
+* PHP 5.5+ with APCu, MongoDB and ZMQ extensions.
+* If you have too much free time, you can try with HHVM + Mongofill and hhvm-zmq instead of PHP.
+* MongoDB.
+
 How to start?
 ========
 Create file with desired environment name:
@@ -24,6 +30,12 @@ Compile resources using Gulp:
 npm install
 gulp
 ```
+
+To do
+========
+[ ] AngularJS based frontend, developed as external project.
+[ ] Improve API: change routing, use apiDoc, add ETags support.
+[ ] Many, many, other things...
 
 Questions?
 ========
