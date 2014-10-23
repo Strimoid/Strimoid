@@ -11,6 +11,10 @@ Requirements
 * If you have too much free time, you can try with HHVM + Mongofill and hhvm-zmq instead of PHP.
 * MongoDB.
 
+API
+========
+You can find API documentation at https://developers.strimoid.pl
+
 How to start?
 ========
 Create file with desired environment name:
@@ -33,9 +37,9 @@ gulp
 
 To do
 ========
-[ ] AngularJS based frontend, developed as external project.
-[ ] Improve API: change routing, use apiDoc, add ETags support.
-[ ] Many, many, other things...
+* [ ] AngularJS based frontend, developed as external project.
+* [ ] Improve API: change routing, add more documentation, add ETags support.
+* [ ] Many, many, other things...
 
 Questions?
 ========
