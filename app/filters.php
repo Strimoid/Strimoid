@@ -15,7 +15,7 @@ use Guzzle\Http\Client;
 
 App::before(function($request)
 {
-	if (Input::has('ntf_read') && Auth::check())
+    if (Input::has('ntf_read') && Auth::check())
     {
         $id = b58_to_mid(Input::get('ntf_read'));
 
@@ -28,6 +28,11 @@ App::before(function($request)
             'tag' => Input::get('ntf_read'),
             'type' => 'notification_read'
         ]));
+    }
+
+    if ($request->getUser() && $request->getPassword())
+    {
+        return Auth::onceBasic('_id');
     }
 });
 
@@ -74,8 +79,6 @@ Route::filter('auth.ajax', function()
     {
         return Response::make('Unauthorized', 403);
     }
-
-    //App::abort(403, 'Unauthorized');
 });
 
 Route::filter('auth.basic', function()
@@ -90,13 +93,9 @@ Route::filter('oauth', function($route, $request, $value = '')
         return;
     }
 
-    if ($request->getUser() && $request->getPassword())
-    {
-        return Auth::onceBasic('_id');
-    }
-
     $request = OAuth2\HttpFoundationBridge\Request::createFromRequest($request);
-    $verified = OAuth::verifyResourceRequest($request, new OAuth2\HttpFoundationBridge\Response(), $value);
+    $response = new OAuth2\HttpFoundationBridge\Response();
+    $verified = OAuth::verifyResourceRequest($request, $response, $value);
 
     if (!$verified && $value) {
         OAuth::getResponse()->send();
