@@ -1,0 +1,6 @@
+/app/tests          export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/.coveralls.yml     export-ignore
+/.travis.yml        export-ignore
+/phpunit.xml        export-ignore
