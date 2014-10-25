@@ -9,7 +9,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 {
 
     protected $collection = 'users';
-    protected $visible = ['_id', 'age', 'avatar', 'created_at', 'description', 'location', 'sex', 'name'];
+    protected $visible = ['_id', 'age', 'avatar', 'created_at',
+        'description', 'location', 'sex', 'name'];
     protected $dates = ['last_login'];
 
     public static function boot()

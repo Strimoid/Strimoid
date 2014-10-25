@@ -527,7 +527,9 @@ class GroupController extends BaseController {
         $block = GroupBlock::where('group_id', $group->getKey())->where('user_id', $user->getKey())->first();
 
         if (!$block)
+        {
             return Response::make('Not blocked', 400);
+        }
 
         $block->delete();
 
@@ -568,16 +570,16 @@ class GroupController extends BaseController {
         $group = Group::where('shadow_urlname', shadow($groupName))->with('creator')->firstOrFail();
         $group->checkAccess();
 
-        $stats = array(
+        $stats = [
             'contents' => intval(Content::where('group_id', $group->_id)->count()),
             'comments' => intval(Content::where('group_id', $group->getKey())->sum('comments')),
             'entries' => intval(Entry::where('group_id', $group->_id)->count()),
             'banned' => intval(GroupBanned::where('group_id', $group->getKey())->count()),
             'subscribers' => $group->subscribers,
             'moderators' => intval(GroupModerator::where('group_id', $group->getKey())->count()),
-        );
+        ];
 
-        return array(
+        return [
             '_id' => $group->_id,
             'avatar' => $group->getAvatarPath(),
             'creator' => $group->creator->toArray(),

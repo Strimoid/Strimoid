@@ -106,7 +106,7 @@ class VoteController extends BaseController {
 
         if (!$object->votes)
         {
-            return Response::json(array('status' => 'ok', 'voters' => []));
+            return Response::json(['status' => 'ok', 'voters' => []]);
         }
 
         $results = array();
@@ -129,13 +129,15 @@ class VoteController extends BaseController {
 
         $results = array_reverse($results);
 
-        return Response::json(array('status' => 'ok', 'voters' => $results));
+        return Response::json(['status' => 'ok', 'voters' => $results]);
     }
 
     private function getVoteElement($object, $user)
     {
         if (!$object->votes)
+        {
             return false;
+        }
 
         $pos = array_search($user->_id, array_column($object->votes, 'user_id'));
 

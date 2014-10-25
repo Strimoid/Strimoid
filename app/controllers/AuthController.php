@@ -26,4 +26,4 @@ class AuthController extends BaseController {
         Auth::logout();
     }
 
-}
+}}

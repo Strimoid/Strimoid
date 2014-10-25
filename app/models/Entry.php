@@ -18,7 +18,8 @@ class Entry extends BaseModel
     protected $appends = ['vote_state'];
     protected $collection = 'entries';
     protected $fillable = ['text'];
-    protected $visible = ['_id', 'created_at', 'group_id', 'user_id', 'user', 'group', 'text', 'uv', 'dv', 'votes', 'replies'];
+    protected $visible = ['_id', 'created_at', 'group_id', 'user_id', 'user', 'group',
+        'text', 'uv', 'dv', 'votes', 'vote_state', 'replies'];
 
     function __construct($attributes = array())
     {
