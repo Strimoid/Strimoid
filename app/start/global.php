@@ -28,15 +28,26 @@ ClassLoader::addDirectories(array(
 
 App::missing(function($exception)
 {
-    return Response::view('errors.404', array(), 404);
+    if (Request::ajax() || Request::is('api/*'))
+    {
+        return Response::make('Invalid route', 404);
+    }
+    else
+    {
+        return Response::view('errors.404', [], 404);
+    }
 });
 
 App::error(function(ModelNotFoundException $e)
 {
-    if (Request::ajax() || Request::server('HTTP_HOST') == 'api.strimoid.pl')
-        return Response::make('404 Not Found', 404);
+    if (Request::ajax() || Request::server('HTTP_HOST') == 'api.strimoid.pl' || Request::is('api/*'))
+    {
+        return Response::make('Not found', 404);
+    }
     else
-        return Response::view('errors.404', array(), 404);
+    {
+        return Response::view('errors.404', [], 404);
+    }
 });
 
 /*
