@@ -19,7 +19,7 @@ $popularContents = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
     <ul class="media-list popular_contents_list">
         @foreach ($popularContents as $content)
         <li class="media">
-            @if ($content->thumbnail)
+            @if ($content->thumbnail && !$content->nsfw)
             <a class="pull-left" href="{{ route('content_comments_slug', array($content->_id, Str::slug($content->title))) }}" rel="nofollow" target="_blank">
                 <img src="{{ $content->getThumbnailPath(40, 40) }}" style="height: 40px; width: 40px; border-radius: 3px;">
             </a>
