@@ -1,16 +1,16 @@
 <?php
 
-class ContentTest extends TestCase {
+class EntryTest extends TestCase {
 
     /**
-     * Test contents listing.
+     * Test entries listing.
      *
      * @return void
      */
     public function testList()
     {
         // All contents
-        $response = $this->call('GET', '/api/v1/contents');
+        $response = $this->call('GET', '/api/v1/entries');
         $content = json_decode($response->getContent());
 
         $this->assertResponseStatus(200);
@@ -19,7 +19,7 @@ class ContentTest extends TestCase {
         // Contents from selected group
         $groupIds = DB::collection('groups')->lists('_id');
 
-        $response = $this->call('GET', '/api/v1/contents?group='. array_rand($groupIds));
+        $response = $this->call('GET', '/api/v1/entries?group='. array_rand($groupIds));
         $content = json_decode($response->getContent());
 
         $this->assertResponseStatus(200);
