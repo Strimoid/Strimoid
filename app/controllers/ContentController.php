@@ -129,7 +129,7 @@ class ContentController extends BaseController {
                 ));
             }
 
-            return Response::make($feed, 200, ['Content-Type' => 'text/xml']);
+            return Response::make($feed, 200, ['Content-Type' => 'text/xml'])->setTtl(60);
         }
 
         return View::make('content.display', $results);
