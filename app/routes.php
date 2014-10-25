@@ -64,7 +64,7 @@ Route::group(['domain' => 'api.strimoid.pl'], function()
 
     // Groups
 
-    Route::get('/groups', 'GroupController@getIndex');
+    Route::get('/groups', 'GroupController@index');
     Route::get('/group/{id}', 'GroupController@show');
 
     // Users
@@ -96,26 +96,28 @@ Route::group(['domain' => 'api.strimoid.pl'], function()
     Route::delete('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
 });
 
-Route::group(['prefix' => 'api'], function()
+Route::group(['prefix' => 'api/v1'], function()
 {
     Route::get('/', function() {
-        return '<a href="http://developers.strimoid.pl">API Documentation</a>';
+        return '<a href="https://developers.strimoid.pl">API Documentation</a>';
     });
 
     Route::get('/me', ['before' => 'oauth:basic', 'uses' => 'UserController@showCurrentUser']);
 
     // Auth
-    Route::post('/login', ['before' => 'guest', 'uses' => 'AuthController@login']);
+    Route::post('/login', ['uses' => 'AuthController@login']);
     Route::post('/logout', ['before' => 'auth', 'uses' => 'AuthController@logout']);
 
     // Contents
 
+    // Route::resource('contents', 'ContentController', ['only' => ['index', 'show']]);
+
     Route::get('/contents', ['before' => 'oauth', 'uses' => 'ContentController@getIndex']);
 
-    Route::get('/content/{content}', 'ContentController@show');
-    Route::post('/content', ['before' => 'oauth:contents', 'uses' => 'ContentController@store']);
-    Route::patch('/content/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@edit']);
-    Route::delete('/content/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@removeContent']);
+    Route::get('/contents/{content}', 'ContentController@show');
+    Route::post('/contents', ['before' => 'oauth:contents', 'uses' => 'ContentController@store']);
+    Route::patch('/contents/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@edit']);
+    Route::delete('/contents/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@removeContent']);
 
     Route::post('/content/{content}/related', ['before' => 'oauth:contents', 'uses' => 'RelatedController@store']);
     Route::delete('/related/{related}', ['before' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
@@ -137,13 +139,10 @@ Route::group(['prefix' => 'api'], function()
     Route::delete('/entry/{entry}', ['before' => 'oauth:entries', 'uses' => 'EntryController@remove']);
 
     // Groups
-
-    Route::get('/groups', 'GroupController@getIndex');
-    Route::get('/group/{id}', 'GroupController@show');
+    Route::resource('groups', 'GroupController', ['only' => ['index', 'show']]);
 
     // Users
-
-    Route::get('/user/{id}', 'UserController@show');
+    Route::get('/users/{id}', 'UserController@show');
 
     // Conversations
     Route::get('/conversations', ['before' => 'oauth:conversations', 'uses' => 'ConversationController@getIndex']);

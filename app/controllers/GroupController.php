@@ -587,22 +587,20 @@ class GroupController extends BaseController {
             'description' => $group->age,
             'sidebar' => $group->sidebar,
             'stats' => $stats,
-        );
+        ];
     }
 
-    public function getIndex()
+    public function index()
     {
         $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
 
         if (in_array(Input::get('sort'), ['created_at', 'subscribers']))
+        {
             $builder->orderBy(Input::get('sort'), 'desc');
+        }
         else
+        {
             $builder->orderBy('created_at', 'desc');
-
-        $names = array();
-
-        foreach($builder->get() as $group) {
-            $names[] = $group->urlname;
         }
 
         $groups = $builder->paginate(100);

@@ -1,7 +1,6 @@
 .idea/
 _ide_helper.php
 vendor/
-app/config/*/
 node_modules/
 composer.lock
 composer.phar
