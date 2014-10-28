@@ -579,15 +579,10 @@ class GroupController extends BaseController {
             'moderators' => intval(GroupModerator::where('group_id', $group->getKey())->count()),
         ];
 
-        return [
-            '_id' => $group->_id,
-            'avatar' => $group->getAvatarPath(),
-            'creator' => $group->creator->toArray(),
-            'created_at' => current($group->created_at),
-            'description' => $group->age,
-            'sidebar' => $group->sidebar,
-            'stats' => $stats,
-        ];
+        return array_merge(
+            $group->toArray(),
+            ['stats' => $stats]
+        );
     }
 
     public function index()
