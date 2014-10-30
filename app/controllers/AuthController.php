@@ -15,7 +15,21 @@ class AuthController extends BaseController {
                 return Response::json(['error' => 'Account blocked or removed'], 400);
             }
 
-            return Response::json(['user' => Auth::user()]);
+            $folders = Auth::user()->folders->toArray();
+
+            foreach ($folders as &$folder)
+            {
+                $folder['groups'] = Group::whereIn('_id', $folder['groups'])->get()->toArray();
+            }
+
+            $data['user'] = array_merge(Auth::user()->toArray(), [
+                'subscribed_groups' => Group::whereIn('_id', Auth::user()->subscribedGroups())->get()->toArray(),
+                'blocked_groups' => Group::whereIn('_id', Auth::user()->blockedGroups())->get()->toArray(),
+                'moderated_groups' => Group::whereIn('_id', Auth::user()->moderatedGroups())->get()->toArray(),
+                'folders' => $folders,
+            ]);
+
+            return Response::json($data);
         }
 
         return Response::json(['error' => 'Invalid login or password'], 400);
@@ -26,4 +40,4 @@ class AuthController extends BaseController {
         Auth::logout();
     }
 
-}}
+}
