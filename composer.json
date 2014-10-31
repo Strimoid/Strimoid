@@ -1,15 +1,11 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
+	"name": "strimoid/strimoid",
+	"description": "Strimoid.pl source code",
+	"keywords": ["strimoid"],
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/duxet/oauth2-server-php"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/duxet/parsedown"
         }
     ],
 	"require": {
@@ -17,7 +13,6 @@
         "bshaffer/oauth2-server-php": "dev-mongo",
         "bshaffer/oauth2-server-httpfoundation-bridge": "v1.0",
         "intervention/image": "2.0.*",
-        "erusev/parsedown": "dev-strimoid",
         "phindmarsh/summon": "dev-master",
         "cohensive/embed": "dev-master",
         "jenssegers/mongodb": "dev-master",
@@ -30,7 +25,8 @@
         "jenssegers/agent": "*",
         "jeremykendall/php-domain-parser": "1.3.1",
         "fitztrev/laravel-html-minify": "1.0.3",
-		"barryvdh/laravel-ide-helper": "~1.11@dev"
+		"barryvdh/laravel-ide-helper": "~1.11@dev",
+        "guzzlehttp/guzzle": "~5.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "1.*",
@@ -45,6 +41,7 @@
 			"app/database/migrations",
 			"app/database/seeds",
             "app/handlers",
+            "app/helpers",
             "app/tests/TestCase.php"
 		]
 	},
