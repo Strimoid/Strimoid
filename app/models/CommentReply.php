@@ -76,9 +76,7 @@ class CommentReply extends BaseModel
 
     public function setTextAttribute($text)
     {
-        $parser = Parsedown::instance();
-
-        $this->attributes['text'] = $parser->parse(parse_usernames($text));
+        $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 

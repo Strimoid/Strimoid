@@ -6,7 +6,8 @@ class Group extends BaseModel
 {
 
     protected $collection = 'groups';
-    protected $visible = ['_id', 'avatar', 'created_at', 'creator_id', 'description', 'subscribers', 'name'];
+    protected $visible = ['_id', 'avatar', 'created_at', 'creator',
+        'description', 'sidebar', 'subscribers', 'name'];
 
     const TYPE_PUBLIC = 0;
     const TYPE_MODERATED = 1;
@@ -179,9 +180,7 @@ class Group extends BaseModel
 
     public function setSidebarAttribute($text)
     {
-        $parser = Parsedown::instance();
-
-        $this->attributes['sidebar'] = $parser->parse(parse_usernames($text));
+        $this->attributes['sidebar'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['sidebar_source'] = $text;
     }
 

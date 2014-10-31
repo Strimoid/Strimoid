@@ -85,7 +85,7 @@ class ConversationController extends BaseController {
         $message = new ConversationMessage();
         $message->conversation()->associate($conversation);
         $message->user()->associate(Auth::user());
-        $message->text = Parsedown::instance()->parse(Input::get('text'));
+        $message->text = Input::get('text');
         $message->save();
 
         $this->sendNotifications([$target->_id], function($notification) use ($message, $conversation)
@@ -128,7 +128,7 @@ class ConversationController extends BaseController {
         $message = new ConversationMessage();
         $message->conversation()->associate($conversation);
         $message->user()->associate(Auth::user());
-        $message->text = Parsedown::instance()->parse(Input::get('text'));
+        $message->text = Input::get('text');
         $message->save();
 
         $this->sendNotifications([$target->_id], function($notification) use ($message, $conversation)

@@ -80,7 +80,7 @@ class Comment extends BaseModel
     {
         $parser = Parsedown::instance();
 
-        $this->attributes['text'] = $parser->parse(parse_usernames($text));
+        $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 

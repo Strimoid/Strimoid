@@ -15,4 +15,10 @@ class ConversationMessage extends BaseModel {
         return $this->belongsTo('User');
     }
 
+    public function setTextAttribute($text)
+    {
+        $this->attributes['text'] = MarkdownParser::instance()->text($text);
+        $this->attributes['text_source'] = $text;
+    }
+
 }

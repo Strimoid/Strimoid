@@ -143,11 +143,11 @@ class Content extends BaseModel
 
     public function setTextAttribute($text)
     {
-        $parser = Parsedown::instance();
+        $parser = MarkdownParser::instance();
         $parser->config('inline_images', true);
         $parser->config('headers', true);
 
-        $this->attributes['text'] = $parser->parse(parse_usernames($text));
+        $this->attributes['text'] = $parser->text(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 
