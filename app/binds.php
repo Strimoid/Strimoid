@@ -30,12 +30,6 @@ App::bind('oauth', function()
     return $server;
 });
 
-class OAuth extends Facade {
-
-    protected static function getFacadeAccessor() { return 'oauth'; }
-
-}
-
 /*
 |--------------------------------------------------------------------------
 | Guzzle
@@ -44,19 +38,15 @@ class OAuth extends Facade {
 
 App::bind('guzzle', function()
 {
-    $client = new Guzzle\Http\Client('', [
-        'timeout'         => 10,
-        'connect_timeout' => 5
+    $client = new GuzzleHttp\Client([
+        'defaults' => [
+            'timeout'         => 10,
+            'connect_timeout' => 5
+        ]
     ]);
 
     return $client;
 });
-
-class Guzzle extends Facade {
-
-    protected static function getFacadeAccessor() { return 'guzzle'; }
-
-}
 
 /*
 |--------------------------------------------------------------------------
@@ -68,12 +58,6 @@ App::bind('settings', function()
 {
     return new UserSettings();
 });
-
-class Settings extends Facade {
-
-    protected static function getFacadeAccessor() { return 'settings'; }
-
-}
 
 /*
 |--------------------------------------------------------------------------
@@ -88,12 +72,6 @@ App::bind('pdp', function()
 
     return $parser;
 });
-
-class PDP extends Facade {
-
-    protected static function getFacadeAccessor() { return 'pdp'; }
-
-}
 
 /*
 |--------------------------------------------------------------------------
@@ -111,9 +89,3 @@ App::bind('ws', function()
 
     return $socket;
 });
-
-class WS extends Facade {
-
-    protected static function getFacadeAccessor() { return 'ws'; }
-
-}

@@ -42,6 +42,7 @@
 			"app/database/seeds",
             "app/handlers",
             "app/helpers",
+            "app/facades",
             "app/tests/TestCase.php"
 		]
 	},
