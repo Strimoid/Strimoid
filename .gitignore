@@ -5,3 +5,4 @@ node_modules/
 composer.phar
 bootstrap/environment.php
 phpunit.phar
+.env.php
