@@ -14,6 +14,7 @@
 Artisan::add(new ChangePassword);
 Artisan::add(new CreateUser());
 Artisan::add(new FixDB);
+Artisan::add(new TwitterPost());
 Artisan::add(new FacebookPost());
 Artisan::add(new DeleteAvatar());
 Artisan::add(new DeleteUser());

@@ -4,71 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "34ba5dca2d7e5dc46fd1b5dc509e85ba",
+    "hash": "f0ce789838ed11e154db3a683ff9d3de",
     "packages": [
-        {
-            "name": "barryvdh/laravel-ide-helper",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "486d9d9c4d209720d490ac186f8493b3c0f6897c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/486d9d9c4d209720d490ac186f8493b3c0f6897c",
-                "reference": "486d9d9c4d209720d490ac186f8493b3c0f6897c",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "4.x|5.0.x",
-                "illuminate/filesystem": "4.x|5.0.x",
-                "illuminate/support": "4.x|5.0.x",
-                "php": ">=5.3.0",
-                "phpdocumentor/reflection-docblock": "2.0.x",
-                "symfony/class-loader": "~2.3"
-            },
-            "require-dev": {
-                "doctrine/dbal": "~2.3"
-            },
-            "suggest": {
-                "doctrine/dbal": "Load information from the database about models for phpdocs (~2.3)"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.11-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Barryvdh\\LaravelIdeHelper\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "Laravel IDE Helper, generates correct PHPDocs for all Facade classes, to improve auto-completion.",
-            "keywords": [
-                "autocomplete",
-                "codeintel",
-                "helper",
-                "ide",
-                "laravel",
-                "netbeans",
-                "phpdoc",
-                "phpstorm",
-                "sublime"
-            ],
-            "time": "2014-10-14 08:39:02"
-        },
         {
             "name": "bshaffer/oauth2-server-httpfoundation-bridge",
             "version": "v1.0",
@@ -495,12 +432,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "241611c4cd516d3e9c1a2798ba7b65d19dd6d663"
+                "reference": "2ad4f7d6debc9dd748d49b2c7fbcefe7806fdb26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/241611c4cd516d3e9c1a2798ba7b65d19dd6d663",
-                "reference": "241611c4cd516d3e9c1a2798ba7b65d19dd6d663",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/2ad4f7d6debc9dd748d49b2c7fbcefe7806fdb26",
+                "reference": "2ad4f7d6debc9dd748d49b2c7fbcefe7806fdb26",
                 "shasum": ""
             },
             "require": {
@@ -545,7 +482,58 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-10-30 23:52:02"
+            "time": "2014-11-01 17:43:07"
+        },
+        {
+            "name": "guzzlehttp/oauth-subscriber",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/oauth-subscriber.git",
+                "reference": "03f1ebe31d3112526106d0570c80eba6820e86e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/oauth-subscriber/zipball/03f1ebe31d3112526106d0570c80eba6820e86e5",
+                "reference": "03f1ebe31d3112526106d0570c80eba6820e86e5",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~4.0|~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Subscriber\\Oauth\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle OAuth 1.0 subscriber",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "oauth"
+            ],
+            "time": "2014-10-23 22:19:02"
         },
         {
             "name": "guzzlehttp/ringphp",
@@ -553,12 +541,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/RingPHP.git",
-                "reference": "86df4c0ea5459b292ff8c519f8db1513ea41ca9b"
+                "reference": "2d97921ae5d73ebf6a7f01aad56c331105a2571d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/86df4c0ea5459b292ff8c519f8db1513ea41ca9b",
-                "reference": "86df4c0ea5459b292ff8c519f8db1513ea41ca9b",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/2d97921ae5d73ebf6a7f01aad56c331105a2571d",
+                "reference": "2d97921ae5d73ebf6a7f01aad56c331105a2571d",
                 "shasum": ""
             },
             "require": {
@@ -595,7 +583,7 @@
                     "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "time": "2014-10-29 02:00:14"
+            "time": "2014-10-31 18:16:52"
         },
         {
             "name": "guzzlehttp/streams",
@@ -1604,55 +1592,6 @@
             "time": "2013-06-07 02:13:19"
         },
         {
-            "name": "phpdocumentor/reflection-docblock",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "fd0ac2007401505fb596fdfb859ec4e103d69e55"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/fd0ac2007401505fb596fdfb859ec4e103d69e55",
-                "reference": "fd0ac2007401505fb596fdfb859ec4e103d69e55",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "suggest": {
-                "dflydev/markdown": "~1.0",
-                "erusev/parsedown": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                }
-            ],
-            "time": "2014-09-02 14:26:20"
-        },
-        {
             "name": "phpseclib/phpseclib",
             "version": "dev-master",
             "source": {
@@ -2128,68 +2067,18 @@
             "time": "2014-10-26 07:41:27"
         },
         {
-            "name": "symfony/class-loader",
-            "version": "dev-master",
-            "target-dir": "Symfony/Component/ClassLoader",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ClassLoader.git",
-                "reference": "b5cbf6a73ba82a9c85f09cfa494df7773518ed5d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/b5cbf6a73ba82a9c85f09cfa494df7773518ed5d",
-                "reference": "b5cbf6a73ba82a9c85f09cfa494df7773518ed5d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "symfony/finder": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.6-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\ClassLoader\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Symfony ClassLoader Component",
-            "homepage": "http://symfony.com",
-            "time": "2014-10-26 07:46:28"
-        },
-        {
             "name": "symfony/console",
             "version": "2.5.x-dev",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "d2f4281cf973eb2efe0c317659ea541e49ccbda1"
+                "reference": "210faf0c2bb740d1ee992b4d4ea8cf597ef77672"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/d2f4281cf973eb2efe0c317659ea541e49ccbda1",
-                "reference": "d2f4281cf973eb2efe0c317659ea541e49ccbda1",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/210faf0c2bb740d1ee992b4d4ea8cf597ef77672",
+                "reference": "210faf0c2bb740d1ee992b4d4ea8cf597ef77672",
                 "shasum": ""
             },
             "require": {
@@ -2230,7 +2119,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-26 07:41:27"
+            "time": "2014-10-30 20:17:55"
         },
         {
             "name": "symfony/css-selector",
@@ -2603,12 +2492,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "64a1e7a008c631896b60a4a1cdddb7affcaedc7e"
+                "reference": "600f597b72949f869221f4bee7c6fb4f15030012"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/64a1e7a008c631896b60a4a1cdddb7affcaedc7e",
-                "reference": "64a1e7a008c631896b60a4a1cdddb7affcaedc7e",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/600f597b72949f869221f4bee7c6fb4f15030012",
+                "reference": "600f597b72949f869221f4bee7c6fb4f15030012",
                 "shasum": ""
             },
             "require": {
@@ -2666,7 +2555,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-26 07:41:27"
+            "time": "2014-10-30 20:17:55"
         },
         {
             "name": "symfony/process",
@@ -2722,12 +2611,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "eb5986e6b29e7e9b1afb7e42dd7055ab8169d576"
+                "reference": "997b5747cbde15e56de86a11d3651ed01b34ec0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/eb5986e6b29e7e9b1afb7e42dd7055ab8169d576",
-                "reference": "eb5986e6b29e7e9b1afb7e42dd7055ab8169d576",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/997b5747cbde15e56de86a11d3651ed01b34ec0a",
+                "reference": "997b5747cbde15e56de86a11d3651ed01b34ec0a",
                 "shasum": ""
             },
             "require": {
@@ -2780,7 +2669,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2014-10-26 07:41:27"
+            "time": "2014-10-30 20:17:55"
         },
         {
             "name": "symfony/security-core",
@@ -2789,12 +2678,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-core.git",
-                "reference": "09368be7a0dd4587e40ff9107064f2444192901c"
+                "reference": "6d9bc8834e7bbbce7c2b008915fcc2f3cd86c34c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/09368be7a0dd4587e40ff9107064f2444192901c",
-                "reference": "09368be7a0dd4587e40ff9107064f2444192901c",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/6d9bc8834e7bbbce7c2b008915fcc2f3cd86c34c",
+                "reference": "6d9bc8834e7bbbce7c2b008915fcc2f3cd86c34c",
                 "shasum": ""
             },
             "require": {
@@ -2842,7 +2731,7 @@
             ],
             "description": "Symfony Security Component - Core Library",
             "homepage": "http://symfony.com",
-            "time": "2014-10-26 07:41:27"
+            "time": "2014-10-30 20:17:55"
         },
         {
             "name": "symfony/translation",
@@ -2950,24 +2839,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "c3ee98b0213a738171dd79a8e1be4a0f98245762"
+                "reference": "a14e20208640b5656d20c6230a31a55540e173cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/c3ee98b0213a738171dd79a8e1be4a0f98245762",
-                "reference": "c3ee98b0213a738171dd79a8e1be4a0f98245762",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/a14e20208640b5656d20c6230a31a55540e173cb",
+                "reference": "a14e20208640b5656d20c6230a31a55540e173cb",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "4.*|5.0.*",
-                "maximebf/debugbar": "~1.9.15",
+                "maximebf/debugbar": "1.10.*",
                 "php": ">=5.3.0",
                 "symfony/finder": "~2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.8-dev"
                 }
             },
             "autoload": {
@@ -2996,7 +2885,70 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2014-10-27 15:50:05"
+            "time": "2014-10-31 21:32:30"
+        },
+        {
+            "name": "barryvdh/laravel-ide-helper",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-ide-helper.git",
+                "reference": "486d9d9c4d209720d490ac186f8493b3c0f6897c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/486d9d9c4d209720d490ac186f8493b3c0f6897c",
+                "reference": "486d9d9c4d209720d490ac186f8493b3c0f6897c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "4.x|5.0.x",
+                "illuminate/filesystem": "4.x|5.0.x",
+                "illuminate/support": "4.x|5.0.x",
+                "php": ">=5.3.0",
+                "phpdocumentor/reflection-docblock": "2.0.x",
+                "symfony/class-loader": "~2.3"
+            },
+            "require-dev": {
+                "doctrine/dbal": "~2.3"
+            },
+            "suggest": {
+                "doctrine/dbal": "Load information from the database about models for phpdocs (~2.3)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.11-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Barryvdh\\LaravelIdeHelper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Laravel IDE Helper, generates correct PHPDocs for all Facade classes, to improve auto-completion.",
+            "keywords": [
+                "autocomplete",
+                "codeintel",
+                "helper",
+                "ide",
+                "laravel",
+                "netbeans",
+                "phpdoc",
+                "phpstorm",
+                "sublime"
+            ],
+            "time": "2014-10-14 08:39:02"
         },
         {
             "name": "fzaninotto/faker",
@@ -3050,16 +3002,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "1.9.15",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "5d08b313576056234d464bedbba8ce1b26bcd918"
+                "reference": "29eca32454868dfda64db42243906bb1fceccfa6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/5d08b313576056234d464bedbba8ce1b26bcd918",
-                "reference": "5d08b313576056234d464bedbba8ce1b26bcd918",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/29eca32454868dfda64db42243906bb1fceccfa6",
+                "reference": "29eca32454868dfda64db42243906bb1fceccfa6",
                 "shasum": ""
             },
             "require": {
@@ -3077,7 +3029,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.10-dev"
                 }
             },
             "autoload": {
@@ -3101,7 +3053,56 @@
             "keywords": [
                 "debug"
             ],
-            "time": "2014-08-20 15:25:30"
+            "time": "2014-10-31 20:13:39"
+        },
+        {
+            "name": "phpdocumentor/reflection-docblock",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
+                "reference": "fd0ac2007401505fb596fdfb859ec4e103d69e55"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/fd0ac2007401505fb596fdfb859ec4e103d69e55",
+                "reference": "fd0ac2007401505fb596fdfb859ec4e103d69e55",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "dflydev/markdown": "~1.0",
+                "erusev/parsedown": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "phpDocumentor": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                }
+            ],
+            "time": "2014-09-02 14:26:20"
         },
         {
             "name": "satooshi/php-coveralls",
@@ -3177,6 +3178,56 @@
                 "test"
             ],
             "time": "2014-07-09 10:45:38"
+        },
+        {
+            "name": "symfony/class-loader",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/ClassLoader",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/ClassLoader.git",
+                "reference": "b5cbf6a73ba82a9c85f09cfa494df7773518ed5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/ClassLoader/zipball/b5cbf6a73ba82a9c85f09cfa494df7773518ed5d",
+                "reference": "b5cbf6a73ba82a9c85f09cfa494df7773518ed5d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/finder": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\ClassLoader\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony ClassLoader Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-10-26 07:46:28"
         },
         {
             "name": "symfony/config",
