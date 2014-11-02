@@ -408,7 +408,7 @@ class ContentController extends BaseController {
             App::abort(403, 'Group available only for logged in users');
         }
 
-        if (Input::has('folder'))
+        if (Input::has('folder') && !class_exists('Groups\\'. studly_case($folderName)))
         {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
             $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
