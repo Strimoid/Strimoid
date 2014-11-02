@@ -64,6 +64,9 @@ class MarkdownParser
         # remove surrounding line breaks
         $text = trim($text, "\n");
 
+        # Remove HTML tags
+        $text = htmlspecialchars($text, ENT_NOQUOTES | ENT_HTML5, 'UTF-8');
+
         # split text into lines
         $lines = explode("\n", $text);
 
@@ -109,19 +112,20 @@ class MarkdownParser
         '8' => array('List'),
         '9' => array('List'),
         ':' => array('Table'),
-        '<' => array('Comment', 'Markup'),
+        //'<' => array('Markup'),
         '=' => array('Setext'),
-        '>' => array('Quote'),
+        '&' => array('Quote'),
         '_' => array('Rule'),
         '`' => array('FencedCode'),
         '|' => array('Table'),
         '~' => array('FencedCode'),
+        '!' => array('Spoiler'),
     );
 
     # ~
 
     protected $DefinitionTypes = array(
-        '[' => array('Reference'),
+        //'[' => array('Reference'),
     );
 
     # ~
@@ -289,6 +293,11 @@ class MarkdownParser
 
     protected function identifyAtx($Line)
     {
+        if (!$this->config['headers'])
+        {
+            return;
+        }
+
         if (isset($Line['text'][1]))
         {
             $level = 1;
@@ -564,7 +573,7 @@ class MarkdownParser
 
     protected function identifyQuote($Line)
     {
-        if (preg_match('/^>[ ]?(.*)/', $Line['text'], $matches))
+        if (preg_match('/^&gt;[ ]?(.*)/', $Line['text'], $matches))
         {
             $Block = array(
                 'element' => array(
@@ -625,6 +634,11 @@ class MarkdownParser
     protected function identifySetext($Line, array $Block = null)
     {
         if ( ! isset($Block) or isset($Block['type']) or isset($Block['interrupted']))
+        {
+            return;
+        }
+
+        if (!$this->config['headers'])
         {
             return;
         }
@@ -876,6 +890,22 @@ class MarkdownParser
     }
 
     #
+    # Spoiler
+
+    protected function identifySpoiler($Line)
+    {
+        if (strpos($Line['text'], '![') !== 0 )
+        {
+            $text = substr($Line['text'], 1);
+            $text = $this->line($text);
+
+            $Block['element'] = '<a class="show_spoiler">Pokaż ukrytą treść</a><span class="spoiler">'.$text.'</span>';
+
+            return $Block;
+        }
+    }
+
+    #
     # ~
     #
 
@@ -925,7 +955,7 @@ class MarkdownParser
         }
         else
         {
-            $markup .= ' />';
+            $markup .= '>';
         }
 
         return $markup;
@@ -965,10 +995,10 @@ class MarkdownParser
 
     protected $SpanTypes = array(
         '!' => array('Link'), # ?
-        '&' => array('Ampersand'),
+        //'&' => array('Ampersand'),
         '*' => array('Emphasis'),
         '/' => array('Url'),
-        '<' => array('UrlTag', 'EmailTag', 'Tag', 'LessThan'),
+        //'<' => array('UrlTag', 'EmailTag', 'Tag', 'LessThan'),
         '[' => array('Link'),
         '_' => array('Emphasis'),
         '`' => array('InlineCode'),
@@ -978,7 +1008,8 @@ class MarkdownParser
 
     # ~
 
-    protected $spanMarkerList = '*_!&[</`~\\';
+    //protected $spanMarkerList = '*_!&[</`~\\';
+    protected $spanMarkerList = '*_![/`~\\';
 
     #
     # ~
@@ -1063,9 +1094,9 @@ class MarkdownParser
 
         if (preg_match('/\bhttps?:[\/]{2}[^\s<]+\b\/*/ui', $Excerpt['context'], $matches, PREG_OFFSET_CAPTURE))
         {
-            $url = str_replace(array('&', '<'), array('&amp;', '&lt;'), $matches[0][0]);
+            $url = $matches[0][0];
 
-            return array(
+            $Link = array(
                 'extent' => strlen($matches[0][0]),
                 'position' => $matches[0][1],
                 'element' => array(
@@ -1073,9 +1104,20 @@ class MarkdownParser
                     'text' => $url,
                     'attributes' => array(
                         'href' => $url,
+                        'rel' => 'nofollow',
                     ),
                 ),
             );
+
+            $extension = strtolower(ltrim(strstr(parse_url($url, PHP_URL_PATH), '.'), '.'));
+
+            // Add class="image" for embedding imgs inline, if filetype is known image format
+            if (in_array($extension, ['gif', 'png', 'jpg', 'jpeg']))
+            {
+                $Link['element']['attributes']['class'] = 'image';
+            }
+
+            return $Link;
         }
     }
 
@@ -1142,6 +1184,7 @@ class MarkdownParser
                     'text' => $url,
                     'attributes' => array(
                         'href' => $url,
+                        'rel' => 'nofollow',
                     ),
                 ),
             );
@@ -1183,7 +1226,6 @@ class MarkdownParser
         if (preg_match('/^('.$marker.'+)[ ]*(.+?)[ ]*(?<!'.$marker.')\1(?!'.$marker.')/', $Excerpt['text'], $matches))
         {
             $text = $matches[2];
-            $text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
 
             return array(
                 'extent' => strlen($matches[0]),
@@ -1252,9 +1294,9 @@ class MarkdownParser
             return;
         }
 
-        $url = str_replace(array('&', '<'), array('&amp;', '&lt;'), $Link['url']);
+        $url = $Link['url'];
 
-        if ($Excerpt['text'][0] === '!')
+        if ($Excerpt['text'][0] === '!' && $this->config['inline_images'])
         {
             $Element = array(
                 'name' => 'img',
@@ -1272,8 +1314,17 @@ class MarkdownParser
                 'text' => $Link['text'],
                 'attributes' => array(
                     'href' => $url,
+                    'rel' => 'nofollow',
                 ),
             );
+
+            $extension = strtolower(ltrim(strstr(parse_url($url, PHP_URL_PATH), '.'), '.'));
+
+            // Add class="image" for embedding imgs inline, if filetype is known image format
+            if (in_array($extension, ['gif', 'png', 'jpg', 'jpeg']))
+            {
+                $Element['attributes']['class'] = 'image';
+            }
         }
 
         if (isset($Link['title']))
@@ -1326,7 +1377,7 @@ class MarkdownParser
     {
         $breakMarker = $this->breaksEnabled ? "\n" : "  \n";
 
-        $text = str_replace($breakMarker, "<br />\n", $text);
+        $text = str_replace($breakMarker, "<br>\n", $text);
 
         return $text;
     }
