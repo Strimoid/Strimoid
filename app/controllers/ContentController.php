@@ -399,6 +399,7 @@ class ContentController extends BaseController {
 
     public function getIndex()
     {
+        $folderName = Input::get('folder');
         $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
         $type = Input::has('type') ? Input::get('type') : 'all';
 
@@ -419,7 +420,7 @@ class ContentController extends BaseController {
 
             $builder = $folder->contents();
         }
-        elseif (class_exists('Groups\\'. studly_case($groupName)))
+        elseif (class_exists('Groups\\'. studly_case($groupName)) || class_exists('Groups\\'. studly_case($folderName)))
         {
             $class = 'Groups\\'. studly_case($groupName);
             $fakeGroup = new $class;
@@ -471,6 +472,13 @@ class ContentController extends BaseController {
         if (Input::has('domain'))
         {
             $builder->where('domain', Input::get('domain'));
+        }
+
+        // User filter
+        if (Input::has('user'))
+        {
+            $user = User::shadow(Input::get('user'))->firstOrFail();
+            $builder->where('user_id', $user->_id);
         }
 
         $perPage = 20;
