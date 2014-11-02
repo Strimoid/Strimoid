@@ -80,7 +80,7 @@ class MarkdownParser
     # Setters
     #
 
-    private $breaksEnabled;
+    private $breaksEnabled = true;
 
     function setBreaksEnabled($breaksEnabled)
     {
