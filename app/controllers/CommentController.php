@@ -204,6 +204,7 @@ class CommentController extends BaseController {
 
     public function index()
     {
+        $folderName = Input::get('folder');
         $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
 
         if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed', 'saved']))
@@ -211,7 +212,7 @@ class CommentController extends BaseController {
             App::abort(403, 'Group available only for logged in users');
         }
 
-        if (Input::has('folder'))
+        if (Input::has('folder') && !class_exists('Groups\\'. studly_case($folderName)))
         {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
             $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
@@ -226,6 +227,12 @@ class CommentController extends BaseController {
         elseif (class_exists('Groups\\'. studly_case($groupName)))
         {
             $class = 'Groups\\'. studly_case($groupName);
+            $fakeGroup = new $class;
+            $builder = $fakeGroup->comments();
+        }
+        elseif (class_exists('Groups\\'. studly_case($folderName)))
+        {
+            $class = 'Groups\\'. studly_case($folderName);
             $fakeGroup = new $class;
             $builder = $fakeGroup->comments();
         }
@@ -255,7 +262,8 @@ class CommentController extends BaseController {
         // Time filter
         if (Input::get('time'))
         {
-            $builder->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+            $time = new MongoDate(time() - intval(Input::get('time')) * 86400);
+            $builder->where('created_at', '>', $time);
         }
 
         $perPage = 20;

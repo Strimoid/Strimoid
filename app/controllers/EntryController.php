@@ -281,12 +281,15 @@ class EntryController extends BaseController {
 
     public function getIndex()
     {
+        $folderName = Input::get('folder');
         $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
 
         if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed', 'saved']))
+        {
             App::abort(403, 'Group available only for logged in users');
+        }
 
-        if (Input::has('folder'))
+        if (Input::has('folder') && !class_exists('Groups\\'. studly_case($folderName)))
         {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
             $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
@@ -297,7 +300,6 @@ class EntryController extends BaseController {
             }
 
             $builder = $folder->entries();
-            $results['folder'] = $folder;
         }
         elseif (class_exists('Groups\\'. studly_case($groupName)))
         {
@@ -306,8 +308,14 @@ class EntryController extends BaseController {
             $builder = $fakeGroup->entries();
 
             $builder->orderBy('sticky_global', 'desc');
+        }
+        elseif (class_exists('Groups\\'. studly_case($folderName)))
+        {
+            $class = 'Groups\\'. studly_case($folderName);
+            $fakeGroup = new $class;
+            $builder = $fakeGroup->entries();
 
-            $results['fakeGroup'] = $fakeGroup;
+            $builder->orderBy('sticky_global', 'desc');
         }
         else
         {
@@ -318,8 +326,6 @@ class EntryController extends BaseController {
 
             // Allow group moderators to stick contents
             $builder->orderBy('sticky_group', 'desc');
-
-            $results['group'] = $group;
         }
 
         $builder->with(['user', 'group', 'replies', 'replies.user'])->orderBy('created_at', 'desc');
