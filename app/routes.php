@@ -165,8 +165,8 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::get('/ranking', 'RankingController@getIndex');
 
     // Voting
-    Route::post('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@addVote']);
-    Route::delete('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
+    Route::post('/votes', ['before' => 'oauth:votes', 'uses' => 'VoteController@addVote']);
+    Route::delete('/votes', ['before' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
 });
 
 /* OAuth2 =========================================================================================================== */
