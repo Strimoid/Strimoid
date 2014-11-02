@@ -420,9 +420,17 @@ class ContentController extends BaseController {
 
             $builder = $folder->contents();
         }
-        elseif (class_exists('Groups\\'. studly_case($groupName)) || class_exists('Groups\\'. studly_case($folderName)))
+        elseif (class_exists('Groups\\'. studly_case($groupName)))
         {
             $class = 'Groups\\'. studly_case($groupName);
+            $fakeGroup = new $class;
+            $builder = $fakeGroup->contents();
+
+            $builder->orderBy('sticky_global', 'desc');
+        }
+        elseif (class_exists('Groups\\'. studly_case($folderName)))
+        {
+            $class = 'Groups\\'. studly_case($folderName);
             $fakeGroup = new $class;
             $builder = $fakeGroup->contents();
 
