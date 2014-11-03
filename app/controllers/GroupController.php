@@ -426,10 +426,8 @@ class GroupController extends BaseController {
         $group = new Group();
         $group->_id = Input::get('urlname');
         $group->urlname = Input::get('urlname');
-        $group->shadow_urlname = Input::get('urlname');
         $group->name = Input::get('groupname');
         $group->description = Input::get('description');
-        $group->type = Group::TYPE_PUBLIC;
 
         /*
         if(Input::get('type') == 'moderated')
@@ -439,7 +437,6 @@ class GroupController extends BaseController {
         */
 
         $group->creator()->associate(Auth::user());
-        $group->subscribers = 0;
         $group->save();
 
         $moderator = new GroupModerator();

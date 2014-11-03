@@ -5,6 +5,11 @@ use Jenssegers\Mongodb\Model as Eloquent;
 class Group extends BaseModel
 {
 
+    protected $attributes = [
+        'subscribers' => 0,
+        'type' => self::TYPE_PUBLIC,
+    ];
+
     protected $collection = 'groups';
     protected $visible = ['_id', 'avatar', 'created_at', 'creator',
         'description', 'sidebar', 'subscribers', 'name'];
@@ -184,8 +189,9 @@ class Group extends BaseModel
         $this->attributes['sidebar_source'] = $text;
     }
 
-    public function setShadowURLNameAttribute($text)
+    public function setURLNameAttribute($text)
     {
+        $this->attributes['urlname'] = $text;
         $this->attributes['shadow_urlname'] = shadow($text);
     }
 
