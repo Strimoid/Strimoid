@@ -572,7 +572,7 @@ class ContentController extends BaseController {
         $content->group()->associate($group);
         $content->save();
 
-        return Response::json(['status' => 'ok', '_id' => $content->_id]);
+        return Response::json(['status' => 'ok', '_id' => $content->_id, 'content' => $content]);
     }
 
     public function edit(Content $content)
