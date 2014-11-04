@@ -11,7 +11,7 @@ class CommentTest extends TestCase {
     {
         // All contents
         $response = $this->call('GET', 'api/v1/comments');
-        $content = json_decode($response->getContent());
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
         $this->assertArrayHasKey('data', $content);
@@ -19,8 +19,8 @@ class CommentTest extends TestCase {
         // Contents from selected group
         $groupIds = DB::collection('groups')->lists('_id');
 
-        $response = $this->call('GET', 'api/v1/comments', ['group' =>  array_rand($groupIds)]);
-        $content = json_decode($response->getContent());
+        $response = $this->call('GET', 'api/v1/comments', ['group' => array_rand($groupIds)]);
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
         $this->assertArrayHasKey('data', $content);

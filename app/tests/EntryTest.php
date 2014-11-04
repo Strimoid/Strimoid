@@ -11,7 +11,7 @@ class EntryTest extends TestCase {
     {
         // All contents
         $response = $this->call('GET', 'api/v1/entries');
-        $content = json_decode($response->getContent());
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
         $this->assertArrayHasKey('data', $content);
@@ -20,7 +20,7 @@ class EntryTest extends TestCase {
         $groupIds = DB::collection('groups')->lists('_id');
 
         $response = $this->call('GET', 'api/v1/entries', ['group' => array_rand($groupIds)]);
-        $content = json_decode($response->getContent());
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
         $this->assertArrayHasKey('data', $content);

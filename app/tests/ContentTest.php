@@ -11,7 +11,7 @@ class ContentTest extends TestCase {
     {
         // All contents
         $response = $this->call('GET', 'api/v1/contents');
-        $content = json_decode($response->getContent());
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
         $this->assertArrayHasKey('data', $content);
@@ -19,8 +19,8 @@ class ContentTest extends TestCase {
         // Contents from selected group
         $groupIds = DB::collection('groups')->lists('_id');
 
-        $response = $this->call('GET', 'api/v1/contents', ['group' =>  array_rand($groupIds)]);
-        $content = json_decode($response->getContent());
+        $response = $this->call('GET', 'api/v1/contents', ['group' => array_rand($groupIds)]);
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
         $this->assertArrayHasKey('data', $content);
