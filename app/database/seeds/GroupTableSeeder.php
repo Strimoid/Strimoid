@@ -23,6 +23,7 @@ class GroupTableSeeder extends Seeder {
                 'description' => implode(' ', $faker->sentences(2)),
                 'sidebar' => $faker->paragraph,
                 'tags' => $faker->words(5),
+                'urlname' => $faker->domainWord,
             ]);
         }
     }
