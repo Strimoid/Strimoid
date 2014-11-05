@@ -224,8 +224,7 @@ Route::filter('anti_spam', function()
 
     try
     {
-        $response = Guzzle::get('http://www.stopforumspam.com/api?ip='. $ip .'&f=json')->send();
-        $result = json_decode($response->getBody());
+        $result = Guzzle::get('http://www.stopforumspam.com/api?ip='. $ip .'&f=json')->json();
 
         if ($result->ip->appears == 1 && $result->ip->confidence > 50)
         {

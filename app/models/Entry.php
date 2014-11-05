@@ -8,18 +8,18 @@ class Entry extends BaseModel
         'groupname' => 'required|exists_ci:groups,urlname'
     ];
 
-    protected $attributes = array(
+    protected $attributes = [
         'uv' => 0,
         'dv' => 0,
         'score' => 0,
         'replies_count' => 0,
-    );
+    ];
 
     protected $appends = ['vote_state'];
     protected $collection = 'entries';
     protected $fillable = ['text'];
-    protected $visible = ['_id', 'created_at', 'group_id', 'user_id', 'user', 'group',
-        'text', 'uv', 'dv', 'votes', 'vote_state', 'replies'];
+    protected $visible = ['_id', 'created_at', 'user', 'group', 'text',
+        'uv', 'dv', 'votes', 'vote_state', 'replies'];
 
     function __construct($attributes = array())
     {

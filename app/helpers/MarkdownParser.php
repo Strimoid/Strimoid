@@ -46,6 +46,16 @@ class MarkdownParser
     # how lines start to identify blocks. It looks for special characters to
     # identify inline elements.
 
+    private $config = [
+        'inline_images' => false,
+        'headers' => false,
+    ];
+
+    function config($attr, $value)
+    {
+        $this->config[$attr] = $value;
+    }
+
     #
     # ~
 

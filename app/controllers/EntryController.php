@@ -349,11 +349,16 @@ class EntryController extends BaseController {
 
     public function store()
     {
+        if (Input::has('group'))
+        {
+            Input::merge(['groupname' => Input::get('group')]);
+        }
+
         $validator = Entry::validate(Input::all());
 
         if ($validator->fails())
         {
-            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
+            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()], 400);
         }
 
         $group = Group::where('shadow_urlname', shadow(Input::get('group')))->firstOrFail();
@@ -361,12 +366,12 @@ class EntryController extends BaseController {
 
         if (Auth::user()->isBanned($group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.']);
+            return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'], 400);
         }
 
         if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Użytkownik nie może dodawać wpisów w tej grupie.']);
+            return Response::json(['status' => 'error', 'error' => 'Użytkownik nie może dodawać wpisów w tej grupie.'], 400);
         }
 
         $entry = new Entry();
@@ -391,18 +396,18 @@ class EntryController extends BaseController {
 
         if ($validator->fails())
         {
-            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
+            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()], 400);
         }
 
         if (Auth::user()->isBanned($entry->group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.']);
+            return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'], 400);
         }
 
         $reply = new EntryReply();
         $reply->text = Input::get('text');
         $reply->user()->associate(Auth::user());
-        $entry->replies()->save($entry);
+        $entry->replies()->save($reply);
 
         // Send notifications to mentions users
         $this->sendNotifications(Input::get('text'), function($notification) use ($reply)
