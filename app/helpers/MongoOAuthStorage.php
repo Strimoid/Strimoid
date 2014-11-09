@@ -2,6 +2,10 @@
 
 use OAuth2\Storage\AuthorizationCodeInterface;
 use OAuth2\Storage\AccessTokenInterface;
+use OAuth2\Storage\ClientCredentialsInterface;
+use OAuth2\Storage\UserCredentialsInterface;
+use OAuth2\Storage\RefreshTokenInterface;
+use OAuth2\Storage\JwtBearerInterface;
 
 /**
  * Simple MongoDB storage for all storage types
@@ -15,7 +19,9 @@ use OAuth2\Storage\AccessTokenInterface;
  *
  * @author Julien Chaumond <chaumond@gmail.com>
  */
-class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterface
+class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterface,
+    ClientCredentialsInterface, UserCredentialsInterface, RefreshTokenInterface,
+    JwtBearerInterface
 {
     protected $db;
     protected $config;
@@ -210,4 +216,104 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
         return true;
     }
 
+    /* UserCredentialsInterface */
+    public function checkUserCredentials($username, $password)
+    {
+        if ($user = $this->getUser($username)) {
+            return $this->checkPassword($user, $password);
+        }
+        return false;
+    }
+    public function getUserDetails($username)
+    {
+        if ($user = $this->getUser($username)) {
+            $user['user_id'] = $user['username'];
+        }
+        return $user;
+    }
+    /* RefreshTokenInterface */
+    public function getRefreshToken($refresh_token)
+    {
+        $token = $this->collection('refresh_token_table')->findOne(array('refresh_token' => $refresh_token));
+        return is_null($token) ? false : $token;
+    }
+    public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
+    {
+        $this->collection('refresh_token_table')->insert(
+            array(
+                'refresh_token' => $refresh_token,
+                'client_id' => $client_id,
+                'user_id' => $user_id,
+                'expires' => $expires,
+                'scope' => $scope
+            )
+        );
+        return true;
+    }
+    public function unsetRefreshToken($refresh_token)
+    {
+        $this->collection('refresh_token_table')->remove(array('refresh_token' => $refresh_token));
+        return true;
+    }
+    // plaintext passwords are bad!  Override this for your application
+    protected function checkPassword($user, $password)
+    {
+        return $user['password'] == $password;
+    }
+    public function getUser($username)
+    {
+        $result = $this->collection('user_table')->findOne(array('username' => $username));
+        return is_null($result) ? false : $result;
+    }
+    public function setUser($username, $password, $firstName = null, $lastName = null)
+    {
+        if ($this->getUser($username)) {
+            $this->collection('user_table')->update(
+                array('username' => $username),
+                array('$set' => array(
+                    'password' => $password,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName
+                ))
+            );
+        } else {
+            $this->collection('user_table')->insert(
+                array(
+                    'username' => $username,
+                    'password' => $password,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName
+                )
+            );
+        }
+        return true;
+    }
+    public function getClientKey($client_id, $subject)
+    {
+        $result = $this->collection('jwt_table')->findOne(array(
+            'client_id' => $client_id,
+            'subject' => $subject
+        ));
+        return is_null($result) ? false : $result['key'];
+    }
+    public function getClientScope($client_id)
+    {
+        if (!$clientDetails = $this->getClientDetails($client_id)) {
+            return false;
+        }
+        if (isset($clientDetails['scope'])) {
+            return $clientDetails['scope'];
+        }
+        return null;
+    }
+    public function getJti($client_id, $subject, $audience, $expiration, $jti)
+    {
+        //TODO: Needs mongodb implementation.
+        throw new \Exception('getJti() for the MongoDB driver is currently unimplemented.');
+    }
+    public function setJti($client_id, $subject, $audience, $expiration, $jti)
+    {
+        //TODO: Needs mongodb implementation.
+        throw new \Exception('setJti() for the MongoDB driver is currently unimplemented.');
+    }
 }
