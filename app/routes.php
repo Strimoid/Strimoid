@@ -134,8 +134,8 @@ Route::group(['prefix' => 'api/v1'], function()
 
     Route::get('/entries', ['before' => 'oauth', 'uses' => 'EntryController@getIndex']);
     Route::get('/entry/{entry}', 'EntryController@show');
-    Route::post('/entry', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
-    Route::post('/entry/{entry}/reply', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
+    Route::post('/entries', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
+    Route::post('/entries/{entry}/replies', ['before' => 'oauth:entries', 'uses' => 'EntryController@storeReply']);
     Route::delete('/entry/{entry}', ['before' => 'oauth:entries', 'uses' => 'EntryController@remove']);
 
     // Groups
