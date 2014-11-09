@@ -17,7 +17,7 @@ class EntryReply extends BaseModel
     protected $appends = ['vote_state'];
     protected $collection = null;
     protected $fillable = ['text'];
-    protected $hidden = ['entry_id', 'text_source', 'updated_at'];
+    protected $hidden = ['entry_id', 'updated_at'];
 
     function __construct($attributes = array())
     {
