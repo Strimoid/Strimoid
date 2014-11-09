@@ -2,11 +2,6 @@
 
 class EntryTest extends TestCase {
 
-    /**
-     * Test entries listing.
-     *
-     * @return void
-     */
     public function testList()
     {
         // All contents
@@ -15,7 +10,10 @@ class EntryTest extends TestCase {
 
         $this->assertResponseStatus(200);
         $this->assertArrayHasKey('data', $content);
+    }
 
+    public function testListWithGroupFilter()
+    {
         // Contents from selected group
         $groupIds = DB::collection('groups')->lists('urlname');
         $randomGroup = $groupIds[array_rand($groupIds)];
