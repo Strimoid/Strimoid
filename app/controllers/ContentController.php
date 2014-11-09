@@ -517,9 +517,13 @@ class ContentController extends BaseController {
         ];
 
         if (Input::get('text'))
+        {
             $rules['text'] = 'required|min:1|max:50000';
+        }
         else
+        {
             $rules['url'] = 'required|url_custom';
+        }
 
         $validator = Validator::make(Input::all(), $rules);
 
@@ -530,7 +534,7 @@ class ContentController extends BaseController {
             ], 400);
         }
 
-        $group = Group::where('shadow_urlname', shadow(Input::get('group')))->firstOrFail();
+        $group = Group::shadow(Input::get('group'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group))
@@ -550,9 +554,8 @@ class ContentController extends BaseController {
         $content = new Content();
         $content->title = Input::get('title');
         $content->description = Input::get('description');
-
-        $content->nsfw = (Input::get('nsfw') == 'on' || Input::get('nsfw') == 'true') ? true : false;
-        $content->eng = (Input::get('eng') == 'on' || Input::get('eng') == 'true') ? true : false;
+        $content->nsfw = Input::get('nsfw');
+        $content->eng = Input::get('eng');
 
         if (Input::get('text'))
         {

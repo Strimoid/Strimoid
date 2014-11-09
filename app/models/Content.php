@@ -74,12 +74,7 @@ class Content extends BaseModel
 
     public function getDomain()
     {
-        if ($this->domain)
-        {
-            return $this->domain;
-        }
-
-        return 'strimoid.pl';
+        return $this->domain ?: 'strimoid.pl';
     }
 
     public function getEmbed()
@@ -231,6 +226,8 @@ class Content extends BaseModel
 
         return $validator;
     }
+
+    /* Permissions */
 
     public function canEdit(User $user = null)
     {
