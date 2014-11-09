@@ -25,4 +25,16 @@ class ContentTest extends TestCase {
         $this->assertArrayHasKey('data', $content);
     }
 
+    public function testGetContentData()
+    {
+        // Get random content
+        $id = current(DB::collection('contents')->take(1)->lists('_id'));
+
+        $response = $this->call('GET', 'api/v1/content/'. $id);
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertResponseStatus(200);
+        $this->assertArrayHasKey('title', $content);
+    }
+
 }
