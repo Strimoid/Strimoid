@@ -30,7 +30,7 @@ class ContentTest extends TestCase {
         // Get random content
         $id = current(DB::collection('contents')->take(1)->lists('_id'));
 
-        $response = $this->call('GET', 'api/v1/content/'. $id);
+        $response = $this->call('GET', 'api/v1/contents/'. $id);
         $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
