@@ -5,42 +5,66 @@ class OAuthController extends BaseController {
     public function getAccessToken()
     {
         $request = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
+        $response = new OAuth2\HttpFoundationBridge\Response();
 
-        return OAuth::handleTokenRequest($request, new OAuth2\HttpFoundationBridge\Response());
+        return OAuth::handleTokenRequest($request, $response);
     }
 
     public function authorizationForm()
     {
-        $request = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
+        $request = Request::instance();
 
-        if (!OAuth::validateAuthorizeRequest($request, new OAuth2\HttpFoundationBridge\Response()))
+        if ( ! Input::has('state'))
+        {
+            $request->merge(['state' => 'state']);
+        }
+
+        $scope = Input::get('scope');
+
+        if (Str::contains($scope, ','))
+        {
+            $scope = str_replace(',', ' ', $scope);
+            $request->merge(['scope' => $scope]);
+        }
+
+        $request = OAuth2\HttpFoundationBridge\Request::createFromRequest($request);
+        $response = new OAuth2\HttpFoundationBridge\Response();
+
+        if ( ! OAuth::validateAuthorizeRequest($request, $response))
+        {
             return OAuth::getResponse();
+        }
 
         $client = OAuth\Client::findOrFail(Input::get('client_id'));
 
         $scopes = array();
 
         if (Input::has('scope'))
+        {
             $scopes = explode(' ', Input::get('scope'));
+        }
         else
+        {
             $scopes[] = 'basic';
+        }
 
-        return View::make('oauth.authorize', array('client' => $client, 'scopes' => $scopes));
+        return View::make('oauth.authorize', ['client' => $client, 'scopes' => $scopes]);
     }
 
     public function authorize()
     {
         $authorized = (bool) Input::get('authorize');
         $request = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
+        $response = new OAuth2\HttpFoundationBridge\Response();
 
-        return OAuth::handleAuthorizeRequest($request, new OAuth2\HttpFoundationBridge\Response(), $authorized, Auth::user()->_id);
+        return OAuth::handleAuthorizeRequest($request, $response, $authorized, Auth::user()->_id);
     }
 
     public function listApps()
     {
         $apps = OAuth\Client::where('user_id', Auth::user()->_id)->get();
 
-        return View::make('oauth.apps', array('apps' => $apps));
+        return View::make('oauth.apps', ['apps' => $apps]);
     }
 
     public function addAppForm()
@@ -50,10 +74,10 @@ class OAuthController extends BaseController {
 
     public function addApp()
     {
-        $validator = Validator::make(Input::all(), array(
+        $validator = Validator::make(Input::all(), [
             'name' => 'required|min:5|max:40',
             'redirect_url' => 'required|url|max:255'
-        ));
+        ]);
 
         if ($validator->fails())
         {
