@@ -8,19 +8,20 @@
 
 App::bind('oauth', function()
 {
-    $storage = new OAuth2\Storage\Mongo(DB::getMongoDB());
-    $server = new OAuth2\Server($storage, array(
+    $db = DB::getMongoDB();
+    $storage = new MongoOAuthStorage($db);
+    $server = new OAuth2\Server($storage, [
         'allow_implicit' => true,
         'access_lifetime' => 0,
-    ));
+    ]);
 
     $server->addGrantType(new OAuth2\GrantType\AuthorizationCode($storage));
 
-    $supportedScopes = array('basic', 'contents', 'entries', 'notifications', 'conversations', 'groups');
-    $memory = new OAuth2\Storage\Memory(array(
+    $supportedScopes = ['basic', 'contents', 'entries', 'notifications', 'conversations', 'groups'];
+    $memory = new OAuth2\Storage\Memory([
         'default_scope' => 'basic',
         'supported_scopes' => $supportedScopes
-    ));
+    ]);
     $scopeUtil = new OAuth2\Scope($memory);
 
     $server->setScopeUtil($scopeUtil);

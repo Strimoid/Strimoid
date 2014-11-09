@@ -2,15 +2,9 @@
 	"name": "strimoid/strimoid",
 	"description": "Strimoid.pl source code",
 	"keywords": ["strimoid"],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/duxet/oauth2-server-php"
-        }
-    ],
 	"require": {
         "laravel/framework": "4.2.*",
-        "bshaffer/oauth2-server-php": "dev-mongo",
+        "bshaffer/oauth2-server-php": "v1.5",
         "bshaffer/oauth2-server-httpfoundation-bridge": "v1.0",
         "intervention/image": "2.0.*",
         "phindmarsh/summon": "dev-master",
