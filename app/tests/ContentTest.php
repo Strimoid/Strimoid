@@ -72,7 +72,7 @@ class ContentTest extends TestCase {
             'title' => $this->faker->text(64),
             'description' => $this->faker->text(128),
             'url' => $this->faker->url,
-            'group' =>$this->randomId('groups'),
+            'group' =>$this->randomField('groups', 'urlname'),
         ]);
 
         $this->assertResponseStatus(200);

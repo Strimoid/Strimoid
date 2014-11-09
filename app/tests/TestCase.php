@@ -35,12 +35,20 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     }
 
     /**
-     * Return random _id from given collection.
+     * Return _id of random element from given collection.
      *
      */
     protected function randomId($collection)
     {
-        return current(DB::collection($collection)->take(1)->lists('_id'));
+        return $this->randomField($collection, '_id');
     }
 
+    /**
+     * Return field of random element from given collection.
+     *
+     */
+    protected function randomField($collection, $field)
+    {
+        return current(DB::collection($collection)->take(1)->lists($field));
+    }
 }
