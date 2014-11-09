@@ -27,8 +27,8 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "~1.11@dev",
         "barryvdh/laravel-debugbar": "1.*",
-        "satooshi/php-coveralls": "*",
-        "fzaninotto/faker": "*"
+        "fzaninotto/faker": "*",
+        "codeclimate/php-test-reporter": "dev-master"
     },
 	"autoload": {
 		"classmap": [
