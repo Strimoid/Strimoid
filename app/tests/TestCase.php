@@ -3,6 +3,12 @@
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
     /**
+     * @var
+     *
+     */
+    protected $faker;
+
+    /**
      * Creates the application.
      *
      * @return \Symfony\Component\HttpKernel\HttpKernelInterface
@@ -25,6 +31,16 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         parent::setUp();
 
         $this->seed();
+        $this->faker = \Faker\Factory::create();;
+    }
+
+    /**
+     * Return random _id from given collection.
+     *
+     */
+    protected function randomId($collection)
+    {
+        return current(DB::collection($collection)->take(1)->lists('_id'));
     }
 
 }
