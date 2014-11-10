@@ -80,7 +80,7 @@ class PollController extends BaseController
             foreach ($optionIds as $optionId)
             {
                 Content::where('_id', $content->_id)
-                    ->where('poll.questions.'. $questionId .'.options._id', $optionId)
+                    ->where('poll.questions.'. $questionId .'.options', 'elemmatch', ['_id' => $optionId])
                     ->increment('poll.questions.'. $questionId .'.options.$.votes', 1);
             }
         }
