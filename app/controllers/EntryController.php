@@ -219,7 +219,7 @@ class EntryController extends BaseController {
         {
             $entry = Entry::findOrFail(Input::get('id'));
 
-            if ($entry->getRepliesCount() > 0)
+            if ($entry->replies_count > 0)
             {
                 return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
             }

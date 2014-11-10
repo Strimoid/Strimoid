@@ -34,7 +34,6 @@ class CommentReply extends BaseModel
         {
             // Increase comments counter in content
             //Content::where('_id', $reply->comment->content_id)->increment('comments');
-            //\Debugbar::info($reply);
         });
     }
 

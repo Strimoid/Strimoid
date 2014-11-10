@@ -111,12 +111,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
     public function getSexClass()
     {
-        if ($this->sex == 'male')
-            return 'male';
-        elseif ($this->sex == 'female')
-            return 'female';
+        if ($this->sex && in_array($this->sex, ['male', 'female']))
+        {
+            return $this->sex;
+        }
         else
+        {
             return 'nosex';
+        }
     }
 
     public function setEmailAttribute($value)

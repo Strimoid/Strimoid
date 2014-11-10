@@ -40,7 +40,6 @@ class Entry extends BaseModel
 
     public function replies()
     {
-        //return $this->hasMany('EntryReply')->orderBy('created_at', 'asc');
         return $this->embedsMany('EntryReply', '_replies')->with('user');
     }
 
@@ -59,11 +58,6 @@ class Entry extends BaseModel
     public function deleteNotifications()
     {
         Notification::where('entry_id', $this->getKey())->delete();
-    }
-
-    public function getRepliesCount()
-    {
-        return $this->replies_count;
     }
 
     public function setTextAttribute($text)
