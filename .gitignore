@@ -6,3 +6,4 @@ composer.phar
 bootstrap/environment.php
 phpunit.phar
 .env.php
+_ide_helper_models.php
