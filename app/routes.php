@@ -119,7 +119,7 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::patch('/contents/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@edit']);
     Route::delete('/contents/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@removeContent']);
 
-    Route::post('/content/{content}/related', ['before' => 'oauth:contents', 'uses' => 'RelatedController@store']);
+    Route::post('/contents/{content}/related', ['before' => 'oauth:contents', 'uses' => 'RelatedController@store']);
     Route::delete('/related/{related}', ['before' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
 
     // Comments
@@ -133,10 +133,10 @@ Route::group(['prefix' => 'api/v1'], function()
     // Entries
 
     Route::get('/entries', ['before' => 'oauth', 'uses' => 'EntryController@getIndex']);
-    Route::get('/entry/{entry}', 'EntryController@show');
+    Route::get('/entries/{entry}', 'EntryController@show');
     Route::post('/entries', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
     Route::post('/entries/{entry}/replies', ['before' => 'oauth:entries', 'uses' => 'EntryController@storeReply']);
-    Route::delete('/entry/{entry}', ['before' => 'oauth:entries', 'uses' => 'EntryController@remove']);
+    Route::delete('/entries/{entry}', ['before' => 'oauth:entries', 'uses' => 'EntryController@remove']);
 
     // Groups
     Route::resource('groups', 'GroupController', ['only' => ['index', 'show']]);
