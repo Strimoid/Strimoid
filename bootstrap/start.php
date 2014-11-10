@@ -13,8 +13,6 @@
 
 $app = new Illuminate\Foundation\Application;
 
-//$app->redirectIfTrailingSlash();
-
 /*
 |--------------------------------------------------------------------------
 | Detect The Application Environment
@@ -26,17 +24,9 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-/*
-$env = $app->detectEnvironment(array(
-
-	'development' => array('duxet-PC'),
-
-));
-*/
-
-$env = $app->detectEnvironment(function ()
+$env = $app->detectEnvironment(function()
 {
-    return require __DIR__.'/environment.php';
+    return $_SERVER['ENV'];
 });
 
 /*
