@@ -138,8 +138,7 @@ EntryReply::created(function($entry)
 User::created(function($user)
 {
     try {
-        Guzzle::post('http://localhost:8421/channels/strimoid', [], 'Mamy nowego użytkownika '. $user->_id .'!')
-            ->send();
+        Guzzle::post('http://localhost:8421/channels/strimoid', [], 'Mamy nowego użytkownika '. $user->_id .'!');
     }
     catch(Exception $e) {}
 });
