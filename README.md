@@ -15,13 +15,12 @@ API
 ========
 You can find API documentation at https://developers.strimoid.pl
 
+Documentation
+========
+We are providing documentation generated automatically by Sami at https://sami.strimoid.pl
+
 How to start?
 ========
-Create file with desired environment name:
-```
-echo "<?php return 'production';" > bootstrap/environment.php
-```
-
 Install dependencies using Composer:
 
 ```
