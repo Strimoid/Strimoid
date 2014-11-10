@@ -44,6 +44,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     }
 
     /**
+     * Return urlName of random group.
+     *
+     */
+    protected function randomGroup()
+    {
+        return $this->randomField('groups', 'urlname');
+    }
+
+    /**
      * Return field of random element from given collection.
      *
      */

@@ -15,10 +15,7 @@ class ContentTest extends TestCase {
     public function testListWithGroupFilter()
     {
         // Contents from selected group
-        $groupIds = DB::collection('groups')->lists('urlname');
-        $randomGroup = $groupIds[array_rand($groupIds)];
-
-        $response = $this->call('GET', 'api/v1/contents', ['group' => $randomGroup]);
+        $response = $this->call('GET', 'api/v1/contents', ['group' => $this->randomGroup()]);
         $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
@@ -43,6 +40,7 @@ class ContentTest extends TestCase {
         $this->call('POST', 'api/v1/contents', [
             'title' => '',
             'url' => '',
+            'group' => '',
         ]);
 
         $this->assertResponseStatus(400);
@@ -72,10 +70,14 @@ class ContentTest extends TestCase {
             'title' => $this->faker->text(64),
             'description' => $this->faker->text(128),
             'url' => $this->faker->url,
-            'group' =>$this->randomField('groups', 'urlname'),
+            'group' => $this->randomGroup(),
         ]);
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
+
+        $count = DB::table('contents')->where('_id', $content['_id'])->count();
+        $this->assertEquals($count, 1);
     }
 
 }

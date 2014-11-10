@@ -15,10 +15,7 @@ class CommentTest extends TestCase {
     public function testListWithGroupFilter()
     {
         // Contents from selected group
-        $groupIds = DB::collection('groups')->lists('urlname');
-        $randomGroup = $groupIds[array_rand($groupIds)];
-
-        $response = $this->call('GET', 'api/v1/comments', ['group' => $randomGroup]);
+        $response = $this->call('GET', 'api/v1/comments', ['group' => $this->randomGroup()]);
         $content = json_decode($response->getContent(), true);
 
         $this->assertResponseStatus(200);
