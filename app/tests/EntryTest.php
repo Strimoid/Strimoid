@@ -45,6 +45,19 @@ class EntryTest extends TestCase {
         $this->assertResponseStatus(400);
     }
 
+    public function testAddInvalidEntry()
+    {
+        // Try to add entry without required fields
+        $this->be(User::first());
+
+        $this->call('POST', 'api/v1/entries', [
+            'text' => $this->faker->text(5000),
+            'group' => $this->faker->word,
+        ]);
+
+        $this->assertResponseStatus(400);
+    }
+
     public function testAddEntry()
     {
         // Try to add entry without required fields
@@ -55,7 +68,7 @@ class EntryTest extends TestCase {
             'group' => $this->randomGroup(),
         ]);
 
-        $this->assertResponseStatus(400);
+        $this->assertResponseStatus(200);
     }
 
 }
