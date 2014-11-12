@@ -18,7 +18,7 @@ class EntryTableSeeder extends Seeder {
             $randomUser = $userIds[array_rand($userIds)];
             $randomGroup = $groupIds[array_rand($groupIds)];
 
-            Content::create([
+            Entry::create([
                 'created_at' => $faker->dateTimeThisDecade,
                 'group_id' => $randomGroup,
                 'text' => $faker->text(512),
