@@ -14,7 +14,7 @@ class GroupTableSeeder extends Seeder {
 
         for ($x = 0; $x < 50; $x++)
         {
-            $randomUser = $userIds[array_rand($userIds)];
+            $randomUser = (string) $userIds[array_rand($userIds)];
 
             Group::create([
                 'created_at' => $faker->dateTimeThisDecade,
