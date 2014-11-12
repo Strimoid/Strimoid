@@ -342,7 +342,10 @@ class EntryController extends BaseController {
 
     public function show(Entry $entry)
     {
-        $entry->load(['user', 'group', 'replies', 'replies.user']);
+        $entry->load(['user', 'group']);
+
+        // loading of embedded relations is broken atm :(
+        $entry = array_merge($entry->toArray(), ['replies' => $entry->replies->toArray()]);
 
         return $entry;
     }
@@ -361,7 +364,7 @@ class EntryController extends BaseController {
             return Response::json(['status' => 'error', 'error' => $validator->messages()->first()], 400);
         }
 
-        $group = Group::where('shadow_urlname', shadow(Input::get('group')))->firstOrFail();
+        $group = Group::shadow(Input::get('group'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group))
