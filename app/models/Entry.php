@@ -40,7 +40,7 @@ class Entry extends BaseModel
 
     public function replies()
     {
-        return $this->embedsMany('EntryReply', '_replies')->with('user');
+        return $this->embedsMany('EntryReply', '_replies')->with('User');
     }
 
     public function delete()

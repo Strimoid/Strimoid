@@ -81,13 +81,19 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 App::error(function(Exception $exception, $code)
 {
     if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException)
+    {
         return;
+    }
 
     if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
+    {
         return;
+    }
 
     if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException)
+    {
         return;
+    }
 
 	Log::error($exception);
 });

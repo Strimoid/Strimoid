@@ -22,11 +22,11 @@ return array(
 
         'mongodb' => array(
             'driver'   => 'mongodb',
-            'host'     => $_SERVER['MONGO_ADDR'],
-            'port'     => $_SERVER['MONGO_PORT'],
-            'username' => $_SERVER['MONGO_USER'],
-            'password' => $_SERVER['MONGO_PASS'],
-            'database' => $_SERVER['MONGO_DB'],
+            'host'     => 'localhost',
+            //'port'     => 27017,
+            'username' => '',
+            'password' => '',
+            'database' => 'default'
         ),
 
         'stats' => array(
