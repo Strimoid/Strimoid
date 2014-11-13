@@ -154,34 +154,25 @@ Route::filter('anti_flood', function()
     $key = 'lara.anti_flood.';
 
     // Max 1 action per 3 seconds
-    if (!apc_add($key .'1.'. Auth::user()->_id, 1, 3))
-    {
-        $floodDetected = true;
-    }
+    if ( ! apc_add($key .'1.'. Auth::user()->_id, 1, 3))  $floodDetected = true;
 
     // Max 10 actions per 1 minute
     apc_add($key .'2.'. Auth::user()->_id, 0, 60);
     $count = apc_inc($key .'2.'. Auth::user()->_id);
 
-    if ($count > 10)
-    {
-        $floodDetected = true;
-    }
+    if ($count > 10) $floodDetected = true;
 
     // Max 50 actions per 1 hour
     apc_add($key .'3.'. Auth::user()->_id, 0, 300);
     $count = apc_inc($key  .'3.'. Auth::user()->_id);
 
-    if ($count > 50)
-    {
-        $floodDetected = true;
-    }
+    if ($count > 50) $floodDetected = true;
 
     if ($floodDetected)
     {
-        if (Request::ajax())
+        if (Request::ajax() || Request::is('api/*'))
         {
-            return Response::json(['status' => 'error', 'error' => 'Nie flooduj']);
+            return Response::json(['status' => 'error', 'error' => 'Nie flooduj'], 429);
         }
         else
         {
@@ -194,20 +185,17 @@ Route::filter('vote_anti_flood', function()
 {
     $key = 'lara.vote_anti_flood.';
 
-    if (!apc_add($key .'1.'. Auth::user()->_id, 1, 1))
-        App::abort(403, 'Nie flooduj.');
+    if ( ! apc_add($key .'1.'. Auth::user()->_id, 1, 1))  App::abort(429, 'Nie flooduj.');
 
     apc_add($key .'2.'. Auth::user()->_id, 0, 60);
     $count = apc_inc($key .'2.'. Auth::user()->_id);
 
-    if ($count > 25)
-        App::abort(403, 'Nie flooduj.');
+    if ($count > 25) App::abort(429, 'Nie flooduj.');
 
     apc_add($key .'3.'. Auth::user()->_id, 0, 300);
     $count = apc_inc($key  .'3.'. Auth::user()->_id);
 
-    if ($count > 50)
-        App::abort(403, 'Nie flooduj.');
+    if ($count > 50)  App::abort(429, 'Nie flooduj.');
 });
 
 Route::filter('anti_spam', function()
