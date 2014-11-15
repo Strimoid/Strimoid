@@ -88,6 +88,11 @@ Entry::created(function($entry)
 
 Content::created(function($content)
 {
+    if (!$content->user_id)
+    {
+        $content->user_id = $content->user->_id;
+    }
+
     $action = new UserAction();
     $action->user_id = $content->user_id;
     $action->type = UserAction::TYPE_CONTENT;
@@ -137,10 +142,35 @@ EntryReply::created(function($entry)
 
 User::created(function($user)
 {
-    try {
-        Guzzle::post('http://localhost:8421/channels/strimoid', [], 'Mamy nowego użytkownika '. $user->_id .'!');
+    $url = Config::get('app.hubot_url');
+
+    if ($url)
+    {
+        try {
+            Guzzle::post($url, ['json' => [
+                'room' => '##strimoid-fn',
+                'text' => 'Mamy nowego użytkownika '. $user->_id .'!',
+            ]]);
+        }
+        catch(Exception $e) {}
     }
-    catch(Exception $e) {}
+
 });
 
+Entry::created(function($entry)
+{
+    $url = Config::get('app.hubot_url');
+
+    if ($url)
+    {
+        try {
+            Guzzle::post($url, ['json' => [
+                'room' => '##strimoid-fn',
+                'text' => '['. $entry->group->name .'] '. $entry->user->name .': '. strip_tags($entry->text),
+            ]]);
+        }
+        catch(Exception $e) {}
+    }
+
+});
 
