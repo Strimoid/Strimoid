@@ -33,7 +33,7 @@ class EntryReply extends BaseModel
 
         if (!$parent)
         {
-            return false;
+            return null;
         }
 
         return $parent->replies->first();
