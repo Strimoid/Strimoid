@@ -164,9 +164,13 @@ Entry::created(function($entry)
     if ($url)
     {
         try {
+            $text = strip_tags($entry->text);
+            $text = trim(preg_replace('/\s+/', ' ', $text));
+            $text = Str::limit($text, 100);
+
             Guzzle::post($url, ['json' => [
                 'room' => '##strimoid-fn',
-                'text' => '['. $entry->group->name .'] '. $entry->user->name .': '. strip_tags($entry->text),
+                'text' => '['. $entry->group->name .'] '. $entry->user->name .': '. $text,
             ]]);
         }
         catch(Exception $e) {}
