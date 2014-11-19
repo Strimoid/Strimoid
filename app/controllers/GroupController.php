@@ -564,7 +564,7 @@ class GroupController extends BaseController {
 
     public function getInfo($groupName)
     {
-        $group = Group::where('shadow_urlname', shadow($groupName))->with('creator')->firstOrFail();
+        $group = Group::shadow($groupName)->with('creator')->firstOrFail();
         $group->checkAccess();
 
         $stats = [
