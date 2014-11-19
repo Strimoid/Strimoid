@@ -13,14 +13,12 @@
 
 Artisan::add(new ChangePassword);
 Artisan::add(new CreateUser());
-Artisan::add(new FixDB);
 Artisan::add(new TwitterPost());
 Artisan::add(new FacebookPost());
 Artisan::add(new DeleteAvatar());
 Artisan::add(new DeleteUser());
 Artisan::add(new BlockUser());
 Artisan::add(new AddModerator());
-Artisan::add(new ConvertVotes());
 Artisan::add(new GenerateSitemap());
 Artisan::add(new UpdateStats());
 Artisan::add(new UpdateThresholds());
