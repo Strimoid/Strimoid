@@ -53,7 +53,7 @@ class ContentController extends BaseController {
         }
         else
         {
-            $group = Group::where('shadow_urlname', $groupName)->firstOrFail();
+            $group = Group::shadow($groupName)->firstOrFail();
             $group->checkAccess();
 
             $builder = $group->contents();
@@ -438,7 +438,7 @@ class ContentController extends BaseController {
         }
         else
         {
-            $group = Group::where('shadow_urlname', $groupName)->firstOrFail();
+            $group = Group::shadow($groupName)->firstOrFail();
             $group->checkAccess();
 
             $builder = $group->contents();
