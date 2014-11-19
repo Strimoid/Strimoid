@@ -39,10 +39,6 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
             $this->db = $m->{$connection['database']};
         }
 
-        // Unix timestamps might get larger than 32 bits,
-        // so let's add native support for 64 bit ints.
-        ini_set('mongo.native_long', 1);
-
         $this->config = array_merge(array(
             'client_table' => 'oauth_clients',
             'access_token_table' => 'oauth_access_tokens',
@@ -308,12 +304,10 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
     }
     public function getJti($client_id, $subject, $audience, $expiration, $jti)
     {
-        //TODO: Needs mongodb implementation.
         throw new \Exception('getJti() for the MongoDB driver is currently unimplemented.');
     }
     public function setJti($client_id, $subject, $audience, $expiration, $jti)
     {
-        //TODO: Needs mongodb implementation.
         throw new \Exception('setJti() for the MongoDB driver is currently unimplemented.');
     }
 }
