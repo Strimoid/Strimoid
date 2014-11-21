@@ -11,7 +11,7 @@ env: APP_ENV=testing
 before_script:
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension = zmq.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - pecl install apcu
+  - pecl install apcu-beta
   - composer self-update
   - composer install --dev --no-interaction
 
