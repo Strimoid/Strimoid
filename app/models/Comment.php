@@ -34,7 +34,7 @@ class Comment extends BaseModel
         static::created(function($comment)
         {
             // Increase comments counter in content
-            $comment->content->increment('comments');
+            $comment->content->increment('comments_count');
         });
     }
 
@@ -66,7 +66,7 @@ class Comment extends BaseModel
         }
 
         Notification::where('comment_id', $this->getKey())->delete();
-        Content::where('_id', $this->content_id)->decrement('comments');
+        Content::where('_id', $this->content_id)->decrement('comments_count');
 
         return parent::delete();
     }
