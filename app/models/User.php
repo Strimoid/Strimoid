@@ -9,9 +9,9 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * User model
  *
  * @property string $_id
- * @property string $name
- * @property string $email
- * @property string $password
+ * @property string $name User name
+ * @property string $email User email address, hashed
+ * @property string $password User password, hashed
  * @property DateTime $created_at
  */
 class User extends Eloquent implements UserInterface, RemindableInterface
