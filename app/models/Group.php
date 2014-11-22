@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Group model
+ *
+ * @property string $_id
+ * @property string $name Group name
+ * @property string $description Group description
+ * @property string $avatar Group avatar filename
+ * @property string $sidebar Sidebar text
+ * @property DateTime $created_at
+ */
 class Group extends BaseModel
 {
 

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Notification model
+ *
+ * @property string $_id
+ * @property string $title Notification title
+ * @property string $type Type of notification
+ * @property array $targets
+ * @property DateTime $created_at
+ */
 class Notification extends BaseModel
 {
 

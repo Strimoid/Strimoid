@@ -3,6 +3,19 @@
 use Summon\Summon;
 use Jenssegers\Mongodb\Eloquent\SoftDeletingTrait;
 
+/**
+ * Content model
+ *
+ * @property string $_id
+ * @property string $title Content title
+ * @property string $description Content description
+ * @property bool $eng Is content using foreign language?
+ * @property bool $nsfw is Content "not safe for work"?
+ * @property string $thumbnail Thumbnail filename
+ * @property string $domain Domain
+ * @property string $url URL address
+ * @property DateTime $created_at
+ */
 class Content extends BaseModel
 {
 

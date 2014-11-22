@@ -5,6 +5,15 @@ use Jenssegers\Mongodb\Model as Eloquent;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
+/**
+ * User model
+ *
+ * @property string $_id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property DateTime $created_at
+ */
 class User extends Eloquent implements UserInterface, RemindableInterface
 {
 
