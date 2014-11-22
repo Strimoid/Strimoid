@@ -216,7 +216,7 @@ class UserController extends BaseController {
         $user->email = $email;
         $user->activation_token = Str::random(16);
         $user->last_ip = Request::getClientIp();
-        $user->settings = ['homepage_subscribed' => true];
+        $user->settings = [];
         $user->save();
 
         Log::info('New user with email from domain: '. strstr($email, '@'));
