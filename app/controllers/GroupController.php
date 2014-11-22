@@ -586,6 +586,11 @@ class GroupController extends BaseController {
     {
         $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
 
+        if (Input::has('name'))
+        {
+            $builder->where('name', 'like', '%'. Input::get('name') .'%');
+        }
+
         if (in_array(Input::get('sort'), ['created_at', 'subscribers']))
         {
             $builder->orderBy(Input::get('sort'), 'desc');
