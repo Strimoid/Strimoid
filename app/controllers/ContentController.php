@@ -138,8 +138,6 @@ class ContentController extends BaseController {
     public function showComments(Content $content)
     {
         $content->related = $content->getRelated();
-
-        $content->comments_count = $content->comments;
         $content->comments = $content->getComments();
 
         if (Input::get('sort') == 'uv')
