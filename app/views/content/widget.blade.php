@@ -23,7 +23,7 @@
                         <a class="content_preview_link"><span class="glyphicon glyphicon-play"></span> podgląd</a>
                     @endif
 
-                    <span class="glyphicon glyphicon-comment"></span> <a href="{{ route('content_comments_slug', array($content->_id, Str::slug($content->title))) }}" class="content_comments">{{ Lang::choice('pluralization.comments', intval($content->comments)) }}</a>
+                    <span class="glyphicon glyphicon-comment"></span> <a href="{{ route('content_comments_slug', array($content->_id, Str::slug($content->title))) }}" class="content_comments">{{ Lang::choice('pluralization.comments', intval($content->comments_count)) }}</a>
                     <span class="glyphicon glyphicon-tag"></span> <a href="{{ route('group_contents', $content->group_id) }}" class="content_group" data-hover="group_widget" data-group="{{ $content->group_id }}">{{ $content->group_id }}</a>
                     <span class="glyphicon glyphicon-user"></span> <a href="{{ route('user_profile', $content->user_id) }}" class="content_user" data-hover="user_widget" data-user="{{ $content->user_id }}">{{ $content->user_id }}</a>
                     <span class="glyphicon glyphicon-globe"></span> <span class="content_domain">{{ $content->getDomain() }}</span>
