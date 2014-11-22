@@ -31,7 +31,7 @@ class Content extends BaseModel
         'uv' => 0,
         'dv' => 0,
         'score' => 0,
-        'comments' => 0,
+        'comments_count' => 0,
     ];
 
     protected $collection = 'contents';
