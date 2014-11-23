@@ -36,6 +36,7 @@ gulp
 
 To do
 ========
+* [ ] Tests, tests, tests!
 * [ ] AngularJS based frontend, developed as external project.
 * [ ] Improve API: change routing, add more documentation, add ETags support.
 * [ ] Many, many, other things...
