@@ -127,7 +127,7 @@ class CommentController extends BaseController {
 
         $parent->replies()->save($comment);
 
-        $content->increment('comments');
+        $content->increment('comments_count');
 
         // Send notifications to mentioned users
         $this->sendNotifications(Input::get('text'), function($notification) use ($comment, $content){
