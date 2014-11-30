@@ -148,7 +148,7 @@ User::created(function($user)
     {
         try {
             Guzzle::post($url, ['json' => [
-                'room' => '##strimoid-fn',
+                'room' => '#strimoid',
                 'text' => 'Mamy nowego użytkownika '. $user->_id .'!',
             ]]);
         }
@@ -169,7 +169,7 @@ Entry::created(function($entry)
             $text = Str::limit($text, 100);
 
             Guzzle::post($url, ['json' => [
-                'room' => '##strimoid-fn',
+                'room' => '#strimoid-entries',
                 'text' => '['. $entry->group->name .'] '. $entry->user->name .': '. $text,
             ]]);
         }
