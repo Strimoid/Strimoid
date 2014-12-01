@@ -1,0 +1,9 @@
+default:
+    suites:
+        default:
+            paths:    [ %paths.base%/app/tests/behat ]
+            contexts:
+                - FeatureContext:
+                    baseUrl: http://localhost:8080
+    autoload:
+        '': %paths.base%/app/tests/behat/features/bootstrap

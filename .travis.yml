@@ -14,9 +14,13 @@ before_script:
   - echo yes | pecl install apcu-beta
   - composer self-update
   - composer install --dev --no-interaction
+  - mkdir -p build/logs
+  - php artisan db:seed
+  - php artisan serve --port=8080 &
+  - wget https://github.com/Behat/Behat/releases/download/v3.0.14/behat.phar
 
 script:
-  - mkdir -p build/logs
+  - php behat.phar
   - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
