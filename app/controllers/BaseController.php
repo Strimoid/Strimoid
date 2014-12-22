@@ -1,49 +1,14 @@
 <?php
 
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
+use League\Fractal\Manager;
+
 class BaseController extends Controller {
 
-	/**
-	 * Setup the layout used by the controller.
-	 *
-	 * @return void
-	 */
-	protected function setupLayout()
-	{
-		if ( ! is_null($this->layout))
-		{
-			$this->layout = View::make($this->layout);
-		}
-	}
-
-    protected function parseUsernames($body)
+    public function __construct(Manager $fractal)
     {
-        $body = preg_replace_callback('/@([a-z0-9_-]+)/i', function($matches) {
-            $target = User::where('shadow_name', Str::lower($matches[1]))->first();
-
-            if ($target)
-            {
-                return '[@' . str_replace('_', '\_', $target->name) . '](' . route('user_profile', $target->name) . ')';
-            }
-            else
-            {
-                return '@'. $matches[1];
-            }
-        }, $body);
-
-        $body = preg_replace_callback('/(?<=\s|^)g\/([a-z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+)/i', function($matches) {
-            $target = Group::where('shadow_urlname', shadow($matches[1]))->first();
-
-            if ($target)
-            {
-                return '[g/' . str_replace('_', '\_', $target->urlname) . '](' . route('group_contents', $target->urlname) . ')';
-            }
-            else
-            {
-                return 'g/'. $matches[1];
-            }
-        }, $body);
-
-        return $body;
+        $this->fractal = $fractal;
     }
 
     protected function sendNotifications($targets, Closure $callback, User $sourceUser = null)
@@ -114,6 +79,22 @@ class BaseController extends Controller {
         }
 
         return Paginator::make($results->all(), $total, $perPage);
+    }
+
+    protected function respondWithItem($item, $callback)
+    {
+        $resource = new Item($item, $callback);
+        $rootScope = $this->fractal->createData($resource);
+
+        return Response::json($rootScope->toArray());
+    }
+
+    protected function respondWithCollection($collection, $callback)
+    {
+        $resource = new Collection($collection, $callback);
+        $rootScope = $this->fractal->createData($resource);
+
+        return Response::json($rootScope->toArray());
     }
 
 }
