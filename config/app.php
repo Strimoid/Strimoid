@@ -150,6 +150,7 @@ return array(
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+		'duxet\Rethinkdb\RethinkdbServiceProvider',
 
         //'Intervention\Image\ImageServiceProvider',
 	],

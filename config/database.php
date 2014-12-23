@@ -1,19 +1,6 @@
 <?php
 
-return array(
-
-	/*
-	|--------------------------------------------------------------------------
-	| PDO Fetch Style
-	|--------------------------------------------------------------------------
-	|
-	| By default, database results will be returned as instances of the PHP
-	| stdClass object; however, you may desire to retrieve records in an
-	| array format for simplicity. Here you can tweak the fetch style.
-	|
-	*/
-
-	'fetch' => PDO::FETCH_CLASS,
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,7 +13,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mongodb',
+	'default' => 'rethinkdb',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -44,59 +31,21 @@ return array(
 	|
 	*/
 
-	'connections' => array(
+	'connections' => [
 
-        'mongodb' => array(
-            'driver'   => 'mongodb',
-            'host'     => '/tmp/mongodb-27017.sock',
+        'rethinkdb' => [
+            'driver'   => 'rethinkdb',
+            'host'     => 'localhost',
             //'port'     => 27017,
-            'username' => '',
-            'password' => '',
             'database' => 'default'
-        ),
+        ],
 
-        'stats' => array(
+        'stats' => [
             'driver'   => 'sqlite',
             'database' => __DIR__.'/../database/stats.sqlite',
             'prefix'   => '',
-        ),
+        ],
 
-	),
+	],
 
-	/*
-	|--------------------------------------------------------------------------
-	| Migration Repository Table
-	|--------------------------------------------------------------------------
-	|
-	| This table keeps track of all the migrations that have already run for
-	| your application. Using this information, we can determine which of
-	| the migrations on disk have not actually be run in the databases.
-	|
-	*/
-
-	'migrations' => 'migrations',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Redis Databases
-	|--------------------------------------------------------------------------
-	|
-	| Redis is an open source, fast, and advanced key-value store that also
-	| provides a richer set of commands than a typical key-value systems
-	| such as APC or Memcached. Laravel makes it easy to dig right in.
-	|
-	*/
-
-	'redis' => array(
-
-		'cluster' => true,
-
-		'default' => array(
-			'host'     => '127.0.0.1',
-			'port'     => 6379,
-			'database' => 0,
-		),
-
-	),
-
-);
+];
