@@ -102,6 +102,8 @@ return array(
 
 	'locale' => 'pl',
 
+	'log' => 'daily',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Encryption Key
@@ -128,44 +130,29 @@ return array(
 	|
 	*/
 
-	'providers' => array(
+	'providers' => [
+		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
+		'Illuminate\Auth\AuthServiceProvider',
+		'Illuminate\Cache\CacheServiceProvider',
+		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
+		'Illuminate\Routing\ControllerServiceProvider',
+		'Illuminate\Cookie\CookieServiceProvider',
+		'Illuminate\Database\DatabaseServiceProvider',
+		'Illuminate\Encryption\EncryptionServiceProvider',
+		'Illuminate\Filesystem\FilesystemServiceProvider',
+		'Illuminate\Foundation\Providers\FoundationServiceProvider',
+		'Illuminate\Hashing\HashServiceProvider',
+		'Illuminate\Mail\MailServiceProvider',
+		'Illuminate\Pagination\PaginationServiceProvider',
+		'Illuminate\Queue\QueueServiceProvider',
+		'Illuminate\Auth\Passwords\PasswordResetServiceProvider',
+		'Illuminate\Session\SessionServiceProvider',
+		'Illuminate\Translation\TranslationServiceProvider',
+		'Illuminate\Validation\ValidationServiceProvider',
+		'Illuminate\View\ViewServiceProvider',
 
-        'Illuminate\Auth\AuthServiceProvider',
-        'Illuminate\Cache\CacheServiceProvider',
-        'Illuminate\Routing\ControllerServiceProvider',
-        'Illuminate\Cookie\CookieServiceProvider',
-        'Illuminate\Database\DatabaseServiceProvider',
-        'Illuminate\Encryption\EncryptionServiceProvider',
-        'Illuminate\Filesystem\FilesystemServiceProvider',
-        'Illuminate\Hashing\HashServiceProvider',
-        'Illuminate\Html\HtmlServiceProvider',
-        'Illuminate\Log\LogServiceProvider',
-        'Illuminate\Mail\MailServiceProvider',
-        'Illuminate\Database\MigrationServiceProvider',
-        'Illuminate\Pagination\PaginationServiceProvider',
-        'Illuminate\Queue\QueueServiceProvider',
-        //'Illuminate\Redis\RedisServiceProvider',
-        //'Illuminate\Remote\RemoteServiceProvider',
-        'Illuminate\Auth\Reminders\ReminderServiceProvider',
-        'Illuminate\Database\SeedServiceProvider',
-        'Illuminate\Session\SessionServiceProvider',
-        'Illuminate\Translation\TranslationServiceProvider',
-        'Illuminate\Validation\ValidationServiceProvider',
-        'Illuminate\View\ViewServiceProvider',
-        //'Illuminate\Workbench\WorkbenchServiceProvider',
-
-        'Jenssegers\Mongodb\MongodbServiceProvider',
-        'Jenssegers\Mongodb\Session\SessionServiceProvider',
-        'Jenssegers\Mongodb\Auth\ReminderServiceProvider',
-
-        'Intervention\Image\ImageServiceProvider',
-        'Cohensive\Embed\EmbedServiceProvider',
-        'Thujohn\Rss\RssServiceProvider',
-        'Intouch\LaravelNewrelic\LaravelNewrelicServiceProvider',
-        'Roumen\Sitemap\SitemapServiceProvider',
-        'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
-
-	),
+        //'Intervention\Image\ImageServiceProvider',
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -231,12 +218,9 @@ return array(
         'Validator'       => 'Illuminate\Support\Facades\Validator',
         'View'            => 'Illuminate\Support\Facades\View',
 
-        //'Agent'           => 'Jenssegers\Agent\Facades\Agent',
         'Carbon'          => 'Carbon\Carbon',
         'Image'           => 'Intervention\Image\Facades\Image',
         'Embed'           => 'Cohensive\Embed\Facades\Embed',
-        'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
-        'ResourceServer'  => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
         'Rss'             => 'Thujohn\Rss\RssFacade',
         'Debugbar'        => 'Barryvdh\Debugbar\Facade',
 
