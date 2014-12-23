@@ -1,4 +1,4 @@
-<?php namespace App\Console;
+<?php namespace Strimoid\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
