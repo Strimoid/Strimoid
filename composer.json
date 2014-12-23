@@ -37,13 +37,17 @@
 			"app/database/seeds",
             "app/handlers",
             "app/helpers",
-            "app/facades",
-            "app/tests/TestCase.php"
+            "app/facades"
 		],
 	  	"psr-4": {
 			"Strimoid\\": "app/"
 	  	}
 	},
+    "autoload-dev": {
+		"classmap": [
+	  		"tests/TestCase.php"
+		]
+  	},
 	"scripts": {
 		"post-install-cmd": [
 			"php artisan optimize"
