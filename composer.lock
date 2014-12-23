@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "090e44ed5b30fd8b36409f87f54c46fd",
+    "hash": "dbb758ad58ddfe620839f4ecc2e2c43c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -306,12 +306,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-rethinkdb.git",
-                "reference": "023e3e9a3ce4bf331f0388d3f3ce561ecef692d6"
+                "reference": "38f1d01212355212d068ad90bb9cfbc9a2fea688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/023e3e9a3ce4bf331f0388d3f3ce561ecef692d6",
-                "reference": "023e3e9a3ce4bf331f0388d3f3ce561ecef692d6",
+                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/38f1d01212355212d068ad90bb9cfbc9a2fea688",
+                "reference": "38f1d01212355212d068ad90bb9cfbc9a2fea688",
                 "shasum": ""
             },
             "require": {
@@ -343,7 +343,7 @@
                 }
             ],
             "description": "RethinkDB adapter for Laravel",
-            "time": "2014-12-23 19:57:01"
+            "time": "2014-12-23 21:45:08"
         },
         {
             "name": "guzzle/guzzle",
@@ -993,12 +993,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "35532bca7e370dc5d216af04abe257a0ca19840f"
+                "reference": "998cdbc66e1a7a79b94bcdf8bffd538309ef1055"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/35532bca7e370dc5d216af04abe257a0ca19840f",
-                "reference": "35532bca7e370dc5d216af04abe257a0ca19840f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/998cdbc66e1a7a79b94bcdf8bffd538309ef1055",
+                "reference": "998cdbc66e1a7a79b94bcdf8bffd538309ef1055",
                 "shasum": ""
             },
             "require": {
@@ -1101,7 +1101,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-12-23 20:34:29"
+            "time": "2014-12-23 21:36:47"
         },
         {
             "name": "league/flysystem",
