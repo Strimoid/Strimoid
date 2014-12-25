@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 abstract class FakeGroup
 {
 

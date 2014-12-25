@@ -4,15 +4,15 @@ class GroupTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::collection('groups')->delete();
+        DB::table('groups')->delete();
 
         // Load user ids, we will need them later
-        $userIds = DB::collection('users')->lists('_id');
+        $userIds = DB::table('users')->lists('_id');
 
         // Insert 50 elements filled with random data
         $faker = \Faker\Factory::create();
 
-        for ($x = 0; $x < 50; $x++)
+        foreach (range(1, 50) as $x)
         {
             $randomUser = (string) $userIds[array_rand($userIds)];
 

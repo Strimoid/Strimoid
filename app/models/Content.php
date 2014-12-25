@@ -1,7 +1,8 @@
 <?php
 
 use Summon\Summon;
-use Jenssegers\Mongodb\Eloquent\SoftDeletingTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * Content model
@@ -19,7 +20,7 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletingTrait;
 class Content extends BaseModel
 {
 
-    use SoftDeletingTrait;
+    use SoftDeletes;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -261,6 +262,7 @@ class Content extends BaseModel
 
     public function scopeFrontpage($query, $exists = true)
     {
+        /*
         if ($exists)
         {
             return $query->whereRaw(['frontpage_at' => ['$gt' => new MongoDate(1)]]);
@@ -269,8 +271,9 @@ class Content extends BaseModel
         {
             return $query->whereRaw(['frontpage_at' => null]);
         }
+        */
 
-        //return $query->where('frontpage_at', 'exists', $exists);
+        return $query->where('frontpage_at', 'exists', $exists);
     }
 
 }

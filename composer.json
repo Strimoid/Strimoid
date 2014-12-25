@@ -6,6 +6,7 @@
         "php": ">=5.5.0",
         "ext-apcu": ">=4.0.0",
         "laravel/framework": "5.0.*",
+	    "illuminate/html": "5.0.*",
         "intervention/image": "2.0.*",
         "phindmarsh/summon": "dev-master",
         "cohensive/embed": "dev-master",
@@ -31,7 +32,6 @@
 	"autoload": {
 		"classmap": [
 			"app/commands",
-			"app/controllers",
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",

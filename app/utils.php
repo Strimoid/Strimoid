@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if ( ! function_exists('shadow'))
 {
     function shadow($text)

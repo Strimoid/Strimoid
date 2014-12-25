@@ -4,12 +4,12 @@ class UserTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::collection('users')->delete();
+        DB::table('users')->delete();
 
         // Insert 50 elements filled with random data
         $faker = \Faker\Factory::create();
 
-        for ($x = 0; $x < 50; $x++)
+        foreach (range(1, 50) as $x)
         {
             User::create([
                 'created_at' => $faker->dateTimeThisDecade,

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dbb758ad58ddfe620839f4ecc2e2c43c",
+    "hash": "323405b9e205f9bed143f669716b004b",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -184,12 +184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "eeda578cbe24a170331a1cfdf78be723412df7a4"
+                "reference": "b5202eb9e83f8db52e0e58867e0a46e63be8332e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/eeda578cbe24a170331a1cfdf78be723412df7a4",
-                "reference": "eeda578cbe24a170331a1cfdf78be723412df7a4",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/b5202eb9e83f8db52e0e58867e0a46e63be8332e",
+                "reference": "b5202eb9e83f8db52e0e58867e0a46e63be8332e",
                 "shasum": ""
             },
             "require": {
@@ -244,7 +244,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2014-12-20 20:49:38"
+            "time": "2014-12-23 22:40:37"
         },
         {
             "name": "doctrine/lexer",
@@ -306,12 +306,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-rethinkdb.git",
-                "reference": "38f1d01212355212d068ad90bb9cfbc9a2fea688"
+                "reference": "dbf4c9f0f394dafbd0b585fadb664e36abfaf611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/38f1d01212355212d068ad90bb9cfbc9a2fea688",
-                "reference": "38f1d01212355212d068ad90bb9cfbc9a2fea688",
+                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/dbf4c9f0f394dafbd0b585fadb664e36abfaf611",
+                "reference": "dbf4c9f0f394dafbd0b585fadb664e36abfaf611",
                 "shasum": ""
             },
             "require": {
@@ -343,7 +343,7 @@
                 }
             ],
             "description": "RethinkDB adapter for Laravel",
-            "time": "2014-12-23 21:45:08"
+            "time": "2014-12-23 22:29:30"
         },
         {
             "name": "guzzle/guzzle",
@@ -645,6 +645,52 @@
                 "stream"
             ],
             "time": "2014-10-12 19:45:36"
+        },
+        {
+            "name": "illuminate/html",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/html.git",
+                "reference": "b04be9a84be0d6f7552b281ad6b9e2795218fe56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/html/zipball/b04be9a84be0d6f7552b281ad6b9e2795218fe56",
+                "reference": "b04be9a84be0d6f7552b281ad6b9e2795218fe56",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "~5.0",
+                "illuminate/session": "~5.0",
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Html\\": ""
+                },
+                "files": [
+                    "helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "time": "2014-10-16 14:38:30"
         },
         {
             "name": "intervention/image",
@@ -993,12 +1039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "998cdbc66e1a7a79b94bcdf8bffd538309ef1055"
+                "reference": "5d8b712bd25b98b9ee4c321fe8cb537844916878"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/998cdbc66e1a7a79b94bcdf8bffd538309ef1055",
-                "reference": "998cdbc66e1a7a79b94bcdf8bffd538309ef1055",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5d8b712bd25b98b9ee4c321fe8cb537844916878",
+                "reference": "5d8b712bd25b98b9ee4c321fe8cb537844916878",
                 "shasum": ""
             },
             "require": {
@@ -1031,6 +1077,7 @@
             },
             "replace": {
                 "illuminate/auth": "self.version",
+                "illuminate/bus": "self.version",
                 "illuminate/cache": "self.version",
                 "illuminate/config": "self.version",
                 "illuminate/console": "self.version",
@@ -1048,6 +1095,7 @@
                 "illuminate/log": "self.version",
                 "illuminate/mail": "self.version",
                 "illuminate/pagination": "self.version",
+                "illuminate/pipeline": "self.version",
                 "illuminate/queue": "self.version",
                 "illuminate/redis": "self.version",
                 "illuminate/routing": "self.version",
@@ -1101,7 +1149,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-12-23 21:36:47"
+            "time": "2014-12-25 07:17:11"
         },
         {
             "name": "league/flysystem",
@@ -1801,12 +1849,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RoumenDamianoff/laravel-sitemap.git",
-                "reference": "044536e11a4141f286e6974c57a1a1a4fdcfefe2"
+                "reference": "29d6ee0e75bd89a01b2d01146b254cac840d4cec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/044536e11a4141f286e6974c57a1a1a4fdcfefe2",
-                "reference": "044536e11a4141f286e6974c57a1a1a4fdcfefe2",
+                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/29d6ee0e75bd89a01b2d01146b254cac840d4cec",
+                "reference": "29d6ee0e75bd89a01b2d01146b254cac840d4cec",
                 "shasum": ""
             },
             "require": {
@@ -1845,7 +1893,7 @@
                 "Sitemap",
                 "laravel"
             ],
-            "time": "2014-12-23 20:18:18"
+            "time": "2014-12-23 23:58:56"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1906,12 +1954,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "577d3c905af3cfa12a07675665eded52608a15da"
+                "reference": "8449ebc10c95f4f7e51ebf59232773cf4bf101f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/577d3c905af3cfa12a07675665eded52608a15da",
-                "reference": "577d3c905af3cfa12a07675665eded52608a15da",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/8449ebc10c95f4f7e51ebf59232773cf4bf101f5",
+                "reference": "8449ebc10c95f4f7e51ebf59232773cf4bf101f5",
                 "shasum": ""
             },
             "require": {
@@ -1954,7 +2002,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-22 16:44:09"
+            "time": "2014-12-24 10:55:18"
         },
         {
             "name": "symfony/css-selector",
@@ -2520,12 +2568,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-core.git",
-                "reference": "82f67eb8980c876a6adaf6f023136a28c1e3d170"
+                "reference": "d75f487c1674e5ada39dc79ffe6f291003bedeac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/82f67eb8980c876a6adaf6f023136a28c1e3d170",
-                "reference": "82f67eb8980c876a6adaf6f023136a28c1e3d170",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/d75f487c1674e5ada39dc79ffe6f291003bedeac",
+                "reference": "d75f487c1674e5ada39dc79ffe6f291003bedeac",
                 "shasum": ""
             },
             "require": {
@@ -2574,7 +2622,7 @@
             ],
             "description": "Symfony Security Component - Core Library",
             "homepage": "http://symfony.com",
-            "time": "2014-12-22 16:44:09"
+            "time": "2014-12-25 10:26:10"
         },
         {
             "name": "symfony/translation",
@@ -2641,12 +2689,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "78b8d46e44a0561bb3c7892c229e6929368b2eec"
+                "reference": "4ddec2eedb0e1231215be697c9a6a768f0f96f70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/78b8d46e44a0561bb3c7892c229e6929368b2eec",
-                "reference": "78b8d46e44a0561bb3c7892c229e6929368b2eec",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/4ddec2eedb0e1231215be697c9a6a768f0f96f70",
+                "reference": "4ddec2eedb0e1231215be697c9a6a768f0f96f70",
                 "shasum": ""
             },
             "require": {
@@ -2685,7 +2733,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2014-12-22 09:05:34"
+            "time": "2014-12-24 21:28:06"
         },
         {
             "name": "thujohn/rss",
@@ -2788,12 +2836,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "4ccd36396234272229fdec8a8370f0d2ccc2f8e9"
+                "reference": "548e12d45760ee66192029f4b642d2f4e3d64118"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/4ccd36396234272229fdec8a8370f0d2ccc2f8e9",
-                "reference": "4ccd36396234272229fdec8a8370f0d2ccc2f8e9",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/548e12d45760ee66192029f4b642d2f4e3d64118",
+                "reference": "548e12d45760ee66192029f4b642d2f4e3d64118",
                 "shasum": ""
             },
             "require": {
@@ -2834,7 +2882,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2014-12-23 15:31:16"
+            "time": "2014-12-24 08:00:07"
         },
         {
             "name": "barryvdh/laravel-ide-helper",

@@ -1,15 +1,15 @@
 <?php
 
-$fromTimestamp = Carbon::now()->subDay(3)->minute(0)->second(0);
+$fromTime = Carbon::now()->subDay(3)->minute(0)->second(0);
 
-$builder = Content::where('created_at', '>', carbon_to_md($fromTimestamp));
+$builder = Content::where('created_at', '>', $fromTime);
 
 if (isset($group))
 {
     $builder->where('group_id', $group->_id);
 }
 
-$popularContents = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
+$popularContents = $builder->orderBy('uv', 'desc')->take(5)->get();
 
 ?>
 

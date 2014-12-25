@@ -33,3 +33,7 @@ if (file_exists($compiledPath))
 {
     require $compiledPath;
 }
+
+// TODO: Move this to some better place?
+require __DIR__.'/../app/utils.php';
+

@@ -1,8 +1,8 @@
 <?php
 
-use Jenssegers\Mongodb\Model as Eloquent;
+use duxet\Rethinkdb\Eloquent\Model;
 
-class BaseModel extends Eloquent
+class BaseModel extends Model
 {
 
     public function getLocalTime()

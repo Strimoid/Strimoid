@@ -1,9 +1,11 @@
 <?php
 
-use Jenssegers\Mongodb\Model as Eloquent;
+use duxet\Rethinkdb\Eloquent\Model;
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 /**
  * User model
@@ -14,8 +16,9 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property string $password User password, hashed
  * @property DateTime $created_at
  */
-class User extends Eloquent implements UserInterface, RemindableInterface
-{
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
+
+    use Authenticatable, CanResetPassword;
 
     protected $collection = 'users';
     protected $visible = ['_id', 'age', 'avatar', 'created_at',
@@ -44,38 +47,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface
         return Str::lower($this->email);
     }
 
-    public function getAuthIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    public function getAuthPassword()
-    {
-        return $this->password;
-    }
-
-    public function getRememberToken()
-    {
-        return $this->remember_token;
-    }
-
-    public function setRememberToken($value)
-    {
-        $this->remember_token = $value;
-    }
-
-    public function getRememberTokenName()
-    {
-        return 'remember_token';
-    }
-
     public function getColoredName()
     {
-        /*if ($this->_id == 'zskk')
-        {
-            return '<span style="color: #BBACD5">'. $this->name .'</span>';
-        }*/
-
         switch($this->type)
         {
             case 'admin':
