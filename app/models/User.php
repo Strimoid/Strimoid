@@ -1,7 +1,7 @@
-<?php
+<?php namespace Strimoid\Models;
 
+use Str, Hash;
 use duxet\Rethinkdb\Eloquent\Model;
-
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -28,13 +28,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function boot()
     {
         parent::boot();
-
-        User::created(function($user)
-        {
-            $data = new UserData();
-            $data->_id = $user->_id;
-            $data->save();
-        });
     }
 
     public function data()

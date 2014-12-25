@@ -45,9 +45,9 @@ class ContentController extends BaseController {
             $builder = $folder->contents();
             $results['folder'] = $folder;
         }
-        elseif (class_exists('Groups\\'. studly_case($groupName)))
+        elseif (class_exists('Folders\\'. studly_case($groupName)))
         {
-            $class = 'Groups\\'. studly_case($groupName);
+            $class = 'Folders\\'. studly_case($groupName);
             $fakeGroup = new $class;
             $builder = $fakeGroup->contents();
 
@@ -420,7 +420,7 @@ class ContentController extends BaseController {
             App::abort(403, 'Group available only for logged in users');
         }
 
-        if (Input::has('folder') && !class_exists('Groups\\'. studly_case($folderName)))
+        if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
         {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
             $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
@@ -432,17 +432,17 @@ class ContentController extends BaseController {
 
             $builder = $folder->contents();
         }
-        elseif (class_exists('Groups\\'. studly_case($groupName)))
+        elseif (class_exists('Folders\\'. studly_case($groupName)))
         {
-            $class = 'Groups\\'. studly_case($groupName);
+            $class = 'Folders\\'. studly_case($groupName);
             $fakeGroup = new $class;
             $builder = $fakeGroup->contents();
 
             $builder->orderBy('sticky_global', 'desc');
         }
-        elseif (class_exists('Groups\\'. studly_case($folderName)))
+        elseif (class_exists('Folders\\'. studly_case($folderName)))
         {
-            $class = 'Groups\\'. studly_case($folderName);
+            $class = 'Folders\\'. studly_case($folderName);
             $fakeGroup = new $class;
             $builder = $fakeGroup->contents();
 

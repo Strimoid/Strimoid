@@ -1,6 +1,8 @@
 <?php
 
-class UserTableSeeder extends Seeder {
+use Strimoid\Models\User;
+
+class UserTableSeeder extends BaseSeeder {
 
     public function run()
     {

@@ -1,4 +1,4 @@
-<?php
+<?php namespace Strimoid\Models;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

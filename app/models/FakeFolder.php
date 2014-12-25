@@ -1,8 +1,8 @@
-<?php
+<?php namespace Strimoid\Models;
 
-use Illuminate\Support\Str;
+use Str;
 
-abstract class FakeGroup
+abstract class FakeFolder
 {
 
     abstract protected function getBuilder($model);

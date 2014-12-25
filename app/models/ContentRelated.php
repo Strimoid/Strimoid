@@ -1,6 +1,4 @@
-<?php
-
-use Jenssegers\Mongodb\Model as Eloquent;
+<?php namespace Strimoid\Models;
 
 class ContentRelated extends BaseModel
 {

@@ -1,8 +1,6 @@
-<?php
+<?php namespace Strimoid\Models;
 
-use Jenssegers\Mongodb\Model as Eloquent;
-
-class GroupSubscriber extends Eloquent
+class GroupSubscriber extends BaseModel
 {
 
     protected $collection = 'group_subscribers';

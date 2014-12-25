@@ -1,8 +1,6 @@
-<?php
+<?php namespace Strimoid\Models;
 
-use Jenssegers\Eloquent\Model as Eloquent;
-
-class DailyAction extends Eloquent
+class DailyAction extends BaseModel
 {
 
     protected $table = 'daily_actions';

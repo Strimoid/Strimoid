@@ -1,8 +1,6 @@
-<?php
+<?php namespace Strimoid\Models;
 
-use Jenssegers\Mongodb\Model as Eloquent;
-
-class UserBlocked extends Eloquent
+class UserBlocked extends BaseModel
 {
 
     protected $collection = 'user_blocks';

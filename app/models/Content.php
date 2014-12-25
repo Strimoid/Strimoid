@@ -1,8 +1,8 @@
-<?php
+<?php namespace Strimoid\Models;
 
+use Str, PDP;
 use Summon\Summon;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 /**
  * Content model

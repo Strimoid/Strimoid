@@ -21,7 +21,8 @@
         "guzzlehttp/oauth-subscriber": "0.1.*",
         "symfony/dom-crawler": "~2.5.6",
         "symfony/css-selector": "~2.5.6",
-		"league/fractal": "~0.10@dev"
+		"league/fractal": "~0.10@dev",
+		"league/commonmark": "0.5.*@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*",
@@ -33,11 +34,10 @@
 		"classmap": [
 			"app/commands",
 			"app/models",
-			"app/database/migrations",
-			"app/database/seeds",
             "app/handlers",
             "app/helpers",
-            "app/facades"
+            "app/facades",
+		    "database"
 		],
 	  	"psr-4": {
 			"Strimoid\\": "app/"

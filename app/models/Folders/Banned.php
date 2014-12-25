@@ -1,11 +1,9 @@
-<?php
-
-namespace Groups;
+<?php namespace Strimoid\Models\Folders;
 
 use Auth;
-use FakeGroup;
+use Strimoid\Models\FakeFolder;
 
-class Banned extends FakeGroup {
+class Banned extends FakeFolder {
 
     protected function getBuilder($model)
     {

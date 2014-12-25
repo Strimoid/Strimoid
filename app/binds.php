@@ -49,20 +49,6 @@ App::bind('guzzle', function()
 
 /*
 |--------------------------------------------------------------------------
-| PHP Domain Parser
-|--------------------------------------------------------------------------
-*/
-
-App::bind('pdp', function()
-{
-    $pslManager = new Pdp\PublicSuffixListManager();
-    $parser = new Pdp\Parser($pslManager->getList());
-
-    return $parser;
-});
-
-/*
-|--------------------------------------------------------------------------
 | ZMQ - used to send WebSocket messages
 |--------------------------------------------------------------------------
 */

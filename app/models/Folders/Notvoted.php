@@ -1,11 +1,9 @@
-<?php
-
-namespace Groups;
+<?php namespace Strimoid\Models\Folders;
 
 use Auth;
-use FakeGroup;
+use Strimoid\Models\FakeFolder;
 
-class Upvoted extends FakeGroup {
+class Notvoted extends FakeFolder {
 
     protected function getBuilder($model)
     {
@@ -13,7 +11,7 @@ class Upvoted extends FakeGroup {
 
         if (Auth::check())
         {
-            $builder->where('votes.user_id', Auth::user()->_id)->where('votes.up', true);
+            $builder->where('votes.user_id', '!=', Auth::user()->_id);
         }
 
         return $builder;

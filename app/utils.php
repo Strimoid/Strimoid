@@ -68,7 +68,7 @@ if ( ! function_exists('parse_usernames')) {
             $groupName = shadow($matches[1]);
 
             $target = Group::where('shadow_urlname', $groupName)->first();
-            $fakeGroup = class_exists('Groups\\'. studly_case($groupName));
+            $fakeGroup = class_exists('Folders\\'. studly_case($groupName));
 
             if ($target || $fakeGroup)
             {

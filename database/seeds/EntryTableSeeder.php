@@ -1,14 +1,16 @@
 <?php
 
-class EntryTableSeeder extends Seeder {
+use Strimoid\Models\Entry;
+
+class EntryTableSeeder extends BaseSeeder {
 
     public function run()
     {
         DB::table('entries')->delete();
 
         // Get list of user and group ids
-        $groupIds = DB::table('groups')->lists('_id');
-        $userIds = DB::table('users')->lists('_id');
+        $groupIds = DB::table('groups')->lists('id');
+        $userIds = DB::table('users')->lists('id');
 
         // Insert 50 elements filled with random data
         $faker = \Faker\Factory::create();
@@ -22,7 +24,7 @@ class EntryTableSeeder extends Seeder {
             $randomGroup = (string) $groupIds[array_rand($groupIds)];
 
             Entry::create([
-                '_id' => $id,
+                'id' => $id,
                 'created_at' => $faker->dateTimeThisDecade,
                 'group_id' => $randomGroup,
                 'text' => $faker->text(512),

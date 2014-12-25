@@ -1,11 +1,9 @@
-<?php
-
-namespace Groups;
+<?php namespace Strimoid\Models\Folders;
 
 use Auth;
-use FakeGroup;
+use Strimoid\Models\FakeFolder;
 
-class Blocked extends FakeGroup {
+class All extends FakeFolder {
 
     protected function getBuilder($model)
     {
@@ -14,10 +12,10 @@ class Blocked extends FakeGroup {
         if (Auth::check())
         {
             $blockedGroups = Auth::user()->blockedGroups();
-            $builder->whereIn('group_id', (array) $blockedGroups);
+            $builder->whereNotIn('group_id', (array) $blockedGroups);
 
             $blockedUsers = Auth::user()->blockedUsers();
-            $builder->orWhereIn('user_id', (array) $blockedUsers);
+            $builder->whereNotIn('user_id', (array) $blockedUsers);
         }
 
         return $builder;
@@ -27,10 +25,12 @@ class Blocked extends FakeGroup {
     {
         $builder = static::getBuilder('Content');
 
-        $blockedDomains = Auth::user()->blockedDomains();
-        $builder->orWhereIn('domain', $blockedDomains);
+        if (Auth::check()) {
+            $blockedDomains = Auth::user()->blocked_domains;
+            $builder->whereNotIn('domain', $blockedDomains);
+        }
 
         return $builder;
     }
 
-}
+} 

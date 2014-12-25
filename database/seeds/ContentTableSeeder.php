@@ -1,14 +1,16 @@
 <?php
 
-class ContentTableSeeder extends Seeder {
+use Strimoid\Models\Content;
+
+class ContentTableSeeder extends BaseSeeder {
 
     public function run()
     {
         DB::table('contents')->delete();
 
         // Get list of user and group ids
-        $groupIds = DB::table('groups')->lists('_id');
-        $userIds = DB::table('users')->lists('_id');
+        $groupIds = DB::table('groups')->lists('id');
+        $userIds = DB::table('users')->lists('id');
 
         $faker = \Faker\Factory::create();
 
@@ -22,7 +24,7 @@ class ContentTableSeeder extends Seeder {
             $randomGroup = (string) $groupIds[array_rand($groupIds)];
 
             Content::create([
-                '_id' => $id,
+                'id' => $id,
                 'created_at' => $faker->dateTimeThisDecade,
                 'group_id' => $randomGroup,
                 'title' => $faker->sentence(10),

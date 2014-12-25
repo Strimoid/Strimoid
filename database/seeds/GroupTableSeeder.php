@@ -1,13 +1,15 @@
 <?php
 
-class GroupTableSeeder extends Seeder {
+use Strimoid\Models\Group;
+
+class GroupTableSeeder extends BaseSeeder {
 
     public function run()
     {
         DB::table('groups')->delete();
 
         // Load user ids, we will need them later
-        $userIds = DB::table('users')->lists('_id');
+        $userIds = DB::table('users')->lists('id');
 
         // Insert 50 elements filled with random data
         $faker = \Faker\Factory::create();

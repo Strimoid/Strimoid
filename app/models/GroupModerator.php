@@ -1,8 +1,6 @@
-<?php
+<?php namespace Strimoid\Models;
 
-use Jenssegers\Mongodb\Model as Eloquent;
-
-class GroupModerator extends Eloquent
+class GroupModerator extends BaseModel
 {
 
     protected $collection = 'group_moderators';

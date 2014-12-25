@@ -2,6 +2,8 @@
 
 use UserSettings;
 use Illuminate\Support\ServiceProvider;
+use Pdp\PublicSuffixListManager;
+use Pdp\Parser;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -15,6 +17,14 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind('settings', function()
         {
             return new UserSettings();
+        });
+
+        $this->app->bind('pdp', function()
+        {
+            $pslManager = new PublicSuffixListManager();
+            $parser = new Parser($pslManager->getList());
+
+            return $parser;
         });
     }
 

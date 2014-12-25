@@ -1,8 +1,6 @@
-<?php
+<?php namespace Strimoid\Models;
 
-use Jenssegers\Mongodb\Model as Eloquent;
-
-class GroupBlock extends Eloquent
+class GroupBlock extends BaseModel
 {
 
     protected $collection = 'group_blocks';

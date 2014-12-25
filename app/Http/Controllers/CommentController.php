@@ -17,9 +17,9 @@ class CommentController extends BaseController {
             return Redirect::route('login_form')->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
         }
 
-        if (class_exists('Groups\\'. studly_case($groupName)))
+        if (class_exists('Folders\\'. studly_case($groupName)))
         {
-            $class = 'Groups\\'. studly_case($groupName);
+            $class = 'Folders\\'. studly_case($groupName);
             $builder = with(new $class)->comments();
         }
         else
@@ -212,7 +212,7 @@ class CommentController extends BaseController {
             App::abort(403, 'Group available only for logged in users');
         }
 
-        if (Input::has('folder') && !class_exists('Groups\\'. studly_case($folderName)))
+        if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
         {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
             $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
@@ -224,15 +224,15 @@ class CommentController extends BaseController {
 
             $builder = $folder->comments();
         }
-        elseif (class_exists('Groups\\'. studly_case($groupName)))
+        elseif (class_exists('Folders\\'. studly_case($groupName)))
         {
-            $class = 'Groups\\'. studly_case($groupName);
+            $class = 'Folders\\'. studly_case($groupName);
             $fakeGroup = new $class;
             $builder = $fakeGroup->comments();
         }
-        elseif (class_exists('Groups\\'. studly_case($folderName)))
+        elseif (class_exists('Folders\\'. studly_case($folderName)))
         {
-            $class = 'Groups\\'. studly_case($folderName);
+            $class = 'Folders\\'. studly_case($folderName);
             $fakeGroup = new $class;
             $builder = $fakeGroup->comments();
         }

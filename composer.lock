@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "323405b9e205f9bed143f669716b004b",
+    "hash": "9cb552b13625a2a09e2fdc6d894deeaa",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -306,12 +306,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-rethinkdb.git",
-                "reference": "dbf4c9f0f394dafbd0b585fadb664e36abfaf611"
+                "reference": "f3bde72b57cd2162ba62a14b95b3ce10dd5823bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/dbf4c9f0f394dafbd0b585fadb664e36abfaf611",
-                "reference": "dbf4c9f0f394dafbd0b585fadb664e36abfaf611",
+                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/f3bde72b57cd2162ba62a14b95b3ce10dd5823bb",
+                "reference": "f3bde72b57cd2162ba62a14b95b3ce10dd5823bb",
                 "shasum": ""
             },
             "require": {
@@ -343,7 +343,7 @@
                 }
             ],
             "description": "RethinkDB adapter for Laravel",
-            "time": "2014-12-23 22:29:30"
+            "time": "2014-12-25 17:16:24"
         },
         {
             "name": "guzzle/guzzle",
@@ -1039,12 +1039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5d8b712bd25b98b9ee4c321fe8cb537844916878"
+                "reference": "fce7533b5088d3d71d776d4b2dc0b7ab66b0cbc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5d8b712bd25b98b9ee4c321fe8cb537844916878",
-                "reference": "5d8b712bd25b98b9ee4c321fe8cb537844916878",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/fce7533b5088d3d71d776d4b2dc0b7ab66b0cbc9",
+                "reference": "fce7533b5088d3d71d776d4b2dc0b7ab66b0cbc9",
                 "shasum": ""
             },
             "require": {
@@ -1149,7 +1149,66 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-12-25 07:17:11"
+            "time": "2014-12-25 17:12:09"
+        },
+        {
+            "name": "league/commonmark",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark.git",
+                "reference": "132babb2eb0ed51ecf2541eb3c585004cc6d4f1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/132babb2eb0ed51ecf2541eb3c585004cc6d4f1d",
+                "reference": "132babb2eb0ed51ecf2541eb3c585004cc6d4f1d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.3"
+            },
+            "replace": {
+                "colinodell/commonmark-php": "*"
+            },
+            "require-dev": {
+                "erusev/parsedown": "~1.0",
+                "jgm/commonmark": "0.13",
+                "michelf/php-markdown": "~1.4",
+                "phpunit/phpunit": "~4.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "http://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Markdown parser for PHP based on the CommonMark spec",
+            "homepage": "https://github.com/thephpleague/commonmark",
+            "keywords": [
+                "commonmark",
+                "markdown",
+                "parser"
+            ],
+            "time": "2014-12-24 22:50:50"
         },
         {
             "name": "league/flysystem",
@@ -3906,6 +3965,7 @@
         "roumen/sitemap": 20,
         "iron-io/iron_mq": 20,
         "league/fractal": 20,
+        "league/commonmark": 20,
         "barryvdh/laravel-ide-helper": 20
     },
     "prefer-stable": false,

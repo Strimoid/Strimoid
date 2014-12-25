@@ -1,10 +1,8 @@
-<?php
+<?php namespace Strimoid\Models\Folders;
 
-namespace Groups;
+use Strimoid\Models\FakeFolder;
 
-use FakeGroup;
-
-class Popular extends FakeGroup {
+class Popular extends FakeFolder {
 
     protected function getBuilder($model)
     {
