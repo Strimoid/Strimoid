@@ -8,19 +8,19 @@ class ContentRelated extends BaseModel
         'url' => 'required|url_custom',
     ];
 
-    protected $attributes = array(
+    protected $attributes = [
         'uv' => 0,
         'dv' => 0,
         'score' => 0,
-    );
+    ];
 
     protected $table = 'content_related';
-    protected $hidden = ['_id', 'content_id', 'user_id', 'updated_at'];
+    protected $hidden = ['content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
 
     function __construct($attributes = array())
     {
-        $this->_id = Str::random(9);
+        $this->id = Str::random(9);
 
         parent::__construct($attributes);
     }

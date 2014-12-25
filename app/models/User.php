@@ -21,19 +21,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     use Authenticatable, CanResetPassword;
 
     protected $table = 'users';
-    protected $visible = ['_id', 'age', 'avatar', 'created_at',
-        'description', 'location', 'sex', 'name'];
+    protected $visible = [
+        'id', 'age', 'avatar', 'created_at',
+        'description', 'location', 'sex', 'name',
+    ];
     protected $dates = ['last_login'];
-
-    public static function boot()
-    {
-        parent::boot();
-    }
-
-    public function data()
-    {
-        return $this->hasOne('UserData', '_id');
-    }
 
     public function getReminderEmail()
     {

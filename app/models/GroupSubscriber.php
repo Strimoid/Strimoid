@@ -7,7 +7,8 @@ class GroupSubscriber extends BaseModel
 
     public function group()
     {
-        return $this->belongsTo('Group')->orderBy('name', 'asc');
+        return $this->belongsTo('Group')
+            ->orderBy('name', 'asc');
     }
 
     public function user()

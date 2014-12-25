@@ -7,11 +7,11 @@ class EntryReply extends BaseModel
         'text' => 'required|min:1|max:2500'
     ];
 
-    protected $attributes = array(
+    protected $attributes = [
         'uv' => 0,
         'dv' => 0,
         'score' => 0,
-    );
+    ];
 
     protected static $unguarded = true;
     protected $appends = ['vote_state'];
@@ -21,7 +21,7 @@ class EntryReply extends BaseModel
 
     function __construct($attributes = array())
     {
-        $this->_id = Str::random(8);
+        $this->id = Str::random(8);
 
         parent::__construct($attributes);
     }

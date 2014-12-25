@@ -3,7 +3,9 @@
 class ConversationMessage extends BaseModel {
 
     protected $table = 'conversation_messages';
-    protected $visible = ['_id', 'conversation', 'created_at', 'user', 'text'];
+    protected $visible = [
+        'id', 'conversation', 'created_at', 'user', 'text'
+    ];
 
     public function conversation()
     {

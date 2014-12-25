@@ -15,9 +15,4 @@ class GroupModerator extends BaseModel
         return $this->belongsTo('User');
     }
 
-    public function getLocalTime()
-    {
-        return $this->created_at->setTimeZone(new DateTimeZone('Europe/Warsaw'))->format('d/m/Y H:i:s');
-    }
-
 }

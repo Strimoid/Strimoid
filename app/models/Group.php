@@ -21,8 +21,10 @@ class Group extends BaseModel
     ];
 
     protected $table = 'groups';
-    protected $visible = ['_id', 'avatar', 'created_at', 'creator',
-        'description', 'sidebar', 'subscribers', 'name'];
+    protected $visible = [
+        'id', 'avatar', 'created_at', 'creator',
+        'description', 'sidebar', 'subscribers', 'name'
+    ];
 
     const TYPE_PUBLIC = 0;
     const TYPE_MODERATED = 1;

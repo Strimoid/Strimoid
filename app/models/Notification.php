@@ -13,7 +13,10 @@ class Notification extends BaseModel
 {
 
     protected $table = 'notifications';
-    protected $visible = ['_id', 'created_at', 'sourceUser', 'read', 'title', 'type', 'url'];
+    protected $visible = [
+        'id', 'created_at', 'sourceUser',
+        'read', 'title', 'type', 'url'
+    ];
 
     public function sourceUser()
     {

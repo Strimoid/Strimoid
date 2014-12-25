@@ -18,12 +18,12 @@ class Entry extends BaseModel
     protected $appends = ['vote_state'];
     protected $table = 'entries';
     protected $fillable = ['text'];
-    protected $visible = ['_id', 'created_at', 'user', 'group', 'text', 'text_source',
+    protected $visible = ['id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies'];
 
     function __construct($attributes = array())
     {
-        $this->_id = Str::random(6);
+        $this->id = Str::random(6);
 
         parent::__construct($attributes);
     }

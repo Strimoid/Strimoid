@@ -20,7 +20,7 @@ class Comment extends BaseModel
 
     function __construct($attributes = array())
     {
-        $this->_id = Str::random(6);
+        $this->id = Str::random(6);
 
         parent::__construct($attributes);
     }

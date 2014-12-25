@@ -6,7 +6,7 @@ class Folder extends BaseModel
 {
 
     protected static $unguarded = true;
-    protected $visible = ['_id', 'name', 'groups'];
+    protected $visible = ['id', 'name', 'groups'];
 
     public static function find($id, $columns = array('*')) {
         return static::findUserFolder(Auth::user()->_id, $id, $columns);

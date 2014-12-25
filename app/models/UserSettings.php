@@ -7,23 +7,39 @@ class UserSettings {
     public function __construct()
     {
         $this->set('homepage_subscribed', [
-            'type' => 'checkbox', 'default' => false, 'options' => [true, false]
+            'type' => 'checkbox',
+            'default' => false,
+            'options' => [true, false]
         ]);
 
         $this->set('contents_per_page', [
-            'type' => 'select', 'default' => 25, 'options' => [10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100]
+            'type' => 'select',
+            'default' => 25,
+            'options' => [
+                10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100
+            ]
         ]);
 
         $this->set('entries_per_page', [
-            'type' => 'select', 'default' => 25, 'options' => [10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100]
+            'type' => 'select',
+            'default' => 25,
+            'options' => [
+                10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100
+            ]
         ]);
 
         $this->set('timezone', [
-            'type' => 'select', 'default' => 'Europe/Warsaw', 'options' => function() { return $this->getTimezones(); }
+            'type' => 'select',
+            'default' => 'Europe/Warsaw',
+            'options' => function() {
+                return $this->getTimezones();
+            }
         ]);
 
         $this->set('notifications.auto_read', [
-            'type' => 'checkbox', 'default' => false, 'options' => [true, false]
+            'type' => 'checkbox',
+            'default' => false,
+            'options' => [true, false]
         ]);
     }
 
