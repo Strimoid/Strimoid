@@ -3,7 +3,7 @@
 class GroupModerator extends BaseModel
 {
 
-    protected $collection = 'group_moderators';
+    protected $table = 'group_moderators';
 
     public function group()
     {

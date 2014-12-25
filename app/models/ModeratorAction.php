@@ -3,7 +3,7 @@
 class ModeratorAction extends BaseModel
 {
 
-    protected $collection = 'moderator_actions';
+    protected $table = 'moderator_actions';
 
     const TYPE_MODERATOR_ADDED      = 1;
     const TYPE_MODERATOR_REMOVED    = 2;

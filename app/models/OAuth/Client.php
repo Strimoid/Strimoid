@@ -6,7 +6,7 @@ use Jenssegers\Mongodb\Model as Eloquent;
 
 class Client extends Eloquent {
 
-    protected $collection = 'oauth_clients';
+    protected $table = 'oauth_clients';
 
     public function user()
     {

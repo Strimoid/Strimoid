@@ -3,7 +3,7 @@
 class UserBlocked extends BaseModel
 {
 
-    protected $collection = 'user_blocks';
+    protected $table = 'user_blocks';
 
     public function target()
     {

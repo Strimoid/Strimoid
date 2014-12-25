@@ -3,7 +3,7 @@
 class GroupBlock extends BaseModel
 {
 
-    protected $collection = 'group_blocks';
+    protected $table = 'group_blocks';
 
     public function group()
     {

@@ -15,7 +15,7 @@ class EntryReply extends BaseModel
 
     protected static $unguarded = true;
     protected $appends = ['vote_state'];
-    protected $collection = null;
+    protected $table = null;
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'updated_at'];
 

@@ -19,14 +19,12 @@ class BaseModel extends Model
             return 'none';
         }
 
-        $pos = array_search(Auth::user()->_id, array_column($this->votes, 'user_id'));
+        $vote = $this->votes->where('user_id', Auth::user()->_id)->first();
 
-        if ($pos === false)
+        if (!$vote)
         {
             return 'none';
         }
-
-        $vote = $this->votes[$pos];
 
         if ($vote['up'])
         {

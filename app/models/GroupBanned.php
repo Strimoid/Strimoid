@@ -3,7 +3,7 @@
 class GroupBanned extends BaseModel
 {
 
-    protected $collection = 'group_bans';
+    protected $table = 'group_bans';
 
     public function group()
     {

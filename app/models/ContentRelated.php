@@ -14,7 +14,7 @@ class ContentRelated extends BaseModel
         'score' => 0,
     );
 
-    protected $collection = 'content_related';
+    protected $table = 'content_related';
     protected $hidden = ['_id', 'content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
 

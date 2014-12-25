@@ -3,7 +3,7 @@
 class UserAction extends BaseModel
 {
 
-    protected $collection = 'user_actions';
+    protected $table = 'user_actions';
 
     const TYPE_CONTENT = 1;
     const TYPE_COMMENT = 2;

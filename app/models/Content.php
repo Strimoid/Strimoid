@@ -35,7 +35,7 @@ class Content extends BaseModel
         'comments_count' => 0,
     ];
 
-    protected $collection = 'contents';
+    protected $table = 'contents';
     protected $dates = ['deleted_at'];
     protected $appends = ['vote_state'];
     protected $fillable = ['title', 'description', 'nsfw', 'eng', 'text', 'url'];

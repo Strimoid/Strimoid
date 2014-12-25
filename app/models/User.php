@@ -20,7 +20,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     use Authenticatable, CanResetPassword;
 
-    protected $collection = 'users';
+    protected $table = 'users';
     protected $visible = ['_id', 'age', 'avatar', 'created_at',
         'description', 'location', 'sex', 'name'];
     protected $dates = ['last_login'];

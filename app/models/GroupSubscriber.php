@@ -3,7 +3,7 @@
 class GroupSubscriber extends BaseModel
 {
 
-    protected $collection = 'group_subscribers';
+    protected $table = 'group_subscribers';
 
     public function group()
     {

@@ -14,7 +14,7 @@ class Comment extends BaseModel
     ];
 
     protected $appends = ['vote_state'];
-    protected $collection = 'comments';
+    protected $table = 'comments';
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
 

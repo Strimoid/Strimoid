@@ -2,7 +2,7 @@
 
 class Conversation extends BaseModel {
 
-    protected $collection = 'conversations';
+    protected $table = 'conversations';
     protected $visible = ['_id', 'created_at', 'users', 'lastMessage'];
 
     public function lastMessage()

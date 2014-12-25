@@ -16,7 +16,7 @@ class Entry extends BaseModel
     ];
 
     protected $appends = ['vote_state'];
-    protected $collection = 'entries';
+    protected $table = 'entries';
     protected $fillable = ['text'];
     protected $visible = ['_id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies'];

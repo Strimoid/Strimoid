@@ -20,7 +20,7 @@ class Group extends BaseModel
         'type' => self::TYPE_PUBLIC,
     ];
 
-    protected $collection = 'groups';
+    protected $table = 'groups';
     protected $visible = ['_id', 'avatar', 'created_at', 'creator',
         'description', 'sidebar', 'subscribers', 'name'];
 
