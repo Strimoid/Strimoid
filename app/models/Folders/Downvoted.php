@@ -11,7 +11,8 @@ class Downvoted extends FakeFolder {
 
         if (Auth::check())
         {
-            $builder->where('votes.user_id', Auth::user()->_id)->where('votes.up', '!=', true);
+            $builder->where('votes.user_id', Auth::user()->_id)
+                ->where('votes.up', '!=', true);
         }
 
         return $builder;

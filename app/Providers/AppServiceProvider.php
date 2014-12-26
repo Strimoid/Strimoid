@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Providers;
 
-use UserSettings;
+use Strimoid\Models\UserSettings;
 use Illuminate\Support\ServiceProvider;
 use Pdp\PublicSuffixListManager;
 use Pdp\Parser;

@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Auth;
+
 class UserSettings {
 
     protected $settings = [];

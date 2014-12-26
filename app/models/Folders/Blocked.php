@@ -23,7 +23,7 @@ class Blocked extends FakeFolder {
 
     public function contents()
     {
-        $builder = static::getBuilder('Content');
+        $builder = static::getBuilder('Strimoid\Models\Content');
 
         $blockedDomains = Auth::user()->blockedDomains();
         $builder->orWhereIn('domain', $blockedDomains);

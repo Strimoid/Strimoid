@@ -18,21 +18,21 @@ abstract class FakeFolder
 
     public function comments()
     {
-        $builder = static::getBuilder('Comment');
+        $builder = static::getBuilder('Strimoid\Models\Comment');
 
         return $builder;
     }
 
     public function contents()
     {
-        $builder = static::getBuilder('Content');
+        $builder = static::getBuilder('Strimoid\Models\Content');
 
         return $builder;
     }
 
     public function entries()
     {
-        $builder = static::getBuilder('Entry');
+        $builder = static::getBuilder('Strimoid\Models\Entry');
 
         return $builder;
     }

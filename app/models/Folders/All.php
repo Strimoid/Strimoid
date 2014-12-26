@@ -23,7 +23,7 @@ class All extends FakeFolder {
 
     public function contents()
     {
-        $builder = static::getBuilder('Content');
+        $builder = static::getBuilder('Strimoid\Models\Content');
 
         if (Auth::check()) {
             $blockedDomains = Auth::user()->blocked_domains;
