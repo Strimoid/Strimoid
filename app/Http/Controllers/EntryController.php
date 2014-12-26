@@ -32,6 +32,8 @@ class EntryController extends BaseController {
                 ->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
         }
 
+        $className = 'Strimoid\\Models\\Folders\\'. studly_case($groupName);
+
         if (Route::input('folder'))
         {
             $user = Route::input('user') ? User::findOrFail(Route::input('user')) : Auth::user();
@@ -45,10 +47,9 @@ class EntryController extends BaseController {
             $builder = $folder->entries();
             $results['folder'] = $folder;
         }
-        elseif (class_exists('Folders\\'. studly_case($groupName)))
+        elseif (class_exists($className))
         {
-            $class = 'Folders\\'. studly_case($groupName);
-            $fakeGroup = new $class;
+            $fakeGroup = new $className;
             $builder = $fakeGroup->entries();
 
             $results['fakeGroup'] = $fakeGroup;
@@ -287,10 +288,7 @@ class EntryController extends BaseController {
         $folderName = Input::get('folder');
         $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
 
-        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed', 'saved']))
-        {
-            App::abort(403, 'Group available only for logged in users');
-        }
+        $className = 'Strimoid\\Models\\Folders\\'. studly_case($folderName ?: $groupName);
 
         if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
         {
@@ -304,18 +302,9 @@ class EntryController extends BaseController {
 
             $builder = $folder->entries();
         }
-        elseif (class_exists('Folders\\'. studly_case($groupName)))
+        elseif (class_exists($className))
         {
-            $class = 'Folders\\'. studly_case($groupName);
-            $fakeGroup = new $class;
-            $builder = $fakeGroup->entries();
-
-            $builder->orderBy('sticky_global', 'desc');
-        }
-        elseif (class_exists('Folders\\'. studly_case($folderName)))
-        {
-            $class = 'Folders\\'. studly_case($folderName);
-            $fakeGroup = new $class;
+            $fakeGroup = new $className;
             $builder = $fakeGroup->entries();
 
             $builder->orderBy('sticky_global', 'desc');

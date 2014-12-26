@@ -416,6 +416,8 @@ class ContentController extends BaseController {
         $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
         $type = Input::has('type') ? Input::get('type') : 'all';
 
+        $className = 'Strimoid\\Models\\Folders\\'. studly_case($folderName ?: $groupName);
+
         if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed', 'saved']))
         {
             App::abort(403, 'Group available only for logged in users');
@@ -433,18 +435,9 @@ class ContentController extends BaseController {
 
             $builder = $folder->contents();
         }
-        elseif (class_exists('Folders\\'. studly_case($groupName)))
+        elseif (class_exists($className))
         {
-            $class = 'Folders\\'. studly_case($groupName);
-            $fakeGroup = new $class;
-            $builder = $fakeGroup->contents();
-
-            $builder->orderBy('sticky_global', 'desc');
-        }
-        elseif (class_exists('Folders\\'. studly_case($folderName)))
-        {
-            $class = 'Folders\\'. studly_case($folderName);
-            $fakeGroup = new $class;
+            $fakeGroup = new $className;
             $builder = $fakeGroup->contents();
 
             $builder->orderBy('sticky_global', 'desc');
@@ -459,11 +452,6 @@ class ContentController extends BaseController {
             // Allow group moderators to stick contents
             $builder->orderBy('sticky_group', 'desc');
         }
-
-        $builder->with([
-            'user' => function($q) { $q->remember(10); },
-            'group' => function($q) { $q->remember(10); }
-        ]);
 
         // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
         if (in_array(Input::get('sort'), ['comments', 'score', 'uv', 'created_at', 'frontpage_at']))
@@ -486,7 +474,7 @@ class ContentController extends BaseController {
         // Time filter
         if (Input::get('time'))
         {
-            $builder->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+            $builder->where('created_at', '>', time() - intval(Input::get('time')) * 86400);
         }
 
         // Domain filter
