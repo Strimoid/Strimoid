@@ -64,27 +64,28 @@ class Content extends BaseModel
 
     public function group()
     {
-        return $this->belongsTo('Group');
+        return $this->belongsTo('Strimoid\Models\Group');
     }
 
     public function user()
     {
-        return $this->belongsTo('User')->select(['avatar', 'name']);
+        return $this->belongsTo('Strimoid\Models\User')
+            ->select(['avatar', 'name']);
     }
 
     public function deleted_by()
     {
-        return $this->belongsTo('User', 'deleted_by');
+        return $this->belongsTo('Strimoid\Models\User', 'deleted_by');
     }
 
     public function related()
     {
-        return $this->hasMany('ContentRelated');
+        return $this->hasMany('Strimoid\Models\ContentRelated');
     }
 
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany('Strimoid\Models\Comment');
     }
 
     public function getDomain()
@@ -102,37 +103,15 @@ class Content extends BaseModel
         return $this->embed;
     }
 
-    public function getComments()
-    {
-        return Comment::with('user', 'replies.user')
-            ->orderBy('created_at', 'asc')
-            ->where('content_id', $this->getKey())
-            ->get();
-    }
-
-    public function getRelated()
-    {
-        return ContentRelated::with('user')
-            ->orderBy('created_at', 'asc')
-            ->where('content_id', $this->getKey())
-            ->get();
-    }
-
     public function getURL()
     {
-        if ($this->url)
-        {
-            return $this->url;
-        }
-        else
-        {
-            return $this->getSlug();
-        }
+        $this->url ?: $this->getSlug();
     }
 
     public function getSlug()
     {
-        return route('content_comments_slug', [$this->_id, Str::slug($this->title)]);
+        $params = [$this->_id, Str::slug($this->title)];
+        return route('content_comments_slug', $params);
     }
 
     public function setNsfwAttribute($value)
@@ -263,17 +242,6 @@ class Content extends BaseModel
 
     public function scopeFrontpage($query, $exists = true)
     {
-        /*
-        if ($exists)
-        {
-            return $query->whereRaw(['frontpage_at' => ['$gt' => new MongoDate(1)]]);
-        }
-        else
-        {
-            return $query->whereRaw(['frontpage_at' => null]);
-        }
-        */
-
         return $query->where('frontpage_at', 'exists', $exists);
     }
 
