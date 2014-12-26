@@ -7,7 +7,7 @@ class NotificationTarget extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function setReadAttribute($value)

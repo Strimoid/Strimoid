@@ -13,32 +13,32 @@ class UserAction extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function content()
     {
-        return $this->belongsTo('Content');
+        return $this->belongsTo('Strimoid\Models\Content');
     }
 
     public function entry()
     {
-        return $this->belongsTo('Entry');
+        return $this->belongsTo('Strimoid\Models\Entry');
     }
 
     public function entryReply()
     {
-        return $this->belongsTo('EntryReply');
+        return $this->belongsTo('Strimoid\Models\EntryReply');
     }
 
     public function comment()
     {
-        return $this->belongsTo('Comment');
+        return $this->belongsTo('Strimoid\Models\Comment');
     }
 
     public function commentReply()
     {
-        return $this->belongsTo('CommentReply');
+        return $this->belongsTo('Strimoid\Models\CommentReply');
     }
 
     public function getObject()

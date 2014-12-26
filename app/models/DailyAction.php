@@ -8,7 +8,7 @@ class DailyAction extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function getPointsAttribute($value)

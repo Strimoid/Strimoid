@@ -7,13 +7,13 @@ class GroupSubscriber extends BaseModel
 
     public function group()
     {
-        return $this->belongsTo('Group')
+        return $this->belongsTo('Strimoid\Models\Group')
             ->orderBy('name', 'asc');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
 }

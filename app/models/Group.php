@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Models;
 
+use Auth;
 use Strimoid\Helpers\MarkdownParser;
 
 /**
@@ -33,12 +34,12 @@ class Group extends BaseModel
 
     public function creator()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function entries()
     {
-        $relation = $this->hasMany('Entry');
+        $relation = $this->hasMany('Strimoid\Models\Entry');
 
         if (Auth::check())
         {
@@ -51,7 +52,7 @@ class Group extends BaseModel
 
     public function comments()
     {
-        $relation = $this->hasMany('Comment');
+        $relation = $this->hasMany('Strimoid\Models\Comment');
 
         if (Auth::check())
         {
@@ -64,7 +65,7 @@ class Group extends BaseModel
 
     public function contents()
     {
-        $relation = $this->hasMany('Content');
+        $relation = $this->hasMany('Strimoid\Models\Content');
 
         if (Auth::check())
         {
@@ -80,7 +81,7 @@ class Group extends BaseModel
 
     public function moderators()
     {
-        return $this->hasMany('GroupModerator');
+        return $this->hasMany('Strimoid\Models\GroupModerator');
     }
 
     public function checkAccess()

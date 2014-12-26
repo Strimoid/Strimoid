@@ -253,7 +253,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function entries()
     {
-        return $this->hasMany('Entry');
+        return $this->hasMany('Strimoid\Models\Entry');
     }
 
     /* Scopes */

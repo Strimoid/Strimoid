@@ -7,12 +7,12 @@ class UserBlocked extends BaseModel
 
     public function target()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
 }

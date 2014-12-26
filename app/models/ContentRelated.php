@@ -27,12 +27,12 @@ class ContentRelated extends BaseModel
 
     public function content()
     {
-        return $this->belongsTo('Content');
+        return $this->belongsTo('Strimoid\Models\Content');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function delete()

@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Str;
+
 class Comment extends BaseModel
 {
 
@@ -38,22 +40,24 @@ class Comment extends BaseModel
 
     public function content()
     {
-        return $this->belongsTo('Content')->withTrashed();
+        return $this->belongsTo('Strimoid\Models\Content')
+            ->withTrashed();
     }
 
     public function group()
     {
-        return $this->belongsTo('Group');
+        return $this->belongsTo('Strimoid\Models\Group');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function replies()
     {
-        return $this->embedsMany('CommentReply', '_replies')->with('user');
+        return $this->embedsMany('Strimoid\Models\CommentReply', '_replies')
+            ->with('user');
     }
 
     public function delete()

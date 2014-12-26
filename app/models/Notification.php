@@ -20,47 +20,47 @@ class Notification extends BaseModel
 
     public function sourceUser()
     {
-        return $this->belongsTo('User')->select(['avatar']);
+        return $this->belongsTo('Strimoid\Models\User')->select(['avatar']);
     }
 
     public function entry()
     {
-        return $this->belongsTo('Entry');
+        return $this->belongsTo('Strimoid\Models\Entry');
     }
 
     public function entryReply()
     {
-        return $this->belongsTo('EntryReply');
+        return $this->belongsTo('Strimoid\Models\EntryReply');
     }
 
     public function content()
     {
-        return $this->belongsTo('Content');
+        return $this->belongsTo('Strimoid\Models\Content');
     }
 
     public function comment()
     {
-        return $this->belongsTo('Comment');
+        return $this->belongsTo('Strimoid\Models\Comment');
     }
 
     public function commentReply()
     {
-        return $this->belongsTo('CommentReply');
+        return $this->belongsTo('Strimoid\Models\CommentReply');
     }
 
     public function conversation()
     {
-        return $this->belongsTo('Conversation');
+        return $this->belongsTo('Strimoid\Models\Conversation');
     }
 
     public function group()
     {
-        return $this->belongsTo('Group');
+        return $this->belongsTo('Strimoid\Models\Group');
     }
 
     public function targets()
     {
-        return $this->embedsMany('NotificationTarget', '_targets');
+        return $this->embedsMany('Strimoid\Models\NotificationTarget', '_targets');
     }
 
     public function setTitle($title)

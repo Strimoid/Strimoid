@@ -9,12 +9,12 @@ class ConversationMessage extends BaseModel {
 
     public function conversation()
     {
-        return $this->belongsTo('Conversation');
+        return $this->belongsTo('Strimoid\Models\Conversation');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function setTextAttribute($text)

@@ -12,17 +12,17 @@ class ModeratorAction extends BaseModel
 
     public function moderator()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function target()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function group()
     {
-        return $this->belongsTo('Group');
+        return $this->belongsTo('Strimoid\Models\Group');
     }
 
 }
