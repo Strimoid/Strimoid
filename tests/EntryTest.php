@@ -1,5 +1,7 @@
 <?php
 
+use Strimoid\Models\User;
+
 class EntryTest extends TestCase {
 
     public function testList()
