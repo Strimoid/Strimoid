@@ -1,7 +1,10 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Input;
+use Strimoid\Models\Content;
 use Strimoid\Models\Group;
+use Strimoid\Models\GroupBanned;
+use Strimoid\Models\Entry;
 
 class GroupController extends BaseController {
 
@@ -26,7 +29,7 @@ class GroupController extends BaseController {
             $data['recommendedGroups'] = Group::whereIn('_id', $ids)->get();
         }
 
-        return View::make('group.list', $data);
+        return view('group.list', $data);
     }
 
     public function showJSONList()
@@ -89,12 +92,12 @@ class GroupController extends BaseController {
             }
         }
 
-        return View::make('group.wizard', array('groups' => $groups));
+        return view('group.wizard', array('groups' => $groups));
     }
 
     public function showCreateForm()
     {
-        return View::make('group.create');
+        return view('group.create');
     }
 
     public function showSettings($groupName)
@@ -118,7 +121,7 @@ class GroupController extends BaseController {
             $data['css'] = File::get($filename);
         }
 
-        return View::make('group.settings', $data);
+        return view('group.settings', $data);
     }
 
     public function saveProfile($groupName)
@@ -244,7 +247,7 @@ class GroupController extends BaseController {
             ->with('user')
             ->paginate(25);
 
-        return View::make('group.moderators', compact('group', 'moderators'));
+        return view('group.moderators', compact('group', 'moderators'));
     }
 
     public function addModerator()
@@ -345,7 +348,7 @@ class GroupController extends BaseController {
         $bans = GroupBanned::where('group_id', $group->getKey())
             ->orderBy('created_at', 'desc')->with('user')->paginate(25);
 
-        return View::make('group.bans', array('group' => $group, 'bans' => $bans));
+        return view('group.bans', array('group' => $group, 'bans' => $bans));
     }
 
     public function addBan()
@@ -549,7 +552,7 @@ class GroupController extends BaseController {
         else
             $groups = Group::orderBy('subscribers', 'desc')->paginate(25);
 
-        return View::make('group.wizard', ['popular_tags' => $popularTags, 'groups' => $groups]);
+        return view('group.wizard', ['popular_tags' => $popularTags, 'groups' => $groups]);
     }
 
     public function getSidebar($group)

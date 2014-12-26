@@ -183,17 +183,17 @@ class ContentController extends BaseController {
         }
         */
 
-        return View::make('content.comments', $results);
+        return view('content.comments', $results);
     }
 
     public function showFrame(Content $content)
     {
-        return View::make('content.frame', compact('content'));
+        return view('content.frame', compact('content'));
     }
 
     public function showAddForm()
     {
-        return View::make('content.add');
+        return view('content.add');
     }
 
     public function showEditForm(Content $content)
@@ -204,7 +204,7 @@ class ContentController extends BaseController {
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
-        return View::make('content.edit', compact('content'));
+        return view('content.edit', compact('content'));
     }
 
     public function addContent()
@@ -386,7 +386,7 @@ class ContentController extends BaseController {
 
         Session::put('thumbnails', $thumbnails['thumbnails']);
 
-        return View::make('content.thumbnails', compact('content', 'thumbnails'));
+        return view('content.thumbnails', compact('content', 'thumbnails'));
     }
 
     public function saveThumbnail()

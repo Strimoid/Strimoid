@@ -47,7 +47,7 @@ class CommentController extends BaseController {
             $blockedUsers = (array) Auth::user()->blockedUsers();
         }
 
-        return View::make('comments.list', compact('group', 'comments', 'group_name', 'blockedUsers'));
+        return view('comments.list', compact('group', 'comments', 'group_name', 'blockedUsers'));
     }
 
     public function getCommentSource()
@@ -100,7 +100,7 @@ class CommentController extends BaseController {
             $notification->save(); // todo
         });
 
-        $comment = View::make('comments.widget', compact('comment'))->render();
+        $comment = view('comments.widget', compact('comment'))->render();
 
         return Response::json(['status' => 'ok', 'comment' => $comment]);
     }
@@ -141,7 +141,7 @@ class CommentController extends BaseController {
             $notification->save(); // todo
         });
 
-        $replies = View::make('comments.replies', ['replies' => $parent->replies])
+        $replies = view('comments.replies', ['replies' => $parent->replies])
             ->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);

@@ -33,7 +33,7 @@ class RankingController extends BaseController
 
         $data['users'] = $query->paginate(50);
 
-        return View::make('ranking.ranking', $data);
+        return view('ranking.ranking', $data);
     }
 
     public function getIndex()

@@ -29,7 +29,7 @@ class SaveController extends BaseController
         $results['contents'] = Paginator::make($contents->all(), $total, Settings::get('contents_per_page'));
         $results['group_name'] = 'saved';
 
-        return View::make('content.display', $results);
+        return view('content.display', $results);
     }
 
     public function showEntries()
@@ -55,7 +55,7 @@ class SaveController extends BaseController
         $results['entries'] = Paginator::make($entries->all(), $total, Settings::get('entries_per_page'));
         $results['group_name'] = 'saved';
 
-        return View::make('entries.display', $results);
+        return view('entries.display', $results);
     }
 
     public function saveContent()

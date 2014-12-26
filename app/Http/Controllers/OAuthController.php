@@ -48,7 +48,7 @@ class OAuthController extends BaseController {
             $scopes[] = 'basic';
         }
 
-        return View::make('oauth.authorize', ['client' => $client, 'scopes' => $scopes]);
+        return view('oauth.authorize', ['client' => $client, 'scopes' => $scopes]);
     }
 
     public function authorize()
@@ -64,12 +64,12 @@ class OAuthController extends BaseController {
     {
         $apps = OAuth\Client::where('user_id', Auth::user()->_id)->get();
 
-        return View::make('oauth.apps', ['apps' => $apps]);
+        return view('oauth.apps', ['apps' => $apps]);
     }
 
     public function addAppForm()
     {
-        return View::make('oauth.add');
+        return view('oauth.add');
     }
 
     public function addApp()

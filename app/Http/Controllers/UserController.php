@@ -131,12 +131,12 @@ class UserController extends BaseController {
             return Redirect::to('')->with('success_msg', 'Link umożliwiający zmianę hasła został wysłany na twój adres email.');
         }
 
-        return View::make('user.remind');
+        return view('user.remind');
     }
 
     public function showPasswordResetForm($token)
     {
-        return View::make('user.reset')->with('token', $token);
+        return view('user.reset')->with('token', $token);
     }
 
     public function resetPassword($token)
@@ -177,12 +177,12 @@ class UserController extends BaseController {
 
     public function showLoginForm()
     {
-        return View::make('user.login');
+        return view('user.login');
     }
 
     public function showRegisterForm()
     {
-        return View::make('user.register');
+        return view('user.register');
     }
 
     public function processRegistration()
@@ -254,7 +254,7 @@ class UserController extends BaseController {
 
     public function showRemoveAccountForm()
     {
-        return View::make('user.remove');
+        return view('user.remove');
     }
 
     public function removeAccount()
@@ -321,7 +321,7 @@ class UserController extends BaseController {
         $data['type'] = $type;
         $data['user'] = $user;
 
-        return View::make('user.profile', $data);
+        return view('user.profile', $data);
     }
 
     public function showSettings()
@@ -334,7 +334,7 @@ class UserController extends BaseController {
         $blockedUsers = UserBlocked::where('user_id', $user->getKey())->with('user')->get();
         $bans = GroupBanned::where('user_id', $user->getKey())->with('group')->get();
 
-        return View::make('user.settings', compact(
+        return view('user.settings', compact(
             'user', 'subscribedGroups', 'blockedGroups', 'moderatedGroups', 'blockedUsers', 'bans'
         ));
     }

@@ -42,7 +42,7 @@ class NotificationController extends BaseController {
         $notifications = Notification::target(['user_id' => Auth::id()])
             ->orderBy('created_at', 'desc')->paginate(30);
 
-        return View::make('notifications.list', ['notifications' => $notifications]);
+        return view('notifications.list', ['notifications' => $notifications]);
     }
 
     public function markAllAsRead()

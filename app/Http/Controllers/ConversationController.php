@@ -25,7 +25,7 @@ class ConversationController extends BaseController {
                 ->orderBy('created_at', 'desc')->paginate(50);
         }
 
-        return View::make('conversations.display', $data);
+        return view('conversations.display', $data);
     }
 
     public function showCreateForm($username = null)
@@ -35,7 +35,7 @@ class ConversationController extends BaseController {
                 return $conversation->lastMessage->created_at;
             })->reverse();
 
-        return View::make('conversations.create', compact('conversations', 'username'));
+        return view('conversations.create', compact('conversations', 'username'));
     }
 
     public function createConversation()

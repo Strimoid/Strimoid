@@ -35,7 +35,7 @@ class SearchController extends BaseController {
             $results = $this->builder->paginate(25);
         }
 
-        Return View::make('search.main', compact('results'));
+        Return view('search.main', compact('results'));
     }
 
     protected function getArguments($text)

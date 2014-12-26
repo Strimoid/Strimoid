@@ -79,7 +79,7 @@ class EntryController extends BaseController {
         $results['entries'] = $entries;
         $results['group_name'] = $groupName;
 
-        return View::make('entries.display', $results);
+        return view('entries.display', $results);
     }
 
     public function showEntry($id)
@@ -96,7 +96,7 @@ class EntryController extends BaseController {
         $entries = array($entry);
         $group = $entry->group;
 
-        return View::make('entries.display', compact('entries', 'group'));
+        return view('entries.display', compact('entries', 'group'));
     }
 
     public function getEntryReplies($id)
@@ -104,7 +104,7 @@ class EntryController extends BaseController {
         $entry = Entry::findOrFail($id);
         $replies = $entry->replies;
 
-        return View::make('entries.replies', compact('entry', 'replies'));
+        return view('entries.replies', compact('entry', 'replies'));
     }
 
     public function getEntrySource()
@@ -197,7 +197,7 @@ class EntryController extends BaseController {
 
         $entryParent->increment('replies_count');
 
-        $replies = View::make('entries.replies', ['entry' => $entryParent, 'replies' => $entryParent->replies])
+        $replies = view('entries.replies', ['entry' => $entryParent, 'replies' => $entryParent->replies])
             ->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);
