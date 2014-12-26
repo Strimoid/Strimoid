@@ -1,101 +1,5 @@
 <?php
 
-/*
-
-Route::bind('user', function($value, $route)
-{
-    return User::shadow($value)->first();
-});
-
-Route::bind('group', function($value, $route)
-{
-    return Group::shadow($value)->first();
-});
-
-*/
-
-Route::model('content', 'Content');
-Route::model('related', 'ContentRelated');
-Route::model('notification', 'Notification');
-Route::model('comment', 'Comment');
-Route::model('comment_reply', 'CommentReply');
-Route::model('entry', 'Entry');
-Route::model('entry_reply', 'EntryReply');
-
-/* API ============================================================================================================== */
-Route::group(['domain' => 'api.strimoid.pl'], function()
-{
-    Route::get('/me', ['before' => 'oauth:basic', 'uses' => 'UserController@showCurrentUser']);
-
-    // Contents
-
-    Route::get('/contents', ['before' => 'oauth', 'uses' => 'ContentController@getIndex']);
-
-    Route::get('/content/{content}', 'ContentController@show');
-    Route::post('/content', ['before' => 'oauth:contents', 'uses' => 'ContentController@store']);
-    Route::patch('/content/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@edit']);
-    Route::delete('/content/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@removeContent']);
-
-    Route::post('/content/{content}/related', ['before' => 'oauth:contents', 'uses' => 'RelatedController@store']);
-    Route::delete('/related/{related}', ['before' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
-
-    // Comments
-
-    Route::get('/comments', ['uses' => 'CommentController@index']);
-
-    Route::post('/content/{content}/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@store']);
-    Route::post('/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@storeReply']);
-
-    Route::patch('/comment/{comment}', ['before' => 'oauth:comments', 'uses' => 'CommentController@edit']);
-    Route::patch('/comment/{comment_reply}/reply', ['before' => 'oauth:comments', 'uses' => 'CommentController@edit']);
-
-    Route::delete('/comment/{comment}', ['before' => 'oauth:comments', 'uses' => 'CommentController@remove']);
-    Route::delete('/comment/{comment_reply}/reply', ['before' => 'oauth:comments', 'uses' => 'CommentController@remove']);
-
-    // Entries
-
-    Route::get('/entries', ['before' => 'oauth', 'uses' => 'EntryController@getIndex']);
-    Route::get('/entry/{entry}', 'EntryController@show');
-
-    Route::post('/entry', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
-    Route::post('/entry/{entry}/reply', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
-
-    Route::delete('/entry/{entry}', ['before' => 'oauth:entries', 'uses' => 'EntryController@remove']);
-
-    // Groups
-
-    Route::get('/groups', 'GroupController@index');
-    Route::get('/group/{id}', 'GroupController@show');
-
-    // Users
-
-    Route::get('/user/{id}', 'UserController@show');
-
-    // Conversations
-    Route::get('/conversations', ['before' => 'oauth:conversations', 'uses' => 'ConversationController@getIndex']);
-    Route::get('/messages', ['before' => 'oauth:conversations', 'uses' => 'ConversationController@getMessages']);
-
-    // Notifications
-
-    Route::get('/notifications', [
-        'before' => 'oauth:notifications', 'uses' => 'NotificationController@listNotifications'
-    ]);
-    Route::patch('/notification/{notification}', [
-        'before' => 'oauth:notifications', 'uses' => 'NotificationController@edit'
-    ]);
-
-    Route::post('/notifications/register_gcm', [
-        'before' => 'oauth:notifications', 'uses' => 'NotificationController@registerGCM'
-    ]);
-
-    // Ranking
-    Route::get('/ranking', 'RankingController@getIndex');
-
-    // Voting
-    Route::post('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@addVote']);
-    Route::delete('/vote', ['before' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
-});
-
 Route::group(['prefix' => 'api/v1'], function()
 {
     Route::get('/', function() {
@@ -109,11 +13,7 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::post('/logout', ['before' => 'auth', 'uses' => 'AuthController@logout']);
 
     // Contents
-
-    // Route::resource('contents', 'ContentController', ['only' => ['index', 'show']]);
-
     Route::get('/contents', ['before' => 'oauth', 'uses' => 'ContentController@getIndex']);
-
     Route::get('/contents/{content}', 'ContentController@show');
     Route::post('/contents', ['before' => 'oauth:contents', 'uses' => 'ContentController@store']);
     Route::patch('/contents/{content}', ['before' => 'oauth:contents', 'uses' => 'ContentController@edit']);
@@ -123,7 +23,6 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::delete('/related/{related}', ['before' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
 
     // Comments
-
     Route::get('/comments', ['uses' => 'CommentController@index']);
     Route::post('/content/{content}/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@store']);
     Route::post('/comment', ['before' => 'oauth:comments', 'uses' => 'CommentController@storeReply']);
@@ -131,7 +30,6 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::delete('/comment/{comment}/{reply?}', ['before' => 'oauth:comments', 'uses' => 'CommentController@remove']);
 
     // Entries
-
     Route::get('/entries', ['before' => 'oauth', 'uses' => 'EntryController@getIndex']);
     Route::get('/entries/{entry}', 'EntryController@show');
     Route::post('/entries', ['before' => 'oauth:entries', 'uses' => 'EntryController@store']);
@@ -149,7 +47,6 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::get('/messages', ['before' => 'oauth:conversations', 'uses' => 'ConversationController@getMessages']);
 
     // Notifications
-
     Route::get('/notifications', [
         'before' => 'oauth:notifications', 'uses' => 'NotificationController@listNotifications'
     ]);
@@ -451,11 +348,11 @@ Route::post('/queue/receive/Paxij6bGu18NZTeut4B7T5wKO10jUgQz', function()
 });
 
 /* Static pages ===================================================================================================== */
-Route::get('/cookies', function() { return View::make('static.cookies'); });
-Route::get('/contact', function() { return View::make('static.contact'); });
-Route::get('/guide', function() { return View::make('static.guide'); });
-Route::get('/rules', function() { return View::make('static.rules'); });
-Route::get('/tag/{tag}', function($tag){ Return View::make('static.tag', array('tag' => $tag)); });
+Route::get('/cookies', function() { return view('static.cookies'); });
+Route::get('/contact', function() { return view('static.contact'); });
+Route::get('/guide', function() { return view('static.guide'); });
+Route::get('/rules', function() { return view('static.rules'); });
+Route::get('/tag/{tag}', function($tag){ Return view('static.tag', ['tag' => $tag]); });
 
 /* Search =========================================================================================================== */
 Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);

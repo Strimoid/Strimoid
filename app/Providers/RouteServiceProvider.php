@@ -22,6 +22,14 @@ class RouteServiceProvider extends ServiceProvider {
      */
     public function boot(Router $router)
     {
+        $router->model('content', 'Strimoid\Models\Content');
+        $router->model('related', 'Strimoid\Models\ContentRelated');
+        $router->model('notification', 'Strimoid\Models\Notification');
+        $router->model('comment', 'Strimoid\Models\Comment');
+        $router->model('comment_reply', 'Strimoid\Models\CommentReply');
+        $router->model('entry', 'Strimoid\Models\Entry');
+        $router->model('entry_reply', 'Strimoid\Models\EntryReply');
+
         parent::boot($router);
     }
     /**
