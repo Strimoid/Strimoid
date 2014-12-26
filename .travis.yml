@@ -21,6 +21,8 @@ install:
 
 before_script:
   - mkdir -p build/logs
+  - sudo rethinkdb --daemon
+  - rethinkdb admin create database strimoid
   - php artisan migrate:install
   - php artisan migrate:refresh --seed
   - php -S localhost:8080 public/index.php &
