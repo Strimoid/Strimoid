@@ -1,5 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth, Input;
+use Strimoid\Models\Group;
+
 class CommentController extends BaseController {
 
     public function showComments($groupName = 'all')

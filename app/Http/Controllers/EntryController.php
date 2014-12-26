@@ -1,5 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth, Input;
+use Strimoid\Models\Group;
+
 class EntryController extends BaseController {
 
     public function showEntries($groupName = 'all')

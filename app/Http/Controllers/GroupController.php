@@ -1,5 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth, Input;
+use Strimoid\Models\Group;
+
 class GroupController extends BaseController {
 
     public function showList()

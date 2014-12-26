@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Input;
 use Strimoid\Facades\Settings;
+use Strimoid\Models\Group;
 
 class ContentController extends BaseController {
 
@@ -32,6 +33,8 @@ class ContentController extends BaseController {
             return Redirect::route('login_form')->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
         }
 
+        $className = 'Strimoid\\Models\\Folders\\'. studly_case($groupName);
+
         if (Route::input('folder'))
         {
             $user = Route::input('user') ? User::findOrFail(Route::input('user')) : Auth::user();
@@ -45,12 +48,10 @@ class ContentController extends BaseController {
             $builder = $folder->contents();
             $results['folder'] = $folder;
         }
-        elseif (class_exists('Folders\\'. studly_case($groupName)))
+        elseif (class_exists($className))
         {
-            $class = 'Folders\\'. studly_case($groupName);
-            $fakeGroup = new $class;
+            $fakeGroup = new $className;
             $builder = $fakeGroup->contents();
-
             $builder->orderBy('sticky_global', 'desc');
 
             $results['fakeGroup'] = $fakeGroup;
