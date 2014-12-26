@@ -1,4 +1,4 @@
-<?php
+<?php namespace Strimoid\Helpers;
 
 use OAuth2\Storage\AuthorizationCodeInterface;
 use OAuth2\Storage\AccessTokenInterface;

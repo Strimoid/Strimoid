@@ -1,5 +1,8 @@
 <?php namespace Strimoid\Models;
 
+use Str;
+use Strimoid\Helpers\MarkdownParser;
+
 class Entry extends BaseModel
 {
 

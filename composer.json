@@ -34,9 +34,7 @@
 	"autoload": {
 		"classmap": [
 			"app/commands",
-			"app/models",
             "app/handlers",
-            "app/helpers",
             "app/facades",
 		    "database"
 		],

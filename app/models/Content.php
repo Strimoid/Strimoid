@@ -3,6 +3,7 @@
 use Str, PDP;
 use Summon\Summon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Strimoid\Helpers\MarkdownParser;
 
 /**
  * Content model

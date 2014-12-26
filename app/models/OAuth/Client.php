@@ -1,10 +1,8 @@
-<?php
+<?php namespace Strimoid\Models\OAuth;
 
-namespace OAuth;
+use duxet\Rethinkdb\Eloquent\Model;
 
-use Jenssegers\Mongodb\Model as Eloquent;
-
-class Client extends Eloquent {
+class Client extends Model {
 
     protected $table = 'oauth_clients';
 

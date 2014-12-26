@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use MarkdownParser;
+use Strimoid\Helpers\MarkdownParser;
 
 /**
  * Group model
