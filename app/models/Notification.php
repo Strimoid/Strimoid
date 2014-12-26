@@ -135,22 +135,14 @@ class Notification extends BaseModel
     {
         switch ($this->type)
         {
-            case 'content':
-                return 'Treść';
-            case 'related':
-                return 'Powiązany link';
-            case 'entry':
-                return 'Wpis';
-            case 'entry_reply':
-                return 'Odpowiedź na wpis';
-            case 'comment':
-                return 'Komentarz';
-            case 'comment_reply':
-                return 'Odpowiedź na komentarz';
-            case 'conversation':
-                return 'Konwersacja';
-            case 'moderator':
-                return 'Powiadomienie';
+            case 'content':           return 'Treść';
+            case 'related':           return 'Powiązany link';
+            case 'entry':             return 'Wpis';
+            case 'entry_reply':       return 'Odpowiedź na wpis';
+            case 'comment':           return 'Komentarz';
+            case 'comment_reply':     return 'Odpowiedź na komentarz';
+            case 'conversation':      return 'Konwersacja';
+            case 'moderator':         return 'Powiadomienie';
         }
     }
 
