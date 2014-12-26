@@ -1,9 +1,8 @@
 <?php namespace Strimoid\Http\ViewComposers;
 
+use Auth, Config;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Group;
+use Strimoid\Models\Group;
 
 class MasterComposer {
 
@@ -33,7 +32,10 @@ class MasterComposer {
         if (Auth::check())
         {
             // Load last 15 notifications
-            $notifications = Notification::with(['sourceUser' => function($q) { $q->select('avatar')->remember(3); }])
+            $notifications = Notification::with(
+                ['sourceUser' => function($q) {
+                    $q->select('avatar');
+                }])
                 ->target(['user_id' => Auth::id()])
                 ->orderBy('created_at', 'desc')
                 ->take(15)->get();
