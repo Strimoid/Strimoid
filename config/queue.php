@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -11,11 +11,12 @@ return array(
 	| API, giving you convenient access to each back-end using the same
 	| syntax for each one. Here you may set the default queue driver.
 	|
-	| Supported: "sync", "beanstalkd", "sqs", "iron"
+	| Supported: "null", "sync", "database", beanstalkd",
+	|            "sqs", "iron", "redis"
 	|
 	*/
 
-	'default' => 'iron',
+	'default' => env('QUEUE_DRIVER') ?: 'sync',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,52 +29,47 @@ return array(
 	|
 	*/
 
-	'connections' => array(
+	'connections' => [
 
-		'sync' => array(
+		'sync' => [
 			'driver' => 'sync',
-		),
+		],
 
-		'beanstalkd' => array(
+		'database' => [
+			'driver' => 'database',
+			'table' => 'jobs',
+			'queue' => 'default',
+			'expire' => 60,
+		],
+
+		'beanstalkd' => [
 			'driver' => 'beanstalkd',
 			'host'   => 'localhost',
 			'queue'  => 'default',
-		),
+			'ttr'    => 60,
+		],
 
-		'sqs' => array(
-			'driver' => 'sqs',
-			'key'    => 'your-public-key',
-			'secret' => 'your-secret-key',
-			'queue'  => 'your-queue-url',
-			'region' => 'us-east-1',
-		),
+		'redis' => [
+			'driver' => 'redis',
+			'queue'  => 'default',
+			'expire' => 60,
+		],
 
-		'iron' => array(
-			'driver'  => 'iron',
-            'host'    => 'mq-aws-eu-west-1.iron.io',
-			'project' => '52f4be7613a66a0009000035',
-			'token'   => 'YhD5ko9i8FhagxHnT3B9_N4uLzQ',
-			'queue'   => 'strimoid',
-            'encrypt' => true,
-		),
+	],
 
-	),
+	/*
+	|--------------------------------------------------------------------------
+	| Failed Queue Jobs
+	|--------------------------------------------------------------------------
+	|
+	| These options configure the behavior of failed queue job logging so you
+	| can control which database and table are used to store the jobs that
+	| have failed. You may change them to any database / table you wish.
+	|
+	*/
 
-    /*
-    |--------------------------------------------------------------------------
-    | Failed Queue Jobs
-    |--------------------------------------------------------------------------
-    |
-    | These options configure the behavior of failed queue job logging so you
-    | can control which database and table are used to store the jobs that
-    | have failed. You may change them to any database / table you wish.
-    |
-    */
+	'failed' => [
+		'database' => 'rethinkdb', 'table' => 'failed_jobs',
+	],
 
-    'failed' => array(
-
-        'database' => 'mongodb', 'table' => 'failed_jobs',
-
-    ),
-
-);
+];

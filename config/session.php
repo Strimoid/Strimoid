@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -11,12 +11,12 @@ return array(
 	| requests. By default, we will use the lightweight native driver but
 	| you may specify any of the other wonderful drivers provided here.
 	|
-	| Supported: "native", "cookie", "database", "apc",
+	| Supported: "file", "cookie", "database", "apc",
 	|            "memcached", "redis", "array"
 	|
 	*/
 
-	'driver' => 'native',
+	'driver' => env('SESSION_DRIVER') ?: 'file',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -24,14 +24,27 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| Here you may specify the number of minutes that you wish the session
-	| to be allowed to remain idle for it is expired. If you want them
-	| to immediately expire when the browser closes, set it to zero.
+	| to be allowed to remain idle before it expires. If you want them
+	| to immediately expire on the browser closing, set that option.
 	|
 	*/
 
 	'lifetime' => 120,
 
-    'expire_on_close' => false,
+	'expire_on_close' => false,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Session Encryption
+	|--------------------------------------------------------------------------
+	|
+	| This option allows you to easily specify that all of your session data
+	| should be encrypted before it is stored. All encryption will be run
+	| automatically by Laravel and you can use the Session like normal.
+	|
+	*/
+
+	'encrypt' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -44,16 +57,16 @@ return array(
 	|
 	*/
 
-	'files' => storage_path().'/sessions',
+	'files' => storage_path().'/framework/sessions',
 
 	/*
 	|--------------------------------------------------------------------------
 	| Session Database Connection
 	|--------------------------------------------------------------------------
 	|
-	| When using the "database" session driver, you may specify the database
-	| connection that should be used to manage your sessions. This should
-	| correspond to a connection in your "database" configuration file.
+	| When using the "database" or "redis" session drivers, you may specify a
+	| connection that should be used to manage these sessions. This should
+	| correspond to a connection in your database configuration options.
 	|
 	*/
 
@@ -83,7 +96,7 @@ return array(
 	|
 	*/
 
-	'lottery' => array(2, 100),
+	'lottery' => [2, 100],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -124,4 +137,17 @@ return array(
 
 	'domain' => null,
 
-);
+	/*
+	|--------------------------------------------------------------------------
+	| HTTPS Only Cookies
+	|--------------------------------------------------------------------------
+	|
+	| By setting this option to true, session cookies will only be sent back
+	| to the server if the browser has a HTTPS connection. This will keep
+	| the cookie from being sent to you if it can not be done securely.
+	|
+	*/
+
+	'secure' => true,
+
+];
