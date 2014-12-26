@@ -37,7 +37,7 @@ return [
             'driver'   => 'rethinkdb',
             'host'     => 'localhost',
             //'port'     => 27017,
-            'database' => 'default'
+            'database' => 'strimoid'
         ],
 
         'stats' => [
