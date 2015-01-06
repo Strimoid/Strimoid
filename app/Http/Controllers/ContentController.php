@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Carbon\Carbon;
 use Summon\Summon;
 use Auth, Input, Route;
 use Strimoid\Facades\Settings;
@@ -92,7 +93,9 @@ class ContentController extends BaseController {
         // Time filter
         if (Input::get('time'))
         {
-            $builder->where('created_at', '>', new MongoDate(time() - intval(Input::get('time')) * 86400));
+            $fromTime = Carbon::now()->subDay(Input::get('time'))
+                ->hour(0)->minute(0)->second(0);
+            $builder->where('created_at', '>', $fromTime);
         }
 
         // Show removed contents
@@ -106,7 +109,9 @@ class ContentController extends BaseController {
 
         // Add sort and filter parameters to paging urls
         $contents->appends([
-            'sort' => Input::get('sort'), 'time' => Input::get('time'), 'all' => Input::get('all')
+            'sort' => Input::get('sort'),
+            'time' => Input::get('time'),
+            'all'  => Input::get('all'),
         ]);
 
         $results['contents'] = $contents;
@@ -117,22 +122,24 @@ class ContentController extends BaseController {
         {
             $feed = Rss::feed('2.0', 'UTF-8');
 
-            $feed->channel(array(
-                'title' => 'Strimoid: strona główna',
+            $feed->channel([
+                'title'       => 'Strimoid: strona główna',
                 'description' => 'Ostatnio popularne treści na portalu Strimoid.pl',
-                'link' => 'http://www.strimoid.pl/'
-            ));
+                'link'        => 'http://www.strimoid.pl/',
+            ]);
 
             foreach ($contents as $content){
-                $feed->item(array(
-                    'title' => $content->title,
+                $feed->item([
+                    'title'             => $content->title,
                     'description|cdata' => $content->description,
-                    'link' => route('content_comments', $content->_id),
-                    'pubdate' => $content->created_at->format(DateTime::RSS)
-                ));
+                    'link'              => route('content_comments', $content->_id),
+                    'pubdate'           => $content->created_at->format(DateTime::RSS),
+                ]);
             }
 
-            return Response::make($feed, 200, ['Content-Type' => 'text/xml'])->setTtl(60);
+            return Response::make($feed, 200, [
+                'Content-Type' => 'text/xml'
+            ])->setTtl(60);
         }
 
         return view('content.display', $results);
