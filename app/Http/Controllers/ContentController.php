@@ -1,9 +1,7 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Summon\Summon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Input;
+use Auth, Input, Route;
 use Strimoid\Facades\Settings;
 use Strimoid\Models\Group;
 
@@ -69,7 +67,7 @@ class ContentController extends BaseController {
             $results['group'] = $group;
         }
 
-        $builder->with(['user' => function($q) { $q->remember(10); }]);
+        $builder->with(['user']);
 
         // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
         if (in_array(Input::get('sort'), ['comments', 'uv', 'created_at', 'frontpage_at']))
@@ -439,8 +437,6 @@ class ContentController extends BaseController {
         {
             $fakeGroup = new $className;
             $builder = $fakeGroup->contents();
-
-            $builder->orderBy('sticky_global', 'desc');
         }
         else
         {
@@ -448,18 +444,21 @@ class ContentController extends BaseController {
             $group->checkAccess();
 
             $builder = $group->contents();
-
-            // Allow group moderators to stick contents
-            $builder->orderBy('sticky_group', 'desc');
         }
 
         // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
         if (in_array(Input::get('sort'), ['comments', 'score', 'uv', 'created_at', 'frontpage_at']))
+        {
             $builder->orderBy(Input::get('sort'), 'desc');
+        }
         elseif ($groupName == 'all' && $type == 'popular')
+        {
             $builder->orderBy('frontpage_at', 'desc');
+        }
         else
+        {
             $builder->orderBy('created_at', 'desc');
+        }
 
         // Show only contents from selected tab if all param doesn't exist
         if ($type == 'all')

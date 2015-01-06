@@ -1,18 +1,20 @@
 <?php
 
-$fromTimestamp = Carbon::now()->subDay(3)->minute(0)->second(0);
+use Strimoid\Models\Comment;
+
+$fromTime = Carbon::now()->subDay(3)->minute(0)->second(0);
 
 $builder = Comment::with([
-    'user' => function($q) { $q->select(['avatar', 'name'])->remember(60); },
-    'content' => function($q) { $q->select('title')->remember(60); }
-])->where('created_at', '>', carbon_to_md($fromTimestamp));
+    'user' => function($q) { $q->select(['avatar', 'name']); },
+    'content' => function($q) { $q->select('title'); }
+])->where('created_at', '>', $fromTime);
 
 if (isset($group))
 {
     $builder->where('group_id', $group->_id);
 }
 
-$popularComments = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
+$popularComments = $builder->orderBy('uv', 'desc')->take(5)->get();
 
 ?>
 

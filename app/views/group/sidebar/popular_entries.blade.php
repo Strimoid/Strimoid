@@ -1,17 +1,21 @@
 <?php
 
-$fromTimestamp = Carbon::now()->subDay(3)->minute(0)->second(0);
+use Strimoid\Models\Entry;
+
+$fromTime = Carbon::now()->subDay(3)->minute(0)->second(0);
 
 $builder = Entry::with([
-    'user' => function($q) { $q->select(['avatar', 'name'])->remember(60); }
-])->where('created_at', '>', carbon_to_md($fromTimestamp));
+    'user' => function($q) {
+        $q->select(['avatar', 'name']);
+    }
+])->where('created_at', '>', $fromTime);
 
 if (isset($group))
 {
     $builder->where('group_id', $group->_id);
 }
 
-$popularEntries = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
+$popularEntries = $builder->orderBy('uv', 'desc')->take(5)->get();
 
 ?>
 

@@ -220,11 +220,13 @@ return array(
 		'Form'      => 'Illuminate\Html\FormFacade',
 		'Str'       => 'Illuminate\Support\Str',
 
-        'Carbon'          => 'Carbon\Carbon',
-        'Image'           => 'Intervention\Image\Facades\Image',
-        'Embed'           => 'Cohensive\Embed\Facades\Embed',
-        'Rss'             => 'Thujohn\Rss\RssFacade',
-        'Debugbar'        => 'Barryvdh\Debugbar\Facade',
+        'Carbon'    => 'Carbon\Carbon',
+        'Image'     => 'Intervention\Image\Facades\Image',
+        'Embed'     => 'Cohensive\Embed\Facades\Embed',
+        'Rss'       => 'Thujohn\Rss\RssFacade',
+        'Debugbar'  => 'Barryvdh\Debugbar\Facade',
+
+		'Settings'  => 'Strimoid\Facades\Settings',
 
 	],
 

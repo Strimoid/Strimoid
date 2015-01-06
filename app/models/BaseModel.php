@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Auth, Settings;
+use DateTimeZone;
 use duxet\Rethinkdb\Eloquent\Model;
 
 class BaseModel extends Model

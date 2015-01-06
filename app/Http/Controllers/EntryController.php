@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input;
+use Auth, Input, Route, Settings;
 use Strimoid\Models\Group;
 
 class EntryController extends BaseController {

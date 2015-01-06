@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Auth;
+use Auth, App;
 use Strimoid\Helpers\MarkdownParser;
 
 /**

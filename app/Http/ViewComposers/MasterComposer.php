@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\ViewComposers;
 
-use Auth, Config;
+use Auth, Config, Settings;
 use Illuminate\Contracts\View\View;
 use Strimoid\Models\Group;
 
@@ -25,9 +25,9 @@ class MasterComposer {
 
         $assetsHost = env('development') ? '' : 'http://static.strimoid.pl';
 
-        $view->with('cssFilename', $assetsHost . Config::get('assets.style.css'));
-        $view->with('jsFilename', $assetsHost . Config::get('assets.app.js'));
-        $view->with('componentsFilename', $assetsHost . Config::get('assets.components.js'));
+        $view->with('cssFilename', $assetsHost . Config::get('assets.style'));
+        $view->with('jsFilename', $assetsHost . Config::get('assets.app'));
+        $view->with('componentsFilename', $assetsHost . Config::get('assets.components'));
 
         if (Auth::check())
         {

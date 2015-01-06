@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Str, PDP;
+use Config, Str, PDP;
 use Summon\Summon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;
@@ -21,7 +21,7 @@ use Strimoid\Helpers\MarkdownParser;
 class Content extends BaseModel
 {
 
-    use SoftDeletes;
+    //use SoftDeletes;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -95,12 +95,7 @@ class Content extends BaseModel
 
     public function getEmbed()
     {
-        if (!$this->embed)
-        {
-            $this->embed = Embed::make($this->getURL())->parseUrl();
-        }
-
-        return $this->embed;
+        return false;
     }
 
     public function getURL()

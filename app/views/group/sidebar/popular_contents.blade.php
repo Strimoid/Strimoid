@@ -1,5 +1,7 @@
 <?php
 
+use Strimoid\Models\Content;
+
 $fromTime = Carbon::now()->subDay(3)->minute(0)->second(0);
 
 $builder = Content::where('created_at', '>', $fromTime);

@@ -4,6 +4,7 @@ use Auth, Input;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
+use Strimoid\Models\GroupModerator;
 use Strimoid\Models\Entry;
 
 class GroupController extends BaseController {
