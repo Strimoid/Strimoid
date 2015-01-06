@@ -5,7 +5,10 @@ gulp.task('default', ['angular', 'js', 'css'], function() {
 });
 
 gulp.task('angular', function() {
-    return gulp.src(['app/assets/js/app.js', 'app/assets/js/controllers/*.js'])
+    return gulp.src([
+            'resources/assets/js/app.js',
+            'resources/assets/js/controllers/*.js'
+        ])
         //.pipe(plugins.sourcemaps.init())
         .pipe(plugins.ngAnnotate({ single_quotes: true }))
         .pipe(plugins.concat('angular.js'))
@@ -15,8 +18,12 @@ gulp.task('angular', function() {
 });
 
 gulp.task('js', function() {
-    return gulp.src(['app/assets/js/libs/*.js', 'app/assets/js/plugins/*.js',
-        'app/assets/js/modules/*.js', 'app/assets/js/lara.js'])
+    return gulp.src([
+            'resources/assets/js/libs/*.js',
+            'resources/assets/js/plugins/*.js',
+            'resources/assets/js/modules/*.js',
+            'resources/assets/js/lara.js'
+        ])
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('app.js'))
         .pipe(plugins.uglify())
@@ -25,7 +32,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('css', function() {
-    return gulp.src('app/assets/css/*.css')
+    return gulp.src('resources/assets/css/*.css')
         .pipe(plugins.autoprefixer('last 2 versions'))
         .pipe(plugins.concat('style.css'))
         .pipe(plugins.minifyCss())
