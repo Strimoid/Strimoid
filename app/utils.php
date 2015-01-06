@@ -86,22 +86,6 @@ if ( ! function_exists('parse_usernames')) {
     }
 }
 
-if ( ! function_exists('md_to_carbon')) {
-    // Convert MongoDate to Carbon
-    function md_to_carbon(MongoDate $md)
-    {
-        return Carbon::createFromTimestamp($md->sec);
-    }
-}
-
-
-if ( ! function_exists('carbon_to_md')) {
-    function carbon_to_md(Carbon $c)
-    {
-        return new MongoDate($c->timestamp);
-    }
-}
-
 if ( ! function_exists('mid_to_b58')) {
     // Convert MongoID to Base58
     function mid_to_b58($mongoId)
