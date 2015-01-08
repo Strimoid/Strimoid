@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 

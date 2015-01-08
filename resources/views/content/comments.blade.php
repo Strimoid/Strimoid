@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('title')
 {{{ $content->title }}}
@@ -81,9 +81,9 @@
 </div>
 
 @if (isset($content->poll['ends_at']) && Carbon::now()->gte(md_to_carbon($content->poll['ends_at'])))
-    @include('poll.scores', ['content' => $content, 'poll' => $content->poll])
+    @include('content.poll.scores', ['content' => $content, 'poll' => $content->poll])
 @else
-    @include('poll.vote', ['content' => $content, 'poll' => $content->poll])
+    @include('content.poll.vote', ['content' => $content, 'poll' => $content->poll])
 @endif
 
 @endif
@@ -98,8 +98,8 @@
 
 {!! Form::open(['action' => array('RelatedController@addRelated', $content->_id), 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) !!}
 
-@include('...global.form.input', ['type' => 'text', 'name' => 'title', 'label' => 'Tytuł linku'])
-@include('...global.form.input', ['type' => 'text', 'name' => 'url', 'label' => 'Adres URL'])
+@include('global.form.input', ['type' => 'text', 'name' => 'title', 'label' => 'Tytuł linku'])
+@include('global.form.input', ['type' => 'text', 'name' => 'url', 'label' => 'Adres URL'])
 
 <div class="form-group">
     <label class="col-lg-3 control-label">Dodatkowe opcje</label>
@@ -198,11 +198,11 @@ Brak powiązanych.
     @endif
 
 @foreach ($content->comments as $comment)
-    @include('...comments.widget', compact('comment'))
+    @include('comments.widget', compact('comment'))
 
     @if ($comment->replies)
         @foreach ($comment->replies as $reply)
-            @include('...comments.widget', ['comment' => $reply, 'isReply' => true])
+            @include('comments.widget', ['comment' => $reply, 'isReply' => true])
         @endforeach
     @endif
 @endforeach
@@ -242,17 +242,17 @@ Brak powiązanych.
 @stop
 
 @section('sidebar')
-    @include('...group.sidebar.add_content')
+    @include('group.sidebar.add_content')
 
-    @include('sidebar.author_panel', array('content' => $content))
+    @include('content.sidebar.author_panel', array('content' => $content))
 
     @if (isset($group))
-        @include('...group.sidebar.description', array('group' => $group))
-        @include('...group.sidebar.stats', array('group' => $group))
+        @include('group.sidebar.description', array('group' => $group))
+        @include('group.sidebar.stats', array('group' => $group))
     @endif
 
-    @include('...group.sidebar.popular_contents')
-    @include('...group.sidebar.popular_comments')
+    @include('group.sidebar.popular_contents')
+    @include('group.sidebar.popular_comments')
 @stop
 
 @section('scripts')

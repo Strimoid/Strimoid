@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 
@@ -7,8 +7,8 @@
 
 <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
 
-@include('...global.form.input', array('type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'))
-@include('...global.form.input', array('type' => 'text', 'name' => 'reason', 'label' => 'Powód zbanowania'))
+@include('global.form.input', array('type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'))
+@include('global.form.input', array('type' => 'text', 'name' => 'reason', 'label' => 'Powód zbanowania'))
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">
@@ -63,12 +63,12 @@
 @stop
 
 @section('sidebar')
-@include('sidebar.add_content')
+@include('group.sidebar.add_content')
 
 @if (isset($group))
-@include('sidebar.description', array('group' => $group))
-@include('sidebar.stats', array('group' => $group))
+@include('group.sidebar.description', array('group' => $group))
+@include('group.sidebar.stats', array('group' => $group))
 @endif
 
-@include('sidebar.popular_contents')
+@include('group.sidebar.popular_contents')
 @stop

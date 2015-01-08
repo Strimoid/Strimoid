@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <div class="row">
@@ -20,8 +20,8 @@
         </div>
     </div>
 
-    @include('...global.form.input', array('type' => 'text', 'name' => 'groupname', 'label' => 'Nazwa grupy'))
-    @include('...global.form.input', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis grupy'))
+    @include('global.form.input', array('type' => 'text', 'name' => 'groupname', 'label' => 'Nazwa grupy'))
+    @include('global.form.input', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis grupy'))
 
     {{--<div class="form-group">
         <label class="control-label col-lg-3">Rodzaj grupy</label>

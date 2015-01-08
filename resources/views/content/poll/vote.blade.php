@@ -11,7 +11,7 @@
 
         <div class="options" data-min="{!! $question['min_selections'] !!}" data-max="{!! $question['max_selections'] !!}">
             @foreach ($question['options'] as $option)
-                @include('......global.form.input_checkbox', ['name' => $questionId .'[]', 'label' => e($option['name']), 'value' => $option['_id']])
+                @include('global.form.input_checkbox', ['name' => $questionId .'[]', 'label' => e($option['name']), 'value' => $option['_id']])
             @endforeach
         </div>
     </div>

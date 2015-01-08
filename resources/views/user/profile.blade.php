@@ -1,21 +1,21 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
     @if ($type == 'contents')
         @foreach ($contents as $content)
-            @include('...content.widget', array('content' => $content))
+            @include('content.widget', array('content' => $content))
         @endforeach
 
         {!! $contents->links() !!}
     @elseif ($type == 'comments')
         @foreach ($comments as $comment)
-            @include('widgets.comment', array('comment' => $comment))
+            @include('user.widgets.comment', array('comment' => $comment))
         @endforeach
 
         {!! $comments->links() !!}
     @elseif ($type == 'entries')
         @foreach ($entries as $entry)
-            @include('widgets.entry', array('entry' => $entry))
+            @include('user.widgets.entry', array('entry' => $entry))
         @endforeach
 
         {!! $entries->links() !!}
@@ -62,33 +62,33 @@
     ?>
 
     @if ($action->type == UserAction::TYPE_CONTENT && $action->content)
-        @include('...content.widget', array('content' => $action->content))
+        @include('content.widget', array('content' => $action->content))
     @endif
 
     @if ($action->type == UserAction::TYPE_COMMENT && $action->comment && $action->comment->content)
-        @include('widgets.comment', array('comment' => $action->comment))
+        @include('user.widgets.comment', array('comment' => $action->comment))
     @endif
 
     @if ($action->type == UserAction::TYPE_COMMENT_REPLY && $action->reply)
         <?php $comment = $action->reply->comment; ?>
 
         @if (!isset($oldReply->comment) || $oldReply->comment->_id != $comment->_id)
-            @include('widgets.comment', array('content' => $comment))
+            @include('user.widgets.comment', array('content' => $comment))
         @endif
 
-        @include('widgets.comment_reply', array('reply' => $action->reply))
+        @include('user.widgets.comment_reply', array('reply' => $action->reply))
     @endif
 
     @if ($action->type == UserAction::TYPE_ENTRY && $action->entry)
-        @include('widgets.entry', array('entry' => $action->entry))
+        @include('user.widgets.entry', array('entry' => $action->entry))
     @endif
 
     @if ($action->type == UserAction::TYPE_ENTRY_REPLY && $action->reply)
         @if (!isset($oldReply->entry) || $oldReply->entry->_id != $action->reply->entry->_id)
-            @include('widgets.entry', array('entry' => $action->reply->entry))
+            @include('user.widgets.entry', array('entry' => $action->reply->entry))
         @endif
 
-        @include('widgets.entry_reply', array('reply' => $action->reply))
+        @include('user.widgets.entry_reply', array('reply' => $action->reply))
     @endif
 
     @endforeach

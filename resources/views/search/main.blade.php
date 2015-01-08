@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 <?php $q = Input::get('q'); $t = Input::get('t') ? Input::get('t'): 'c'; ?>
 
@@ -18,16 +18,16 @@
 
 @if ($t == 'c')
     @foreach ($results as $content)
-        @include('...content.widget', array('content' => $content))
+        @include('content.widget', array('content' => $content))
     @endforeach
 @elseif ($t == 'e')
     @foreach ($results as $entry)
-        @include('...entries.widget', array('entry' => $entry))
+        @include('entries.widget', array('entry' => $entry))
     @endforeach
 @elseif ($t == 'g')
     <div class="group_list">
     @foreach ($results as $group)
-        @include('...group.widget', array('group' => $group))
+        @include('group.widget', array('group' => $group))
     @endforeach
     </div>
 

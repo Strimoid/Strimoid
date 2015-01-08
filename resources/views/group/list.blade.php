@@ -1,9 +1,9 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <div class="group_list">
 @foreach ($groups as $group)
-    @include('widget', array('group' => $group))
+    @include('group.widget', array('group' => $group))
 @endforeach
 </div>
 

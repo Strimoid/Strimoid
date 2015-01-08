@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <h1>Błąd 404</h1>

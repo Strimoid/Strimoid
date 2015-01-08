@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('title')
 Usuwanie konta
@@ -16,8 +16,8 @@ Proces usuwania konta jest nieodwracalny!
 <div class="row">
     {!! Form::open(array('action' => 'UserController@removeAccount', 'class' => 'form-horizontal')) !!}
 
-    @include('...global.form.input_icon', array('type' => 'password', 'name' => 'password', 'label' => 'Hasło', 'icon' => 'lock'))
-    @include('...global.form.input_icon', array('type' => 'password', 'name' => 'password_confirmation', 'label' => 'Hasło - powtórzenie', 'icon' => 'lock'))
+    @include('global.form.input_icon', array('type' => 'password', 'name' => 'password', 'label' => 'Hasło', 'icon' => 'lock'))
+    @include('global.form.input_icon', array('type' => 'password', 'name' => 'password_confirmation', 'label' => 'Hasło - powtórzenie', 'icon' => 'lock'))
 
     <div class="form-group">
         <div class="col-lg-offset-3 col-lg-6">

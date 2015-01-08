@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <h1 class="pull-left" style="margin-top: 0">Twoje aplikacje</h1>

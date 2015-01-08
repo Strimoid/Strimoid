@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <h1 style="margin-top: 0">Informacja o wykorzystywaniu plików cookies</h1>

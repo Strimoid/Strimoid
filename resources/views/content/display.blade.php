@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('head')
     @if (Request::path() == '/')
@@ -10,30 +10,30 @@
 
 @section('content')
     @foreach ($contents as $content)
-        @include('widget', ['content' => $content])
+        @include('content.widget', ['content' => $content])
     @endforeach
 
     {!! with(new BootstrapPresenter($contents))->render() !!}
 @stop
 
 @section('sidebar')
-    @include('...group.sidebar.add_content')
+    @include('group.sidebar.add_content')
 
-    @include('sidebar.sort')
+    @include('content.sidebar.sort')
 
-    @include('...group.sidebar.search')
+    @include('group.sidebar.search')
 
     @if (isset($group))
-        @include('...group.sidebar.description', ['group' => $group])
-        @include('...group.sidebar.stats', ['group' => $group])
+        @include('group.sidebar.description', ['group' => $group])
+        @include('group.sidebar.stats', ['group' => $group])
     @endif
 
     @if (isset($folder))
-        @include('...folders.sidebar.group_list', ['folder' => $folder])
+        @include('folders.sidebar.group_list', ['folder' => $folder])
     @endif
 
-    @include('...group.sidebar.moderator')
+    @include('group.sidebar.moderator')
 
-    @include('...group.sidebar.popular_contents')
-    @include('...group.sidebar.popular_comments')
+    @include('group.sidebar.popular_contents')
+    @include('group.sidebar.popular_comments')
 @stop

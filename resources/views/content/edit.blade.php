@@ -1,15 +1,15 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <div class="row">
     {!! Form::open(array('action' => array('ContentController@editContent', $content->_id), 'class' => 'form-horizontal')) !!}
 
-    @include('...global.form.input_value', array('type' => 'text', 'name' => 'title', 'label' => 'Nazwa treści', 'value' => $content->title))
-    @include('...global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis treści', 'value' => $content->description))
+    @include('global.form.input_value', array('type' => 'text', 'name' => 'title', 'label' => 'Nazwa treści', 'value' => $content->title))
+    @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis treści', 'value' => $content->description))
     @if ($content->text)
-        @include('...global.form.input_value', array('type' => 'textarea', 'name' => 'text', 'label' => 'Twoja treść', 'rows' => 10, 'value' => $content->text_source))
+        @include('global.form.input_value', array('type' => 'textarea', 'name' => 'text', 'label' => 'Twoja treść', 'rows' => 10, 'value' => $content->text_source))
     @else
-        @include('...global.form.input_value', array('type' => 'text', 'name' => 'url', 'label' => 'Adres URL', 'value' => $content->url))
+        @include('global.form.input_value', array('type' => 'text', 'name' => 'url', 'label' => 'Adres URL', 'value' => $content->url))
     @endif
 
     <div class="form-group">

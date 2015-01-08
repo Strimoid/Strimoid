@@ -1,5 +1,5 @@
 @if ($comment->content)
-    @include('comment_parent', ['content' => $comment->content])
+    @include('user.widgets.comment_parent', ['content' => $comment->content])
 @endif
 
 <div class="panel-default comment" data-id="{!! $comment->_id !!}">

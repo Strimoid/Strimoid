@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 <?php
 
@@ -58,7 +58,7 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
 <div class="entries">
 
 @foreach ($entries as $entry)
-    @include('widget', ['entry' => $entry])
+    @include('entries.widget', ['entry' => $entry])
 
     @if ($entry->replies_count)
         @if ($entry->replies_count > 2 && !starts_with(Route::current()->getName(), 'single_entry'))
@@ -73,7 +73,7 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
          ?>
 
         @foreach ($replies as $reply)
-            @include('widget', ['entry' => $reply, 'isReply' => true])
+            @include('entries.widget', ['entry' => $reply, 'isReply' => true])
         @endforeach
     @endif
 @endforeach
@@ -88,13 +88,13 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
 
 @section('sidebar')
 
-@include('...group.sidebar.add_content')
+@include('group.sidebar.add_content')
 
 @if (isset($group))
-    @include('...group.sidebar.description', compact($group))
-    @include('...group.sidebar.stats', compact($group))
+    @include('group.sidebar.description', compact($group))
+    @include('group.sidebar.stats', compact($group))
 @endif
 
-@include('...group.sidebar.popular_entries')
+@include('group.sidebar.popular_entries')
 
 @stop

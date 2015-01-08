@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <style type="text/css">
@@ -20,7 +20,7 @@
 
 <div class="group_list">
     @foreach ($groups as $group)
-        @include('widget', array('group' => $group))
+        @include('group.widget', array('group' => $group))
     @endforeach
 </div>
 

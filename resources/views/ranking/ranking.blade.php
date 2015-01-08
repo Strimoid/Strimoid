@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <table class="table">
@@ -62,8 +62,8 @@
 @section('sidebar')
 
 @if (isset($group))
-@include('...group.sidebar.description', array('group' => $group))
-@include('...group.sidebar.stats', array('group' => $group))
+@include('group.sidebar.description', array('group' => $group))
+@include('group.sidebar.stats', array('group' => $group))
 @endif
 
 @stop

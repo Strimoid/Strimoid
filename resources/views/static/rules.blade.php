@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <h1 style="margin-top: 0">Regulamin</h1>

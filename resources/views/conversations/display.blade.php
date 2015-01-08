@@ -1,12 +1,12 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 
 @if (!$messages)
 {!! Form::open(array('action' => 'ConversationController@createConversation', 'class' => 'form-horizontal')) !!}
 
-@include('...global.form.input', array('type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'))
-@include('...global.form.input', array('type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'))
+@include('global.form.input', array('type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'))
+@include('global.form.input', array('type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'))
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">
@@ -81,5 +81,5 @@
         <a href="{!! action('ConversationController@showCreateForm', ['user' => null]) !!}" class="btn btn-default">Rozpocznij nową konwersację</a>
     </div>
 
-    @include('list')
+    @include('conversations.list')
 @stop

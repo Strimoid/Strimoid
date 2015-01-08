@@ -1,4 +1,4 @@
-@extends('...global.master')
+@extends('global.master')
 
 @section('content')
 <div class="row">
@@ -15,20 +15,20 @@
             </ul>
         </div>
 
-        @include('...global.form.input_value', array('type' => 'text', 'class' => 'group_typeahead', 'name' => 'groupname', 'label' => 'Grupa', 'value' => Input::get('group')))
+        @include('global.form.input_value', array('type' => 'text', 'class' => 'group_typeahead', 'name' => 'groupname', 'label' => 'Grupa', 'value' => Input::get('group')))
 
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade in active" id="link">
-                @include('...global.form.input_value', array('type' => 'text', 'name' => 'url', 'label' => 'Adres URL', 'value' => Input::get('url')))
+                @include('global.form.input_value', array('type' => 'text', 'name' => 'url', 'label' => 'Adres URL', 'value' => Input::get('url')))
             </div>
             <div class="tab-pane fade" id="content">
-                @include('...global.form.input', array('type' => 'textarea', 'class' => 'md_editor', 'name' => 'text', 'label' => 'Twoja treść', 'rows' => 10))
+                @include('global.form.input', array('type' => 'textarea', 'class' => 'md_editor', 'name' => 'text', 'label' => 'Twoja treść', 'rows' => 10))
             </div>
         </div>
     </div>
 
-    @include('...global.form.input_value', array('type' => 'text', 'name' => 'title', 'label' => 'Nazwa treści', 'maxlength' => '128', 'value' => Input::get('title')))
-    @include('...global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis treści', 'maxlength' => '255', 'value' => Input::get('description')))
+    @include('global.form.input_value', array('type' => 'text', 'name' => 'title', 'label' => 'Nazwa treści', 'maxlength' => '128', 'value' => Input::get('title')))
+    @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis treści', 'maxlength' => '255', 'value' => Input::get('description')))
 
     <div class="form-group">
         <label class="col-lg-3 control-label">Dodatkowe opcje</label>
