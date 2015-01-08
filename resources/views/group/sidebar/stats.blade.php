@@ -2,9 +2,9 @@
     <h4>Statystyki</h4>
     <div class="row">
        <div class="col-lg-6">
-            <p>{!! Lang::choice('pluralization.contents', intval(Content::where('group_id', $group->getKey())->count())) !!}</p>
-            <p>{!! Lang::choice('pluralization.comments', intval(Content::where('group_id', $group->getKey())->sum('comments'))) !!}</p>
-            <p>{!! Lang::choice('pluralization.entries', intval(Entry::where('group_id', $group->getKey())->count())) !!}</p>
+            <p>{!! Lang::choice('pluralization.contents', intval($group->contents->count())) !!}</p>
+            <p>{!! Lang::choice('pluralization.comments', intval($group->contents->sum('comments'))) !!}</p>
+            <p>{!! Lang::choice('pluralization.entries', intval($group->entries->count())) !!}</p>
         </div>
         <div class="col-lg-6">
             <p>{!! Lang::choice('pluralization.subscribers', $group->subscribers) !!}</p>

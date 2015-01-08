@@ -2,7 +2,7 @@
 
 use Strimoid\Models\Entry;
 
-$fromTime = Carbon::now()->subDay(3)->minute(0)->second(0);
+$fromTime = Carbon::now()->subDays(3)->minute(0)->second(0);
 
 $builder = Entry::with([
     'user' => function($q) {

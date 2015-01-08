@@ -2,7 +2,7 @@
 
 use Strimoid\Models\Comment;
 
-$fromTime = Carbon::now()->subDay(3)->minute(0)->second(0);
+$fromTime = Carbon::now()->subDays(3)->minute(0)->second(0);
 
 $builder = Comment::with([
     'user' => function($q) { $q->select(['avatar', 'name']); },
