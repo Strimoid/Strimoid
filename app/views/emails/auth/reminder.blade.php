@@ -7,7 +7,7 @@
 		<h2>Resetowanie hasła</h2>
 
 		<div>
-			Aby zresetować hasło wypełnij formularz na podanej stronie: <a href="{{ URL::to('password/reset', array($token)) }}">{{ URL::to('password/reset', array($token)) }}</a>
+			Aby zresetować hasło wypełnij formularz na podanej stronie: <a href="{!! URL::to('password/reset', array($token)) !!}">{!! URL::to('password/reset', array($token)) !!}</a>
 		</div>
 	</body>
 </html>

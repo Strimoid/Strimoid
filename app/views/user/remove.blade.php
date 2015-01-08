@@ -14,7 +14,7 @@ Proces usuwania konta jest nieodwracalny!
 </div>
 
 <div class="row">
-    {{ Form::open(array('action' => 'UserController@removeAccount', 'class' => 'form-horizontal')) }}
+    {!! Form::open(array('action' => 'UserController@removeAccount', 'class' => 'form-horizontal')) !!}
 
     @include('global.form.input_icon', array('type' => 'password', 'name' => 'password', 'label' => 'Hasło', 'icon' => 'lock'))
     @include('global.form.input_icon', array('type' => 'password', 'name' => 'password_confirmation', 'label' => 'Hasło - powtórzenie', 'icon' => 'lock'))
@@ -24,7 +24,7 @@ Proces usuwania konta jest nieodwracalny!
             <button type="submit" class="btn btn-primary">Usuń konto</button>
         </div>
     </div>
-    {{ Form::close() }}
+    {!! Form::close() !!}
 </div>
 @stop
 

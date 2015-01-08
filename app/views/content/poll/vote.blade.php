@@ -1,15 +1,15 @@
-{{ Form::open(['action' => ['PollController@addVote', $content->_id], 'class' => 'poll']) }}
+{!! Form::open(['action' => ['PollController@addVote', $content->_id], 'class' => 'poll']) !!}
 @foreach ($poll['questions'] as $questionId => $question)
     <div class="question">
         <h4>{{{ $question['title'] }}}</h4>
 
         @if ($errors->has($questionId))
-            <small class="help error">{{ $errors->first($questionId) }}</small>
+            <small class="help error">{!! $errors->first($questionId) !!}</small>
         @else
-            <small class="help">Zaznacz przynajmniej {{ $question['min_selections'] }}, lecz nie więcej niż {{ $question['max_selections'] }}</small>
+            <small class="help">Zaznacz przynajmniej {!! $question['min_selections'] !!}, lecz nie więcej niż {!! $question['max_selections'] !!}</small>
         @endif
 
-        <div class="options" data-min="{{ $question['min_selections'] }}" data-max="{{ $question['max_selections'] }}">
+        <div class="options" data-min="{!! $question['min_selections'] !!}" data-max="{!! $question['max_selections'] !!}">
             @foreach ($question['options'] as $option)
                 @include('global.form.input_checkbox', ['name' => $questionId .'[]', 'label' => e($option['name']), 'value' => $option['_id']])
             @endforeach
@@ -18,4 +18,4 @@
 @endforeach
 
 <button type="submit" class="btn btn-primary">Zagłosuj</button>
-{{ Form::close() }}
+{!! Form::close() !!}

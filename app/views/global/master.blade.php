@@ -17,23 +17,23 @@
 
     <title>@yield('title', e($pageTitle))</title>
 
-    <link href="{{ $cssFilename }}" rel="stylesheet">
+    <link href="{!! $cssFilename !!}" rel="stylesheet">
 
     @if (Input::get('night') || isset($_COOKIE['night_mode']))
         <link href="/static/css/night.css?1" rel="stylesheet" data-id="night_mode">
     @endif
 
     @if (isset($group) && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
-        <link href="/uploads/styles/{{ $group->style }}" rel="stylesheet" data-id="group_style">
+        <link href="/uploads/styles/{!! $group->style !!}" rel="stylesheet" data-id="group_style">
     @elseif (isset($group) && file_exists(Config::get('app.uploads_path').'/styles/'. Str::lower($group->urlname) .'.css') && !@Auth::user()->settings['disable_groupstyles'])
-        <link href="/uploads/styles/{{ Str::lower($group->urlname) }}.css" rel="stylesheet" data-id="group_style">
+        <link href="/uploads/styles/{!! Str::lower($group->urlname) !!}.css" rel="stylesheet" data-id="group_style">
     @elseif (Auth::check() && @Auth::user()->settings['css_style'])
         <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">
     @endif
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.13/angular.min.js"></script>
 
-    <script src="{{ $componentsFilename }}"></script>
+    <script src="{!! $componentsFilename !!}"></script>
 
     @yield('head')
 </head>
@@ -54,7 +54,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
 ?>
 
-<div class="groupbar groupbar-{{ $navbarClass }}">
+<div class="groupbar groupbar-{!! $navbarClass !!}">
     <ul>
         <li><a href="/g/all" rel="nofollow">Wszystkie</a></li>
 
@@ -66,11 +66,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
             <ul class="dropdown-menu">
                 @foreach ($subscriptions as $subscription)
-                <li><a href="{{ route('group_contents', array('group' => $subscription)) }}">{{ $subscription }}</a></li>
+                <li><a href="{!! route('group_contents', array('group' => $subscription)) !!}">{!! $subscription !!}</a></li>
                 @endforeach
 
                 @if (!$subscriptions)
-                <li><a href="{{ action('GroupController@showList') }}">Lista grup</a></li>
+                <li><a href="{!! action('GroupController@showList') !!}">Lista grup</a></li>
                 @endif
             </ul>
         </li>
@@ -82,11 +82,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
             <ul class="dropdown-menu">
                 @foreach ($moderatedGroups as $moderatedGroup)
-                <li><a href="{{ route('group_contents', array('group' => $moderatedGroup)) }}">{{ $moderatedGroup }}</a></li>
+                <li><a href="{!! route('group_contents', array('group' => $moderatedGroup)) !!}">{!! $moderatedGroup !!}</a></li>
                 @endforeach
 
                 @if (!$moderatedGroups)
-                <li><a href="{{ action('GroupController@showCreateForm') }}">Zakładanie grupy</a></li>
+                <li><a href="{!! action('GroupController@showCreateForm') !!}">Zakładanie grupy</a></li>
                 @endif
             </ul>
         </li>
@@ -98,7 +98,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
             <ul class="dropdown-menu">
                 @foreach ($observedUsers as $observedUser)
-                <li><a href="{{ route('user_profile', $observedUser) }}">{{ $observedUser }}</a></li>
+                <li><a href="{!! route('user_profile', $observedUser) !!}">{!! $observedUser !!}</a></li>
                 @endforeach
             </ul>
         </li>
@@ -107,11 +107,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
         <?php $folderGroups = $cfolder->groups; natcasesort($folderGroups); ?>
 
         <li class="dropdown folder_dropdown">
-            <a href="{{ route('user_folder_contents', [$cfolder->user->_id, $cfolder->_id]) }}" class="dropdown-toggle" data-hover="dropdown">{{{ $cfolder->name }}}</a><b class="caret"></b>
+            <a href="{!! route('user_folder_contents', [$cfolder->user->_id, $cfolder->_id]) !!}" class="dropdown-toggle" data-hover="dropdown">{{{ $cfolder->name }}}</a><b class="caret"></b>
 
             <ul class="dropdown-menu">
                 @foreach ($folderGroups as $folderGroup)
-                <li><a href="{{ route('group_contents', array('group' => $folderGroup)) }}">{{ $folderGroup }}</a></li>
+                <li><a href="{!! route('group_contents', array('group' => $folderGroup)) !!}">{!! $folderGroup !!}</a></li>
                 @endforeach
             </ul>
         </li>
@@ -122,14 +122,14 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
         @endif
 
         @foreach ($popularGroups as $pgroup)
-        <li><a href="/g/{{ $pgroup['urlname'] }}">{{ $pgroup['name'] }}</a></li>
+        <li><a href="/g/{!! $pgroup['urlname'] !!}">{!! $pgroup['name'] !!}</a></li>
         @endforeach
 
         <li class="group_list_link"><a href="/groups/list"><span class="glyphicon glyphicon-th-list"></span> Lista grup</a></li>
     </ul>
 </div>
 
-<div class="navbar navbar-inverse navbar-{{ $navbarClass }}">
+<div class="navbar navbar-inverse navbar-{!! $navbarClass !!}">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -171,16 +171,16 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li @if (ends_with($currentRoute, '_contents')) class="active" @endif>
-                    <a href="{{ route($routeData['name'] .'_contents', $routeData['params']) }}">{{{ $currentGroup->name or 'Strimoid' }}}</a>
+                    <a href="{!! route($routeData['name'] .'_contents', $routeData['params']) !!}">{{{ $currentGroup->name or 'Strimoid' }}}</a>
                 </li>
                 <li @if (ends_with($currentRoute, '_contents_new')) class="active" @endif>
-                    <a href="{{ route($routeData['name'] .'_contents_new', $routeData['params']) }}">nowe</a>
+                    <a href="{!! route($routeData['name'] .'_contents_new', $routeData['params']) !!}">nowe</a>
                 </li>
                 <li @if (ends_with($currentRoute, '_comments')) class="active" @endif>
-                    <a href="{{ route($routeData['name'] .'_comments', $routeData['params']) }}">komentarze</a>
+                    <a href="{!! route($routeData['name'] .'_comments', $routeData['params']) !!}">komentarze</a>
                 </li>
                 <li @if (ends_with($currentRoute, '_entries')) class="active" @endif>
-                    <a href="{{ route($routeData['name'] .'_entries', $routeData['params']) }}">wpisy</a>
+                    <a href="{!! route($routeData['name'] .'_entries', $routeData['params']) !!}">wpisy</a>
                 </li>
             </ul>
 
@@ -189,27 +189,27 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                 <li class="dropdown notifications_dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-globe notifications_icon @if ($newNotificationsCount > 0) notifications_icon_new @endif"></span> <b class="caret"></b>
-                        <span class="badge @if (!$newNotificationsCount) hide @endif">{{ $newNotificationsCount }}</span>
+                        <span class="badge @if (!$newNotificationsCount) hide @endif">{!! $newNotificationsCount !!}</span>
                     </a>
 
-                    <div class="dropdown-menu notifications" data-new-notifications="{{ intval($newNotificationsCount) }}">
+                    <div class="dropdown-menu notifications" data-new-notifications="{!! intval($newNotificationsCount) !!}">
                         <div class="notifications_scroll">
                             <div class="notifications_list">
                                 @foreach ($notifications as $notification)
-                                <a href="{{ $notification->getURL() }}" class="@if (!$notification->read) new @endif" data-id="{{ mid_to_b58($notification->_id) }}">
+                                <a href="{!! $notification->getURL() !!}" class="@if (!$notification->read) new @endif" data-id="{!! mid_to_b58($notification->_id) !!}">
                                     @if ($notification->sourceUser)
-                                        <img src="{{ $notification->sourceUser->getAvatarPath() }}" class="pull-left">
+                                        <img src="{!! $notification->sourceUser->getAvatarPath() !!}" class="pull-left">
                                     @endif
 
                                     <div class="media-body">
-                                        {{ $notification->title }}
+                                        {!! $notification->title !!}
 
                                         <br>
                                         <small class="pull-left">
-                                            {{ $notification->getTypeDescription() }}
+                                            {!! $notification->getTypeDescription() !!}
                                         </small>
                                         <small class="pull-right">
-                                            <time pubdate title="{{ $notification->getLocalTime() }}">{{ $notification->created_at->diffForHumans() }}</time>
+                                            <time pubdate title="{!! $notification->getLocalTime() !!}">{!! $notification->created_at->diffForHumans() !!}</time>
                                         </small>
                                     </div>
 
@@ -232,14 +232,14 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
                 <li class="dropdown user_dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ Auth::user()->getAvatarPath(50, 50) }}">
-                        {{ Auth::user()->name }} <b class="caret"></b>
+                        <img src="{!! Auth::user()->getAvatarPath(50, 50) !!}">
+                        {!! Auth::user()->name !!} <b class="caret"></b>
                     </a>
 
                     <ul class="dropdown-menu user_menu">
-                        <li><a href="{{ route('user_profile', Auth::user()->name) }}"><span class="glyphicon glyphicon-user"></span> twój profil</a></li>
+                        <li><a href="{!! route('user_profile', Auth::user()->name) !!}"><span class="glyphicon glyphicon-user"></span> twój profil</a></li>
                         <li><a href="/conversations"><span class="glyphicon glyphicon-envelope"></span> konwersacje</a></li>
-                        <li><a href="{{ action('UserController@showSettings') }}"><span class="glyphicon glyphicon-wrench"></span> ustawienia</a></li>
+                        <li><a href="{!! action('UserController@showSettings') !!}"><span class="glyphicon glyphicon-wrench"></span> ustawienia</a></li>
 
                         <li class="divider"></li>
 
@@ -247,8 +247,8 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                             <a class="action_link" onclick="$('.logout_form').submit()">
                                 <span class="glyphicon glyphicon-log-out"></span> wyloguj
                             </a>
-                            {{ Form::open(array('action' => 'UserController@logout', 'class' => 'logout_form')) }}
-                            {{ Form::close() }}
+                            {!! Form::open(array('action' => 'UserController@logout', 'class' => 'logout_form')) !!}
+                            {!! Form::close() !!}
                         </li>
                     </ul>
                 </li>
@@ -258,7 +258,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">logowanie <b class="caret"></b></a>
                     <ul class="dropdown-menu login_menu">
-                        {{ Form::open(array('action' => 'UserController@login', 'class' => 'navbar-form')) }}
+                        {!! Form::open(array('action' => 'UserController@login', 'class' => 'navbar-form')) !!}
                             <input type="text" name="username" placeholder="Login" class="form-control" style="margin-bottom: 10px">
                             <input type="password" name="password" placeholder="Hasło" class="form-control" style="margin-bottom: 10px">
                             <div class="checkbox" style="padding-top: 5px">
@@ -268,10 +268,10 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                             </div>
 
                             <button type="submit" class="btn btn-success pull-right">Zaloguj</button>
-                        {{ Form::close() }}
+                        {!! Form::close() !!}
                     </ul>
                 </li>
-                <li><a href="{{ action('UserController@showRegisterForm') }}">rejestracja</a></li>
+                <li><a href="{!! action('UserController@showRegisterForm') !!}">rejestracja</a></li>
             </ul>
             @endif
 
@@ -285,28 +285,28 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
             @if (Session::has('success_msg'))
                 <div class="alert alert-dismissable alert-success">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    {{ Session::get('success_msg') }}
+                    {!! Session::get('success_msg') !!}
                 </div>
             @endif
 
             @if (Session::has('info_msg'))
             <div class="alert alert-dismissable alert-info">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{ Session::get('info_msg') }}
+                {!! Session::get('info_msg') !!}
             </div>
             @endif
 
             @if (Session::has('warning_msg'))
             <div class="alert alert-dismissable alert-warning">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{ Session::get('warning_msg') }}
+                {!! Session::get('warning_msg') !!}
             </div>
             @endif
 
             @if (Session::has('danger_msg'))
             <div class="alert alert-dismissable alert-danger">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{ Session::get('danger_msg') }}
+                {!! Session::get('danger_msg') !!}
             </div>
             @endif
 
@@ -327,7 +327,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
         <div class="col-sm-2 col-sm-offset-2">
             <ul>
                 <li><a href="/" rel="nofollow">Strona główna</a></li>
-                <li><a href="{{ action('GroupController@showList') }}" rel="nofollow">Lista grup</a></li>
+                <li><a href="{!! action('GroupController@showList') !!}" rel="nofollow">Lista grup</a></li>
             </ul>
         </div>
 
@@ -360,17 +360,17 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
 </footer>
 
-<script src="{{ $jsFilename }}"></script>
+<script src="{!! $jsFilename !!}"></script>
 
 @if (Auth::check())
 <script>
-    window.username = '{{ Auth::id()  }}';
-    window.settings = {{ json_encode(Auth::User()->settings) }};
-    window.observed_users = {{ json_encode((array) Auth::user()->_observed_users) }};
-    window.blocked_users = {{ json_encode(Auth::user()->blockedUsers()) }};
-    window.blocked_groups = {{ json_encode(Auth::user()->blockedGroups()) }};
-    window.subscribed_groups = {{ json_encode(Auth::user()->subscribedGroups()) }};
-    window.moderated_groups = {{ json_encode(Auth::user()->moderatedGroups()) }};
+    window.username = '{!! Auth::id()  !!}';
+    window.settings = {!! json_encode(Auth::User()->settings) !!};
+    window.observed_users = {!! json_encode((array) Auth::user()->_observed_users) !!};
+    window.blocked_users = {!! json_encode(Auth::user()->blockedUsers()) !!};
+    window.blocked_groups = {!! json_encode(Auth::user()->blockedGroups()) !!};
+    window.subscribed_groups = {!! json_encode(Auth::user()->subscribedGroups()) !!};
+    window.moderated_groups = {!! json_encode(Auth::user()->moderatedGroups()) !!};
 
     @if (isset($groupURLName) && $groupURLName)
         window.group = '{{{ $groupURLName }}}';

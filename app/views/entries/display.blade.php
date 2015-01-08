@@ -21,24 +21,24 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
 @section('content')
 <div class="clearfix"></div>
 @if (Auth::check())
-{{ Form::open(['class' => 'form entry_add_form enter_send entry_add']) }}
+{!! Form::open(['class' => 'form entry_add_form enter_send entry_add']) !!}
 <div class="panel-default entry">
     <div class="entry_avatar">
-        <img src="{{ Auth::user()->getAvatarPath() }}">
+        <img src="{!! Auth::user()->getAvatarPath() !!}">
     </div>
 
     <div class="entry_text">
         <div class="form-group @if ($errors->has('text')) has-error @endif col-lg-12">
-            {{ Form::textarea('text', Input::old('text'), array('class' => 'form-control', 'placeholder' => 'Treść wpisu...', 'rows' => 2)) }}
+            {!! Form::textarea('text', Input::old('text'), array('class' => 'form-control', 'placeholder' => 'Treść wpisu...', 'rows' => 2)) !!}
 
             @if($errors->has('text'))
-            <p class="help-block">{{ $errors->first('text') }}</p>
+            <p class="help-block">{!! $errors->first('text') !!}</p>
             @endif
         </div>
 
         <div class="form-group col-lg-12 pull-right @if ($errors->has('groupname')) has-error @endif">
             <div class="input-group input-group-appended">
-                {{ Form::text('groupname', $suggestedGroup, array('class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...')) }}
+                {!! Form::text('groupname', $suggestedGroup, array('class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...')) !!}
 
                 <div class="input-group-btn">
                     <button type="submit" class="btn btn-primary">Dodaj</button>
@@ -46,13 +46,13 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
             </div>
 
             @if($errors->has('groupname'))
-            <p class="help-block">{{ $errors->first('groupname') }}</p>
+            <p class="help-block">{!! $errors->first('groupname') !!}</p>
             @endif
         </div>
     </div>
 </div>
 <div class="clearfix"></div>
-{{ Form::close() }}
+{!! Form::close() !!}
 @endif
 
 <div class="entries">
@@ -62,8 +62,8 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
 
     @if ($entry->replies_count)
         @if ($entry->replies_count > 2 && !starts_with(Route::current()->getName(), 'single_entry'))
-            <div class="entry entry_reply entry_expand_replies" data-id="{{ $entry->_id }}">
-                Pokaż pozostałe wpisy ({{ Lang::choice('pluralization.replies', ($entry->replies_count-2)) }})
+            <div class="entry entry_reply entry_expand_replies" data-id="{!! $entry->_id !!}">
+                Pokaż pozostałe wpisy ({!! Lang::choice('pluralization.replies', ($entry->replies_count-2)) !!})
             </div>
         @endif
 
@@ -80,12 +80,10 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
 
 </div>
 
-<?php
+@if (is_object($entries))
+    {!! with(new BootstrapPresenter($entries))->render() !!}
+@endif
 
-if (is_object($entries))
-    echo $entries->links();
-
-?>
 @stop
 
 @section('sidebar')

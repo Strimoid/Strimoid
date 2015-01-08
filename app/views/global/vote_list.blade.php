@@ -1,5 +1,5 @@
 @if ($votes)
-<div class="hide {{ $class }}">
+<div class="hide {!! $class !!}">
     @foreach ($votes as $vote)
     <?php if (($up && !$vote['up']) || !$up && $vote['up']) continue; ?>
     <div>
@@ -9,9 +9,9 @@
         <span class="glyphicon glyphicon-arrow-down vote-down"></span>
         @endif
 
-        {{ $vote['user_id'] }}
+        {!! $vote['user_id'] !!}
 
-        <span class="time">{{ Carbon::createFromTimeStamp($vote['created_at']->sec)->diffForHumans() }}</span>
+        <span class="time">{!! Carbon::createFromTimeStamp($vote['created_at']->sec)->diffForHumans() !!}</span>
     </div>
     @endforeach
 </div>

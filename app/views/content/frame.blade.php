@@ -16,13 +16,13 @@
         <h1>Strimoid</h1>
 
         <h1>
-            <a href="{{ route('content_comments', $content->_id) }}">{{{ $content->title }}}</a>
+            <a href="{!! route('content_comments', $content->_id) !!}">{{{ $content->title }}}</a>
 
         </h1>
 
         <ul>
-            <li>{{ $content->uv }} uv</li>
-            <li>{{ $content->dv }} dv</li>
+            <li>{!! $content->uv !!} uv</li>
+            <li>{!! $content->dv !!} dv</li>
         </ul>
     </nav>
 

@@ -18,10 +18,10 @@ else
 
         <ul class="dropdown-menu" role="menu">
             <li style="padding: 5px">
-                {{ Form::open(array('action' => 'FolderController@copyFolder', 'class' => 'form-horizontal')) }}
+                {!! Form::open(array('action' => 'FolderController@copyFolder', 'class' => 'form-horizontal')) !!}
                 <div class="input-group">
-                    <input type="hidden" name="user" value="{{ $folder->user->_id }}">
-                    <input type="hidden" name="folder" value="{{ $folder->_id }}">
+                    <input type="hidden" name="user" value="{!! $folder->user->_id !!}">
+                    <input type="hidden" name="folder" value="{!! $folder->_id !!}">
 
                     <input type="text" class="form-control" name="name" placeholder="Nazwa folderu...">
 
@@ -29,7 +29,7 @@ else
                         <button class="btn btn-primary" type="submit">Skopiuj</button>
                     </span>
                 </div>
-                {{ Form::close() }}
+                {!! Form::close() !!}
             </li>
         </ul>
 
@@ -44,7 +44,7 @@ else
 
         @foreach ($folderGroups as $group)
         <li class="list-group-item" style="padding: 5px 15px" >
-            <a href="{{ route('group_contents', $group) }}">{{{ $group }}}</a>
+            <a href="{!! route('group_contents', $group) !!}">{{{ $group }}}</a>
 
             @if ($isOwner)
             <button type="button" class="btn btn-xs btn-danger folder_remove_group pull-right" data-group="{{{ $group }}}">

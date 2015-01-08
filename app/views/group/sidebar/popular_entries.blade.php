@@ -30,14 +30,14 @@ $popularEntries = $builder->orderBy('uv', 'desc')->take(5)->get();
         $text = strip_tags($text);
         ?>
         <li class="media">
-            <a class="pull-left" href="{{ route('single_entry', $entry->_id) }}">
-                <img src="{{ $entry->user->getAvatarPath(40, 40) }}" alt="{{ $entry->user->name }}" style="height: 40px; width: 40px; border-radius: 3px;">
+            <a class="pull-left" href="{!! route('single_entry', $entry->_id) !!}">
+                <img src="{!! $entry->user->getAvatarPath(40, 40) !!}" alt="{!! $entry->user->name !!}" style="height: 40px; width: 40px; border-radius: 3px;">
             </a>
             <div class="media-body">
-                <h6 class="media-heading"><a href="{{ route('single_entry', $entry->_id) }}">{{ Str::limit($text, 100) }}</a></h6>
+                <h6 class="media-heading"><a href="{!! route('single_entry', $entry->_id) !!}">{!! Str::limit($text, 100) !!}</a></h6>
                 <small>
-                    <span class="glyphicon glyphicon-thumbs-up"></span> {{ $entry->uv }}</a>
-                    <span class="glyphicon glyphicon-thumbs-down"></span> {{ $entry->dv }}</a>
+                    <span class="glyphicon glyphicon-thumbs-up"></span> {!! $entry->uv !!}</a>
+                    <span class="glyphicon glyphicon-thumbs-down"></span> {!! $entry->dv !!}</a>
                 </small>
             </div>
         </li>

@@ -3,7 +3,7 @@
 @section('content')
 
 @if (!$messages)
-{{ Form::open(array('action' => 'ConversationController@createConversation', 'class' => 'form-horizontal')) }}
+{!! Form::open(array('action' => 'ConversationController@createConversation', 'class' => 'form-horizontal')) !!}
 
 @include('global.form.input', array('type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'))
 @include('global.form.input', array('type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'))
@@ -13,31 +13,31 @@
         <button type="submit" class="btn btn-primary">Wyślij</button>
     </div>
 </div>
-{{ Form::close() }}
+{!! Form::close() !!}
 @else
 
-{{ $messages->links() }}
+{!! with(new BootstrapPresenter($messages))->render() !!}
 
 <div class="conversation_messages">
 
 @foreach (array_reverse($messages->getItems()) as $message)
-<div class="panel-default entry" data-id="{{ $message->_id }}">
-    <a name="{{ $message->_id }}"></a>
+<div class="panel-default entry" data-id="{!! $message->_id !!}">
+    <a name="{!! $message->_id !!}"></a>
 
     <div class="entry_avatar">
-        <img src="{{ $message->user->getAvatarPath() }}" alt="{{ $message->user->name }}">
+        <img src="{!! $message->user->getAvatarPath() !!}" alt="{!! $message->user->name !!}">
     </div>
 
     <div class="panel-heading entry_header">
-        <a href="{{ route('user_profile', $message->user->name) }}" class="entry_author">{{ $message->user->getColoredName() }}</a>
+        <a href="{!! route('user_profile', $message->user->name) !!}" class="entry_author">{!! $message->user->getColoredName() !!}</a>
 
         <span class="pull-right">
-            <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{{ $message->created_at->format('c') }}" title="{{ $message->getLocalTime() }}">{{ $message->created_at->diffForHumans() }}</time>
+            <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $message->created_at->format('c') !!}" title="{!! $message->getLocalTime() !!}">{!! $message->created_at->diffForHumans() !!}</time>
         </span>
     </div>
 
     <div class="entry_text md">
-        {{ $message->text }}
+        {!! $message->text !!}
     </div>
 </div>
 @endforeach
@@ -47,20 +47,20 @@
 @endif
 
 @if (isset($conversation))
-{{ Form::open(array('action' => array('ConversationController@sendMessage'), 'class' => 'form entry_add_form enter_send')) }}
-<input type="hidden" name="id" value="{{ $conversation->_id }}">
+{!! Form::open(array('action' => array('ConversationController@sendMessage'), 'class' => 'form entry_add_form enter_send')) !!}
+<input type="hidden" name="id" value="{!! $conversation->_id !!}">
 
 <div class="panel-default entry">
     <div class="entry_avatar">
-        <img src="{{ Auth::user()->getAvatarPath() }}">
+        <img src="{!! Auth::user()->getAvatarPath() !!}">
     </div>
 
     <div class="entry_text">
         <div class="form-group @if ($errors->has('text')) has-error @endif">
-            {{ Form::textarea('text', Input::old('text'), array('class' => 'form-control', 'placeholder' => 'Treść wiadomości...', 'rows' => 2)) }}
+            {!! Form::textarea('text', Input::old('text'), array('class' => 'form-control', 'placeholder' => 'Treść wiadomości...', 'rows' => 2)) !!}
 
             @if($errors->has('text'))
-            <p class="help-block">{{ $errors->first('text') }}</p>
+            <p class="help-block">{!! $errors->first('text') !!}</p>
             @endif
         </div>
 
@@ -71,14 +71,14 @@
         <div class="clearfix"></div>
     </div>
 </div>
-{{ Form::close() }}
+{!! Form::close() !!}
 @endif
 
 @stop
 
 @section('sidebar')
     <div class="well">
-        <a href="{{ action('ConversationController@showCreateForm', ['user' => null]) }}" class="btn btn-default">Rozpocznij nową konwersację</a>
+        <a href="{!! action('ConversationController@showCreateForm', ['user' => null]) !!}" class="btn btn-default">Rozpocznij nową konwersację</a>
     </div>
 
     @include('conversations.list')

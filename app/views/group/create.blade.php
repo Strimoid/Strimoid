@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {{ Form::open(array('action' => 'GroupController@createGroup', 'class' => 'form-horizontal')) }}
+    {!! Form::open(array('action' => 'GroupController@createGroup', 'class' => 'form-horizontal')) !!}
 
     <div class="form-group @if ($errors->has('urlname')) has-error @endif">
         <label for="urlname" class="col-lg-3 control-label">Adres grupy</label>
@@ -10,12 +10,12 @@
         <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">g/</span>
-                {{ Form::text('urlname', Input::old('urlname'), array('class' => 'form-control',
-                    'placeholder' => 'Adres grupy')) }}
+                {!! Form::text('urlname', Input::old('urlname'), array('class' => 'form-control',
+                    'placeholder' => 'Adres grupy')) !!}
             </div>
 
             @if($errors->has('urlname'))
-                <p class="help-block">{{ $errors->first('urlname') }}</p>
+                <p class="help-block">{!! $errors->first('urlname') !!}</p>
             @endif
         </div>
     </div>
@@ -29,21 +29,21 @@
         <div class="col-lg-6">
             <div class="radio">
                 <label>
-                    {{ Form::radio('type', 'public', true) }}
+                    {!! Form::radio('type', 'public', true) !!}
                     <strong>Publiczna</strong> - każdy może przeglądać i dodawać treści
                 </label>
             </div>
 
             <div class="radio">
                 <label>
-                    {{ Form::radio('type', 'moderated') }}
+                    {!! Form::radio('type', 'moderated') !!}
                     <strong>Moderowana</strong> - każdy może przeglądać treści, jednak muszą być one zaakceptowane przed dodaniem
                 </label>
             </div>
 
             <div class="radio">
                 <label>
-                    {{ Form::radio('type', 'private') }}
+                    {!! Form::radio('type', 'private') !!}
                     <strong>Prywatna</strong> - tylko osoby będące w grupie będą mogły przeglądać i dodawać treści
                 </label>
             </div>
@@ -56,7 +56,7 @@
             <button type="submit" class="btn btn-default">Stwórz grupę</button>
         </div>
     </div>
-    {{ Form::close() }}
+    {!! Form::close() !!}
 </div>
 @stop
 

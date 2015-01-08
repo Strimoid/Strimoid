@@ -2,7 +2,7 @@
     <div class="question">
         <h4>{{{ $question['title'] }}}</h4>
 
-        <div class="chart" id="{{ $questionId }}" style="width: 400px"></div>
+        <div class="chart" id="{!! $questionId !!}" style="width: 400px"></div>
     </div>
 @endforeach
 
@@ -29,8 +29,8 @@
     <script type="text/javascript">
     $(document).ready(function() {
         Morris.Bar({
-            element: '{{ $questionId }}',
-            data: {{ json_encode($data) }},
+            element: '{!! $questionId !!}',
+            data: {!! json_encode($data) !!},
             xkey: 'name',
             ykeys: ['votes'],
             labels: ['Liczba głosów'],

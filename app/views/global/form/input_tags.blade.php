@@ -9,15 +9,15 @@ if (!isset($noun))
 ?>
 
 <div class="form-group @if ($errors->has($name)) has-error @endif">
-    <label for="{{ $name }}" class="col-lg-3 control-label">{{ $label }}</label>
+    <label for="{!! $name !!}" class="col-lg-3 control-label">{!! $label !!}</label>
 
     <div class="col-lg-6">
-        {{ Form::text($name, Input::old($name, implode(',', (array) $tags)), array('class' => 'form-control', 'placeholder' => $placeholder, 'data-role' => 'tagsinput')) }}
+        {!! Form::text($name, Input::old($name, implode(',', (array) $tags)), array('class' => 'form-control', 'placeholder' => $placeholder, 'data-role' => 'tagsinput')) !!}
 
         @if($errors->has($name))
-            <p class="help-block">{{ $errors->first($name) }}</p>
+            <p class="help-block">{!! $errors->first($name) !!}</p>
         @else
-            <p class="help-block">{{ $noun }} oddzielane są za pomocą entera.</p>
+            <p class="help-block">{!! $noun !!} oddzielane są za pomocą entera.</p>
         @endif
     </div>
 </div>

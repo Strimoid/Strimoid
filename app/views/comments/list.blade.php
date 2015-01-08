@@ -5,7 +5,7 @@
         @include('comments.widget', ['comment' => $comment, 'contentLink' => true])
     @endforeach
 
-    {{ $comments->links() }}
+    {!! with(new BootstrapPresenter($comments))->render() !!}
 @stop
 
 @section('sidebar')

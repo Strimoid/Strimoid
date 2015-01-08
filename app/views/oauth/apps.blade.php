@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="pull-left" style="margin-top: 0">Twoje aplikacje</h1>
 
-<a href="{{ action('OAuthController@addAppForm') }}" class="btn btn-primary pull-right">+ Stwórz nową aplikację</a>
+<a href="{!! action('OAuthController@addAppForm') !!}" class="btn btn-primary pull-right">+ Stwórz nową aplikację</a>
 
 <div class="clearfix"></div>
 
@@ -19,9 +19,9 @@
     <div class="panel-body">
         <dl class="dl-horizontal">
             <dt>Client ID</dt>
-            <dd>{{ $app->client_id }}</dd>
+            <dd>{!! $app->client_id !!}</dd>
             <dt>Client Secret</dt>
-            <dd>{{ $app->client_secret }}</dd>
+            <dd>{!! $app->client_secret !!}</dd>
             <dt>Redirect URL</dt>
             <dd>{{{ $app->redirect_uri }}}</dd>
         </dl>

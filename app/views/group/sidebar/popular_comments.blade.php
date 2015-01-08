@@ -31,17 +31,17 @@ $popularComments = $builder->orderBy('uv', 'desc')->take(5)->get();
         $url = route('content_comments', ['content' => $comment->content_id]) .'#'. $comment->_id;
         ?>
         <li class="media">
-            <a class="pull-left" href="{{ $url }}" rel="nofollow">
-                <img src="{{ $comment->user->getAvatarPath(40, 40) }}" alt="{{ $comment->user->name }}" style="height: 40px; width: 40px; border-radius: 3px;">
+            <a class="pull-left" href="{!! $url !!}" rel="nofollow">
+                <img src="{!! $comment->user->getAvatarPath(40, 40) !!}" alt="{!! $comment->user->name !!}" style="height: 40px; width: 40px; border-radius: 3px;">
             </a>
             <div class="media-body">
-                <h6 class="media-heading"><a href="{{ $url }}">{{ Str::limit($text, 100) }}</a></h6>
+                <h6 class="media-heading"><a href="{!! $url !!}">{!! Str::limit($text, 100) !!}</a></h6>
                 <small>
-                    <span class="glyphicon glyphicon-thumbs-up"></span> {{ $comment->uv }}
-                    <span class="glyphicon glyphicon-thumbs-down"></span> {{ $comment->dv }}
+                    <span class="glyphicon glyphicon-thumbs-up"></span> {!! $comment->uv !!}
+                    <span class="glyphicon glyphicon-thumbs-down"></span> {!! $comment->dv !!}
 
                     @if ($comment->content)
-                        <span class="glyphicon glyphicon-share-alt"></span> {{ Str::limit($comment->content->title, 20) }}
+                        <span class="glyphicon glyphicon-share-alt"></span> {!! Str::limit($comment->content->title, 20) !!}
                     @endif
                 </small>
             </div>

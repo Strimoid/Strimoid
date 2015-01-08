@@ -17,7 +17,7 @@
 
     @foreach ($users as $index => $user)
     <tr @if(Auth::check() && $user->user_id == Auth::user()->_id) class="warning" @endif>
-        <td>{{ (($index + 1) + (($users->getCurrentPage()-1) * $users->getPerPage())) }}</td>
+        <td>{!! (($index + 1) + (($users->getCurrentPage()-1) * $users->getPerPage())) !!}</td>
         <?php
             $day = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1));
 
@@ -39,15 +39,15 @@
 
         ?>
         <td>
-            <img src="{{ $user->user->getAvatarPath() }}" style="width: 20px; height: 20px">
-            <a href="{{ route('user_profile', $user->user_id) }}">{{ $user->user_id }}</a>
-            <img src="https://chart.googleapis.com/chart?chs=100x20&cht=ls&chco=0077CC&chf=bg,s,FFFFFF00&chds=a&chd=t:{{ implode(',', $chartData) }}" class="pull-right">
+            <img src="{!! $user->user->getAvatarPath() !!}" style="width: 20px; height: 20px">
+            <a href="{!! route('user_profile', $user->user_id) !!}">{!! $user->user_id !!}</a>
+            <img src="https://chart.googleapis.com/chart?chs=100x20&cht=ls&chco=0077CC&chf=bg,s,FFFFFF00&chds=a&chd=t:{!! implode(',', $chartData) !!}" class="pull-right">
         </td>
-        <td>{{ $user->contents }}</td>
-        <td>{{ $user->comments }}</td>
-        <td>{{ $user->entries }}</td>
-        <td>{{ $user->uv }}</td>
-        <td>{{ $user->dv }}</td>
+        <td>{!! $user->contents !!}</td>
+        <td>{!! $user->comments !!}</td>
+        <td>{!! $user->entries !!}</td>
+        <td>{!! $user->uv !!}</td>
+        <td>{!! $user->dv !!}</td>
     </tr>
     @endforeach
 
@@ -55,7 +55,7 @@
 
 </table>
 
-{{ $users->links() }}
+{!! $users->links() !!}
 
 @stop
 

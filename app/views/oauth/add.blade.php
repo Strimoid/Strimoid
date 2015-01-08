@@ -2,7 +2,7 @@
 
 @section('content')
 
-{{ Form::open(array('action' => 'OAuthController@addApp', 'class' => 'form-horizontal')) }}
+{!! Form::open(array('action' => 'OAuthController@addApp', 'class' => 'form-horizontal')) !!}
 
 @include('global.form.input', array('type' => 'text', 'name' => 'name', 'label' => 'Nazwa aplikacji'))
 @include('global.form.input', array('type' => 'textarea', 'name' => 'redirect_url', 'label' => 'Redirect URL'))
@@ -13,6 +13,6 @@
     </div>
 </div>
 
-{{ Form::close() }}
+{!! Form::close() !!}
 
 @stop

@@ -1,13 +1,13 @@
 @extends('global.master')
 
 @section('content')
-{{ Form::open(array('action' => 'ContentController@saveThumbnail')) }}
-<input type="hidden" name="id" value="{{ $content->_id }}">
+{!! Form::open(array('action' => 'ContentController@saveThumbnail')) !!}
+<input type="hidden" name="id" value="{!! $content->_id !!}">
 
 <select class="image-picker" name="thumbnail">
     <option value=""></option>
     @foreach ($thumbnails['thumbnails'] as $id => $thumbnail)
-        <option data-img-src="{{ $thumbnail }}" value="{{ $id }}"></option>
+        <option data-img-src="{!! $thumbnail !!}" value="{!! $id !!}"></option>
     @endforeach
 </select>
 
@@ -15,7 +15,7 @@
     <button type="submit" class="btn btn-default btn-primary pull-right">Zapisz</button>
 </div>
 
-{{ Form::close() }}
+{!! Form::close() !!}
 @stop
 
 @section('sidebar')

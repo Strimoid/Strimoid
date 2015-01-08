@@ -59,12 +59,12 @@
 
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="profile">
-            {{ Form::open(['action' => 'UserController@saveProfile', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true]) }}
+            {!! Form::open(['action' => 'UserController@saveProfile', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true]) !!}
 
             <div class="form-group">
                 <label class="col-lg-3 control-label">Nazwa użytkownika</label>
                 <div class="col-lg-6">
-                    <p class="form-control-static">{{ $user->name }}</p>
+                    <p class="form-control-static">{!! $user->name !!}</p>
                 </div>
             </div>
 
@@ -73,10 +73,10 @@
             <div class="form-group @if ($errors->has('avatar')) has-error @endif">
                 <label class="col-lg-3 control-label">Avatar</label>
                 <div class="col-lg-6">
-                    {{ Form::file('avatar') }}
+                    {!! Form::file('avatar') !!}
 
                     @if ($errors->has('avatar'))
-                        <p class="help-block">{{ $errors->first('avatar') }}</p>
+                        <p class="help-block">{!! $errors->first('avatar') !!}</p>
                     @else
                         <p class="help-block">Najlepiej 100x100, maksymalny rozmiar: 250KB.</p>
                     @endif
@@ -92,11 +92,11 @@
                     <button type="submit" class="btn btn-primary">Zapisz</button>
                 </div>
             </div>
-            {{ Form::close() }}
+            {!! Form::close() !!}
         </div>
 
         <div class="tab-pane fade" id="password">
-            {{ Form::open(['action' => 'UserController@changePassword', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) }}
+            {!! Form::open(['action' => 'UserController@changePassword', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
 
             @include('global.form.input', ['type' => 'password', 'name' => 'old_password', 'label' => 'Aktualne hasło'])
             @include('global.form.input', ['type' => 'password', 'name' => 'password', 'label' => 'Nowe hasło'])
@@ -108,11 +108,11 @@
                 </div>
             </div>
 
-            {{ Form::close() }}
+            {!! Form::close() !!}
         </div>
 
         <div class="tab-pane fade" id="email">
-            {{ Form::open(['action' => 'UserController@changeEmail', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) }}
+            {!! Form::open(['action' => 'UserController@changeEmail', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
 
             @include('global.form.input', ['type' => 'text', 'name' => 'email', 'label' => 'Nowe adres email'])
             @include('global.form.input', ['type' => 'text', 'name' => 'email_confirmation', 'label' => 'Nowy adres email - powtórzenie'])
@@ -123,11 +123,11 @@
                 </div>
             </div>
 
-            {{ Form::close() }}
+            {!! Form::close() !!}
         </div>
 
         <div class="tab-pane fade" id="settings">
-            {{ Form::open(['action' => 'UserController@saveSettings', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) }}
+            {!! Form::open(['action' => 'UserController@saveSettings', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
 
             <div class="form-group">
                 <label class="col-lg-3 control-label">Opcje</label>
@@ -135,12 +135,12 @@
                 <div class="col-lg-6">
                     <div class="checkbox">
                         <label>
-                            {{ Form::checkbox('enter_send', 'on', @$user->settings['enter_send']) }} Wysyłaj treści/komentarze enterem
+                            {!! Form::checkbox('enter_send', 'on', @$user->settings['enter_send']) !!} Wysyłaj treści/komentarze enterem
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            {{ Form::checkbox('homepage_subscribed', 'on', @$user->settings['homepage_subscribed']) }} Subskrybowane jako strona główna serwisu
+                            {!! Form::checkbox('homepage_subscribed', 'on', @$user->settings['homepage_subscribed']) !!} Subskrybowane jako strona główna serwisu
                         </label>
                     </div>
                 </div>
@@ -157,12 +157,12 @@
                     </div>
                     <div class="checkbox">
                         <label>
-                            {{ Form::checkbox('notifications_sound', 'on', @$user->settings['notifications_sound']) }} Odtwarzaj dźwięk po otrzymaniu powiadomienia
+                            {!! Form::checkbox('notifications_sound', 'on', @$user->settings['notifications_sound']) !!} Odtwarzaj dźwięk po otrzymaniu powiadomienia
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            {{ Form::checkbox('notifications[auto_read]', 'on', Settings::get('notifications.auto_read')) }} Automatycznie oznaczaj powiadomienia jako przeczytane
+                            {!! Form::checkbox('notifications[auto_read]', 'on', Settings::get('notifications.auto_read')) !!} Automatycznie oznaczaj powiadomienia jako przeczytane
                         </label>
                     </div>
                 </div>
@@ -174,12 +174,12 @@
                 <div class="col-lg-6">
                     <div class="checkbox">
                         <label>
-                            {{ Form::checkbox('pin_navbar', 'on', @$user->settings['pin_navbar'])  }} Przypnij górny pasek
+                            {!! Form::checkbox('pin_navbar', 'on', @$user->settings['pin_navbar'])  !!} Przypnij górny pasek
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            {{ Form::checkbox('disable_groupstyles', 'on', @$user->settings['disable_groupstyles'])  }} Wyłącz style grup
+                            {!! Form::checkbox('disable_groupstyles', 'on', @$user->settings['disable_groupstyles'])  !!} Wyłącz style grup
                         </label>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
                 </div>
             </div>
 
-            {{ Form::close() }}
+            {!! Form::close() !!}
         </div>
 
         <div class="tab-pane fade" id="subscribed">
@@ -217,10 +217,10 @@
                 @foreach ($subscribedGroups as $subscribedGroup)
                 <?php $x++; ?>
                 <tr>
-                    <td>{{ $x }}</td>
-                    <td><a href="{{ route('group_contents', $subscribedGroup->group->urlname) }}">{{ $subscribedGroup->group->name }}</a></td>
-                    <td>{{ $subscribedGroup->created_at->diffForHumans() }}</td>
-                    <td><button type="button" data-name="{{ $subscribedGroup->group->urlname }}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
+                    <td>{!! $x !!}</td>
+                    <td><a href="{!! route('group_contents', $subscribedGroup->group->urlname) !!}">{!! $subscribedGroup->group->name !!}</a></td>
+                    <td>{!! $subscribedGroup->created_at->diffForHumans() !!}</td>
+                    <td><button type="button" data-name="{!! $subscribedGroup->group->urlname !!}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
                 </tr>
                 @endforeach
 
@@ -244,10 +244,10 @@
                 @foreach ($moderatedGroups as $moderatedGroup)
                 <?php $x++; ?>
                 <tr>
-                    <td>{{ $x }}</td>
-                    <td><a href="{{ route('group_contents', $moderatedGroup->group->urlname) }}">{{ $moderatedGroup->group->name }}</a></td>
-                    <td>{{ $moderatedGroup->created_at->diffForHumans() }}</td>
-                    <td data-name="{{ $moderatedGroup->group->urlname }}"><button type="button" data-name="{{ $moderatedGroup->group->urlname }}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
+                    <td>{!! $x !!}</td>
+                    <td><a href="{!! route('group_contents', $moderatedGroup->group->urlname) !!}">{!! $moderatedGroup->group->name !!}</a></td>
+                    <td>{!! $moderatedGroup->created_at->diffForHumans() !!}</td>
+                    <td data-name="{!! $moderatedGroup->group->urlname !!}"><button type="button" data-name="{!! $moderatedGroup->group->urlname !!}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
                 </tr>
                 @endforeach
 
@@ -271,10 +271,10 @@
                 @foreach ($blockedGroups as $blockedGroup)
                 <?php $x++; ?>
                 <tr>
-                    <td>{{ $x }}</td>
-                    <td><a href="{{ route('group_contents', $blockedGroup->group->urlname) }}">{{ $blockedGroup->group->name }}</a></td>
-                    <td>{{ $blockedGroup->created_at->diffForHumans() }}</td>
-                    <td data-name="{{ $blockedGroup->group->urlname }}"><button type="button" data-name="{{ $blockedGroup->group->urlname }}" class="btn btn-xs group_block_btn btn-danger">Blokuj</button></td>
+                    <td>{!! $x !!}</td>
+                    <td><a href="{!! route('group_contents', $blockedGroup->group->urlname) !!}">{!! $blockedGroup->group->name !!}</a></td>
+                    <td>{!! $blockedGroup->created_at->diffForHumans() !!}</td>
+                    <td data-name="{!! $blockedGroup->group->urlname !!}"><button type="button" data-name="{!! $blockedGroup->group->urlname !!}" class="btn btn-xs group_block_btn btn-danger">Blokuj</button></td>
                 </tr>
                 @endforeach
 
@@ -298,9 +298,9 @@
                 @foreach ($bans as $ban)
                 <?php $x++; ?>
                 <tr>
-                    <td>{{ $x }}</td>
-                    <td><a href="{{ route('group_contents', $ban->group->urlname) }}">{{ $ban->group->name }}</a></td>
-                    <td>{{ $ban->created_at->diffForHumans() }}</td>
+                    <td>{!! $x !!}</td>
+                    <td><a href="{!! route('group_contents', $ban->group->urlname) !!}">{!! $ban->group->name !!}</a></td>
+                    <td>{!! $ban->created_at->diffForHumans() !!}</td>
                     <td>{{{ $ban->reason }}}</td>
                 </tr>
                 @endforeach
@@ -325,10 +325,10 @@
                 @foreach ($blockedUsers as $blockedUser)
                 <?php $x++; ?>
                 <tr>
-                    <td>{{ $x }}</td>
-                    <td><a href="{{ route('user_profile', $blockedUser->target_id) }}">{{ $blockedUser->target_id }}</a></td>
-                    <td>{{ $blockedUser->created_at->diffForHumans() }}</td>
-                    <td data-name="{{ $blockedUser->target_id }}"><button type="button" data-name="{{ $blockedUser->target_id }}" class="btn btn-xs group_block_btn btn-danger">Zablokuj</button></td>
+                    <td>{!! $x !!}</td>
+                    <td><a href="{!! route('user_profile', $blockedUser->target_id) !!}">{!! $blockedUser->target_id !!}</a></td>
+                    <td>{!! $blockedUser->created_at->diffForHumans() !!}</td>
+                    <td data-name="{!! $blockedUser->target_id !!}"><button type="button" data-name="{!! $blockedUser->target_id !!}" class="btn btn-xs group_block_btn btn-danger">Zablokuj</button></td>
                 </tr>
                 @endforeach
 
@@ -337,7 +337,7 @@
         </div>
 
         <div class="tab-pane fade" id="domains">
-            <table class="table" ng-init='blockedDomains = {{ json_encode(Auth::user()->_blocked_domains); }}'>
+            <table class="table" ng-init='blockedDomains = {!! json_encode(Auth::user()->_blocked_domains); !!}'>
                 <thead>
                 <tr>
                     <th>#</th>
@@ -347,8 +347,8 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="domain in blockedDomains">
-                    <td>@{{ $index + 1 }}</td>
-                    <td>@{{ domain }}</td>
+                    <td>@{!! $index + 1 !!}</td>
+                    <td>@{!! domain !!}</td>
                     <td><button class="btn btn-xs btn-danger" ng-click="unblockDomain(domain)">Usuń</button></td>
                 </tr>
                 </tbody>

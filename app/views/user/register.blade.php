@@ -6,7 +6,7 @@ Rejestracja
 
 @section('content')
 <div class="row">
-    {{ Form::open(array('action' => 'UserController@processRegistration', 'class' => 'form-horizontal')) }}
+    {!! Form::open(array('action' => 'UserController@processRegistration', 'class' => 'form-horizontal')) !!}
 
     @include('global.form.input_icon', array('type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika', 'icon' => 'user'))
     @include('global.form.input_icon', array('type' => 'password', 'name' => 'password', 'label' => 'Hasło', 'icon' => 'lock'))
@@ -17,14 +17,14 @@ Rejestracja
             <button type="submit" class="btn btn-primary">Zarejestruj</button>
         </div>
     </div>
-    {{ Form::close() }}
+    {!! Form::close() !!}
 </div>
 @stop
 
 @section('sidebar')
 <div class="well">
     <h4>Dlaczego warto się zarejestrować?</h4>
-    <p>Dołączenie do społeczności {{ Config::get('app.site_name') }} pozwoli Ci na pełny udział w życiu serwisu
+    <p>Dołączenie do społeczności {!! Config::get('app.site_name') !!} pozwoli Ci na pełny udział w życiu serwisu
         oraz możliwość dostosowania go do własnych upodobań.</p>
     <p>Zapraszamy!</p>
 </div>

@@ -3,16 +3,16 @@
 <?php $q = Input::get('q'); $t = Input::get('t') ? Input::get('t'): 'c'; ?>
 
 @section('content')
-{{ Form::open(array('method' => 'GET', 'style' => 'margin-bottom: 20px')) }}
+{!! Form::open(array('method' => 'GET', 'style' => 'margin-bottom: 20px')) !!}
 <div class="input-group">
-    {{ Form::text('q', Input::get('q'), array('class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...')) }}
+    {!! Form::text('q', Input::get('q'), array('class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...')) !!}
     <input type="hidden" name="t" value="{{{ Input::get('t') }}}">
 
     <div class="input-group-btn">
         <button type="submit" class="btn btn-default btn-primary">Szukaj</button>
     </div>
 </div>
-{{ Form::close() }}
+{!! Form::close() !!}
 
 @if (isset($results))
 
@@ -34,7 +34,7 @@
     <?php $group = null; ?>
 @endif
 
-{{ $results->appends(array('q' => $q, 't' => $t))->links() }}
+{!! $results->appends(array('q' => $q, 't' => $t))->links() !!}
 
 @endif
 
@@ -44,9 +44,9 @@
 <div class="well">
     <div class="list-group">
 
-        <a href="{{ route('search', array('q' => $q, 't' => 'c')) }}" class="list-group-item @if ($t == 'c')active @endif">Treści</a>
-        <a href="{{ route('search', array('q' => $q, 't' => 'e')) }}" class="list-group-item @if ($t == 'e')active @endif">Wpisy</a>
-        <a href="{{ route('search', array('q' => $q, 't' => 'g')) }}" class="list-group-item @if ($t == 'g')active @endif">Grupy</a>
+        <a href="{!! route('search', array('q' => $q, 't' => 'c')) !!}" class="list-group-item @if ($t == 'c')active @endif">Treści</a>
+        <a href="{!! route('search', array('q' => $q, 't' => 'e')) !!}" class="list-group-item @if ($t == 'e')active @endif">Wpisy</a>
+        <a href="{!! route('search', array('q' => $q, 't' => 'g')) !!}" class="list-group-item @if ($t == 'g')active @endif">Grupy</a>
     </div>
 </div>
 @stop

@@ -5,26 +5,26 @@
 @stop
 
 @section('head')
-    @if ($content->thumbnail) <meta property="og:image" content="https:{{ $content->getThumbnailPath() }}"> @endif
+    @if ($content->thumbnail) <meta property="og:image" content="https:{!! $content->getThumbnailPath() !!}"> @endif
     @if ($content->description) <meta name="description" content="{{{ $content->description }}}"> @endif
 @stop
 
 @section('content')
-<div class="content" data-id="{{ $content->_id }}">
+<div class="content" data-id="{!! $content->_id !!}">
     <div class="media">
-        <div class="voting" data-id="{{ $content->_id }}" data-state="{{ $content->getVoteState() }}" data-type="content">
+        <div class="voting" data-id="{!! $content->_id !!}" data-state="{!! $content->getVoteState() !!}" data-type="content">
             <button type="button" class="btn btn-default btn-sm pull-left vote-btn-up @if ($content->getVoteState() == 'uv') btn-success @endif">
-                <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{{ $content->uv }}</span>
+                <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $content->uv !!}</span>
             </button>
 
             <button type="button" class="btn btn-default btn-sm pull-left vote-btn-down @if ($content->getVoteState() == 'dv') btn-danger @endif">
-                <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{{ $content->dv }}</span>
+                <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{!! $content->dv !!}</span>
             </button>
         </div>
 
         @if ($content->thumbnail)
         <a class="pull-left" href="{{{ $content->url }}}" rel="nofollow" target="_blank">
-            <img class="media-object img-thumbnail" src="{{ $content->getThumbnailPath() }}">
+            <img class="media-object img-thumbnail" src="{!! $content->getThumbnailPath() !!}">
         </a>
         @elseif ($content->thumbnail_loading)
         <a class="pull-left" href="{{{ $content->url }}}" rel="nofollow" target="_blank">
@@ -41,12 +41,12 @@
             {{{ $content->description }}}
             <p class="summary">
                 <small>
-                    <span class="glyphicon glyphicon-comment"></span> <a href="{{ route('content_comments_slug', array($content->_id, Str::slug($content->title))) }}" class="content_comments" rel="nofollow">{{ Lang::choice('pluralization.comments', $content->comments_count) }}</a>
-                    <span class="glyphicon glyphicon-tag"></span> <a href="{{ route('group_contents', $content->group_id) }}" class="content_group">g/{{{ $content->group->urlname }}}</a>
-                    <span class="glyphicon glyphicon-user"></span> <a href="{{ action('user_profile', $content->user_id) }}" class="content_user">u/{{{ $content->user->name }}}</a>
-                    <span class="glyphicon glyphicon-globe"></span> <span class="content_domain">{{ $content->getDomain() }}</span>
-                    <span class="glyphicon glyphicon-link"></span> <span class="content_comments">{{ intval($content->related_count) }}</span>
-                    <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{{ $content->created_at->format('c') }}" title="{{ $content->getLocalTime() }}">{{ $content->created_at->diffForHumans() }}</time>
+                    <span class="glyphicon glyphicon-comment"></span> <a href="{!! route('content_comments_slug', array($content->_id, Str::slug($content->title))) !!}" class="content_comments" rel="nofollow">{!! Lang::choice('pluralization.comments', $content->comments_count) !!}</a>
+                    <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_contents', $content->group_id) !!}" class="content_group">g/{{{ $content->group->urlname }}}</a>
+                    <span class="glyphicon glyphicon-user"></span> <a href="{!! action('user_profile', $content->user_id) !!}" class="content_user">u/{{{ $content->user->name }}}</a>
+                    <span class="glyphicon glyphicon-globe"></span> <span class="content_domain">{!! $content->getDomain() !!}</span>
+                    <span class="glyphicon glyphicon-link"></span> <span class="content_comments">{!! intval($content->related_count) !!}</span>
+                    <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $content->created_at->format('c') !!}" title="{!! $content->getLocalTime() !!}">{!! $content->created_at->diffForHumans() !!}</time>
                     @if (Auth::check())
                         @if (in_array($content->_id, (array) Auth::user()->data->_saved_contents))
                             <span class="glyphicon glyphicon-star action_link save_content" title="zapisz"></span>
@@ -59,7 +59,7 @@
         </div>
         @if ($content->getEmbed())
         <div class="content_preview">
-            {{ $content->getEmbed()->getHtml() }}
+            {!! $content->getEmbed()->getHtml() !!}
         </div>
         @endif
     </div>
@@ -71,7 +71,7 @@
 </div>
 
 <div class="well md">
-    {{ $content->text }}
+    {!! $content->text !!}
 </div>
 @endif
 
@@ -96,7 +96,7 @@
     @endif
 </div>
 
-{{ Form::open(['action' => array('RelatedController@addRelated', $content->_id), 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) }}
+{!! Form::open(['action' => array('RelatedController@addRelated', $content->_id), 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) !!}
 
 @include('global.form.input', ['type' => 'text', 'name' => 'title', 'label' => 'Tytuł linku'])
 @include('global.form.input', ['type' => 'text', 'name' => 'url', 'label' => 'Adres URL'])
@@ -107,17 +107,17 @@
     <div class="col-lg-6">
         <div class="checkbox">
             <label>
-                {{ Form::checkbox('thumbnail', 'on', Input::old('thumbnail', true)) }} Miniaturka
+                {!! Form::checkbox('thumbnail', 'on', Input::old('thumbnail', true)) !!} Miniaturka
             </label>
         </div>
         <div class="checkbox">
             <label>
-                {{ Form::checkbox('nsfw', 'on', Input::old('nsfw')) }} Treść +18
+                {!! Form::checkbox('nsfw', 'on', Input::old('nsfw')) !!} Treść +18
             </label>
         </div>
         <div class="checkbox">
             <label>
-                {{ Form::checkbox('eng', 'on', Input::old('eng')) }} Treść w języku angielskim
+                {!! Form::checkbox('eng', 'on', Input::old('eng')) !!} Treść w języku angielskim
             </label>
         </div>
     </div>
@@ -128,7 +128,7 @@
         <button type="submit" class="btn btn-primary pull-right">Dodaj powiązany link</button>
     </div>
 </div>
-{{ Form::close() }}
+{!! Form::close() !!}
 
 @if (!count($content->related))
 Brak powiązanych.
@@ -136,19 +136,19 @@ Brak powiązanych.
 
 @foreach ($content->related as $related)
 <div class="media related_link">
-    <div class="voting" data-id="{{ $related->_id }}" data-state="{{ $related->getVoteState() }}" data-type="related">
+    <div class="voting" data-id="{!! $related->_id !!}" data-state="{!! $related->getVoteState() !!}" data-type="related">
         <button type="button" class="btn btn-default btn-xs pull-left vote-btn-up @if ($related->getVoteState() == 'uv') btn-success @endif">
-            <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{{ $related->uv }}</span>
+            <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $related->uv !!}</span>
         </button>
 
         <button type="button" class="btn btn-default btn-xs pull-left vote-btn-down @if ($related->getVoteState() == 'dv') btn-danger @endif">
-            <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{{ $related->dv }}</span>
+            <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{!! $related->dv !!}</span>
         </button>
     </div>
 
     @if ($related->thumbnail && !$related->nsfw)
     <a class="pull-left">
-        <img class="media-object" src="{{ $related->getThumbnailPath() }}" alt="{{{ $related->title }}}">
+        <img class="media-object" src="{!! $related->getThumbnailPath() !!}" alt="{{{ $related->title }}}">
     </a>
     @endif
 
@@ -160,10 +160,10 @@ Brak powiązanych.
             @if ($related->nsfw) <span class="nsfw">[+18]</span> @endif
 
             @if (Auth::check() && Auth::user()->getKey() == $related->user->getKey())
-            <a class="related_remove_link" data-id="{{ $related->_id }}"><span class="glyphicon glyphicon-trash"></span></a>
+            <a class="related_remove_link" data-id="{!! $related->_id !!}"><span class="glyphicon glyphicon-trash"></span></a>
             @endif
         </h4>
-        <span class="info">Dodane <time pubdate datetime="{{ $related->created_at->format('c') }}" title="{{ $related->getLocalTime() }}">{{ $related->created_at->diffForHumans() }}</time> przez <a href="{{ action('user_profile', $related->user_id) }}">u/{{{ $related->user_id }}}</a></span>
+        <span class="info">Dodane <time pubdate datetime="{!! $related->created_at->format('c') !!}" title="{!! $related->getLocalTime() !!}">{!! $related->created_at->diffForHumans() !!}</time> przez <a href="{!! action('user_profile', $related->user_id) !!}">u/{{{ $related->user_id }}}</a></span>
     </div>
 </div>
 @endforeach
@@ -216,25 +216,25 @@ Brak powiązanych.
 
 <div class="panel-default comment comment_add">
     <div class="comment_avatar">
-        <img src="{{ Auth::user()->getAvatarPath() }}">
+        <img src="{!! Auth::user()->getAvatarPath() !!}">
     </div>
 
     <div class="comment_text">
-        {{ Form::open(['class' => 'comment_add enter_send']) }}
-        <input name="id" type="hidden" value="{{ $content->_id }}">
+        {!! Form::open(['class' => 'comment_add enter_send']) !!}
+        <input name="id" type="hidden" value="{!! $content->_id !!}">
 
         <div class="form-group @if ($errors->has('text')) has-error @endif col-lg-12">
-            {{ Form::textarea('text', Input::old('text'), array('class' => 'form-control enter_send', 'placeholder' => 'Treść komentarza...', 'rows' => 3)) }}
+            {!! Form::textarea('text', Input::old('text'), array('class' => 'form-control enter_send', 'placeholder' => 'Treść komentarza...', 'rows' => 3)) !!}
 
              @if ($errors->has('text'))
-                <p class="help-block">{{ $errors->first('text') }}</p>
+                <p class="help-block">{!! $errors->first('text') !!}</p>
              @endif
         </div>
 
         <div class="form-group col-lg-12">
                 <button type="submit" class="btn btn-primary pull-right">Dodaj</button>
         </div>
-        {{ Form::close() }}
+        {!! Form::close() !!}
     </div>
 </div>
 @endif
@@ -257,6 +257,6 @@ Brak powiązanych.
 
 @section('scripts')
 <script type="text/javascript">
-    window.content_id = '{{ $content->_id }}';
+    window.content_id = '{!! $content->_id !!}';
 </script>
 @stop

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {{ Form::open(array('action' => 'ContentController@addContent', 'class' => 'form-horizontal content_add_form')) }}
+    {!! Form::open(array('action' => 'ContentController@addContent', 'class' => 'form-horizontal content_add_form')) !!}
     <input type="hidden" name="type" value="link">
 
     <p id="currentTab"></p>
@@ -36,17 +36,17 @@
         <div class="col-lg-6">
             <div class="checkbox">
                 <label>
-                    {{ Form::checkbox('thumbnail', 'on', Input::old('thumbnail', Input::get('thumbnail') == 'no' ? false : true)) }} Miniaturka
+                    {!! Form::checkbox('thumbnail', 'on', Input::old('thumbnail', Input::get('thumbnail') == 'no' ? false : true)) !!} Miniaturka
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {{ Form::checkbox('nsfw', 'on', Input::old('nsfw', Input::has('18'))) }} Treść +18
+                    {!! Form::checkbox('nsfw', 'on', Input::old('nsfw', Input::has('18'))) !!} Treść +18
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {{ Form::checkbox('eng', 'on', Input::old('eng', Input::has('eng'))) }} Treść w języku angielskim
+                    {!! Form::checkbox('eng', 'on', Input::old('eng', Input::has('eng'))) !!} Treść w języku angielskim
                 </label>
             </div>
         </div>
@@ -57,13 +57,13 @@
             <button type="submit" class="btn btn-default btn-primary pull-right">Dodaj treść</button>
         </div>
     </div>
-    {{ Form::close() }}
+    {!! Form::close() !!}
 </div>
 @stop
 
 @section('sidebar')
 <div class="well">
-    <p>Dołączenie do społeczności {{ Config::get('app.site_name') }} pozwoli Ci na pełny udział w życiu serwisu
+    <p>Dołączenie do społeczności {!! Config::get('app.site_name') !!} pozwoli Ci na pełny udział w życiu serwisu
         oraz możliwość dostosowania go do własnych upodobań.</p>
     <p>Zapraszamy!</p>
 </div>
