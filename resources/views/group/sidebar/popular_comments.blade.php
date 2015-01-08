@@ -5,13 +5,13 @@ use Strimoid\Models\Comment;
 $fromTime = Carbon::now()->subDays(3)->minute(0)->second(0);
 
 $builder = Comment::with([
-    'user' => function($q) { $q->select(['avatar', 'name']); },
-    'content' => function($q) { $q->select('title'); }
+    'user' => function($q) { $q->select(['id', 'avatar', 'name']); },
+    'content' => function($q) { $q->select(['id', 'title']); }
 ])->where('created_at', '>', $fromTime);
 
 if (isset($group))
 {
-    $builder->where('group_id', $group->_id);
+    $builder->where('group_id', $group->id);
 }
 
 $popularComments = $builder->orderBy('uv', 'desc')->take(5)->get();
@@ -28,7 +28,8 @@ $popularComments = $builder->orderBy('uv', 'desc')->take(5)->get();
         $text = preg_replace('/<span class="spoiler">(.*?)<\/span>/s', '', $text);
         $text = strip_tags($text);
 
-        $url = route('content_comments', ['content' => $comment->content_id]) .'#'. $comment->_id;
+        $url = route('content_comments', ['content' => $comment->content_id]) .'#'. $comment->id;
+
         ?>
         <li class="media">
             <a class="pull-left" href="{!! $url !!}" rel="nofollow">

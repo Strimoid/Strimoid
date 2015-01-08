@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Str;
+use Auth, Str;
 use Strimoid\Helpers\MarkdownParser;
 
 class Entry extends BaseModel

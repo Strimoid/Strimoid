@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Str, Hash;
+use Auth, Config, Str, Hash;
 use duxet\Rethinkdb\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;

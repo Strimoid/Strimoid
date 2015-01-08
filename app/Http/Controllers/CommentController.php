@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input;
+use Auth, Input, Settings;
 use Strimoid\Models\Group;
 
 class CommentController extends BaseController {
@@ -20,10 +20,11 @@ class CommentController extends BaseController {
             return Redirect::route('login_form')->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
         }
 
-        if (class_exists('Folders\\'. studly_case($groupName)))
+        $className = 'Strimoid\\Models\\Folders\\'. studly_case($groupName);
+
+        if (class_exists($className))
         {
-            $class = 'Folders\\'. studly_case($groupName);
-            $builder = with(new $class)->comments();
+            $builder = with(new $className)->comments();
         }
         else
         {
