@@ -219,8 +219,10 @@ return array(
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Form'      => 'Illuminate\Html\FormFacade',
 		'Str'       => 'Illuminate\Support\Str',
+		'BootstrapPresenter' => 'Illuminate\Pagination\BootstrapThreePresenter',
 
         'Carbon'    => 'Carbon\Carbon',
+		'DateTime'  => 'DateTime',
         'Image'     => 'Intervention\Image\Facades\Image',
         'Embed'     => 'Cohensive\Embed\Facades\Embed',
         'Rss'       => 'Thujohn\Rss\RssFacade',
