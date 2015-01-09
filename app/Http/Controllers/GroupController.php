@@ -11,7 +11,7 @@ class GroupController extends BaseController {
 
     public function showList()
     {
-        $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
+        $builder = Group::with('creator')->where('type', '!=', Group::TYPE_PRIVATE);
 
         if (Input::get('sort') == 'newest')
         {
@@ -22,7 +22,7 @@ class GroupController extends BaseController {
             $builder->orderBy('subscribers', 'desc');
         }
 
-        $data['groups'] = $builder->paginate(20);
+        $data['groups'] = $builder->paginate(20)->appends(['sort' => Input::get('sort')]);
 
         if (Auth::check())
         {

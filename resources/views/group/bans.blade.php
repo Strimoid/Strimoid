@@ -59,7 +59,7 @@
 
 </table>
 
-<?php echo $bans->links(); ?>
+{!! with(new BootstrapPresenter($bans))->render() !!}
 @stop
 
 @section('sidebar')

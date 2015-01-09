@@ -5,6 +5,17 @@ use Illuminate\Database\Migrations\Migration;
 
 class Setup extends Migration {
 
+	private $tables = [
+		'comments',
+		'contents',
+		'conversations',
+		'entries',
+		'groups',
+		'notifications',
+		'users',
+		'user_actions',
+	];
+
 	/**
 	 * Run the migrations.
 	 *
@@ -12,13 +23,10 @@ class Setup extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('comments');
-		Schema::create('contents');
-		Schema::create('conversations');
-		Schema::create('entries');
-		Schema::create('groups');
-		Schema::create('notifications');
-		Schema::create('users');
+		foreach ($this->tables as $table)
+		{
+			Schema::create($table);
+		}
 	}
 
 	/**
@@ -28,13 +36,10 @@ class Setup extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('comments');
-		Schema::drop('contents');
-		Schema::drop('conversations');
-		Schema::drop('entries');
-		Schema::drop('groups');
-		Schema::drop('notifications');
-		Schema::drop('users');
+		foreach ($this->tables as $table)
+		{
+			Schema::drop($table);
+		}
 	}
 
 }

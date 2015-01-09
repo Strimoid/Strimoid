@@ -2,8 +2,8 @@
 
 use Carbon\Carbon;
 use Summon\Summon;
-use Auth, Input, Route;
-use Strimoid\Facades\Settings;
+use Auth, Input, Route, Settings;
+use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
 class ContentController extends BaseController {
@@ -93,7 +93,7 @@ class ContentController extends BaseController {
         // Time filter
         if (Input::get('time'))
         {
-            $fromTime = Carbon::now()->subDay(Input::get('time'))
+            $fromTime = Carbon::now()->subDays(Input::get('time'))
                 ->hour(0)->minute(0)->second(0);
             $builder->where('created_at', '>', $fromTime);
         }

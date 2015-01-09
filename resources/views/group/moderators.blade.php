@@ -58,7 +58,7 @@
 
 </table>
 
-<?php echo $moderators->links(); ?>
+{!! with(new BootstrapPresenter($moderators))->render() !!}
 @stop
 
 @section('sidebar')

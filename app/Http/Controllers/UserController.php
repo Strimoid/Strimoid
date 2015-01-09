@@ -1,5 +1,9 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Str;
+use Strimoid\Models\User;
+use Strimoid\Models\UserAction;
+
 class UserController extends BaseController {
 
     public function showJSONList()

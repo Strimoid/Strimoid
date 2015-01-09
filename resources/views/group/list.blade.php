@@ -9,7 +9,7 @@
 
 <?php $group = null; ?>
 
-{!! $groups->appends(array('sort' => Input::get('sort')))->links() !!}
+{!! with(new BootstrapPresenter($groups))->render() !!}
 @stop
 
 @section('sidebar')

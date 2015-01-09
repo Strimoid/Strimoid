@@ -3,22 +3,22 @@
 @section('content')
     @if ($type == 'contents')
         @foreach ($contents as $content)
-            @include('content.widget', array('content' => $content))
+            @include('content.widget', ['content' => $content])
         @endforeach
 
-        {!! $contents->links() !!}
+        {!! with(new BootstrapPresenter($contents))->render() !!}
     @elseif ($type == 'comments')
         @foreach ($comments as $comment)
-            @include('user.widgets.comment', array('comment' => $comment))
+            @include('user.widgets.comment', ['comment' => $comment])
         @endforeach
 
-        {!! $comments->links() !!}
+        {!! with(new BootstrapPresenter($comments))->render() !!}
     @elseif ($type == 'entries')
         @foreach ($entries as $entry)
-            @include('user.widgets.entry', array('entry' => $entry))
+            @include('user.widgets.entry', ['entry' => $entry])
         @endforeach
 
-        {!! $entries->links() !!}
+        {!! with(new BootstrapPresenter($entries))->render() !!}
     @elseif ($type == 'moderated')
     <?php $x = 1 + (($moderated->getCurrentPage()-1) * 15); ?>
         <table class="table">
@@ -40,7 +40,7 @@
             </tbody>
         </table>
 
-        {!! $moderated->links() !!}
+        {!! with(new BootstrapPresenter($moderated))->render() !!}
     @endif
 
     @if (isset($actions))
@@ -93,7 +93,7 @@
 
     @endforeach
 
-    {!! $actions->links() !!}
+    {!! with(new BootstrapPresenter($actions))->render() !!}
 
     @endif
 @stop

@@ -26,7 +26,8 @@
 
 <?php $group = null; ?>
 
-{!! $groups->appends(array('sort' => Input::get('sort')))->links() !!}
+{!! $groups->appends(['sort' => Input::get('sort')])!!}
+{!! with(new BootstrapPresenter($groups))->render() !!}
 @stop
 
 @section('sidebar')

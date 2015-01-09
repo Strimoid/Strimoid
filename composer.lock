@@ -307,12 +307,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-rethinkdb.git",
-                "reference": "b473c840a236862f187e4fb0bc5782e4fb4c1790"
+                "reference": "45d47128025e14f3442405b42cda03e0de842bb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/b473c840a236862f187e4fb0bc5782e4fb4c1790",
-                "reference": "b473c840a236862f187e4fb0bc5782e4fb4c1790",
+                "url": "https://api.github.com/repos/duxet/laravel-rethinkdb/zipball/45d47128025e14f3442405b42cda03e0de842bb5",
+                "reference": "45d47128025e14f3442405b42cda03e0de842bb5",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +344,7 @@
                 }
             ],
             "description": "RethinkDB adapter for Laravel",
-            "time": "2015-01-08 19:22:24"
+            "time": "2015-01-09 10:43:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -1041,12 +1041,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b8d3f5f08f6cc3fa64015af1f4a062133b0d3d88"
+                "reference": "99e1e4b82a3107beb73781609bd3b67d4beb908d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b8d3f5f08f6cc3fa64015af1f4a062133b0d3d88",
-                "reference": "b8d3f5f08f6cc3fa64015af1f4a062133b0d3d88",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/99e1e4b82a3107beb73781609bd3b67d4beb908d",
+                "reference": "99e1e4b82a3107beb73781609bd3b67d4beb908d",
                 "shasum": ""
             },
             "require": {
@@ -1152,7 +1152,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-01-08 19:45:11"
+            "time": "2015-01-09 02:37:00"
         },
         {
             "name": "league/commonmark",
