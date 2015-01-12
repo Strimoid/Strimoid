@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Config, Str, Hash;
+use Auth, Config, DB, Str, Hash;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -124,46 +124,37 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function bannedGroups()
     {
-        $cacheKey = 'user.'. $this->_id . '.banned_groups';
-        $groups = DB::table('group_bans')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
-
+        $groups = DB::table('group_bans')->where('user_id', $this->_id)->lists('group_id');
         return (array) $groups;
     }
 
     public function blockedGroups()
     {
-        $cacheKey = 'user.'. $this->_id . '.blocked_groups';
-        $groups = DB::table('group_blocks')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
-
+        $groups = DB::table('group_blocks')->where('user_id', $this->_id)->lists('group_id');
         return (array) $groups;
     }
 
     public function blockedUsers()
     {
-        $cacheKey = 'user.'. $this->_id . '.blocked_users';
-        $users = DB::table('user_blocks')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('target_id');
-
+        $users = DB::table('user_blocks')->where('user_id', $this->_id)->lists('target_id');
         return (array) $users;
     }
 
     public function subscribedGroups()
     {
-        $cacheKey = 'user.'. $this->_id . '.subscribed_groups';
-        $groups = DB::table('group_subscribers')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
+        $groups = DB::table('group_subscribers')->where('user_id', $this->_id)->lists('group_id');
         return (array) $groups;
     }
 
     public function moderatedGroups()
     {
-        $cacheKey = 'user.'. $this->_id . '.moderated_groups';
-        $groups =DB::table('group_moderators')->where('user_id', $this->_id)->remember(60, $cacheKey)->lists('group_id');
-
+        $groups = DB::table('group_moderators')->where('user_id', $this->_id)->lists('group_id');
         return (array) $groups;
     }
 
     public function folders()
     {
-        return $this->embedsMany('Folder', '_folders');
+        return $this->embedsMany('Strimoid\Models\Folder', '_folders');
     }
 
     public function setAvatar($file)
@@ -233,8 +224,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function isObservingUser($user)
     {
-        if ($user instanceof User)
-            $user = $user->_id;
+        if ($user instanceof User) $user = $user->_id;
 
         return in_array($user, (array) $this->_observed_users);
     }

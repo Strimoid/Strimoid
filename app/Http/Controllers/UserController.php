@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Str;
+use Auth, Str, Input, URL, Redirect;
 use Strimoid\Models\User;
 use Strimoid\Models\UserAction;
 

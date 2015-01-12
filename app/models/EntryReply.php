@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Auth, Str;
+
 class EntryReply extends BaseModel
 {
 

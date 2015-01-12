@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Settings;
+use Auth, Input, Settings, Route;
 use Strimoid\Models\Group;
 
 class CommentController extends BaseController {
