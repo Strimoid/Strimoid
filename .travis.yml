@@ -13,6 +13,7 @@ services:
 before_install:
   - sudo apt-get update -qq
   - "[[ $TRAVIS_PHP_VERSION ]] && echo yes | pecl install apcu-beta"
+  - "[[ $TRAVIS_PHP_VERSION ]] && echo \"extension = mongo.so\" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini"
 
 install:
   - composer self-update
@@ -20,7 +21,7 @@ install:
   - "[[ $TRAVIS_HHVM_VERSION ]] && composer require mongofill/mongofill:dev-master"
 
 before_script:
-  - "[[ $TRAVIS_PHP_VERSION ]] && echo \"extension = mongo.so\" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini"
+
   - mkdir -p build/logs
   - php artisan migrate:install
   - php artisan migrate:refresh --seed
