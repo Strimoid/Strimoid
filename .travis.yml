@@ -12,7 +12,7 @@ services:
 
 before_install:
   - sudo apt-get update -qq
-  - [[ $TRAVIS_PHP_VERSION ]] && echo yes | pecl install apcu-beta
+  - "[[ $TRAVIS_PHP_VERSION ]] && echo yes | pecl install apcu-beta"
 
 install:
   - composer self-update
