@@ -7,22 +7,19 @@ php:
 
 env: APP_ENV=testing
 
+services:
+  - mongodb
+
 before_install:
-  - source /etc/lsb-release && echo "deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main" | sudo tee /etc/apt/sources.list.d/rethinkdb.list
-  - wget -qO- http://download.rethinkdb.com/apt/pubkey.gpg | sudo apt-key add -
   - sudo apt-get update -qq
-  - sudo apt-get install rethinkdb -y
-  - echo yes | pecl install apcu-beta
+  - [[ $TRAVIS_PHP_VERSION ]] && echo yes | pecl install apcu-beta
 
 install:
   - composer self-update
   - composer install --dev --no-interaction
-  - wget https://github.com/Behat/Behat/releases/download/v3.0.14/behat.phar
 
 before_script:
   - mkdir -p build/logs
-  - sudo rethinkdb --daemon
-  - rethinkdb admin create database strimoid
   - php artisan migrate:install
   - php artisan migrate:refresh --seed
   - php -S localhost:8080 public/index.php &
@@ -30,8 +27,8 @@ before_script:
  # - php artisan serve --port=8080 &
 
 script:
-  - php behat.phar
-  - phpunit --coverage-clover build/logs/clover.xml
+  - vendor/bin/behat
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - vendor/bin/test-reporter --stdout > codeclimate.json

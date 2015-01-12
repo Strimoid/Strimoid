@@ -13,7 +13,7 @@ return [
 	|
 	*/
 
-	'default' => 'rethinkdb',
+	'default' => 'mongodb',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -33,11 +33,11 @@ return [
 
 	'connections' => [
 
-        'rethinkdb' => [
-            'driver'   => 'rethinkdb',
-            'host'     => 'localhost',
-            //'port'     => 27017,
-            'database' => 'strimoid'
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('DB_HOST', 'localhost'),
+            'port'     => env('DB_PORT', 27017),
+            'database' => env('DB_DATABASE', 'default'),
         ],
 
         'stats' => [

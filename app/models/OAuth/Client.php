@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models\OAuth;
 
-use duxet\Rethinkdb\Eloquent\Model;
+use Jenssegers\Mongodb\Model;
 
 class Client extends Model {
 

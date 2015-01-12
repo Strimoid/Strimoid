@@ -2,7 +2,7 @@
 
 use Auth, Settings;
 use DateTimeZone;
-use duxet\Rethinkdb\Eloquent\Model;
+use Jenssegers\Mongodb\Model;
 
 class BaseModel extends Model
 {

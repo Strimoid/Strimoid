@@ -156,7 +156,8 @@ return array(
 		'Strimoid\Providers\ComposerServiceProvider',
 		'Strimoid\Providers\RouteServiceProvider',
 
-		'duxet\Rethinkdb\RethinkdbServiceProvider',
+		'Jenssegers\Mongodb\MongodbServiceProvider',
+		'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
 
         //'Intervention\Image\ImageServiceProvider',
 	],
