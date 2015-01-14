@@ -24,10 +24,12 @@ class FakeSeeder extends BaseSeeder
 
     protected function cleanDatabase()
     {
-        DB::table('users')->delete();
-        DB::table('groups')->delete();
-        DB::table('contents')->delete();
-        DB::table('entries')->delete();
+        $tables = ['contents', 'entries', 'groups', 'users'];
+
+        foreach ($tables as $table)
+        {
+            DB::table($table)->truncate();
+        }
     }
 
     protected function createFakeUser()
@@ -72,7 +74,7 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeContent(Group $group)
     {
         Content::create([
-            Content::getKey() => $this->getRandomId(),
+            with (new Content)->getKeyName() => $this->getRandomId(),
             'created_at' => $this->faker->dateTimeThisDecade,
             'group_id' => $group->getKey(),
             'title' => $this->faker->sentence(10),
@@ -87,7 +89,7 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeEntry(Group $group)
     {
         Entry::create([
-            Entry::getKey() => $this->getRandomId(),
+            with(new Entry)->getKeyName() => $this->getRandomId(),
             'created_at' => $this->faker->dateTimeThisDecade,
             'group_id' => $group->getKey(),
             'text' => $this->faker->text(512),
@@ -97,7 +99,7 @@ class FakeSeeder extends BaseSeeder
 
     protected function getRandomId()
     {
-        return substr($this->faker->md5, 0, 6);
+        return substr($this->faker->unique()->sha1, 0, 6);
     }
 
     protected function getRandomUser()
