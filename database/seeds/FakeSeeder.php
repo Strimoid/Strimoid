@@ -72,7 +72,7 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeContent(Group $group)
     {
         Content::create([
-            'id' => $this->getRandomId(),
+            Content::getKey() => $this->getRandomId(),
             'created_at' => $this->faker->dateTimeThisDecade,
             'group_id' => $group->getKey(),
             'title' => $this->faker->sentence(10),
@@ -87,7 +87,7 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeEntry(Group $group)
     {
         Entry::create([
-            'id' => $this->getRandomId(),
+            Entry::getKey() => $this->getRandomId(),
             'created_at' => $this->faker->dateTimeThisDecade,
             'group_id' => $group->getKey(),
             'text' => $this->faker->text(512),
