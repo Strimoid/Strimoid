@@ -87,6 +87,14 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
     }
 
+    public function setNameAttribute($value)
+    {
+        $lowercase = Str::lower($value);
+
+        $this->attributes['name'] = $value;
+        $this->attributes['shadow_name'] = $lowercase;
+    }
+
     public function setEmailAttribute($value)
     {
         $lowercase = Str::lower($value);
