@@ -8,7 +8,7 @@ use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 
-require_once __DIR__.'/../../../../vendor/Autoload.php';
+require_once __DIR__.'/../../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
 
 /**
