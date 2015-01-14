@@ -23,22 +23,21 @@ Feature: Contents
         And the "dv" property is an integer
 
   Scenario: Finding a specific content
-    When I request "GET /api/v1/contents/c4ca42"
+    When I request "GET /api/v1/contents/1cb787"
     Then I get a "200" response
-    And scope into the "data" property
-      And the properties exist:
-        """
-        _id
-        created_at
-        title
-        description
-        nsfw
-        eng
-        user
-        group
-        uv
-        dv
-        """
+    And the properties exist:
+      """
+      _id
+      created_at
+      title
+      description
+      nsfw
+      eng
+      user
+      group
+      uv
+      dv
+      """
 
   Scenario: Finding a non-existing content
     When I request "GET /api/v1/contents/nosuchid"

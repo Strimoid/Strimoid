@@ -453,6 +453,8 @@ class ContentController extends BaseController {
             $builder = $group->contents();
         }
 
+        $builder->with('group', 'user');
+
         // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
         if (in_array(Input::get('sort'), ['comments', 'score', 'uv', 'created_at', 'frontpage_at']))
         {
