@@ -230,6 +230,7 @@ return array(
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
 
 		'Settings'  => 'Strimoid\Facades\Settings',
+		'PDP'       => 'Strimoid\Facades\PDP'
 
 	],
 

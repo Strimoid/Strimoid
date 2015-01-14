@@ -1,4 +1,4 @@
-<?php
+<?php namespace Strimoid\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
