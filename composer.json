@@ -1,7 +1,20 @@
 {
 	"name": "strimoid/strimoid",
 	"description": "Strimoid.pl source code",
+    "type": "project",
 	"keywords": ["strimoid"],
+    "homepage": "https://strimoid.pl",
+    "license": "AGPL-3.0",
+    "authors": [
+	    {
+	  	    "name": "duxet",
+		    "email": "duxetlg@gmail.com",
+		    "role": "Developer"
+	    }
+    ],
+    "support": {
+	    "irc": "irc://irc.freenode.org/strimoid"
+	},
 	"require": {
         "php": ">=5.5.0",
         "ext-apcu": ">=4.0.0",
@@ -42,7 +55,6 @@
 		"classmap": [
 			"app/commands",
             "app/handlers",
-            "app/facades",
 		    "database"
 		],
 	  	"psr-4": {
