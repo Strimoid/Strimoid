@@ -1,6 +1,9 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Str, Input, URL, Redirect;
+use Strimoid\Models\Content;
+use Strimoid\Models\Comment;
+use Strimoid\Models\Entry;
 use Strimoid\Models\GroupBanned;
 use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupSubscriber;
@@ -526,14 +529,14 @@ class UserController extends BaseController {
 
     public function getInfo($user)
     {
-        $stats = array(
-            'contents' => intval(Content::where('user_id', $user->getKey())->count()),
-            'comments' => intval(Comment::where('user_id', $user->getKey())->count()),
-            'entries' => intval(Entry::where('user_id', $user->getKey())->count()),
+        $stats = [
+            'contents' => (int) $user->contents->count(),
+            'comments' => (int) $user->comments->count(),
+            'entries' => (int) $user->entries->count(),
             'moderated_groups' => intval(GroupModerator::where('user_id', $user->getKey())->count()),
-        );
+        ];
 
-        return array(
+        return [
             '_id' => $user->_id,
             'name' => $user->name,
             'age' => $user->age,
@@ -543,7 +546,7 @@ class UserController extends BaseController {
             'location' => $user->location,
             'sex' => $user->sex,
             'stats' => $stats,
-        );
+        ];
     }
 
 }

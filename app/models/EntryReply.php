@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models;
 
 use Auth, Str;
+use Strimoid\Helpers\MarkdownParser;
 
 class EntryReply extends BaseModel
 {
@@ -23,7 +24,7 @@ class EntryReply extends BaseModel
 
     function __construct($attributes = array())
     {
-        $this->id = Str::random(8);
+        $this->{$this->getKeyName()} = Str::random(8);
 
         parent::__construct($attributes);
     }

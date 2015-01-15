@@ -1,12 +1,15 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Closure;
+use Auth, Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Manager;
+use Strimoid\Models\Notification;
+use Strimoid\Models\User;
 
 class BaseController extends Controller {
 
@@ -52,12 +55,9 @@ class BaseController extends Controller {
         {
             $user = User::shadow($uniqueUser)->first();
 
-            if ($user && $user->_id != Auth::id() && !$user->isBlockingUser($sourceUser))
+            if ($user && $user->getKey() != Auth::id() && !$user->isBlockingUser($sourceUser))
             {
-                $target = new NotificationTarget();
-                $target->user()->associate($user);
-
-                $notification->targets()->associate($target);
+                $notification->addTarget($user);
             }
         }
 

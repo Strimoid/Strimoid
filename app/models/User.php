@@ -130,6 +130,21 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function contents()
+    {
+        return $this->hasMany('Strimoid\Models\Content');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('Strimoid\Models\Comment');
+    }
+
+    public function entries()
+    {
+        return $this->hasMany('Strimoid\Models\Entry');
+    }
+
     public function bannedGroups()
     {
         $groups = DB::table('group_bans')->where('user_id', $this->_id)->lists('group_id');
@@ -246,11 +261,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             return true;
         else
             return false;
-    }
-
-    public function entries()
-    {
-        return $this->hasMany('Strimoid\Models\Entry');
     }
 
     /* Scopes */

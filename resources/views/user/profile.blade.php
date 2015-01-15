@@ -149,22 +149,22 @@ $blocked = Auth::user()->isBlockingUser($user);
             <a href="{!! route('user_profile', $user->name) !!}">Wszystkie akcje</a>
         </li>
         <li @if ($type == 'contents') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'contents')) !!}">{!! Lang::choice('pluralization.contents', intval(Content::where('user_id', $user->getKey())->count())) !!}</a>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'contents')) !!}">{!! Lang::choice('pluralization.contents', intval($user->contents->count())) !!}</a>
         </li>
         <li @if ($type == 'comments') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'comments')) !!}">{!! Lang::choice('pluralization.comments', intval(Comment::where('user_id', $user->getKey())->count())) !!}</a>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'comments')) !!}">{!! Lang::choice('pluralization.comments', intval($user->comments->count())) !!}</a>
         </li>
         <li @if ($type == 'comment_replies') class="active" @endif>
-        <a href="{!! route('user_profile.type_filter', array($user->name, 'comment_replies')) !!}">{!! Lang::choice('pluralization.replies', intval(UserAction::where('user_id', $user->getKey())->where('type', UserAction::TYPE_COMMENT_REPLY)->count())) !!} na komentarze</a>
+        <a href="{!! route('user_profile.type_filter', array($user->name, 'comment_replies')) !!}">{!! Lang::choice('pluralization.replies', intval(Strimoid\Models\UserAction::where('user_id', $user->getKey())->where('type', Strimoid\Models\UserAction::TYPE_COMMENT_REPLY)->count())) !!} na komentarze</a>
         </li>
         <li @if ($type == 'entries') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'entries')) !!}">{!! Lang::choice('pluralization.entries', intval(Entry::where('user_id', $user->getKey())->count())) !!}</a>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'entries')) !!}">{!! Lang::choice('pluralization.entries', intval($user->entries->count())) !!}</a>
         </li>
         <li @if ($type == 'entry_replies') class="active" @endif>
-        <a href="{!! route('user_profile.type_filter', array($user->name, 'entry_replies')) !!}">{!! Lang::choice('pluralization.replies', intval(UserAction::where('user_id', $user->getKey())->where('type', UserAction::TYPE_ENTRY_REPLY)->count())) !!} na wpisy</a>
+        <a href="{!! route('user_profile.type_filter', array($user->name, 'entry_replies')) !!}">{!! Lang::choice('pluralization.replies', intval(Strimoid\Models\UserAction::where('user_id', $user->getKey())->where('type', Strimoid\Models\UserAction::TYPE_ENTRY_REPLY)->count())) !!} na wpisy</a>
         </li>
         <li @if ($type == 'moderated') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'moderated')) !!}">{!! Lang::choice('pluralization.moderatedgroups', intval(GroupModerator::where('user_id', $user->getKey())->count())) !!}</a>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'moderated')) !!}">{!! Lang::choice('pluralization.moderatedgroups', intval(Strimoid\Models\GroupModerator::where('user_id', $user->getKey())->count())) !!}</a>
         </li>
     </ul>
 </div>

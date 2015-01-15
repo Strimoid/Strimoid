@@ -16,26 +16,13 @@ class BaseModel extends Model
 
     public function getVoteState()
     {
-        if (Auth::guest() || !$this->votes)
-        {
-            return 'none';
-        }
+        if (Auth::guest() || !$this->votes()) return 'none';
 
-        $vote = $this->votes->where('user_id', Auth::user()->_id)->first();
+        $vote = $this->votes()->where('user_id', Auth::user()->getKey())->first();
 
-        if (!$vote)
-        {
-            return 'none';
-        }
+        if (!$vote) return 'none';
 
-        if ($vote['up'])
-        {
-            return 'uv';
-        }
-        else
-        {
-            return 'dv';
-        }
+        return $vote->up ? 'uv' : 'dv';
     }
 
     public function getVoteStateAttribute() {

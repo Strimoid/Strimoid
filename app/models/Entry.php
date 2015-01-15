@@ -26,7 +26,7 @@ class Entry extends BaseModel
 
     function __construct($attributes = array())
     {
-        $this->id = Str::random(6);
+        $this->{$this->getKeyName()} = Str::random(6);
 
         parent::__construct($attributes);
     }

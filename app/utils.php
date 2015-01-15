@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
+use Str;
+use Strimoid\Models\Group;
+use Strimoid\Models\User;
 
 if ( ! function_exists('shadow'))
 {

@@ -22,7 +22,7 @@ class ContentRelated extends BaseModel
 
     function __construct($attributes = array())
     {
-        $this->id = Str::random(9);
+        $this->{$this->getKeyName()} = Str::random(9);
 
         parent::__construct($attributes);
     }
@@ -59,7 +59,7 @@ class ContentRelated extends BaseModel
         if ($this->url)
             return $this->url;
         else
-            return route('content_comments', $this->id);
+            return route('content_comments', $this->getKey());
     }
 
     public function getThumbnailPath()

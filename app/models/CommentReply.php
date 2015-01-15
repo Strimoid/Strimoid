@@ -19,7 +19,7 @@ class CommentReply extends BaseModel
 
     function __construct($attributes = array())
     {
-        $this->id = Str::random(8);
+        $this->{$this->getKeyName()} = Str::random(8);
 
         parent::__construct($attributes);
     }

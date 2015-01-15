@@ -29,7 +29,7 @@
 
 </table>
 
-<?php echo $notifications->links(); ?>
+{!! with(new BootstrapPresenter($notifications))->render() !!}
 @stop
 
 @section('sidebar')

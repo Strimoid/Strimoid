@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Str;
+
 /**
  * Notification model
  *
@@ -149,6 +151,14 @@ class Notification extends BaseModel
     public function getThumbnailPath()
     {
         return $this->sourceUser->getAvatarPath();
+    }
+
+    public function addTarget(User $user)
+    {
+        $target = new NotificationTarget();
+        $target->user()->associate($user);
+
+        $this->targets()->associate($target);
     }
 
     public function scopeTarget($query, $params)

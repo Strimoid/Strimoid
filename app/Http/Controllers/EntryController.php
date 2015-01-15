@@ -3,6 +3,7 @@
 use Auth, Input, Route, Settings, Response;
 use Strimoid\Models\Group;
 use Strimoid\Models\Entry;
+use Strimoid\Models\EntryReply;
 
 class EntryController extends BaseController {
 
@@ -169,7 +170,7 @@ class EntryController extends BaseController {
     }
 
     public function addReply() {
-        $validator = Validator::make(Input::all(), ['text' => 'required|min:1|max:2500']);
+        $validator = EntryReply::validate(Input::all());
 
         if ($validator->fails())
         {
@@ -230,12 +231,9 @@ class EntryController extends BaseController {
             }
         }
 
-        if (Auth::user()->_id != $entry->user_id)
-        {
-            App::abort(403, 'Access denied');
-        }
+        if (Auth::user()->getKey() !== $entry->user_id) App::abort(403, 'Access denied');
 
-        $validator = Validator::make(Input::all(), ['text' => 'required|min:1|max:2500']);
+        $validator = EntryReply::validate(Input::all());
 
         if ($validator->fails())
         {
@@ -271,15 +269,15 @@ class EntryController extends BaseController {
         else
             $entry = Entry::findOrFail($id);
 
-        if (Auth::user()->_id == $entry->user_id || Auth::user()->isModerator($entry->group_id))
+        if (Auth::id() === $entry->user_id || Auth::user()->isModerator($entry->group_id))
         {
             if ($entry->delete()) {
-                return Response::json(array('status' => 'ok'));
+                return Response::json(['status' => 'ok']);
             }
 
         }
 
-        return Response::json(array('status' => 'error'));
+        return Response::json(['status' => 'error'], 500);
     }
 
     /* === API === */
