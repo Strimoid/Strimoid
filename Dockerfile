@@ -15,7 +15,4 @@ RUN php5enmod mcrypt
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install
 
-ENV DB_HOST $MONGO_PORT_27017_TCP_ADDR
-ENV DB_PORT $MONGO_PORT_27017_TCP_PORT
-
-CMD php -S 0.0.0.0:9000 public/index.php
+CMD DB_HOST=$MONGO_PORT_27017_TCP_ADDR DB_PORT=$MONGO_PORT_27017_TCP_PORT php -S 0.0.0.0:9000 public/index.php
