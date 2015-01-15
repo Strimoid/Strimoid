@@ -1,6 +1,7 @@
 FROM ubuntu:utopic
 COPY . /usr/src/strimoid
 WORKDIR /usr/src/strimoid
+EXPOSE 9000
 
 RUN apt-get update
 RUN apt-get install -y -qq git curl wget php5-cli \
@@ -14,4 +15,4 @@ RUN php5enmod mcrypt
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install
 
-CMD [ "php", "-s", "public/index.php" ]
+CMD php -S 0.0.0.0:9000
