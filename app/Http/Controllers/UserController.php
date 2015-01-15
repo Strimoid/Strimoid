@@ -1,9 +1,11 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Str, Input, URL, Redirect;
+use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
 use Strimoid\Models\Entry;
+use Strimoid\Models\EntryReply;
 use Strimoid\Models\GroupBanned;
 use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupSubscriber;
@@ -294,12 +296,9 @@ class UserController extends BaseController {
 
     public function showProfile($username, $type = 'all')
     {
-        $user = User::where('shadow_name', Str::lower($username))->firstOrFail();
+        $user = User::shadow($username)->firstOrFail();
 
-        if ($user->removed_at)
-        {
-            App::abort(404, 'Użytkownik usunął konto.');
-        }
+        if ($user->removed_at) App::abort(404, 'Użytkownik usunął konto.');
 
         if ($type == 'contents')
             $data['contents'] = Content::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);

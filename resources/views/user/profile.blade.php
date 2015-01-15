@@ -61,15 +61,15 @@
         }
     ?>
 
-    @if ($action->type == UserAction::TYPE_CONTENT && $action->content)
+    @if ($action->type == Strimoid\Models\UserAction::TYPE_CONTENT && $action->content)
         @include('content.widget', array('content' => $action->content))
     @endif
 
-    @if ($action->type == UserAction::TYPE_COMMENT && $action->comment && $action->comment->content)
+    @if ($action->type == Strimoid\Models\UserAction::TYPE_COMMENT && $action->comment && $action->comment->content)
         @include('user.widgets.comment', array('comment' => $action->comment))
     @endif
 
-    @if ($action->type == UserAction::TYPE_COMMENT_REPLY && $action->reply)
+    @if ($action->type == Strimoid\Models\UserAction::TYPE_COMMENT_REPLY && $action->reply)
         <?php $comment = $action->reply->comment; ?>
 
         @if (!isset($oldReply->comment) || $oldReply->comment->_id != $comment->_id)
@@ -79,11 +79,11 @@
         @include('user.widgets.comment_reply', array('reply' => $action->reply))
     @endif
 
-    @if ($action->type == UserAction::TYPE_ENTRY && $action->entry)
+    @if ($action->type == Strimoid\Models\UserAction::TYPE_ENTRY && $action->entry)
         @include('user.widgets.entry', array('entry' => $action->entry))
     @endif
 
-    @if ($action->type == UserAction::TYPE_ENTRY_REPLY && $action->reply)
+    @if ($action->type == Strimoid\Models\UserAction::TYPE_ENTRY_REPLY && $action->reply)
         @if (!isset($oldReply->entry) || $oldReply->entry->_id != $action->reply->entry->_id)
             @include('user.widgets.entry', array('entry' => $action->reply->entry))
         @endif

@@ -4,6 +4,7 @@ class UserAction extends BaseModel
 {
 
     protected $table = 'user_actions';
+    protected static $unguarded = true;
 
     const TYPE_CONTENT = 1;
     const TYPE_COMMENT = 2;
