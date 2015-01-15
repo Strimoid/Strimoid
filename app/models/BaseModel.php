@@ -34,6 +34,22 @@ class BaseModel extends Model
         return $this->embedsMany('Strimoid\Models\Vote', 'votes');
     }
 
+    public function saves()
+    {
+        return $this->embedsMany('Strimoid\Models\Save', 'saves');
+    }
+
+    public function isSaved(User $user = null)
+    {
+        if (!$user)
+        {
+            if (Auth::guest()) return false;
+            $user = Auth::user();
+        }
+
+        return $this->saves()->where('user_id', $user->getKey())->first();
+    }
+
     public function mpush($column, $value = null, $unique = false)
     {
         if (!$this->_id)
