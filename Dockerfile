@@ -5,7 +5,8 @@ WORKDIR /usr/src/strimoid
 RUN apt-get update
 RUN apt-get install -y -qq git curl wget php5-cli \
     php5-apcu php5-gd php5-geoip php5-gmp php5-json \
-    php5-mongo php5-mongo php5-readline php5-sqlite
+    php5-mcrypt php5-mongo php5-readline php5-sqlite \
+    php5-curl
 
 # Install composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
