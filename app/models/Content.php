@@ -2,7 +2,7 @@
 
 use Auth, Config, Str, PDP;
 use Summon\Summon;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;
 
 /**
@@ -21,7 +21,7 @@ use Strimoid\Helpers\MarkdownParser;
 class Content extends BaseModel
 {
 
-    //use SoftDeletes;
+    use SoftDeletes;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -46,7 +46,7 @@ class Content extends BaseModel
     {
         $this->{$this->getKeyName()} = Str::random(6);
 
-        static::deleted(function($content)
+        static::deleted(function(Content $content)
         {
             Notification::where('content_id', $this->getKey())->delete();
 
