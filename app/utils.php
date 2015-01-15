@@ -1,6 +1,5 @@
 <?php
 
-use Str;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
 
