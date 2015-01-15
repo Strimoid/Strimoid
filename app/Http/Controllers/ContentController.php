@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use Summon\Summon;
-use Auth, Input, Route, Settings;
+use Auth, Input, Route, Response, Settings, Validator;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
