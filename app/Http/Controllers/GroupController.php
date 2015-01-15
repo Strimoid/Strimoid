@@ -1,10 +1,11 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input;
+use Auth, Input, Response;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
 use Strimoid\Models\GroupModerator;
+use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\Entry;
 
 class GroupController extends BaseController {
@@ -23,12 +24,6 @@ class GroupController extends BaseController {
         }
 
         $data['groups'] = $builder->paginate(20)->appends(['sort' => Input::get('sort')]);
-
-        if (Auth::check())
-        {
-            $ids = (array) Auth::user()->data->recommended_groups;
-            $data['recommendedGroups'] = Group::whereIn('_id', $ids)->get();
-        }
 
         return view('group.list', $data);
     }
@@ -307,8 +302,6 @@ class GroupController extends BaseController {
         $action->group()->associate($group);
         $action->save();
 
-        Cache::forget($user->_id . '.moderated_groups');
-
         return Redirect::route('group_moderators', $group->urlname);
     }
 
@@ -337,8 +330,6 @@ class GroupController extends BaseController {
         $action->target()->associate($moderator);
         $action->group()->associate($group);
         $action->save();
-
-        Cache::forget($moderator->user_id . '.moderated_groups');
 
         return Response::json(['status' => 'ok']);
     }
@@ -452,8 +443,6 @@ class GroupController extends BaseController {
         $moderator->type = 'admin';
         $moderator->save();
 
-        Cache::forget('user.'. Auth::id() . '.moderated_groups');
-
         return Redirect::route('group_contents', $group->urlname)
             ->with('success_msg', 'Nowa grupa o nazwie '. $group->name .' została utworzona.');
     }
@@ -476,8 +465,6 @@ class GroupController extends BaseController {
 
         $group->increment('subscribers');
 
-        Cache::forget('user.'. Auth::id() . '.subscribed_groups');
-
         return Response::json(['status' => 'ok']);
     }
 
@@ -495,8 +482,6 @@ class GroupController extends BaseController {
         $subscriber->delete();
 
         $group->decrement('subscribers');
-
-        Cache::forget('user.'. Auth::id() .'.subscribed_groups');
 
         return Response::json(['status' => 'ok']);
     }
@@ -518,8 +503,6 @@ class GroupController extends BaseController {
         $block->group()->associate($group);
         $block->save();
 
-        Cache::forget('user.'. Auth::id() . '.blocked_groups');
-
         return Response::json(['status' => 'ok']);
     }
 
@@ -536,8 +519,6 @@ class GroupController extends BaseController {
         }
 
         $block->delete();
-
-        Cache::forget('user.'. Auth::user()->_id . '.blocked_groups');
 
         return Response::json(['status' => 'ok']);
     }

@@ -1,5 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth;
+use Strimoid\Models\Conversation;
+
 class ConversationController extends BaseController {
 
     public function showConversation($id = null)

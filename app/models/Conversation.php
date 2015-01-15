@@ -1,4 +1,4 @@
-<?php
+<?php namespace Strimoid\Models;
 
 class Conversation extends BaseModel {
 

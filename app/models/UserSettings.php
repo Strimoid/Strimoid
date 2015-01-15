@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models;
 
-use Auth;
+use Auth, Str, Lang;
+use DateTimeZone;
 
 class UserSettings {
 

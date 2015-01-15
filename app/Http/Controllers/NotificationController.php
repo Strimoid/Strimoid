@@ -1,5 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth;
+use Strimoid\Models\Notification;
+
 class NotificationController extends BaseController {
 
     public function showJSONList($count)

@@ -3,6 +3,7 @@
 use Auth, Config, Settings;
 use Illuminate\Contracts\View\View;
 use Strimoid\Models\Group;
+use Strimoid\Models\Notification;
 
 class MasterComposer {
 

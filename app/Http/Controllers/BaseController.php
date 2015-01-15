@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Closure;
 use Illuminate\Routing\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;

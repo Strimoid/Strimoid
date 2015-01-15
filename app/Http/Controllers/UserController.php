@@ -1,8 +1,13 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Str, Input, URL, Redirect;
+use Strimoid\Models\GroupBanned;
+use Strimoid\Models\GroupBlock;
+use Strimoid\Models\GroupSubscriber;
+use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
 use Strimoid\Models\UserAction;
+use Strimoid\Models\UserBlocked;
 
 class UserController extends BaseController {
 

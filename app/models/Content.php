@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Config, Str, PDP;
+use Auth, Config, Str, PDP;
 use Summon\Summon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;
@@ -192,11 +192,6 @@ class Content extends BaseModel
             File::delete(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
             $this->unset('thumbnail');
         }
-    }
-
-    public function isSaved()
-    {
-        return in_array($this->_id, (array) Auth::user()->data->_saved_contents);
     }
 
     public static function validate($input)
