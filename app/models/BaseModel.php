@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Settings;
+use Auth, Settings, Validator;
 use DateTimeZone;
 use Jenssegers\Mongodb\Model;
 
@@ -40,6 +40,11 @@ class BaseModel extends Model
 
     public function getVoteStateAttribute() {
         return $this->getVoteState();
+    }
+
+    public function votes()
+    {
+        return $this->embedsMany('Strimoid\Models\Vote', 'votes');
     }
 
     public function mpush($column, $value = null, $unique = false)
