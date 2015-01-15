@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fe9aa00ce2aeaeec84b397a485759438",
+    "hash": "b7499f61aaf2afe0670a1ce532843412",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KaneCohen/embed.git",
-                "reference": "9745118ce577e4ae38bfae8655c7d4ea3c2a18ca"
+                "reference": "153c69184312b7d30b6669ae6ecc3f80fec25c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KaneCohen/embed/zipball/9745118ce577e4ae38bfae8655c7d4ea3c2a18ca",
-                "reference": "9745118ce577e4ae38bfae8655c7d4ea3c2a18ca",
+                "url": "https://api.github.com/repos/KaneCohen/embed/zipball/153c69184312b7d30b6669ae6ecc3f80fec25c01",
+                "reference": "153c69184312b7d30b6669ae6ecc3f80fec25c01",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "vimeo",
                 "youtube"
             ],
-            "time": "2014-09-08 14:44:32"
+            "time": "2015-01-15 08:56:15"
         },
         {
             "name": "d11wtq/boris",
@@ -1012,12 +1012,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5af31ee766de486162fe3e56c96ecaba3197996b"
+                "reference": "bbba7313c800277ff5ad04dccb78b6e3c90e87bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5af31ee766de486162fe3e56c96ecaba3197996b",
-                "reference": "5af31ee766de486162fe3e56c96ecaba3197996b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bbba7313c800277ff5ad04dccb78b6e3c90e87bc",
+                "reference": "bbba7313c800277ff5ad04dccb78b6e3c90e87bc",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +1123,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-01-13 16:41:02"
+            "time": "2015-01-15 15:39:52"
         },
         {
             "name": "league/commonmark",
@@ -2536,12 +2536,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "28382c6806780ddc657c136a5ca4415dd3252f41"
+                "reference": "bda1c3c67f2a33bbeabb1d321feaf626a0ca5698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/28382c6806780ddc657c136a5ca4415dd3252f41",
-                "reference": "28382c6806780ddc657c136a5ca4415dd3252f41",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/bda1c3c67f2a33bbeabb1d321feaf626a0ca5698",
+                "reference": "bda1c3c67f2a33bbeabb1d321feaf626a0ca5698",
                 "shasum": ""
             },
             "require": {
@@ -2595,7 +2595,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2015-01-05 14:28:40"
+            "time": "2015-01-15 12:15:12"
         },
         {
             "name": "symfony/security-core",
@@ -3172,12 +3172,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "2a86bb6ae49191bd19976408ff19bbe49dace573"
+                "reference": "c8605753421f3dbc7062fc0aba35587c8d1985b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/2a86bb6ae49191bd19976408ff19bbe49dace573",
-                "reference": "2a86bb6ae49191bd19976408ff19bbe49dace573",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c8605753421f3dbc7062fc0aba35587c8d1985b5",
+                "reference": "c8605753421f3dbc7062fc0aba35587c8d1985b5",
                 "shasum": ""
             },
             "require": {
@@ -3218,7 +3218,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2015-01-05 02:10:42"
+            "time": "2015-01-15 00:11:16"
         },
         {
             "name": "fzaninotto/faker",
@@ -3383,12 +3383,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "29326b2455f383483d0fed3b7da9890177c33781"
+                "reference": "5aaadd58aab6fd96200596820994641cb685f4aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/29326b2455f383483d0fed3b7da9890177c33781",
-                "reference": "29326b2455f383483d0fed3b7da9890177c33781",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/5aaadd58aab6fd96200596820994641cb685f4aa",
+                "reference": "5aaadd58aab6fd96200596820994641cb685f4aa",
                 "shasum": ""
             },
             "require": {
@@ -3437,7 +3437,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-01-01 09:33:48"
+            "time": "2015-01-15 05:45:24"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -3627,12 +3627,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "aa1d6201b17081ea5305e29c9f9d7e2f2e3c62bc"
+                "reference": "a05200c17bc3ecb532451e6757e3ca0f176e8b57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/aa1d6201b17081ea5305e29c9f9d7e2f2e3c62bc",
-                "reference": "aa1d6201b17081ea5305e29c9f9d7e2f2e3c62bc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a05200c17bc3ecb532451e6757e3ca0f176e8b57",
+                "reference": "a05200c17bc3ecb532451e6757e3ca0f176e8b57",
                 "shasum": ""
             },
             "require": {
@@ -3690,7 +3690,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-01-11 09:03:16"
+            "time": "2015-01-15 05:56:41"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4287,8 +4287,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.5.0",
-        "ext-apcu": ">=4.0.0"
+        "php": ">=5.5.0"
     },
     "platform-dev": []
 }
