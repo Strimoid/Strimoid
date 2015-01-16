@@ -32,7 +32,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-    'email_salt' => 'losowy ciąg znaków wklej tutaj',
+    'email_salt' => env('EMAIL_SALT', 'losowy ciąg znaków wklej tutaj'),
 
     /*
 	|--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-    'cdn_host' => 'http://static.strimoid.dev',
+    'cdn_host' => env('CDN_HOST', 'https://static.strimoid.pl'),
 
     /*
 	|--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ return array(
 	|
 	*/
 
-    'debug' => true,
+    'debug' => env('DEBUG', false),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -74,7 +74,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://strimoid.dev',
+	'url' => env('BASE_URL', 'http://strimoid.dev'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -115,7 +115,7 @@ return array(
 	|
 	*/
 
-	'key' => '81SkFV3e60SjVFnsIA5WqK2wukkCA0Il',
+	'key' => env('KEY', '81SkFV3e60SjVFnsIA5WqK2wukkCA0Il'),
 
     'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -154,6 +154,7 @@ return array(
 
 		'Strimoid\Providers\AppServiceProvider',
 		'Strimoid\Providers\ComposerServiceProvider',
+		'Strimoid\Providers\EventsServiceProvider',
 		'Strimoid\Providers\RouteServiceProvider',
 		'Strimoid\Providers\ValidatorServiceProvider',
 
