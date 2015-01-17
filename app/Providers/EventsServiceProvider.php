@@ -26,38 +26,40 @@ class EventsServiceProvider extends ServiceProvider {
 
         /* IRC Notification */
 
-        User::created(function(User $user)
-        {
-            $url = Config::get('app.hubot_url');
+        $events->listen('eloquent.created: Strimoid\\Models\\User',
+            function(User $user)
+            {
+                $url = Config::get('app.hubot_url');
 
-            if (!$url) return;
+                if (!$url) return;
 
-            try {
-                Guzzle::post($url, ['json' => [
-                    'room' => '#strimoid',
-                    'text' => 'Mamy nowego użytkownika '. $user->name .'!',
-                ]]);
-            } catch(Exception $e) {}
-        });
+                try {
+                    Guzzle::post($url, ['json' => [
+                        'room' => '#strimoid',
+                        'text' => 'Mamy nowego użytkownika '. $user->name .'!',
+                    ]]);
+                } catch(Exception $e) {}
+            });
 
-        Entry::created(function(Entry $entry)
-        {
-            $url = Config::get('app.hubot_url');
+        $events->listen('eloquent.created: Strimoid\\Models\\Entry',
+            function(Entry $entry)
+            {
+                $url = Config::get('app.hubot_url');
 
-            if (!$url) return;
+                if (!$url) return;
 
-            try {
-                $text = strip_tags($entry->text);
-                $text = trim(preg_replace('/\s+/', ' ', $text));
-                $text = Str::limit($text, 100);
+                try {
+                    $text = strip_tags($entry->text);
+                    $text = trim(preg_replace('/\s+/', ' ', $text));
+                    $text = Str::limit($text, 100);
 
-                Guzzle::post($url, ['json' => [
-                    'room' => '#strimoid-entries',
-                    'text' => '['. $entry->group->name .'] '
-                        . $entry->user->name .': '. $text,
-                ]]);
-            } catch(Exception $e) {}
-        });
+                    Guzzle::post($url, ['json' => [
+                        'room' => '#strimoid-entries',
+                        'text' => '['. $entry->group->name .'] '
+                            . $entry->user->name .': '. $text,
+                    ]]);
+                } catch(Exception $e) {}
+            });
 
         $events->subscribe(new NewActionHandler);
     }
