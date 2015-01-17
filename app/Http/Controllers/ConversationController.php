@@ -1,7 +1,10 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth;
+use Auth, Str, Input, Validator, Redirect;
 use Strimoid\Models\Conversation;
+use Strimoid\Models\ConversationMessage;
+use Strimoid\Models\Notification;
+use Strimoid\Models\User;
 
 class ConversationController extends BaseController {
 

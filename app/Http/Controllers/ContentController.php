@@ -147,48 +147,21 @@ class ContentController extends BaseController {
 
     public function showComments(Content $content)
     {
-        $content->related = $content->getRelated();
-        $content->comments = $content->getComments();
+        $sortBy = Input::get('sort');
 
-        if (Input::get('sort') == 'uv')
+        if (in_array($sortBy, ['uv', 'replies']))
         {
-            $content->comments = $content->comments->sortBy(function($comment) {
-                return $comment->uv;
-            })->reverse();
-        }
-        elseif (Input::get('sort') == 'replies')
-        {
-            $content->comments = $content->comments->sortBy(function($comment) {
-                return $comment->replies->count();
+            $content->comments = $content->comments->sortBy(function($comment) use($sortBy) {
+                return ($sortBy == 'uv') ? $comment->uv : $comment->replies->count();
             })->reverse();
         }
 
-        $results['blockedUsers'] = array();
-
-        if (Auth::check())
-        {
-            $results['blockedUsers'] = (array) Auth::user()->blockedUsers();
-        }
+        $blockedUsers = Auth::check() ? (array) Auth::user()->blockedUsers() : array();
 
         $results['content'] = $content;
-        $results['group'] = $content->group;
+        $group = $content->group;
 
-        /*
-        $results['another_contents'] = Content::where('url', $content->url)
-            ->get(['title', 'group_id', 'user_id', 'uv', 'dv']);
-        */
-
-        /*
-        foreach (UserData::all() as $data) {
-            if (!$data->_saved_contents) continue;
-
-            foreach ($data->_saved_contents as $id) {
-                Content::find($id)->push('saves', [$])
-            }
-        }
-        */
-
-        return view('content.comments', $results);
+        return view('content.comments', compact('content', 'group', 'blockedUsers'));
     }
 
     public function showFrame(Content $content)
@@ -560,11 +533,8 @@ class ContentController extends BaseController {
             ], 400);
         }
 
-        $content = new Content();
-        $content->title = Input::get('title');
-        $content->description = Input::get('description');
-        $content->nsfw = Input::get('nsfw');
-        $content->eng = Input::get('eng');
+        $attributes = Input::only(['title', 'description', 'nsfw', 'eng']);
+        $content = new Content($attributes);
 
         if (Input::get('text'))
         {
@@ -584,7 +554,9 @@ class ContentController extends BaseController {
         $content->group()->associate($group);
         $content->save();
 
-        return Response::json(['status' => 'ok', '_id' => $content->_id, 'content' => $content]);
+        return Response::json([
+            'status' => 'ok', '_id' => $content->_id, 'content' => $content
+        ]);
     }
 
     public function edit(Content $content)
@@ -620,15 +592,7 @@ class ContentController extends BaseController {
         }
 
         $fields = ['title', 'description', 'nsfw', 'eng'];
-
-        if ($content->text)
-        {
-            $fields[] = 'text';
-        }
-        else
-        {
-            $fields[] = 'url';
-        }
+        $fields[] = ($content->text) ? 'text' : 'url';
 
         $content->update(Input::only($fields));
     }

@@ -5,8 +5,8 @@
 @if (!$messages)
 {!! Form::open(array('action' => 'ConversationController@createConversation', 'class' => 'form-horizontal')) !!}
 
-@include('global.form.input', array('type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'))
-@include('global.form.input', array('type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'))
+@include('global.form.input', ['type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'])
+@include('global.form.input', ['type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'])
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">
@@ -20,7 +20,7 @@
 
 <div class="conversation_messages">
 
-@foreach (array_reverse($messages->getItems()) as $message)
+@foreach (array_reverse($messages->all()) as $message)
 <div class="panel-default entry" data-id="{!! $message->_id !!}">
     <a name="{!! $message->_id !!}"></a>
 

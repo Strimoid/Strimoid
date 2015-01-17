@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Strimoid\Helpers\MarkdownParser;
+
 class ConversationMessage extends BaseModel {
 
     protected $table = 'conversation_messages';

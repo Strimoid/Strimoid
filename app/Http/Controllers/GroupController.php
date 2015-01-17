@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Response;
+use Auth, Carbon, Input, Lang, Response, Redirect, Validator;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
