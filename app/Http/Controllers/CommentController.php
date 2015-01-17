@@ -57,7 +57,7 @@ class CommentController extends BaseController {
 
         $comment = $class::findOrFail(Input::get('id'));
 
-        if (Auth::user()->getKey() != $comment->user_id)
+        if (Auth::id() !== $comment->user_id)
         {
             App::abort(403, 'Access denied');
         }
@@ -194,7 +194,7 @@ class CommentController extends BaseController {
         $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
         $comment = $class::findOrFail(Input::get('id'));
 
-        if (Auth::user()->_id == $comment->user_id || Auth::user()->isModerator($comment->group_id))
+        if (Auth::id() == $comment->user_id || Auth::user()->isModerator($comment->group_id))
         {
             $comment->delete();
 
@@ -219,9 +219,9 @@ class CommentController extends BaseController {
         if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
         {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
-            $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
+            $folder = Folder::findUserFolderOrFail($user->getKey(), Input::get('folder'));
 
-            if (!$folder->public && (Auth::guest() || $user->_id != Auth::user()->_id))
+            if (!$folder->public && (Auth::guest() || $user->getKey() != Auth::id()))
             {
                 App::abort(404);
             }
@@ -311,7 +311,9 @@ class CommentController extends BaseController {
             $notification->save(); // todo
         });
 
-        return Response::json(['status' => 'ok', '_id' => $comment->_id, 'comment' => $comment]);
+        return Response::json([
+            'status' => 'ok', '_id' => $comment->getKey(), 'comment' => $comment
+        ]);
     }
 
     public function storeReply(Comment $comment)
@@ -347,7 +349,9 @@ class CommentController extends BaseController {
             $notification->save(); // todo
         });
 
-        return Response::json(['status' => 'ok', '_id' => $reply->_id, 'comment' => $reply]);
+        return Response::json([
+            'status' => 'ok', '_id' => $reply->getKey(), 'comment' => $reply
+        ]);
     }
 
     public function edit($comment)
@@ -384,13 +388,13 @@ class CommentController extends BaseController {
 
     public function remove($comment)
     {
-        if (Auth::user()->_id == $comment->user_id || Auth::user()->isModerator($comment->group_id))
+        if (Auth::id() === $comment->user_id || Auth::user()->isModerator($comment->group_id))
         {
             $comment->delete();
 
             return Response::json(['status' => 'ok']);
         }
 
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'error'], 400);
     }
 }

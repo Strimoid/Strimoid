@@ -20,7 +20,7 @@
 
         {!! with(new BootstrapPresenter($entries))->render() !!}
     @elseif ($type == 'moderated')
-    <?php $x = 1 + (($moderated->getCurrentPage()-1) * 15); ?>
+    <?php $x = $moderated->firstItem() ?>
         <table class="table">
             <thead>
                 <tr>
@@ -125,7 +125,7 @@
     </div>
 </div>
 
-@if (Auth::check() && Auth::user()->_id != $user->_id)
+@if (Auth::check() && Auth::id() != $user->getKey())
 <?php
 
 $observed = Auth::user()->isObservingUser($user);

@@ -1,5 +1,9 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Carbon, DB;
+use Strimoid\Models\DailyAction;
+use Strimoid\Models\Group;
+
 class RankingController extends BaseController
 {
 

@@ -96,17 +96,17 @@ class Comment extends BaseModel
 
     public function getURL()
     {
-        return route('content_comments', $this->content_id) .'#'. $this->_id;
+        return route('content_comments', $this->content_id) .'#'. $this->getKey();
     }
 
     public function canEdit(User $user)
     {
-        return Auth::user()->_id == $this->user_id && $this->replies()->count() == 0;
+        return Auth::id() === $this->user_id && $this->replies()->count() == 0;
     }
 
     public function canRemove(User $user)
     {
-        return Auth::user()->_id == $this->user_id || Auth::user()->isModerator($this->group_id);
+        return Auth::id() === $this->user_id || Auth::user()->isModerator($this->group_id);
     }
 
 }

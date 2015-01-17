@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth;
+use Auth, Response;
 use Strimoid\Models\Notification;
 
 class NotificationController extends BaseController {
@@ -52,11 +52,13 @@ class NotificationController extends BaseController {
     {
         Notification::target(['user_id' => Auth::id(), 'read' => false])->update(['_targets.$.read' => true]);
 
+        /*
         WS::send(json_encode([
             'topic' => 'u.'. Auth::id(),
             'tag' => Input::get('ntf_read'),
             'type' => 'notification_read_all'
         ]));
+        */
 
         return Response::json(['status' => 'ok']);
     }

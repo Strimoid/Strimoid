@@ -37,9 +37,9 @@ class ContentController extends BaseController {
         if (Route::input('folder'))
         {
             $user = Route::input('user') ? User::findOrFail(Route::input('user')) : Auth::user();
-            $folder = Folder::findUserFolderOrFail($user->_id, Route::input('folder'));
+            $folder = Folder::findUserFolderOrFail($user->getKey(), Route::input('folder'));
 
-            if (!$folder->public && (Auth::guest() || $user->_id != Auth::user()->_id))
+            if (!$folder->public && (Auth::guest() || $user->getKey() != Auth::id()))
             {
                 App::abort(404);
             }
@@ -132,7 +132,7 @@ class ContentController extends BaseController {
                 $feed->item([
                     'title'             => $content->title,
                     'description|cdata' => $content->description,
-                    'link'              => route('content_comments', $content->_id),
+                    'link'              => route('content_comments', $content->getKey()),
                     'pubdate'           => $content->created_at->format(DateTime::RSS),
                 ]);
             }
@@ -178,7 +178,7 @@ class ContentController extends BaseController {
     {
         if (!$content->canEdit(Auth::user()))
         {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
@@ -243,19 +243,19 @@ class ContentController extends BaseController {
         if (Input::get('thumbnail') == 'on')
         {
             $content->thumbnail_loading = true;
-            Queue::push('DownloadThumbnail', ['id' => $content->_id]);
+            Queue::push('DownloadThumbnail', ['id' => $content->getKey()]);
         }
 
         $content->save();
 
-        return Redirect::route('content_comments', $content->_id);
+        return Redirect::route('content_comments', $content->getKey());
     }
 
     public function editContent(Content $content)
     {
         if (!$content->canEdit(Auth::user()))
         {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
@@ -277,7 +277,7 @@ class ContentController extends BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::action('ContentController@showEditForm', $content->_id)
+            return Redirect::action('ContentController@showEditForm', $content->getKey())
                 ->withInput()
                 ->withErrors($validator);
         }
@@ -299,7 +299,7 @@ class ContentController extends BaseController {
 
         $content->save();
 
-        return Redirect::route('content_comments', $content->_id);
+        return Redirect::route('content_comments', $content->getKey());
     }
 
     public function removeContent(Content $content = null)
@@ -311,7 +311,7 @@ class ContentController extends BaseController {
             return Response::json(['status' => 'error', 'error' => 'Minął dozwolony czas na usunięcie treści.']);
         }
 
-        if (Auth::user()->_id == $content->user_id)
+        if (Auth::id() === $content->user_id)
         {
             $content->forceDelete();
             return Response::json(['status' => 'ok']);
@@ -348,7 +348,7 @@ class ContentController extends BaseController {
     {
         if (!$content->canEdit(Auth::user()))
         {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
@@ -374,7 +374,7 @@ class ContentController extends BaseController {
 
         if (!$content->canEdit(Auth::user()))
         {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
@@ -383,7 +383,7 @@ class ContentController extends BaseController {
         else
             $content->removeThumbnail();
 
-        return Redirect::route('content_comments', $content->_id);
+        return Redirect::route('content_comments', $content->getKey());
     }
 
     /* === API === */
@@ -404,9 +404,9 @@ class ContentController extends BaseController {
         if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
         {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
-            $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
+            $folder = Folder::findUserFolderOrFail($user->getKey(), Input::get('folder'));
 
-            if (!$folder->public && (Auth::guest() || $user->_id != Auth::user()->_id))
+            if (!$folder->public && (Auth::guest() || $user->getKey() !== Auth::id()))
             {
                 App::abort(404);
             }
@@ -468,7 +468,7 @@ class ContentController extends BaseController {
         if (Input::has('user'))
         {
             $user = User::shadow(Input::get('user'))->firstOrFail();
-            $builder->where('user_id', $user->_id);
+            $builder->where('user_id', $user->getKey());
         }
 
         $perPage = 20;
@@ -555,7 +555,7 @@ class ContentController extends BaseController {
         $content->save();
 
         return Response::json([
-            'status' => 'ok', '_id' => $content->_id, 'content' => $content
+            'status' => 'ok', '_id' => $content->getKey(), 'content' => $content
         ]);
     }
 
