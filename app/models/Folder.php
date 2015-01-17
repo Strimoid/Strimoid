@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Folder extends BaseModel
@@ -8,8 +9,17 @@ class Folder extends BaseModel
     protected static $unguarded = true;
     protected $visible = ['id', 'name', 'groups'];
 
+    protected $attributes = [
+        'groups' => [],
+        'public' => false,
+    ];
+
+    protected static $rules = [
+        'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
+    ];
+
     public static function find($id, $columns = array('*')) {
-        return static::findUserFolder(Auth::user()->_id, $id, $columns);
+        return static::findUserFolder(Auth::id(), $id, $columns);
     }
 
     public static function findUserFolder($userId, $id, $columns = array('*')) {
@@ -17,10 +27,7 @@ class Folder extends BaseModel
             ->project(['_folders' => ['$elemMatch' => ['_id' => $id]]])
             ->first();
 
-        if (!$parent)
-        {
-            return null;
-        }
+        if (!$parent) return null;
 
         return $parent->folders->first();
     }

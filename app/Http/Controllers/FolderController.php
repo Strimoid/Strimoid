@@ -1,5 +1,9 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth, Input, Str, Response;
+use Strimoid\Models\Folder;
+use Strimoid\Models\Group;
+
 class FolderController extends BaseController
 {
 
@@ -7,29 +11,36 @@ class FolderController extends BaseController
     }
 
     public function createFolder() {
-        $validator = Validator::make(Input::all(), array('name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'));
+        $validator = Folder::validate(Input::all());
 
         if ($validator->fails())
-            return Response::json(array('status' => 'error'));
+        {
+            return Response::json(['status' => 'error']);
+        }
+
 
         $id = Str::slug(Input::get('name'));
 
         if (Folder::find($id))
-            return Response::json(array('status' => 'error'));
+        {
+            return Response::json(['status' => 'error']);
+        }
 
-        $folder = new Folder();
-        $folder->_id = $id;
-        $folder->name = Input::get('name');
-        $folder->public = false;
-        $folder->groups = [];
+
+        $folder = new Folder([
+            '_id' => $id,
+            'name' => Input::get('name')
+        ]);
 
         if (Input::has('groupname')) {
             $group = Group::findOrFail(Input::get('groupname'));
-            $folder->groups = [$group->_id];
+            $folder->groups = [$group->getKey()];
         }
 
         if (Auth::user()->folders()->save($folder))
-            return Response::json(['status' => 'ok', 'id' => $folder->_id]);
+        {
+            return Response::json(['status' => 'ok', 'id' => $folder->getKey()]);
+        }
 
         return Response::json(['status' => 'error']);
     }
@@ -41,18 +52,21 @@ class FolderController extends BaseController
         $validator = Validator::make(Input::all(), ['name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u']);
 
         if ($validator->fails())
-            return Response::json(array('status' => 'error', 'error' => $validator->messages()->first()));
-
-        if (Input::has('name'))
         {
-
+            return Response::json([
+                'status' => 'error', 'error' => $validator->messages()->first()
+            ]);
         }
 
         if (Input::has('public'))
-            $folder->public = Input::get('public') == 'true' ? true : false;
+        {
+            $folder->public = Input::get('public') == 'true';
+        }
 
         if (Auth::user()->folders()->save($folder))
+        {
             return Response::json(['status' => 'ok']);
+        }
 
         return Response::json(['status' => 'error']);
     }
@@ -60,7 +74,7 @@ class FolderController extends BaseController
     public function copyFolder() {
         $folder = Folder::findUserFolderOrFail(Input::get('user'), Input::get('folder'));
 
-        if (!$folder->public && $folder->user->_id != Auth::user()->_id)
+        if (!$folder->public && $folder->user->_id != Auth::id())
             App::abort(404);
 
         $validator = Validator::make(Input::all(), ['name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u']);

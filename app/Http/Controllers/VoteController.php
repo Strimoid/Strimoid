@@ -34,7 +34,7 @@ class VoteController extends BaseController {
             return Response::make('Banned', 400);
         }
 
-        if (!apc_add('anti_vote_flood.user.'. Auth::user()->getKey(), 1, 1))
+        if (!apc_add('anti_vote_flood.user.'. Auth::id(), 1, 1))
         {
             return Response::make('Don\'t flood', 400);
         }
@@ -68,7 +68,7 @@ class VoteController extends BaseController {
         }
 
         $vote = new Vote([
-            'user_id' => Auth::user()->getKey(),
+            'user_id' => Auth::id(),
             'up'      => $up,
         ]);
 

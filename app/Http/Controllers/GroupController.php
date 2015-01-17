@@ -4,6 +4,7 @@ use Auth, Carbon, Input, Lang, Response, Redirect, Validator;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
+use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\Entry;

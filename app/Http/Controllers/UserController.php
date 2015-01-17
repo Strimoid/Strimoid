@@ -32,7 +32,7 @@ class UserController extends BaseController {
 
     public function login()
     {
-        $remember = Input::get('remember') == 'true' ? true : false;
+        $remember = Input::get('remember') == 'true';
 
         if (Auth::attempt(['shadow_name' => Str::lower(Input::get('username')),
             'password' => Input::get('password'), 'is_activated' => true], $remember))
@@ -43,8 +43,7 @@ class UserController extends BaseController {
                 return Redirect::to('/login')->with('warning_msg', 'Błędna nazwa użytkownika lub hasło.');
             }
 
-            $url = URL::previous() ? URL::previous() : '';
-
+            $url = URL::previous() ?: '';
             return Redirect::intended($url);
         }
 
@@ -98,12 +97,13 @@ class UserController extends BaseController {
             $message->to($email, Auth::user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
-        return Redirect::action('UserController@showSettings')->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
+        return Redirect::action('UserController@showSettings')
+            ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
     public function confirmEmailChange($token)
     {
-        if ($token != Auth::user()->email_change_token)
+        if ($token !== Auth::user()->email_change_token)
         {
             return Redirect::to('')->with('danger_msg', 'Błędny token.');
         }
@@ -124,13 +124,6 @@ class UserController extends BaseController {
             $email = Input::get('email');
             $user = User::where('email', hash_email(Str::lower($email)))->first();
 
-            /*
-            /Password::remind(array('email' => Str::lower(Input::get('email'))), function($message, $user)
-            {
-                $message->subject('Resetowanie hasła');
-            });
-            */
-
             if ($user)
             {
                 $token = $reminders->create($user);
@@ -142,7 +135,8 @@ class UserController extends BaseController {
                 });
             }
 
-            return Redirect::to('')->with('success_msg', 'Link umożliwiający zmianę hasła został wysłany na twój adres email.');
+            return Redirect::to('')
+                ->with('success_msg', 'Link umożliwiający zmianę hasła został wysłany na twój adres email.');
         }
 
         return view('user.remind');
@@ -164,10 +158,9 @@ class UserController extends BaseController {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token)
             {
-                if (Cache::has('registration.'. md5(Request::getClientIp())))
-                {
-                    return App::abort(500);
-                }
+                $cacheKey = 'registration.'. md5(Request::getClientIp());
+
+                if (Cache::has($cacheKey)) return App::abort(500);
 
                 $user->unset('activation_token');
                 $user->is_activated = true;
@@ -422,7 +415,8 @@ class UserController extends BaseController {
     {
         $target = User::where('_id', Input::get('username'))->firstOrFail();
 
-        if (UserBlocked::where('target_id', $target->_id)->where('user_id', Auth::user()->getKey())->first())
+        if (UserBlocked::where('target_id', $target->_id)
+            ->where('user_id', Auth::user()->getKey())->first())
         {
             return Response::make('Already blocked', 400);
         }
@@ -432,8 +426,6 @@ class UserController extends BaseController {
         $block->target()->associate($target);
         $block->save();
 
-        Cache::forget('user.'. Auth::user()->_id . '.blocked_users');
-
         return Response::json(['status' => 'ok']);
     }
 
@@ -441,7 +433,8 @@ class UserController extends BaseController {
     {
         $target = User::where('_id', Input::get('username'))->firstOrFail();
 
-        $block = UserBlocked::where('target_id', $target->_id)->where('user_id', Auth::user()->getKey())->first();
+        $block = UserBlocked::where('target_id', $target->getKey())
+            ->where('user_id', Auth::id())->first();
 
         if (!$block)
         {
@@ -450,35 +443,33 @@ class UserController extends BaseController {
 
         $block->delete();
 
-        Cache::forget('user.'. Auth::user()->_id . '.blocked_users');
-
         return Response::json(['status' => 'ok']);
     }
 
     public function observeUser()
     {
-        $target = User::where('_id', Input::get('username'))->firstOrFail();
+        $target = User::shadow(Input::get('username'))->firstOrFail();
 
         if (Auth::user()->isObservingUser($target))
         {
             return Response::make('Already observed', 400);
         }
 
-        Auth::user()->push('_observed_users', $target->_id);
+        Auth::user()->push('_observed_users', $target->getKey());
 
         return Response::json(['status' => 'ok']);
     }
 
     public function unobserveUser()
     {
-        $target = User::where('_id', Input::get('username'))->firstOrFail();
+        $target = User::shadow(Input::get('username'))->firstOrFail();
 
         if (!Auth::user()->isObservingUser($target))
         {
             return Response::make('Not observed', 400);
         }
 
-        Auth::user()->pull('_observed_users', $target->_id);
+        Auth::user()->pull('_observed_users', $target->getKey());
 
         return Response::json(['status' => 'ok']);
     }
@@ -489,7 +480,9 @@ class UserController extends BaseController {
 
         if (!$domain)
         {
-            return Response::json(['status' => 'error', 'error' => 'Nieprawidłowa domena']);
+            return Response::json([
+                'status' => 'error', 'error' => 'Nieprawidłowa domena'
+            ]);
         }
 
         Auth::user()->push('_blocked_domains', $domain, true);
@@ -506,7 +499,7 @@ class UserController extends BaseController {
 
     public function show($username)
     {
-        $user = User::where('shadow_name', Str::lower($username))->firstOrFail();
+        $user = User::shadow($username)->firstOrFail();
 
         return $this->getInfo($user);
     }
