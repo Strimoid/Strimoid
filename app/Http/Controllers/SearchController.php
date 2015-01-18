@@ -1,5 +1,10 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Input;
+use Strimoid\Models\Content;
+use Strimoid\Models\Entry;
+use Strimoid\Models\Group;
+
 class SearchController extends BaseController {
 
     protected $builder;
