@@ -48,7 +48,7 @@
                     <span class="glyphicon glyphicon-link"></span> <span class="content_comments">{!! intval($content->related_count) !!}</span>
                     <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $content->created_at->format('c') !!}" title="{!! $content->getLocalTime() !!}">{!! $content->created_at->diffForHumans() !!}</time>
                     @if (Auth::check())
-                        @if (in_array($content->_id, (array) Auth::user()->data->_saved_contents))
+                        @if ($content->isSaved())
                             <span class="glyphicon glyphicon-star action_link save_content" title="zapisz"></span>
                         @else
                             <span class="glyphicon glyphicon-star-empty action_link save_content" title="zapisz"></span>
