@@ -24,7 +24,7 @@ class MasterComposer {
     {
         $data = $view->getData();
 
-        $assetsHost = env('development') ? '' : 'http://static.strimoid.pl';
+        $assetsHost = env('ASSETS_HOST', 'https://static.strimoid.pl');
 
         $view->with('cssFilename', $assetsHost . Config::get('assets.style'));
         $view->with('jsFilename', $assetsHost . Config::get('assets.app'));
