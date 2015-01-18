@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Carbon, Input, Lang, Response, Redirect, Validator;
+use Auth, Carbon, Config, Input, Lang, Response, Redirect, Str, Validator;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
@@ -31,19 +31,20 @@ class GroupController extends BaseController {
 
     public function showJSONList()
     {
-        $groups = array();
+        $results = array();
+        $groups = Group::where('type', '!=', Group::TYPE_PRIVATE)->get();
 
-        foreach(Group::where('type', '!=', Group::TYPE_PRIVATE)->get() as $group)
+        foreach($groups as $group)
         {
-            $groups[] = [
+            $results[] = [
                 'value' => $group->urlname,
                 'name' => $group->name,
                 'avatar' => $group->getAvatarPath(),
-                'contents' => intval(Content::where('group_id', '=', $group->_id)->count())
+                'contents' => (int) $group->contents()->count()
             ];
         }
 
-        return Response::json($groups);
+        return Response::json($results);
     }
 
     public function showSubscribed()
@@ -82,14 +83,11 @@ class GroupController extends BaseController {
                     ->where('user_id', Auth::user()->getKey())
                     ->first();
 
-                if ($subscribed)
-                {
-                    $group->subscribed = true;
-                }
+                if ($subscribed) $group->subscribed = true;
             }
         }
 
-        return view('group.wizard', array('groups' => $groups));
+        return view('group.wizard', compact('groups'));
     }
 
     public function showCreateForm()
@@ -106,12 +104,15 @@ class GroupController extends BaseController {
             App::abort(403, 'Access denied');
         }
 
-        $filename = Config::get('app.uploads_path').'/styles/'. ($group->style ? $group->style : Str::lower($group->urlname) .'.css');
+        $filename = Config::get('app.uploads_path').'/styles/'. ($group->style
+                ? $group->style : Str::lower($group->urlname) .'.css');
 
         $data['group'] = $group;
         $data['css'] = '';
-        $data['moderators'] = GroupModerator::with('user')->where('group_id', $group->getKey())->get();
-        $data['bans'] = GroupBanned::with('user')->where('group_id', $group->getKey())->get();
+        $data['moderators'] = GroupModerator::with('user')
+            ->where('group_id', $group->getKey())->get();
+        $data['bans'] = GroupBanned::with('user')
+            ->where('group_id', $group->getKey())->get();
 
         if (file_exists($filename))
         {
@@ -226,7 +227,8 @@ class GroupController extends BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::action('GroupController@showSettings', $groupName)->withInput()->withErrors($validator);
+            return Redirect::action('GroupController@showSettings', $groupName)
+                ->withInput()->withErrors($validator);
         }
 
         $group->setStyle(Input::get('css'));
@@ -238,7 +240,7 @@ class GroupController extends BaseController {
 
     public function showModeratorList($groupName)
     {
-        $group = Group::where('shadow_urlname', shadow($groupName))->firstOrFail();
+        $group = Group::shadow($groupName)->firstOrFail();
         $moderators = GroupModerator::where('group_id', $group->getKey())
             ->orderBy('created_at', 'asc')
             ->with('user')
@@ -316,7 +318,8 @@ class GroupController extends BaseController {
             App::abort(403, 'Access denied');
         }
 
-        if ($moderator->user_id == $group->creator_id && Auth::id() != $group->creator_id)
+        if ($moderator->user_id == $group->creator_id
+            && Auth::id() != $group->creator_id)
         {
             return Response::json(['status' => 'error']);
         }
@@ -341,7 +344,7 @@ class GroupController extends BaseController {
         $bans = GroupBanned::where('group_id', $group->getKey())
             ->orderBy('created_at', 'desc')->with('user')->paginate(25);
 
-        return view('group.bans', array('group' => $group, 'bans' => $bans));
+        return view('group.bans', compact('group', 'bans'));
     }
 
     public function addBan()
@@ -427,14 +430,6 @@ class GroupController extends BaseController {
         $group->urlname = Input::get('urlname');
         $group->name = Input::get('groupname');
         $group->description = Input::get('description');
-
-        /*
-        if(Input::get('type') == 'moderated')
-            $group->type = Group::TYPE_MODERATED;
-        elseif(Input::get('type') == 'private')
-            $group->type = Group::TYPE_PRIVATE;
-        */
-
         $group->creator()->associate(Auth::user());
         $group->save();
 
@@ -473,15 +468,12 @@ class GroupController extends BaseController {
     {
         $group = Group::shadow(Input::get('name'))->firstOrFail();
 
-        $subscriber = GroupSubscriber::where('group_id', $group->_id)->where('user_id', Auth::id())->first();
+        $subscriber = GroupSubscriber::where('group_id', $group->getKey())
+            ->where('user_id', Auth::id())->first();
 
-        if (!$subscriber)
-        {
-            return Response::make('Not subscribed', 400);
-        }
+        if (!$subscriber) return Response::make('Not subscribed', 400);
 
         $subscriber->delete();
-
         $group->decrement('subscribers');
 
         return Response::json(['status' => 'ok']);
@@ -494,7 +486,8 @@ class GroupController extends BaseController {
 
         $group->checkAccess();
 
-        if (GroupBlock::where('group_id', $group->getKey())->where('user_id', $user->getKey())->first())
+        if (GroupBlock::where('group_id', $group->getKey())
+            ->where('user_id', $user->getKey())->first())
         {
             return Response::make('Already blocked', 400);
         }
@@ -512,23 +505,21 @@ class GroupController extends BaseController {
         $group = Group::where('urlname', Input::get('name'))->firstOrFail();
         $user = Auth::user();
 
-        $block = GroupBlock::where('group_id', $group->getKey())->where('user_id', $user->getKey())->first();
+        $block = GroupBlock::where('group_id', $group->getKey())
+            ->where('user_id', $user->getKey())->first();
 
-        if (!$block)
-        {
-            return Response::make('Not blocked', 400);
-        }
+        if (!$block) return Response::make('Not blocked', 400);
 
         $block->delete();
-
         return Response::json(['status' => 'ok']);
     }
 
     public function wizard($tag = null)
     {
-        $popularTags = ['programowanie', 'muzyka', 'gry', 'obrazki', 'it', 'internet', 'linux', 'humor', 'nauka',
-            'strimoid', 'zdjęcia', 'jam', 'oldschool', 'technika', 'śmieszne', 'art', 'technologia', 'wpisy', 'sztuka',
-            'zainteresowania'];
+        $popularTags = ['programowanie', 'muzyka', 'gry', 'obrazki', 'it',
+            'internet', 'linux', 'humor', 'nauka', 'strimoid', 'zdjęcia',
+            'jam', 'oldschool', 'technika', 'śmieszne', 'art', 'technologia',
+            'wpisy', 'sztuka', 'zainteresowania'];
 
         if ($tag)
             $groups = Group::where('tags', $tag)->orderBy('subscribers', 'desc')->paginate(25);
