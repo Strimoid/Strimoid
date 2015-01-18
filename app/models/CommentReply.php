@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Str;
+
 class CommentReply extends BaseModel
 {
 
