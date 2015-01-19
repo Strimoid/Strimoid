@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Str;
+use Config, Str, Image;
 
 class ContentRelated extends BaseModel
 {

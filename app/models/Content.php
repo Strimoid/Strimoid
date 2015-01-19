@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Carbon, Config, Str, PDP;
+use Auth, Carbon, Config, Image, Str, PDP;
 use Summon\Summon;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;

@@ -155,13 +155,12 @@ return array(
 		'Strimoid\Providers\AppServiceProvider',
 		'Strimoid\Providers\ComposerServiceProvider',
 		'Strimoid\Providers\EventsServiceProvider',
+		'Strimoid\Providers\ImageServiceProvider',
 		'Strimoid\Providers\RouteServiceProvider',
 		'Strimoid\Providers\ValidatorServiceProvider',
 
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
-
-        //'Intervention\Image\ImageServiceProvider',
 	],
 
 	/*

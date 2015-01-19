@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Config, DB, Str, Hash;
+use Auth, Config, DB, Image, Str, Hash;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
