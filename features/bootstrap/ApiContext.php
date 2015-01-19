@@ -4,25 +4,15 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Behat\MinkExtension\Context\MinkContext;
+use Illuminate\Http\Request;
+use PHPUnit_Framework_Assert as PHPUnit;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-
-require_once __DIR__.'/../../../../vendor/autoload.php';
-require_once __DIR__.'/../../../../vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
-
-/**
- * Features context.
- */
-class FeatureContext implements Context, SnippetAcceptingContext
+class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
 {
-    /**
-     * The Guzzle HTTP Client.
-     */
-    protected $client;
 
     /**
-     * The current resource
+     * The current resource.
      */
     protected $resource;
 
@@ -32,7 +22,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     protected $requestPayload;
 
     /**
-     * The Guzzle HTTP Response.
+     * The last response returned by the application.
+     *
+     * @var \Illuminate\Http\Response
      */
     protected $response;
 
@@ -49,17 +41,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
     /**
      * Initializes context.
-     * Every scenario gets it's own context object.
-     *
-     * @param array $parameters context parameters (set them up through behat.yml)
      */
-    public function __construct($baseUrl)
+    public function __construct()
     {
-        $config = [];
-
-        $config['base_url'] = $baseUrl;
-
-        $this->client = new Client($config);
     }
 
     /**
@@ -76,35 +60,18 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iRequest($httpMethod, $resource)
     {
         $this->resource = $resource;
+        //$client = $this->getSession()->getDriver()->getClient();
+        $parameters = $this->requestPayload ?: null;
+        //$request = Request::create($resource, $method, $parameters);
 
-        $method = strtolower($httpMethod);
+        $request = Request::create($resource, $httpMethod);
 
         try {
-            switch ($httpMethod) {
-                case 'PUT':
-                case 'POST':
-                    $this->response = $this
-                        ->client
-                        ->$method($resource, null, $this->requestPayload);
-                    break;
+            $this->response = app()
+                ->make('Illuminate\Contracts\Http\Kernel')
+                ->handle($request);
+        } catch (Exception $e) {
 
-                default:
-                    $this->response = $this
-                        ->client
-                        ->$method($resource);
-            }
-        } catch (BadResponseException $e) {
-
-            $response = $e->getResponse();
-
-            // Sometimes the request will fail, at which point we have
-            // no response at all. Let Guzzle give an error here, it's
-            // pretty self-explanatory.
-            if ($response === null) {
-                throw $e;
-            }
-
-            $this->response = $e->getResponse();
         }
     }
 
@@ -114,14 +81,44 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iGetAResponse($statusCode)
     {
         $response = $this->getResponse();
-        $contentType = $response->getHeader('Content-Type');
+        $contentType = $response->headers->get('Content-Type');
 
         if ($contentType === 'application/json') {
-            $bodyOutput = $response->getBody();
+            $bodyOutput = $response->getContent();
         } else {
             $bodyOutput = 'Output is '.$contentType.', which is not JSON and is therefore scary. Run the request manually.';
         }
-        assertSame((int) $statusCode, (int) $this->getResponse()->getStatusCode(), $bodyOutput);
+        PHPUnit::assertSame((int) $statusCode, (int) $this->getResponse()->getStatusCode(), $bodyOutput);
+    }
+
+    /**
+     * @Given /^scope into the first "([^"]*)" property$/
+     */
+    public function scopeIntoTheFirstProperty($scope)
+    {
+        $this->scope = "{$scope}.0";
+    }
+
+    /**
+     * @Given /^scope into the "([^"]*)" property$/
+     */
+    public function scopeIntoTheProperty($scope)
+    {
+        $this->scope = $scope;
+    }
+
+    /**
+     * Checks the response exists and returns it.
+     *
+     * @return  Guzzle\Http\Message\Response
+     */
+    protected function getResponse()
+    {
+        if (! $this->response) {
+            throw new Exception("You must first make a request to check a response.");
+        }
+
+        return $this->response;
     }
 
     /**
@@ -132,7 +129,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $payload = $this->getScopePayload();
         $actualValue = $this->arrayGet($payload, $property);
 
-        assertEquals(
+        PHPUnit::assertEquals(
             $actualValue,
             $expectedValue,
             "Asserting the [$property] property in current scope equals [$expectedValue]: ".json_encode($payload)
@@ -154,10 +151,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
         );
 
         if (is_object($payload)) {
-            assertTrue(array_key_exists($property, get_object_vars($payload)), $message);
+            PHPUnit::assertTrue(array_key_exists($property, get_object_vars($payload)), $message);
 
         } else {
-            assertTrue(array_key_exists($property, $payload), $message);
+            PHPUnit::assertTrue(array_key_exists($property, $payload), $message);
         }
     }
 
@@ -170,7 +167,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $actualValue = $this->arrayGet($payload, $property);
 
-        assertTrue(
+        PHPUnit::assertTrue(
             is_array($actualValue),
             "Asserting the [$property] property in current scope [{$this->scope}] is an array: ".json_encode($payload)
         );
@@ -185,7 +182,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $actualValue = $this->arrayGet($payload, $property);
 
-        assertTrue(
+        PHPUnit::assertTrue(
             is_object($actualValue),
             "Asserting the [$property] property in current scope [{$this->scope}] is an object: ".json_encode($payload)
         );
@@ -199,7 +196,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $payload = $this->getScopePayload();
         $scopePayload = $this->arrayGet($payload, $property);
 
-        assertTrue(
+        PHPUnit::assertTrue(
             is_array($scopePayload) and $scopePayload === [],
             "Asserting the [$property] property in current scope [{$this->scope}] is an empty array: ".json_encode($payload)
         );
@@ -212,7 +209,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $payload = $this->getScopePayload();
 
-        assertCount(
+        PHPUnit::assertCount(
             $count,
             $this->arrayGet($payload, $property),
             "Asserting the [$property] property contains [$count] items: ".json_encode($payload)
@@ -226,7 +223,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $payload = $this->getScopePayload();
 
-        isType(
+        PHPUnit::isType(
             'int',
             $this->arrayGet($payload, $property),
             "Asserting the [$property] property in current scope [{$this->scope}] is an integer: ".json_encode($payload)
@@ -240,7 +237,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $payload = $this->getScopePayload();
 
-        isType(
+        PHPUnit::isType(
             'string',
             $this->arrayGet($payload, $property),
             "Asserting the [$property] property in current scope [{$this->scope}] is a string: ".json_encode($payload)
@@ -258,7 +255,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $actualValue = $this->arrayGet($payload, $property);
 
-        assertSame(
+        PHPUnit::assertSame(
             $actualValue,
             $expectedValue,
             "Asserting the [$property] property in current scope [{$this->scope}] is a string equalling [$expectedValue]."
@@ -272,7 +269,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $payload = $this->getScopePayload();
 
-        assertTrue(
+        PHPUnit::assertTrue(
             gettype($this->arrayGet($payload, $property)) == 'boolean',
             "Asserting the [$property] property in current scope [{$this->scope}] is a boolean."
         );
@@ -292,7 +289,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $this->thePropertyIsABoolean($property);
 
-        assertSame(
+        PHPUnit::assertSame(
             $actualValue,
             $expectedValue == 'true',
             "Asserting the [$property] property in current scope [{$this->scope}] is a boolean equalling [$expectedValue]."
@@ -309,7 +306,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $this->thePropertyIsAnInteger($property);
 
-        assertSame(
+        PHPUnit::assertSame(
             $actualValue,
             (int) $expectedValue,
             "Asserting the [$property] property in current scope [{$this->scope}] is an integer equalling [$expectedValue]."
@@ -326,7 +323,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $valid = explode("\n", (string) $options);
 
-        assertTrue(
+        PHPUnit::assertTrue(
             in_array($actualValue, $valid),
             sprintf(
                 "Asserting the [%s] property in current scope [{$this->scope}] is in array of valid options [%s].",
@@ -334,22 +331,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
                 implode(', ', $valid)
             )
         );
-    }
-
-    /**
-     * @Given /^scope into the first "([^"]*)" property$/
-     */
-    public function scopeIntoTheFirstProperty($scope)
-    {
-        $this->scope = "{$scope}.0";
-    }
-
-    /**
-     * @Given /^scope into the "([^"]*)" property$/
-     */
-    public function scopeIntoTheProperty($scope)
-    {
-        $this->scope = $scope;
     }
 
     /**
@@ -379,20 +360,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * Checks the response exists and returns it.
-     *
-     * @return  Guzzle\Http\Message\Response
-     */
-    protected function getResponse()
-    {
-        if (! $this->response) {
-            throw new Exception("You must first make a request to check a response.");
-        }
-
-        return $this->response;
-    }
-
-    /**
      * Return the response payload from the current response.
      *
      * @return  mixed
@@ -400,7 +367,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     protected function getResponsePayload()
     {
         if (! $this->responsePayload) {
-            $json = json_decode($this->getResponse()->getBody(true));
+            $json = json_decode($this->getResponse()->getContent());
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $message = 'Failed to decode JSON body ';
@@ -490,4 +457,5 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         return $array;
     }
+
 }

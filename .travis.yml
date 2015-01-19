@@ -12,22 +12,18 @@ services:
 
 before_install:
   - sudo apt-get update -qq
-  - sh -c "if [ $TRAVIS_PHP_VERSION != 'hhvm' ]; then echo yes | pecl install apcu-beta; fi"
-  - sh -c "if [ $TRAVIS_PHP_VERSION != 'hhvm' ]; then echo \"extension = mongo.so\" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi"
+  - if [[ "$TRAVIS_PHP_VERSION" != hhvm* ]]; then echo yes | pecl install apcu-beta; fi
+  - if [[ "$TRAVIS_PHP_VERSION" != hhvm* ]]; then echo \"extension = mongo.so\" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
 
 install:
   - composer self-update
   - composer install --dev --no-interaction --ignore-platform-reqs
-  - sh -c "if [ $TRAVIS_PHP_VERSION = 'hhvm' ]; then composer require mongofill/mongofill:dev-master; fi"
+  - if [[ "$TRAVIS_PHP_VERSION" = hhvm* ]]; then composer require mongofill/mongofill:dev-master; fi
 
 before_script:
-
   - mkdir -p build/logs
   - php artisan migrate:install
   - php artisan migrate:refresh --seed
-  - php -S localhost:8080 public/index.php &
- # looks like there is no serve command in L5 (yet?)
- # - php artisan serve --port=8080 &
 
 script:
   - vendor/bin/behat
