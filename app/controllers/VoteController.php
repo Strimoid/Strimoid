@@ -42,7 +42,7 @@ class VoteController extends BaseController {
             $uv++;
 
             // small trigger, needed for pushing contents to front page
-            if ($object instanceof Content && $object->uv > 8
+            if ($object instanceof Content && $object->uv > 5
                     && !$object->frontpage_at && $object->created_at->diffInDays() < 5)
             {
                 $object->frontpage_at = new MongoDate();
