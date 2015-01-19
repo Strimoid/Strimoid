@@ -1,6 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Input, Str, Response;
 use Guzzle\Http\Client;
+use Strimoid\Models\Content;
 
 class UtilsController extends BaseController {
 
@@ -15,13 +17,15 @@ class UtilsController extends BaseController {
         }
         catch (Exception $e)
         {
-            return Response::json(array('status' => 'error'));
+            return Response::json(['status' => 'error']);
         }
 
+        // Only HTML content-type is supported
         $contentType = $response->getHeader('Content-Type');
-
         if (strpos($contentType, 'text/html') === false)
-            return Response::json(array('status' => 'error'));
+        {
+            return Response::json(['status' => 'error']);
+        }
 
         $html = $response->getBody();
 
@@ -35,7 +39,9 @@ class UtilsController extends BaseController {
         $encodingHint = '';
 
         if (preg_match('/charset=(.*)/', $contentType, $results))
+        {
             $encodingHint = '<meta http-equiv="Content-Type" content="text/html; charset='. $results[1] .'">';
+        }
 
         $doc = new DOMDocument('1.0', 'UTF-8');
         @$doc->loadHTML($encodingHint . $html);

@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use Summon\Summon;
-use Auth, Input, Route, Response, Settings, Validator;
+use Auth, Input, Route, Response, Settings, Validator, Queue;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
@@ -202,10 +202,11 @@ class ContentController extends BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::action('ContentController@showAddForm')->withInput()->withErrors($validator);
+            return Redirect::action('ContentController@showAddForm')
+                ->withInput()->withErrors($validator);
         }
 
-        $group = Group::where('shadow_urlname', shadow(Input::get('groupname')))->firstOrFail();
+        $group = Group::shadow(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group))
@@ -215,7 +216,8 @@ class ContentController extends BaseController {
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group))
+        if ($group->type == Group::TYPE_ANNOUNCEMENTS
+            && !Auth::user()->isModerator($group))
         {
             return Redirect::action('ContentController@showAddForm')
                 ->withInput()
@@ -473,7 +475,9 @@ class ContentController extends BaseController {
 
         $perPage = 20;
 
-        if (Input::has('per_page') && Input::get('per_page') > 0 &&  Input::get('per_page') <= 100)
+        if (Input::has('per_page')
+            && Input::get('per_page') > 0
+            && Input::get('per_page') <= 100)
         {
             $perPage = Input::get('per_page');
         }
@@ -512,7 +516,8 @@ class ContentController extends BaseController {
         if ($validator->fails())
         {
             return Response::json([
-                'status' => 'error', 'error' => $validator->messages()->first()
+                'status' => 'error',
+                'error' => $validator->messages()->first()
             ], 400);
         }
 
@@ -522,14 +527,16 @@ class ContentController extends BaseController {
         if (Auth::user()->isBanned($group))
         {
             return Response::json([
-                'status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'
+                'status' => 'error',
+                'error' => 'Użytkownik został zbanowany w wybranej grupie.'
             ], 400);
         }
 
         if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group))
         {
             return Response::json([
-                'status' => 'error', 'error' => 'Użytkownik nie może dodawać treści w tej grupie.'
+                'status' => 'error',
+                'error' => 'Użytkownik nie może dodawać treści w tej grupie.'
             ], 400);
         }
 
@@ -587,7 +594,8 @@ class ContentController extends BaseController {
         if ($validator->fails())
         {
             return Response::json([
-                'status' => 'error', 'error' => $validator->messages()->first()
+                'status' => 'error',
+                'error' => $validator->messages()->first()
             ], 400);
         }
 
