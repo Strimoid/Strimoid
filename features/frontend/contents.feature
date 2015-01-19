@@ -4,5 +4,5 @@ Feature: Contents
     Given I am on the homepage
     Then I follow "Ritchieland"
     Then I follow "nowe"
-    Then the url should match "/g/Bartoletti/new"
+    Then the url should match "/g/bartoletti/new"
     And I should see "Earum perspiciatis ea alias nulla"
