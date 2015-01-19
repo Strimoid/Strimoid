@@ -3,19 +3,23 @@
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Group;
+use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\User;
 
 class FakeSeeder extends BaseSeeder
 {
 
+    private $groups = [];
     private $users = [];
+
+    const SEED = 12345;
 
     public function run()
     {
         $this->cleanDatabase();
 
         // Make sure we will get same data every time
-        $this->faker->seed(12345);
+        $this->faker->seed(self::SEED);
 
         for ($i = 0; $i < 50; $i++) {
             $this->createFakeUser();
@@ -24,7 +28,8 @@ class FakeSeeder extends BaseSeeder
 
     protected function cleanDatabase()
     {
-        $tables = ['contents', 'entries', 'groups', 'users'];
+        $tables = ['contents', 'entries', 'groups',
+            'group_subscribers', 'users'];
 
         foreach ($tables as $table)
         {
@@ -69,6 +74,13 @@ class FakeSeeder extends BaseSeeder
             $this->createFakeContent($group);
             $this->createFakeEntry($group);
         }
+
+        $subscribersNumber = $this->faker->numberBetween(0, count($this->users));
+
+        for ($i = 0; $i < $subscribersNumber; $i++) {
+            $subscriber = $this->users[$i];
+            $this->createFakeSubscriber($group, $subscriber);
+        }
     }
 
     protected function createFakeContent(Group $group)
@@ -94,6 +106,14 @@ class FakeSeeder extends BaseSeeder
             'group_id' => $group->getKey(),
             'text' => $this->faker->text(512),
             'user_id' => $this->getRandomUser()->getKey(),
+        ]);
+    }
+
+    protected function createFakeSubscriber(Group $group, User $user)
+    {
+        GroupSubscriber::create([
+            'group_id' => $group->getKey(),
+            'user_id' => $user->getKey(),
         ]);
     }
 

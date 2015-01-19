@@ -20,7 +20,7 @@ Feature: Entries
     And the "replies" property is an array
 
   Scenario: Finding a specific entry
-    When I request "GET /api/v1/entries/836aa5"
+    When I request "GET /api/v1/entries/7dc670"
     Then I get a "200" response
     And the properties exist:
       """
