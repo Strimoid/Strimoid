@@ -59,6 +59,9 @@
             "app/handlers",
 		    "database"
 		],
+	    "files": [
+		    "app/utils.php"
+	    ],
 	  	"psr-4": {
 			"Strimoid\\": "app/"
 	  	}

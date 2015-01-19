@@ -115,6 +115,3 @@ if ( ! function_exists('toBool')) {
         return (isset($result) && $result) ?: false;
     }
 }
-
-
-
