@@ -459,8 +459,6 @@ class GroupController extends BaseController {
         $subscriber->group()->associate($group);
         $subscriber->save();
 
-        $group->increment('subscribers');
-
         return Response::json(['status' => 'ok']);
     }
 
@@ -474,7 +472,6 @@ class GroupController extends BaseController {
         if (!$subscriber) return Response::make('Not subscribed', 400);
 
         $subscriber->delete();
-        $group->decrement('subscribers');
 
         return Response::json(['status' => 'ok']);
     }
