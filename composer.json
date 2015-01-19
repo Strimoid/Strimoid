@@ -45,7 +45,6 @@
 	    "behat/behat": "~3.0@dev",
 		"behat/mink": "~1.6@dev",
 		"behat/mink-extension": "~2.0@dev",
-	    "behat/web-api-extension": "~1.0@dev",
 	    "laracasts/behat-laravel-extension": "dev-master"
     },
   	"repositories": [

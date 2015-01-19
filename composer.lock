@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5ca5b00766708e469b16d1747988637c",
+    "hash": "a1d47e01740866caa8529045bea0883c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -4551,11 +4551,11 @@
         "iron-io/iron_mq": 20,
         "league/fractal": 20,
         "league/commonmark": 20,
-        "behat/behat": 20,
         "barryvdh/laravel-ide-helper": 20,
-        "laracasts/behat-laravel-extension": 20,
+        "behat/behat": 20,
         "behat/mink": 20,
-        "behat/mink-extension": 20
+        "behat/mink-extension": 20,
+        "laracasts/behat-laravel-extension": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
