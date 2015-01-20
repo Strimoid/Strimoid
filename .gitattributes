@@ -1,4 +1,3 @@
-/app/tests          export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
 /.coveralls.yml     export-ignore
