@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models;
 
-use Str;
+use Auth, Str;
+use Strimoid\Helpers\MarkdownParser;
 
 class CommentReply extends BaseModel
 {
@@ -42,10 +43,7 @@ class CommentReply extends BaseModel
             ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
             ->first(['created_at', 'content_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
 
-        if (!$parent)
-        {
-            return null;
-        }
+        if (!$parent) return null;
 
         return $parent->replies->first();
     }
@@ -65,7 +63,7 @@ class CommentReply extends BaseModel
 
     public function deleteNotifications()
     {
-        Notification::where('comment_reply_id', $this->_id)->delete();
+        Notification::where('comment_reply_id', $this->getKey())->delete();
     }
 
     public function getGroupIdAttribute($value)
@@ -117,27 +115,27 @@ class CommentReply extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest())
-        {
-            return false;
-        }
+        if (Auth::guest()) return false;
 
         return Auth::user()->isBlockingUser($this->user);
     }
 
     public function getURL()
     {
-        return route('content_comments', $this->comment->content_id) .'#'. $this->_id;
+        $url = route('content_comments', $this->comment->content_id);
+        return  $url .'#'. $this->getKey();
     }
 
     public function canEdit(User $user)
     {
-        return Auth::user()->_id == $this->user_id && $this == $this->comment->replies->last();
+        return Auth::id() == $this->user_id
+            && $this == $this->comment->replies->last();
     }
 
     public function canRemove(User $user)
     {
-        return Auth::user()->_id == $this->user_id || Auth::user()->isModerator($this->group_id);
+        return Auth::id() == $this->user_id
+            || Auth::user()->isModerator($this->group_id);
     }
 
 }
