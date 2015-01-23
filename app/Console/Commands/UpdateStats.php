@@ -1,5 +1,6 @@
-<?php
+<?php namespace Strimoid\Console\Commands;
 
+use Carbon, DB;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -51,13 +52,13 @@ class UpdateStats extends Command {
         $actions = UserAction::where('created_at', '>', $weekAgo)->get();
 
         // Delete old data first
-        $conn->table('daily_actions')->where('day', '>=', $weekAgo->diffInDays($firstDay))->delete();
+        $fromDay = $weekAgo->diffInDays($firstDay);
+        $conn->table('daily_actions')->where('day', '>=', $fromDay)->delete();
 
         foreach ($actions as $action) {
             $object = $action->getObject();
 
-            if (!$object)
-                continue;
+            if (!$object) continue;
 
             $day = $object->created_at->diffInDays($firstDay);
             $points = $this->calculatePoints($action, $object);
@@ -100,8 +101,7 @@ class UpdateStats extends Command {
             }
 
             // Show progress
-            if (!($x++ % 100))
-                $this->info($x .' actions processed');
+            if (!($x++ % 100)) $this->info($x .' actions processed');
         }
 
         $this->info('All actions processed');

@@ -1,24 +1,24 @@
-<?php
+<?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class CreateUser extends Command {
+class UpdateUserPoints extends Command {
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'lara:createuser';
+    protected $name = 'lara:updateuserpoints';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates user.';
+    protected $description = 'Updates user points amount.';
 
     /**
      * Create a new command instance.
@@ -37,22 +37,27 @@ class CreateUser extends Command {
      */
     public function fire()
     {
-        if (!$this->argument('username'))
-            print 'no username given';
+        DB::connection()->disableQueryLog();
 
-        $email = $this->argument('username') .'@strimoid.dev';
+        $conn = DB::connection('stats');
+        $conn->disableQueryLog();
 
-        $user = new User();
-        $user->_id = $this->argument('username');
-        $user->name = $this->argument('username');
-        $user->shadow_name = Str::lower($this->argument('username'));
-        $user->password = $this->argument('username');
-        $user->email = $email;
-        $user->is_activated = true;
-        $user->last_ip = '127.0.0.1';
-        $user->save();
+        $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))
+            ->with(['user' => function($q) { $q->select(['name', 'avatar']); }])
+            ->groupBy('user_id')
+            ->orderBy('points', 'desc')
+            ->get();
 
-        $this->info('User created');
+        foreach($rows as $row)
+        {
+            $user = User::find($row['user_id']);
+
+            $user->total_points = $row['points'];
+            $user->save();
+        }
+
+        $this->info('All users processed');
+
     }
 
     /**
@@ -62,9 +67,7 @@ class CreateUser extends Command {
      */
     protected function getArguments()
     {
-        return array(
-            array('username', InputArgument::REQUIRED, 'User name.'),
-        );
+        return array();
     }
 
     /**

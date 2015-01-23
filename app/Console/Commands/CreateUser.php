@@ -1,24 +1,24 @@
-<?php
+<?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class AddModerator extends Command {
+class CreateUser extends Command {
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'lara:addmod';
+    protected $name = 'lara:createuser';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Adds new moderator.';
+    protected $description = 'Creates user.';
 
     /**
      * Create a new command instance.
@@ -37,23 +37,22 @@ class AddModerator extends Command {
      */
     public function fire()
     {
-        $user = User::findOrFail($this->argument('username'));
-        $group = Group::findOrFail($this->argument('group'));
+        if (!$this->argument('username'))
+            print 'no username given';
 
-        $moderator = new GroupModerator();
-        $moderator->group()->associate($group);
-        $moderator->user()->associate($user);
+        $email = $this->argument('username') .'@strimoid.dev';
 
-        if ($this->option('admin'))
-            $moderator->type = 'admin';
-        else
-            $moderator->type = 'moderator';
+        $user = new User();
+        $user->_id = $this->argument('username');
+        $user->name = $this->argument('username');
+        $user->shadow_name = Str::lower($this->argument('username'));
+        $user->password = $this->argument('username');
+        $user->email = $email;
+        $user->is_activated = true;
+        $user->last_ip = '127.0.0.1';
+        $user->save();
 
-        $moderator->save();
-
-        Cache::forget($user->_id . '.moderated_groups');
-
-        $this->info($user->_id .' is now moderator of '. $group->_id);
+        $this->info('User created');
     }
 
     /**
@@ -64,7 +63,6 @@ class AddModerator extends Command {
     protected function getArguments()
     {
         return array(
-            array('group', InputArgument::REQUIRED, 'Group.'),
             array('username', InputArgument::REQUIRED, 'User name.'),
         );
     }
@@ -76,9 +74,7 @@ class AddModerator extends Command {
      */
     protected function getOptions()
     {
-        return array(
-            array('admin', null, InputOption::VALUE_NONE, 'Makes user admin instead of moderator.', null),
-        );
+        return array();
     }
 
 }

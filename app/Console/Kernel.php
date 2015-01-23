@@ -11,6 +11,8 @@ class Kernel extends ConsoleKernel {
      * @var array
      */
     protected $commands = [
+        'Strimoid\Console\Commands\FacebookPost',
+        'Strimoid\Console\Commands\UpdateStats',
     ];
 
     /**

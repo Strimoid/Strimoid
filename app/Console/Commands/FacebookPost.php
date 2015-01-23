@@ -1,27 +1,26 @@
-<?php
+<?php namespace Strimoid\Console\Commands;
 
+use Carbon, Guzzle;
+use Strimoid\Models\Content;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use GuzzleHttp\Client;
-use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
-
-class TwitterPost extends Command {
+class FacebookPost extends Command {
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'lara:twitterpost';
+    protected $name = 'lara:fbpost';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Posts most popular content to Twitter.';
+    protected $description = 'Posts most popular content to FB fanpage.';
 
     /**
      * Create a new command instance.
@@ -40,31 +39,23 @@ class TwitterPost extends Command {
      */
     public function fire()
     {
-        $time = new MongoDate(time() - 86400);
-
+        $time = Carbon::now()->subDay();
         $content = Content::where('created_at', '>', $time)
             ->orderBy('uv', 'desc')
             ->firstOrFail();
 
-        $client = new Client([
-            'base_url' => 'https://api.twitter.com/1.1/',
-            'defaults' => ['auth' => 'oauth']
-        ]);
-
-        $oauth = new Oauth1([
-            'consumer_key'    => Config::get('social.twitter.consumer_key'),
-            'consumer_secret' => Config::get('social.twitter.consumer_secret'),
-            'token'           => Config::get('social.twitter.token'),
-            'token_secret'    => Config::get('social.twitter.token_secret'),
-        ]);
-
-        $client->getEmitter()->attach($oauth);
-
         $params = [
-            'status' => Str::limit($content->title, 100) .' https://strm.pl/'. $content->_id,
+            'access_token' => Config::get('social.facebook.page_token'),
+            'name' => $content->title,
+            'link' => route('content_comments', $content->getKey()),
+            'description' => $content->description
         ];
 
-        $request = $client->post('statuses/update.json', [
+        $params['picture'] = $content->thumbnail
+            ? 'https:' . $content->getThumbnailPath(500, 250)
+            : '';
+
+        Guzzle::post('https://graph.facebook.com/strimoid/feed', [
             'body' => $params
         ]);
     }
