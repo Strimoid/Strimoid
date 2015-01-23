@@ -3,6 +3,7 @@
 use Auth, Input;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
+use Strimoid\Models\Save;
 
 class SaveController extends BaseController
 {
@@ -11,94 +12,53 @@ class SaveController extends BaseController
     {
         $content = Content::findOrFail(Input::get('content'));
 
-        $data = Auth::user()->data;
-        $data->push('_saved_contents', $content->_id);
+        if ($this->findUserSave($content, Auth::id())) return;
 
-        return Response::json(array('status' => 'ok'));
+        $save = new Save(['user_id' => Auth::id()]);
+        $content->saves()->save($save);
+
+        return Response::json(['status' => 'ok']);
     }
 
     public function removeContent()
     {
         $content = Content::findOrFail(Input::get('content'));
 
-        $data = Auth::user()->data;
-        $data->pull('_saved_contents', $content->_id);
+        $save = $this->findUserSave($content, Auth::id());
+        $save->delete();
 
-        return Response::json(array('status' => 'ok'));
+        return Response::json(['status' => 'ok']);
     }
 
     public function saveEntry()
     {
         $entry = Entry::findOrFail(Input::get('entry'));
 
-        $data = Auth::user()->data;
-        $data->push('_saved_entries', $entry->_id);
+        if ($this->findUserSave($entry, Auth::id())) return;
 
-        return Response::json(array('status' => 'ok'));
+        $save = new Save(['user_id' => Auth::id()]);
+        $entry->saves()->save($save);
+
+        return Response::json(['status' => 'ok']);
     }
 
     public function removeEntry()
     {
         $entry = Entry::findOrFail(Input::get('entry'));
 
-        $data = Auth::user()->data;
-        $data->pull('_saved_entries', $entry->_id);
+        $save = $this->findUserSave($entry, Auth::id());
+        $save->delete();
 
-        return Response::json(array('status' => 'ok'));
+        return Response::json(['status' => 'ok']);
     }
 
-    public function getContents()
+    private function findUserSave($object, $id)
     {
-        $page = Paginator::getCurrentPage();
-        $ids = Auth::user()->data->_saved_contents;
+        $save = $object->saves()
+            ->where('user_id', $id)
+            ->first();
 
-        if (is_array($ids))
-        {
-            $total = count($ids);
-
-            $contentIds = array_slice(array_reverse($ids), ($page - 1) * 20, 20);;
-
-            $contents = Content::with('user')->whereIn('_id', $contentIds)->get();
-
-            $contents->sortBy(function($content) use($contentIds) {
-                return array_search($content->_id, $contentIds);
-            });
-        }
-        else
-        {
-            $total = 0;
-            $contents = new \Illuminate\Support\Collection();
-        }
-
-        return Paginator::make($contents->all(), $total, 20);
-    }
-
-    public function getEntries()
-    {
-        $page = Paginator::getCurrentPage();
-        $ids = (array) Auth::user()->data->_saved_entries;
-
-        $total = count($ids);
-
-        $entryIds = array_slice(array_reverse($ids), ($page - 1) * 20, 20);;
-
-        $entries = Entry::whereIn('_id', $entryIds)
-            ->with('user')
-            ->with(['replies.user' => function($q) { $q->remember(10); }])
-            ->orderBy('created_at', 'desc')
-            ->slice('_replies', -2)
-            ->get();
-
-        $entries->sortBy(function($entry) use($entryIds) {
-            return array_search($entry->_id, $entryIds);
-        });
-
-        $results['blockedUsers'] = array();
-
-        if (Auth::check())
-            $results['blockedUsers'] = Auth::user()->blockedUsers();
-
-        return Paginator::make($entries->all(), $total, 20);
+        return $save;
     }
 
 }
