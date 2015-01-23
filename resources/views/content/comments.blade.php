@@ -163,7 +163,10 @@ Brak powiązanych.
             <a class="related_remove_link" data-id="{!! $related->_id !!}"><span class="glyphicon glyphicon-trash"></span></a>
             @endif
         </h4>
-        <span class="info">Dodane <time pubdate datetime="{!! $related->created_at->format('c') !!}" title="{!! $related->getLocalTime() !!}">{!! $related->created_at->diffForHumans() !!}</time> przez <a href="{!! action('user_profile', $related->user_id) !!}">u/{{{ $related->user_id }}}</a></span>
+        <span class="info">
+            Dodane <time pubdate datetime="{!! $related->created_at->format('c') !!}" title="{!! $related->getLocalTime() !!}">{!! $related->created_at->diffForHumans() !!}</time>
+            przez <a href="{!! route('user_profile', $related->user_id) !!}">u/{{{ $related->user_id }}}</a>
+        </span>
     </div>
 </div>
 @endforeach
