@@ -16,8 +16,8 @@
     <tbody>
 
     @foreach ($users as $index => $user)
-    <tr @if(Auth::check() && $user->user_id == Auth::user()->_id) class="warning" @endif>
-        <td>{!! (($index + 1) + (($users->getCurrentPage()-1) * $users->getPerPage())) !!}</td>
+    <tr @if(Auth::check() && $user->user_id == Auth::id()) class="warning" @endif>
+        <td>{!! ( $index + $users->firstItem() ) !!}</td>
         <?php
             $day = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1));
 
@@ -55,7 +55,7 @@
 
 </table>
 
-{!! $users->links() !!}
+{!! with(new BootstrapPresenter($users))->render() !!}
 
 @stop
 
