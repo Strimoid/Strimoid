@@ -42,7 +42,7 @@ return [
 
         'stats' => [
             'driver'   => 'sqlite',
-            'database' => __DIR__.'/../database/stats.sqlite',
+			'database' => storage_path().'/stats.sqlite',
             'prefix'   => '',
         ],
 
