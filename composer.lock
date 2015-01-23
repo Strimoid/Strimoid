@@ -849,12 +849,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-mongodb.git",
-                "reference": "270553971449d7312b5cd552642f7efd1a47006a"
+                "reference": "76675fd7ee47f3c01737d268e64cae124aebe1e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-mongodb/zipball/270553971449d7312b5cd552642f7efd1a47006a",
-                "reference": "270553971449d7312b5cd552642f7efd1a47006a",
+                "url": "https://api.github.com/repos/duxet/laravel-mongodb/zipball/76675fd7ee47f3c01737d268e64cae124aebe1e9",
+                "reference": "76675fd7ee47f3c01737d268e64cae124aebe1e9",
                 "shasum": ""
             },
             "require": {
@@ -902,7 +902,7 @@
             "support": {
                 "source": "https://github.com/duxet/laravel-mongodb/tree/L5"
             },
-            "time": "2015-01-12 18:01:07"
+            "time": "2015-01-23 17:19:31"
         },
         {
             "name": "jeremeamia/SuperClosure",
