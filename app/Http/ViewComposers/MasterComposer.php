@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\ViewComposers;
 
-use Auth, Config, Settings;
+use Auth, Cache, Config, Settings;
 use Illuminate\Contracts\View\View;
 use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
@@ -79,9 +79,11 @@ class MasterComposer {
         $view->with('pageTitle', $pageTitle);
 
         // Needed by top bar with groups
-        $popularGroups = Group::orderBy('subscribers', 'desc', true)
-            ->take(30)->get(['id', 'name', 'urlname']);
-
+        $popularGroups = Cache::remember('popularGroups', 60, function()
+        {
+            return Group::orderBy('subscribers', 'desc', true)
+                ->take(30)->get(['id', 'name', 'urlname']);
+        });
         $view->with('popularGroups', $popularGroups);
     }
 
