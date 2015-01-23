@@ -21,13 +21,11 @@
         <?php
             $day = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1));
 
-            $query = DailyAction::remember(rand(720, 1500))
-                ->where('user_id', $user->user_id)
+            $query = \Strimoid\Models\DailyAction::where('user_id', $user->user_id)
                 ->groupBy('day')
                 ->orderBy('day', 'asc');
 
-            if (isset($group))
-                $query->where('group_id', $group->_id);
+            if (isset($group)) $query->where('group_id', $group->getKey());
 
             $results = $query->lists('points', 'day');
 
