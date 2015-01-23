@@ -55,8 +55,6 @@
   	],
 	"autoload": {
 		"classmap": [
-			"app/commands",
-            "app/handlers",
 		    "database"
 		],
 	    "files": [
