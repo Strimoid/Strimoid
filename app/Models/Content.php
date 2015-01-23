@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Carbon, Config, Image, Str, PDP;
+use Auth, Cache, Carbon, Config, Image, Str, PDP;
+use Strimoid\Helpers\OEmbed;
 use Summon\Summon;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;
@@ -95,7 +96,15 @@ class Content extends BaseModel
 
     public function getEmbed()
     {
-        return false;
+        if (!$this->url) return false;
+
+        $key = 'c.'. $this->getKey() .'.oembed';
+
+        return Cache::remember($key, 120, function()
+        {
+            $oembed = new OEmbed();
+            return $oembed->getHtml($this->url);
+        });
     }
 
     public function getURL()

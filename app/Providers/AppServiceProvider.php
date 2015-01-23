@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Providers;
 
+use GuzzleHttp\Client;
 use Strimoid\Models\UserSettings;
 use Illuminate\Support\ServiceProvider;
 use Pdp\PublicSuffixListManager;
@@ -14,6 +15,14 @@ class AppServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
+        $this->app->bind('guzzle', function()
+        {
+            return new Client([
+                'connect_timeout' => 3,
+                'timeout' => 10,
+            ]);
+        });
+
         $this->app->bind('settings', function()
         {
             return new UserSettings();

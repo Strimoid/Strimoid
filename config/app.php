@@ -231,7 +231,8 @@ return array(
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
 
 		'Settings'  => 'Strimoid\Facades\Settings',
-		'PDP'       => 'Strimoid\Facades\PDP'
+		'PDP'       => 'Strimoid\Facades\PDP',
+		'Guzzle'    => 'Strimoid\Facades\Guzzle',
 
 	],
 
