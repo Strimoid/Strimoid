@@ -1,4 +1,4 @@
-<?php namespace Strimoid\Handlers\Events; 
+<?php namespace Strimoid\Handlers\Events;
 
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
