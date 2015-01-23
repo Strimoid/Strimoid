@@ -66,16 +66,9 @@ class EntryController extends BaseController {
         }
 
         $builder->orderBy('created_at', 'desc')
-            //->with(['user', 'replies.user' => function($q) { $q->remember(10); }])
+            ->with(['user', 'replies.user'])
             //->project(['_replies' => ['$slice' => -2]]);
         ;
-
-        // Paginate
-        /*
-        $entries = $this->cachedPaginate($builder, Settings::get('entries_per_page'), 10, ['*'], function($entries) {
-            $entries->load(['user', 'replies.user']);
-        });
-        */
 
         $entries = $builder->paginate(Settings::get('entries_per_page'));
 
