@@ -100,7 +100,7 @@ class Content extends BaseModel
 
     public function getURL()
     {
-        $this->url ?: $this->getSlug();
+        return $this->url ?: $this->getSlug();
     }
 
     public function getSlug()
