@@ -33,39 +33,36 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function getColoredName()
     {
-        switch($this->type)
-        {
-            case 'admin':
-                return '<span class="user_admin">'. $this->name .'</span>';
-            case 'deleted':
-                return '<span class="user_deleted">'. $this->name .'</span>';
-            default:
-                return '<span class="user_normal">'. $this->name .'</span>';
-        }
+        $type = $this->type ?: 'normal';
+        return '<span class="user_'. $type .'">'. $this->name .'</span>';
     }
 
     public function getAvatarPath($width = null, $height = null)
     {
-        $url = Config::get('app.cdn_host');
+        $host = Config::get('app.cdn_host');
 
         // Show default avatar if user is blocked
         if (Auth::check() && Auth::user()->isBlockingUser($this))
         {
-            return $url .'/static/img/default_avatar.png';
+            return $this->getDefaultAvatarPath();
         }
 
         if ($this->avatar && $width && $height)
         {
-            return $url .'/'. $width .'x'. $height .'/avatars/'. $this->avatar;
+            return $host .'/'. $width .'x'. $height .'/avatars/'. $this->avatar;
         }
         elseif ($this->avatar)
         {
-            return $url .'/avatars/'. $this->avatar;
+            return $host .'/avatars/'. $this->avatar;
         }
-        else
-        {
-            return $url .'/static/img/default_avatar.png';
-        }
+
+        return $this->getDefaultAvatarPath();
+    }
+
+    public function getDefaultAvatarPath()
+    {
+        $host = Config::get('app.cdn_host');
+        return $host . '/duck/'. $this->name .'.svg';
     }
 
     public function getBlockedDomainsAttribute($value)
@@ -81,10 +78,8 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         {
             return $this->sex;
         }
-        else
-        {
-            return 'nosex';
-        }
+
+        return 'nosex';
     }
 
     public function setNameAttribute($value)
@@ -147,31 +142,41 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function bannedGroups()
     {
-        $groups = DB::table('group_bans')->where('user_id', $this->_id)->lists('group_id');
+        $groups = DB::table('group_bans')
+            ->where('user_id', $this->getKey())
+            ->lists('group_id');
         return (array) $groups;
     }
 
     public function blockedGroups()
     {
-        $groups = DB::table('group_blocks')->where('user_id', $this->_id)->lists('group_id');
+        $groups = DB::table('group_blocks')
+            ->where('user_id', $this->getKey())
+            ->lists('group_id');
         return (array) $groups;
     }
 
     public function blockedUsers()
     {
-        $users = DB::table('user_blocks')->where('user_id', $this->_id)->lists('target_id');
+        $users = DB::table('user_blocks')
+            ->where('user_id', $this->getKey())
+            ->lists('target_id');
         return (array) $users;
     }
 
     public function subscribedGroups()
     {
-        $groups = DB::table('group_subscribers')->where('user_id', $this->_id)->lists('group_id');
+        $groups = DB::table('group_subscribers')
+            ->where('user_id', $this->getKey())
+            ->lists('group_id');
         return (array) $groups;
     }
 
     public function moderatedGroups()
     {
-        $groups = DB::table('group_moderators')->where('user_id', $this->_id)->lists('group_id');
+        $groups = DB::table('group_moderators')
+            ->where('user_id', $this->getKey())
+            ->lists('group_id');
         return (array) $groups;
     }
 
@@ -195,54 +200,52 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function deleteAvatar()
     {
-        if ($this->avatar)
-        {
-            File::delete(Config::get('app.uploads_path').'/avatars/'. $this->avatar);
+        if (!$this->avatar) return;
 
-            $this->unset('avatar');
-        }
+        File::delete(Config::get('app.uploads_path').'/avatars/'. $this->avatar);
+        $this->unset('avatar');
     }
 
     public function isBanned(Group $group)
     {
-        $isBanned = GroupBanned::where('group_id', $group->getKey())->where('user_id', $this->getKey())->first();
+        $isBanned = GroupBanned::where('group_id', $group->getKey())
+            ->where('user_id', $this->getKey())->first();
 
         return (bool) $isBanned;
     }
 
     public function isAdmin($group)
     {
-        if ($group instanceof Group)
-            $group = $group->_id;
+        if ($group instanceof Group) $group = $group->_id;
 
-        if (GroupModerator::where('group_id', $group)->where('user_id', $this->getKey())->where('type', 'admin')->first())
-            return true;
-        else
-            return false;
+        $isAdmin = GroupModerator::where('group_id', $group)
+            ->where('user_id', $this->getKey())
+            ->where('type', 'admin')->first();
+
+        return (bool) $isAdmin;
     }
 
     public function isModerator($group)
     {
-        if ($group instanceof Group)
-            $group = $group->_id;
+        if ($group instanceof Group) $group = $group->_id;
 
         return in_array($group, $this->moderatedGroups());
     }
 
     public function isSubscriber(Group $group)
     {
-        if (GroupSubscriber::where('group_id', $group->getKey())->where('user_id', $this->getKey())->first())
-            return true;
-        else
-            return false;
+        $isSubscriber = GroupSubscriber::where('group_id', $group->getKey())
+            ->where('user_id', $this->getKey())->first();
+
+        return (bool) $isSubscriber;
     }
 
     public function isBlocking(Group $group)
     {
-        if (GroupBlock::where('group_id', $group->getKey())->where('user_id', $this->getKey())->first())
-            return true;
-        else
-            return false;
+        $isBlocking = GroupBlock::where('group_id', $group->getKey())
+            ->where('user_id', $this->getKey())->first();
+
+        return (bool) $isBlocking;
     }
 
     public function isObservingUser($user)
@@ -254,8 +257,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function isBlockingUser($user)
     {
-        if ($user instanceof User)
-            $user = $user->_id;
+        if ($user instanceof User) $user = $user->_id;
 
         if (in_array($user, $this->blockedUsers()))
             return true;
