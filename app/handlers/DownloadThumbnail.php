@@ -1,4 +1,7 @@
-<?php
+<?php namespace Strimoid\Handlers;
+
+use WS;
+use Strimoid\Models\Content;
 
 class DownloadThumbnail {
 
@@ -8,7 +11,7 @@ class DownloadThumbnail {
         $content->autoThumbnail();
 
         WS::send(json_encode([
-            'topic' => 'content.'. $content->_id .'.thumbnail',
+            'topic' => 'content.'. $content->getKey() .'.thumbnail',
             'url' => $content->getThumbnailPath(100, 75)
         ]));
 
