@@ -233,6 +233,7 @@ return array(
 		'Settings'  => 'Strimoid\Facades\Settings',
 		'PDP'       => 'Strimoid\Facades\PDP',
 		'Guzzle'    => 'Strimoid\Facades\Guzzle',
+		'OEmbed'    => 'Strimoid\Facades\OEmbed',
 
 	],
 
