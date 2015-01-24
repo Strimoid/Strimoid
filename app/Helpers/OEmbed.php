@@ -15,7 +15,7 @@ class OEmbed {
                 return $this->fetchHtml($url);
             });
 
-        $html;
+        return $html;
     }
 
     private function fetchHtml($url)
