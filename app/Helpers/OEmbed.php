@@ -12,7 +12,7 @@ class OEmbed {
         $query = ['url' => $url];
 
         try {
-            $response = Guzzle::get($endpoint, compact($query));
+            $response = Guzzle::get($endpoint, compact('query'));
             $json = $response->json();
 
             return $json['html'];
