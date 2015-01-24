@@ -59,7 +59,7 @@
         </div>
         @if ($content->getEmbed())
         <div class="content_preview">
-            {!! $content->getEmbed()->getHtml() !!}
+            {!! $content->getEmbed() !!}
         </div>
         @endif
     </div>
