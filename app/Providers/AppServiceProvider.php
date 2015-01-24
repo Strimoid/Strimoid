@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Providers;
 
 use GuzzleHttp\Client;
+use Strimoid\Helpers\OEmbed;
 use Strimoid\Models\UserSettings;
 use Illuminate\Support\ServiceProvider;
 use Pdp\PublicSuffixListManager;
@@ -34,6 +35,11 @@ class AppServiceProvider extends ServiceProvider {
             $parser = new Parser($pslManager->getList());
 
             return $parser;
+        });
+
+        $this->app->bind('oembed', function()
+        {
+            return new OEmbed();
         });
     }
 

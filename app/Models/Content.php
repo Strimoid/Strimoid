@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Cache, Carbon, Config, Image, Str, PDP;
-use Strimoid\Helpers\OEmbed;
+use Carbon, Config, Image, OEmbed, Str, PDP;
 use Summon\Summon;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;
@@ -98,14 +97,7 @@ class Content extends BaseModel
     {
         if (!$this->url) return false;
 
-        $key = 'c.'. $this->getKey() .'.oembed';
-
-        return Cache::driver('oembed')
-            ->rememberForever($key, function()
-        {
-            $oembed = new OEmbed();
-            return $oembed->getHtml($this->url);
-        });
+        return OEmbed::getHtml($this->url);
     }
 
     public function getURL()

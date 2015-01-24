@@ -1,11 +1,24 @@
 <?php namespace Strimoid\Helpers; 
 
-use Config, Guzzle;
+use Cache, Config, Guzzle;
 use GuzzleHttp\Exception\RequestException;
 
 class OEmbed {
 
     public function getHtml($url)
+    {
+        $key = md5($url);
+
+        $html = Cache::driver('oembed')
+            ->rememberForever($key, function() use($url)
+            {
+                return $this->fetchHtml($url);
+            });
+
+        $html;
+    }
+
+    private function fetchHtml($url)
     {
         $host = Config::get('strimoid.oembed');
         $endpoint = $host .'/oembed';
