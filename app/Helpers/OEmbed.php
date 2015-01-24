@@ -15,6 +15,8 @@ class OEmbed {
             $response = Guzzle::get($endpoint, compact('query'));
             $json = $response->json();
 
+            if (!array_key_exists('html', $json)) return false;
+
             return $json['html'];
         } catch(RequestException $e) {}
 
