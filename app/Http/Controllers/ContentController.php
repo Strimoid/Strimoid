@@ -341,9 +341,9 @@ class ContentController extends BaseController {
 
     public function getEmbedCode(Content $content)
     {
-        $embedCode = $content->getEmbed()->getHtml();
+        $embedCode = $content->getEmbed();
 
-        return Response::json(array('status' => 'ok', 'code' => $embedCode));
+        return Response::json(['status' => 'ok', 'code' => $embedCode]);
     }
 
     public function chooseThumbnail(Content $content)

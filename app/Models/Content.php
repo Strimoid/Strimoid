@@ -100,7 +100,8 @@ class Content extends BaseModel
 
         $key = 'c.'. $this->getKey() .'.oembed';
 
-        return Cache::remember($key, 120, function()
+        return Cache::driver('oembed')
+            ->rememberForever($key, function()
         {
             $oembed = new OEmbed();
             return $oembed->getHtml($this->url);
