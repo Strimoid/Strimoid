@@ -20,6 +20,7 @@
         "laravel/framework": "5.0.*",
 	    "illuminate/html": "5.0.*",
 	    "jenssegers/mongodb": "dev-L5",
+	    "jenssegers/mongodb-session": "dev-L5",
         "intervention/image": "2.0.*",
         "phindmarsh/summon": "dev-master",
         "cohensive/embed": "dev-master",
@@ -51,7 +52,11 @@
 	  	{
 			"type": "vcs",
 			"url": "https://github.com/duxet/laravel-mongodb"
-	  	}
+	  	},
+	    {
+		    "type": "vcs",
+		    "url": "https://github.com/duxet/laravel-mongodb-session"
+		}
   	],
 	"autoload": {
 		"classmap": [

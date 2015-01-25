@@ -161,6 +161,7 @@ return array(
 
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
+		'Jenssegers\Mongodb\Session\SessionServiceProvider',
 	],
 
 	/*
