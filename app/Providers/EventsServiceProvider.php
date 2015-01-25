@@ -1,11 +1,12 @@
 <?php namespace Strimoid\Providers;
 
-use Carbon, Config, Guzzle, Request, Event;
+use Auth, Carbon, Config, Guzzle, Request, Input;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Strimoid\Handlers\Events\NewActionHandler;
 use Strimoid\Models\User;
 use Strimoid\Models\Entry;
+use Strimoid\Models\Notification;
 
 class EventsServiceProvider extends ServiceProvider {
 
@@ -17,6 +18,17 @@ class EventsServiceProvider extends ServiceProvider {
      */
     public function boot(Dispatcher $events)
     {
+        $this->app->booted(function()
+        {
+            if (Input::has('ntf_read') && Auth::check())
+            {
+                $id = b58_to_mid(Input::get('ntf_read'));
+                Notification::where('_id', $id)
+                    ->target(['user_id' => Auth::id()])
+                    ->update(['_targets.$.read' => true]);
+            }
+        });
+
         $events->listen('auth.login', function($user)
         {
             $user->last_login = new Carbon;
