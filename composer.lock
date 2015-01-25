@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "95422c176426fa1af1bf38d078790064",
+    "hash": "4eae0ed6a6f42f98679fdb46c03d7977",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1553,16 +1553,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.13.0",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "5cb6e71055f7b0b57956b73d324cc4de31278f42"
+                "url": "https://github.com/duxet/Carbon.git",
+                "reference": "d79ea38b939f6ab8a87ba813b5720cb8b5fc2408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/5cb6e71055f7b0b57956b73d324cc4de31278f42",
-                "reference": "5cb6e71055f7b0b57956b73d324cc4de31278f42",
+                "url": "https://api.github.com/repos/duxet/Carbon/zipball/d79ea38b939f6ab8a87ba813b5720cb8b5fc2408",
+                "reference": "d79ea38b939f6ab8a87ba813b5720cb8b5fc2408",
                 "shasum": ""
             },
             "require": {
@@ -1577,7 +1577,6 @@
                     "Carbon": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1591,11 +1590,14 @@
             "description": "A simple API extension for DateTime.",
             "homepage": "https://github.com/briannesbitt/Carbon",
             "keywords": [
+                "DateTime",
                 "date",
-                "datetime",
                 "time"
             ],
-            "time": "2014-09-26 02:52:02"
+            "support": {
+                "source": "https://github.com/duxet/Carbon/tree/locale-pl"
+            },
+            "time": "2015-01-25 22:08:26"
         },
         {
             "name": "nikic/php-parser",
@@ -3232,12 +3234,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/MinkBrowserKitDriver.git",
-                "reference": "7b2b7dbb82b30632490209610156bfa6045326aa"
+                "reference": "9741f931d5c9254edf818adb744761ecb485b623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/7b2b7dbb82b30632490209610156bfa6045326aa",
-                "reference": "7b2b7dbb82b30632490209610156bfa6045326aa",
+                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/9741f931d5c9254edf818adb744761ecb485b623",
+                "reference": "9741f931d5c9254edf818adb744761ecb485b623",
                 "shasum": ""
             },
             "require": {
@@ -3256,8 +3258,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Behat\\Mink\\Driver": "src/"
+                "psr-4": {
+                    "Behat\\Mink\\Driver\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3279,7 +3281,7 @@
                 "browser",
                 "testing"
             ],
-            "time": "2015-01-23 09:05:48"
+            "time": "2015-01-25 21:59:07"
         },
         {
             "name": "behat/mink-extension",
