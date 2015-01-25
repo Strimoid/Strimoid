@@ -46,7 +46,11 @@ class OEmbed {
 
         foreach ($data['links'] as $link)
         {
-            if (!in_array('file', $link['rel'])) continue;
+            if (!in_array('file', $link['rel'])
+                && !in_array('image', $link['rel']))
+            {
+                continue;
+            }
 
             return $this->embedMedia($link);
         }
