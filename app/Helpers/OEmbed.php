@@ -46,13 +46,15 @@ class OEmbed {
 
         foreach ($data['links'] as $link)
         {
-            if (!in_array('file', $link['rel'])
-                && !in_array('image', $link['rel']))
+            if (in_array('file', $link['rel']))
             {
-                continue;
+                return $this->embedMedia($link);
             }
 
-            return $this->embedMedia($link);
+            if (in_array('image', $link['rel']))
+            {
+                return $this->embedImage($link['href']);
+            }
         }
 
         return false;
