@@ -27,7 +27,7 @@ class OEmbed {
     protected function fetchJson($url)
     {
         $host = Config::get('strimoid.oembed');
-        $endpoint = $host .'/oembed';
+        $endpoint = $host .'/iframely';
         $query = ['url' => $url];
 
         try {
