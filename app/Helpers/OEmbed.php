@@ -28,7 +28,10 @@ class OEmbed {
     {
         $host = Config::get('strimoid.oembed');
         $endpoint = $host .'/iframely';
-        $query = ['url' => $url];
+        $query = [
+            'autoplay' => true,
+            'url' => $url,
+        ];
 
         try {
             $response = Guzzle::get($endpoint, compact('query'));
