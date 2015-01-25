@@ -5,6 +5,12 @@ use GuzzleHttp\Exception\RequestException;
 
 class OEmbed {
 
+    protected $mimetypes = [
+        'audio/' => 'embedAudio',
+        'image/' => 'embedImage',
+        'video/' => 'embedVideo',
+    ];
+
     public function getHtml($url)
     {
         $key = md5($url);
@@ -12,13 +18,13 @@ class OEmbed {
         $html = Cache::driver('oembed')
             ->rememberForever($key, function() use($url)
             {
-                return $this->fetchHtml($url);
+                return $this->fetchJson($url);
             });
 
         return $html;
     }
 
-    private function fetchHtml($url)
+    protected function fetchJson($url)
     {
         $host = Config::get('strimoid.oembed');
         $endpoint = $host .'/oembed';
@@ -26,14 +32,54 @@ class OEmbed {
 
         try {
             $response = Guzzle::get($endpoint, compact('query'));
-            $json = $response->json();
+            $data = $response->json();
 
-            if (!array_key_exists('html', $json)) return false;
-
-            return $json['html'];
+            return $this->processData($data);
         } catch(RequestException $e) {}
 
         return false;
+    }
+
+    protected function processData($data)
+    {
+        if (array_key_exists('html', $data)) return $data['html'];
+
+        foreach ($data['links'] as $link)
+        {
+            if (!in_array('file', $link['rel'])) continue;
+
+            return $this->embedMedia($link);
+        }
+
+        return false;
+    }
+
+    protected function embedMedia($link)
+    {
+        foreach ($this->mimetypes as $mimetype => $function)
+        {
+            if (starts_with($link['type'], $mimetype))
+            {
+                return $this->{$function}($link['href']);
+            }
+        }
+
+        return false;
+    }
+
+    protected function embedAudio($href)
+    {
+        return '<audio src="'. $href .'"controls autoplay></audio>';
+    }
+
+    protected function embedImage($href)
+    {
+        return '<img src="'. $href .'">';
+    }
+
+    protected function embedVideo($href)
+    {
+        return '<video src="'. $href .'"controls autoplay></audio>';
     }
 
 }
