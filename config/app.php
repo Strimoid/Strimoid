@@ -162,6 +162,8 @@ return array(
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
 		'Jenssegers\Mongodb\Session\SessionServiceProvider',
+
+		'GrahamCampbell\Throttle\ThrottleServiceProvider'
 	],
 
 	/*
@@ -230,6 +232,7 @@ return array(
         'Embed'     => 'Cohensive\Embed\Facades\Embed',
         'Rss'       => 'Thujohn\Rss\RssFacade',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
+		'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
 
 		'Settings'  => 'Strimoid\Facades\Settings',
 		'PDP'       => 'Strimoid\Facades\PDP',
