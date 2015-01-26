@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Intervention\Image\ImageManager;
 
 class ImageServiceProvider extends ServiceProvider
 {
