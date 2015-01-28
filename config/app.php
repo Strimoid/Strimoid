@@ -156,6 +156,7 @@ return array(
 		'Strimoid\Providers\ComposerServiceProvider',
 		'Strimoid\Providers\EventsServiceProvider',
 		'Strimoid\Providers\ImageServiceProvider',
+		'Strimoid\Providers\OAuthServiceProvider',
 		'Strimoid\Providers\RouteServiceProvider',
 		'Strimoid\Providers\ValidatorServiceProvider',
 

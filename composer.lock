@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f49586968be3f4289d5a3aadfc866aec",
+    "hash": "c1e213cf50ff1f7dc627da6fc0c3b93e",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -52,49 +52,6 @@
                 "preload"
             ],
             "time": "2014-03-12 00:05:31"
-        },
-        {
-            "name": "cohensive/embed",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KaneCohen/embed.git",
-                "reference": "153c69184312b7d30b6669ae6ecc3f80fec25c01"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KaneCohen/embed/zipball/153c69184312b7d30b6669ae6ecc3f80fec25c01",
-                "reference": "153c69184312b7d30b6669ae6ecc3f80fec25c01",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Cohensive\\Embed": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kane Cohen",
-                    "email": "kanecohen@gmail.com"
-                }
-            ],
-            "description": "Media Embed (for Laravel or as a standalone).",
-            "keywords": [
-                "embed",
-                "laravel",
-                "media",
-                "vimeo",
-                "youtube"
-            ],
-            "time": "2015-01-15 08:56:15"
         },
         {
             "name": "d11wtq/boris",
@@ -1120,12 +1077,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d5119f12e54668c6352a8bfbc696ad1b86ed01ce"
+                "reference": "65fc1d6deb220ea90591729fa82069cf6ec02f69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d5119f12e54668c6352a8bfbc696ad1b86ed01ce",
-                "reference": "d5119f12e54668c6352a8bfbc696ad1b86ed01ce",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/65fc1d6deb220ea90591729fa82069cf6ec02f69",
+                "reference": "65fc1d6deb220ea90591729fa82069cf6ec02f69",
                 "shasum": ""
             },
             "require": {
@@ -1237,7 +1194,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-01-26 16:46:24"
+            "time": "2015-01-27 14:15:55"
         },
         {
             "name": "league/commonmark",
@@ -1302,17 +1259,62 @@
             "time": "2014-12-28 17:46:12"
         },
         {
+            "name": "league/event",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/event.git",
+                "reference": "9d9bd9e086b3acad09ab03f5317d27511039d71c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/event/zipball/9d9bd9e086b3acad09ab03f5317d27511039d71c",
+                "reference": "9d9bd9e086b3acad09ab03f5317d27511039d71c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
+                "phpspec/phpspec": "2.0.*@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Event\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Event package",
+            "keywords": [
+                "emitter",
+                "event",
+                "listener"
+            ],
+            "time": "2014-10-11 16:18:15"
+        },
+        {
             "name": "league/flysystem",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "9077e648fba7e0e726a9de70fedc328237eb2ebf"
+                "reference": "7a945bb1e59a69a4705ac9127d6e21acc696afc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/9077e648fba7e0e726a9de70fedc328237eb2ebf",
-                "reference": "9077e648fba7e0e726a9de70fedc328237eb2ebf",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/7a945bb1e59a69a4705ac9127d6e21acc696afc9",
+                "reference": "7a945bb1e59a69a4705ac9127d6e21acc696afc9",
                 "shasum": ""
             },
             "require": {
@@ -1382,7 +1384,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-01-25 13:25:49"
+            "time": "2015-01-27 13:58:06"
         },
         {
             "name": "league/fractal",
@@ -1446,6 +1448,70 @@
                 "rest"
             ],
             "time": "2014-12-10 18:05:28"
+        },
+        {
+            "name": "league/oauth2-server",
+            "version": "4.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/oauth2-server.git",
+                "reference": "19b64c2e65f07cb3d0fc2bb2162ed6b9c715db76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/19b64c2e65f07cb3d0fc2bb2162ed6b9c715db76",
+                "reference": "19b64c2e65f07cb3d0fc2bb2162ed6b9c715db76",
+                "shasum": ""
+            },
+            "require": {
+                "league/event": "1.0.*",
+                "php": ">=5.4.0",
+                "symfony/http-foundation": "~2.4"
+            },
+            "replace": {
+                "league/oauth2server": "*",
+                "lncd/oauth2": "*"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\OAuth2\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Bilbie",
+                    "email": "hello@alexbilbie.com",
+                    "homepage": "http://www.alexbilbie.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A lightweight and powerful OAuth 2.0 authorization and resource server library with support for all the core specification grants. This library will allow you to secure your API with OAuth and allow your applications users to approve apps that want to access their data from your API.",
+            "homepage": "http://oauth2.thephpleague.com/",
+            "keywords": [
+                "Authentication",
+                "api",
+                "auth",
+                "authorisation",
+                "authorization",
+                "oauth",
+                "oauth 2",
+                "oauth 2.0",
+                "oauth2",
+                "protect",
+                "resource",
+                "secure",
+                "server"
+            ],
+            "time": "2015-01-01 12:52:03"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -2084,12 +2150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RoumenDamianoff/laravel-sitemap.git",
-                "reference": "29d6ee0e75bd89a01b2d01146b254cac840d4cec"
+                "reference": "5de50a2bf706eafb3d5c17e33f00e087e80a61d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/29d6ee0e75bd89a01b2d01146b254cac840d4cec",
-                "reference": "29d6ee0e75bd89a01b2d01146b254cac840d4cec",
+                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/5de50a2bf706eafb3d5c17e33f00e087e80a61d1",
+                "reference": "5de50a2bf706eafb3d5c17e33f00e087e80a61d1",
                 "shasum": ""
             },
             "require": {
@@ -2128,7 +2194,7 @@
                 "Sitemap",
                 "laravel"
             ],
-            "time": "2014-12-23 23:58:56"
+            "time": "2015-01-26 18:25:12"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3079,12 +3145,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "9ad5b997ca90ae87d9d53a436a4c612ce54cf864"
+                "reference": "5fe00f0433990beff87a089fa3678d31bc0e7f6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/9ad5b997ca90ae87d9d53a436a4c612ce54cf864",
-                "reference": "9ad5b997ca90ae87d9d53a436a4c612ce54cf864",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/5fe00f0433990beff87a089fa3678d31bc0e7f6d",
+                "reference": "5fe00f0433990beff87a089fa3678d31bc0e7f6d",
                 "shasum": ""
             },
             "require": {
@@ -3125,7 +3191,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2015-01-10 16:54:14"
+            "time": "2015-01-27 09:00:18"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -3598,12 +3664,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "9b9ec8d3d3d1f05df2fddb49a6257bbc235d32ea"
+                "reference": "81e4eccea302300ac0c69c7ed04c94e29f580633"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/9b9ec8d3d3d1f05df2fddb49a6257bbc235d32ea",
-                "reference": "9b9ec8d3d3d1f05df2fddb49a6257bbc235d32ea",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/81e4eccea302300ac0c69c7ed04c94e29f580633",
+                "reference": "81e4eccea302300ac0c69c7ed04c94e29f580633",
                 "shasum": ""
             },
             "require": {
@@ -3642,7 +3708,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2015-01-26 15:14:28"
+            "time": "2015-01-27 08:16:46"
         },
         {
             "name": "laracasts/behat-laravel-extension",
@@ -4048,12 +4114,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2047ae17f6e8cfd10fbde0b4535c97eb22d99cbe"
+                "reference": "d49d806cd25dec0d3889f8bd90cfd1899240ca79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2047ae17f6e8cfd10fbde0b4535c97eb22d99cbe",
-                "reference": "2047ae17f6e8cfd10fbde0b4535c97eb22d99cbe",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d49d806cd25dec0d3889f8bd90cfd1899240ca79",
+                "reference": "d49d806cd25dec0d3889f8bd90cfd1899240ca79",
                 "shasum": ""
             },
             "require": {
@@ -4071,8 +4137,9 @@
                 "sebastian/comparator": "~1.0",
                 "sebastian/diff": "~1.1",
                 "sebastian/environment": "~1.1",
-                "sebastian/exporter": "~1.0",
+                "sebastian/exporter": "~1.1",
                 "sebastian/global-state": "~1.0",
+                "sebastian/recursion-context": "~1.0",
                 "sebastian/version": "~1.0",
                 "symfony/yaml": "~2.0"
             },
@@ -4111,7 +4178,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-01-24 14:23:56"
+            "time": "2015-01-27 07:25:02"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4167,61 +4234,6 @@
                 "xunit"
             ],
             "time": "2015-01-18 10:44:19"
-        },
-        {
-            "name": "predis/predis",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nrk/predis.git",
-                "reference": "b8decc75a884fce1bfc62d5bc6823298a678f890"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/b8decc75a884fce1bfc62d5bc6823298a678f890",
-                "reference": "b8decc75a884fce1bfc62d5bc6823298a678f890",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "suggest": {
-                "ext-curl": "Allows access to Webdis when paired with phpiredis",
-                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Predis\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Daniele Alessandri",
-                    "email": "suppakilla@gmail.com",
-                    "homepage": "http://clorophilla.net"
-                }
-            ],
-            "description": "Flexible and feature-complete PHP client library for Redis",
-            "homepage": "http://github.com/nrk/predis",
-            "keywords": [
-                "nosql",
-                "predis",
-                "redis"
-            ],
-            "time": "2015-01-02 13:37:26"
         },
         {
             "name": "sebastian/comparator",
@@ -4395,12 +4407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "35ab8d385eef068186c83e23ae83c96b0288b3ee"
+                "reference": "84839970d05254c73cde183a721c7af13aede943"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/35ab8d385eef068186c83e23ae83c96b0288b3ee",
-                "reference": "35ab8d385eef068186c83e23ae83c96b0288b3ee",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/84839970d05254c73cde183a721c7af13aede943",
+                "reference": "84839970d05254c73cde183a721c7af13aede943",
                 "shasum": ""
             },
             "require": {
@@ -4413,7 +4425,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -4453,7 +4465,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2015-01-24 09:57:24"
+            "time": "2015-01-27 07:23:06"
         },
         {
             "name": "sebastian/global-state",
@@ -4861,7 +4873,6 @@
         "jenssegers/mongodb": 20,
         "jenssegers/mongodb-session": 20,
         "phindmarsh/summon": 20,
-        "cohensive/embed": 20,
         "thujohn/rss": 20,
         "rollbar/rollbar": 20,
         "roumen/sitemap": 20,
