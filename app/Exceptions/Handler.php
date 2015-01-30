@@ -1,7 +1,8 @@
 <?php namespace Strimoid\Exceptions;
 
-use Exception;
+use Exception, Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use League\OAuth2\Server\Exception\OAuthException;
 
 class Handler extends ExceptionHandler {
 
@@ -40,10 +41,15 @@ class Handler extends ExceptionHandler {
         {
             return $this->renderHttpException($e);
         }
-        else
+        elseif ($e instanceof OAuthException)
         {
-            return parent::render($request, $e);
+            return Response::json([
+                'error'     =>  $e->errorType,
+                'message'   =>  $e->getMessage(),
+            ], $e->httpStatusCode);
         }
+
+        return parent::render($request, $e);
     }
 
 }

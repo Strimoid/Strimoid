@@ -23,17 +23,9 @@ class SessionStorage extends MongoStorage implements SessionInterface {
             ->where('_id', $accessToken->getId())
             ->first();
 
-        if (!$accessToken) return;
+        if ( ! $accessToken) return;
 
-        $result = $this->table()
-            ->where('_id', $accessToken['session_id'])
-            ->first();
-
-        if (!$result) return;
-
-        return (new SessionEntity($this->server))
-            ->setId($result['_id'])
-            ->setOwner($result['owner_type'], $result['owner_id']);
+        return $this->getById($accessToken['session_id']);
     }
 
     /**
@@ -45,8 +37,35 @@ class SessionStorage extends MongoStorage implements SessionInterface {
      */
     public function getByAuthCode(AuthCodeEntity $authCode)
     {
-        //
+        $authCode = $this->table('oauth_auth_codes')
+            ->where('_id', $authCode->getId())
+            ->first();
+
+        if ( ! $authCode) return;
+
+        return $this->getById($authCode['session_id']);
     }
+
+    /**
+     * Get a session from id
+     *
+     * @param $id
+     *
+     * @return \League\OAuth2\Server\Entity\SessionEntity
+     */
+    protected function getById($id)
+    {
+        $result = $this->table()
+            ->where('_id', $id)
+            ->first();
+
+        if ( ! $result) return;
+
+        return (new SessionEntity($this->server))
+            ->setId($result['_id'])
+            ->setOwner($result['owner_type'], $result['owner_id']);
+    }
+
     /**
      * Get a session's scopes
      *
@@ -60,7 +79,7 @@ class SessionStorage extends MongoStorage implements SessionInterface {
             ->where('_id', $session->getId())
             ->first();
 
-        if (!$result) return [];
+        if ( ! $result) return [];
 
         $scopes = [];
 

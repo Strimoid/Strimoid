@@ -35,7 +35,7 @@ class ClientStorage extends MongoStorage implements ClientInterface {
 
         $result = $query->first();
 
-        if (!$result) return;
+        if ( ! $result) return;
 
         return $this->rowToEntity($result);
     }
@@ -53,7 +53,7 @@ class ClientStorage extends MongoStorage implements ClientInterface {
             ->where('_id', $session->getId())
             ->first();
 
-        if (!$session) return;
+        if ( ! $session) return;
 
         $result = $this->table()
             ->where('_id', $session['client_id'])

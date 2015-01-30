@@ -21,7 +21,7 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
             ->where('_id', $token)
             ->first();
 
-        if (!$result) return;
+        if ( ! $result) return;
 
         return (new AccessTokenEntity($this->server))
             ->setId($result['_id'])
@@ -41,7 +41,7 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
             ->where('_id', $token->getId())
             ->first();
 
-        if (!$result) return [];
+        if ( ! $result) return [];
 
         $scopes = [];
 
@@ -75,7 +75,7 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
     }
 
     /**
-     * Associate a scope with an acess token
+     * Associate a scope with an access token
      *
      * @param \League\OAuth2\Server\Entity\AccessTokenEntity $token The access token
      * @param \League\OAuth2\Server\Entity\ScopeEntity       $scope The scope

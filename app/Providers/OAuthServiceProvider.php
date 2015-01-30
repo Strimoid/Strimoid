@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Exception\InvalidRequestException;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\Grant\PasswordGrant;
 use League\OAuth2\Server\ResourceServer;
@@ -12,6 +13,29 @@ use Strimoid\OAuth\ScopeStorage;
 use Strimoid\OAuth\SessionStorage;
 
 class OAuthServiceProvider extends ServiceProvider {
+
+    /**
+     * Register bindings in the container.
+     *
+     * @param ResourceServer $server
+     */
+    public function boot(ResourceServer $server)
+    {
+        $this->app->booted(function() use($server)
+        {
+            try
+            {
+                if ($server->isValidRequest(false))
+                {
+                    $id = $server->getAccessToken()
+                        ->getSession()
+                        ->getOwnerId();
+                    $this->app->auth->onceUsingId($id);
+                }
+            }
+            catch(InvalidRequestException $e) {}
+        });
+    }
 
     /**
      * Register bindings in the container.

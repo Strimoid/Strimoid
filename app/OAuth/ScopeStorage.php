@@ -7,7 +7,8 @@ use League\OAuth2\Server\Storage\ScopeInterface;
 class ScopeStorage extends AbstractStorage implements ScopeInterface {
 
     protected $scopes = [
-        //
+        'basic', 'contents', 'entries',
+        'notifications', 'conversations', 'groups'
     ];
 
     /**
@@ -21,11 +22,11 @@ class ScopeStorage extends AbstractStorage implements ScopeInterface {
      */
     public function get($scope, $grantType = null, $clientId = null)
     {
-        if (!array_key_exists($scope, $this->scopes)) return;
+        if ( ! in_array($scope, $this->scopes)) return;
 
         return (new ScopeEntity($this->server))->hydrate([
             'id'            =>  $scope,
-            'description'   =>  $this->scopes[$scope],
+            'description'   =>  '',
         ]);
     }
 

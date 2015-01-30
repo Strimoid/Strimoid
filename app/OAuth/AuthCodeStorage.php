@@ -22,7 +22,7 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
             ->where('expire_time', '>=', time())
             ->first();
 
-        if (!$result) return;
+        if ( ! $result) return;
 
         return (new AuthCodeEntity($this->server))
             ->setRedirectUri($result['client_redirect_uri'])
