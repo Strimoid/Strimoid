@@ -152,19 +152,19 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
 
-		'Strimoid\Providers\AppServiceProvider',
-		'Strimoid\Providers\ComposerServiceProvider',
-		'Strimoid\Providers\EventsServiceProvider',
-		'Strimoid\Providers\ImageServiceProvider',
-		'Strimoid\Providers\OAuthServiceProvider',
-		'Strimoid\Providers\RouteServiceProvider',
-		'Strimoid\Providers\ValidatorServiceProvider',
-
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
 		'Jenssegers\Mongodb\Session\SessionServiceProvider',
 
-		'GrahamCampbell\Throttle\ThrottleServiceProvider'
+		'Strimoid\Providers\AppServiceProvider',
+		'Strimoid\Providers\ComposerServiceProvider',
+		'Strimoid\Providers\EventsServiceProvider',
+		'Strimoid\Providers\OAuthServiceProvider',
+		'Strimoid\Providers\RouteServiceProvider',
+		'Strimoid\Providers\ValidatorServiceProvider',
+
+		'GrahamCampbell\Throttle\ThrottleServiceProvider',
+		'Intervention\Image\ImageServiceProvider',
 	],
 
 	/*

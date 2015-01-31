@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "67c323127ba4b3e8c1ac611b264fd855",
+    "hash": "33292b065f608897ee72856a1ebbee10",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -634,16 +634,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.0.17",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "b91b0d63488f9a295815af082f987e4773d2843c"
+                "reference": "949d4909d24f9656877ac38f8c90aecbf0a65091"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/b91b0d63488f9a295815af082f987e4773d2843c",
-                "reference": "b91b0d63488f9a295815af082f987e4773d2843c",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/949d4909d24f9656877ac38f8c90aecbf0a65091",
+                "reference": "949d4909d24f9656877ac38f8c90aecbf0a65091",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +686,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2014-12-29 11:58:35"
+            "time": "2015-01-29 08:44:26"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -912,7 +912,7 @@
         },
         {
             "name": "jenssegers/agent",
-            "version": "dev-master",
+            "version": "v2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/laravel-agent.git",
@@ -2135,16 +2135,16 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "dev-master",
+            "version": "v0.9.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "6b8ecd554efebe06c83c89bfa2df451026cf1d6f"
+                "reference": "31f2c59355ab1733e788f6927290b9ae15229836"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/6b8ecd554efebe06c83c89bfa2df451026cf1d6f",
-                "reference": "6b8ecd554efebe06c83c89bfa2df451026cf1d6f",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/31f2c59355ab1733e788f6927290b9ae15229836",
+                "reference": "31f2c59355ab1733e788f6927290b9ae15229836",
                 "shasum": ""
             },
             "type": "library",
@@ -2173,7 +2173,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2014-11-08 00:51:11"
+            "time": "2014-09-11 19:19:11"
         },
         {
             "name": "roumen/sitemap",
@@ -4905,7 +4905,6 @@
         "jenssegers/mongodb-session": 20,
         "phindmarsh/summon": 20,
         "thujohn/rss": 20,
-        "rollbar/rollbar": 20,
         "roumen/sitemap": 20,
         "iron-io/iron_mq": 20,
         "league/fractal": 20,
