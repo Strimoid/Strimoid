@@ -37,4 +37,13 @@ abstract class FakeFolder
         return $builder;
     }
 
+    public function __get($name)
+    {
+        if ($name == 'urlname')
+        {
+            $className = get_class($this);
+            return strtolower($className);
+        }
+    }
+
 }

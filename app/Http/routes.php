@@ -234,12 +234,6 @@ Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentC
 /* Entries ========================================================================================================== */
 Route::get('/entries', ['as' => 'global_entries', 'uses' => 'EntryController@showEntries']);
 
-Route::get('/g/saved/entries', [
-    'as' => 'saved_entries',
-    'middleware' => 'auth',
-    'uses' => 'SaveController@showEntries'
-]);
-
 Route::get('/g/{group}/entries', [
     'as' => 'group_entries',
     'uses' => 'EntryController@showEntries'
