@@ -23,7 +23,7 @@
 
     @include('group.sidebar.search')
 
-    @if (isset($group))
+    @if (isset($group) && $group instanceof Strimoid\Models\Group)
         @include('group.sidebar.description', ['group' => $group])
         @include('group.sidebar.stats', ['group' => $group])
     @endif

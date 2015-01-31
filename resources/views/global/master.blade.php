@@ -1,133 +1,20 @@
 <!DOCTYPE html>
 <html lang="pl" ng-app="app">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="<?= csrf_token() ?>">
-
-    <meta property="og:title" content="@yield('title', 'Strimoid')">
-    <meta name="description" content="@yield('description', 'Strimoid')">
-
-    @if (Request::getHttpHost() == 'strimsy.pl')
-        <meta name="robots" content="noindex">
-    @endif
-
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss">
-
-    <title>@yield('title', e($pageTitle))</title>
-
-    <link href="{!! $cssFilename !!}" rel="stylesheet">
-
-    @if (Input::get('night') || isset($_COOKIE['night_mode']))
-        <link href="/static/css/night.css?1" rel="stylesheet" data-id="night_mode">
-    @endif
-
-    @if (isset($group) && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
-        <link href="/uploads/styles/{!! $group->style !!}" rel="stylesheet" data-id="group_style">
-    @elseif (isset($group) && file_exists(Config::get('app.uploads_path').'/styles/'. Str::lower($group->urlname) .'.css') && !@Auth::user()->settings['disable_groupstyles'])
-        <link href="/uploads/styles/{!! Str::lower($group->urlname) !!}.css" rel="stylesheet" data-id="group_style">
-    @elseif (Auth::check() && @Auth::user()->settings['css_style'])
-        <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">
-    @endif
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.13/angular.min.js"></script>
-
-    <script src="{!! $componentsFilename !!}"></script>
-
-    @yield('head')
+    @include('global.parts.head')
 </head>
 
-<body class="@if (Input::get('night') || isset($_COOKIE['night_mode']))night @endif">
+<body class="@if (Input::get('night') || isset($_COOKIE['night_mode'])) night @endif">
 
 <?php
 
-if (isset($group))
-    $groupURLName = $group->urlname;
-elseif (isset($group_name) && $group_name == 'all' && (Auth::guest() || !@Auth::user()->settings['homepage_subscribed']))
-    $groupURLName = null;
-elseif (isset($group_name))
-    $groupURLName = $group_name;
-
-$currentRoute = (Route::current()) ? Route::current()->getName() : '';
-$navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed-top' : 'static-top';
+$currentRoute = Route::currentRouteName() ?: '';
+$navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
+    ? 'fixed-top' : 'static-top';
 
 ?>
 
-<div class="groupbar groupbar-{!! $navbarClass !!}">
-    <ul>
-        <li><a href="/g/all" rel="nofollow">Wszystkie</a></li>
-
-        @if (Auth::check())
-        <?php $subscriptions = Auth::user()->subscribedGroups(); natcasesort($subscriptions); ?>
-
-        <li class="dropdown subscribed_dropdown">
-            <a href="/g/subscribed" class="dropdown-toggle" data-hover="dropdown">Subskrybowane</a><b class="caret"></b>
-
-            <ul class="dropdown-menu">
-                @foreach ($subscriptions as $subscription)
-                <li><a href="{!! route('group_contents', array('group' => $subscription)) !!}">{!! $subscription !!}</a></li>
-                @endforeach
-
-                @if (!$subscriptions)
-                <li><a href="{!! action('GroupController@showList') !!}">Lista grup</a></li>
-                @endif
-            </ul>
-        </li>
-
-        <?php $moderatedGroups = Auth::user()->moderatedGroups(); natcasesort($moderatedGroups); ?>
-
-        <li class="dropdown moderated_dropdown">
-            <a href="/g/moderated" class="dropdown-toggle" data-hover="dropdown">Moderowane</a><b class="caret"></b>
-
-            <ul class="dropdown-menu">
-                @foreach ($moderatedGroups as $moderatedGroup)
-                <li><a href="{!! route('group_contents', array('group' => $moderatedGroup)) !!}">{!! $moderatedGroup !!}</a></li>
-                @endforeach
-
-                @if (!$moderatedGroups)
-                <li><a href="{!! action('GroupController@showCreateForm') !!}">Zakładanie grupy</a></li>
-                @endif
-            </ul>
-        </li>
-
-        <?php $observedUsers = (array) Auth::user()->_observed_users; natcasesort($observedUsers); ?>
-
-        <li class="dropdown observed_dropdown">
-            <a href="/g/observed" class="dropdown-toggle" data-hover="dropdown">Obserwowani</a><b class="caret"></b>
-
-            <ul class="dropdown-menu">
-                @foreach ($observedUsers as $observedUser)
-                <li><a href="{!! route('user_profile', $observedUser) !!}">{!! $observedUser !!}</a></li>
-                @endforeach
-            </ul>
-        </li>
-
-        @foreach (Auth::user()->folders as $cfolder)
-        <?php $folderGroups = $cfolder->groups; natcasesort($folderGroups); ?>
-
-        <li class="dropdown folder_dropdown">
-            <a href="{!! route('user_folder_contents', [$cfolder->user->_id, $cfolder->_id]) !!}" class="dropdown-toggle" data-hover="dropdown">{{{ $cfolder->name }}}</a><b class="caret"></b>
-
-            <ul class="dropdown-menu">
-                @foreach ($folderGroups as $folderGroup)
-                <li><a href="{!! route('group_contents', array('group' => $folderGroup)) !!}">{!! $folderGroup !!}</a></li>
-                @endforeach
-            </ul>
-        </li>
-        @endforeach
-
-        <li><a href="/g/saved">Zapisane</a></li>
-
-        @endif
-
-        @foreach ($popularGroups as $pgroup)
-        <li><a href="/g/{!! $pgroup['urlname'] !!}">{!! $pgroup['name'] !!}</a></li>
-        @endforeach
-
-        <li class="group_list_link"><a href="/groups/list"><span class="glyphicon glyphicon-th-list"></span> Lista grup</a></li>
-    </ul>
-</div>
+@include('global.parts.groupbar')
 
 <div class="navbar navbar-inverse navbar-{!! $navbarClass !!}">
     <div class="container">
@@ -149,20 +36,23 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 
         <?php
 
-        if (!isset($groupURLName))
+        if (isset($group))
+            $groupURLName = $group->urlname;
+        elseif (isset($group_name) && $group_name == 'all' && (Auth::guest() || !@Auth::user()->settings['homepage_subscribed']))
+            $groupURLName = null;
+
+        $routeData = ['name' => 'global', 'params' => null];
+
+        if (isset($groupURLName))
         {
-            $routeData = ['name' => 'global', 'params' => null];
+            $routeData = ['name' => 'group', 'params' => [
+                'group' => $groupURLName
+            ]];
         }
         elseif (isset($folder))
         {
             $routeData = ['name' => 'user_folder', 'params' => [
-                $folder->user->_id, $folder->_id
-            ]];
-        }
-        else
-        {
-            $routeData = ['name' => 'group', 'params' => [
-                'group' => $groupURLName
+                $folder->user->getKey(), $folder->getKey()
             ]];
         }
 
@@ -171,7 +61,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li @if (ends_with($currentRoute, '_contents')) class="active" @endif>
-                    <a href="{!! route($routeData['name'] .'_contents', $routeData['params']) !!}">{{{ $currentGroup->name or 'Strimoid' }}}</a>
+                    <a href="{!! route($routeData['name'] .'_contents', $routeData['params']) !!}">{{ $currentGroup->name or 'Strimoid' }}</a>
                 </li>
                 <li @if (ends_with($currentRoute, '_contents_new')) class="active" @endif>
                     <a href="{!! route($routeData['name'] .'_contents_new', $routeData['params']) !!}">nowe</a>
@@ -184,96 +74,14 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
                 </li>
             </ul>
 
+            <ul class="nav navbar-nav navbar-right">
             @if (Auth::check())
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown notifications_dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-globe notifications_icon @if ($newNotificationsCount > 0) notifications_icon_new @endif"></span> <b class="caret"></b>
-                        <span class="badge @if (!$newNotificationsCount) hide @endif">{!! $newNotificationsCount !!}</span>
-                    </a>
-
-                    <div class="dropdown-menu notifications" data-new-notifications="{!! intval($newNotificationsCount) !!}">
-                        <div class="notifications_scroll">
-                            <div class="notifications_list">
-                                @foreach ($notifications as $notification)
-                                <a href="{!! $notification->getURL() !!}" class="@if (!$notification->read) new @endif" data-id="{!! mid_to_b58($notification->_id) !!}">
-                                    @if ($notification->sourceUser)
-                                        <img src="{!! $notification->sourceUser->getAvatarPath() !!}" class="pull-left">
-                                    @endif
-
-                                    <div class="media-body">
-                                        {!! $notification->title !!}
-
-                                        <br>
-                                        <small class="pull-left">
-                                            {!! $notification->getTypeDescription() !!}
-                                        </small>
-                                        <small class="pull-right">
-                                            <time pubdate title="{!! $notification->getLocalTime() !!}">{!! $notification->created_at->diffForHumans() !!}</time>
-                                        </small>
-                                    </div>
-
-                                    <div class="clearfix"></div>
-                                </a>
-                                @endforeach
-
-                                @if (!count($notifications))
-                                    <a>Nie posiadasz żadnych powiadomień.</a>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="notifications_footer">
-                            <a href="/notifications">Wszystkie</a>
-                            <a class="mark_as_read_link action_link pull-right">Oznacz jako przeczytane</a>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="dropdown user_dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{!! Auth::user()->getAvatarPath(50, 50) !!}">
-                        {!! Auth::user()->name !!} <b class="caret"></b>
-                    </a>
-
-                    <ul class="dropdown-menu user_menu">
-                        <li><a href="{!! route('user_profile', Auth::user()->name) !!}"><span class="glyphicon glyphicon-user"></span> twój profil</a></li>
-                        <li><a href="/conversations"><span class="glyphicon glyphicon-envelope"></span> konwersacje</a></li>
-                        <li><a href="{!! action('UserController@showSettings') !!}"><span class="glyphicon glyphicon-wrench"></span> ustawienia</a></li>
-
-                        <li class="divider"></li>
-
-                        <li>
-                            <a class="action_link" onclick="$('.logout_form').submit()">
-                                <span class="glyphicon glyphicon-log-out"></span> wyloguj
-                            </a>
-                            {!! Form::open(array('action' => 'UserController@logout', 'class' => 'logout_form')) !!}
-                            {!! Form::close() !!}
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                @include('global.parts.notifications')
+                @include('global.parts.user_dropdown')
             @else
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">logowanie <b class="caret"></b></a>
-                    <ul class="dropdown-menu login_menu">
-                        {!! Form::open(array('action' => 'UserController@login', 'class' => 'navbar-form')) !!}
-                            <input type="text" name="username" placeholder="Login" class="form-control" style="margin-bottom: 10px">
-                            <input type="password" name="password" placeholder="Hasło" class="form-control" style="margin-bottom: 10px">
-                            <div class="checkbox" style="padding-top: 5px">
-                                <label>
-                                    <input name="remember" type="checkbox" value="true"> Zapamiętaj
-                                </label>
-                            </div>
-
-                            <button type="submit" class="btn btn-success pull-right">Zaloguj</button>
-                        {!! Form::close() !!}
-                    </ul>
-                </li>
-                <li><a href="{!! action('UserController@showRegisterForm') !!}">rejestracja</a></li>
-            </ul>
+                @include('global.parts.login')
             @endif
+            </ul>
 
         </div>
     </div>
@@ -282,33 +90,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 <div class="container @if (@Auth::user()->settings['pin_navbar']) navbar-fixed-margin @endif">
     <div class="row">
         <div class="main_col @yield('content_class', 'col-md-8')">
-            @if (Session::has('success_msg'))
-                <div class="alert alert-dismissable alert-success">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    {!! Session::get('success_msg') !!}
-                </div>
-            @endif
-
-            @if (Session::has('info_msg'))
-            <div class="alert alert-dismissable alert-info">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {!! Session::get('info_msg') !!}
-            </div>
-            @endif
-
-            @if (Session::has('warning_msg'))
-            <div class="alert alert-dismissable alert-warning">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {!! Session::get('warning_msg') !!}
-            </div>
-            @endif
-
-            @if (Session::has('danger_msg'))
-            <div class="alert alert-dismissable alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {!! Session::get('danger_msg') !!}
-            </div>
-            @endif
+            @include('global.parts.alerts')
 
             @yield('content')
         </div>
@@ -320,44 +102,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar']) ? 'fixed
 </div>
 
 <footer>
-
-    <hr>
-
-    <div class="row">
-        <div class="col-sm-2 col-sm-offset-2">
-            <ul>
-                <li><a href="/" rel="nofollow">Strona główna</a></li>
-                <li><a href="{!! action('GroupController@showList') !!}" rel="nofollow">Lista grup</a></li>
-            </ul>
-        </div>
-
-        <div class="col-sm-2">
-            <ul>
-                <li><a href="/guide" rel="nofollow">Przewodnik</a></li>
-                <li><a href="/ranking" rel="nofollow">Ranking</a></li>
-            </ul>
-        </div>
-
-        <div class="col-sm-2">
-            <ul>
-                <li><a href="/rss" rel="nofollow">RSS</a></li>
-                <li><a href="http://developers.strimoid.pl/" rel="nofollow">API</a></li>
-            </ul>
-        </div>
-
-        <div class="col-sm-2">
-            <ul>
-                <li><a href="/" rel="nofollow">Regulamin</a></li>
-                <li><a href="/contact" rel="nofollow">Kontakt</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <hr>
-
-    <p class="pull-left">Serwis wykorzystuje <a href="/cookies" rel="nofollow">pliki cookies.</a></p>
-    <p class="pull-right toggle_night_mode">tryb nocny <span class="glyphicon glyphicon-adjust"></span></p>
-
+    @include('global.parts.footer')
 </footer>
 
 <script src="{!! $jsFilename !!}"></script>
