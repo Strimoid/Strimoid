@@ -29,7 +29,8 @@ class OEmbed {
         $host = Config::get('strimoid.oembed');
         $endpoint = $host .'/iframely';
         $query = [
-            'autoplay' => true,
+            'autoplay' => 'true',
+            'ssl' => 'true',
             'url' => $url,
         ];
 
