@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Strimoid\Contracts\UserRepository;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -11,23 +12,29 @@ class ChangePassword extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'lara:chpass';
+	protected $name = 'lara:chpasswd';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Change password.';
+	protected $description = 'Change user password.';
+
+	/**
+	 * @var UserRepository
+	 */
+	protected $users;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param UserRepository $users
 	 */
-	public function __construct()
+	public function __construct(UserRepository $users)
 	{
 		parent::__construct();
+		$this->users = $users;
 	}
 
 	/**
@@ -37,7 +44,7 @@ class ChangePassword extends Command {
 	 */
 	public function fire()
 	{
-        $user = User::where('name', $this->argument('username'))->firstOrFail();
+        $user = $this->users->requireByName($this->argument('username'));
         $user->password = $this->argument('password');
         $user->save();
 
@@ -51,21 +58,10 @@ class ChangePassword extends Command {
 	 */
 	protected function getArguments()
 	{
-		return array(
-			array('username', InputArgument::REQUIRED, 'User name.'),
-            array('password', InputArgument::REQUIRED, 'New password.'),
-		);
-	}
-
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return array(
-		);
+		return [
+			['username', InputArgument::REQUIRED, 'User name.'],
+            ['password', InputArgument::REQUIRED, 'New password.'],
+		];
 	}
 
 }
