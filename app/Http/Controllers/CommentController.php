@@ -195,6 +195,7 @@ class CommentController extends BaseController {
     public function removeComment()
     {
         $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
+        $class = 'Strimoid\Models\\'. $class;
         $comment = $class::findOrFail(Input::get('id'));
 
         if (Auth::id() == $comment->user_id || Auth::user()->isModerator($comment->group_id))
