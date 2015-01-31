@@ -68,11 +68,12 @@ class VoteController extends BaseController {
         }
 
         $vote = new Vote([
-            'user_id' => Auth::id(),
-            'up'      => $up,
+            'created_at'    => new Carbon,
+            'user_id'       => Auth::id(),
+            'up'            => $up,
         ]);
 
-        $object->votes()->save($vote);
+        $object->mpush('votes', $vote->getAttributes());
 
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
@@ -98,8 +99,7 @@ class VoteController extends BaseController {
             $object->increment('score');
             $dv--;
         }
-
-        $vote->delete();
+        $object->mpull('votes', ['_id' => $vote->getKey()]);
 
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
