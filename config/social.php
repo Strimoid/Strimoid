@@ -2,12 +2,12 @@
 
 return [
     'facebook' => [
-        'page_token'      => getenv('fb_page_token'),
+        'page_token'      => env('FB_PAGE_TOKEN'),
     ],
     'twitter' => [
-        'consumer_key'    => getenv('twitter_ck'),
-        'consumer_secret' => getenv('twitter_cs'),
-        'token'           => getenv('twitter_t'),
-        'token_secret'    => getenv('twitter_ts'),
+        'consumer_key'    => env('TWITTER_CK'),
+        'consumer_secret' => env('TWITTER_CS'),
+        'token'           => env('TWITTER_T'),
+        'token_secret'    => env('TWITTER_TS'),
     ]
 ];

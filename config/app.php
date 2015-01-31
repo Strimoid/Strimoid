@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
 	|--------------------------------------------------------------------------
@@ -17,38 +17,6 @@ return array(
 	*/
 
     'uploads_path' => '/data/uploads',
-
-    /*
-	|--------------------------------------------------------------------------
-	| Private address of Ratchet (WebSocket server)
-	|--------------------------------------------------------------------------
-	*/
-
-    'ws_address' => 'tcp://localhost:8080',
-
-    /*
-	|--------------------------------------------------------------------------
-	| Salt used to hash emails
-	|--------------------------------------------------------------------------
-	*/
-
-    'email_salt' => env('EMAIL_SALT', 'losowy ciąg znaków wklej tutaj'),
-
-    /*
-	|--------------------------------------------------------------------------
-	| CDN host
-	|--------------------------------------------------------------------------
-	*/
-
-    'cdn_host' => env('CDN_HOST', 'https://static.strimoid.pl'),
-
-    /*
-	|--------------------------------------------------------------------------
-	| More optional settings
-	|--------------------------------------------------------------------------
-	*/
-
-    'fb_page_token' => '',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,6 +46,14 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| CDN host
+	|--------------------------------------------------------------------------
+	*/
+
+	'cdn_host' => env('CDN_URL', 'https://static.strimoid.pl'),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Application Timezone
 	|--------------------------------------------------------------------------
 	|
@@ -102,6 +78,19 @@ return array(
 
 	'locale' => 'pl',
 
+	/*
+	|--------------------------------------------------------------------------
+	| Logging Configuration
+	|--------------------------------------------------------------------------
+	|
+	| Here you may configure the log settings for your application. Out of
+	| the box, Laravel uses the Monolog PHP logging library. This gives
+	| you a variety of powerful log handlers / formatters to utilize.
+	|
+	| Available Settings: "single", "daily", "syslog"
+	|
+	*/
+
 	'log' => 'daily',
 
 	/*
@@ -115,9 +104,17 @@ return array(
 	|
 	*/
 
-	'key' => env('KEY', '81SkFV3e60SjVFnsIA5WqK2wukkCA0Il'),
+	'key' => env('APP_KEY', 'SomeRandomString'),
 
     'cipher' => MCRYPT_RIJNDAEL_128,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Salt used to hash emails
+	|--------------------------------------------------------------------------
+	*/
+
+	'email_salt' => env('EMAIL_SALT', 'losowy ciąg znaków wklej tutaj'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -160,6 +157,7 @@ return array(
 		'Strimoid\Providers\ComposerServiceProvider',
 		'Strimoid\Providers\EventsServiceProvider',
 		'Strimoid\Providers\OAuthServiceProvider',
+		'Strimoid\Providers\RepositoriesServiceProvider',
 		'Strimoid\Providers\RouteServiceProvider',
 		'Strimoid\Providers\ValidatorServiceProvider',
 
@@ -241,4 +239,4 @@ return array(
 
 	],
 
-);
+];
