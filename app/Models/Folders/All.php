@@ -40,7 +40,7 @@ class All extends FakeFolder {
             $sortBy = $sortBy ?: 'frontpage_at';
         }
 
-        $builder->orderBy($sortBy ?: 'frontpage_at', 'desc');
+        $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $builder;
     }
