@@ -5,7 +5,7 @@ use Strimoid\Models\Content;
 $fromTime = Carbon::now()->subDays(3)->minute(0)->second(0);
 $builder = Content::where('created_at', '>', $fromTime);
 
-if (isset($group))
+if (isset($group) && $group instanceof Strimoid\Models\Group)
 {
     $builder->where('group_id', $group->_id);
 }

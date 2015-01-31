@@ -10,7 +10,7 @@ $builder = Entry::with([
     }
 ])->where('created_at', '>', $fromTime);
 
-if (isset($group))
+if (isset($group) && $group instanceof Strimoid\Models\Group)
 {
     $builder->where('group_id', $group->_id);
 }

@@ -28,6 +28,7 @@ class Kernel extends HttpKernel {
         'auth' => 'Strimoid\Http\Middleware\Authenticate',
         'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
         'guest' => 'Strimoid\Http\Middleware\RedirectIfAuthenticated',
+        'oauth' => 'Strimoid\Http\Middleware\OAuth',
     ];
 
 }

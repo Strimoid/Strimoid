@@ -13,7 +13,7 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
 
     // Contents
-    Route::get('/contents', ['middleware' => 'oauth', 'uses' => 'ContentController@getIndex']);
+    Route::get('/contents', ['uses' => 'ContentController@getIndex']);
     Route::get('/contents/{content}', 'ContentController@show');
     Route::post('/contents', ['middleware' => 'oauth:contents', 'uses' => 'ContentController@store']);
     Route::patch('/contents/{content}', ['middleware' => 'oauth:contents', 'uses' => 'ContentController@edit']);
@@ -30,7 +30,7 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::delete('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'CommentController@remove']);
 
     // Entries
-    Route::get('/entries', ['middleware' => 'oauth', 'uses' => 'EntryController@getIndex']);
+    Route::get('/entries', ['uses' => 'EntryController@getIndex']);
     Route::get('/entries/{entry}', 'EntryController@show');
     Route::post('/entries', ['middleware' => 'oauth:entries', 'uses' => 'EntryController@store']);
     Route::post('/entries/{entry}/replies', ['middleware' => 'oauth:entries', 'uses' => 'EntryController@storeReply']);
@@ -153,17 +153,6 @@ Route::get('/rss', ['as' => 'global_contents_rss', 'uses' => 'ContentController@
 Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@showContents']);
 Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContents']);
 
-Route::get('/g/saved', [
-    'as' => 'saved_contents',
-    'middleware' => 'auth',
-    'uses' => 'SaveController@showContents'
-]);
-
-Route::get('/g/saved/new', [
-    'as' => 'saved_contents_new',
-    'middleware' => 'auth',
-    'uses' => 'SaveController@showContents'
-]);
 
 Route::get('/g/{group}', [
     'as' => 'group_contents',

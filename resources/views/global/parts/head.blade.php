@@ -19,7 +19,8 @@
     <link href="/static/css/night.css?1" rel="stylesheet" data-id="night_mode">
 @endif
 
-@if (isset($group) && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
+@if (isset($group)  && $group instanceof Strimoid\Models\Group
+        && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
     <link href="/uploads/styles/{!! $group->style !!}" rel="stylesheet" data-id="group_style">
 @elseif (isset($group) && file_exists(Config::get('app.uploads_path').'/styles/'. Str::lower($group->urlname) .'.css') && !@Auth::user()->settings['disable_groupstyles'])
     <link href="/uploads/styles/{!! Str::lower($group->urlname) !!}.css" rel="stylesheet" data-id="group_style">
