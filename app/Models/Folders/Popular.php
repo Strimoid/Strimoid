@@ -106,4 +106,23 @@ class Popular extends FakeFolder {
         return $builder;
     }
 
+    public function contents($tab = null, $sortBy = null)
+    {
+        $builder = static::getBuilder('Strimoid\Models\Content');
+
+        if ($tab == 'new')
+        {
+            $builder->frontpage(false);
+        }
+        elseif ($tab == 'popular')
+        {
+            $builder->frontpage(true);
+            $sortBy = $sortBy ?: 'frontpage_at';
+        }
+
+        $builder->orderBy($sortBy ?: 'created_at', 'desc');
+
+        return $builder;
+    }
+
 }

@@ -30,7 +30,7 @@ class Handler extends ExceptionHandler {
 
         if ($key)
         {
-            with(new \RollbarNotifier([
+            (new \RollbarNotifier([
                 'access_token' => $key,
             ]))->report_exception($e);
         }

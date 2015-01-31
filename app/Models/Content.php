@@ -237,4 +237,9 @@ class Content extends BaseModel
         return $query->where('frontpage_at', 'exists', $exists);
     }
 
+    public function scopePopular($query)
+    {
+        return $query->where('score', '>', 1);
+    }
+
 }

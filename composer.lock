@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "33292b065f608897ee72856a1ebbee10",
+    "hash": "65b828217e0caad718314497bde32fd4",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -3076,48 +3076,6 @@
             "time": "2015-01-21 20:57:55"
         },
         {
-            "name": "thujohn/rss",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thujohn/rss-l4.git",
-                "reference": "b65908ca63101b0f6bf53972b0245b0d0454d5ca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thujohn/rss-l4/zipball/b65908ca63101b0f6bf53972b0245b0d0454d5ca",
-                "reference": "b65908ca63101b0f6bf53972b0245b0d0454d5ca",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "4.*|5.*",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Thujohn\\Rss\\": "src/Thujohn/Rss/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "thujohn",
-                    "email": "jonathan.thuau@gmail.com"
-                }
-            ],
-            "description": "RSS builder for Laravel 4",
-            "keywords": [
-                "laravel",
-                "laravel4",
-                "rss"
-            ],
-            "time": "2014-12-22 21:07:19"
-        },
-        {
             "name": "vlucas/phpdotenv",
             "version": "dev-master",
             "source": {
@@ -4904,7 +4862,6 @@
         "jenssegers/mongodb": 20,
         "jenssegers/mongodb-session": 20,
         "phindmarsh/summon": 20,
-        "thujohn/rss": 20,
         "roumen/sitemap": 20,
         "iron-io/iron_mq": 20,
         "league/fractal": 20,

@@ -23,7 +23,6 @@
 	    "jenssegers/mongodb-session": "dev-master",
         "intervention/image": "~2.1.1",
         "phindmarsh/summon": "dev-master",
-        "thujohn/rss": "dev-master",
         "rollbar/rollbar": "~0.9.8",
         "roumen/sitemap": "dev-master",
         "iron-io/iron_mq": "dev-master",

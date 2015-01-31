@@ -63,7 +63,7 @@ class Group extends BaseModel
         return $relation;
     }
 
-    public function contents()
+    public function contents($tab = null, $sortBy = null)
     {
         $relation = $this->hasMany('Strimoid\Models\Content');
 
@@ -75,6 +75,14 @@ class Group extends BaseModel
             $blockedDomains = Auth::user()->blocked_domains;
             $relation->whereNotIn('domain', $blockedDomains);
         }
+
+        if ($tab == 'popular')
+        {
+            $threshold = $this->popular_threshold ?: 1;
+            $relation->where('score', '>', $threshold);
+        }
+
+        $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $relation;
     }

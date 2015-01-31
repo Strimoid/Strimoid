@@ -1,150 +1,151 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Strimoid\Contracts\ContentRepository;
+use Strimoid\Contracts\FolderRepository;
+use Strimoid\Contracts\GroupRepository;
 use Summon\Summon;
-use Auth, Input, Route, Response, RSS, Settings, Validator, Queue;
+use Auth, Input, Route, Response, Rss, Settings, Validator, Queue;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
 class ContentController extends BaseController {
 
-    public function showContents($groupName = 'all')
+    use ValidatesRequests;
+
+    /**
+     * @var ContentRepository
+     */
+    protected $contents;
+
+    /**
+     * @var GroupRepository
+     */
+    protected $groups;
+
+    /**
+     * @var FolderRepository
+     */
+    protected $folders;
+
+    /**
+     * @param  ContentRepository $contents
+     * @param  GroupRepository   $groups
+     * @param  FolderRepository  $folders
+     */
+    public function __construct(ContentRepository $contents,
+        GroupRepository $groups, FolderRepository $folders)
     {
-        $groupName = shadow($groupName);
-        $routeName = Route::current()->getName();
-
-        $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
-
-        // Show popular instead of all as homepage for guests
-        if (Auth::guest() && !Route::input('group')) {
-            $groupName = 'popular';
-        }
-
-        // Set proper group name if user is having subscribed set as his homepage
-        if (Auth::check() && !Route::input('group') && $groupName == 'all'
-            && @Auth::user()->settings['homepage_subscribed'])
-        {
-            $groupName = 'subscribed';
-        }
-
-        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed']))
-        {
-            return Redirect::route('login_form')->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
-        }
-
-        $className = 'Strimoid\\Models\\Folders\\'. studly_case($groupName);
-
-        if (Route::input('folder'))
-        {
-            $user = Route::input('user') ? User::findOrFail(Route::input('user')) : Auth::user();
-            $folder = Folder::findUserFolderOrFail($user->getKey(), Route::input('folder'));
-
-            if (!$folder->public && (Auth::guest() || $user->getKey() != Auth::id()))
-            {
-                App::abort(404);
-            }
-
-            $builder = $folder->contents();
-            $results['folder'] = $folder;
-        }
-        elseif (class_exists($className))
-        {
-            $fakeGroup = new $className;
-            $builder = $fakeGroup->contents();
-            $builder->orderBy('sticky_global', 'desc');
-
-            $results['fakeGroup'] = $fakeGroup;
-        }
-        else
-        {
-            $group = Group::shadow($groupName)->firstOrFail();
-            $group->checkAccess();
-
-            $builder = $group->contents();
-
-            // Allow group moderators to stick contents
-            $builder->orderBy('sticky_group', 'desc');
-
-            $results['group'] = $group;
-        }
-
-        $builder->with(['user']);
-
-        // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
-        if (in_array(Input::get('sort'), ['comments', 'uv', 'created_at', 'frontpage_at']))
-            $builder->orderBy(Input::get('sort'), 'desc');
-        elseif ($groupName == 'all' && $tab == 'popular')
-            $builder->orderBy('frontpage_at', 'desc');
-        else
-            $builder->orderBy('created_at', 'desc');
-
-        // Show only contents from selected tab if all param doesn't exist
-        if(Input::get('all') === '')
-            ;
-        elseif(Input::get('test') === '' && isset($group))
-            $builder->where('uv', '>', $group->popular_threshold);
-        elseif ((!Route::input('group') || $groupName == 'all') && $tab == 'popular')
-            $builder->frontpage(true);
-        elseif ($groupName == 'all')
-            $builder->frontpage(false);
-        elseif ($tab == 'popular')
-            $builder->where('uv', '>', 2);
-
-        // Time filter
-        if (Input::get('time'))
-        {
-            $fromTime = Carbon::now()->subDays(Input::get('time'))
-                ->hour(0)->minute(0)->second(0);
-            $builder->where('created_at', '>', $fromTime);
-        }
-
-        // Show removed contents
-        if (Route::current()->getName() == 'group_contents_deleted' && isset($group))
-        {
-            $builder->onlyTrashed();
-        }
-
-        // Paginate
-        $contents = $this->cachedPaginate($builder, Settings::get('contents_per_page'), 10);
-
-        // Add sort and filter parameters to paging urls
-        $contents->appends([
-            'sort' => Input::get('sort'),
-            'time' => Input::get('time'),
-            'all'  => Input::get('all'),
-        ]);
-
-        $results['contents'] = $contents;
-        $results['group_name'] = $groupName;
-
-        // Return RSS feed for some of routes
-        if (ends_with(Route::current()->getName(), '_rss'))
-        {
-            $feed = Rss::feed('2.0', 'UTF-8');
-
-            $feed->channel([
-                'title'       => 'Strimoid: strona główna',
-                'description' => 'Ostatnio popularne treści na portalu Strimoid.pl',
-                'link'        => 'http://www.strimoid.pl/',
-            ]);
-
-            foreach ($contents as $content){
-                $feed->item([
-                    'title'             => $content->title,
-                    'description|cdata' => $content->description,
-                    'link'              => route('content_comments', $content->getKey()),
-                    'pubdate'           => $content->created_at->format(DateTime::RSS),
-                ]);
-            }
-
-            return Response::make($feed, 200, [
-                'Content-Type' => 'text/xml'
-            ])->setTtl(60);
-        }
-
-        return view('content.display', $results);
+        $this->contents = $contents;
+        $this->groups = $groups;
+        $this->folders = $folders;
     }
 
+    /**
+     * @param  string  $groupName
+     * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
+     */
+    public function showContentsFromGroup($groupName = 'all')
+    {
+        $tab = str_contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
+
+        // If user is on homepage...
+        if ( ! Route::input('group'))
+        {
+            // Show popular instead of all as homepage for guests
+            $groupName = Auth::guest() ? 'popular' : $groupName;
+
+            // Maybe user is having subscribed set as his homepage?
+            $groupName = Settings::get('homepage_subscribed') ? 'subscribed' : $groupName;
+        }
+
+        // Some folders works only for logged in users
+        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed']))
+        {
+            return Redirect::route('login_form')
+                ->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
+        }
+
+        // Make it possible to browse everything by adding all parameter
+        if (Input::get('all')) $tab = null;
+
+        $group = $this->groups->getByName($groupName);
+        view()->share('group', $group);
+
+        $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
+        $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
+
+        $builder = $group->contents($tab, $orderBy);
+
+        return $this->showContents($builder);
+    }
+
+    public function showContentsFromFolder()
+    {
+        $tab = str_contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
+
+        $userName = Route::input('user') ?: Auth::id();
+        $folder = $this->folders->getByName($userName, Route::input('folder'));
+        view()->share('folder', $folder);
+
+        if ( ! $folder->canBrowse()) App::abort(404);
+
+        $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
+        $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
+
+        $builder = $folder->contents($tab, $orderBy);
+
+        return $this->showContents($builder);
+    }
+
+    protected function showContents($builder)
+    {
+        $this->filterByTime($builder, Input::get('time'));
+
+        // Paginate and attach parameters to paginator links
+        $contents = $builder->paginate(Settings::get('contents_per_page'));
+        $contents->appends(Input::only(['sort', 'time', 'all']));
+
+        // Return RSS feed for some of routes
+        if (ends_with(Route::currentRouteName(), '_rss'))
+        {
+            return $this->generateRssFeed($contents);
+        }
+
+        return view('content.display', compact('contents'));
+    }
+
+    protected function filterByTime($builder, $time)
+    {
+        if ( ! $time) return;
+
+        $fromTime = Carbon::now()->subDays(Input::get('time'))
+            ->hour(0)->minute(0)->second(0);
+        $builder->where('created_at', '>', $fromTime);
+    }
+
+    /**
+     * Generate RSS feed from given collection of contents.
+     *
+     * @param $contents
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function generateRssFeed($contents)
+    {
+        return response()
+            ->view('content.rss', compact('contents'))
+            ->header('Content-Type', 'text/xml')
+            ->setTtl(60);
+    }
+
+    /**
+     * Show content comments.
+     *
+     * @param  Content  $content
+     * @return \Illuminate\View\View
+     */
     public function showComments(Content $content)
     {
         $sortBy = Input::get('sort');
@@ -157,8 +158,6 @@ class ContentController extends BaseController {
         }
 
         $blockedUsers = Auth::check() ? (array) Auth::user()->blockedUsers() : array();
-
-        $results['content'] = $content;
         $group = $content->group;
 
         return view('content.comments', compact('content', 'group', 'blockedUsers'));
@@ -169,11 +168,22 @@ class ContentController extends BaseController {
         return view('content.frame', compact('content'));
     }
 
+    /**
+     * Show content add form.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showAddForm()
     {
         return view('content.add');
     }
 
+    /**
+     * Show content edit form.
+     *
+     * @param Content $content
+     * @return \Illuminate\View\View
+     */
     public function showEditForm(Content $content)
     {
         if (!$content->canEdit(Auth::user()))
@@ -185,7 +195,11 @@ class ContentController extends BaseController {
         return view('content.edit', compact('content'));
     }
 
-    public function addContent()
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function addContent(Request $request)
     {
         $rules = [
             'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -198,13 +212,7 @@ class ContentController extends BaseController {
         else
             $rules['text'] = 'required|min:1|max:50000';
 
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails())
-        {
-            return Redirect::action('ContentController@showAddForm')
-                ->withInput()->withErrors($validator);
-        }
+        $this->validate($request, $rules);
 
         $group = Group::shadow(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
@@ -305,13 +313,20 @@ class ContentController extends BaseController {
         return Redirect::route('content_comments', $content->getKey());
     }
 
+    /**
+     * @param Content $content
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function removeContent(Content $content = null)
     {
         $content = ($content) ?: Content::findOrFail(Input::get('id'));
 
-        if (Carbon::instance($content->created_at)->diffInMinutes() > 60)
+        if ($content->created_at->diffInMinutes() > 60)
         {
-            return Response::json(['status' => 'error', 'error' => 'Minął dozwolony czas na usunięcie treści.']);
+            return Response::json([
+                'status' => 'error',
+                'error' => 'Minął dozwolony czas na usunięcie treści.'
+            ]);
         }
 
         if (Auth::id() === $content->user_id)
@@ -320,9 +335,15 @@ class ContentController extends BaseController {
             return Response::json(['status' => 'ok']);
         }
 
-        return Response::json(['status' => 'error', 'error' => 'Nie masz uprawnień do usunięcia tej treści.']);
+        return Response::json([
+            'status' => 'error',
+            'error' => 'Nie masz uprawnień do usunięcia tej treści.'
+        ]);
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function softRemoveContent()
     {
         $content = Content::findOrFail(Input::get('id'));
@@ -340,6 +361,10 @@ class ContentController extends BaseController {
         return Response::json(array('status' => 'error'));
     }
 
+    /**
+     * @param Content $content
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getEmbedCode(Content $content)
     {
         $embedCode = $content->getEmbed();
@@ -347,6 +372,10 @@ class ContentController extends BaseController {
         return Response::json(['status' => 'ok', 'code' => $embedCode]);
     }
 
+    /**
+     * @param Content $content
+     * @return \Illuminate\View\View
+     */
     public function chooseThumbnail(Content $content)
     {
         if (!$content->canEdit(Auth::user()))
@@ -359,7 +388,6 @@ class ContentController extends BaseController {
 
         try {
             $summon = new Summon($content->getURL());
-
             $thumbnails = $summon->fetch();
         } catch(Exception $e) {}
 
@@ -370,6 +398,9 @@ class ContentController extends BaseController {
         return view('content.thumbnails', compact('content', 'thumbnails'));
     }
 
+    /**
+     * @return mixed
+     */
     public function saveThumbnail()
     {
         $content = Content::findOrFail(Input::get('id'));

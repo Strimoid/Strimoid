@@ -21,7 +21,7 @@ class All extends FakeFolder {
         return $builder;
     }
 
-    public function contents()
+    public function contents($tab = null, $sortBy = null)
     {
         $builder = static::getBuilder('Strimoid\Models\Content');
 
@@ -29,6 +29,18 @@ class All extends FakeFolder {
             $blockedDomains = Auth::user()->blocked_domains;
             $builder->whereNotIn('domain', $blockedDomains);
         }
+
+        if ($tab == 'new')
+        {
+            $builder->frontpage(false);
+        }
+        elseif ($tab == 'popular')
+        {
+            $builder->frontpage(true);
+            $sortBy = $sortBy ?: 'frontpage_at';
+        }
+
+        $builder->orderBy($sortBy ?: 'frontpage_at', 'desc');
 
         return $builder;
     }

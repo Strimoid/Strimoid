@@ -48,12 +48,15 @@ class Folder extends BaseModel
         return $builder;
     }
 
-    public function contents()
+    public function contents($tab = null, $sortBy = null)
     {
         $builder = with(new Content)->newQuery();
 
         $groups = $this->groups;
         $builder->whereIn('group_id', $groups);
+
+        if ($tab == 'popular') $builder->popular();
+        $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $builder;
     }
@@ -88,6 +91,12 @@ class Folder extends BaseModel
 
         $builder = User::where('_id', $this->user->_id)->where('_folders._id', $this->_id);
         return $builder->pull($column, $value);
+    }
+
+    public function canBrowse()
+    {
+        $isOwner = $this->user->getKey() === Auth::id();
+        return $this->public || $isOwner;
     }
 
 }

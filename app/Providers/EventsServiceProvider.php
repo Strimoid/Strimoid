@@ -26,17 +26,6 @@ class EventsServiceProvider extends ServiceProvider {
             }
         });
 
-        $this->app->booted(function()
-        {
-            if (Input::has('ntf_read') && Auth::check())
-            {
-                $id = b58_to_mid(Input::get('ntf_read'));
-                Notification::where('_id', $id)
-                    ->target(['user_id' => Auth::id()])
-                    ->update(['_targets.$.read' => true]);
-            }
-        });
-
         $events->listen('auth.login', function($user)
         {
             $user->last_login = new Carbon;

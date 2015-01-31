@@ -21,12 +21,15 @@ class Blocked extends FakeFolder {
         return $builder;
     }
 
-    public function contents()
+    public function contents($tab, $sortBy)
     {
         $builder = static::getBuilder('Strimoid\Models\Content');
 
         $blockedDomains = Auth::user()->blockedDomains();
         $builder->orWhereIn('domain', $blockedDomains);
+
+        if ($tab == 'popular') $builder->popular();
+        $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $builder;
     }

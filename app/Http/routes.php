@@ -147,36 +147,35 @@ Route::get('/notifications', ['middleware' => 'auth', 'uses' => 'NotificationCon
 
 
 /* Contents ========================================================================================================= */
-Route::get('/', ['as' => 'global_contents', 'uses' => 'ContentController@showContents']);
-Route::get('/rss', ['as' => 'global_contents_rss', 'uses' => 'ContentController@showContents']);
+Route::get('/', ['as' => 'global_contents', 'uses' => 'ContentController@showContentsFromGroup']);
+Route::get('/rss', ['as' => 'global_contents_rss', 'uses' => 'ContentController@showContentsFromGroup']);
 
-Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@showContents']);
-Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContents']);
-
+Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@showContentsFromGroup']);
+Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContentsFromGroup']);
 
 Route::get('/g/{group}', [
     'as' => 'group_contents',
-    'uses' => 'ContentController@showContents'
+    'uses' => 'ContentController@showContentsFromGroup'
 ]);
 
 Route::get('/g/{group}/rss', [
     'as' => 'group_contents_rss',
-    'uses' => 'ContentController@showContents'
+    'uses' => 'ContentController@showContentsFromGroup'
 ]);
 
 Route::get('/g/{group}/new', [
     'as' => 'group_contents_new',
-    'uses' => 'ContentController@showContents'
+    'uses' => 'ContentController@showContentsFromGroup'
 ]);
 
 Route::get('/g/{group}/new/rss', [
     'as' => 'group_contents_new_rss',
-    'uses' => 'ContentController@showContents'
+    'uses' => 'ContentController@showContentsFromGroup'
 ]);
 
 Route::get('/g/{group}/deleted', [
     'as' => 'group_contents_deleted',
-    'uses' => 'ContentController@showContents'
+    'uses' => 'ContentController@showContentsFromGroup'
 ]);
 
 Route::get('/g/{group}/comments', [
@@ -286,13 +285,13 @@ Route::get('/ajax/group/{group}/sidebar', ['middleware' => 'auth', 'uses' => 'Gr
 
 
 /* Folders ========================================================================================================== */
-Route::get('/f/{folder}', ['as' => 'folder_contents', 'middleware' => 'auth', 'uses' => 'ContentController@showContents']);
-Route::get('/f/{folder}/new', ['as' => 'folder_contents_new', 'middleware' => 'auth', 'uses' => 'ContentController@showContents']);
+Route::get('/f/{folder}', ['as' => 'folder_contents', 'middleware' => 'auth', 'uses' => 'ContentController@showContentsFromFolder']);
+Route::get('/f/{folder}/new', ['as' => 'folder_contents_new', 'middleware' => 'auth', 'uses' => 'ContentController@showContentsFromFolder']);
 Route::get('/f/{folder}/entries', ['as' => 'folder_entries', 'middleware' => 'auth', 'uses' => 'EntryController@showEntries']);
 Route::get('/f/{folder}/comments', ['as' => 'folder_comments', 'middleware' => 'auth', 'uses' => 'CommentController@showComments']);
 
-Route::get('/u/{user}/f/{folder}', ['as' => 'user_folder_contents', 'uses' => 'ContentController@showContents']);
-Route::get('/u/{user}/f/{folder}/new', ['as' => 'user_folder_contents_new', 'uses' => 'ContentController@showContents']);
+Route::get('/u/{user}/f/{folder}', ['as' => 'user_folder_contents', 'uses' => 'ContentController@showContentsFromFolder']);
+Route::get('/u/{user}/f/{folder}/new', ['as' => 'user_folder_contents_new', 'uses' => 'ContentController@showContentsFromFolder']);
 Route::get('/u/{user}/f/{folder}/entries', ['as' => 'user_folder_entries', 'uses' => 'EntryController@showEntries']);
 Route::get('/u/{user}/f/{folder}/comments', ['as' => 'user_folder_comments', 'uses' => 'CommentController@showComments']);
 

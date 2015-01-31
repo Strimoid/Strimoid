@@ -5,6 +5,15 @@ use Str;
 abstract class FakeFolder
 {
 
+    /**
+     * @var string
+     */
+    public $urlname;
+
+    /**
+     * @param  $model  Class name of requested model
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     abstract protected function getBuilder($model);
 
     public function __construct()
@@ -16,6 +25,9 @@ abstract class FakeFolder
         $this->name = trans('groups.'. $this->urlname);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function comments()
     {
         $builder = static::getBuilder('Strimoid\Models\Comment');
@@ -23,27 +35,29 @@ abstract class FakeFolder
         return $builder;
     }
 
-    public function contents()
+    /**
+     * @param null $tab
+     * @param null $sortBy
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function contents($tab = null, $sortBy = null)
     {
         $builder = static::getBuilder('Strimoid\Models\Content');
+
+        if ($tab == 'popular') $builder->popular();
+        $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $builder;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function entries()
     {
         $builder = static::getBuilder('Strimoid\Models\Entry');
 
         return $builder;
-    }
-
-    public function __get($name)
-    {
-        if ($name == 'urlname')
-        {
-            $className = get_class($this);
-            return strtolower($className);
-        }
     }
 
 }

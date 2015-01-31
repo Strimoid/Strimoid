@@ -228,7 +228,6 @@ return [
         'Carbon'    => 'Carbon\Carbon',
 		'DateTime'  => 'DateTime',
         'Image'     => 'Intervention\Image\Facades\Image',
-        'Rss'       => 'Thujohn\Rss\RssFacade',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
 		'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
 
