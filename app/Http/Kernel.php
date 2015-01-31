@@ -18,6 +18,7 @@ class Kernel extends HttpKernel {
         'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
         'Strimoid\Http\Middleware\RateLimit',
     ];
+
     /**
      * The application's route middleware.
      *

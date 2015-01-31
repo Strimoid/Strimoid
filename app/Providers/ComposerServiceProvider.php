@@ -8,7 +8,7 @@ class ComposerServiceProvider extends ServiceProvider {
     /**
      * Register bindings in the container.
      *
-     * @return void
+     * @param ViewFactory $view
      */
     public function boot(ViewFactory $view)
     {

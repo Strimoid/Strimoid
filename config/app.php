@@ -230,7 +230,6 @@ return array(
         'Carbon'    => 'Carbon\Carbon',
 		'DateTime'  => 'DateTime',
         'Image'     => 'Intervention\Image\Facades\Image',
-        'Embed'     => 'Cohensive\Embed\Facades\Embed',
         'Rss'       => 'Thujohn\Rss\RssFacade',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
 		'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',

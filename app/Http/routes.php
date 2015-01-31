@@ -264,8 +264,6 @@ Route::post('/ajax/entry/edit', ['middleware' => 'auth', 'uses' => 'EntryControl
 Route::post('/ajax/entry/remove', ['middleware' => 'auth', 'uses' => 'EntryController@removeEntry']);
 
 
-
-
 /* Groups =========================================================================================================== */
 Route::get('/intro', 'GroupController@showWizard');
 

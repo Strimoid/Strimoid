@@ -30,10 +30,7 @@ App::before(function($request)
         ]));
     }
 
-    if ($request->getUser() && $request->getPassword())
-    {
-        return Auth::onceBasic('_id');
-    }
+
 });
 
 

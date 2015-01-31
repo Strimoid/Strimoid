@@ -2,7 +2,6 @@
 
 use Closure;
 use GrahamCampbell\Throttle\Throttle;
-use Illuminate\Contracts\Routing\Middleware;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 class RateLimit {
@@ -18,10 +17,8 @@ class RateLimit {
      * Create a new instance.
      *
      * @param \GrahamCampbell\Throttle\Throttle $throttle
-     *
-     * @return void
      */
-    public function __construct(RateLimit $throttle)
+    public function __construct(Throttle $throttle)
     {
         $this->throttle = $throttle;
     }

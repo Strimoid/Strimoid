@@ -14,6 +14,7 @@ class RouteServiceProvider extends ServiceProvider {
      * @var string
      */
     protected $namespace = 'Strimoid\Http\Controllers';
+
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -32,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider {
 
         parent::boot($router);
     }
+
     /**
      * Define the routes for the application.
      *
