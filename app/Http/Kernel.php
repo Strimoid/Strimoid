@@ -17,6 +17,7 @@ class Kernel extends HttpKernel {
         'Illuminate\View\Middleware\ShareErrorsFromSession',
         'Strimoid\Http\Middleware\VerifyCsrfToken',
         'Strimoid\Http\Middleware\RateLimit',
+        'Strimoid\Http\Middleware\NotificationMarkRead',
     ];
 
     /**
