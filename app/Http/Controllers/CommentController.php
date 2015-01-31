@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Input, Settings, Route;
+use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Group;
