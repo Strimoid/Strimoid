@@ -16,6 +16,15 @@ class AppServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
+    }
+
+    /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $this->app->bind('guzzle', function()
         {
             return new Client([
@@ -41,15 +50,6 @@ class AppServiceProvider extends ServiceProvider {
         {
             return new OEmbed();
         });
-    }
-
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
-    {
     }
 
 }
