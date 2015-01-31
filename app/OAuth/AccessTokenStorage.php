@@ -71,6 +71,7 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
                 '_id'           => $token,
                 'expire_time'   => $expireTime,
                 'session_id'    => $sessionId,
+                'scopes'        => [],
             ]);
     }
 

@@ -48,6 +48,7 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
                 'client_redirect_uri' => $redirectUri,
                 'session_id'          => $sessionId,
                 'expire_time'         => $expireTime,
+                'scopes'              => [],
             ]);
     }
 

@@ -110,6 +110,7 @@ class SessionStorage extends MongoStorage implements SessionInterface {
                 'owner_type'  =>  $ownerType,
                 'owner_id'    =>  $ownerId,
                 'client_id'   =>  $clientId,
+                'scopes'      =>  [],
             ]);
     }
 
