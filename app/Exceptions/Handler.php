@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Exceptions;
 
-use Exception, Response;
+use Config, Exception, Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use League\OAuth2\Server\Exception\OAuthException;
 
@@ -25,6 +25,15 @@ class Handler extends ExceptionHandler {
      */
     public function report(Exception $e)
     {
+        $key = Config::get('strimoid.rollbar_key');
+
+        if ($key)
+        {
+            with(new \RollbarNotifier([
+                'access_token' => $key,
+            ]))->report_exception($e);
+        }
+
         return parent::report($e);
     }
 
