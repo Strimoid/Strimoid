@@ -5,3 +5,4 @@ node_modules/
 .env.php
 .env
 _ide_helper_models.php
+.env.behat
