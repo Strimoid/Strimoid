@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models;
 
 use Auth, Str;
+use Strimoid\Helpers\MarkdownParser;
 
 class Comment extends BaseModel
 {
