@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Providers; 
 
+use Str;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\InvalidRequestException;
@@ -46,8 +47,8 @@ class OAuthServiceProvider extends ServiceProvider {
     {
         $this->app->singleton('League\OAuth2\Server\AuthorizationServer', function()
         {
-            $auth = $this->app->make('Illuminate\Contracts\Auth\Guard');
-            $connection = $this->app['db']->connection();
+            $auth = $this->app->auth;
+            $connection = $this->app->db->connection();
 
             $server = new AuthorizationServer();
             $server->setSessionStorage(new SessionStorage($connection));
