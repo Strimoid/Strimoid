@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Input, Str, Response;
+use Input, Str, Response, Exception;
 use Guzzle\Http\Client;
 use Strimoid\Models\Content;
 
@@ -43,9 +43,9 @@ class UtilsController extends BaseController {
             $encodingHint = '<meta http-equiv="Content-Type" content="text/html; charset='. $results[1] .'">';
         }
 
-        $doc = new DOMDocument('1.0', 'UTF-8');
+        $doc = new \DOMDocument('1.0', 'UTF-8');
         @$doc->loadHTML($encodingHint . $html);
-        $xpath = new DOMXPath($doc);
+        $xpath = new \DOMXPath($doc);
 
         $title = '';
         $description = '';
