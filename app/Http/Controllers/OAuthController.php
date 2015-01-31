@@ -1,68 +1,58 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Response;
+use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Exception\OAuthException;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Strimoid\Models\OAuth\Client;
+
 class OAuthController extends BaseController {
 
+    use ValidatesRequests;
+
+    /**
+     * @param AuthorizationServer $server
+     */
+    public function __construct(AuthorizationServer $server)
+    {
+        $this->server = $server;
+    }
+
+    /**
+     * Issue a new token.
+     *
+     * @return Response
+     */
     public function getAccessToken()
     {
-        $request = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
-        $response = new OAuth2\HttpFoundationBridge\Response();
-
-        return OAuth::handleTokenRequest($request, $response);
+        try
+        {
+            $response = $this->server->issueAccessToken();
+            return Response::json($response);
+        }
+        catch(OAuthException $e)
+        {
+            return Response::json([
+                'error'     =>  $e->errorType,
+                'message'   =>  $e->getMessage()
+            ], $e->httpStatusCode);
+        }
     }
 
     public function authorizationForm()
     {
-        $request = Request::instance();
-
-        if ( ! Input::has('state'))
-        {
-            $request->merge(['state' => 'state']);
-        }
-
-        $scope = Input::get('scope');
-
-        if (Str::contains($scope, ','))
-        {
-            $scope = str_replace(',', ' ', $scope);
-            $request->merge(['scope' => $scope]);
-        }
-
-        $request = OAuth2\HttpFoundationBridge\Request::createFromRequest($request);
-        $response = new OAuth2\HttpFoundationBridge\Response();
-
-        if ( ! OAuth::validateAuthorizeRequest($request, $response))
-        {
-            return OAuth::getResponse();
-        }
-
-        $client = OAuth\Client::findOrFail(Input::get('client_id'));
-
-        $scopes = array();
-
-        if (Input::has('scope'))
-        {
-            $scopes = explode(' ', Input::get('scope'));
-        }
-        else
-        {
-            $scopes[] = 'basic';
-        }
-
-        return view('oauth.authorize', ['client' => $client, 'scopes' => $scopes]);
+        //
     }
 
     public function authorize()
     {
-        $authorized = (bool) Input::get('authorize');
-        $request = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
-        $response = new OAuth2\HttpFoundationBridge\Response();
-
-        return OAuth::handleAuthorizeRequest($request, $response, $authorized, Auth::user()->_id);
+        //
     }
 
     public function listApps()
     {
-        $apps = OAuth\Client::where('user_id', Auth::user()->_id)->get();
+        $apps = Client::where('user_id', Auth::id())->get();
 
         return view('oauth.apps', ['apps' => $apps]);
     }
@@ -72,29 +62,20 @@ class OAuthController extends BaseController {
         return view('oauth.add');
     }
 
-    public function addApp()
+    public function addApp(Request $request)
     {
-        $validator = Validator::make(Input::all(), [
+        $this->validate($request, [
             'name' => 'required|min:5|max:40',
             'redirect_url' => 'required|url|max:255'
         ]);
 
-        if ($validator->fails())
-        {
-            Input::flash();
-            return Redirect::action('OAuthController@addAppForm')->withErrors($validator);
-        }
-
-        $client = new OAuth\Client;
-
-        $client->_id = Str::random(15);
-        $client->name = Input::get('name');
-        $client->client_id = $client->_id;
-        $client->client_secret = Str::random(40);
-        $client->redirect_uri = Input::get('redirect_url');
-        $client->user()->associate(Auth::user());
-
-        $client->save();
+        Client::create([
+            '_id'           => Str::random(15),
+            'name'          => Input::get('name'),
+            'secret'        => Str::random(40),
+            'redirect_uri'  => Input::get('redirect_url'),
+            'user_id'       => Auth::id(),
+        ]);
 
         return Redirect::action('OAuthController@listApps');
     }
