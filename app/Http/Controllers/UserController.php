@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Str, Input, URL, Redirect, Response, Validator;
+use App, Auth, Str, Input, URL, Redirect, Response, Validator;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
