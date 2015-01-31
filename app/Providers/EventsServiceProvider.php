@@ -20,6 +20,14 @@ class EventsServiceProvider extends ServiceProvider {
     {
         $this->app->booted(function()
         {
+            if (Request::getUser() && Request::getPassword())
+            {
+                return Auth::onceBasic('_id');
+            }
+        });
+
+        $this->app->booted(function()
+        {
             if (Input::has('ntf_read') && Auth::check())
             {
                 $id = b58_to_mid(Input::get('ntf_read'));
