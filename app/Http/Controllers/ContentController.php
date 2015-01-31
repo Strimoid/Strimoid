@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use Summon\Summon;
-use Auth, Input, Route, Response, Settings, Validator, Queue;
+use Auth, Input, Route, Response, RSS, Settings, Validator, Queue;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
@@ -240,12 +240,13 @@ class ContentController extends BaseController {
         $content->user()->associate(Auth::user());
         $content->group()->associate($group);
 
-
         // Download thumbnail in background to don't waste user time
         if (Input::get('thumbnail') == 'on')
         {
             $content->thumbnail_loading = true;
-            Queue::push('DownloadThumbnail', ['id' => $content->getKey()]);
+            Queue::push('Strimoid\Handlers\DownloadThumbnail', [
+                    'id' => $content->getKey()
+            ]);
         }
 
         $content->save();
