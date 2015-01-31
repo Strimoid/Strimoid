@@ -56,7 +56,7 @@ class VoteController extends BaseController {
             if ($object instanceof Content && $object->uv > 5
                     && !$object->frontpage_at && $object->created_at->diffInDays() < 5)
             {
-                $object->frontpage_at = new MongoDate();
+                $object->frontpage_at = new Carbon;
                 $object->save();
             }
         }
