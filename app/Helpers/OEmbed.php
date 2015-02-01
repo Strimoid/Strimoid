@@ -11,13 +11,36 @@ class OEmbed {
         'video/' => 'embedVideo',
     ];
 
+    public function getThumbnail($url)
+    {
+        try {
+            $data = Guzzle::get($this->endpoint(), [
+                'url' => $url,
+            ])->json();
+
+            return $this->findThumbnail($data);
+        } catch(RequestException $e) {}
+    }
+
+    protected function findThumbnail($data)
+    {
+        foreach ($data['links'] as $link)
+        {
+            if (in_array('thumbnail', $link['rel']))
+            {
+                return $link['href'];
+            }
+        }
+
+        return false;
+    }
+
     public function getHtml($url)
     {
         $key = md5($url);
 
         $html = Cache::driver('oembed')
-            ->rememberForever($key, function() use($url)
-            {
+            ->rememberForever($key, function() use($url) {
                 return $this->fetchJson($url);
             });
 
@@ -26,17 +49,12 @@ class OEmbed {
 
     protected function fetchJson($url)
     {
-        $host = Config::get('strimoid.oembed');
-        $endpoint = $host .'/iframely';
-        $query = [
-            'autoplay' => 'true',
-            'ssl' => 'true',
-            'url' => $url,
-        ];
-
         try {
-            $response = Guzzle::get($endpoint, compact('query'));
-            $data = $response->json();
+            $data = Guzzle::get($this->endpoint(), [
+                'autoplay' => 'true',
+                'ssl' => 'true',
+                'url' => $url,
+            ])->json();
 
             return $this->processData($data);
         } catch(RequestException $e) {}
@@ -90,6 +108,17 @@ class OEmbed {
     protected function embedVideo($href)
     {
         return '<video src="'. $href .'"controls autoplay></audio>';
+    }
+
+    /**
+     * Return OEmbed API endpoint URL.
+     *
+     * @return string
+     */
+    protected function endpoint()
+    {
+        $host = Config::get('strimoid.oembed');
+        return $host .'/iframely';
     }
 
 }
