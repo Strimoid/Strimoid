@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models;
 
 use Auth, Str;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Strimoid\Helpers\MarkdownParser;
 
 class EntryReply extends BaseModel
@@ -18,7 +19,6 @@ class EntryReply extends BaseModel
 
     protected static $unguarded = true;
     protected $appends = ['vote_state'];
-    protected $table = null;
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'updated_at'];
 
@@ -29,17 +29,22 @@ class EntryReply extends BaseModel
         parent::__construct($attributes);
     }
 
-    public static function find($id, $columns = array('*')) {
+    public static function find($id, $columns = ['*']) {
         $parent = Entry::where('_replies._id', $id)
             ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
             ->first(['created_at', 'group_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
 
-        if (!$parent)
-        {
-            return null;
-        }
+        if ( ! $parent) return null;
 
         return $parent->replies->first();
+    }
+
+    public static function findOrFail($id, $columns = array('*'))
+    {
+        $result = self::find($id, $columns);
+        if ($result) return $result;
+
+        throw new ModelNotFoundException;
     }
 
     public function user()
@@ -73,9 +78,6 @@ class EntryReply extends BaseModel
 
     public function mpush($column, $value = null, $unique = false)
     {
-        if (!$this->_id)
-            return new Exception('Tried to push on model without id');
-
         $column = '_replies.$.'. $column;
 
         $builder = Entry::where('_id', $this->entry->_id)->where('_replies._id', $this->_id);
@@ -84,9 +86,6 @@ class EntryReply extends BaseModel
 
     public function mpull($column, $value = null)
     {
-        if (!$this->_id)
-            return new Exception('Tried to pull on model without id');
-
         $column = '_replies.$.'. $column;
 
         $builder = Entry::where('_id', $this->entry->_id)->where('_replies._id', $this->_id);
