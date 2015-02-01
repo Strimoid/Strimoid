@@ -1,10 +1,11 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Summon\Summon;
+use Auth, Input, Redirect, Response, Validator;
+use Strimoid\Models\ContentRelated;
 
 class RelatedController extends BaseController {
 
-    public function addRelated(Content $content)
+    public function addRelated($content)
     {
         $validator = ContentRelated::validate(Input::all());
 
@@ -32,12 +33,8 @@ class RelatedController extends BaseController {
         ]));
 
         if (Input::get('thumbnail') == 'on') {
-            try {
-                $summon = new Summon($related->getURL());
-                $thumbnails = $summon->fetch();
-
-                $related->setThumbnail($thumbnails['thumbnails'][0]);
-            } catch(Exception $e){ }
+            $url = OEmbed::getThumbnail($this->url);
+            if ($url) $related->setThumbnail($url);
         }
 
         $related->user()->associate(Auth::user());
@@ -52,7 +49,8 @@ class RelatedController extends BaseController {
 
     public function removeRelated($related = null)
     {
-        $related = ($related instanceof ContentRelated) ?: ContentRelated::findOrFail(Input::get('id'));
+        $related = ($related instanceof ContentRelated)
+            ?: ContentRelated::findOrFail(Input::get('id'));
 
         if (Auth::id() == $related->user->getKey())
         {
@@ -63,7 +61,7 @@ class RelatedController extends BaseController {
         return Response::json(['status' => 'error']);
     }
 
-    public function store(Content $content)
+    public function store($content)
     {
         $validator = Validator::make(Input::all(), [
             'title' => 'required|min:1|max:128',
@@ -85,12 +83,8 @@ class RelatedController extends BaseController {
         ]));
 
         if (Input::get('thumbnail') != 'false' && Input::get('thumbnail') != 'off') {
-            try {
-                $summon = new Summon($related->getURL());
-                $thumbnails = $summon->fetch();
-
-                $related->setThumbnail($thumbnails['thumbnails'][0]);
-            } catch(Exception $e){ }
+            $url = OEmbed::getThumbnail($this->url);
+            if ($url) $related->setThumbnail($url);
         }
 
         $related->user()->associate(Auth::user());
