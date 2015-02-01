@@ -48,7 +48,7 @@ Feature: Contents
     And the "user" property is an object
     And the "group" property is an object
     And scope into the "data.0.group" property
-      And the "name" property equals "East Mona"
+      And the "name" property equals "Kristyfort"
 
   Scenario: Finding a specific content
     When I request "GET /api/v1/contents/588914"
