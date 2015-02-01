@@ -7,7 +7,7 @@ use Strimoid\Contracts\ContentRepository;
 use Strimoid\Contracts\FolderRepository;
 use Strimoid\Contracts\GroupRepository;
 use Summon\Summon;
-use Auth, Input, Route, Response, Rss, Settings, Validator, Queue;
+use Auth, Input, Route, Redirect, Response, Rss, Settings, Validator, Queue;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
