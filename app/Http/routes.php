@@ -105,11 +105,9 @@ Route::get('/u/{username}', ['as' => 'user_profile', 'uses' =>'UserController@sh
 
 Route::get('/u/{username}/{type}', ['as' => 'user_profile.type_filter', 'uses' =>'UserController@showProfile']);
 
-Route::get('/settings', ['middleware' => 'auth', 'uses' => 'UserController@showSettings']);
 Route::post('/settings/change_password', ['middleware' => 'auth', 'uses' => 'UserController@changePassword']);
 Route::post('/settings/change_email', ['middleware' => 'auth', 'uses' => 'UserController@changeEmail']);
 Route::post('/settings/save/profile', ['middleware' => 'auth', 'uses' => 'UserController@saveProfile']);
-Route::post('/settings/save/settings', ['middleware' => 'auth', 'uses' => 'UserController@saveSettings']);
 
 Route::get('/account/change_email/{token}', 'UserController@confirmEmailChange');
 
@@ -118,6 +116,10 @@ Route::post('/ajax/user/unblock', ['middleware' => 'auth', 'uses' => 'UserContro
 
 Route::post('/ajax/user/observe', ['middleware' => 'auth', 'uses' => 'UserController@observeUser']);
 Route::post('/ajax/user/unobserve', ['middleware' => 'auth', 'uses' => 'UserController@unobserveUser']);
+
+// Settings
+Route::get('/settings', ['middleware' => 'auth', 'uses' => 'SettingsController@showSettings']);
+Route::post('/settings/save/settings', ['middleware' => 'auth', 'uses' => 'SettingsController@saveSettings']);
 
 /* Conversations ==================================================================================================== */
 Route::get('/conversations', ['middleware' => 'auth', 'uses' => 'ConversationController@showConversation']);

@@ -1,8 +1,9 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use App, Auth, Str, Input, URL, Redirect, Response, Validator;
+use App, Auth, Carbon, Str, Input, URL, Redirect, Response, Validator;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Strimoid\Contracts\UserRepository;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
@@ -19,6 +20,19 @@ use Strimoid\Models\UserBlocked;
 class UserController extends BaseController {
 
     use ValidatesRequests;
+
+    /**
+     * @var UserRepository
+     */
+    protected $users;
+
+    /**
+     * @param UserRepository $users
+     */
+    public function __construct(UserRepository $users)
+    {
+        $this->users = $users;
+    }
 
     public function showJSONList()
     {
@@ -265,7 +279,7 @@ class UserController extends BaseController {
             'password' => 'required|confirmed|user_password',
         ]);
 
-        Auth::user()->removed_at = new MongoDate();
+        Auth::user()->removed_at = new Carbon;
         Auth::user()->type = 'deleted';
         Auth::user()->unset(['age', 'description', 'email', 'location', 'password', 'sex', 'shadow_email']);
         Auth::user()->deleteAvatar();
@@ -284,14 +298,14 @@ class UserController extends BaseController {
         if ($user->removed_at) App::abort(404, 'Użytkownik usunął konto.');
 
         if ($type == 'contents')
-            $data['contents'] = Content::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
+            $data['contents'] = $user->contents()->orderBy('created_at', 'desc')->paginate(15);
         elseif ($type == 'comments')
-            $data['comments'] = Comment::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
+            $data['comments'] = $user->comments()->orderBy('created_at', 'desc')->paginate(15);
         elseif ($type == 'comment_replies')
             $data['actions'] = UserAction::where('user_id', $user->getKey())
                 ->where('type', UserAction::TYPE_COMMENT_REPLY)->orderBy('created_at', 'desc')->paginate(15);
         elseif ($type == 'entries')
-            $data['entries'] = Entry::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
+            $data['entries'] = $user->entries()->orderBy('created_at', 'desc')->paginate(15);
         elseif ($type == 'entry_replies')
             $data['actions'] = UserAction::where('user_id', $user->getKey())
                 ->where('type', UserAction::TYPE_ENTRY_REPLY)->orderBy('created_at', 'desc')->paginate(15);
@@ -316,21 +330,6 @@ class UserController extends BaseController {
         $data['user'] = $user;
 
         return view('user.profile', $data);
-    }
-
-    public function showSettings()
-    {
-        $user = Auth::user();
-
-        $subscribedGroups = GroupSubscriber::where('user_id', $user->getKey())->with('group')->get();
-        $blockedGroups = GroupBlock::where('user_id', $user->getKey())->with('group')->get();
-        $moderatedGroups = GroupModerator::where('user_id', $user->getKey())->with('group')->get();
-        $blockedUsers = UserBlocked::where('user_id', $user->getKey())->with('user')->get();
-        $bans = GroupBanned::where('user_id', $user->getKey())->with('group')->get();
-
-        return view('user.settings', compact(
-            'user', 'subscribedGroups', 'blockedGroups', 'moderatedGroups', 'blockedUsers', 'bans'
-        ));
     }
 
     public function saveProfile(Request $request)
@@ -360,38 +359,9 @@ class UserController extends BaseController {
         return Redirect::action('UserController@showSettings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
-    public function saveSettings(Request $request)
-    {
-        $user = Auth::user();
-
-        $this->validate($request, [
-            'css_style' => 'url|safe_url|max:250',
-            'contents_per_page' => 'integer|min:1|max:100',
-            'entries_per_page' => 'integer|min:1|max:100',
-            'timezone' => 'timezone',
-        ]);
-
-        $settings['enter_send'] = Input::get('enter_send') == 'on' ? true : false;
-        $settings['pin_navbar'] = Input::get('pin_navbar') == 'on' ? true : false;
-        $settings['notifications_sound'] = Input::get('notifications_sound') == 'on' ? true : false;
-        $settings['homepage_subscribed'] = Input::get('homepage_subscribed') == 'on' ? true : false;
-        $settings['disable_groupstyles'] = Input::get('disable_groupstyles') == 'on' ? true : false;
-        $settings['css_style'] = Input::get('css_style');
-        $settings['contents_per_page'] = (int) Input::get('contents_per_page');
-        $settings['entries_per_page'] = (int) Input::get('entries_per_page');
-        $settings['timezone'] = Input::get('timezone');
-        $settings['notifications']['auto_read'] = Input::get('notifications.auto_read') == 'on' ? true : false;
-
-        $user->settings = $settings;
-        $user->save();
-
-        return Redirect::action('UserController@showSettings')
-            ->with('success_msg', 'Ustawienia zostały zapisane.');
-    }
-
     public function blockUser()
     {
-        $target = User::where('_id', Input::get('username'))->firstOrFail();
+        $target = $this->users->requireByName(Input::get('username'));
 
         if (UserBlocked::where('target_id', $target->_id)
             ->where('user_id', Auth::user()->getKey())->first())
@@ -409,12 +379,12 @@ class UserController extends BaseController {
 
     public function unblockUser()
     {
-        $target = User::where('_id', Input::get('username'))->firstOrFail();
+        $target = $this->users->requireByName(Input::get('username'));
 
         $block = UserBlocked::where('target_id', $target->getKey())
             ->where('user_id', Auth::id())->first();
 
-        if (!$block)
+        if ( ! $block)
         {
             return Response::make('Not blocked', 400);
         }
@@ -426,7 +396,7 @@ class UserController extends BaseController {
 
     public function observeUser()
     {
-        $target = User::shadow(Input::get('username'))->firstOrFail();
+        $target = $this->users->requireByName(Input::get('username'));
 
         if (Auth::user()->isObservingUser($target))
         {
@@ -440,9 +410,9 @@ class UserController extends BaseController {
 
     public function unobserveUser()
     {
-        $target = User::shadow(Input::get('username'))->firstOrFail();
+        $target = $this->users->requireByName(Input::get('username'));
 
-        if (!Auth::user()->isObservingUser($target))
+        if ( ! Auth::user()->isObservingUser($target))
         {
             return Response::make('Not observed', 400);
         }
@@ -456,7 +426,7 @@ class UserController extends BaseController {
     {
         $domain = PDP::parseUrl($domain)->host->registerableDomain;
 
-        if (!$domain)
+        if ( ! $domain)
         {
             return Response::json([
                 'status' => 'error', 'error' => 'Nieprawidłowa domena'
