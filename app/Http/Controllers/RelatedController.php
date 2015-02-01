@@ -2,6 +2,7 @@
 
 use Auth, Input, Redirect, Response, Validator;
 use Strimoid\Models\ContentRelated;
+use Strimoid\Models\Group;
 
 class RelatedController extends BaseController {
 
