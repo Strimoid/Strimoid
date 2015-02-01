@@ -22,7 +22,8 @@ class Notification extends BaseModel
 
     public function sourceUser()
     {
-        return $this->belongsTo('Strimoid\Models\User')->select(['avatar']);
+        return $this->belongsTo('Strimoid\Models\User')
+            ->select(['avatar', 'name']);
     }
 
     public function entry()
@@ -80,10 +81,7 @@ class Notification extends BaseModel
             return $x->user_id == Auth::id();
         })->first();
 
-        if (!$target)
-        {
-            return false;
-        }
+        if ( ! $target) return false;
 
         return $target->read;
     }
@@ -108,22 +106,28 @@ class Notification extends BaseModel
             switch ($this->type)
             {
                 case 'entry':
-                    $url = URL::route('single_entry', $this->entry_id, false). $params;
+                    $url = URL::route('single_entry', $this->entry_id, false)
+                        . $params;
                     break;
                 case 'entry_reply':
-                    $url = URL::route('single_entry_reply', $this->entry_reply_id, false). $params .'#'. $this->entry_reply_id;
+                    $url = URL::route('single_entry_reply', $this->entry_reply_id, false)
+                        . $params .'#'. $this->entry_reply_id;
                     break;
                 case 'comment':
-                    $url = URL::route('content_comments', $this->content_id, false). $params .'#'. $this->comment_id;
+                    $url = URL::route('content_comments', $this->content_id, false)
+                        . $params .'#'. $this->comment_id;
                     break;
                 case 'comment_reply':
-                    $url = URL::route('content_comments', $this->content_id, false). $params .'#'. $this->comment_reply_id;
+                    $url = URL::route('content_comments', $this->content_id, false)
+                        . $params .'#'. $this->comment_reply_id;
                     break;
                 case 'conversation':
-                    $url = URL::route('conversation', $this->conversation_id, false). $params;
+                    $url = URL::route('conversation', $this->conversation_id, false)
+                        . $params;
                     break;
                 case 'moderator':
-                    $url = URL::route('group_contents', $this->group_id, false). $params;
+                    $url = URL::route('group_contents', $this->group_id, false)
+                        . $params;
                     break;
             }
         } catch(Exception $e) {
