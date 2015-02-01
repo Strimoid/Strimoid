@@ -317,9 +317,9 @@ class ContentController extends BaseController {
      * @param Content $content
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function removeContent(Content $content = null)
+    public function removeContent($content = null)
     {
-        $content = ($content) ?: Content::findOrFail(Input::get('id'));
+        $content = $content ?: Content::findOrFail(Input::get('id'));
 
         if ($content->created_at->diffInMinutes() > 60)
         {
