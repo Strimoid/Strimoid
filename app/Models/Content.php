@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Carbon, Config, Image, OEmbed, Str, PDP;
-use Summon\Summon;
+use Carbon, Config, Image, OEmbed, Str, Storage, PDP;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;
 
@@ -163,7 +162,7 @@ class Content extends BaseModel
     {
         if ($this->thumbnail)
         {
-            File::delete(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
+            Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
         }
 
         if (starts_with($path, '//'))
@@ -186,7 +185,7 @@ class Content extends BaseModel
     {
         if ($this->thumbnail)
         {
-            File::delete(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
+            Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
             $this->unset('thumbnail');
         }
     }

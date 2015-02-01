@@ -34,6 +34,11 @@ return [
             'root'   => storage_path().'/app',
         ],
 
+        'uploads' => [
+            'driver' => 'local',
+            'root'   => env('UPLOADS_PATH', '/data/strimoid/uploads'),
+        ],
+
     ],
 
 ];
