@@ -30,4 +30,24 @@ class MongoStorage extends AbstractStorage {
         return $this->connection->table($table);
     }
 
+    /**
+     * Turn array of scope names into array of scope entities.
+     *
+     * @param  $array
+     * @return array
+     */
+    protected function loadScopes($array)
+    {
+        $scopes = [];
+
+        foreach ($array as $scope)
+        {
+            $scopes[] = $this->server
+                ->getScopeStorage()
+                ->get($scope);
+        }
+
+        return $scopes;
+    }
+
 }

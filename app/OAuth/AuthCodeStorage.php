@@ -67,16 +67,7 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
 
         if (!$result) return [];
 
-        $scopes = [];
-
-        foreach ($result['scopes'] as $scope)
-        {
-            $scopes[] = $this->server
-                ->getScopeStorage()
-                ->get($scope);
-        }
-
-        return $scopes;
+        return $this->loadScopes($result['scopes']);
     }
 
     /**
