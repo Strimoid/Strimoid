@@ -1,6 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use App, Auth, Str, Input, URL, Redirect, Response, Validator;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
@@ -16,15 +18,17 @@ use Strimoid\Models\UserBlocked;
 
 class UserController extends BaseController {
 
+    use ValidatesRequests;
+
     public function showJSONList()
     {
-        $users = array();
+        $users = [];
 
         foreach(User::all() as $user) {
-            $users[] = array(
-                'value' => $user->name,
+            $users[] = [
+                'value'  => $user->name,
                 'avatar' => $user->getAvatarPath()
-            );
+            ];
         }
 
         return Response::json($users);
@@ -56,34 +60,25 @@ class UserController extends BaseController {
         return Redirect::to('')->with('success_msg', 'Zostałeś wylogowany.');
     }
 
-    public function changePassword()
+    public function changePassword(Request $request)
     {
-        $validator = Validator::make(Input::all(), [
+        $this->validate($request, [
             'password' => 'required|confirmed|min:6',
             'old_password' => 'required|user_password'
         ]);
 
-        if ($validator->fails())
-        {
-            return Redirect::action('UserController@showSettings')->withErrors($validator);
-        }
-
         Auth::user()->password = Input::get('password');
         Auth::user()->save();
 
-        return Redirect::action('UserController@showSettings')->with('success_msg', 'Hasło zostało zmienione.');
+        return Redirect::action('UserController@showSettings')
+            ->with('success_msg', 'Hasło zostało zmienione.');
     }
 
-    public function changeEmail()
+    public function changeEmail(Request $request)
     {
-        $validator = Validator::make(Input::all(), [
+        $this->validate($request, [
             'email' => 'required|email|unique_email:users|real_email'
         ]);
-
-        if ($validator->fails())
-        {
-            return Redirect::action('UserController@showSettings')->withErrors($validator);
-        }
 
         $email = Str::lower(Input::get('email'));
 
@@ -264,16 +259,11 @@ class UserController extends BaseController {
         return view('user.remove');
     }
 
-    public function removeAccount()
+    public function removeAccount(Request $request)
     {
-        $validator = Validator::make(Input::all(), [
+        $this->validate($request, [
             'password' => 'required|confirmed|user_password',
         ]);
-
-        if ($validator->fails())
-        {
-            return Redirect::action('UserController@showRemoveAccountForm')->withErrors($validator);
-        }
 
         Auth::user()->removed_at = new MongoDate();
         Auth::user()->type = 'deleted';
@@ -343,23 +333,15 @@ class UserController extends BaseController {
         ));
     }
 
-    public function saveProfile()
+    public function saveProfile(Request $request)
     {
-        $rules = array(
+        $this->validate($request, [
             'sex' => 'in:male,female',
             'avatar' => 'image|max:250',
             'age' => 'integer|min:1900|max:2010',
             'location' => 'max:32',
             'description' => 'max:250'
-        );
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails())
-        {
-            Input::flash();
-            return Redirect::action('UserController@showSettings')->withErrors($validator);
-        }
+        ]);
 
         $user = Auth::user();
 
@@ -378,21 +360,16 @@ class UserController extends BaseController {
         return Redirect::action('UserController@showSettings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
-    public function saveSettings()
+    public function saveSettings(Request $request)
     {
         $user = Auth::user();
 
-        $validator = Validator::make(Input::all(), [
+        $this->validate($request, [
             'css_style' => 'url|safe_url|max:250',
             'contents_per_page' => 'integer|min:1|max:100',
             'entries_per_page' => 'integer|min:1|max:100',
             'timezone' => 'timezone',
         ]);
-
-        if ($validator->fails())
-        {
-            return Redirect::action('UserController@showSettings')->withInput()->withErrors($validator);
-        }
 
         $settings['enter_send'] = Input::get('enter_send') == 'on' ? true : false;
         $settings['pin_navbar'] = Input::get('pin_navbar') == 'on' ? true : false;
@@ -408,7 +385,8 @@ class UserController extends BaseController {
         $user->settings = $settings;
         $user->save();
 
-        return Redirect::action('UserController@showSettings')->with('success_msg', 'Ustawienia zostały zapisane.');
+        return Redirect::action('UserController@showSettings')
+            ->with('success_msg', 'Ustawienia zostały zapisane.');
     }
 
     public function blockUser()
