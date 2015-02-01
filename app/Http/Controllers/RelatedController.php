@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Redirect, Response, Validator;
+use Auth, Input, Redirect, Response, OEmbed;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Strimoid\Models\ContentRelated;
