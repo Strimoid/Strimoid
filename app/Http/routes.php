@@ -23,11 +23,11 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::delete('/related/{related}', ['middleware' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
 
     // Comments
-    Route::get('/comments', ['uses' => 'CommentController@index']);
-    Route::post('/content/{content}/comment', ['middleware' => 'oauth:comments', 'uses' => 'CommentController@store']);
-    Route::post('/comment', ['middleware' => 'oauth:comments', 'uses' => 'CommentController@storeReply']);
-    Route::patch('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'CommentController@edit']);
-    Route::delete('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'CommentController@remove']);
+    Route::get('/comments', ['uses' => 'Api\CommentController@index']);
+    Route::post('/content/{content}/comment', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@store']);
+    Route::post('/comment', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@storeReply']);
+    Route::patch('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@edit']);
+    Route::delete('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@remove']);
 
     // Entries
     Route::get('/entries', ['uses' => 'EntryController@getIndex']);
