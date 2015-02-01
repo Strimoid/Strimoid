@@ -2,7 +2,7 @@
 
 <?php
 
-$suggestedGroup = (isset($group)) ? $group->urlname : '';
+$suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $group->urlname : '';
 
 ?>
 
@@ -12,7 +12,7 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
     @section('title')
         {{{ Str::limit(strip_tags($entries[0]->text), 60) }}}
     @stop
-@elseif (isset($group) && $group instanceof Group)
+@elseif (isset($group) && $group instanceof Strimoid\Models\Group)
     @section('title')
         {{{ $group->name }}}
     @stop

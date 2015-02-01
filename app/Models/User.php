@@ -234,10 +234,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         if ($user instanceof User) $user = $user->_id;
 
-        if (in_array($user, $this->blockedUsers()))
-            return true;
-        else
-            return false;
+        return in_array($user, $this->blockedUsers());
     }
 
     /* Scopes */
