@@ -14,9 +14,9 @@ class OEmbed {
     public function getThumbnail($url)
     {
         try {
-            $data = Guzzle::get($this->endpoint(), [
-                'url' => $url,
-            ])->json();
+            $query = ['url' => $url];
+            $data = Guzzle::get($this->endpoint(),compact('query'))
+                ->json();
 
             return $this->findThumbnail($data);
         } catch(RequestException $e) {}
@@ -50,11 +50,13 @@ class OEmbed {
     protected function fetchJson($url)
     {
         try {
-            $data = Guzzle::get($this->endpoint(), [
+            $query = [
                 'autoplay' => 'true',
                 'ssl' => 'true',
                 'url' => $url,
-            ])->json();
+            ];
+
+            $data = Guzzle::get($this->endpoint(), compact('query'))->json();
 
             return $this->processData($data);
         } catch(RequestException $e) {}
