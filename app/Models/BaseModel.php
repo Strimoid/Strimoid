@@ -79,7 +79,7 @@ class BaseModel extends Model
 
     public static function rules()
     {
-        return static::rules;
+        return static::$rules;
     }
 
 
