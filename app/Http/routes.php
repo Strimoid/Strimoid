@@ -37,7 +37,7 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::delete('/entries/{entry}', ['middleware' => 'oauth:entries', 'uses' => 'EntryController@remove']);
 
     // Groups
-    Route::resource('groups', 'GroupController', ['only' => ['index', 'show']]);
+    Route::resource('groups', 'Api\GroupController', ['only' => ['index', 'show']]);
 
     // Users
     Route::get('/users/{id}', 'UserController@show');

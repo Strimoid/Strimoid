@@ -1,6 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Carbon, Config, Input, Lang, Response, Redirect, Str, Validator;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
@@ -10,6 +12,8 @@ use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\Entry;
 
 class GroupController extends BaseController {
+
+    use ValidatesRequests;
 
     public function showList()
     {
@@ -31,7 +35,7 @@ class GroupController extends BaseController {
 
     public function showJSONList()
     {
-        $results = array();
+        $results = [];
         $groups = Group::where('type', '!=', Group::TYPE_PRIVATE)->get();
 
         foreach($groups as $group)
@@ -51,7 +55,7 @@ class GroupController extends BaseController {
     {
         $subscriptions = GroupSubscriber::where('user_id', Auth::user()->getKey())->with('group')->get();
 
-        $names = array();
+        $names = [];
 
         foreach($subscriptions as $subscription)
         {
@@ -75,17 +79,6 @@ class GroupController extends BaseController {
         }
 
         $groups = $builder->paginate(10);
-
-        if (Auth::check()) {
-            foreach ($groups as $group)
-            {
-                $subscribed = GroupSubscriber::where('group_id', $group->getKey())
-                    ->where('user_id', Auth::user()->getKey())
-                    ->first();
-
-                if ($subscribed) $group->subscribed = true;
-            }
-        }
 
         return view('group.wizard', compact('groups'));
     }
@@ -122,7 +115,7 @@ class GroupController extends BaseController {
         return view('group.settings', $data);
     }
 
-    public function saveProfile($groupName)
+    public function saveProfile(Request $request, $groupName)
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
@@ -131,21 +124,13 @@ class GroupController extends BaseController {
             App::abort(403, 'Access denied');
         }
 
-        $rules = [
-            'avatar' => 'image|max:250',
-            'name' => 'required|min:3|max:50',
-            'description' => 'max:255',
-            'sidebar' => 'max:5000',
-            'tags' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
-        ];
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails())
-        {
-            return Redirect::action('GroupController@showSettings', $groupName)
-                ->withInput()->withErrors($validator);
-        }
+        $this->validate($request, [
+            'avatar'        => 'image|max:250',
+            'name'          => 'required|min:3|max:50',
+            'description'   => 'max:255',
+            'sidebar'       => 'max:5000',
+            'tags'          => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
+        ]);
 
         $group->name = Input::get('name');
         $group->description = Input::get('description');
@@ -170,10 +155,7 @@ class GroupController extends BaseController {
         $tags = explode(',', $tags);
         $tags = array_map('trim', $tags);
 
-        if (count($tags))
-        {
-            $group->tags = $tags;
-        }
+        if (count($tags)) $group->tags = $tags;
 
         $group->save();
 
@@ -181,7 +163,7 @@ class GroupController extends BaseController {
             'Zmiany zostały zapisane.');
     }
 
-    public function saveSettings($groupName)
+    public function saveSettings(Request $request, $groupName)
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
@@ -190,14 +172,9 @@ class GroupController extends BaseController {
             App::abort(403, 'Access denied');
         }
 
-        $validator = Validator::make(Input::all(), [
+        $this->validate($request, [
             'labels' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
         ]);
-
-        if ($validator->fails())
-        {
-            return Redirect::action('GroupController@showSettings', $groupName)->withInput()->withErrors($validator);
-        }
 
         $settings['enable_labels'] = Input::get('enable_labels') == 'on' ? true : false;
 
@@ -214,7 +191,7 @@ class GroupController extends BaseController {
             'Zmiany zostały zapisane.');
     }
 
-    public function saveStyle($groupName)
+    public function saveStyle(Request $request, $groupName)
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
@@ -223,13 +200,9 @@ class GroupController extends BaseController {
             App::abort(403, 'Access denied');
         }
 
-        $validator = Validator::make(Input::all(), ['css' => 'max:15000']);
-
-        if ($validator->fails())
-        {
-            return Redirect::action('GroupController@showSettings', $groupName)
-                ->withInput()->withErrors($validator);
-        }
+        $this->validate($request, [
+            'css' => 'max:15000'
+        ]);
 
         $group->setStyle(Input::get('css'));
         $group->save();
@@ -446,7 +419,6 @@ class GroupController extends BaseController {
     public function subscribeGroup()
     {
         $group = Group::shadow(Input::get('name'))->firstOrFail();
-
         $group->checkAccess();
 
         if (Auth::user()->isSubscriber($group))
@@ -479,18 +451,16 @@ class GroupController extends BaseController {
     public function blockGroup()
     {
         $group = Group::where('urlname', Input::get('name'))->firstOrFail();
-        $user = Auth::user();
-
         $group->checkAccess();
 
         if (GroupBlock::where('group_id', $group->getKey())
-            ->where('user_id', $user->getKey())->first())
+            ->where('user_id', Auth::id())->first())
         {
             return Response::make('Already blocked', 400);
         }
 
         $block = new GroupBlock();
-        $block->user()->associate($user);
+        $block->user()->associate(Auth::user());
         $block->group()->associate($group);
         $block->save();
 
@@ -532,54 +502,6 @@ class GroupController extends BaseController {
         $sidebar = $group->sidebar;
 
         return Response::json(compact('sidebar'));
-    }
-
-    public function show($groupName)
-    {
-        return $this->getInfo($groupName);
-    }
-
-    public function getInfo($groupName)
-    {
-        $group = Group::shadow($groupName)->with('creator')->firstOrFail();
-        $group->checkAccess();
-
-        $stats = [
-            'contents' => intval(Content::where('group_id', $group->_id)->count()),
-            'comments' => intval(Content::where('group_id', $group->getKey())->sum('comments')),
-            'entries' => intval(Entry::where('group_id', $group->_id)->count()),
-            'banned' => intval(GroupBanned::where('group_id', $group->getKey())->count()),
-            'subscribers' => $group->subscribers,
-            'moderators' => intval(GroupModerator::where('group_id', $group->getKey())->count()),
-        ];
-
-        return array_merge(
-            $group->toArray(),
-            ['stats' => $stats]
-        );
-    }
-
-    public function index()
-    {
-        $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
-
-        if (Input::has('name'))
-        {
-            $builder->where('name', 'like', '%'. Input::get('name') .'%');
-        }
-
-        if (in_array(Input::get('sort'), ['created_at', 'subscribers']))
-        {
-            $builder->orderBy(Input::get('sort'), 'desc');
-        }
-        else
-        {
-            $builder->orderBy('created_at', 'desc');
-        }
-
-        $groups = $builder->paginate(100);
-
-        return $groups;
     }
 
 }
