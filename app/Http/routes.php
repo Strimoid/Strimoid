@@ -13,11 +13,11 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
 
     // Contents
-    Route::get('/contents', ['uses' => 'ContentController@getIndex']);
-    Route::get('/contents/{content}', 'ContentController@show');
-    Route::post('/contents', ['middleware' => 'oauth:contents', 'uses' => 'ContentController@store']);
-    Route::patch('/contents/{content}', ['middleware' => 'oauth:contents', 'uses' => 'ContentController@edit']);
-    Route::delete('/contents/{content}', ['middleware' => 'oauth:contents', 'uses' => 'ContentController@removeContent']);
+    Route::get('/contents', ['uses' => 'Api\ContentController@index']);
+    Route::get('/contents/{content}', 'Api\ContentController@show');
+    Route::post('/contents', ['middleware' => 'oauth:contents', 'uses' => 'Api\ContentController@store']);
+    Route::patch('/contents/{content}', ['middleware' => 'oauth:contents', 'uses' => 'Api\ContentController@edit']);
+    Route::delete('/contents/{content}', ['middleware' => 'oauth:contents', 'uses' => 'Api\ContentController@removeContent']);
 
     Route::post('/contents/{content}/related', ['middleware' => 'oauth:contents', 'uses' => 'RelatedController@store']);
     Route::delete('/related/{related}', ['middleware' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
