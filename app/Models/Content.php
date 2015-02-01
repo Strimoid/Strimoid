@@ -1,8 +1,9 @@
 <?php namespace Strimoid\Models;
 
-use Carbon, Config, Image, OEmbed, Str, Storage, PDP;
+use Carbon, OEmbed, Str, Storage, PDP;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasThumbnail;
 
 /**
  * Content model
@@ -20,7 +21,7 @@ use Strimoid\Helpers\MarkdownParser;
 class Content extends BaseModel
 {
 
-    use SoftDeletes;
+    use HasThumbnail, SoftDeletes;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -135,59 +136,6 @@ class Content extends BaseModel
 
         $this->attributes['text'] = $parser->text(parse_usernames($text));
         $this->attributes['text_source'] = $text;
-    }
-
-    public function getThumbnailPath($width = null, $height = null)
-    {
-        $host = Config::get('app.cdn_host');
-
-        if ($this->thumbnail && $width && $height)
-        {
-            return $host .'/'. $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
-        }
-        elseif ($this->thumbnail)
-        {
-            return $host .'/thumbnails/'. $this->thumbnail;
-        }
-
-        return '';
-    }
-
-    public function autoThumbnail()
-    {
-        $url = OEmbed::getThumbnail($this->url);
-        if ($url) $this->setThumbnail($url);
-    }
-
-    public function setThumbnail($path)
-    {
-        if ($this->thumbnail)
-        {
-            Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
-        }
-
-        if (starts_with($path, '//'))
-        {
-            $path = 'http:'. $path;
-        }
-
-        $data = file_get_contents($path);
-        $filename = Str::random(9) .'.png';
-
-        $img = Image::make($data);
-        $img->fit(400, 300);
-        $img->save(Config::get('app.uploads_path').'/thumbnails/'. $filename);
-
-        $this->thumbnail = $filename;
-        $this->save();
-    }
-
-    public function removeThumbnail()
-    {
-        if ( ! $this->thumbnail) return;
-
-        Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
-        $this->unset('thumbnail');
     }
 
     public static function validate($input)

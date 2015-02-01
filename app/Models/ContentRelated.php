@@ -1,9 +1,11 @@
 <?php namespace Strimoid\Models;
 
-use Config, Str, Image;
+use Str;
+use Strimoid\Models\Traits\HasThumbnail;
 
-class ContentRelated extends BaseModel
-{
+class ContentRelated extends BaseModel {
+
+    use HasThumbnail;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128',
@@ -40,7 +42,6 @@ class ContentRelated extends BaseModel
     public function delete()
     {
         Content::where('_id', $this->content_id)->decrement('related_count');
-
         return parent::delete();
     }
 
@@ -59,34 +60,4 @@ class ContentRelated extends BaseModel
         return $this->url ?: route('content_comments', $this->getKey());
     }
 
-    public function getThumbnailPath()
-    {
-        return $this->thumbnail ? '/uploads/thumbnails/'. $this->thumbnail : '';
-    }
-
-    public function setThumbnail($path)
-    {
-        if ($this->thumbnail)
-            unlink(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
-
-        if (strpos($path, '//') === 0) $path = 'http:'. $path;
-
-        $data = file_get_contents($path);
-        $filename = Str::random(9) .'.png';
-
-        $img = Image::make($data);
-        $img->grab(80, 50);
-        $img->save(Config::get('app.uploads_path').'/thumbnails/'. $filename);
-
-        $this->thumbnail = $filename;
-        $this->save();
-    }
-
-    public function removeThumbnail()
-    {
-        if ( ! $this->thumbnail) return;
-
-        unlink(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
-        $this->unset('thumbnail');
-    }
 }
