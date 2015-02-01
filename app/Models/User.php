@@ -5,6 +5,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Strimoid\Models\Traits\HasAvatar;
 
 /**
  * User model
@@ -17,8 +18,9 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  */
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract {
 
-    use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword, HasAvatar;
 
+    protected $avatarPath = 'avatars/';
     protected $table = 'users';
     protected $visible = [
         'id', 'age', 'avatar', 'created_at',
@@ -183,27 +185,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function folders()
     {
         return $this->embedsMany('Strimoid\Models\Folder', '_folders');
-    }
-
-    public function setAvatar($file)
-    {
-        $this->deleteAvatar();
-
-        $filename = Str::random(8) .'.png';
-
-        $img = Image::make($file);
-        $img->fit(100, 100);
-        $img->save(Config::get('app.uploads_path').'/avatars/'. $filename);
-
-        $this->avatar = $filename;
-    }
-
-    public function deleteAvatar()
-    {
-        if (!$this->avatar) return;
-
-        File::delete(Config::get('app.uploads_path').'/avatars/'. $this->avatar);
-        $this->unset('avatar');
     }
 
     public function isBanned(Group $group)

@@ -2,6 +2,7 @@
 
 use Auth, App, Image;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasAvatar;
 
 /**
  * Group model
@@ -16,11 +17,13 @@ use Strimoid\Helpers\MarkdownParser;
 class Group extends BaseModel
 {
 
+    use HasAvatar;
+
+    protected $avatarPath = 'groups/';
     protected $attributes = [
         'subscribers' => 0,
         'type' => self::TYPE_PUBLIC,
     ];
-
     protected $table = 'groups';
     protected $visible = [
         'id', 'avatar', 'created_at', 'creator',
@@ -117,33 +120,8 @@ class Group extends BaseModel
         {
             return '/uploads/groups/'. $this->avatar;
         }
-        else
-        {
-            return '/static/img/default_avatar.png';
-        }
-    }
 
-    public function setAvatar($file)
-    {
-        $this->deleteAvatar();
-
-        $filename = Str::random(8) .'.png';
-
-        $img = Image::make($file);
-        $img->fit(100, 100);
-        $img->save(Config::get('app.uploads_path').'/groups/'. $filename);
-
-        $this->avatar = $filename;
-    }
-
-    public function deleteAvatar()
-    {
-        if ($this->avatar)
-        {
-            File::delete(Config::get('app.uploads_path').'/avatars/'. $this->avatar);
-
-            $this->unset('avatar');
-        }
+        return '/static/img/default_avatar.png';
     }
 
     public function setStyle($css)

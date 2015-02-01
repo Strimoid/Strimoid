@@ -47,10 +47,7 @@ trait HasThumbnail {
      */
     public function setThumbnail($url)
     {
-        if ($this->thumbnail)
-        {
-            Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
-        }
+        $this->removeThumbnail();
 
         if (starts_with($url, '//')) $url = 'http:'. $url;
 
