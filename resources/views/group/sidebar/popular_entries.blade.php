@@ -2,17 +2,13 @@
 
 use Strimoid\Models\Entry;
 
-$fromTime = Carbon::now()->subDays(3)->minute(0)->second(0);
-
 $builder = Entry::with([
-    'user' => function($q) {
-        $q->select(['avatar', 'name']);
-    }
-])->where('created_at', '>', $fromTime);
+    'user' => function($q) { $q->select(['avatar', 'name']); }
+])->fromDaysAgo(3);
 
 if (isset($group) && $group instanceof Strimoid\Models\Group)
 {
-    $builder->where('group_id', $group->_id);
+    $builder->where('group_id', $group->getKey());
 }
 
 $popularEntries = $builder->orderBy('uv', 'desc')->take(5)->get();

@@ -24,7 +24,7 @@ class Entry extends BaseModel
     protected $visible = ['_id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies'];
 
-    function __construct($attributes = array())
+    function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(6);
 

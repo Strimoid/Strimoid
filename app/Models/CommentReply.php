@@ -6,11 +6,11 @@ use Strimoid\Helpers\MarkdownParser;
 class CommentReply extends BaseModel
 {
 
-    protected $attributes = array(
+    protected $attributes = [
         'uv' => 0,
         'dv' => 0,
         'score' => 0,
-    );
+    ];
 
     protected static $rules = [
         'text' => 'required|min:1|max:5000'
@@ -20,7 +20,7 @@ class CommentReply extends BaseModel
     protected $hidden = ['text_source', 'updated_at'];
     protected $fillable = ['text'];
 
-    function __construct($attributes = array())
+    function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(8);
 
@@ -38,7 +38,7 @@ class CommentReply extends BaseModel
         });
     }
 
-    public static function find($id, $columns = array('*')) {
+    public static function find($id, $columns = ['*']) {
         $parent = Comment::where('_replies._id', $id)
             ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
             ->first(['created_at', 'content_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
@@ -79,37 +79,35 @@ class CommentReply extends BaseModel
 
     public function mpush($column, $value = null, $unique = false)
     {
-        if (!$this->_id)
-            return new Exception('Tried to push on model without id');
-
         $column = '_replies.$.'. $column;
 
-        $builder = Comment::where('_id', $this->comment->_id)->where('_replies._id', $this->_id);
+        $builder = Comment::where('_id', $this->comment->_id)
+            ->where('_replies._id', $this->_id);
         $builder->push($column, $value, $unique);
     }
 
     public function mpull($column, $value = null)
     {
-        if (!$this->_id)
-            return new Exception('Tried to pull on model without id');
-
         $column = '_replies.$.'. $column;
 
-        $builder = Comment::where('_id', $this->comment->_id)->where('_replies._id', $this->_id);
+        $builder = Comment::where('_id', $this->comment->_id)
+            ->where('_replies._id', $this->_id);
         $builder->pull($column, $value);
     }
 
     public function increment($column, $amount = 1) {
         $column = '_replies.$.'. $column;
 
-        $builder = Comment::where('_id', $this->comment->_id)->where('_replies._id', $this->_id);
+        $builder = Comment::where('_id', $this->comment->_id)
+            ->where('_replies._id', $this->_id);
         $builder->increment($column, $amount);
     }
 
     public function decrement($column, $amount = 1) {
         $column = '_replies.$.'. $column;
 
-        $builder = Comment::where('_id', $this->comment->_id)->where('_replies._id', $this->_id);
+        $builder = Comment::where('_id', $this->comment->_id)
+            ->where('_replies._id', $this->_id);
         $builder->decrement($column, $amount);
     }
 

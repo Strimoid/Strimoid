@@ -22,7 +22,7 @@ class EntryReply extends BaseModel
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'updated_at'];
 
-    function __construct($attributes = array())
+    function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(8);
 
@@ -39,7 +39,7 @@ class EntryReply extends BaseModel
         return $parent->replies->first();
     }
 
-    public static function findOrFail($id, $columns = array('*'))
+    public static function findOrFail($id, $columns = ['*'])
     {
         $result = self::find($id, $columns);
         if ($result) return $result;

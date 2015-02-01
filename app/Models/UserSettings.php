@@ -48,7 +48,7 @@ class UserSettings {
 
     public function getTimezones()
     {
-        $timezones = array();
+        $timezones = [];
 
         foreach (DateTimeZone::listIdentifiers() as $timezone)
         {

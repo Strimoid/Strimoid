@@ -1,7 +1,7 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Closure;
-use Auth, Str;
+use Auth, Settings, Str;
 use Illuminate\Routing\Controller;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
@@ -53,6 +53,25 @@ class BaseController extends Controller {
 
         $callback($notification);
         $notification->save();
+    }
+
+    /**
+     * Return homepage group name.
+     *
+     * @return string
+     */
+    protected function homepageGroup()
+    {
+        $groupName = 'all';
+
+        // Show popular instead of all as homepage for guests
+        $groupName = Auth::guest() ? 'popular' : $groupName;
+
+        // Maybe user is having subscribed set as his homepage?
+        $subscribedEnabled = Settings::get('homepage_subscribed');
+        $groupName = $subscribedEnabled ? 'subscribed' : $groupName;
+
+        return $groupName;
     }
 
 }

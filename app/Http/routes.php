@@ -178,11 +178,6 @@ Route::get('/g/{group}/deleted', [
     'uses' => 'ContentController@showContentsFromGroup'
 ]);
 
-Route::get('/g/{group}/comments', [
-    'as' => 'group_comments',
-    'uses' => 'CommentController@showComments'
-]);
-
 Route::get('/c/{content}', ['as' => 'content_comments', 'uses' => 'ContentController@showComments']);
 
 Route::get('/c/{content}/frame', ['uses' => 'ContentController@showFrame']);
@@ -210,7 +205,12 @@ Route::post('/c/{content}/add_vote', ['middleware' => 'auth', 'uses' => 'PollCon
 
 /* Comments ========================================================================================================= */
 
-Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showComments']);
+Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showCommentsFromGroup']);
+
+Route::get('/g/{group}/comments', [
+    'as' => 'group_comments',
+    'uses' => 'CommentController@showCommentsFromGroup'
+]);
 
 Route::post('/ajax/comment/add', ['middleware' => 'auth', 'uses' => 'CommentController@addComment']);
 Route::post('/ajax/comment/add/reply', ['middleware' => 'auth', 'uses' => 'CommentController@addReply']);
@@ -220,11 +220,11 @@ Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentC
 
 
 /* Entries ========================================================================================================== */
-Route::get('/entries', ['as' => 'global_entries', 'uses' => 'EntryController@showEntries']);
+Route::get('/entries', ['as' => 'global_entries', 'uses' => 'EntryController@showEntriesFromGroup']);
 
 Route::get('/g/{group}/entries', [
     'as' => 'group_entries',
-    'uses' => 'EntryController@showEntries'
+    'uses' => 'EntryController@showEntriesFromGroup'
 ]);
 
 Route::get('/e/{id}', [
@@ -287,13 +287,13 @@ Route::get('/ajax/group/{group}/sidebar', ['middleware' => 'auth', 'uses' => 'Gr
 /* Folders ========================================================================================================== */
 Route::get('/f/{folder}', ['as' => 'folder_contents', 'middleware' => 'auth', 'uses' => 'ContentController@showContentsFromFolder']);
 Route::get('/f/{folder}/new', ['as' => 'folder_contents_new', 'middleware' => 'auth', 'uses' => 'ContentController@showContentsFromFolder']);
-Route::get('/f/{folder}/entries', ['as' => 'folder_entries', 'middleware' => 'auth', 'uses' => 'EntryController@showEntries']);
-Route::get('/f/{folder}/comments', ['as' => 'folder_comments', 'middleware' => 'auth', 'uses' => 'CommentController@showComments']);
+Route::get('/f/{folder}/entries', ['as' => 'folder_entries', 'middleware' => 'auth', 'uses' => 'EntryController@showEntriesFromFolder']);
+Route::get('/f/{folder}/comments', ['as' => 'folder_comments', 'middleware' => 'auth', 'uses' => 'CommentController@showCommentsFromFolder']);
 
 Route::get('/u/{user}/f/{folder}', ['as' => 'user_folder_contents', 'uses' => 'ContentController@showContentsFromFolder']);
 Route::get('/u/{user}/f/{folder}/new', ['as' => 'user_folder_contents_new', 'uses' => 'ContentController@showContentsFromFolder']);
-Route::get('/u/{user}/f/{folder}/entries', ['as' => 'user_folder_entries', 'uses' => 'EntryController@showEntries']);
-Route::get('/u/{user}/f/{folder}/comments', ['as' => 'user_folder_comments', 'uses' => 'CommentController@showComments']);
+Route::get('/u/{user}/f/{folder}/entries', ['as' => 'user_folder_entries', 'uses' => 'EntryController@showEntriesFromFolder']);
+Route::get('/u/{user}/f/{folder}/comments', ['as' => 'user_folder_comments', 'uses' => 'CommentController@showCommentsFromFolder']);
 
 Route::post('/ajax/folder/create', ['middleware' => 'auth', 'uses' => 'FolderController@createFolder']);
 Route::post('/ajax/folder/edit', ['middleware' => 'auth', 'uses' => 'FolderController@editFolder']);
@@ -322,17 +322,12 @@ Route::post('/ajax/entry/remove_save', ['middleware' => 'auth', 'uses' => 'SaveC
 /* Utils ============================================================================================================ */
 Route::post('/ajax/utils/get_title', ['middleware' => 'auth', 'uses' => 'UtilsController@getURLTitle']);
 
-Route::post('/queue/receive/Paxij6bGu18NZTeut4B7T5wKO10jUgQz', function()
-{
-    return Queue::marshal();
-});
-
 /* Static pages ===================================================================================================== */
 Route::get('/cookies', function() { return view('static.cookies'); });
 Route::get('/contact', function() { return view('static.contact'); });
 Route::get('/guide', function() { return view('static.guide'); });
 Route::get('/rules', function() { return view('static.rules'); });
-Route::get('/tag/{tag}', function($tag){ Return view('static.tag', ['tag' => $tag]); });
+Route::get('/tag/{tag}', function($tag){ return view('static.tag', ['tag' => $tag]); });
 
 /* Search =========================================================================================================== */
 Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);

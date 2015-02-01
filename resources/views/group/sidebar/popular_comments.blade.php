@@ -2,16 +2,14 @@
 
 use Strimoid\Models\Comment;
 
-$fromTime = Carbon::now()->subDays(3)->minute(0)->second(0);
-
 $builder = Comment::with([
     'user' => function($q) { $q->select(['id', 'avatar', 'name']); },
     'content' => function($q) { $q->select(['id', 'title']); }
-])->where('created_at', '>', $fromTime);
+])->fromDaysAgo(3);
 
 if (isset($group) && $group instanceof Strimoid\Models\Group)
 {
-    $builder->where('group_id', $group->id);
+    $builder->where('group_id', $group->getKey());
 }
 
 $popularComments = $builder->orderBy('uv', 'desc')->take(5)->get();

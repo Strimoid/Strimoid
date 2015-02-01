@@ -1,6 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Input, Settings, Route, Response;
+use Strimoid\Contracts\FolderRepository;
+use Strimoid\Contracts\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
@@ -8,50 +10,61 @@ use Strimoid\Models\Group;
 
 class CommentController extends BaseController {
 
-    public function showComments($groupName = 'all')
+    /**
+     * @var FolderRepository
+     */
+    protected $folders;
+
+    /**
+     * @var GroupRepository
+     */
+    protected $groups;
+
+    /**
+     * @param FolderRepository $folders
+     * @param GroupRepository $groups
+     */
+    public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
-        $groupName = shadow($groupName);
+        $this->groups = $groups;
+        $this->folders = $folders;
+    }
 
-        if (Auth::check() && !Route::input('group') && $groupName == 'all'
-            && @Auth::user()->settings['homepage_subscribed'])
+    public function showCommentsFromGroup($groupName = 'all')
+    {
+        // If user is on homepage, then use proper group
+        if ( ! Route::input('group'))
         {
-            $groupName = 'subscribed';
+            $groupName = $this->homepageGroup();
         }
 
-        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed']))
-        {
-            return Redirect::route('login_form')->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
-        }
+        $group = $this->groups->getByName($groupName);
+        view()->share('group', $group);
 
-        $className = 'Strimoid\\Models\\Folders\\'. studly_case($groupName);
+        $builder = $group->comments();
+        return $this->showComments($builder);
+    }
 
-        if (class_exists($className))
-        {
-            $builder = with(new $className)->comments();
-        }
-        else
-        {
-            $group = Group::shadow($groupName)->firstOrFail();
-            $group->checkAccess();
+    public function showCommentsFromFolder()
+    {
+        $userName = Route::input('user') ?: Auth::id();
+        $folderName = Route::input('folder');
 
-            $builder = $group->comments();
-        }
+        $folder = $this->folders->getByName($userName, $folderName);
+        view()->share('folder', $folder);
 
+        $builder = $folder->comments();
+        return $this->showComments($builder);
+    }
+
+    protected function showComments($builder)
+    {
         $builder->orderBy('created_at', 'desc')->with(['user']);
 
-        // Paginate
-        $comments = $builder->paginate(Settings::get('entries_per_page'));
+        $perPage = Settings::get('entries_per_page');
+        $comments = $builder->paginate($perPage);
 
-        $group_name = $groupName;
-
-        $blockedUsers = array();
-
-        if (Auth::check())
-        {
-            $blockedUsers = (array) Auth::user()->blockedUsers();
-        }
-
-        return view('comments.list', compact('group', 'comments', 'group_name', 'blockedUsers'));
+        return view('comments.list', compact('comments'));
     }
 
     public function getCommentSource()

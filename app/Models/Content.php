@@ -41,7 +41,7 @@ class Content extends BaseModel
     protected $fillable = ['title', 'description', 'nsfw', 'eng', 'text', 'url'];
     protected $hidden = ['text', 'text_source', 'updated_at'];
 
-    function __construct($attributes = array())
+    function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(6);
 
@@ -49,7 +49,7 @@ class Content extends BaseModel
         {
             Notification::where('content_id', $this->getKey())->delete();
 
-            if (!$content->trashed())
+            if ( ! $content->trashed())
             {
                 foreach ($this->getComments() as $comment)
                 {
@@ -94,7 +94,7 @@ class Content extends BaseModel
 
     public function getEmbed()
     {
-        if (!$this->url) return false;
+        if ( ! $this->url) return false;
 
         return OEmbed::getHtml($this->url);
     }
@@ -122,8 +122,9 @@ class Content extends BaseModel
 
     public function setUrlAttribute($url)
     {
+        $domain = PDP::parseUrl($url)->host->registerableDomain;
         $this->attributes['url'] = $url;
-        $this->attributes['domain'] = PDP::parseUrl($url)->host->registerableDomain;
+        $this->attributes['domain'] = $domain;
     }
 
     public function setTextAttribute($text)
@@ -183,11 +184,10 @@ class Content extends BaseModel
 
     public function removeThumbnail()
     {
-        if ($this->thumbnail)
-        {
-            Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
-            $this->unset('thumbnail');
-        }
+        if ( ! $this->thumbnail) return;
+
+        Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
+        $this->unset('thumbnail');
     }
 
     public static function validate($input)
@@ -212,7 +212,7 @@ class Content extends BaseModel
     public function canEdit(User $user = null)
     {
         $isAuthor = $user->_id == $this->user_id;
-        $hasTime = Carbon::instance($this->created_at)->diffInMinutes() < 30;
+        $hasTime = $this->created_at->diffInMinutes() < 30;
 
         $isAdmin = $user->type == 'admin';
 

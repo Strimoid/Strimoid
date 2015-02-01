@@ -15,13 +15,13 @@
 
     @include('group.sidebar.search')
 
-    @if (isset($group))
-        @include('group.sidebar.description', array('group' => $group))
-        @include('group.sidebar.stats', array('group' => $group))
+    @if (isset($group) && $group instanceof Strimoid\Models\Group)
+        @include('group.sidebar.description', ['group' => $group])
+        @include('group.sidebar.stats', ['group' => $group])
     @endif
 
     @if (isset($folder))
-        @include('folders.sidebar.group_list', array('folder' => $folder))
+        @include('folders.sidebar.group_list', ['folder' => $folder])
     @endif
 
     @include('group.sidebar.moderator')

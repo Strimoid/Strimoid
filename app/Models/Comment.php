@@ -21,10 +21,9 @@ class Comment extends BaseModel
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
 
-    function __construct($attributes = array())
+    function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(6);
-
         parent::__construct($attributes);
     }
 
@@ -34,7 +33,6 @@ class Comment extends BaseModel
 
         static::created(function($comment)
         {
-            // Increase comments counter in content
             $comment->content->increment('comments_count');
         });
     }
@@ -87,10 +85,7 @@ class Comment extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest())
-        {
-            return false;
-        }
+        if (Auth::guest()) return false;
 
         return Auth::user()->isBlockingUser($this->user);
     }
@@ -100,14 +95,16 @@ class Comment extends BaseModel
         return route('content_comments', $this->content_id) .'#'. $this->getKey();
     }
 
-    public function canEdit(User $user)
+    public function canEdit()
     {
-        return Auth::id() === $this->user_id && $this->replies()->count() == 0;
+        return Auth::id() === $this->user_id
+            && $this->replies()->count() == 0;
     }
 
-    public function canRemove(User $user)
+    public function canRemove()
     {
-        return Auth::id() === $this->user_id || Auth::user()->isModerator($this->group_id);
+        return Auth::id() === $this->user_id
+            || Auth::user()->isModerator($this->group_id);
     }
 
 }

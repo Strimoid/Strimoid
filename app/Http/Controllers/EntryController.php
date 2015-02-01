@@ -1,95 +1,86 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Input, Route, Settings, Response;
+use Strimoid\Contracts\FolderRepository;
+use Strimoid\Contracts\GroupRepository;
 use Strimoid\Models\Group;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 
 class EntryController extends BaseController {
 
-    public function showEntries($groupName = 'all')
+    /**
+     * @var FolderRepository
+     */
+    protected $folders;
+
+    /**
+     * @var GroupRepository
+     */
+    protected $groups;
+
+    /**
+     * @param FolderRepository $folders
+     * @param GroupRepository $groups
+     */
+    public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
-        $groupName = shadow($groupName);
+        $this->groups = $groups;
+        $this->folders = $folders;
+    }
 
-        $results['blockedUsers'] = array();
-
-        // Show popular instead of all as homepage for guests
-        if (Auth::guest() && !Route::input('group')) {
-            $groupName = 'popular';
-        }
-
-        if (Auth::check()) {
-            $results['blockedUsers'] = Auth::user()->blockedUsers();
-
-            // Set proper group name if user is having subscribed set as his homepage
-            if (!Route::input('group') && $groupName == 'all' && @Auth::user()->settings['homepage_subscribed'])
-            {
-                $groupName = 'subscribed';
-            }
-        }
-
-        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed']))
+    public function showEntriesFromGroup($groupName = null)
+    {
+        // If user is on homepage, then use proper group
+        if ( ! Route::input('group'))
         {
-            return Redirect::route('login_form')
-                ->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
+            $groupName = $this->homepageGroup();
         }
 
-        $className = 'Strimoid\\Models\\Folders\\'. studly_case($groupName);
+        $group = $this->groups->getByName($groupName);
+        view()->share('group', $group);
 
-        if (Route::input('folder'))
-        {
-            $user = Route::input('user') ? User::findOrFail(Route::input('user')) : Auth::user();
-            $folder = Folder::findUserFolder($user->_id, Route::input('folder'));
+        $builder = $group->entries();
+        return $this->showEntries($builder);
+    }
 
-            if (!$folder->public && (Auth::guest() || $user->_id != Auth::user()->_id))
-            {
-                App::abort(404);
-            }
+    public function showEntriesFromFolder()
+    {
+        $userName = Route::input('user') ?: Auth::id();
+        $folderName = Route::input('folder');
 
-            $builder = $folder->entries();
-            $results['folder'] = $folder;
-        }
-        elseif (class_exists($className))
-        {
-            $fakeGroup = new $className;
-            $builder = $fakeGroup->entries();
+        $folder = $this->folders->getByName($userName, $folderName);
+        view()->share('folder', $folder);
 
-            $results['fakeGroup'] = $fakeGroup;
-        }
-        else
-        {
-            $group = Group::shadow($groupName)->firstOrFail();
-            $group->checkAccess();
+        $builder = $folder->entries();
+        return $this->showEntries($builder);
+    }
 
-            $builder = $group->entries();
-            $results['group'] = $group;
-        }
-
+    protected function showEntries($builder)
+    {
         $builder->orderBy('created_at', 'desc')
-            ->with(['user', 'replies.user'])
-            //->project(['_replies' => ['$slice' => -2]]);
-        ;
+            ->with(['user', 'replies.user']);
 
-        $entries = $builder->paginate(Settings::get('entries_per_page'));
+        $perPage = Settings::get('entries_per_page');
+        $entries = $builder->paginate($perPage);
 
-        $results['entries'] = $entries;
-        $results['group_name'] = $groupName;
-
-        return view('entries.display', $results);
+        return view('entries.display', compact('entries'));
     }
 
     public function showEntry($id)
     {
-        if (Route::current()->getName() == 'single_entry_reply')
+        if (Route::currentRouteName() == 'single_entry_reply')
         {
-            $entry = Entry::where('_replies._id', $id)->with('user')->with('replies.user')->firstOrFail();
+            $entry = Entry::where('_replies._id', $id)
+                ->with(['user', 'replies.user'])->firstOrFail();
         }
         else
         {
-            $entry = Entry::with('user')->with('replies.user')->findOrFail($id);
+            $entry = Entry::with('user')
+                ->with('replies.user')->findOrFail($id);
         }
 
-        $entries = array($entry);
+        $entries = [$entry];
         $group = $entry->group;
 
         return view('entries.display', compact('entries', 'group'));
@@ -114,7 +105,7 @@ class EntryController extends BaseController {
             $entry = Entry::findOrFail(Input::get('id'));
         }
 
-        if (Auth::user()->getKey() != $entry->user_id)
+        if (Auth::id() !== $entry->user_id)
         {
             App::abort(403, 'Access denied');
         }
@@ -131,7 +122,7 @@ class EntryController extends BaseController {
             return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
         }
 
-        $group = Group::where('shadow_urlname', shadow(Input::get('groupname')))->firstOrFail();
+        $group = Group::shadow(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group))

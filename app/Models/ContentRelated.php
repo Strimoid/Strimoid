@@ -20,7 +20,7 @@ class ContentRelated extends BaseModel
     protected $hidden = ['content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
 
-    function __construct($attributes = array())
+    function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(9);
 
@@ -56,18 +56,12 @@ class ContentRelated extends BaseModel
 
     public function getURL()
     {
-        if ($this->url)
-            return $this->url;
-        else
-            return route('content_comments', $this->getKey());
+        return $this->url ?: route('content_comments', $this->getKey());
     }
 
     public function getThumbnailPath()
     {
-        if ($this->thumbnail)
-            return '/uploads/thumbnails/'. $this->thumbnail;
-        else
-            return '';
+        return $this->thumbnail ? '/uploads/thumbnails/'. $this->thumbnail : '';
     }
 
     public function setThumbnail($path)
@@ -75,8 +69,7 @@ class ContentRelated extends BaseModel
         if ($this->thumbnail)
             unlink(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
 
-        if (strpos($path, '//') === 0)
-            $path = 'http:'. $path;
+        if (strpos($path, '//') === 0) $path = 'http:'. $path;
 
         $data = file_get_contents($path);
         $filename = Str::random(9) .'.png';
@@ -91,10 +84,9 @@ class ContentRelated extends BaseModel
 
     public function removeThumbnail()
     {
-        if($this->thumbnail)
-        {
-            unlink(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
-            $this->unset('thumbnail');
-        }
+        if ( ! $this->thumbnail) return;
+
+        unlink(Config::get('app.uploads_path').'/thumbnails/'. $this->thumbnail);
+        $this->unset('thumbnail');
     }
 }

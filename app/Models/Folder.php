@@ -18,11 +18,11 @@ class Folder extends BaseModel
         'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
     ];
 
-    public static function find($id, $columns = array('*')) {
+    public static function find($id, $columns = ['*']) {
         return static::findUserFolder(Auth::id(), $id, $columns);
     }
 
-    public static function findUserFolder($userId, $id, $columns = array('*')) {
+    public static function findUserFolder($userId, $id, $columns = ['*']) {
         $parent = User::where('_id', $userId)
             ->project(['_folders' => ['$elemMatch' => ['_id' => $id]]])
             ->first();
@@ -31,7 +31,7 @@ class Folder extends BaseModel
 
         return $parent->folders->first();
     }
-    public static function findUserFolderOrFail($userId, $id, $columns = array('*'))
+    public static function findUserFolderOrFail($userId, $id, $columns = ['*'])
     {
         if ( ! is_null($model = static::findUserFolder($userId, $id, $columns))) return $model;
 

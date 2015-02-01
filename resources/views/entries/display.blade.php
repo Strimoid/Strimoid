@@ -90,7 +90,7 @@ $suggestedGroup = (isset($group)) ? $group->urlname : '';
 
 @include('group.sidebar.add_content')
 
-@if (isset($group))
+@if (isset($group) && $group instanceof Strimoid\Models\Group)
     @include('group.sidebar.description', compact($group))
     @include('group.sidebar.stats', compact($group))
 @endif

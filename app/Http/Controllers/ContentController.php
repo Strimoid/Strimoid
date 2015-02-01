@@ -44,28 +44,20 @@ class ContentController extends BaseController {
     }
 
     /**
+     * Display contents from given group.
+     *
      * @param  string  $groupName
      * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
-    public function showContentsFromGroup($groupName = 'all')
+    public function showContentsFromGroup($groupName = null)
     {
-        $tab = str_contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
+        $routeName = Route::currentRouteName();
+        $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
 
-        // If user is on homepage...
+        // If user is on homepage, then use proper group
         if ( ! Route::input('group'))
         {
-            // Show popular instead of all as homepage for guests
-            $groupName = Auth::guest() ? 'popular' : $groupName;
-
-            // Maybe user is having subscribed set as his homepage?
-            $groupName = Settings::get('homepage_subscribed') ? 'subscribed' : $groupName;
-        }
-
-        // Some folders works only for logged in users
-        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed']))
-        {
-            return Redirect::route('login_form')
-                ->with('info_msg', 'Wybrana funkcja dostępna jest wyłącznie dla zalogowanych użytkowników.');
+            $groupName = $this->homepageGroup();
         }
 
         // Make it possible to browse everything by adding all parameter
@@ -82,12 +74,19 @@ class ContentController extends BaseController {
         return $this->showContents($builder);
     }
 
+    /**
+     * Display contents from given folder.
+     *
+     * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
+     */
     public function showContentsFromFolder()
     {
         $tab = str_contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
 
         $userName = Route::input('user') ?: Auth::id();
-        $folder = $this->folders->getByName($userName, Route::input('folder'));
+        $folderName = Route::input('folder');
+
+        $folder = $this->folders->getByName($userName, $folderName);
         view()->share('folder', $folder);
 
         if ( ! $folder->canBrowse()) App::abort(404);
@@ -96,7 +95,6 @@ class ContentController extends BaseController {
         $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
 
         $builder = $folder->contents($tab, $orderBy);
-
         return $this->showContents($builder);
     }
 
@@ -105,7 +103,8 @@ class ContentController extends BaseController {
         $this->filterByTime($builder, Input::get('time'));
 
         // Paginate and attach parameters to paginator links
-        $contents = $builder->paginate(Settings::get('contents_per_page'));
+        $perPage = Settings::get('entries_per_page');
+        $contents = $builder->paginate($perPage);
         $contents->appends(Input::only(['sort', 'time', 'all']));
 
         // Return RSS feed for some of routes
@@ -117,13 +116,10 @@ class ContentController extends BaseController {
         return view('content.display', compact('contents'));
     }
 
-    protected function filterByTime($builder, $time)
+    protected function filterByTime($builder, $days)
     {
-        if ( ! $time) return;
-
-        $fromTime = Carbon::now()->subDays(Input::get('time'))
-            ->hour(0)->minute(0)->second(0);
-        $builder->where('created_at', '>', $fromTime);
+        if ( ! $days) return;
+        $builder->fromDaysAgo($days);
     }
 
     /**

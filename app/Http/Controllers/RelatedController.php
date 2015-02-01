@@ -54,7 +54,7 @@ class RelatedController extends BaseController {
     {
         $related = ($related instanceof ContentRelated) ?: ContentRelated::findOrFail(Input::get('id'));
 
-        if (Auth::user()->getKey() == $related->user->getKey())
+        if (Auth::id() == $related->user->getKey())
         {
             $related->delete();
             return Response::json(['status' => 'ok']);
