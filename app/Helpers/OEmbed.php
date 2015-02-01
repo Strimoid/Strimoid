@@ -30,6 +30,12 @@ class OEmbed {
             {
                 return $link['href'];
             }
+
+            if (in_array('file', $link['rel'])
+                && starts_with($link['type'], 'image'))
+            {
+                return $link['href'];
+            }
         }
 
         return false;
