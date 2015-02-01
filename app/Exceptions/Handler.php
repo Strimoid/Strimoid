@@ -26,12 +26,12 @@ class Handler extends ExceptionHandler {
      */
     public function report(Exception $e)
     {
-        $key = Config::get('strimoid.rollbar_key');
+        $token = Config::get('services.rollbar.token');
 
-        if ($key)
+        if ($token)
         {
             (new \RollbarNotifier([
-                'access_token' => $key,
+                'access_token' => $token,
             ]))->report_exception($e);
         }
 

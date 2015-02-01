@@ -17,7 +17,7 @@ interface PubSub {
      * Subscribe to given channel.
      *
      * @param  $channel
-     * @param  callable $callback
+     * @param  Closure $callback
      * @return void
      */
     public function subscribe($channel, Closure $callback);

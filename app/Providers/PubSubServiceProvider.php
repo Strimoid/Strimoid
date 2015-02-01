@@ -14,8 +14,8 @@ class PubSubServiceProvider extends ServiceProvider {
     {
         $this->app->singleton('Strimoid\Contracts\PubSub', function($app)
         {
-            $pubKey = $app['config']['pubnub.pub_key'];
-            $subKey = $app['config']['pubnub.sub_key'];
+            $pubKey = $app['config']['services.pub_key'];
+            $subKey = $app['config']['services.sub_key'];
 
             $pubNub = new \Pubnub\Pubnub($pubKey, $subKey);
 
