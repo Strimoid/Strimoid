@@ -1,13 +1,12 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Strimoid\Contracts\ContentRepository;
 use Strimoid\Contracts\FolderRepository;
 use Strimoid\Contracts\GroupRepository;
 use Summon\Summon;
-use Auth, Input, Route, Redirect, Response, Rss, Settings, Validator, Queue;
+use Auth, Input, Route, Redirect, Response, Rss, Session, Settings, Validator, Queue;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
