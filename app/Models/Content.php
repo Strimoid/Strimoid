@@ -155,7 +155,7 @@ class Content extends BaseModel
     public function autoThumbnail()
     {
         $url = OEmbed::getThumbnail($this->url);
-        $this->setThumbnail($url);
+        if ($url) $this->setThumbnail($url);
     }
 
     public function setThumbnail($path)
