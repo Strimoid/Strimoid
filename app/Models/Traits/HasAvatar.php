@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models\Traits; 
 
-use Image, Storage;
+use Image, Storage, Str;
 
 /**
  * Class HasAvatar

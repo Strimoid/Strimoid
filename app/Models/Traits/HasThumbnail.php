@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models\Traits; 
 
-use Config, Image, OEmbed, Storage;
+use Config, Image, OEmbed, Storage, Str;
 
 /**
  * Class HasThumbnail
