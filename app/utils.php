@@ -21,6 +21,15 @@ if ( ! function_exists('hash_email')) {
     }
 }
 
+if ( ! function_exists('shadow_email')) {
+    function shadow_email($email)
+    {
+        $shadow = Str::lower($email);
+        $shadow = str_replace('.', '', $shadow);
+        return preg_replace('/\+(.)*@/', '@', $shadow);
+    }
+}
+
 if ( ! function_exists('parse_usernames')) {
 
     // Change "@username" and "g/groupname" into markdown links
