@@ -7,6 +7,11 @@ use Jenssegers\Mongodb\Model;
 class BaseModel extends Model
 {
 
+    /**
+     * @var array
+     */
+    protected static $rules = [];
+
     public function getLocalTime()
     {
         $timezone = new DateTimeZone(Settings::get('timezone'));
@@ -71,6 +76,12 @@ class BaseModel extends Model
     {
         return Validator::make($input, static::$rules);
     }
+
+    public static function rules()
+    {
+        return static::rules;
+    }
+
 
     /* Scopes */
 

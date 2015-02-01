@@ -1,19 +1,18 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth, Input, Redirect, Response, Validator;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Group;
 
 class RelatedController extends BaseController {
 
-    public function addRelated($content)
-    {
-        $validator = ContentRelated::validate(Input::all());
+    use ValidatesRequests;
 
-        if ($validator->fails())
-        {
-            return Redirect::route('content_comments', $content->_id)->withInput()->withErrors($validator);
-        }
+    public function addRelated(Request $request, $content)
+    {
+        $this->validate($request, ContentRelated::rules());
 
         if (Auth::user()->isBanned($content->group))
         {
@@ -22,7 +21,8 @@ class RelatedController extends BaseController {
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
-        if ($content->group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($content->group))
+        if ($content->group->type == Group::TYPE_ANNOUNCEMENTS
+            && !Auth::user()->isModerator($content->group))
         {
             return Redirect::route('content_comments', $content->_id)
                 ->withInput()
@@ -62,21 +62,16 @@ class RelatedController extends BaseController {
         return Response::json(['status' => 'error']);
     }
 
-    public function store($content)
+    public function store(Request $request, $content)
     {
-        $validator = Validator::make(Input::all(), [
-            'title' => 'required|min:1|max:128',
-            'url' => 'required|url_custom',
-        ]);
-
-        if ($validator->fails())
-        {
-            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
-        }
+        $this->validate($request, ContentRelated::rules());
 
         if (Auth::user()->isBanned($content->group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.']);
+            return Response::json([
+                'status' => 'error',
+                'error' => 'Użytkownik został zbanowany w wybranej grupie.'
+            ]);
         }
 
         $related = new ContentRelated(Input::only([
@@ -95,7 +90,11 @@ class RelatedController extends BaseController {
 
         $related->save();
 
-        return Response::json(['status' => 'ok', '_id' => $related->_id, 'related' => $related]);
+        return Response::json([
+            'status' => 'ok',
+            '_id' => $related->_id,
+            'related' => $related
+        ]);
     }
 
 }

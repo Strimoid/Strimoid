@@ -152,10 +152,9 @@ class ContentController extends BaseController {
             })->reverse();
         }
 
-        $blockedUsers = Auth::check() ? (array) Auth::user()->blockedUsers() : array();
         $group = $content->group;
 
-        return view('content.comments', compact('content', 'group', 'blockedUsers'));
+        return view('content.comments', compact('content', 'group'));
     }
 
     public function showFrame(Content $content)
