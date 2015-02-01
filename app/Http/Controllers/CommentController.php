@@ -40,7 +40,7 @@ class CommentController extends BaseController {
         $builder->orderBy('created_at', 'desc')->with(['user']);
 
         // Paginate
-        $comments = $this->cachedPaginate($builder, Settings::get('entries_per_page'), 10);
+        $comments = $builder->paginate(Settings::get('entries_per_page'));
 
         $group_name = $groupName;
 
@@ -252,10 +252,7 @@ class CommentController extends BaseController {
             $builder = $group->comments();
         }
 
-        $builder->with([
-            'user' => function($q) { $q->remember(10); },
-            'group' => function($q) { $q->remember(10); }
-        ]);
+        $builder->with(['user', 'group']);
 
         // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
         if (in_array(Input::get('sort'), ['uv', 'created_at']))
@@ -368,12 +365,12 @@ class CommentController extends BaseController {
         }
 
         $comment->deleteNotifications();
-
         $comment->update(Input::only('text'));
 
         // Send notifications to mentioned users
         $this->sendNotifications(Input::get('text'), function($notification) use ($comment){
-            $notification->type = (Input::get('type') == 'comment_reply' ? 'comment_reply' : 'comment');
+            $notification->type = Input::get('type') == 'comment_reply'
+                ? 'comment_reply' : 'comment';
             $notification->setTitle($comment->text);
 
             if ($comment instanceof CommentReply)
@@ -392,7 +389,8 @@ class CommentController extends BaseController {
 
     public function remove($comment)
     {
-        if (Auth::id() === $comment->user_id || Auth::user()->isModerator($comment->group_id))
+        if (Auth::id() === $comment->user_id
+            || Auth::user()->isModerator($comment->group_id))
         {
             $comment->delete();
 

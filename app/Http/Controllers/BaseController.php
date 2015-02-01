@@ -3,22 +3,13 @@
 use Closure;
 use Auth, Str;
 use Illuminate\Routing\Controller;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
-use League\Fractal\Resource\Collection;
-use League\Fractal\Resource\Item;
-use League\Fractal\Manager;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
 
 class BaseController extends Controller {
 
-    public function __construct(Manager $fractal)
-    {
-        $this->fractal = $fractal;
-    }
-
-    protected function sendNotifications($targets, Closure $callback, User $sourceUser = null)
+    protected function sendNotifications($targets,
+        Closure $callback, User $sourceUser = null)
     {
         $sourceUser = $sourceUser ?: Auth::user();
 
@@ -30,11 +21,12 @@ class BaseController extends Controller {
         {
             preg_match_all('/@([a-z0-9_-]+)/i', $targets, $mentionedUsers, PREG_SET_ORDER);
 
-            $uniqueUsers = array();
+            $uniqueUsers = [];
 
             foreach ($mentionedUsers as $mentionedUser)
             {
-                if (!isset($mentionedUser[1]) || in_array(Str::lower($mentionedUser[1]), $uniqueUsers))
+                if ( ! isset($mentionedUser[1])
+                    || in_array(Str::lower($mentionedUser[1]), $uniqueUsers))
                 {
                     break;
                 }
@@ -43,10 +35,7 @@ class BaseController extends Controller {
             }
         }
 
-        if (!$uniqueUsers)
-        {
-            return;
-        }
+        if ( ! $uniqueUsers) return;
 
         $notification = new Notification();
         $notification->sourceUser()->associate($sourceUser);
@@ -55,49 +44,15 @@ class BaseController extends Controller {
         {
             $user = User::shadow($uniqueUser)->first();
 
-            if ($user && $user->getKey() != Auth::id() && !$user->isBlockingUser($sourceUser))
+            if ($user && $user->getKey() != Auth::id()
+                && !$user->isBlockingUser($sourceUser))
             {
                 $notification->addTarget($user);
             }
         }
 
         $callback($notification);
-
         $notification->save();
-    }
-
-    protected function cachedPaginate($builder, $perPage, $minutes, $columns = ['*'], Closure $filter = null)
-    {
-        $page = Paginator::resolveCurrentPage();
-        $total = $builder->count();
-        $query = $builder->forPage($page, $perPage);
-
-        $results = $query->get($columns);
-
-        if ($filter)
-        {
-            $filter($results);
-        }
-
-        return new LengthAwarePaginator($results, $total, $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath()
-        ]);
-    }
-
-    protected function respondWithItem($item, $callback)
-    {
-        $resource = new Item($item, $callback);
-        $rootScope = $this->fractal->createData($resource);
-
-        return Response::json($rootScope->toArray());
-    }
-
-    protected function respondWithCollection($collection, $callback)
-    {
-        $resource = new Collection($collection, $callback);
-        $rootScope = $this->fractal->createData($resource);
-
-        return Response::json($rootScope->toArray());
     }
 
 }
