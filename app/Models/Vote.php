@@ -15,13 +15,11 @@ class Vote extends BaseModel {
     }
 
     /**
-     * Get the attributes that should be converted to dates.
+     * Updated at field is not needed in this model,
+     * so just don't do anything.
      *
-     * @return array
+     * @param mixed $value
      */
-    public function getDates()
-    {
-        return [static::CREATED_AT];
-    }
+    public function setUpdatedAt($value) {}
 
 }
