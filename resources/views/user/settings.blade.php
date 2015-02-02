@@ -127,7 +127,7 @@
         </div>
 
         <div class="tab-pane fade" id="settings">
-            {!! Form::open(['action' => 'UserController@saveSettings', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
+            {!! Form::open(['action' => 'SettingsController@saveSettings', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
 
             <div class="form-group">
                 <label class="col-lg-3 control-label">Opcje</label>

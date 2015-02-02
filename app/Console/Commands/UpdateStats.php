@@ -101,11 +101,10 @@ class UpdateStats extends Command {
             }
 
             // Show progress
-            if (!($x++ % 100)) $this->info($x .' actions processed');
+            if ( ! ($x++ % 100)) $this->info($x .' actions processed');
         }
 
         $this->info('All actions processed');
-
     }
 
     protected function getFieldName($action)
