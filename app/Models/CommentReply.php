@@ -48,6 +48,14 @@ class CommentReply extends BaseModel
         return $parent->replies->first();
     }
 
+    public static function findOrFail($id, $columns = ['*'])
+    {
+        $result = self::find($id, $columns);
+        if ($result) return $result;
+
+        throw new ModelNotFoundException;
+    }
+
     public function user()
     {
         return $this->belongsTo('Strimoid\Models\User');
