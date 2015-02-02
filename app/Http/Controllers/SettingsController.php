@@ -1,13 +1,14 @@
 <?php namespace Strimoid\Http\Controllers; 
 
 use Auth, Input, Redirect;
-use GroupModerator;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Strimoid\Models\GroupBanned;
 use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupSubscriber;
-use UserBlocked;
+use Strimoid\Models\GroupModerator;
+use Strimoid\Models\UserBlocked;
+
 
 class SettingsController extends BaseController {
 

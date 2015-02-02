@@ -10,6 +10,7 @@ use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\Entry;
+use Strimoid\Models\ModeratorAction;
 
 class GroupController extends BaseController {
 
