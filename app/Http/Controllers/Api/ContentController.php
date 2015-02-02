@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Http\Controllers\Api; 
 
 use Auth, Input;
+use Illuminate\Http\Request;
 use Strimoid\Models\Content;
 
 class ContentController extends BaseController {
@@ -73,16 +74,12 @@ class ContentController extends BaseController {
             $builder->where('uv', '>', 2);
 
         // Time filter
-        if (Input::get('time'))
-        {
-            $builder->where('created_at', '>', time() - intval(Input::get('time')) * 86400);
-        }
+        $time = Input::get('time');
+        if ($time) $builder->fromDaysAgo(Input::get('time'));
 
         // Domain filter
-        if (Input::has('domain'))
-        {
-            $builder->where('domain', Input::get('domain'));
-        }
+        $domain = Input::get('domain');
+        if ($domain) $builder->where('domain', Input::get('domain'));
 
         // User filter
         if (Input::has('user'))
@@ -91,14 +88,9 @@ class ContentController extends BaseController {
             $builder->where('user_id', $user->getKey());
         }
 
-        $perPage = 20;
-
-        if (Input::has('per_page')
-            && Input::get('per_page') > 0
-            && Input::get('per_page') <= 100)
-        {
-            $perPage = Input::get('per_page');
-        }
+        $perPage = Input::has('per_page')
+            ? between(Input::get('per_page'), 1, 100)
+            : 20;
 
         return $builder->paginate($perPage);
     }
@@ -119,7 +111,7 @@ class ContentController extends BaseController {
     /**
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
         $rules = [
             'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -136,15 +128,7 @@ class ContentController extends BaseController {
             $rules['url'] = 'required|url_custom';
         }
 
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails())
-        {
-            return Response::json([
-                'status' => 'error',
-                'error' => $validator->messages()->first()
-            ], 400);
-        }
+        $this->validate($request, $rules);
 
         $group = Group::shadow(Input::get('group'))->firstOrFail();
         $group->checkAccess();
@@ -192,12 +176,13 @@ class ContentController extends BaseController {
     }
 
     /**
+     * @param Request $request
      * @param Content $content
      * @return mixed
      */
-    public function edit(Content $content)
+    public function edit(Request $request, $content)
     {
-        if (!$content->canEdit(Auth::user()))
+        if ( ! $content->canEdit(Auth::user()))
         {
             return Response::json([
                 'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.'
@@ -218,15 +203,7 @@ class ContentController extends BaseController {
             $rules['url'] = 'url_custom|max:2048';
         }
 
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails())
-        {
-            return Response::json([
-                'status' => 'error',
-                'error' => $validator->messages()->first()
-            ], 400);
-        }
+        $this->validate($request, $rules);
 
         $fields = ['title', 'description', 'nsfw', 'eng'];
         $fields[] = ($content->text) ? 'text' : 'url';

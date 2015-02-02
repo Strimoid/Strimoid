@@ -1,12 +1,15 @@
 <?php namespace Strimoid\Http\Controllers\Api;
 
 use Response;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Manager;
 
 class BaseController extends Controller {
+
+    use ValidatesRequests;
 
     /**
      * @param Manager $fractal

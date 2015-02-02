@@ -124,3 +124,11 @@ if ( ! function_exists('toBool')) {
         return (isset($result) && $result) ?: false;
     }
 }
+
+if ( ! function_exists('between')) {
+    function between($value, $min, $max)
+    {
+        $value = (int) $value;
+        return max(min($value, $max), $min);
+    }
+}
