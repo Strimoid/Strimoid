@@ -1,15 +1,13 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Carbon, Config, Input, Lang, Response, Redirect, Str, Validator;
+use Auth, Carbon, Config, Input, Lang, Response, Redirect, Str;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
 use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\GroupSubscriber;
-use Strimoid\Models\Entry;
 use Strimoid\Models\ModeratorAction;
 
 class GroupController extends BaseController {
@@ -228,10 +226,7 @@ class GroupController extends BaseController {
         $group = Group::shadow(Input::get('groupname'))->firstOrFail();
         $user = User::shadow(Input::get('username'))->firstOrFail();
 
-        if (!Auth::user()->isAdmin($group))
-        {
-            App::abort(403, 'Access denied');
-        }
+        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
 
         if ($user->isModerator($group))
         {
@@ -248,14 +243,8 @@ class GroupController extends BaseController {
         $moderator->group()->associate($group);
         $moderator->user()->associate($user);
 
-        if (Input::get('admin') == 'on')
-        {
-            $moderator->type = 'admin';
-        }
-        else
-        {
-            $moderator->type = 'moderator';
-        }
+        $type = Input::get('admin') == 'on' ? 'admin' : 'moderator';
+        $moderator->type = $type;
 
         $moderator->save();
 
@@ -287,7 +276,7 @@ class GroupController extends BaseController {
         $moderator = GroupModerator::findOrFail(Input::get('id'));
         $group = $moderator->group;
 
-        if (!Auth::user()->isAdmin($moderator->group))
+        if ( ! Auth::user()->isAdmin($moderator->group))
         {
             App::abort(403, 'Access denied');
         }
@@ -321,21 +310,16 @@ class GroupController extends BaseController {
         return view('group.bans', compact('group', 'bans'));
     }
 
-    public function addBan()
+    public function addBan(Request $request)
     {
         $user = User::shadow(Input::get('username'))->firstOrFail();
         $group = Group::shadow(Input::get('groupname'))->firstOrFail();
 
-        $validator = Validator::make(Input::all(), ['reason' => 'max:255']);
-
-        if ($validator->fails())
-        {
-            return Redirect::route('group_banned', $group->urlname)->withInput()->withErrors($validator);
-        }
+        $this->validate($request, ['reason' => 'max:255']);
 
         if (Input::get('everywhere') == 'on')
         {
-            $moderated = GroupModerator::with('group')->where('user_id', Auth::user()->_id)->get();
+            $moderated = GroupModerator::with('group')->where('user_id', Auth::id())->get();
 
             foreach ($moderated as $mod)
             {
@@ -344,7 +328,7 @@ class GroupController extends BaseController {
         }
         else
         {
-            if (!Auth::user()->isModerator($group))
+            if ( ! Auth::user()->isModerator($group))
             {
                 App::abort(403, 'Access denied');
             }
@@ -359,7 +343,7 @@ class GroupController extends BaseController {
     {
         $ban = GroupBanned::findOrFail(Input::get('id'));
 
-        if (!Auth::user()->isModerator($ban->group))
+        if ( ! Auth::user()->isModerator($ban->group))
         {
             App::abort(403, 'Access denied');
         }
@@ -369,35 +353,29 @@ class GroupController extends BaseController {
         return Response::json(['status' => 'ok']);
     }
 
-    public function createGroup()
+    public function createGroup(Request $request)
     {
-        $rules = array(
-            'urlname' => 'required|min:3|max:32|unique_ci:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
-            'groupname' => 'required|min:3|max:50',
-            'desc' => 'max:255'
-        );
-
         // Require 15 minutes break before creating next group
-        $group = Group::where('creator_id', Auth::user()->getKey())->orderBy('created_at', 'desc')->first();
+        $group = Group::where('creator_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-        if ($group && Carbon::instance($group->created_at)->diffInMinutes() < 30)
+        if ($group && $group->created_at->diffInMinutes() < 30)
         {
             Input::flash();
 
-            $diff = 30 - Carbon::instance($group->created_at)->diffInMinutes();
+            $diff = 30 - $group->created_at->diffInMinutes();
             $minutes = Lang::choice('pluralization.minutes', $diff);
 
            return Redirect::action('GroupController@showCreateForm')
                 ->with('danger_msg', 'Kolejną grupę będziesz mógł utworzyć za '. $minutes);
         }
 
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails())
-        {
-            Input::flash();
-            return Redirect::action('GroupController@showCreateForm')->withErrors($validator);
-        }
+        $this->validate($request, [
+        'urlname' => 'required|min:3|max:32|unique_ci:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
+            'groupname' => 'required|min:3|max:50',
+            'desc' => 'max:255'
+        ]);
 
         $group = new Group();
         $group->_id = Input::get('urlname');
@@ -442,7 +420,7 @@ class GroupController extends BaseController {
         $subscriber = GroupSubscriber::where('group_id', $group->getKey())
             ->where('user_id', Auth::id())->first();
 
-        if (!$subscriber) return Response::make('Not subscribed', 400);
+        if ( ! $subscriber) return Response::make('Not subscribed', 400);
 
         $subscriber->delete();
 
@@ -471,12 +449,11 @@ class GroupController extends BaseController {
     public function unblockGroup()
     {
         $group = Group::where('urlname', Input::get('name'))->firstOrFail();
-        $user = Auth::user();
 
         $block = GroupBlock::where('group_id', $group->getKey())
-            ->where('user_id', $user->getKey())->first();
+            ->where('user_id', Auth::id())->first();
 
-        if (!$block) return Response::make('Not blocked', 400);
+        if ( ! $block) return Response::make('Not blocked', 400);
 
         $block->delete();
         return Response::json(['status' => 'ok']);
