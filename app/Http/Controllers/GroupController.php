@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Carbon, Config, Input, Lang, Response, Redirect, Str;
+use Auth, Carbon, Config, File, Input, Lang, Response, Redirect, Str;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Strimoid\Models\Group;
@@ -68,14 +68,9 @@ class GroupController extends BaseController {
     {
         $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
 
-        if (Input::get('sort') == 'popularity')
-        {
-            $builder->orderBy('subscribers', 'desc');
-        }
-        else
-        {
-            $builder->orderBy('created_at', 'desc');
-        }
+        $sortBy = Input::get('sort') == 'popularity'
+            ? 'subscribers' : 'created_at';
+        $builder->orderBy($sortBy, 'desc');
 
         $groups = $builder->paginate(10);
 
@@ -91,25 +86,17 @@ class GroupController extends BaseController {
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if (!Auth::user()->isAdmin($group))
-        {
-            App::abort(403, 'Access denied');
-        }
+        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
 
         $filename = Config::get('app.uploads_path').'/styles/'. ($group->style
                 ? $group->style : Str::lower($group->urlname) .'.css');
 
         $data['group'] = $group;
-        $data['css'] = '';
+        $data['css'] = file_exists($filename) ? File::get($filename) : '';
         $data['moderators'] = GroupModerator::with('user')
             ->where('group_id', $group->getKey())->get();
         $data['bans'] = GroupBanned::with('user')
             ->where('group_id', $group->getKey())->get();
-
-        if (file_exists($filename))
-        {
-            $data['css'] = File::get($filename);
-        }
 
         return view('group.settings', $data);
     }
@@ -118,10 +105,7 @@ class GroupController extends BaseController {
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if (!Auth::user()->isAdmin($group))
-        {
-            App::abort(403, 'Access denied');
-        }
+        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
 
         $this->validate($request, [
             'avatar'        => 'image|max:250',
@@ -158,18 +142,15 @@ class GroupController extends BaseController {
 
         $group->save();
 
-        return Redirect::action('GroupController@showSettings', $groupName)->with('success_msg',
-            'Zmiany zostały zapisane.');
+        return Redirect::action('GroupController@showSettings', $groupName)
+            ->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
     public function saveSettings(Request $request, $groupName)
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if (!Auth::user()->isAdmin($group))
-        {
-            App::abort(403, 'Access denied');
-        }
+        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
 
         $this->validate($request, [
             'labels' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
@@ -194,14 +175,9 @@ class GroupController extends BaseController {
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if (!Auth::user()->isAdmin($group))
-        {
-            App::abort(403, 'Access denied');
-        }
+        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
 
-        $this->validate($request, [
-            'css' => 'max:15000'
-        ]);
+        $this->validate($request, ['css' => 'max:15000']);
 
         $group->setStyle(Input::get('css'));
         $group->save();
@@ -276,10 +252,7 @@ class GroupController extends BaseController {
         $moderator = GroupModerator::findOrFail(Input::get('id'));
         $group = $moderator->group;
 
-        if ( ! Auth::user()->isAdmin($moderator->group))
-        {
-            App::abort(403, 'Access denied');
-        }
+        if ( ! Auth::user()->isAdmin($moderator->group)) App::abort(403, 'Access denied');
 
         if ($moderator->user_id == $group->creator_id
             && Auth::id() != $group->creator_id)
@@ -372,7 +345,7 @@ class GroupController extends BaseController {
         }
 
         $this->validate($request, [
-        'urlname' => 'required|min:3|max:32|unique_ci:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
+            'urlname' => 'required|min:3|max:32|unique_ci:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
             'groupname' => 'required|min:3|max:50',
             'desc' => 'max:255'
         ]);

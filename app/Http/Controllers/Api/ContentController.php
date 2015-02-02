@@ -2,84 +2,62 @@
 
 use Auth, Input;
 use Illuminate\Http\Request;
+use Strimoid\Contracts\FolderRepository;
+use Strimoid\Contracts\GroupRepository;
 use Strimoid\Models\Content;
+use Strimoid\Models\User;
 
 class ContentController extends BaseController {
+
+    /**
+     * @var FolderRepository
+     */
+    protected $folders;
+
+    /**
+     * @var GroupRepository
+     */
+    protected $groups;
+
+    /**
+     * @param FolderRepository $folders
+     * @param GroupRepository $groups
+     */
+    public function __construct(FolderRepository $folders, GroupRepository $groups)
+    {
+        $this->folders = $folders;
+        $this->groups = $groups;
+    }
 
     /**
      * @return mixed
      */
     public function index()
     {
-        $folderName = Input::get('folder');
-        $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
-        $type = Input::has('type') ? Input::get('type') : 'all';
-
-        $className = 'Strimoid\\Models\\Folders\\'. studly_case($folderName ?: $groupName);
-
-        if (Auth::guest() && in_array($groupName, ['subscribed', 'moderated', 'observed', 'saved']))
+        if (Input::has('folder'))
         {
-            App::abort(403, 'Group available only for logged in users');
-        }
-
-        if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
-        {
-            $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
-            $folder = Folder::findUserFolderOrFail($user->getKey(), Input::get('folder'));
-
-            if (!$folder->public && (Auth::guest() || $user->getKey() !== Auth::id()))
-            {
-                App::abort(404);
-            }
-
-            $builder = $folder->contents();
-        }
-        elseif (class_exists($className))
-        {
-            $fakeGroup = new $className;
-            $builder = $fakeGroup->contents();
+            $username = Input::get('user', Auth::id());
+            $entity = $this->folders->getByName($username, Input::get('folder'));
         }
         else
         {
-            $group = Group::shadow($groupName)->firstOrFail();
-            $group->checkAccess();
-
-            $builder = $group->contents();
+            $groupName = Input::get('group', 'all');
+            $entity = $this->groups->getByName($groupName);
         }
 
-        $builder->with('group', 'user');
+        $type = Input::get('type', 'all');
+        $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
+        $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
 
-        // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
-        if (in_array(Input::get('sort'), ['comments', 'score', 'uv', 'created_at', 'frontpage_at']))
-        {
-            $builder->orderBy(Input::get('sort'), 'desc');
-        }
-        elseif ($groupName == 'all' && $type == 'popular')
-        {
-            $builder->orderBy('frontpage_at', 'desc');
-        }
-        else
-        {
-            $builder->orderBy('created_at', 'desc');
-        }
-
-        // Show only contents from selected tab if all param doesn't exist
-        if ($type == 'all')
-            ;
-        elseif ($groupName == 'all' && $type == 'popular')
-            $builder->frontpage(true);
-        elseif ($groupName == 'all' && $type == 'new')
-            $builder->frontpage(false);
-        elseif ($type == 'popular')
-            $builder->where('uv', '>', 2);
+        $builder = $entity->contents($type, $orderBy)->with('group', 'user');
 
         // Time filter
         $time = Input::get('time');
-        if ($time) $builder->fromDaysAgo(Input::get('time'));
+        if ($time) $builder->fromDaysAgo($time);
 
         // Domain filter
         $domain = Input::get('domain');
-        if ($domain) $builder->where('domain', Input::get('domain'));
+        if ($domain) $builder->where('domain', $domain);
 
         // User filter
         if (Input::has('user'))
@@ -141,7 +119,7 @@ class ContentController extends BaseController {
             ], 400);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group))
+        if ($group->type == Group::TYPE_ANNOUNCEMENTS && ! Auth::user()->isModerator($group))
         {
             return Response::json([
                 'status' => 'error',
