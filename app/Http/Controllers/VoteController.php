@@ -99,7 +99,7 @@ class VoteController extends BaseController {
             $object->increment('score');
             $dv--;
         }
-        $object->mpull('votes', ['_id' => $vote->getKey()]);
+        $object->mpull('votes', ['user_id' => $vote->user_id]);
 
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
