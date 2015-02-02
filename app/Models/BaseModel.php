@@ -82,7 +82,6 @@ class BaseModel extends Model
         return static::$rules;
     }
 
-
     /* Scopes */
 
     public function scopeFromDaysAgo($query, $days)
