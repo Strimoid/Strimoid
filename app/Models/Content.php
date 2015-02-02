@@ -85,7 +85,8 @@ class Content extends BaseModel
 
     public function comments()
     {
-        return $this->hasMany('Strimoid\Models\Comment');
+        return $this->hasMany('Strimoid\Models\Comment')
+            ->orderBy('created_at', 'desc');
     }
 
     public function getDomain()
