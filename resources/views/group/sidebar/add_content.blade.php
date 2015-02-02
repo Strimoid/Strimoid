@@ -1,6 +1,6 @@
 <?php
 
-if (isset($group))
+if (isset($group) && $group instanceof Strimoid\Models\Group)
     $url = action('ContentController@showAddForm', ['group' => $group->urlname]);
 else
     $url = action('ContentController@showAddForm');
