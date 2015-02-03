@@ -8,15 +8,15 @@ use Strimoid\Models\Traits\HasThumbnail;
 /**
  * Content model
  *
- * @property string $_id
- * @property string $title Content title
- * @property string $description Content description
- * @property bool $eng Is content using foreign language?
- * @property bool $nsfw is Content "not safe for work"?
- * @property string $thumbnail Thumbnail filename
- * @property string $domain Domain
- * @property string $url URL address
- * @property DateTime $created_at
+ * @property string   $_id          Content ID
+ * @property string   $title        Content title
+ * @property string   $description  Content description
+ * @property bool     $eng          Is content using foreign language?
+ * @property bool     $nsfw         Is Content "not safe for work"?
+ * @property string   $thumbnail    Thumbnail filename
+ * @property string   $domain       Domain
+ * @property string   $url          URL address
+ * @property DateTime $created_at   Date of creation
  */
 class Content extends BaseModel
 {
@@ -86,7 +86,7 @@ class Content extends BaseModel
     public function comments()
     {
         return $this->hasMany('Strimoid\Models\Comment')
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', 'asc');
     }
 
     public function getDomain()

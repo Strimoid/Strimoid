@@ -3,6 +3,16 @@
 use Auth, Str;
 use Strimoid\Helpers\MarkdownParser;
 
+/**
+ * Comment model
+ *
+ * @package Strimoid\Models
+ * @property string $_id
+ * @property Content $content
+ * @property string $text
+ * @property string $text_source
+ * @property User $user
+ */
 class Comment extends BaseModel
 {
 
