@@ -30,11 +30,11 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::delete('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@remove']);
 
     // Entries
-    Route::get('/entries', ['uses' => 'EntryController@getIndex']);
-    Route::get('/entries/{entry}', 'EntryController@show');
-    Route::post('/entries', ['middleware' => 'oauth:entries', 'uses' => 'EntryController@store']);
-    Route::post('/entries/{entry}/replies', ['middleware' => 'oauth:entries', 'uses' => 'EntryController@storeReply']);
-    Route::delete('/entries/{entry}', ['middleware' => 'oauth:entries', 'uses' => 'EntryController@remove']);
+    Route::get('/entries', ['uses' => 'Api/EntryController@index']);
+    Route::get('/entries/{entry}', 'Api/EntryController@show');
+    Route::post('/entries', ['middleware' => 'oauth:entries', 'uses' => 'Api/EntryController@store']);
+    Route::post('/entries/{entry}/replies', ['middleware' => 'oauth:entries', 'uses' => 'Api/EntryController@storeReply']);
+    Route::delete('/entries/{entry}', ['middleware' => 'oauth:entries', 'uses' => 'Api/EntryController@remove']);
 
     // Groups
     Route::resource('groups', 'Api\GroupController', ['only' => ['index', 'show']]);

@@ -146,7 +146,7 @@ class CommentController extends BaseController {
         $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
         $comment = $class::findOrFail(Input::get('id'));
 
-        if (Auth::id() !== $comment->user->getKey()) App::abort(403, 'Access denied');
+        if ( ! $comment->canEdit()) App::abort(403, 'Access denied');
 
         $this->validate($request, $comment->rules());
         $comment->update(Input::only('text'));
@@ -160,7 +160,7 @@ class CommentController extends BaseController {
         $class = 'Strimoid\Models\\'. $class;
         $comment = $class::findOrFail(Input::get('id'));
 
-        if (Auth::id() == $comment->user_id || Auth::user()->isModerator($comment->group_id))
+        if ($comment->canRemove())
         {
             $comment->delete();
 
