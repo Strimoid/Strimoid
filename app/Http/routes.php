@@ -84,7 +84,7 @@ Route::delete('/me/blocked_domain/{domain}', ['middleware' => 'auth', 'uses' => 
 Route::get('/users.json', 'UserController@showJSONList');
 
 Route::get('/register', ['middleware' => 'guest', 'uses' => 'UserController@showRegisterForm']);
-Route::post('/register', ['middleware' => 'anti_spam|guest','uses' => 'UserController@processRegistration']);
+Route::post('/register', ['middleware' => 'guest','uses' => 'UserController@processRegistration']);
 
 Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => 'UserController@showLoginForm']);
 Route::post('/login', ['middleware' => 'guest', 'uses' => 'UserController@login']);
