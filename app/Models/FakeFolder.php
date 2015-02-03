@@ -26,11 +26,13 @@ abstract class FakeFolder
     }
 
     /**
+     * @param  string  $sortBy
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function comments()
+    public function comments($sortBy = null)
     {
         $builder = static::getBuilder('Strimoid\Models\Comment');
+        $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $builder;
     }

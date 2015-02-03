@@ -41,7 +41,7 @@ class EventsServiceProvider extends ServiceProvider {
             {
                 $url = Config::get('app.hubot_url');
 
-                if (!$url) return;
+                if ( ! $url) return;
 
                 try {
                     Guzzle::post($url, ['json' => [
@@ -56,7 +56,7 @@ class EventsServiceProvider extends ServiceProvider {
             {
                 $url = Config::get('app.hubot_url');
 
-                if (!$url) return;
+                if ( ! $url) return;
 
                 try {
                     $text = strip_tags($entry->text);

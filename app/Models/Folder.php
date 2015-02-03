@@ -38,9 +38,10 @@ class Folder extends BaseModel
         throw new ModelNotFoundException;
     }
 
-    public function comments()
+    public function comments($sortBy = null)
     {
         $builder = with(new Comment)->newQuery();
+        $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         $groups = $this->groups;
         $builder->whereIn('group_id', $groups);

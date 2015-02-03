@@ -53,9 +53,10 @@ class Group extends BaseModel
         return $relation;
     }
 
-    public function comments()
+    public function comments($sortBy = null)
     {
         $relation = $this->hasMany('Strimoid\Models\Comment');
+        $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
         if (Auth::check())
         {

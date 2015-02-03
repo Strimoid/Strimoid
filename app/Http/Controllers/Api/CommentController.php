@@ -13,57 +13,46 @@ class CommentController extends BaseController {
 
     use ValidatesRequests;
 
+    /**
+     * @var FolderRepository
+     */
+    protected $folders;
+
+    /**
+     * @var GroupRepository
+     */
+    protected $groups;
+
+    /**
+     * @param FolderRepository $folders
+     * @param GroupRepository $groups
+     */
+    public function __construct(FolderRepository $folders, GroupRepository $groups)
+    {
+        $this->groups = $groups;
+        $this->folders = $folders;
+    }
+
     public function index()
     {
-        $folderName = Input::get('folder');
-        $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
-
-        if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
+        if (Input::has('folder'))
         {
-            $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
-            $folder = Folder::findUserFolderOrFail($user->getKey(), Input::get('folder'));
-
-            if (!$folder->public && (Auth::guest() || $user->getKey() != Auth::id()))
-            {
-                App::abort(404);
-            }
-
-            $builder = $folder->comments();
-        }
-        elseif (class_exists('Folders\\'. studly_case($groupName)))
-        {
-            $class = 'Folders\\'. studly_case($groupName);
-            $fakeGroup = new $class;
-            $builder = $fakeGroup->comments();
-        }
-        elseif (class_exists('Folders\\'. studly_case($folderName)))
-        {
-            $class = 'Folders\\'. studly_case($folderName);
-            $fakeGroup = new $class;
-            $builder = $fakeGroup->comments();
+            $username = Input::get('user', Auth::id());
+            $entity = $this->folders->getByName($username, Input::get('folder'));
         }
         else
         {
-            $group = Group::shadow($groupName)->firstOrFail();
-            $group->checkAccess();
-
-            $builder = $group->comments();
+            $groupName = Input::get('group', 'all');
+            $entity = $this->groups->getByName($groupName);
         }
 
-        $builder->with(['user', 'group']);
+        $sortBy = in_array(Input::get('sort'), ['uv', 'created_at'])
+            ? Input::get('sort') : 'created_at';
 
-        // Sort using default field for selected tab, if sort field doesn't contain valid sortable field
-        if (in_array(Input::get('sort'), ['uv', 'created_at']))
-        {
-            $builder->orderBy(Input::get('sort'), 'desc');
-        }
-        else
-        {
-            $builder->orderBy('created_at', 'desc');
-        }
+        $builder = $entity->comments($sortBy)->with(['user', 'group']);
 
         // Time filter
-        if (Input::get('time'))
+        if (Input::has('time'))
         {
             $builder->fromDaysAgo(Input::get('time'));
         }
@@ -81,7 +70,10 @@ class CommentController extends BaseController {
 
         if (Auth::user()->isBanned($content->group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w tej grupie']);
+            return Response::json([
+                'status' => 'error',
+                'error' => 'Zostałeś zbanowany w tej grupie'
+            ]);
         }
 
         $comment = new Comment();
@@ -99,20 +91,20 @@ class CommentController extends BaseController {
     public function storeReply(Request $request, $comment)
     {
         $this->validate($request, CommentReply::rules());
-
         $content = $comment->content;
 
         if (Auth::user()->isBanned($content->group))
         {
-            return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w tej grupie']);
+            return Response::json([
+                'status' => 'error',
+                'error' => 'Zostałeś zbanowany w tej grupie'
+            ]);
         }
 
         $reply = new CommentReply();
         $reply->text = Input::get('text');
         $reply->user()->associate(Auth::user());
-
         $comment->replies()->save($comment);
-
         $content->increment('comments_count');
 
         return Response::json([
@@ -120,26 +112,36 @@ class CommentController extends BaseController {
         ]);
     }
 
+    /**
+     * Edit comment text.
+     *
+     * @param  Request  $request
+     * @param  Comment  $comment
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function edit(Request $request, $comment)
     {
         $this->validate($request, $comment->rules());
+
+        if ( ! $comment->canEdit()) App::abort(403);
 
         $comment->update(Input::only('text'));
 
         return Response::json(['status' => 'ok', 'comment' => $comment]);
     }
 
+    /**
+     * Remove comment.
+     *
+     * @param  Comment  $comment
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function remove($comment)
     {
-        if (Auth::id() === $comment->user_id
-            || Auth::user()->isModerator($comment->group_id))
-        {
-            $comment->delete();
+        if ( ! $comment->canRemove()) App::abort(403);
 
-            return Response::json(['status' => 'ok']);
-        }
-
-        return Response::json(['status' => 'error'], 400);
+        $comment->delete();
+        return Response::json(['status' => 'ok']);
     }
 
 }
