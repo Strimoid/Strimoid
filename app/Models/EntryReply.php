@@ -108,36 +108,36 @@ class EntryReply extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest())
-        {
-            return false;
-        }
+        if (Auth::guest()) return false;
 
         return Auth::user()->isBlockingUser($this->user);
     }
 
     public function isLast()
     {
-        $lastReply = Entry::where('_id', $this->entry->_id)
+        $lastReply = Entry::where('_id', $this->entry->getKey())
             ->project(['_replies' => ['$slice' => -1]])
             ->first()->replies->first();
 
-        return $lastReply->_id == $this->_id;
+        return $lastReply->getKey() == $this->getKey();
     }
 
     public function getURL()
     {
-        return route('single_entry', $this->entry->_id) .'#'. $this->_id;
+        return route('single_entry', $this->entry->getKey())
+            .'#'. $this->getKey();
     }
 
-    public function canEdit(User $user)
+    public function canEdit()
     {
-        return Auth::user()->_id == $this->user_id && $this == $this->entry->replies->last();
+        return Auth::id() === $this->user_id
+            && $this == $this->entry->replies->last();
     }
 
-    public function canRemove(User $user)
+    public function canRemove()
     {
-        return Auth::user()->_id == $this->user_id || Auth::user()->isModerator($this->group_id);
+        return Auth::id() === $this->user_id
+            || Auth::user()->isModerator($this->group_id);
     }
 
 }

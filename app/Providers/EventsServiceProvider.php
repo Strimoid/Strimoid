@@ -4,6 +4,7 @@ use Auth, Carbon, Config, Guzzle, Request, Input;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Strimoid\Handlers\Events\NewActionHandler;
+use Strimoid\Handlers\Events\NotificationsHandler;
 use Strimoid\Models\User;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Notification;
@@ -71,6 +72,7 @@ class EventsServiceProvider extends ServiceProvider {
             });
 
         $events->subscribe(new NewActionHandler);
+        $events->subscribe(new NotificationsHandler);
     }
 
     /**

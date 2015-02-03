@@ -71,10 +71,7 @@ class Entry extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest())
-        {
-            return false;
-        }
+        if (Auth::guest()) return false;
 
         return Auth::user()->isBlockingUser($this->user);
     }
@@ -86,17 +83,19 @@ class Entry extends BaseModel
 
     public function getURL()
     {
-        return route('single_entry', $this->_id);
+        return route('single_entry', $this->getKey());
     }
 
-    public function canEdit(User $user)
+    public function canEdit()
     {
-        return Auth::user()->_id == $this->user_id && $this->replies_count == 0;
+        return Auth::id() === $this->user_id
+            && $this->replies_count == 0;
     }
 
-    public function canRemove(User $user)
+    public function canRemove()
     {
-        return Auth::user()->_id == $this->user_id || Auth::user()->isModerator($this->group_id);
+        return Auth::id() === $this->user_id
+            || Auth::user()->isModerator($this->group_id);
     }
 
 }

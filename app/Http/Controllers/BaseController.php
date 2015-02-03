@@ -2,11 +2,14 @@
 
 use Closure;
 use Auth, Settings, Str;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
 
 class BaseController extends Controller {
+
+    use ValidatesRequests;
 
     protected function sendNotifications($targets,
         Closure $callback, User $sourceUser = null)

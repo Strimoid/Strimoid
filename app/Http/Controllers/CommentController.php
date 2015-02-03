@@ -76,10 +76,7 @@ class CommentController extends BaseController {
 
         $comment = $class::findOrFail(Input::get('id'));
 
-        if (Auth::id() !== $comment->user_id)
-        {
-            App::abort(403, 'Access denied');
-        }
+        if (Auth::id() !== $comment->user_id) App::abort(403, 'Access denied');
 
         return Response::json(['status' => 'ok', 'source' => $comment->text_source]);
     }
@@ -107,16 +104,6 @@ class CommentController extends BaseController {
         $comment->group()->associate($content->group);
 
         $comment->save();
-
-        // Send notifications to mentioned users
-        $this->sendNotifications(Input::get('text'), function($notification) use ($content, $comment)
-        {
-            $notification->type = 'comment';
-            $notification->setTitle($comment->text);
-            $notification->content()->associate($content);
-            $notification->comment()->associate($comment);
-            $notification->save(); // todo
-        });
 
         $comment = view('comments.widget', compact('comment'))->render();
 
@@ -148,58 +135,21 @@ class CommentController extends BaseController {
 
         $content->increment('comments_count');
 
-        // Send notifications to mentioned users
-        $this->sendNotifications(Input::get('text'), function($notification) use ($comment, $content){
-            $notification->type = 'comment_reply';
-            $notification->setTitle($comment->text);
-            $notification->content()->associate($content);
-            $notification->commentReply()->associate($comment);
-            $notification->save(); // todo
-        });
-
         $replies = view('comments.replies', ['replies' => $parent->replies])
             ->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);
     }
 
-    public function editComment()
+    public function editComment(Request $request)
     {
         $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
         $comment = $class::findOrFail(Input::get('id'));
 
-        if (Auth::user()->getKey() != $comment->user->getKey())
-        {
-            App::abort(403, 'Access denied');
-        }
+        if (Auth::id() !== $comment->user->getKey()) App::abort(403, 'Access denied');
 
-        $validator = $comment->validate(Input::all());
-
-        if ($validator->fails())
-        {
-            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
-        }
-
-        $comment->deleteNotifications();
-
+        $this->validate($request, $comment->rules());
         $comment->update(Input::only('text'));
-
-        // Send notifications to mentioned users
-        $this->sendNotifications(Input::get('text'), function($notification) use ($comment){
-            $notification->type = (Input::get('type') == 'comment_reply' ? 'comment_reply' : 'comment');
-            $notification->setTitle($comment->text);
-
-            if ($comment instanceof CommentReply)
-            {
-                $notification->content()->associate($comment->comment->content);
-                $notification->commentReply()->associate($comment);
-            }
-            else
-            {
-                $notification->content()->associate($comment->content);
-                $notification->comment()->associate($comment);
-            }
-        });
 
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
     }
