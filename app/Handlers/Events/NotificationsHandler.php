@@ -1,9 +1,8 @@
 <?php namespace Strimoid\Handlers\Events;
 
-use Closure, Str;
+use Auth, Closure, Str;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
-use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Notification;
