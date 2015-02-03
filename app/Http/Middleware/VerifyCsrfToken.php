@@ -17,7 +17,7 @@ class VerifyCsrfToken extends IlluminateCsrf {
      */
     public function handle($request, Closure $next)
     {
-        if ($this->isOAuth($request))
+        if ($this->isOAuth($request) || $this->isApi($request))
         {
             return $next($request);
         }
@@ -39,6 +39,17 @@ class VerifyCsrfToken extends IlluminateCsrf {
     protected function isOAuth($request)
     {
         return starts_with($request->getPathInfo() , '/oauth2/');
+    }
+
+    /**
+     * Check if request is made to API.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function isApi($request)
+    {
+        return starts_with($request->getPathInfo() , '/api/');
     }
 
 }
