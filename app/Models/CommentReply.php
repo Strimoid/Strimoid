@@ -132,13 +132,13 @@ class CommentReply extends BaseModel
         return  $url .'#'. $this->getKey();
     }
 
-    public function canEdit(User $user)
+    public function canEdit()
     {
         return Auth::id() == $this->user_id
             && $this == $this->comment->replies->last();
     }
 
-    public function canRemove(User $user)
+    public function canRemove()
     {
         return Auth::id() == $this->user_id
             || Auth::user()->isModerator($this->group_id);
