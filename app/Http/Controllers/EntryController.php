@@ -187,7 +187,7 @@ class EntryController extends BaseController {
 
         if (Auth::id() !== $entry->user_id) App::abort(403, 'Access denied');
 
-        $this->validate($request, $entry->rules());
+        $this->validate($request, EmtryReply::rules());
 
         $entry->text = Input::get('text');
         $entry->save();
