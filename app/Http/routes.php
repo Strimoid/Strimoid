@@ -6,7 +6,7 @@ Route::group(['prefix' => 'api/v1'], function()
         return '<a href="https://developers.strimoid.pl">API Documentation</a>';
     });
 
-    Route::get('/me', ['middleware' => 'oauth:basic', 'uses' => 'UserController@showCurrentUser']);
+    Route::get('/me', ['middleware' => 'auth', 'uses' => 'UserController@showCurrentUser']);
 
     // Auth
     Route::post('/login', ['uses' => 'AuthController@login']);
@@ -15,26 +15,26 @@ Route::group(['prefix' => 'api/v1'], function()
     // Contents
     Route::get('/contents', ['uses' => 'Api\ContentController@index']);
     Route::get('/contents/{content}', 'Api\ContentController@show');
-    Route::post('/contents', ['middleware' => 'oauth:contents', 'uses' => 'Api\ContentController@store']);
-    Route::patch('/contents/{content}', ['middleware' => 'oauth:contents', 'uses' => 'Api\ContentController@edit']);
-    Route::delete('/contents/{content}', ['middleware' => 'oauth:contents', 'uses' => 'ContentController@removeContent']);
+    Route::post('/contents', ['middleware' => 'auth', 'uses' => 'Api\ContentController@store']);
+    Route::patch('/contents/{content}', ['middleware' => 'auth', 'uses' => 'Api\ContentController@edit']);
+    Route::delete('/contents/{content}', ['middleware' => 'auth', 'uses' => 'ContentController@removeContent']);
 
-    Route::post('/contents/{content}/related', ['middleware' => 'oauth:contents', 'uses' => 'RelatedController@store']);
-    Route::delete('/related/{related}', ['middleware' => 'oauth:contents', 'uses' => 'RelatedController@removeRelated']);
+    Route::post('/contents/{content}/related', ['middleware' => 'auth', 'uses' => 'RelatedController@store']);
+    Route::delete('/related/{related}', ['middleware' => 'auth', 'uses' => 'RelatedController@removeRelated']);
 
     // Comments
     Route::get('/comments', ['uses' => 'Api\CommentController@index']);
-    Route::post('/content/{content}/comment', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@store']);
-    Route::post('/comment', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@storeReply']);
-    Route::patch('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@edit']);
-    Route::delete('/comment/{comment}/{reply?}', ['middleware' => 'oauth:comments', 'uses' => 'Api\CommentController@remove']);
+    Route::post('/content/{content}/comment', ['middleware' => 'auth', 'uses' => 'Api\CommentController@store']);
+    Route::post('/comment', ['middleware' => 'auth', 'uses' => 'Api\CommentController@storeReply']);
+    Route::patch('/comment/{comment}/{reply?}', ['middleware' => 'auth', 'uses' => 'Api\CommentController@edit']);
+    Route::delete('/comment/{comment}/{reply?}', ['middleware' => 'auth', 'uses' => 'Api\CommentController@remove']);
 
     // Entries
     Route::get('/entries', ['uses' => 'Api\EntryController@index']);
     Route::get('/entries/{entry}', 'Api\EntryController@show');
-    Route::post('/entries', ['middleware' => 'oauth:entries', 'uses' => 'Api\EntryController@store']);
-    Route::post('/entries/{entry}/replies', ['middleware' => 'oauth:entries', 'uses' => 'Api\EntryController@storeReply']);
-    Route::delete('/entries/{entry}', ['middleware' => 'oauth:entries', 'uses' => 'Api\EntryController@remove']);
+    Route::post('/entries', ['middleware' => 'auth', 'uses' => 'Api\EntryController@store']);
+    Route::post('/entries/{entry}/replies', ['middleware' => 'auth', 'uses' => 'Api\EntryController@storeReply']);
+    Route::delete('/entries/{entry}', ['middleware' => 'auth', 'uses' => 'Api\EntryController@remove']);
 
     // Groups
     Route::resource('groups', 'Api\GroupController', ['only' => ['index', 'show']]);
@@ -43,27 +43,27 @@ Route::group(['prefix' => 'api/v1'], function()
     Route::get('/users/{id}', 'UserController@show');
 
     // Conversations
-    Route::get('/conversations', ['middleware' => 'oauth:conversations', 'uses' => 'ConversationController@getIndex']);
-    Route::get('/messages', ['middleware' => 'oauth:conversations', 'uses' => 'ConversationController@getMessages']);
+    Route::get('/conversations', ['middleware' => 'auth', 'uses' => 'ConversationController@getIndex']);
+    Route::get('/messages', ['middleware' => 'auth', 'uses' => 'ConversationController@getMessages']);
 
     // Notifications
     Route::get('/notifications', [
-        'middleware' => 'oauth:notifications', 'uses' => 'NotificationController@listNotifications'
+        'middleware' => 'auth', 'uses' => 'NotificationController@listNotifications'
     ]);
     Route::patch('/notification/{notification}', [
-        'middleware' => 'oauth:notifications', 'uses' => 'NotificationController@edit'
+        'middleware' => 'auth', 'uses' => 'NotificationController@edit'
     ]);
 
     Route::post('/notifications/register_gcm', [
-        'middleware' => 'oauth:notifications', 'uses' => 'NotificationController@registerGCM'
+        'middleware' => 'auth', 'uses' => 'NotificationController@registerGCM'
     ]);
 
     // Ranking
     Route::get('/ranking', 'RankingController@getIndex');
 
     // Voting
-    Route::post('/votes', ['middleware' => 'oauth:votes', 'uses' => 'VoteController@addVote']);
-    Route::delete('/votes', ['middleware' => 'oauth:votes', 'uses' => 'VoteController@removeVote']);
+    Route::post('/votes', ['middleware' => 'auth', 'uses' => 'VoteController@addVote']);
+    Route::delete('/votes', ['middleware' => 'auth', 'uses' => 'VoteController@removeVote']);
 });
 
 /* OAuth2 =========================================================================================================== */
