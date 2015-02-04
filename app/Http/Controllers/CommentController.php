@@ -149,7 +149,7 @@ class CommentController extends BaseController {
 
         if ( ! $comment->canEdit()) App::abort(403, 'Access denied');
 
-        $this->validate($request, $comment->rules());
+        $this->validate($request, CommentReply::rules());
         $comment->update(Input::only('text'));
 
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
