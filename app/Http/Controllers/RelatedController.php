@@ -34,7 +34,7 @@ class RelatedController extends BaseController {
         ]));
 
         if (Input::get('thumbnail') == 'on') {
-            $url = OEmbed::getThumbnail($this->url);
+            $url = OEmbed::getThumbnail($related->url);
             if ($url) $related->setThumbnail($url);
         }
 
