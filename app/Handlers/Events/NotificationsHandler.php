@@ -73,8 +73,10 @@ class NotificationsHandler {
         $this->sendNotifications($comment->text_source, 'comment_reply',
             function($notification) use ($comment)
             {
+                $parent = $comment->getParentRelation()->getParent();
+
                 $notification->setTitle($comment->text);
-                $notification->content()->associate($comment->comment->content);
+                $notification->content()->associate($parent->content);
                 $notification->commentReply()->associate($comment);
             }, $comment->user);
     }
