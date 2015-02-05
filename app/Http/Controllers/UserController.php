@@ -1,17 +1,11 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use App, Auth, Carbon, Str, Input, URL, Redirect, Response, Validator;
+use App, Auth, Cache, Carbon, Str, Input, URL, Redirect, Response, Validator;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Strimoid\Contracts\UserRepository;
 use Strimoid\Models\CommentReply;
-use Strimoid\Models\Content;
-use Strimoid\Models\Comment;
-use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
-use Strimoid\Models\GroupBanned;
-use Strimoid\Models\GroupBlock;
-use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
 use Strimoid\Models\UserAction;
