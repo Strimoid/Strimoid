@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input;
+use Auth, Input, Response;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Save;

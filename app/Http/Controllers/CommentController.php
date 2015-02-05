@@ -144,7 +144,8 @@ class CommentController extends BaseController {
 
     public function editComment(Request $request)
     {
-        $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
+        $class = (Input::get('type') == 'comment')
+            ? Comment::class : CommentReply::class;
         $comment = $class::findOrFail(Input::get('id'));
 
         if ( ! $comment->canEdit()) App::abort(403, 'Access denied');
