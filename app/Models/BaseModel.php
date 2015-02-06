@@ -82,6 +82,11 @@ class BaseModel extends Model
         return static::$rules;
     }
 
+    public function parent()
+    {
+        return $this->getParentRelation()->getParent();
+    }
+
     /* Scopes */
 
     public function scopeFromDaysAgo($query, $days)

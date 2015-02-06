@@ -152,8 +152,6 @@ class EntryController extends BaseController {
         $entry->user()->associate(Auth::user());
         $entryParent->replies()->save($entry);
 
-        $entryParent->increment('replies_count');
-
         $replies = view('entries.replies', ['entry' => $entryParent, 'replies' => $entryParent->replies])
             ->render();
 

@@ -105,7 +105,6 @@ class CommentController extends BaseController {
         $reply->text = Input::get('text');
         $reply->user()->associate(Auth::user());
         $comment->replies()->save($comment);
-        $content->increment('comments_count');
 
         return Response::json([
             'status' => 'ok', '_id' => $reply->getKey(), 'comment' => $reply

@@ -29,6 +29,16 @@ class EntryReply extends BaseModel
         parent::__construct($attributes);
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($reply)
+        {
+            $reply->parent()->increment('replies_count');
+        });
+    }
+
     public static function find($id, $columns = ['*']) {
         $parent = Entry::where('_replies._id', $id)
             ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])

@@ -33,8 +33,7 @@ class CommentReply extends BaseModel
 
         static::created(function($reply)
         {
-            // Increase comments counter in content
-            //Content::where('_id', $reply->comment->content_id)->increment('comments');
+            $reply->parent()->content->increment('comments_count');
         });
     }
 

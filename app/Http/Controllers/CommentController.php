@@ -134,8 +134,6 @@ class CommentController extends BaseController {
 
         $parent->replies()->save($comment);
 
-        $content->increment('comments_count');
-
         $replies = view('comments.replies', ['replies' => $parent->replies])
             ->render();
 

@@ -127,8 +127,6 @@ class EntryController extends BaseController {
             $notification->save(); // todo
         });
 
-        $entry->increment('replies_count');
-
         return Response::json(['status' => 'ok', '_id' => $reply->_id, 'reply' => $reply]);
     }
 
