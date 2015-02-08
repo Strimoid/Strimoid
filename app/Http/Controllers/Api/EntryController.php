@@ -118,15 +118,6 @@ class EntryController extends BaseController {
         $reply->user()->associate(Auth::user());
         $entry->replies()->save($reply);
 
-        // Send notifications to mentions users
-        $this->sendNotifications(Input::get('text'), function($notification) use ($reply)
-        {
-            $notification->type = 'entry_reply';
-            $notification->setTitle($reply->text);
-            $notification->entryReply()->associate($reply);
-            $notification->save(); // todo
-        });
-
         return Response::json(['status' => 'ok', '_id' => $reply->_id, 'reply' => $reply]);
     }
 

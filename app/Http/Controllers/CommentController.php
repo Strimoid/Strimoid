@@ -102,7 +102,6 @@ class CommentController extends BaseController {
 
         $comment->user()->associate(Auth::user());
         $comment->content()->associate($content);
-        $comment->group()->associate($content->group);
 
         $comment->save();
 

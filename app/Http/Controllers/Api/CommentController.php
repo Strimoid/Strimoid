@@ -49,7 +49,9 @@ class CommentController extends BaseController {
         $sortBy = in_array(Input::get('sort'), ['uv', 'created_at'])
             ? Input::get('sort') : 'created_at';
 
-        $builder = $entity->comments($sortBy)->with(['user', 'group']);
+        $builder = $entity->comments($sortBy)->with([
+            'user', 'group', 'replies', 'replies.user'
+        ]);
 
         // Time filter
         if (Input::has('time'))
@@ -80,7 +82,6 @@ class CommentController extends BaseController {
         $comment->text = Input::get('text');
         $comment->user()->associate(Auth::user());
         $comment->content()->associate($content);
-        $comment->group()->associate($content->group);
         $comment->save();
 
         return Response::json([

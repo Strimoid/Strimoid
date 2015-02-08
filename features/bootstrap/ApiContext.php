@@ -110,7 +110,8 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
     /**
      * Checks the response exists and returns it.
      *
-     * @return  Guzzle\Http\Message\Response
+     * @return \Guzzle\Http\Message\Response
+     * @throws Exception
      */
     protected function getResponse()
     {

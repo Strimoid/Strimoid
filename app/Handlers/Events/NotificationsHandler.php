@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Handlers\Events;
 
-use Auth, Closure, Str;
+use Closure, Str;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Entry;
@@ -159,8 +159,8 @@ class NotificationsHandler {
         {
             $user = User::shadow($uniqueUser)->first();
 
-            if ($user && $user->getKey() != Auth::id()
-                && !$user->isBlockingUser($sourceUser))
+            if ($user && $user->getKey() != $sourceUser->getKey()
+                && ! $user->isBlockingUser($sourceUser))
             {
                 $notification->addTarget($user);
             }
