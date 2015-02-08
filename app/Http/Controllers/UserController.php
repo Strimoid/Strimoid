@@ -45,9 +45,13 @@ class UserController extends BaseController {
     public function login()
     {
         $remember = Input::get('remember') == 'true';
+        $result = Auth::attempt([
+            'shadow_name' => Str::lower(Input::get('username')),
+            'password' => Input::get('password'),
+            'is_activated' => true
+        ], $remember);
 
-        if (Auth::attempt(['shadow_name' => Str::lower(Input::get('username')),
-            'password' => Input::get('password'), 'is_activated' => true], $remember))
+        if ($result)
         {
             if (Auth::user()->removed_at || Auth::user()->blocked_at)
             {
@@ -55,7 +59,7 @@ class UserController extends BaseController {
                 return Redirect::to('/login')->with('warning_msg', 'Błędna nazwa użytkownika lub hasło.');
             }
 
-            $url = URL::previous() ?: '';
+            $url = URL::previous() ?: '/';
             return Redirect::intended($url);
         }
 
@@ -150,18 +154,18 @@ class UserController extends BaseController {
         return view('user.reset')->with('token', $token);
     }
 
-    public function resetPassword($token)
+    public function resetPassword(Request $request)
     {
         $credentials = Input::only('email', 'password', 'password_confirmation', 'token');
 
         $credentials['email'] = hash_email(Str::lower($credentials['email']));
 
-        $response = Password::reset($credentials, function($user, $password)
+        $response = Password::reset($credentials, function($user, $password) use ($request)
         {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token)
             {
-                $cacheKey = 'registration.'. md5(Request::getClientIp());
+                $cacheKey = 'registration.'. md5($request->getClientIp());
 
                 if (Cache::has($cacheKey)) return App::abort(500);
 
@@ -195,7 +199,7 @@ class UserController extends BaseController {
         return view('user.register');
     }
 
-    public function processRegistration()
+    public function processRegistration(Request $request)
     {
         $rules = [
             'username' => 'required|min:2|max:30|unique_ci:users,name|regex:/^[a-zA-Z0-9_]+$/i',
@@ -211,10 +215,8 @@ class UserController extends BaseController {
             return Redirect::action('UserController@showRegisterForm')->withErrors($validator);
         }
 
-        if (Cache::has('registration.'. md5(Request::getClientIp())))
-        {
-            return App::abort(500);
-        }
+        $ipHash = md5($request->getClientIp());
+        if (Cache::has('registration.'. $ipHash)) return App::abort(500);
 
         $email = Str::lower(Input::get('email'));
 
