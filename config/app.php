@@ -80,6 +80,19 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
+	| Application Fallback Locale
+	|--------------------------------------------------------------------------
+	|
+	| The fallback locale determines the locale to use when the current one
+	| is not available. You may change the value to correspond to any of
+	| the language folders that are provided through your application.
+	|
+	*/
+
+	'fallback_locale' => 'en',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Logging Configuration
 	|--------------------------------------------------------------------------
 	|
@@ -128,8 +141,13 @@ return [
 	*/
 
 	'providers' => [
+
+		/*
+		 * Laravel Framework Service Providers...
+		 */
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
+		'Illuminate\Bus\BusServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
 		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
 		'Illuminate\Routing\ControllerServiceProvider',
@@ -141,7 +159,9 @@ return [
 		'Illuminate\Hashing\HashServiceProvider',
 		'Illuminate\Mail\MailServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
+		'Illuminate\Pipeline\PipelineServiceProvider',
 		'Illuminate\Queue\QueueServiceProvider',
+		'Illuminate\Redis\RedisServiceProvider',
 		'Illuminate\Auth\Passwords\PasswordResetServiceProvider',
 		'Illuminate\Session\SessionServiceProvider',
 		'Illuminate\Translation\TranslationServiceProvider',
@@ -149,10 +169,16 @@ return [
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
 
+		/*
+		 * MongoDB Service Providers...
+		 */
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
 		'Jenssegers\Mongodb\Session\SessionServiceProvider',
 
+		/*
+		 * Application Service Providers...
+		 */
 		'Strimoid\Providers\AppServiceProvider',
 		'Strimoid\Providers\ComposerServiceProvider',
 		'Strimoid\Providers\EventsServiceProvider',
@@ -162,22 +188,12 @@ return [
 		'Strimoid\Providers\RouteServiceProvider',
 		'Strimoid\Providers\ValidatorServiceProvider',
 
+		/*
+		 * Third party Service Providers...
+		 */
 		'GrahamCampbell\Throttle\ThrottleServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
 	],
-
-	/*
-	|--------------------------------------------------------------------------
-	| Service Provider Manifest
-	|--------------------------------------------------------------------------
-	|
-	| The service provider manifest is used by Laravel to lazy load service
-	| providers which are not needed for each request, as well to keep a
-	| list of all of the services. Here, you may set its storage spot.
-	|
-	*/
-
-	'manifest' => storage_path().'/meta',
 
 	/*
 	|--------------------------------------------------------------------------
