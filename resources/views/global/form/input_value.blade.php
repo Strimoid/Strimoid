@@ -1,15 +1,20 @@
 <?php
 
-if (!isset($rows))
-    $rows = 2;
+if ( ! isset($rows)) $rows = 2;
+if ( ! isset($value)) $value = null;
 
-if (!isset($class))
+if ( ! isset($class))
     $class = 'form-control';
 else
     $class = 'form-control '. $class;
 
-if (!isset($placeholder))
+if ( ! isset($placeholder))
     $placeholder = $label;
+
+$options = [
+    'class' => $class,
+    'placeholder' => $placeholder
+];
 
 ?>
 
@@ -17,26 +22,14 @@ if (!isset($placeholder))
     <label for="{!! $name !!}" class="col-lg-3 control-label">{!! $label !!}</label>
 
     <div class="col-lg-6">
-        @if ($errors->has($name))
-
         @if ($type == 'text')
-            {!! Form::text($name, Input::old($name), array('class' => $class, 'placeholder' => $placeholder)) !!}
+            {!! Form::text($name, $value, $options) !!}
         @elseif ($type == 'textarea')
-            {!! Form::textarea($name, Input::old($name), array('class' => $class, 'placeholder' => $placeholder, 'rows' => $rows)) !!}
+            {!! Form::textarea($name, $value, array_add($options, 'rows', $rows)) !!}
         @elseif ($type == 'email')
-            {!! Form::email($name, Input::old($name), array('class' => $class, 'placeholder' => $placeholder)) !!}
-        @endif
-
-        @else
-
-        @if ($type == 'text')
-            {!! Form::text($name, $value, array('class' => $class, 'placeholder' => $placeholder)) !!}
-        @elseif ($type == 'textarea')
-            {!! Form::textarea($name, $value, array('class' => $class, 'placeholder' => $placeholder, 'rows' => $rows)) !!}
-        @elseif ($type == 'email')
-            {!! Form::email($name, $value, array('class' => $class, 'placeholder' => $placeholder)) !!}
-        @endif
-
+            {!! Form::email($name, $value, $options) !!}
+        @elseif ($type == 'password')
+            {!! Form::password($name, $options) !!}
         @endif
 
         @if ($errors->has($name))

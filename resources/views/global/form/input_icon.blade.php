@@ -1,12 +1,16 @@
 <?php
 
-if (!isset($rows))
-    $rows = 2;
+if ( ! isset($rows)) $rows = 2;
 
-if (!isset($class))
+if ( ! isset($class))
     $class = 'form-control';
 else
     $class = 'form-control '. $class;
+
+$options = [
+    'class' => $class,
+    'placeholder' => $label
+];
 
 ?>
 
@@ -16,15 +20,16 @@ else
     <div class="col-lg-6">
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-{!! $icon !!}"></span></span>
-        @if ($type == 'text')
-        {!! Form::text($name, Input::old($name), array('class' => $class, 'placeholder' => $label)) !!}
-        @elseif ($type == 'textarea')
-        {!! Form::textarea($name, Input::old($name), array('class' => $class, 'placeholder' => $label, 'rows' => $rows)) !!}
-        @elseif ($type == 'email')
-        {!! Form::email($name, Input::old($name), array('class' => $class, 'placeholder' => $label)) !!}
-        @elseif ($type == 'password')
-        {!! Form::password($name, array('class' => $class, 'placeholder' => $label)) !!}
-        @endif
+
+            @if ($type == 'text')
+                {!! Form::text($name, null, $options) !!}
+            @elseif ($type == 'textarea')
+                {!! Form::textarea($name, null, array_add($options, 'rows', $rows)) !!}
+            @elseif ($type == 'email')
+                {!! Form::email($name, null, $options) !!}
+            @elseif ($type == 'password')
+                {!! Form::password($name, $options) !!}
+            @endif
         </div>
 
 

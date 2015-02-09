@@ -1,9 +1,9 @@
 <?php
 
-if (!isset($rows))
+if ( ! isset($rows))
     $rows = 2;
 
-if (!isset($class))
+if ( ! isset($class))
     $class = 'form-control';
 else
     $class = 'form-control '. $class;
@@ -15,13 +15,13 @@ else
 
     <div class="col-lg-6">
         @if ($type == 'text')
-            {!! Form::text($name, Input::old($name), array('class' => $class, 'placeholder' => $label)) !!}
+            {!! Form::text($name, null, ['class' => $class, 'placeholder' => $label]) !!}
         @elseif ($type == 'textarea')
-            {!! Form::textarea($name, Input::old($name), array('class' => $class, 'placeholder' => $label, 'rows' => $rows)) !!}
+            {!! Form::textarea($name, null, ['class' => $class, 'placeholder' => $label, 'rows' => $rows]) !!}
         @elseif ($type == 'email')
-            {!! Form::email($name, Input::old($name), array('class' => $class, 'placeholder' => $label)) !!}
+            {!! Form::email($name, null, ['class' => $class, 'placeholder' => $label]) !!}
         @elseif ($type == 'password')
-            {!! Form::password($name, array('class' => $class, 'placeholder' => $label)) !!}
+            {!! Form::password($name, ['class' => $class, 'placeholder' => $label]) !!}
         @endif
 
 
