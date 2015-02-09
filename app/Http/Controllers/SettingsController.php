@@ -54,7 +54,7 @@ class SettingsController extends BaseController {
         $user->settings = $settings;
         $user->save();
 
-        return Redirect::action('SettingsController@showSettings')
+        return Redirect::route('user_settings')
             ->with('success_msg', 'Ustawienia zostały zapisane.');
     }
 

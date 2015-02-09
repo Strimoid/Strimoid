@@ -352,7 +352,7 @@ class UserController extends BaseController {
 
         $user->save();
 
-        return Redirect::action('UserController@showSettings')->with('success_msg', 'Zmiany zostały zapisane.');
+        return Redirect::route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
     public function blockUser()

@@ -118,7 +118,7 @@ Route::post('/ajax/user/observe', ['middleware' => 'auth', 'uses' => 'UserContro
 Route::post('/ajax/user/unobserve', ['middleware' => 'auth', 'uses' => 'UserController@unobserveUser']);
 
 // Settings
-Route::get('/settings', ['middleware' => 'auth', 'uses' => 'SettingsController@showSettings']);
+Route::get('/settings', ['as' => 'user_settings', 'middleware' => 'auth', 'uses' => 'SettingsController@showSettings']);
 Route::post('/settings/save/settings', ['middleware' => 'auth', 'uses' => 'SettingsController@saveSettings']);
 
 /* Conversations ==================================================================================================== */
