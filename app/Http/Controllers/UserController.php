@@ -227,7 +227,7 @@ class UserController extends BaseController {
         $user->password = Input::get('password');
         $user->email = $email;
         $user->activation_token = Str::random(16);
-        $user->last_ip = Request::getClientIp();
+        $user->last_ip = $request->getClientIp();
         $user->settings = [];
         $user->save();
 
@@ -242,14 +242,12 @@ class UserController extends BaseController {
             'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, klikając na link przesłany na twój adres email.');
     }
 
-    public function activateAccount($token)
+    public function activateAccount(Request $request, $token)
     {
         $user = User::where('activation_token', $token)->firstOrFail();
 
-        if (Cache::has('registration.'. md5(Request::getClientIp())))
-        {
-            return App::abort(500);
-        }
+        $ipHash = md5($request->getClientIp());
+        if (Cache::has('registration.'. $ipHash)) return App::abort(500);
 
         $user->unset('activation_token');
         $user->is_activated = true;
@@ -257,7 +255,7 @@ class UserController extends BaseController {
 
         Auth::login($user);
 
-        Cache::put('registration.'. md5(Request::getClientIp()), 'true', 60 * 24 * 7);
+        Cache::put('registration.'. $ipHash, 'true', 60 * 24 * 7);
 
         return Redirect::to('/kreator')->with('success_msg',
             'Witaj w gronie użytkowników serwisu '. Config::get('app.site_name') .'! ;) '.
