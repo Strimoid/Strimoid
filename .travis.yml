@@ -9,7 +9,6 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
-    - php: hhvm-nightly
 
 env: APP_ENV=testing
 
@@ -18,13 +17,13 @@ services:
 
 before_install:
   - sudo apt-get update -qq
-  - if [[ "$TRAVIS_PHP_VERSION" != hhvm* ]]; then echo yes | pecl install apcu-beta; fi
-  - if [[ "$TRAVIS_PHP_VERSION" != hhvm* ]]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
+  - bash -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo yes | pecl install apcu-beta; fi;'
+  - bash -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;'
 
 install:
-  - composer self-update
-  - composer install --dev --no-interaction --ignore-platform-reqs
-  - if [[ "$TRAVIS_PHP_VERSION" = hhvm* ]]; then composer require mongofill/mongofill:dev-master; fi
+  - travis_retry composer self-update
+  - travis_retry composer install --dev --no-interaction --ignore-platform-reqs
+  - bash -c 'if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then composer require mongofill/mongofill:dev-master; fi;'
 
 before_script:
   - mkdir -p build/logs
