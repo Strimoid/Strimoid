@@ -21,16 +21,6 @@ class AddModerator extends Command {
     protected $description = 'Adds new moderator.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return void
@@ -43,17 +33,10 @@ class AddModerator extends Command {
         $moderator = new GroupModerator();
         $moderator->group()->associate($group);
         $moderator->user()->associate($user);
-
-        if ($this->option('admin'))
-            $moderator->type = 'admin';
-        else
-            $moderator->type = 'moderator';
-
+        $moderator->type  = $this->option('admin') ? 'admin' : 'moderator';
         $moderator->save();
 
-        Cache::forget($user->_id . '.moderated_groups');
-
-        $this->info($user->_id .' is now moderator of '. $group->_id);
+        $this->info($user->name .' is now moderator of '. $group->urlname);
     }
 
     /**
@@ -63,10 +46,10 @@ class AddModerator extends Command {
      */
     protected function getArguments()
     {
-        return array(
-            array('group', InputArgument::REQUIRED, 'Group.'),
-            array('username', InputArgument::REQUIRED, 'User name.'),
-        );
+        return [
+            ['group', InputArgument::REQUIRED, 'Group.'],
+            ['username', InputArgument::REQUIRED, 'User name.'],
+        ];
     }
 
     /**
@@ -76,9 +59,9 @@ class AddModerator extends Command {
      */
     protected function getOptions()
     {
-        return array(
-            array('admin', null, InputOption::VALUE_NONE, 'Makes user admin instead of moderator.', null),
-        );
+        return [
+            ['admin', null, InputOption::VALUE_NONE, 'Makes user admin instead of moderator.', null],
+        ];
     }
 
 }
