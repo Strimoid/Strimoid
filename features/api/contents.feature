@@ -25,7 +25,7 @@ Feature: Contents
         And the "group" property is an object
 
   Scenario: Returning a collection of contents from given group
-    When I request "GET /api/v1/contents?group=heaney"
+    When I request "GET /api/v1/contents?group=rohan"
     Then I get a "200" response
     And scope into the first "data" property
     And the properties exist:
@@ -48,10 +48,10 @@ Feature: Contents
     And the "user" property is an object
     And the "group" property is an object
     And scope into the "data.0.group" property
-      And the "name" property equals "Kristyfort"
+      And the "name" property equals "Port Gayle"
 
   Scenario: Finding a specific content
-    When I request "GET /api/v1/contents/588914"
+    When I request "GET /api/v1/contents/04a24c"
     Then I get a "200" response
     And the properties exist:
       """

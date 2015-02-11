@@ -14,15 +14,4 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         return $app;
     }
 
-    /**
-     * Seed database with fake data.
-     *
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->seed();
-    }
-
 }

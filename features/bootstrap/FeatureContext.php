@@ -24,5 +24,22 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
     {
     }
 
+    /**
+     * @Given I am :arg1
+     */
+    public function iAm($id)
+    {
+        app()->auth->onceUsingId($id);
+    }
+
+    /**
+     * @Then I should be logged in
+     */
+    public function iShouldBeLoggedIn()
+    {
+        $loggedIn = app()->auth->check();
+        PHPUnit::assertTrue($loggedIn);
+    }
+
 
 }

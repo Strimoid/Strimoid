@@ -80,7 +80,7 @@
     <h4>Ankieta</h4>
 </div>
 
-@if (isset($content->poll['ends_at']) && Carbon::now()->gte(md_to_carbon($content->poll['ends_at'])))
+@if (isset($content->poll['ends_at']) && Carbon::now()->gte($content->poll['ends_at']))
     @include('content.poll.scores', ['content' => $content, 'poll' => $content->poll])
 @else
     @include('content.poll.vote', ['content' => $content, 'poll' => $content->poll])
@@ -107,17 +107,17 @@
     <div class="col-lg-6">
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('thumbnail', 'on', Input::old('thumbnail', true)) !!} Miniaturka
+                {!! Form::checkbox('thumbnail', 'on', true) !!} Miniaturka
             </label>
         </div>
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('nsfw', 'on', Input::old('nsfw')) !!} Treść +18
+                {!! Form::checkbox('nsfw', 'on') !!} Treść +18
             </label>
         </div>
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('eng', 'on', Input::old('eng')) !!} Treść w języku angielskim
+                {!! Form::checkbox('eng', 'on') !!} Treść w języku angielskim
             </label>
         </div>
     </div>
@@ -227,7 +227,7 @@ Brak powiązanych.
         <input name="id" type="hidden" value="{!! $content->_id !!}">
 
         <div class="form-group @if ($errors->has('text')) has-error @endif col-lg-12">
-            {!! Form::textarea('text', Input::old('text'), array('class' => 'form-control enter_send', 'placeholder' => 'Treść komentarza...', 'rows' => 3)) !!}
+            {!! Form::textarea('text', null, ['class' => 'form-control enter_send', 'placeholder' => 'Treść komentarza...', 'rows' => 3]) !!}
 
              @if ($errors->has('text'))
                 <p class="help-block">{!! $errors->first('text') !!}</p>

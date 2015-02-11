@@ -36,17 +36,17 @@
         <div class="col-lg-6">
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('thumbnail', 'on', Input::old('thumbnail', Input::get('thumbnail') == 'no' ? false : true)) !!} Miniaturka
+                    {!! Form::checkbox('thumbnail', 'on', Input::get('thumbnail') == 'no' ? false : true) !!} Miniaturka
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('nsfw', 'on', Input::old('nsfw', Input::has('18'))) !!} Treść +18
+                    {!! Form::checkbox('nsfw', 'on', Input::has('18')) !!} Treść +18
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('eng', 'on', Input::old('eng', Input::has('eng'))) !!} Treść w języku angielskim
+                    {!! Form::checkbox('eng', 'on', Input::has('eng')) !!} Treść w języku angielskim
                 </label>
             </div>
         </div>

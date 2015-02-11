@@ -10,8 +10,8 @@
         <div class="col-lg-6">
             <div class="input-group">
                 <span class="input-group-addon">g/</span>
-                {!! Form::text('urlname', Input::old('urlname'), array('class' => 'form-control',
-                    'placeholder' => 'Adres grupy')) !!}
+                {!! Form::text('urlname', null, ['class' => 'form-control',
+                    'placeholder' => 'Adres grupy']) !!}
             </div>
 
             @if($errors->has('urlname'))

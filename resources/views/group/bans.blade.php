@@ -14,7 +14,7 @@
     <div class="col-lg-offset-3 col-lg-6">
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('everywhere', Input::old('everywhere')) !!} Zablokuj we wszystkich grupach
+                {!! Form::checkbox('everywhere') !!} Zablokuj we wszystkich grupach
             </label>
         </div>
     </div>

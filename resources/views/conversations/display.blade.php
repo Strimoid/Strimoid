@@ -57,7 +57,7 @@
 
     <div class="entry_text">
         <div class="form-group @if ($errors->has('text')) has-error @endif">
-            {!! Form::textarea('text', Input::old('text'), array('class' => 'form-control', 'placeholder' => 'Treść wiadomości...', 'rows' => 2)) !!}
+            {!! Form::textarea('text', null, ['class' => 'form-control', 'placeholder' => 'Treść wiadomości...', 'rows' => 2]) !!}
 
             @if($errors->has('text'))
             <p class="help-block">{!! $errors->first('text') !!}</p>

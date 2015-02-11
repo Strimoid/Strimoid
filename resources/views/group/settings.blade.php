@@ -101,7 +101,7 @@
                 <div class="col-lg-offset-3 col-lg-6">
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('admin', Input::old('admin')) !!} <span class="has_tooltip" data-toggle="tooltip" title="Pozwala edytować ustawienia i listę moderatorów">Admin</span>
+                            {!! Form::checkbox('admin') !!} <span class="has_tooltip" data-toggle="tooltip" title="Pozwala edytować ustawienia i listę moderatorów">Admin</span>
                         </label>
                     </div>
                 </div>

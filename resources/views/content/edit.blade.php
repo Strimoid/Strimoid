@@ -18,12 +18,12 @@
         <div class="col-lg-6">
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('nsfw', 'on', Input::old('nsfw', $content->nsfw)) !!} Treść +18
+                    {!! Form::checkbox('nsfw', 'on', $content->nsfw) !!} Treść +18
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('eng', 'on', Input::old('eng', $content->eng)) !!} Treść w języku angielskim
+                    {!! Form::checkbox('eng', 'on', $content->eng) !!} Treść w języku angielskim
                 </label>
             </div>
         </div>

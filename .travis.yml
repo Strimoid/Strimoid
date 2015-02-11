@@ -28,8 +28,7 @@ install:
 
 before_script:
   - mkdir -p build/logs
-  - php artisan migrate:install
-  - php artisan migrate:refresh --seed
+  - mongoimport -d strimoid database/fixtures
 
 script:
   - vendor/bin/behat
@@ -44,3 +43,6 @@ notifications:
     channels:
       - "chat.freenode.net#strimoid-dev"
     skip_join: true
+  webhooks:
+    urls:
+      - "https://webhooks.gitter.im/e/b92679984eb8b89ea1d2"
