@@ -28,7 +28,7 @@ install:
 
 before_script:
   - mkdir -p build/logs
-  - mongoimport -d strimoid database/fixtures
+  - mongorestore -d strimoid database/fixtures
 
 script:
   - vendor/bin/behat
