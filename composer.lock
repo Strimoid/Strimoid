@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6341931731309c596c4e8f8c34bea21b",
+    "hash": "c14b43eef979cfcd3f1023d9005923df",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1180,16 +1180,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.3",
+            "version": "v5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9c36458d2504b87f6a1484023327ea6d91ee4898"
+                "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9c36458d2504b87f6a1484023327ea6d91ee4898",
-                "reference": "9c36458d2504b87f6a1484023327ea6d91ee4898",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b5eafda7dba3d1367a63095b83a068a73d32d97f",
+                "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f",
                 "shasum": ""
             },
             "require": {
@@ -1301,7 +1301,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-02-11 15:56:06"
+            "time": "2015-02-11 20:37:48"
         },
         {
             "name": "league/commonmark",
@@ -5043,7 +5043,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.5.0"
+        "php": ">=5.5.0",
+        "ext-mongo": "*"
     },
     "platform-dev": []
 }
