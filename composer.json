@@ -19,7 +19,7 @@
         "php": ">=5.5.0",
         "laravel/framework": "5.0.*",
 	    "illuminate/html": "5.0.*",
-	    "jenssegers/mongodb": "dev-L5",
+	    "jenssegers/mongodb": "dev-master",
 	    "jenssegers/mongodb-session": "dev-master",
         "intervention/image": "~2.1.1",
         "phindmarsh/summon": "dev-master",
@@ -27,21 +27,21 @@
         "roumen/sitemap": "dev-master",
         "iron-io/iron_mq": "dev-master",
         "jenssegers/agent": "~2.1.5",
-        "jeremykendall/php-domain-parser": "1.4.*",
+        "jeremykendall/php-domain-parser": "~2.0",
         "guzzlehttp/guzzle": "~5.0",
-        "guzzlehttp/oauth-subscriber": "0.1.*",
+        "guzzlehttp/oauth-subscriber": "0.2.*",
 	    "league/oauth2-server": "4.*",
         "symfony/dom-crawler": "~2.5.6",
         "symfony/css-selector": "~2.5.6",
-		"league/fractal": "~0.10@dev",
-	    "league/commonmark": "0.5.*@dev",
+		"league/fractal": "~0.11",
+	    "league/commonmark": "0.6.*",
 	    "pda/pheanstalk": "~3.0",
 	    "nesbot/carbon": "~1.0",
 	    "graham-campbell/throttle": "~3.0",
 		"pubnub/pubnub": "3.7.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.4.*",
+        "phpunit/phpunit": "4.5.*",
         "barryvdh/laravel-ide-helper": "2.*",
         "barryvdh/laravel-debugbar": "2.*",
         "fzaninotto/faker": "*",
@@ -52,10 +52,6 @@
 		"mockery/mockery": "0.9.*@dev"
     },
   	"repositories": [
-	  	{
-			"type": "vcs",
-			"url": "https://github.com/duxet/laravel-mongodb"
-	  	},
 	    {
 		    "type": "vcs",
 		    "url": "https://github.com/duxet/Carbon"
@@ -92,6 +88,5 @@
   	},
 	"config": {
 		"preferred-install": "dist"
-	},
-	"minimum-stability": "dev"
+	}
 }
