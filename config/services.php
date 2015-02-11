@@ -14,6 +14,16 @@ return [
 	|
 	*/
 
+    'mailgun' => [
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_SECRET'),
+    ],
+
+    'mailtrap' => [
+        'secret' => env('MAILTRAP_SECRET'),
+        'default_inbox' => env('MAILTRAP_INBOX'),
+    ],
+
     'pubnub' => [
         'pub_key' => env('PUBNUB_PUBKEY', ''),
         'sub_key' => env('PUBNUB_SUBKEY', ''),
