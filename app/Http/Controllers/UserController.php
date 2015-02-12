@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use App, Auth, Cache, Carbon, Str, Input, URL, Redirect, Response, Validator;
+use App, Auth, Cache, Carbon, Log, Mail, Str, Input, URL, Redirect, Response, Validator;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Strimoid\Contracts\UserRepository;
