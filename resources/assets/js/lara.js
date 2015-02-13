@@ -30,7 +30,7 @@ if (typeof String.prototype.contains !== 'function') {
 
 $(document).ready(function() {
     $.ajaxSetup({
-        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }
+        headers: { 'X-XSRF-TOKEN': $.cookie('XSRF-TOKEN') }
     });
 
     var notificationsModule = new NotificationsModule();

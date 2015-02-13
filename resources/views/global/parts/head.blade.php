@@ -28,7 +28,7 @@
     <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">
 @endif
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.13/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular.min.js"></script>
 
 <script src="{!! $componentsFilename !!}"></script>
 
