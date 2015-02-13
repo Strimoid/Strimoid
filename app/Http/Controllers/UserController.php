@@ -201,19 +201,11 @@ class UserController extends BaseController {
 
     public function processRegistration(Request $request)
     {
-        $rules = [
+        $this->validate($request, [
             'username' => 'required|min:2|max:30|unique_ci:users,name|regex:/^[a-zA-Z0-9_]+$/i',
             'password' => 'required|min:6',
             'email' => 'required|email|unique_email:users|real_email'
-        ];
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails())
-        {
-            Input::flash('only', ['username', 'email', 'remember']);
-            return Redirect::action('UserController@showRegisterForm')->withErrors($validator);
-        }
+        ]);
 
         $ipHash = md5($request->getClientIp());
         if (Cache::has('registration.'. $ipHash)) return App::abort(500);
@@ -223,7 +215,6 @@ class UserController extends BaseController {
         $user = new User();
         $user->_id = Input::get('username');
         $user->name = Input::get('username');
-        $user->shadow_name = Str::lower(Input::get('username'));
         $user->password = Input::get('password');
         $user->email = $email;
         $user->activation_token = Str::random(16);
