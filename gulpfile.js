@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
+var mainBowerFiles = require('main-bower-files');
 
 gulp.task('default', ['angular', 'js', 'css'], function() {
 });
@@ -18,12 +19,14 @@ gulp.task('angular', function() {
 });
 
 gulp.task('js', function() {
-    return gulp.src([
-            'resources/assets/js/libs/*.js',
-            'resources/assets/js/plugins/*.js',
-            'resources/assets/js/modules/*.js',
-            'resources/assets/js/lara.js'
-        ])
+    var src = mainBowerFiles({ filter: /\.js$/ }).concat([
+        'resources/assets/js/libs/*.js',
+        'resources/assets/js/plugins/*.js',
+        'resources/assets/js/modules/*.js',
+        'resources/assets/js/lara.js'
+    ]);
+
+    return gulp.src(src)
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('app.js'))
         .pipe(plugins.uglify())
