@@ -12,5 +12,17 @@ Feature: Contents
     And I should see "Pariatur mollitia qu"
     And I should see "Dolorum quasi explicabo"
 
-  Scenario: Add content
-    Given I am "54d8afaedf6cbe401a00002a"
+  Scenario: Add new link
+    Given I am logged in
+    And I am on the homepage
+    When I follow "Dodaj link"
+    And I fill in the following:
+      | groupname   | satterfield         |
+      | url         | https://strimoid.pl |
+      | title       | Fajna treść         |
+      | description | Przykładowy opis    |
+    And I uncheck "Miniaturka"
+    And I press "Dodaj treść"
+    Then the url should match "/c/"
+    And I should see "Fajna treść"
+    And I should see "Przykładowy opis"

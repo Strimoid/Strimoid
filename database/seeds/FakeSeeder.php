@@ -46,7 +46,7 @@ class FakeSeeder extends BaseSeeder
             'created_at' => $this->faker->dateTimeThisDecade,
             'name' => $this->faker->userName,
             'email' => $this->faker->email,
-            'password' => $this->faker->password,
+            'password' => 'qwe123',
             'is_activated' => true,
         ]);
 

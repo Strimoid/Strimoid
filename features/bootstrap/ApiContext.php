@@ -70,9 +70,7 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
             $this->response = app()
                 ->make('Illuminate\Contracts\Http\Kernel')
                 ->handle($request);
-        } catch (Exception $e) {
-
-        }
+        } catch (Exception $e) {}
     }
 
     /**

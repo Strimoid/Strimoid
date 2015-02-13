@@ -5,6 +5,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
+use Laracasts\Behat\Context\Services\MailTrap;
 use PHPUnit_Framework_Assert as PHPUnit;
 
 /**
@@ -12,6 +13,8 @@ use PHPUnit_Framework_Assert as PHPUnit;
  */
 class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext
 {
+
+    use MailTrap;
 
     /**
      * Initializes context.
@@ -33,6 +36,14 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
     }
 
     /**
+     * @Given I am logged in
+     */
+    public function iAmLoggedIn()
+    {
+        $this->iAm('54d8afaedf6cbe401a00002a');
+    }
+
+    /**
      * @Then I should be logged in
      */
     public function iShouldBeLoggedIn()
@@ -41,5 +52,21 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
         PHPUnit::assertTrue($loggedIn);
     }
 
+    /**
+     * @Then I should be logged out
+     */
+    public function iShouldBeLoggedOut()
+    {
+        $loggedIn = app()->auth->check();
+        PHPUnit::assertFalse($loggedIn);
+    }
+
+    /**
+     * @When I submit form :arg1
+     */
+    public function iSubmitForm($name)
+    {
+        $this->getSession()->getPage()->find('css', $name)->submit();
+    }
 
 }
