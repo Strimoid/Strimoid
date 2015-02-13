@@ -20,7 +20,6 @@ gulp.task('angular', function() {
 
 gulp.task('js', function() {
     var src = mainBowerFiles({ filter: /\.js$/ }).concat([
-        'resources/assets/js/libs/*.js',
         'resources/assets/js/plugins/*.js',
         'resources/assets/js/modules/*.js',
         'resources/assets/js/lara.js'
@@ -30,7 +29,7 @@ gulp.task('js', function() {
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('app.js'))
         .pipe(plugins.uglify())
-        .pipe(plugins.sourcemaps.write('.'))
+        .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest('public/static/js/'));
 });
 
