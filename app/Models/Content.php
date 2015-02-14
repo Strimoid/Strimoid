@@ -94,11 +94,11 @@ class Content extends BaseModel
         return $this->domain ?: 'strimoid.pl';
     }
 
-    public function getEmbed()
+    public function getEmbed($autoPlay = true)
     {
         if ( ! $this->url) return false;
 
-        return OEmbed::getHtml($this->url);
+        return OEmbed::getHtml($this->url, $autoPlay);
     }
 
     public function getURL()

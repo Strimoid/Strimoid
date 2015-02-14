@@ -15,8 +15,7 @@ class OEmbed {
     {
         try {
             $query = ['url' => $url];
-            $data = Guzzle::get($this->endpoint(),compact('query'))
-                ->json();
+            $data = Guzzle::get($this->endpoint(), compact('query'))->json();
 
             return $this->findThumbnail($data);
         } catch(RequestException $e) {}
@@ -41,26 +40,26 @@ class OEmbed {
         return false;
     }
 
-    public function getHtml($url)
+    public function getEmbedHtml($url, $autoPlay = true)
     {
         $key = md5($url);
 
+        if ( ! $autoPlay) $key .= '.no-ap';
+
         $html = Cache::driver('oembed')
-            ->rememberForever($key, function() use($url) {
-                return $this->fetchJson($url);
+            ->rememberForever($key, function() use($url, $autoPlay) {
+                return $this->fetchJson($url, $autoPlay);
             });
 
         return $html;
     }
 
-    protected function fetchJson($url)
+    protected function fetchJson($url, $autoPlay)
     {
         try {
-            $query = [
-                'autoplay' => 'true',
-                'ssl' => 'true',
-                'url' => $url,
-            ];
+            $query = ['ssl' => 'true', 'url' => $url];
+
+            if ($autoPlay) $query['autoplay'] = 'true';
 
             $data = Guzzle::get($this->endpoint(), compact('query'))->json();
 
