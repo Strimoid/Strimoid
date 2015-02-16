@@ -4,8 +4,55 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c14b43eef979cfcd3f1023d9005923df",
+    "hash": "89aeb231feeb5222df7573b5dffabb45",
     "packages": [
+        {
+            "name": "algolia/algoliasearch-client-php",
+            "version": "1.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/algolia/algoliasearch-client-php.git",
+                "reference": "9190158b687cc214c05207b3e08544723ae5d961"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/9190158b687cc214c05207b3e08544723ae5d961",
+                "reference": "9190158b687cc214c05207b3e08544723ae5d961",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "AlgoliaSearch": "src/",
+                    "AlgoliaSearch\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Algolia Team",
+                    "email": "contact@algolia.com"
+                },
+                {
+                    "name": "Ryan T. Catlin",
+                    "email": "ryan.catlin@gmail.com"
+                },
+                {
+                    "name": "Jonathan H. Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Algolia Search API Client for PHP",
+            "homepage": "https://github.com/algolia/algoliasearch-client-php",
+            "time": "2015-01-20 17:24:59"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "1.2.0",
@@ -727,100 +774,6 @@
             "time": "2014-11-20 16:49:30"
         },
         {
-            "name": "iron-io/iron_core",
-            "version": "0.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/iron-io/iron_core_php.git",
-                "reference": "bf399c13a42a78079b3fe56d0e2e1791290521c4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/bf399c13a42a78079b3fe56d0e2e1791290521c4",
-                "reference": "bf399c13a42a78079b3fe56d0e2e1791290521c4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "IronCore.class.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander S",
-                    "email": "alexander@iron.io",
-                    "homepage": "http://iron.io",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Iron.io",
-                    "email": "support@iron.io",
-                    "homepage": "http://iron.io",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Collection of common functions for all iron.io client libraries",
-            "homepage": "http://github.com/iron-io/iron_core_php",
-            "keywords": [
-                "iron",
-                "iron_core"
-            ],
-            "time": "2014-08-05 13:53:05"
-        },
-        {
-            "name": "iron-io/iron_mq",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/iron-io/iron_mq_php.git",
-                "reference": "d9e64a662d6ddcd4ba535c67467f0eee221804fb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/iron-io/iron_mq_php/zipball/d9e64a662d6ddcd4ba535c67467f0eee221804fb",
-                "reference": "d9e64a662d6ddcd4ba535c67467f0eee221804fb",
-                "shasum": ""
-            },
-            "require": {
-                "iron-io/iron_core": "*",
-                "php": ">=5.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "IronMQ.class.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander S",
-                    "email": "alexander@iron.io",
-                    "homepage": "http://iron.io",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Client binding for IronMQ (hosted message queue)",
-            "homepage": "http://github.com/iron-io/iron_mq_php",
-            "keywords": [
-                "MQ",
-                "iron",
-                "iron_mq"
-            ],
-            "time": "2014-10-16 18:40:13"
-        },
-        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -1119,16 +1072,16 @@
         },
         {
             "name": "jeremykendall/php-domain-parser",
-            "version": "2.0.1",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremykendall/php-domain-parser.git",
-                "reference": "915a956d9c85b6036da16ef53a679a707ffdc625"
+                "reference": "29c8dfd8fc55bb90c98fb531eab6c138093e7bbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/915a956d9c85b6036da16ef53a679a707ffdc625",
-                "reference": "915a956d9c85b6036da16ef53a679a707ffdc625",
+                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/29c8dfd8fc55bb90c98fb531eab6c138093e7bbe",
+                "reference": "29c8dfd8fc55bb90c98fb531eab6c138093e7bbe",
                 "shasum": ""
             },
             "require": {
@@ -1176,20 +1129,20 @@
                 "domain parsing",
                 "url parsing"
             ],
-            "time": "2015-01-27 20:12:38"
+            "time": "2015-02-16 12:45:33"
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.4",
+            "version": "v5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f"
+                "reference": "b1aea041cbc0cd54563e2d3709a54a71eed57653"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b5eafda7dba3d1367a63095b83a068a73d32d97f",
-                "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b1aea041cbc0cd54563e2d3709a54a71eed57653",
+                "reference": "b1aea041cbc0cd54563e2d3709a54a71eed57653",
                 "shasum": ""
             },
             "require": {
@@ -1301,7 +1254,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-02-11 20:37:48"
+            "time": "2015-02-13 19:10:59"
         },
         {
             "name": "league/commonmark",
@@ -2013,16 +1966,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.3.3",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "0355cecab0591c83fed019a9572c510b0da29174"
+                "reference": "2ce0e8f3020fd292c2ad2a496c5d83939823f642"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/0355cecab0591c83fed019a9572c510b0da29174",
-                "reference": "0355cecab0591c83fed019a9572c510b0da29174",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/2ce0e8f3020fd292c2ad2a496c5d83939823f642",
+                "reference": "2ce0e8f3020fd292c2ad2a496c5d83939823f642",
                 "shasum": ""
             },
             "require": {
@@ -2072,14 +2025,14 @@
                 }
             ],
             "description": "An interactive shell for modern PHP.",
-            "homepage": "https://github.com/bobthecow/psysh",
+            "homepage": "http://psysh.org",
             "keywords": [
                 "REPL",
                 "console",
                 "interactive",
                 "shell"
             ],
-            "time": "2015-01-20 21:18:03"
+            "time": "2015-02-12 19:35:52"
         },
         {
             "name": "pubnub/pubnub",
@@ -2184,16 +2137,16 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v0.9.9",
+            "version": "v0.9.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "31f2c59355ab1733e788f6927290b9ae15229836"
+                "reference": "2b3b2cb0dbe4723af68a502b574d6a1a84c4a383"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/31f2c59355ab1733e788f6927290b9ae15229836",
-                "reference": "31f2c59355ab1733e788f6927290b9ae15229836",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/2b3b2cb0dbe4723af68a502b574d6a1a84c4a383",
+                "reference": "2b3b2cb0dbe4723af68a502b574d6a1a84c4a383",
                 "shasum": ""
             },
             "type": "library",
@@ -2222,7 +2175,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2014-09-11 19:19:11"
+            "time": "2015-02-11 21:47:49"
         },
         {
             "name": "roumen/sitemap",
@@ -2230,12 +2183,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RoumenDamianoff/laravel-sitemap.git",
-                "reference": "dd8d820580a48394bae67c738e3f0ec4cc1d8793"
+                "reference": "9d973e9f40c0385695ab5bc873d55f5a8102bd90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/dd8d820580a48394bae67c738e3f0ec4cc1d8793",
-                "reference": "dd8d820580a48394bae67c738e3f0ec4cc1d8793",
+                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/9d973e9f40c0385695ab5bc873d55f5a8102bd90",
+                "reference": "9d973e9f40c0385695ab5bc873d55f5a8102bd90",
                 "shasum": ""
             },
             "require": {
@@ -2274,7 +2227,7 @@
                 "Sitemap",
                 "laravel"
             ],
-            "time": "2015-01-31 12:02:51"
+            "time": "2015-02-11 20:51:51"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2387,17 +2340,17 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v2.5.10",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/CssSelector",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "d45b306421462295e76b94bcf76b963867450327"
+                "reference": "3f80ecc614fec68d5b4a84a0703db3fdf5ce8584"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/d45b306421462295e76b94bcf76b963867450327",
-                "reference": "d45b306421462295e76b94bcf76b963867450327",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/3f80ecc614fec68d5b4a84a0703db3fdf5ce8584",
+                "reference": "3f80ecc614fec68d5b4a84a0703db3fdf5ce8584",
                 "shasum": ""
             },
             "require": {
@@ -2406,7 +2359,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -2434,7 +2387,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-03 08:01:13"
+            "time": "2015-01-03 08:01:59"
         },
         {
             "name": "symfony/debug",
@@ -2498,17 +2451,17 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v2.5.10",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/DomCrawler",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "3860edcf7ff7e173cfe2151f0d425e610e77cc35"
+                "reference": "26a9eb302decd828990e1015afaa11b78b016073"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/3860edcf7ff7e173cfe2151f0d425e610e77cc35",
-                "reference": "3860edcf7ff7e173cfe2151f0d425e610e77cc35",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/26a9eb302decd828990e1015afaa11b78b016073",
+                "reference": "26a9eb302decd828990e1015afaa11b78b016073",
                 "shasum": ""
             },
             "require": {
@@ -2523,7 +2476,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -2547,7 +2500,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-03 08:01:13"
+            "time": "2015-01-03 08:01:59"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3179,20 +3132,20 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "343dbc07007272511727c9272e568d707682fc24"
+                "reference": "77b9cc071f4bbd839923269668b14d308778d8b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/343dbc07007272511727c9272e568d707682fc24",
-                "reference": "343dbc07007272511727c9272e568d707682fc24",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/77b9cc071f4bbd839923269668b14d308778d8b0",
+                "reference": "77b9cc071f4bbd839923269668b14d308778d8b0",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.0.*",
+                "illuminate/support": "5.0.x",
                 "maximebf/debugbar": "~1.10.2",
                 "php": ">=5.4.0",
                 "symfony/finder": "~2.6"
@@ -3229,7 +3182,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2015-02-03 19:52:06"
+            "time": "2015-02-15 14:11:42"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -3855,12 +3808,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "f770ab0cf167cccf1a701f28411fbfc9971ff90e"
+                "reference": "f699a69af1f0a5a314107455e6150cfadce33e6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/f770ab0cf167cccf1a701f28411fbfc9971ff90e",
-                "reference": "f770ab0cf167cccf1a701f28411fbfc9971ff90e",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/f699a69af1f0a5a314107455e6150cfadce33e6b",
+                "reference": "f699a69af1f0a5a314107455e6150cfadce33e6b",
                 "shasum": ""
             },
             "require": {
@@ -3913,7 +3866,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2015-02-11 12:43:02"
+            "time": "2015-02-15 16:05:06"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -5033,7 +4986,6 @@
         "jenssegers/mongodb-session": 20,
         "phindmarsh/summon": 20,
         "roumen/sitemap": 20,
-        "iron-io/iron_mq": 20,
         "behat/behat": 20,
         "behat/mink": 20,
         "behat/mink-extension": 20,
