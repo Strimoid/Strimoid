@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Http\Middleware; 
 
+use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
