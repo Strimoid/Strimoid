@@ -16,8 +16,9 @@ class PubSubServiceProvider extends ServiceProvider {
         {
             $pubKey = $app['config']['services.pub_key'];
             $subKey = $app['config']['services.sub_key'];
+            $secret = $app['config']['services.secret'];
 
-            $pubNub = new \Pubnub\Pubnub($pubKey, $subKey);
+            $pubNub = new \Pubnub\Pubnub($pubKey, $subKey, $secret);
 
             return new PubNub($pubNub);
         });
