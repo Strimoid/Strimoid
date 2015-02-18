@@ -16,7 +16,7 @@ interface GroupRepository {
      *
      * @param  $name  string  Group name
      * @return \Strimoid\Models\Group
-     * @throws EntityNotFoundException
+     * @throws \Strimoid\Exceptions\EntityNotFoundException
      */
     public function requireByName($name);
 
