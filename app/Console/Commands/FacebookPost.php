@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Console\Commands;
 
-use Carbon, Guzzle;
+use Carbon, Config, Guzzle;
 use Strimoid\Models\Content;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -58,26 +58,6 @@ class FacebookPost extends Command {
         Guzzle::post('https://graph.facebook.com/strimoid/feed', [
             'body' => $params
         ]);
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return array();
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array();
     }
 
 }
