@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Repositories; 
 
-use Strimoid\Contracts\GroupRepository as GroupRepositoryContract;
+use Strimoid\Contracts\Repositories\GroupRepository as GroupRepositoryContract;
 use Strimoid\Exceptions\EntityNotFoundException;
 use Strimoid\Models\Group;
 

@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Repositories; 
 
-use Strimoid\Contracts\UserRepository as UserRepositoryContract;
+use Strimoid\Contracts\Repositories\UserRepository as UserRepositoryContract;
 use Strimoid\Exceptions\EntityNotFoundException;
 use Strimoid\Models\User;
 

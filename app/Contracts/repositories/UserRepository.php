@@ -1,6 +1,4 @@
-<?php namespace Strimoid\Contracts;
-
-use Strimoid\Exceptions\EntityNotFoundException;
+<?php namespace Strimoid\Contracts\Repositories;
 
 interface UserRepository {
 
@@ -17,7 +15,7 @@ interface UserRepository {
      * exception if not found.
      *
      * @param  $name  string  User name
-     * @throws EntityNotFoundException
+     * @throws \Strimoid\Exceptions\EntityNotFoundException
      * @return mixed
      */
     public function requireByName($name);

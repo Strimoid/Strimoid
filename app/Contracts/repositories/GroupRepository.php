@@ -1,4 +1,4 @@
-<?php namespace Strimoid\Contracts; 
+<?php namespace Strimoid\Contracts\Repositories;
 
 interface GroupRepository {
 

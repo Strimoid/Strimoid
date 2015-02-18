@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Repositories; 
 
-use Strimoid\Contracts\ContentRepository as ContentRepositoryContract;
+use Strimoid\Contracts\Repositories\ContentRepository as ContentRepositoryContract;
 use Strimoid\Models\Content;
 
 class ContentRepository extends Repository implements ContentRepositoryContract {

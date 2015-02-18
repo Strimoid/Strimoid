@@ -1,7 +1,7 @@
 <?php namespace Strimoid\Repositories; 
 
-use Strimoid\Contracts\FolderRepository as FolderRepositoryContract;
-use Strimoid\Contracts\UserRepository;
+use Strimoid\Contracts\Repositories\FolderRepository as FolderRepositoryContract;
+use Strimoid\Contracts\Repositories\UserRepository;
 use Strimoid\Models\Folder;
 
 class FolderRepository implements FolderRepositoryContract {
