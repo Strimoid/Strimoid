@@ -3,8 +3,8 @@
 use Auth, Input, Settings, Route, Response;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Strimoid\Contracts\FolderRepository;
-use Strimoid\Contracts\GroupRepository;
+use Strimoid\Contracts\Repositories\FolderRepository;
+use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;

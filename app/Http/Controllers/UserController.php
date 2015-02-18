@@ -3,7 +3,7 @@
 use App, Auth, Cache, Carbon, Log, Mail, Str, Input, URL, Redirect, Response, Validator;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Strimoid\Contracts\UserRepository;
+use Strimoid\Contracts\Repositories\UserRepository;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\GroupModerator;

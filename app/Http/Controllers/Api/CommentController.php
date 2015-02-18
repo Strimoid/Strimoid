@@ -2,11 +2,10 @@
 
 use App, Auth, Input, Response;
 use Illuminate\Http\Request;
-use Strimoid\Contracts\FolderRepository;
-use Strimoid\Contracts\GroupRepository;
+use Strimoid\Contracts\Repositories\FolderRepository;
+use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
-use Strimoid\Models\User;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class CommentController extends BaseController {

@@ -2,8 +2,8 @@
 
 use Auth, Input, Route, Settings, Response;
 use Illuminate\Http\Request;
-use Strimoid\Contracts\FolderRepository;
-use Strimoid\Contracts\GroupRepository;
+use Strimoid\Contracts\Repositories\FolderRepository;
+use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Group;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;

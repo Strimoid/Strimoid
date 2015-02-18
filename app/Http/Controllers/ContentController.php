@@ -2,9 +2,9 @@
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Strimoid\Contracts\ContentRepository;
-use Strimoid\Contracts\FolderRepository;
-use Strimoid\Contracts\GroupRepository;
+use Strimoid\Contracts\Repositories\ContentRepository;
+use Strimoid\Contracts\Repositories\FolderRepository;
+use Strimoid\Contracts\Repositories\GroupRepository;
 use Summon\Summon;
 use Auth, Input, Route, Redirect, Response, Rss, Session, Settings, Validator, Queue;
 use Strimoid\Models\Content;

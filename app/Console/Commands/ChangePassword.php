@@ -1,7 +1,7 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Strimoid\Contracts\UserRepository;
+use Strimoid\Contracts\Repositories\UserRepository;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 

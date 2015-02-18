@@ -2,8 +2,8 @@
 
 use Auth, Input;
 use Illuminate\Http\Request;
-use Strimoid\Contracts\FolderRepository;
-use Strimoid\Contracts\GroupRepository;
+use Strimoid\Contracts\Repositories\FolderRepository;
+use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\User;
 

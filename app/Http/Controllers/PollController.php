@@ -8,7 +8,7 @@ class PollController extends BaseController
         $poll = $content->poll;
 
         // No double voting, sorry
-        $hasVoted = in_array(Auth::user()->_id, array_column($poll['votes'], 'user_id'));
+        $hasVoted = in_array(Auth::id(), array_column($poll['votes'], 'user_id'));
 
         if ($hasVoted)
         {
@@ -17,7 +17,7 @@ class PollController extends BaseController
         }
 
         // Check if poll isn't closed already
-        if (isset($poll['ends_at']) && Carbon::now()->gte(md_to_carbon($poll['ends_at'])))
+        if (isset($poll['ends_at']) && Carbon::now()->gte($poll['ends_at']))
         {
             return Redirect::route('content_comments', $content->_id)
                 ->with('danger_msg', 'Ankieta została już zakończona.');
