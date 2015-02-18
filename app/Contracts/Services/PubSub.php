@@ -1,4 +1,4 @@
-<?php namespace Strimoid\Contracts; 
+<?php namespace Strimoid\Contracts\Services;
 
 use Closure;
 

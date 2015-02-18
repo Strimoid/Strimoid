@@ -12,7 +12,7 @@ class PubSubServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->singleton('Strimoid\Contracts\PubSub', function($app)
+        $this->app->singleton('Strimoid\Contracts\Services\PubSub', function($app)
         {
             $pubKey = $app['config']['services.pub_key'];
             $subKey = $app['config']['services.sub_key'];

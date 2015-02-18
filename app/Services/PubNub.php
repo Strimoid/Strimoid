@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Services;
 
-use Strimoid\Contracts\PubSub;
+use Closure;
+use Strimoid\Contracts\Services\PubSub;
 
 class PubNub implements PubSub {
 
