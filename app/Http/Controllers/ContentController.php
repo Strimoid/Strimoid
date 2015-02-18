@@ -62,7 +62,7 @@ class ContentController extends BaseController {
         // Make it possible to browse everything by adding all parameter
         if (Input::get('all')) $tab = null;
 
-        $group = $this->groups->getByName($groupName);
+        $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
         $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];

@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Repositories; 
 
 use Strimoid\Contracts\GroupRepository as GroupRepositoryContract;
+use Strimoid\Exceptions\EntityNotFoundException;
 use Strimoid\Models\Group;
 
 class GroupRepository implements GroupRepositoryContract {
@@ -33,4 +34,18 @@ class GroupRepository implements GroupRepositoryContract {
         return $this->group->shadow($name)->first();
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function requireByName($name)
+    {
+        $group = $this->getByName($name);
+
+        if ( ! $group)
+        {
+            throw new EntityNotFoundException;
+        }
+
+        return $group;
+    }
 }
