@@ -15,23 +15,24 @@ return [
 	*/
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain'        => env('MAILGUN_DOMAIN'),
+        'secret'        => env('MAILGUN_SECRET'),
     ],
 
     'mailtrap' => [
-        'secret' => env('MAILTRAP_SECRET'),
+        'secret'        => env('MAILTRAP_SECRET'),
         'default_inbox' => env('MAILTRAP_INBOX'),
     ],
 
     'pubnub' => [
-        'pub_key' => env('PUBNUB_PUBKEY'),
-        'sub_key' => env('PUBNUB_SUBKEY'),
-        'secret'  => env('PUBNUB_SECRET'),
+        'pub_key'       => env('PUBNUB_PUBKEY'),
+        'sub_key'       => env('PUBNUB_SUBKEY'),
+        'secret'        => env('PUBNUB_SECRET'),
     ],
 
 	'rollbar' => [
-		'token' => env('ROLLBAR_TOKEN', ''),
+		'access_token'  => env('ROLLBAR_TOKEN'),
+        'level'         => env('ROLLBAR_LEVEL', 'debug'),
 	],
 
 ];

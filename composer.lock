@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "89aeb231feeb5222df7573b5dffabb45",
+    "hash": "4161b0eed0b8dbfd6f0388351ec202de",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1013,6 +1013,56 @@
             "time": "2015-01-30 14:14:09"
         },
         {
+            "name": "jenssegers/rollbar",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jenssegers/laravel-rollbar.git",
+                "reference": "929814c1cb4a66d1e513ba7b07edf6e2100169e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jenssegers/laravel-rollbar/zipball/929814c1cb4a66d1e513ba7b07edf6e2100169e2",
+                "reference": "929814c1cb4a66d1e513ba7b07edf6e2100169e2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "4.*|5.*",
+                "php": ">=5.3",
+                "rollbar/rollbar": "0.9.*"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "3.0.*",
+                "satooshi/php-coveralls": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jenssegers\\Rollbar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens Segers",
+                    "homepage": "http://jenssegers.be"
+                }
+            ],
+            "description": "Rollbar error monitoring integration for Laravel projects",
+            "keywords": [
+                "error",
+                "laravel",
+                "logging",
+                "monitoring",
+                "rollbar"
+            ],
+            "time": "2015-02-08 22:39:49"
+        },
+        {
             "name": "jeremeamia/SuperClosure",
             "version": "2.0.0",
             "source": {
@@ -1133,16 +1183,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b1aea041cbc0cd54563e2d3709a54a71eed57653"
+                "reference": "43637b796f1ac0b1a960984231251ff04b438006"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b1aea041cbc0cd54563e2d3709a54a71eed57653",
-                "reference": "b1aea041cbc0cd54563e2d3709a54a71eed57653",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/43637b796f1ac0b1a960984231251ff04b438006",
+                "reference": "43637b796f1ac0b1a960984231251ff04b438006",
                 "shasum": ""
             },
             "require": {
@@ -1254,7 +1304,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-02-13 19:10:59"
+            "time": "2015-02-20 16:22:21"
         },
         {
             "name": "league/commonmark",
@@ -2183,12 +2233,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RoumenDamianoff/laravel-sitemap.git",
-                "reference": "9d973e9f40c0385695ab5bc873d55f5a8102bd90"
+                "reference": "f84967646ec1cea5b5e2d38a9828adb8345e6f2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/9d973e9f40c0385695ab5bc873d55f5a8102bd90",
-                "reference": "9d973e9f40c0385695ab5bc873d55f5a8102bd90",
+                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/f84967646ec1cea5b5e2d38a9828adb8345e6f2c",
+                "reference": "f84967646ec1cea5b5e2d38a9828adb8345e6f2c",
                 "shasum": ""
             },
             "require": {
@@ -2227,7 +2277,7 @@
                 "Sitemap",
                 "laravel"
             ],
-            "time": "2015-02-11 20:51:51"
+            "time": "2015-02-17 16:15:21"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3392,12 +3442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "1125c2fa97d5b3623786bceadccee7b4bc11335d"
+                "reference": "30014f0a15579176b7fca879cb461aad900f4db5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/1125c2fa97d5b3623786bceadccee7b4bc11335d",
-                "reference": "1125c2fa97d5b3623786bceadccee7b4bc11335d",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/30014f0a15579176b7fca879cb461aad900f4db5",
+                "reference": "30014f0a15579176b7fca879cb461aad900f4db5",
                 "shasum": ""
             },
             "require": {
@@ -3439,7 +3489,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2015-02-04 17:30:41"
+            "time": "2015-02-21 12:27:56"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -3808,12 +3858,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "f699a69af1f0a5a314107455e6150cfadce33e6b"
+                "reference": "2448c5b27f40d11db1f7bcee5a1188fef8ae490a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/f699a69af1f0a5a314107455e6150cfadce33e6b",
-                "reference": "f699a69af1f0a5a314107455e6150cfadce33e6b",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/2448c5b27f40d11db1f7bcee5a1188fef8ae490a",
+                "reference": "2448c5b27f40d11db1f7bcee5a1188fef8ae490a",
                 "shasum": ""
             },
             "require": {
@@ -3822,8 +3872,7 @@
             },
             "require-dev": {
                 "hamcrest/hamcrest-php": "~1.1",
-                "phpunit/phpunit": "~4.0",
-                "satooshi/php-coveralls": "~0.7@dev"
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "extra": {
@@ -3866,7 +3915,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2015-02-15 16:05:06"
+            "time": "2015-02-20 22:10:40"
         },
         {
             "name": "phpdocumentor/reflection-docblock",

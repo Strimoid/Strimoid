@@ -193,6 +193,8 @@ return [
 		 */
 		'GrahamCampbell\Throttle\ThrottleServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
+        'Jenssegers\Rollbar\RollbarServiceProvider',
+
 	],
 
 	/*
