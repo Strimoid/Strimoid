@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use App, Auth, Cache, Carbon, Log, Mail, Str, Input, URL, Redirect, Response, Validator;
+use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Strimoid\Contracts\Repositories\UserRepository;
@@ -10,6 +11,7 @@ use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
 use Strimoid\Models\UserAction;
 use Strimoid\Models\UserBlocked;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController {
 
@@ -21,11 +23,20 @@ class UserController extends BaseController {
     protected $users;
 
     /**
-     * @param UserRepository $users
+     * The password broker implementation.
+     *
+     * @var PasswordBroker
      */
-    public function __construct(UserRepository $users)
+    protected $passwords;
+
+    /**
+     * @param UserRepository $users
+     * @param PasswordBroker $passwords
+     */
+    public function __construct(UserRepository $users, PasswordBroker $passwords)
     {
         $this->users = $users;
+        $this->passwords = $passwords;
     }
 
     public function showJSONList()
@@ -79,7 +90,7 @@ class UserController extends BaseController {
             'old_password' => 'required|user_password'
         ]);
 
-        Auth::user()->password = Input::get('password');
+        Auth::user()->password = $request->get('password');
         Auth::user()->save();
 
         return Redirect::action('UserController@showSettings')
@@ -115,52 +126,59 @@ class UserController extends BaseController {
             return Redirect::to('')->with('danger_msg', 'Błędny token.');
         }
 
-        Auth::user()->changeEmailHashes(Auth::user()->new_email, Auth::user()->shadow_new_email);
-        Auth::user()->unset(['email_change_token', 'new_email', 'shadow_new_email']);
+        Auth::user()->email = Auth::user()->new_email;
+        Auth::user()->unset(['email_change_token', 'new_email']);
         Auth::user()->save();
 
         return Redirect::to('')->with('success_msg', 'Adres email został zmieniony.');
     }
 
-    public function remindPassword()
+    public function remindPassword(Request $request)
     {
-        $reminders = App::make('auth.reminder.repository');
-
         if (Input::has('email'))
         {
-            $email = Input::get('email');
-            $user = User::where('email', hash_email(Str::lower($email)))->first();
+            $this->validate($request, ['email' => 'required|email']);
 
-            if ($user)
+            $response = $this->passwords->sendResetLink($request->only('email'), function($m)
             {
-                $token = $reminders->create($user);
-                $view = Config::get('auth.reminder.email');
+                $m->subject('Zmiana hasła w serwisie Strimoid.pl');
+            });
 
-                Mail::send($view, compact('token', 'user'), function($m) use ($user, $token, $email)
-                {
-                    $m->to($email)->subject('Resetowanie hasła');
-                });
+            switch ($response)
+            {
+                case PasswordBroker::RESET_LINK_SENT:
+                    return redirect()->back()->with('status', trans($response));
+                case PasswordBroker::INVALID_USER:
+                    return redirect()->back()->withErrors(['email' => trans($response)]);
             }
-
-            return Redirect::to('')
-                ->with('success_msg', 'Link umożliwiający zmianę hasła został wysłany na twój adres email.');
         }
 
         return view('user.remind');
     }
 
-    public function showPasswordResetForm($token)
+    public function showPasswordResetForm($token = null)
     {
+        if (is_null($token))
+        {
+            throw new NotFoundHttpException;
+        }
+
         return view('user.reset')->with('token', $token);
     }
 
     public function resetPassword(Request $request)
     {
-        $credentials = Input::only('email', 'password', 'password_confirmation', 'token');
+        $this->validate($request, [
+            'token'    => 'required',
+            'email'    => 'required|email',
+            'password' => 'required|confirmed',
+        ]);
 
-        $credentials['email'] = hash_email(Str::lower($credentials['email']));
+        $credentials = $request->only(
+            'email', 'password', 'password_confirmation', 'token'
+        );
 
-        $response = Password::reset($credentials, function($user, $password) use ($request)
+        $response = $this->passwords->reset($credentials, function($user, $password)
         {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token)
@@ -173,19 +191,19 @@ class UserController extends BaseController {
                 $user->is_activated = true;
             }
 
-            $user->password = $password;
+            $user->password = bcrypt($password);
             $user->save();
+            $this->auth->login($user);
         });
 
         switch ($response)
         {
-            case Password::INVALID_PASSWORD:
-            case Password::INVALID_TOKEN:
-            case Password::INVALID_USER:
-                return Redirect::back()->with('danger_msg', Lang::get($response));
-
-            case Password::PASSWORD_RESET:
-                return Redirect::to('/');
+            case PasswordBroker::PASSWORD_RESET:
+                return redirect('/');
+            default:
+                return redirect()->back()
+                    ->withInput($request->only('email'))
+                    ->withErrors(['email' => trans($response)]);
         }
     }
 
