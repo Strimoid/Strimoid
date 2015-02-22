@@ -70,7 +70,7 @@ class Comment extends BaseModel
 
     public function replies()
     {
-        return $this->embedsMany('Strimoid\Models\CommentReply', '_replies')
+        return $this->embedsMany('CommentReply', '_replies')
             ->with('user');
     }
 

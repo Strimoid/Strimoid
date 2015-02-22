@@ -163,7 +163,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function folders()
     {
-        return $this->embedsMany('Strimoid\Models\Folder', '_folders');
+        return $this->embedsMany('Folder', '_folders');
     }
 
     public function isBanned(Group $group)

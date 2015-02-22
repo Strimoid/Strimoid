@@ -37,14 +37,27 @@ class BaseModel extends Model
         return $this->getVoteState();
     }
 
+    protected function embedsMany($related, $localKey = null, $foreignKey = null, $relation = null)
+    {
+        if (is_null($relation))
+        {
+            list(, $caller) = debug_backtrace(false);
+
+            $relation = $caller['function'];
+        }
+
+        $prefix = 'Strimoid\\Models\\';
+        return parent::embedsMany($prefix . $related, $localKey, $foreignKey, $relation);
+    }
+
     public function votes()
     {
-        return $this->embedsMany('Strimoid\Models\Vote', 'votes');
+        return $this->embedsMany('Vote', 'votes');
     }
 
     public function saves()
     {
-        return $this->embedsMany('Strimoid\Models\Save', 'saves');
+        return $this->embedsMany('Save', 'saves');
     }
 
     public function isSaved(User $user = null)

@@ -63,7 +63,7 @@ class Notification extends BaseModel
 
     public function targets()
     {
-        return $this->embedsMany('Strimoid\Models\NotificationTarget', '_targets');
+        return $this->embedsMany('NotificationTarget', '_targets');
     }
 
     public function setTitle($title)
