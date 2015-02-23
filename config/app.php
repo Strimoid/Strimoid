@@ -183,7 +183,6 @@ return [
 		'Strimoid\Providers\ComposerServiceProvider',
 		'Strimoid\Providers\EventsServiceProvider',
 		'Strimoid\Providers\OAuthServiceProvider',
-		'Strimoid\Providers\PubSubServiceProvider',
 		'Strimoid\Providers\RepositoriesServiceProvider',
 		'Strimoid\Providers\RouteServiceProvider',
 		'Strimoid\Providers\ValidatorServiceProvider',
