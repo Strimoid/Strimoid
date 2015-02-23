@@ -24,12 +24,6 @@ return [
         'default_inbox' => env('MAILTRAP_INBOX'),
     ],
 
-    'pubnub' => [
-        'pub_key'       => env('PUBNUB_PUBKEY'),
-        'sub_key'       => env('PUBNUB_SUBKEY'),
-        'secret'        => env('PUBNUB_SECRET'),
-    ],
-
 	'rollbar' => [
 		'access_token'  => env('ROLLBAR_TOKEN'),
         'level'         => env('ROLLBAR_LEVEL', 'debug'),
