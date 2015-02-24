@@ -88,15 +88,19 @@ class GroupController extends BaseController {
 
         if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
 
-        $filename = Config::get('app.uploads_path').'/styles/'. ($group->style
-                ? $group->style : Str::lower($group->urlname) .'.css');
+        $filename = $group->style ?: Str::lower($group->urlname) .'.css';
+        $disk = Storage::disk('styles');
 
         $data['group'] = $group;
-        $data['css'] = file_exists($filename) ? File::get($filename) : '';
+        $data['css'] = $disk->exists($filename) ? $disk->get($filename) : '';
+
         $data['moderators'] = GroupModerator::with('user')
-            ->where('group_id', $group->getKey())->get();
+            ->where('group_id', $group->getKey())
+            ->get();
+
         $data['bans'] = GroupBanned::with('user')
-            ->where('group_id', $group->getKey())->get();
+            ->where('group_id', $group->getKey())
+            ->get();
 
         return view('group.settings', $data);
     }

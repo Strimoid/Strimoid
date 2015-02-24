@@ -55,8 +55,10 @@ trait HasThumbnail {
         $filename = Str::random(9) .'.png';
 
         $img = Image::make($data);
-        $img->fit(400, 300);
-        $img->save(Config::get('app.uploads_path').'/thumbnails/'. $filename);
+        $img->fit(640, 480);
+        $img->encode('png');
+
+        Storage::disk('thumbnails')->put($filename, (string) $img);
 
         $this->thumbnail = $filename;
         $this->save();

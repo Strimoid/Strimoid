@@ -127,11 +127,11 @@ class Group extends BaseModel
 
     public function setStyle($css)
     {
+        $disk = Storage::disk('styles');
+
         // Compatibility with old saving method
-        if (file_exists(Config::get('app.uploads_path').'/styles/'. Str::lower($this->urlname) .'.css'))
-        {
-            File::delete(Config::get('app.uploads_path').'/styles/'. Str::lower($this->urlname) .'.css');
-        }
+        $filename = Str::lower($this->urlname) .'.css');
+        if ($disk->exists($filename)) $disk->delete($filename);
 
         $this->deleteStyle();
 
@@ -139,7 +139,7 @@ class Group extends BaseModel
         {
             $this->style = $this->shadow_urlname .'.'. Str::random(8) .'.css';
 
-            File::put(Config::get('app.uploads_path').'/styles/'. $this->style, $css);
+            $disk->put($this->style, $css);
         }
     }
 
@@ -147,7 +147,7 @@ class Group extends BaseModel
     {
         if ($this->style)
         {
-            File::delete(Config::get('app.uploads_path').'/styles/'. $this->style);
+            Storage::disk('styles')->delete($this->style);
             $this->unset('style');
         }
     }
@@ -177,10 +177,8 @@ class Group extends BaseModel
         {
             return $host .'/groups/'. $this->avatar;
         }
-        else
-        {
-            return $host .'/static/img/default_avatar.png';
-        }
+
+        return $host .'/static/img/default_avatar.png';
     }
 
     public function setSidebarAttribute($text)
