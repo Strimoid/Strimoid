@@ -130,7 +130,7 @@ class Group extends BaseModel
         $disk = Storage::disk('styles');
 
         // Compatibility with old saving method
-        $filename = Str::lower($this->urlname) .'.css');
+        $filename = Str::lower($this->urlname) .'.css';
         if ($disk->exists($filename)) $disk->delete($filename);
 
         $this->deleteStyle();
