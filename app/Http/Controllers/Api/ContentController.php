@@ -6,6 +6,7 @@ use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\User;
+use Strimoid\Models\Group;
 
 class ContentController extends BaseController {
 
