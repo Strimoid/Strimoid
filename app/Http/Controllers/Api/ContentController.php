@@ -88,6 +88,9 @@ class ContentController extends BaseController {
     }
 
     /**
+     * Add new content.
+     *
+     * @param Request $request
      * @return mixed
      */
     public function store(Request $request)
@@ -128,8 +131,9 @@ class ContentController extends BaseController {
             ], 400);
         }
 
-        $attributes = Input::only(['title', 'description', 'nsfw', 'eng']);
-        $content = new Content($attributes);
+        $content = new Content($request->only([
+            'title', 'description', 'nsfw', 'eng'
+        ]));
 
         if (Input::get('text'))
         {
@@ -138,16 +142,23 @@ class ContentController extends BaseController {
         else
         {
             $content->url = Input::get('url');
-
-            if (Input::get('thumbnail') != 'false' && Input::get('thumbnail') != 'off')
-            {
-                $content->autoThumbnail();
-            }
         }
 
         $content->user()->associate(Auth::user());
         $content->group()->associate($group);
+
         $content->save();
+
+        // Download thumbnail in background to don't waste user time
+        $thumbnail = $request->get('thumbnail');
+
+        if ($thumbnail != 'false' && $thumbnail != 'off')
+        {
+            $content->thumbnail_loading = true;
+            Queue::push('Strimoid\Handlers\DownloadThumbnail', [
+                'id' => $content->getKey()
+            ]);
+        }
 
         return Response::json([
             'status' => 'ok', '_id' => $content->getKey(), 'content' => $content
