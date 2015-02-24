@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4161b0eed0b8dbfd6f0388351ec202de",
+    "hash": "b5406f49faf782bb5659683562ef5246",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -268,6 +268,116 @@
                 "string"
             ],
             "time": "2014-12-20 21:24:13"
+        },
+        {
+            "name": "duxet/laravel-realtime",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/duxet/laravel-realtime.git",
+                "reference": "822fe0bb32ea706b65a4add7bdb006c2858054b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/822fe0bb32ea706b65a4add7bdb006c2858054b1",
+                "reference": "822fe0bb32ea706b65a4add7bdb006c2858054b1",
+                "shasum": ""
+            },
+            "require": {
+                "graham-campbell/manager": "~2.0",
+                "illuminate/support": "5.0.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "0.1.*",
+                "graham-campbell/testbench": "~2.0",
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.4"
+            },
+            "suggest": {
+                "pubnub/pubnub": "PubNub support.",
+                "pusher/pusher-php-server": "Pusher support."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "duxet\\Realtime\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "duxet",
+                    "email": "duxetlg@gmail.com"
+                }
+            ],
+            "description": "Laravel realtime communication using pub/sub pattern",
+            "keywords": [
+                "laravel",
+                "pubsub",
+                "realtime"
+            ],
+            "time": "2015-02-24 13:42:59"
+        },
+        {
+            "name": "graham-campbell/manager",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Laravel-Manager.git",
+                "reference": "17c2e2f3282bd795c136487928edb79dc8335a33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Manager/zipball/17c2e2f3282bd795c136487928edb79dc8335a33",
+                "reference": "17c2e2f3282bd795c136487928edb79dc8335a33",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.0.*",
+                "illuminate/support": "5.0.*",
+                "php": ">=5.4.7"
+            },
+            "require-dev": {
+                "graham-campbell/testbench": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GrahamCampbell\\Manager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@mineuk.com"
+                }
+            ],
+            "description": "Manager Provides Some Manager Functionality For Laravel 5",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Laravel Manager",
+                "Laravel-Manager",
+                "connector",
+                "framework",
+                "interface",
+                "laravel",
+                "manager"
+            ],
+            "time": "2015-02-05 20:11:50"
         },
         {
             "name": "graham-campbell/throttle",
@@ -3303,12 +3413,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "ec1e3890d3753908695483ca1f3cf7304c02251f"
+                "reference": "aa6e0cefbc4724c7e750be5ebb6e6539a173ecd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/ec1e3890d3753908695483ca1f3cf7304c02251f",
-                "reference": "ec1e3890d3753908695483ca1f3cf7304c02251f",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/aa6e0cefbc4724c7e750be5ebb6e6539a173ecd3",
+                "reference": "aa6e0cefbc4724c7e750be5ebb6e6539a173ecd3",
                 "shasum": ""
             },
             "require": {
@@ -3376,7 +3486,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2015-02-02 10:27:06"
+            "time": "2015-02-22 14:09:55"
         },
         {
             "name": "behat/gherkin",
@@ -5035,6 +5145,7 @@
         "jenssegers/mongodb-session": 20,
         "phindmarsh/summon": 20,
         "roumen/sitemap": 20,
+        "duxet/laravel-realtime": 20,
         "behat/behat": 20,
         "behat/mink": 20,
         "behat/mink-extension": 20,

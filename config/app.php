@@ -190,9 +190,11 @@ return [
 		/*
 		 * Third party Service Providers...
 		 */
+        'GrahamCampbell\Markdown\MarkdownServiceProvider',
 		'GrahamCampbell\Throttle\ThrottleServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
         'Jenssegers\Rollbar\RollbarServiceProvider',
+        'duxet\Realtime\RealtimeServiceProvider',
 
 	],
 
@@ -248,11 +250,12 @@ return [
 		'DateTime'  => 'DateTime',
         'Image'     => 'Intervention\Image\Facades\Image',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
+        'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
 		'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
+        'Realtime'  => 'duxet\Realtime\Facades\Realtime',
 
 		'Settings'  => 'Strimoid\Facades\Settings',
 		'PDP'       => 'Strimoid\Facades\PDP',
-		'PS'        => 'Strimoid\Facades\PS',
 		'Guzzle'    => 'Strimoid\Facades\Guzzle',
 		'OEmbed'    => 'Strimoid\Facades\OEmbed',
 

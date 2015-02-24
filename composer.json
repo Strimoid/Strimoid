@@ -34,13 +34,14 @@
         "symfony/dom-crawler": "~2.6",
         "symfony/css-selector": "~2.6",
 		"league/fractal": "~0.11",
-	    "league/commonmark": "0.6.*",
+        "graham-campbell/markdown": "~3.0",
 	    "pda/pheanstalk": "~3.0",
 	    "nesbot/carbon": "~1.0",
 	    "graham-campbell/throttle": "~3.0",
 		"pubnub/pubnub": "3.7.*",
 		"algolia/algoliasearch-client-php": "1.5.*",
-		"jenssegers/rollbar": "~1.4"
+		"jenssegers/rollbar": "~1.4",
+        "duxet/laravel-realtime": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "4.5.*",
