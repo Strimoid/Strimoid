@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b5406f49faf782bb5659683562ef5246",
+    "hash": "9f50606b97ca5f9edbf387bc5d724fd5",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -275,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-realtime.git",
-                "reference": "822fe0bb32ea706b65a4add7bdb006c2858054b1"
+                "reference": "c893c5a519a58d5cf85490d2e7da63fe8233a641"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/822fe0bb32ea706b65a4add7bdb006c2858054b1",
-                "reference": "822fe0bb32ea706b65a4add7bdb006c2858054b1",
+                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/c893c5a519a58d5cf85490d2e7da63fe8233a641",
+                "reference": "c893c5a519a58d5cf85490d2e7da63fe8233a641",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
                 "pubsub",
                 "realtime"
             ],
-            "time": "2015-02-24 13:42:59"
+            "time": "2015-02-24 15:05:51"
         },
         {
             "name": "graham-campbell/manager",
@@ -378,6 +378,65 @@
                 "manager"
             ],
             "time": "2015-02-05 20:11:50"
+        },
+        {
+            "name": "graham-campbell/markdown",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
+                "reference": "dfc7e1525a55c6851fb85723a421bce819fd3c2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/dfc7e1525a55c6851fb85723a421bce819fd3c2a",
+                "reference": "dfc7e1525a55c6851fb85723a421bce819fd3c2a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.0.*",
+                "illuminate/support": "5.0.*",
+                "illuminate/view": "5.0.*",
+                "league/commonmark": "0.7.*",
+                "php": ">=5.4.7"
+            },
+            "require-dev": {
+                "graham-campbell/testbench": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GrahamCampbell\\Markdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@mineuk.com"
+                }
+            ],
+            "description": "Markdown Is A CommonMark Wrapper For Laravel 5",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Laravel Markdown",
+                "Laravel-Markdown",
+                "common mark",
+                "commonmark",
+                "framework",
+                "laravel",
+                "markdown"
+            ],
+            "time": "2015-02-18 11:41:14"
         },
         {
             "name": "graham-campbell/throttle",
@@ -1418,16 +1477,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.6.1",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "ad1b89403026158529620e0f6096be0eae96817c"
+                "reference": "5f5137889b2aec36f8a1009ebe8673dac45f004e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/ad1b89403026158529620e0f6096be0eae96817c",
-                "reference": "ad1b89403026158529620e0f6096be0eae96817c",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/5f5137889b2aec36f8a1009ebe8673dac45f004e",
+                "reference": "5f5137889b2aec36f8a1009ebe8673dac45f004e",
                 "shasum": ""
             },
             "require": {
@@ -1446,7 +1505,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6-dev"
+                    "dev-master": "0.7-dev"
                 }
             },
             "autoload": {
@@ -1473,7 +1532,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2015-01-25 16:08:20"
+            "time": "2015-02-16 23:59:27"
         },
         {
             "name": "league/event",
