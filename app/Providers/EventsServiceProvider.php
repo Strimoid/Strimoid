@@ -1,13 +1,13 @@
 <?php namespace Strimoid\Providers;
 
-use Auth, Carbon, Config, Guzzle, Request, Input;
+use Auth, Carbon, Config, Guzzle, Request;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Strimoid\Handlers\Events\NewActionHandler;
 use Strimoid\Handlers\Events\NotificationsHandler;
+use Strimoid\Handlers\Events\PubSubHandler;
 use Strimoid\Models\User;
 use Strimoid\Models\Entry;
-use Strimoid\Models\Notification;
 
 class EventsServiceProvider extends ServiceProvider {
 
@@ -71,8 +71,9 @@ class EventsServiceProvider extends ServiceProvider {
                 } catch(Exception $e) {}
             });
 
-        $events->subscribe(new NewActionHandler);
-        $events->subscribe(new NotificationsHandler);
+        $events->subscribe(NewActionHandler::class);
+        $events->subscribe(NotificationsHandler::class);
+        $events->subscribe(PubSubHandler::class);
     }
 
     /**
