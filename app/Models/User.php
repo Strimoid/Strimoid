@@ -132,17 +132,24 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function blockedGroups()
     {
-        return $this->embedsMany('GroupBlock', 'subscribed_groups');
+        $groups = DB::table('group_blocks')
+            ->where('user_id', $this->getKey())
+            ->lists('group_id');
+        return (array) $groups;
     }
-
     public function blockedUsers()
     {
-        return $this->embedsMany('UserBlocked', 'subscribed_groups');
+        $users = DB::table('user_blocks')
+            ->where('user_id', $this->getKey())
+            ->lists('target_id');
+        return (array) $users;
     }
-
     public function subscribedGroups()
     {
-        return $this->embedsMany('GroupSubscriber', 'subscribed_groups');
+        $groups = DB::table('group_subscribers')
+            ->where('user_id', $this->getKey())
+            ->lists('group_id');
+        return (array) $groups;
     }
 
     public function moderatedGroups()

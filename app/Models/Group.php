@@ -87,14 +87,9 @@ class Group extends BaseModel
         return $relation;
     }
 
-    public function banned()
-    {
-        return $this->embedsMany('GroupBanned');
-    }
-
     public function moderators()
     {
-        return $this->embedsMany('GroupModerator');
+        return $this->hasMany('Strimoid\Models\GroupModerator');
     }
 
     public function checkAccess()
