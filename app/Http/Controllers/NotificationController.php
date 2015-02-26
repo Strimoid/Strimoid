@@ -1,31 +1,33 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Response;
+use Auth;
+use Response;
 use Strimoid\Models\Notification;
 
-class NotificationController extends BaseController {
-
+class NotificationController extends BaseController
+{
     public function showJSONList($count)
     {
-        if ($count > 50 || $count < 0)
+        if ($count > 50 || $count < 0) {
             $count = 50;
+        }
 
         $notifications = Notification::target(['user_id' => Auth::id()])
             ->orderBy('created_at', 'desc')
             ->take($count)->get();
 
-        $list = array();
+        $list = [];
 
-        foreach($notifications as $notification) {
-            $list[] = array(
-                '_id' => $notification->_id,
-                'title' => $notification->title,
-                'time' => $notification->getLocalTime(),
+        foreach ($notifications as $notification) {
+            $list[] = [
+                '_id'      => $notification->_id,
+                'title'    => $notification->title,
+                'time'     => $notification->getLocalTime(),
                 'time_ago' => $notification->created_at->diffForHumans(),
-                'type' => $notification->getTypeDescription(),
-                'url' => $notification->getURL(),
-                'img' => $notification->getThumbnailPath()
-            );
+                'type'     => $notification->getTypeDescription(),
+                'url'      => $notification->getURL(),
+                'img'      => $notification->getThumbnailPath(),
+            ];
         }
 
         return Response::json(['notifications' => $list]);
@@ -67,8 +69,7 @@ class NotificationController extends BaseController {
     {
         $validator = Validator::make(Input::all(), ['gcm_regid' => 'required|max:200']);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
         }
 
@@ -89,8 +90,7 @@ class NotificationController extends BaseController {
 
     public function edit(Notification $notification)
     {
-        if (!in_array(Auth::id(), array_column($notification->_targets, 'user_id')))
-        {
+        if (!in_array(Auth::id(), array_column($notification->_targets, 'user_id'))) {
             App::abort(403, 'Access denied');
         }
 
@@ -99,5 +99,4 @@ class NotificationController extends BaseController {
 
         return Response::json(['status' => 'ok']);
     }
-
 }

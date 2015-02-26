@@ -2,7 +2,6 @@
 
 class GroupBlock extends BaseModel
 {
-
     protected $table = 'group_blocks';
 
     public function group()
@@ -14,5 +13,4 @@ class GroupBlock extends BaseModel
     {
         return $this->belongsTo('Strimoid\Models\User');
     }
-
 }

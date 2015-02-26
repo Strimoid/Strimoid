@@ -1,9 +1,11 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Str, URL;
+use Auth;
+use Str;
+use URL;
 
 /**
- * Notification model
+ * Notification model.
  *
  * @property string $_id
  * @property string $title Notification title
@@ -13,11 +15,10 @@ use Auth, Str, URL;
  */
 class Notification extends BaseModel
 {
-
     protected $table = 'notifications';
     protected $visible = [
         'id', 'created_at', 'sourceUser',
-        'read', 'title', 'type', 'url'
+        'read', 'title', 'type', 'url',
     ];
 
     public function sourceUser()
@@ -77,11 +78,13 @@ class Notification extends BaseModel
 
     public function getReadAttribute()
     {
-        $target = $this->targets->filter(function($x){
+        $target = $this->targets->filter(function ($x) {
             return $x->user_id == Auth::id();
         })->first();
 
-        if ( ! $target) return false;
+        if (! $target) {
+            return false;
+        }
 
         return $target->read;
     }
@@ -97,40 +100,38 @@ class Notification extends BaseModel
         $params = null;
 
         // Add parameter to mark notification as read
-        if (!$this->read)
-        {
-            $params .= '?ntf_read='. mid_to_b58($this->_id);
+        if (!$this->read) {
+            $params .= '?ntf_read='.mid_to_b58($this->_id);
         }
 
         try {
-            switch ($this->type)
-            {
+            switch ($this->type) {
                 case 'entry':
                     $url = URL::route('single_entry', $this->entry_id, false)
-                        . $params;
+                        .$params;
                     break;
                 case 'entry_reply':
                     $url = URL::route('single_entry_reply', $this->entry_reply_id, false)
-                        . $params .'#'. $this->entry_reply_id;
+                        .$params.'#'.$this->entry_reply_id;
                     break;
                 case 'comment':
                     $url = URL::route('content_comments', $this->content_id, false)
-                        . $params .'#'. $this->comment_id;
+                        .$params.'#'.$this->comment_id;
                     break;
                 case 'comment_reply':
                     $url = URL::route('content_comments', $this->content_id, false)
-                        . $params .'#'. $this->comment_reply_id;
+                        .$params.'#'.$this->comment_reply_id;
                     break;
                 case 'conversation':
                     $url = URL::route('conversation', $this->conversation_id, false)
-                        . $params;
+                        .$params;
                     break;
                 case 'moderator':
                     $url = URL::route('group_contents', $this->group_id, false)
-                        . $params;
+                        .$params;
                     break;
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // Triggered when element was removed, but notification still exists
         }
 
@@ -139,8 +140,7 @@ class Notification extends BaseModel
 
     public function getTypeDescription()
     {
-        switch ($this->type)
-        {
+        switch ($this->type) {
             case 'content':           return 'Treść';
             case 'related':           return 'Powiązany link';
             case 'entry':             return 'Wpis';
@@ -169,5 +169,4 @@ class Notification extends BaseModel
     {
         return $query->where('_targets', 'elemmatch', $params);
     }
-
 }

@@ -1,12 +1,14 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Carbon, Settings, Validator;
+use Auth;
+use Carbon;
 use DateTimeZone;
 use Jenssegers\Mongodb\Model;
+use Settings;
+use Validator;
 
 class BaseModel extends Model
 {
-
     /**
      * @var array
      */
@@ -22,32 +24,37 @@ class BaseModel extends Model
 
     public function getVoteState()
     {
-        if (Auth::guest() || ! $this->votes()) return 'none';
+        if (Auth::guest() || ! $this->votes()) {
+            return 'none';
+        }
 
         $vote = $this->votes()
             ->where('user_id', Auth::id())
             ->first();
 
-        if ( ! $vote) return 'none';
+        if (! $vote) {
+            return 'none';
+        }
 
         return $vote->up ? 'uv' : 'dv';
     }
 
-    public function getVoteStateAttribute() {
+    public function getVoteStateAttribute()
+    {
         return $this->getVoteState();
     }
 
     protected function embedsMany($related, $localKey = null, $foreignKey = null, $relation = null)
     {
-        if (is_null($relation))
-        {
+        if (is_null($relation)) {
             list(, $caller) = debug_backtrace(false);
 
             $relation = $caller['function'];
         }
 
         $prefix = 'Strimoid\\Models\\';
-        return parent::embedsMany($prefix . $related, $localKey, $foreignKey, $relation);
+
+        return parent::embedsMany($prefix.$related, $localKey, $foreignKey, $relation);
     }
 
     public function votes()
@@ -62,9 +69,10 @@ class BaseModel extends Model
 
     public function isSaved(User $user = null)
     {
-        if ( ! $user)
-        {
-            if (Auth::guest()) return false;
+        if (! $user) {
+            if (Auth::guest()) {
+                return false;
+            }
             $user = Auth::user();
         }
 
@@ -108,5 +116,4 @@ class BaseModel extends Model
             ->hour(0)->minute(0)->second(0);
         $query->where('created_at', '>', $fromTime);
     }
-
 }

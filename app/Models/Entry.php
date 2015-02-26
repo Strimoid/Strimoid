@@ -1,20 +1,20 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Str;
+use Auth;
+use Str;
 use Strimoid\Helpers\MarkdownParser;
 
 class Entry extends BaseModel
 {
-
     protected static $rules = [
-        'text' => 'required|min:1|max:2500',
-        'groupname' => 'required|exists_ci:groups,urlname'
+        'text'      => 'required|min:1|max:2500',
+        'groupname' => 'required|exists_ci:groups,urlname',
     ];
 
     protected $attributes = [
-        'uv' => 0,
-        'dv' => 0,
-        'score' => 0,
+        'uv'            => 0,
+        'dv'            => 0,
+        'score'         => 0,
         'replies_count' => 0,
     ];
 
@@ -22,9 +22,9 @@ class Entry extends BaseModel
     protected $table = 'entries';
     protected $fillable = ['text'];
     protected $visible = ['_id', 'created_at', 'user', 'group', 'text', 'text_source',
-        'uv', 'dv', 'votes', 'vote_state', 'replies'];
+        'uv', 'dv', 'votes', 'vote_state', 'replies', ];
 
-    function __construct($attributes = [])
+    public function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(6);
 
@@ -48,8 +48,7 @@ class Entry extends BaseModel
 
     public function delete()
     {
-        foreach($this->replies as $reply)
-        {
+        foreach ($this->replies as $reply) {
             $reply->delete();
         }
 
@@ -71,7 +70,9 @@ class Entry extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) return false;
+        if (Auth::guest()) {
+            return false;
+        }
 
         return Auth::user()->isBlockingUser($this->user);
     }
@@ -97,5 +98,4 @@ class Entry extends BaseModel
         return Auth::id() === $this->user_id
             || Auth::user()->isModerator($this->group_id);
     }
-
 }

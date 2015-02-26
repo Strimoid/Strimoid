@@ -3,21 +3,19 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
 use Illuminate\Http\Request;
 use PHPUnit_Framework_Assert as PHPUnit;
 
 class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
 {
-
     /**
      * The current resource.
      */
     protected $resource;
 
     /**
-     * The request payload
+     * The request payload.
      */
     protected $requestPayload;
 
@@ -70,7 +68,8 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
             $this->response = app()
                 ->make('Illuminate\Contracts\Http\Kernel')
                 ->handle($request);
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -108,8 +107,9 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
     /**
      * Checks the response exists and returns it.
      *
-     * @return \Guzzle\Http\Message\Response
      * @throws Exception
+     *
+     * @return \Guzzle\Http\Message\Response
      */
     protected function getResponse()
     {
@@ -151,7 +151,6 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
 
         if (is_object($payload)) {
             PHPUnit::assertTrue(array_key_exists($property, get_object_vars($payload)), $message);
-
         } else {
             PHPUnit::assertTrue(array_key_exists($property, $payload), $message);
         }
@@ -361,7 +360,7 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
     /**
      * Return the response payload from the current response.
      *
-     * @return  mixed
+     * @return mixed
      */
     protected function getResponsePayload()
     {
@@ -422,11 +421,14 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
      * Get an item from an array using "dot" notation.
      *
      * @copyright   Taylor Otwell
+     *
      * @link        http://laravel.com/docs/helpers
-     * @param       array   $array
-     * @param       string  $key
-     * @param       mixed   $default
-     * @return      mixed
+     *
+     * @param array  $array
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
      */
     protected function arrayGet($array, $key)
     {
@@ -439,13 +441,11 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
         // }
 
         foreach (explode('.', $key) as $segment) {
-
             if (is_object($array)) {
                 if (! isset($array->{$segment})) {
                     return;
                 }
                 $array = $array->{$segment};
-
             } elseif (is_array($array)) {
                 if (! array_key_exists($segment, $array)) {
                     return;
@@ -456,5 +456,4 @@ class ApiContext extends MinkContext implements Context, SnippetAcceptingContext
 
         return $array;
     }
-
 }

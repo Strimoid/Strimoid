@@ -2,7 +2,6 @@
 
 class UserBlocked extends BaseModel
 {
-
     protected $table = 'user_blocks';
 
     public function target()
@@ -14,5 +13,4 @@ class UserBlocked extends BaseModel
     {
         return $this->belongsTo('Strimoid\Models\User');
     }
-
 }

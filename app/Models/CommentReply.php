@@ -1,26 +1,26 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Str;
+use Auth;
+use Str;
 use Strimoid\Helpers\MarkdownParser;
 
 class CommentReply extends BaseModel
 {
-
     protected $attributes = [
-        'uv' => 0,
-        'dv' => 0,
+        'uv'    => 0,
+        'dv'    => 0,
         'score' => 0,
     ];
 
     protected static $rules = [
-        'text' => 'required|min:1|max:5000'
+        'text' => 'required|min:1|max:5000',
     ];
 
     protected $appends = ['vote_state'];
     protected $hidden = ['text_source', 'updated_at'];
     protected $fillable = ['text'];
 
-    function __construct($attributes = [])
+    public function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(8);
 
@@ -31,18 +31,20 @@ class CommentReply extends BaseModel
     {
         parent::boot();
 
-        static::created(function($reply)
-        {
+        static::created(function ($reply) {
             $reply->parent()->content->increment('comments_count');
         });
     }
 
-    public static function find($id, $columns = ['*']) {
+    public static function find($id, $columns = ['*'])
+    {
         $parent = Comment::where('_replies._id', $id)
             ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
             ->first(['created_at', 'content_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
 
-        if (!$parent) return null;
+        if (!$parent) {
+            return;
+        }
 
         return $parent->replies->first();
     }
@@ -50,9 +52,11 @@ class CommentReply extends BaseModel
     public static function findOrFail($id, $columns = ['*'])
     {
         $result = self::find($id, $columns);
-        if ($result) return $result;
+        if ($result) {
+            return $result;
+        }
 
-        throw new ModelNotFoundException;
+        throw new ModelNotFoundException();
     }
 
     public function user()
@@ -86,7 +90,7 @@ class CommentReply extends BaseModel
 
     public function mpush($column, $value = null, $unique = false)
     {
-        $column = '_replies.$.'. $column;
+        $column = '_replies.$.'.$column;
 
         $builder = Comment::where('_id', $this->comment->_id)
             ->where('_replies._id', $this->_id);
@@ -95,23 +99,25 @@ class CommentReply extends BaseModel
 
     public function mpull($column, $value = null)
     {
-        $column = '_replies.$.'. $column;
+        $column = '_replies.$.'.$column;
 
         $builder = Comment::where('_id', $this->comment->_id)
             ->where('_replies._id', $this->_id);
         $builder->pull($column, $value);
     }
 
-    public function increment($column, $amount = 1) {
-        $column = '_replies.$.'. $column;
+    public function increment($column, $amount = 1)
+    {
+        $column = '_replies.$.'.$column;
 
         $builder = Comment::where('_id', $this->comment->_id)
             ->where('_replies._id', $this->_id);
         $builder->increment($column, $amount);
     }
 
-    public function decrement($column, $amount = 1) {
-        $column = '_replies.$.'. $column;
+    public function decrement($column, $amount = 1)
+    {
+        $column = '_replies.$.'.$column;
 
         $builder = Comment::where('_id', $this->comment->_id)
             ->where('_replies._id', $this->_id);
@@ -120,7 +126,9 @@ class CommentReply extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) return false;
+        if (Auth::guest()) {
+            return false;
+        }
 
         return Auth::user()->isBlockingUser($this->user);
     }
@@ -128,7 +136,8 @@ class CommentReply extends BaseModel
     public function getURL()
     {
         $url = route('content_comments', $this->comment->content_id);
-        return  $url .'#'. $this->getKey();
+
+        return  $url.'#'.$this->getKey();
     }
 
     public function canEdit()
@@ -142,5 +151,4 @@ class CommentReply extends BaseModel
         return Auth::id() == $this->user_id
             || Auth::user()->isModerator($this->group_id);
     }
-
 }

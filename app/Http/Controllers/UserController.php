@@ -1,9 +1,18 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use App, Auth, Cache, Carbon, Log, Mail, Str, Input, URL, Redirect, Response, Validator;
+use App;
+use Auth;
+use Cache;
+use Carbon;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Input;
+use Log;
+use Mail;
+use Redirect;
+use Response;
+use Str;
 use Strimoid\Contracts\Repositories\UserRepository;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\EntryReply;
@@ -12,9 +21,10 @@ use Strimoid\Models\User;
 use Strimoid\Models\UserAction;
 use Strimoid\Models\UserBlocked;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use URL;
 
-class UserController extends BaseController {
-
+class UserController extends BaseController
+{
     use ValidatesRequests;
 
     /**
@@ -43,10 +53,10 @@ class UserController extends BaseController {
     {
         $users = [];
 
-        foreach(User::all() as $user) {
+        foreach (User::all() as $user) {
             $users[] = [
                 'value'  => $user->name,
-                'avatar' => $user->getAvatarPath()
+                'avatar' => $user->getAvatarPath(),
             ];
         }
 
@@ -57,20 +67,20 @@ class UserController extends BaseController {
     {
         $remember = Input::get('remember') == 'true';
         $result = Auth::attempt([
-            'shadow_name' => Str::lower(Input::get('username')),
-            'password' => Input::get('password'),
-            'is_activated' => true
+            'shadow_name'  => Str::lower(Input::get('username')),
+            'password'     => Input::get('password'),
+            'is_activated' => true,
         ], $remember);
 
-        if ($result)
-        {
-            if (Auth::user()->removed_at || Auth::user()->blocked_at)
-            {
+        if ($result) {
+            if (Auth::user()->removed_at || Auth::user()->blocked_at) {
                 Auth::logout();
+
                 return Redirect::to('/login')->with('warning_msg', 'Błędna nazwa użytkownika lub hasło.');
             }
 
             $url = URL::previous() ?: '/';
+
             return Redirect::intended($url);
         }
 
@@ -80,14 +90,15 @@ class UserController extends BaseController {
     public function logout()
     {
         Auth::logout();
+
         return Redirect::to('')->with('success_msg', 'Zostałeś wylogowany.');
     }
 
     public function changePassword(Request $request)
     {
         $this->validate($request, [
-            'password' => 'required|confirmed|min:6',
-            'old_password' => 'required|user_password'
+            'password'     => 'required|confirmed|min:6',
+            'old_password' => 'required|user_password',
         ]);
 
         Auth::user()->password = $request->get('password');
@@ -100,7 +111,7 @@ class UserController extends BaseController {
     public function changeEmail(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|unique_email:users|real_email'
+            'email' => 'required|email|unique_email:users|real_email',
         ]);
 
         $email = Str::lower(Input::get('email'));
@@ -110,8 +121,7 @@ class UserController extends BaseController {
 
         Auth::user()->save();
 
-        Mail::send('emails.auth.email_change', ['user' => Auth::user()], function($message) use($email)
-        {
+        Mail::send('emails.auth.email_change', ['user' => Auth::user()], function ($message) use ($email) {
             $message->to($email, Auth::user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
@@ -121,8 +131,7 @@ class UserController extends BaseController {
 
     public function confirmEmailChange($token)
     {
-        if ($token !== Auth::user()->email_change_token)
-        {
+        if ($token !== Auth::user()->email_change_token) {
             return Redirect::to('')->with('danger_msg', 'Błędny token.');
         }
 
@@ -135,17 +144,14 @@ class UserController extends BaseController {
 
     public function remindPassword(Request $request)
     {
-        if (Input::has('email'))
-        {
+        if (Input::has('email')) {
             $this->validate($request, ['email' => 'required|email']);
 
-            $response = $this->passwords->sendResetLink($request->only('email'), function($m)
-            {
+            $response = $this->passwords->sendResetLink($request->only('email'), function ($m) {
                 $m->subject('Zmiana hasła w serwisie Strimoid.pl');
             });
 
-            switch ($response)
-            {
+            switch ($response) {
                 case PasswordBroker::RESET_LINK_SENT:
                     return redirect()->back()->with('status', trans($response));
                 case PasswordBroker::INVALID_USER:
@@ -158,9 +164,8 @@ class UserController extends BaseController {
 
     public function showPasswordResetForm($token = null)
     {
-        if (is_null($token))
-        {
-            throw new NotFoundHttpException;
+        if (is_null($token)) {
+            throw new NotFoundHttpException();
         }
 
         return view('user.reset')->with('token', $token);
@@ -178,14 +183,14 @@ class UserController extends BaseController {
             'email', 'password', 'password_confirmation', 'token'
         );
 
-        $response = $this->passwords->reset($credentials, function($user, $password)
-        {
+        $response = $this->passwords->reset($credentials, function ($user, $password) {
             // Email confirmed, we may activate account if user didn't that yet
-            if ($user->activation_token)
-            {
-                $cacheKey = 'registration.'. md5($request->getClientIp());
+            if ($user->activation_token) {
+                $cacheKey = 'registration.'.md5($request->getClientIp());
 
-                if (Cache::has($cacheKey)) return App::abort(500);
+                if (Cache::has($cacheKey)) {
+                    return App::abort(500);
+                }
 
                 $user->unset('activation_token');
                 $user->is_activated = true;
@@ -196,8 +201,7 @@ class UserController extends BaseController {
             $this->auth->login($user);
         });
 
-        switch ($response)
-        {
+        switch ($response) {
             case PasswordBroker::PASSWORD_RESET:
                 return redirect('/');
             default:
@@ -222,11 +226,13 @@ class UserController extends BaseController {
         $this->validate($request, [
             'username' => 'required|min:2|max:30|unique_ci:users,name|regex:/^[a-zA-Z0-9_]+$/i',
             'password' => 'required|min:6',
-            'email' => 'required|email|unique_email:users|real_email'
+            'email'    => 'required|email|unique_email:users|real_email',
         ]);
 
         $ipHash = md5($request->getClientIp());
-        if (Cache::has('registration.'. $ipHash)) return App::abort(500);
+        if (Cache::has('registration.'.$ipHash)) {
+            return App::abort(500);
+        }
 
         $email = Str::lower(Input::get('email'));
 
@@ -240,10 +246,9 @@ class UserController extends BaseController {
         $user->settings = [];
         $user->save();
 
-        Log::info('New user with email from domain: '. strstr($email, '@'));
+        Log::info('New user with email from domain: '.strstr($email, '@'));
 
-        Mail::send('emails.auth.activate', compact('user'), function($message) use($user, $email)
-        {
+        Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email) {
             $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
         });
 
@@ -256,7 +261,9 @@ class UserController extends BaseController {
         $user = User::where('activation_token', $token)->firstOrFail();
 
         $ipHash = md5($request->getClientIp());
-        if (Cache::has('registration.'. $ipHash)) return App::abort(500);
+        if (Cache::has('registration.'.$ipHash)) {
+            return App::abort(500);
+        }
 
         $user->unset('activation_token');
         $user->is_activated = true;
@@ -264,10 +271,10 @@ class UserController extends BaseController {
 
         Auth::login($user);
 
-        Cache::put('registration.'. $ipHash, 'true', 60 * 24 * 7);
+        Cache::put('registration.'.$ipHash, 'true', 60 * 24 * 7);
 
         return Redirect::to('/kreator')->with('success_msg',
-            'Witaj w gronie użytkowników serwisu '. Config::get('app.site_name') .'! ;) '.
+            'Witaj w gronie użytkowników serwisu '.Config::get('app.site_name').'! ;) '.
             'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.');
     }
 
@@ -282,7 +289,7 @@ class UserController extends BaseController {
             'password' => 'required|confirmed|user_password',
         ]);
 
-        Auth::user()->removed_at = new Carbon;
+        Auth::user()->removed_at = new Carbon();
         Auth::user()->type = 'deleted';
         Auth::user()->unset(['age', 'description', 'email', 'location', 'password', 'sex', 'shadow_email']);
         Auth::user()->deleteAvatar();
@@ -298,34 +305,37 @@ class UserController extends BaseController {
     {
         $user = User::shadow($username)->firstOrFail();
 
-        if ($user->removed_at) App::abort(404, 'Użytkownik usunął konto.');
+        if ($user->removed_at) {
+            App::abort(404, 'Użytkownik usunął konto.');
+        }
 
-        if ($type == 'contents')
+        if ($type == 'contents') {
             $data['contents'] = $user->contents()->orderBy('created_at', 'desc')->paginate(15);
-        elseif ($type == 'comments')
+        } elseif ($type == 'comments') {
             $data['comments'] = $user->comments()->orderBy('created_at', 'desc')->paginate(15);
-        elseif ($type == 'comment_replies')
+        } elseif ($type == 'comment_replies') {
             $data['actions'] = UserAction::where('user_id', $user->getKey())
                 ->where('type', UserAction::TYPE_COMMENT_REPLY)->orderBy('created_at', 'desc')->paginate(15);
-        elseif ($type == 'entries')
+        } elseif ($type == 'entries') {
             $data['entries'] = $user->entries()->orderBy('created_at', 'desc')->paginate(15);
-        elseif ($type == 'entry_replies')
+        } elseif ($type == 'entry_replies') {
             $data['actions'] = UserAction::where('user_id', $user->getKey())
                 ->where('type', UserAction::TYPE_ENTRY_REPLY)->orderBy('created_at', 'desc')->paginate(15);
-        elseif ($type == 'moderated')
+        } elseif ($type == 'moderated') {
             $data['moderated'] = GroupModerator::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
-        else
+        } else {
             $data['actions'] = UserAction::where('user_id', $user->_id)->orderBy('created_at', 'desc')->paginate(15);
+        }
 
-        if (isset($data['actions']))
-        {
-            foreach ($data['actions'] as $action)
-            {
-                if ($action->type == UserAction::TYPE_COMMENT_REPLY)
+        if (isset($data['actions'])) {
+            foreach ($data['actions'] as $action) {
+                if ($action->type == UserAction::TYPE_COMMENT_REPLY) {
                     $action->reply = CommentReply::find($action->comment_reply_id);
+                }
 
-                if ($action->type == UserAction::TYPE_ENTRY_REPLY)
+                if ($action->type == UserAction::TYPE_ENTRY_REPLY) {
                     $action->reply = EntryReply::find($action->entry_reply_id);
+                }
             }
         }
 
@@ -338,11 +348,11 @@ class UserController extends BaseController {
     public function saveProfile(Request $request)
     {
         $this->validate($request, [
-            'sex' => 'in:male,female',
-            'avatar' => 'image|max:250',
-            'age' => 'integer|min:1900|max:2010',
-            'location' => 'max:32',
-            'description' => 'max:250'
+            'sex'         => 'in:male,female',
+            'avatar'      => 'image|max:250',
+            'age'         => 'integer|min:1900|max:2010',
+            'location'    => 'max:32',
+            'description' => 'max:250',
         ]);
 
         $user = Auth::user();
@@ -352,8 +362,7 @@ class UserController extends BaseController {
         $user->location = Input::get('location');
         $user->description = Input::get('description');
 
-        if (Input::hasFile('avatar'))
-        {
+        if (Input::hasFile('avatar')) {
             $user->setAvatar(Input::file('avatar')->getRealPath());
         }
 
@@ -367,8 +376,7 @@ class UserController extends BaseController {
         $target = $this->users->requireByName(Input::get('username'));
 
         if (UserBlocked::where('target_id', $target->_id)
-            ->where('user_id', Auth::user()->getKey())->first())
-        {
+            ->where('user_id', Auth::user()->getKey())->first()) {
             return Response::make('Already blocked', 400);
         }
 
@@ -387,8 +395,7 @@ class UserController extends BaseController {
         $block = UserBlocked::where('target_id', $target->getKey())
             ->where('user_id', Auth::id())->first();
 
-        if ( ! $block)
-        {
+        if (! $block) {
             return Response::make('Not blocked', 400);
         }
 
@@ -401,8 +408,7 @@ class UserController extends BaseController {
     {
         $target = $this->users->requireByName(Input::get('username'));
 
-        if (Auth::user()->isObservingUser($target))
-        {
+        if (Auth::user()->isObservingUser($target)) {
             return Response::make('Already observed', 400);
         }
 
@@ -415,8 +421,7 @@ class UserController extends BaseController {
     {
         $target = $this->users->requireByName(Input::get('username'));
 
-        if ( ! Auth::user()->isObservingUser($target))
-        {
+        if (! Auth::user()->isObservingUser($target)) {
             return Response::make('Not observed', 400);
         }
 
@@ -429,10 +434,9 @@ class UserController extends BaseController {
     {
         $domain = PDP::parseUrl($domain)->host->registerableDomain;
 
-        if ( ! $domain)
-        {
+        if (! $domain) {
             return Response::json([
-                'status' => 'error', 'error' => 'Nieprawidłowa domena'
+                'status' => 'error', 'error' => 'Nieprawidłowa domena',
             ]);
         }
 
@@ -473,23 +477,22 @@ class UserController extends BaseController {
     public function getInfo($user)
     {
         $stats = [
-            'contents' => (int) $user->contents->count(),
-            'comments' => (int) $user->comments->count(),
-            'entries' => (int) $user->entries->count(),
+            'contents'         => (int) $user->contents->count(),
+            'comments'         => (int) $user->comments->count(),
+            'entries'          => (int) $user->entries->count(),
             'moderated_groups' => intval(GroupModerator::where('user_id', $user->getKey())->count()),
         ];
 
         return [
-            '_id' => $user->_id,
-            'name' => $user->name,
-            'age' => $user->age,
-            'avatar' => $user->avatar,
+            '_id'         => $user->_id,
+            'name'        => $user->name,
+            'age'         => $user->age,
+            'avatar'      => $user->avatar,
             'description' => $user->description,
-            'joined' => current($user->created_at),
-            'location' => $user->location,
-            'sex' => $user->sex,
-            'stats' => $stats,
+            'joined'      => current($user->created_at),
+            'location'    => $user->location,
+            'sex'         => $user->sex,
+            'stats'       => $stats,
         ];
     }
-
 }

@@ -2,7 +2,6 @@
 
 class ModeratorAction extends BaseModel
 {
-
     protected $table = 'moderator_actions';
 
     const TYPE_MODERATOR_ADDED      = 1;
@@ -24,5 +23,4 @@ class ModeratorAction extends BaseModel
     {
         return $this->belongsTo('Strimoid\Models\Group');
     }
-
 }

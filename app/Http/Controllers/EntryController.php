@@ -1,15 +1,19 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Route, Settings, Response;
+use Auth;
 use Illuminate\Http\Request;
+use Input;
+use Response;
+use Route;
+use Settings;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
-use Strimoid\Models\Group;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
+use Strimoid\Models\Group;
 
-class EntryController extends BaseController {
-
+class EntryController extends BaseController
+{
     /**
      * @var FolderRepository
      */
@@ -22,7 +26,7 @@ class EntryController extends BaseController {
 
     /**
      * @param FolderRepository $folders
-     * @param GroupRepository $groups
+     * @param GroupRepository  $groups
      */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
@@ -33,8 +37,7 @@ class EntryController extends BaseController {
     public function showEntriesFromGroup($groupName = null)
     {
         // If user is on homepage, then use proper group
-        if ( ! Route::input('group'))
-        {
+        if (! Route::input('group')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -42,6 +45,7 @@ class EntryController extends BaseController {
         view()->share('group', $group);
 
         $builder = $group->entries();
+
         return $this->showEntries($builder);
     }
 
@@ -54,6 +58,7 @@ class EntryController extends BaseController {
         view()->share('folder', $folder);
 
         $builder = $folder->entries();
+
         return $this->showEntries($builder);
     }
 
@@ -70,13 +75,10 @@ class EntryController extends BaseController {
 
     public function showEntry($id)
     {
-        if (Route::currentRouteName() == 'single_entry_reply')
-        {
+        if (Route::currentRouteName() == 'single_entry_reply') {
             $entry = Entry::where('_replies._id', $id)
                 ->with(['user', 'replies.user'])->firstOrFail();
-        }
-        else
-        {
+        } else {
             $entry = Entry::with('user')
                 ->with('replies.user')->findOrFail($id);
         }
@@ -97,16 +99,15 @@ class EntryController extends BaseController {
 
     public function getEntrySource()
     {
-        if (Input::get('type') == 'entry_reply')
-        {
+        if (Input::get('type') == 'entry_reply') {
             $entry = EntryReply::findOrFail(Input::get('id'));
-        }
-        else
-        {
+        } else {
             $entry = Entry::findOrFail(Input::get('id'));
         }
 
-        if (Auth::id() !== $entry->user_id) App::abort(403, 'Access denied');
+        if (Auth::id() !== $entry->user_id) {
+            App::abort(403, 'Access denied');
+        }
 
         return Response::json(['status' => 'ok', 'source' => $entry->text_source]);
     }
@@ -118,13 +119,11 @@ class EntryController extends BaseController {
         $group = Group::shadow(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isBanned($group))
-        {
+        if (Auth::user()->isBanned($group)) {
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group))
-        {
+        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group)) {
             return Response::json(['status' => 'error', 'error' => 'Nie możesz dodawać wpisów do wybranej grupy']);
         }
 
@@ -137,13 +136,13 @@ class EntryController extends BaseController {
         return Response::json(['status' => 'ok']);
     }
 
-    public function addReply(Request $request) {
+    public function addReply(Request $request)
+    {
         $this->validate($request, EntryReply::rules());
 
         $entryParent = Entry::findOrFail(Input::get('id'));
 
-        if (Auth::user()->isBanned($entryParent->group))
-        {
+        if (Auth::user()->isBanned($entryParent->group)) {
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
@@ -160,30 +159,27 @@ class EntryController extends BaseController {
 
     public function editEntry(Request $request)
     {
-        if (Input::get('type') == 'entry_reply')
-        {
+        if (Input::get('type') == 'entry_reply') {
             $entry = EntryReply::findOrFail(Input::get('id'));
 
             $lastReply = Entry::where('_id', $entry->entry->_id)
                 ->project(['_replies' => ['$slice' => -1]])
                 ->first()->replies->first();
 
-            if ($lastReply->_id != $entry->_id)
-            {
+            if ($lastReply->_id != $entry->_id) {
                 return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
             }
-        }
-        else
-        {
+        } else {
             $entry = Entry::findOrFail(Input::get('id'));
 
-            if ($entry->replies_count > 0)
-            {
+            if ($entry->replies_count > 0) {
                 return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
             }
         }
 
-        if (Auth::id() !== $entry->user_id) App::abort(403, 'Access denied');
+        if (Auth::id() !== $entry->user_id) {
+            App::abort(403, 'Access denied');
+        }
 
         $this->validate($request, EntryReply::rules());
 
@@ -197,21 +193,19 @@ class EntryController extends BaseController {
     {
         $id = $id ? $id : Input::get('id');
 
-        if (Input::get('type') == 'entry_reply')
+        if (Input::get('type') == 'entry_reply') {
             $entry = EntryReply::findOrFail($id);
-        else
+        } else {
             $entry = Entry::findOrFail($id);
+        }
 
         if (Auth::id() === $entry->user_id
-            || Auth::user()->isModerator($entry->group_id))
-        {
+            || Auth::user()->isModerator($entry->group_id)) {
             if ($entry->delete()) {
                 return Response::json(['status' => 'ok']);
             }
-
         }
 
         return Response::json(['status' => 'error'], 500);
     }
-
 }

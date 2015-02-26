@@ -1,16 +1,20 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Settings, Route, Response;
+use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Input;
+use Response;
+use Route;
+use Settings;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
-use Strimoid\Models\Content;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
+use Strimoid\Models\Content;
 
-class CommentController extends BaseController {
-
+class CommentController extends BaseController
+{
     use ValidatesRequests;
 
     /**
@@ -25,7 +29,7 @@ class CommentController extends BaseController {
 
     /**
      * @param FolderRepository $folders
-     * @param GroupRepository $groups
+     * @param GroupRepository  $groups
      */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
@@ -36,8 +40,7 @@ class CommentController extends BaseController {
     public function showCommentsFromGroup($groupName = 'all')
     {
         // If user is on homepage, then use proper group
-        if ( ! Route::input('group'))
-        {
+        if (! Route::input('group')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -45,6 +48,7 @@ class CommentController extends BaseController {
         view()->share('group', $group);
 
         $builder = $group->comments();
+
         return $this->showComments($builder);
     }
 
@@ -57,6 +61,7 @@ class CommentController extends BaseController {
         view()->share('folder', $folder);
 
         $builder = $folder->comments();
+
         return $this->showComments($builder);
     }
 
@@ -77,7 +82,9 @@ class CommentController extends BaseController {
 
         $comment = $class::findOrFail(Input::get('id'));
 
-        if (Auth::id() !== $comment->user_id) App::abort(403, 'Access denied');
+        if (Auth::id() !== $comment->user_id) {
+            App::abort(403, 'Access denied');
+        }
 
         return Response::json(['status' => 'ok', 'source' => $comment->text_source]);
     }
@@ -88,11 +95,10 @@ class CommentController extends BaseController {
 
         $content = Content::findOrFail(Input::get('id'));
 
-        if (Auth::user()->isBanned($content->group))
-        {
+        if (Auth::user()->isBanned($content->group)) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Zostałeś zbanowany w tej grupie'
+                'error'  => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
@@ -117,16 +123,15 @@ class CommentController extends BaseController {
         $parent = Comment::findOrFail(Input::get('id'));
         $content = $parent->content;
 
-        if (Auth::user()->isBanned($content->group))
-        {
+        if (Auth::user()->isBanned($content->group)) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Zostałeś zbanowany w tej grupie'
+                'error'  => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
         $comment = new CommentReply([
-            'text' => Input::get('text')
+            'text' => Input::get('text'),
         ]);
 
         $comment->user()->associate(Auth::user());
@@ -145,7 +150,9 @@ class CommentController extends BaseController {
             ? Comment::class : CommentReply::class;
         $comment = $class::findOrFail(Input::get('id'));
 
-        if ( ! $comment->canEdit()) App::abort(403, 'Access denied');
+        if (! $comment->canEdit()) {
+            App::abort(403, 'Access denied');
+        }
 
         $this->validate($request, CommentReply::rules());
         $comment->update(Input::only('text'));
@@ -156,11 +163,10 @@ class CommentController extends BaseController {
     public function removeComment()
     {
         $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
-        $class = 'Strimoid\Models\\'. $class;
+        $class = 'Strimoid\Models\\'.$class;
         $comment = $class::findOrFail(Input::get('id'));
 
-        if ($comment->canRemove())
-        {
+        if ($comment->canRemove()) {
             $comment->delete();
 
             return Response::json(['status' => 'ok']);
@@ -168,5 +174,4 @@ class CommentController extends BaseController {
 
         return Response::json(['status' => 'error']);
     }
-
 }

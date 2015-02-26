@@ -22,7 +22,7 @@ class ContentController extends BaseController {
 
     /**
      * @param FolderRepository $folders
-     * @param GroupRepository $groups
+     * @param GroupRepository  $groups
      */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
@@ -35,13 +35,10 @@ class ContentController extends BaseController {
      */
     public function index()
     {
-        if (Input::has('folder'))
-        {
+        if (Input::has('folder')) {
             $username = Input::get('user', Auth::id());
             $entity = $this->folders->getByName($username, Input::get('folder'));
-        }
-        else
-        {
+        } else {
             $groupName = Input::get('group', 'all');
             $entity = $this->groups->getByName($groupName);
         }
@@ -54,15 +51,18 @@ class ContentController extends BaseController {
 
         // Time filter
         $time = Input::get('time');
-        if ($time) $builder->fromDaysAgo($time);
+        if ($time) {
+            $builder->fromDaysAgo($time);
+        }
 
         // Domain filter
         $domain = Input::get('domain');
-        if ($domain) $builder->where('domain', $domain);
+        if ($domain) {
+            $builder->where('domain', $domain);
+        }
 
         // User filter
-        if (Input::has('user'))
-        {
+        if (Input::has('user')) {
             $user = User::shadow(Input::get('user'))->firstOrFail();
             $builder->where('user_id', $user->getKey());
         }
@@ -76,12 +76,13 @@ class ContentController extends BaseController {
 
     /**
      * @param Content $content
+     *
      * @return Content
      */
     public function show(Content $content)
     {
         $content->load([
-            'related', 'comments', 'comments.user', 'comments.replies', 'group', 'user'
+            'related', 'comments', 'comments.user', 'comments.replies', 'group', 'user',
         ]);
 
         return $content;
@@ -91,22 +92,20 @@ class ContentController extends BaseController {
      * Add new content.
      *
      * @param Request $request
+     *
      * @return mixed
      */
     public function store(Request $request)
     {
         $rules = [
-            'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
+            'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
-            'group' => 'required|exists_ci:groups,urlname'
+            'group'       => 'required|exists_ci:groups,urlname',
         ];
 
-        if (Input::get('text'))
-        {
+        if (Input::get('text')) {
             $rules['text'] = 'required|min:1|max:50000';
-        }
-        else
-        {
+        } else {
             $rules['url'] = 'required|url_custom';
         }
 
@@ -115,32 +114,27 @@ class ContentController extends BaseController {
         $group = Group::shadow(Input::get('group'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isBanned($group))
-        {
+        if (Auth::user()->isBanned($group)) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Użytkownik został zbanowany w wybranej grupie.'
+                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && ! Auth::user()->isModerator($group))
-        {
+        if ($group->type == Group::TYPE_ANNOUNCEMENTS && ! Auth::user()->isModerator($group)) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Użytkownik nie może dodawać treści w tej grupie.'
+                'error'  => 'Użytkownik nie może dodawać treści w tej grupie.',
             ], 400);
         }
 
         $content = new Content($request->only([
-            'title', 'description', 'nsfw', 'eng'
+            'title', 'description', 'nsfw', 'eng',
         ]));
 
-        if (Input::get('text'))
-        {
+        if (Input::get('text')) {
             $content->text = Input::get('text');
-        }
-        else
-        {
+        } else {
             $content->url = Input::get('url');
         }
 
@@ -152,44 +146,40 @@ class ContentController extends BaseController {
         // Download thumbnail in background to don't waste user time
         $thumbnail = $request->get('thumbnail');
 
-        if ($thumbnail != 'false' && $thumbnail != 'off')
-        {
+        if ($thumbnail != 'false' && $thumbnail != 'off') {
             $content->thumbnail_loading = true;
             Queue::push('Strimoid\Handlers\DownloadThumbnail', [
-                'id' => $content->getKey()
+                'id' => $content->getKey(),
             ]);
         }
 
         return Response::json([
-            'status' => 'ok', '_id' => $content->getKey(), 'content' => $content
+            'status' => 'ok', '_id' => $content->getKey(), 'content' => $content,
         ]);
     }
 
     /**
      * @param Request $request
      * @param Content $content
+     *
      * @return mixed
      */
     public function edit(Request $request, $content)
     {
-        if ( ! $content->canEdit(Auth::user()))
-        {
+        if (! $content->canEdit(Auth::user())) {
             return Response::json([
-                'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.'
+                'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.',
             ], 400);
         }
 
         $rules = [
-            'title' => 'min:1|max:128|not_in:edit,thumbnail',
+            'title'       => 'min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
         ];
 
-        if ($content->text)
-        {
+        if ($content->text) {
             $rules['text'] = 'min:1|max:50000';
-        }
-        else
-        {
+        } else {
             $rules['url'] = 'url_custom|max:2048';
         }
 
@@ -200,5 +190,4 @@ class ContentController extends BaseController {
 
         $content->update(Input::only($fields));
     }
-
 }

@@ -2,7 +2,6 @@
 
 class GroupBanned extends BaseModel
 {
-
     protected $table = 'group_bans';
 
     public function group()
@@ -19,5 +18,4 @@ class GroupBanned extends BaseModel
     {
         return $this->belongsTo('Strimoid\Models\User');
     }
-
 }

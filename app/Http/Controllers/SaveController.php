@@ -1,18 +1,21 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Response;
+use Auth;
+use Input;
+use Response;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Save;
 
 class SaveController extends BaseController
 {
-
     public function saveContent()
     {
         $content = Content::findOrFail(Input::get('content'));
 
-        if ($this->findUserSave($content, Auth::id())) return;
+        if ($this->findUserSave($content, Auth::id())) {
+            return;
+        }
 
         $save = new Save(['user_id' => Auth::id()]);
         $content->saves()->save($save);
@@ -34,7 +37,9 @@ class SaveController extends BaseController
     {
         $entry = Entry::findOrFail(Input::get('entry'));
 
-        if ($this->findUserSave($entry, Auth::id())) return;
+        if ($this->findUserSave($entry, Auth::id())) {
+            return;
+        }
 
         $save = new Save(['user_id' => Auth::id()]);
         $entry->saves()->save($save);
@@ -60,5 +65,4 @@ class SaveController extends BaseController
 
         return $save;
     }
-
 }

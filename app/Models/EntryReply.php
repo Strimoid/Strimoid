@@ -1,19 +1,19 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Str;
+use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Str;
 use Strimoid\Helpers\MarkdownParser;
 
 class EntryReply extends BaseModel
 {
-
     protected static $rules = [
-        'text' => 'required|min:1|max:2500'
+        'text' => 'required|min:1|max:2500',
     ];
 
     protected $attributes = [
-        'uv' => 0,
-        'dv' => 0,
+        'uv'    => 0,
+        'dv'    => 0,
         'score' => 0,
     ];
 
@@ -22,7 +22,7 @@ class EntryReply extends BaseModel
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'updated_at'];
 
-    function __construct($attributes = [])
+    public function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(8);
 
@@ -33,18 +33,20 @@ class EntryReply extends BaseModel
     {
         parent::boot();
 
-        static::created(function($reply)
-        {
+        static::created(function ($reply) {
             $reply->parent()->increment('replies_count');
         });
     }
 
-    public static function find($id, $columns = ['*']) {
+    public static function find($id, $columns = ['*'])
+    {
         $parent = Entry::where('_replies._id', $id)
             ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
             ->first(['created_at', 'group_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
 
-        if ( ! $parent) return null;
+        if (! $parent) {
+            return;
+        }
 
         return $parent->replies->first();
     }
@@ -52,9 +54,11 @@ class EntryReply extends BaseModel
     public static function findOrFail($id, $columns = ['*'])
     {
         $result = self::find($id, $columns);
-        if ($result) return $result;
+        if ($result) {
+            return $result;
+        }
 
-        throw new ModelNotFoundException;
+        throw new ModelNotFoundException();
     }
 
     public function user()
@@ -88,7 +92,7 @@ class EntryReply extends BaseModel
 
     public function mpush($column, $value = null, $unique = false)
     {
-        $column = '_replies.$.'. $column;
+        $column = '_replies.$.'.$column;
 
         $builder = Entry::where('_id', $this->entry->_id)->where('_replies._id', $this->_id);
         $builder->push($column, $value, $unique);
@@ -96,21 +100,23 @@ class EntryReply extends BaseModel
 
     public function mpull($column, $value = null)
     {
-        $column = '_replies.$.'. $column;
+        $column = '_replies.$.'.$column;
 
         $builder = Entry::where('_id', $this->entry->_id)->where('_replies._id', $this->_id);
         $builder->pull($column, $value);
     }
 
-    public function increment($column, $amount = 1) {
-        $column = '_replies.$.'. $column;
+    public function increment($column, $amount = 1)
+    {
+        $column = '_replies.$.'.$column;
 
         $builder = Entry::where('_id', $this->entry->_id)->where('_replies._id', $this->_id);
         $builder->increment($column, $amount);
     }
 
-    public function decrement($column, $amount = 1) {
-        $column = '_replies.$.'. $column;
+    public function decrement($column, $amount = 1)
+    {
+        $column = '_replies.$.'.$column;
 
         $builder = Entry::where('_id', $this->entry->_id)->where('_replies._id', $this->_id);
         $builder->decrement($column, $amount);
@@ -118,7 +124,9 @@ class EntryReply extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) return false;
+        if (Auth::guest()) {
+            return false;
+        }
 
         return Auth::user()->isBlockingUser($this->user);
     }
@@ -135,7 +143,7 @@ class EntryReply extends BaseModel
     public function getURL()
     {
         return route('single_entry', $this->entry->getKey())
-            .'#'. $this->getKey();
+            .'#'.$this->getKey();
     }
 
     public function canEdit()
@@ -149,5 +157,4 @@ class EntryReply extends BaseModel
         return Auth::id() === $this->user_id
             || Auth::user()->isModerator($this->group_id);
     }
-
 }

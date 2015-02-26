@@ -1,11 +1,12 @@
 <?php namespace Strimoid\Models;
 
-use Auth, App, Image;
+use App;
+use Auth;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasAvatar;
 
 /**
- * Group model
+ * Group model.
  *
  * @property string $_id
  * @property string $name Group name
@@ -16,18 +17,17 @@ use Strimoid\Models\Traits\HasAvatar;
  */
 class Group extends BaseModel
 {
-
     use HasAvatar;
 
     protected $avatarPath = 'groups/';
     protected $attributes = [
         'subscribers' => 0,
-        'type' => self::TYPE_PUBLIC,
+        'type'        => self::TYPE_PUBLIC,
     ];
     protected $table = 'groups';
     protected $visible = [
         '_id', 'avatar', 'created_at', 'creator',
-        'description', 'sidebar', 'subscribers', 'name'
+        'description', 'sidebar', 'subscribers', 'name',
     ];
 
     const TYPE_PUBLIC = 0;
@@ -44,8 +44,7 @@ class Group extends BaseModel
     {
         $relation = $this->hasMany('Strimoid\Models\Entry');
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $blockedUsers = Auth::user()->blockedUsers();
             $relation->whereNotIn('user_id', (array) $blockedUsers);
         }
@@ -58,8 +57,7 @@ class Group extends BaseModel
         $relation = $this->hasMany('Strimoid\Models\Comment');
         $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $blockedUsers = Auth::user()->blockedUsers();
             $relation->whereNotIn('user_id', (array) $blockedUsers);
         }
@@ -71,8 +69,7 @@ class Group extends BaseModel
     {
         $relation = $this->hasMany('Strimoid\Models\Content');
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $blockedUsers = Auth::user()->blockedUsers();
             $relation->whereNotIn('user_id', $blockedUsers);
 
@@ -80,8 +77,7 @@ class Group extends BaseModel
             $relation->whereNotIn('domain', $blockedDomains);
         }
 
-        if ($tab == 'popular')
-        {
+        if ($tab == 'popular') {
             $threshold = $this->popular_threshold ?: 1;
             $relation->where('score', '>', $threshold);
         }
@@ -91,17 +87,20 @@ class Group extends BaseModel
         return $relation;
     }
 
+    public function banned()
+    {
+        return $this->embedsMany('GroupBanned');
+    }
+
     public function moderators()
     {
-        return $this->hasMany('Strimoid\Models\GroupModerator');
+        return $this->embedsMany('GroupModerator');
     }
 
     public function checkAccess()
     {
-        if ($this->type == Group::TYPE_PRIVATE)
-        {
-            if (!Auth::check() || !Auth::user()->isModerator($this))
-            {
+        if ($this->type == Group::TYPE_PRIVATE) {
+            if (!Auth::check() || !Auth::user()->isModerator($this)) {
                 App::abort(403, 'Access denied');
             }
         }
@@ -117,9 +116,8 @@ class Group extends BaseModel
 
     public function getAvatarPath()
     {
-        if ($this->avatar)
-        {
-            return '/uploads/groups/'. $this->avatar;
+        if ($this->avatar) {
+            return '/uploads/groups/'.$this->avatar;
         }
 
         return '/static/img/default_avatar.png';
@@ -130,14 +128,15 @@ class Group extends BaseModel
         $disk = Storage::disk('styles');
 
         // Compatibility with old saving method
-        $filename = Str::lower($this->urlname) .'.css';
-        if ($disk->exists($filename)) $disk->delete($filename);
+        $filename = Str::lower($this->urlname).'.css';
+        if ($disk->exists($filename)) {
+            $disk->delete($filename);
+        }
 
         $this->deleteStyle();
 
-        if ($css)
-        {
-            $this->style = $this->shadow_urlname .'.'. Str::random(8) .'.css';
+        if ($css) {
+            $this->style = $this->shadow_urlname.'.'.Str::random(8).'.css';
 
             $disk->put($this->style, $css);
         }
@@ -145,8 +144,7 @@ class Group extends BaseModel
 
     public function deleteStyle()
     {
-        if ($this->style)
-        {
+        if ($this->style) {
             Storage::disk('styles')->delete($this->style);
             $this->unset('style');
         }
@@ -154,8 +152,7 @@ class Group extends BaseModel
 
     public function banUser(User $user, $reason = '')
     {
-        if ($user->isBanned($this))
-        {
+        if ($user->isBanned($this)) {
             return false;
         }
 
@@ -173,12 +170,11 @@ class Group extends BaseModel
     {
         $host = Config::get('app.cdn_host');
 
-        if ($this->avatar)
-        {
-            return $host .'/groups/'. $this->avatar;
+        if ($this->avatar) {
+            return $host.'/groups/'.$this->avatar;
         }
 
-        return $host .'/static/img/default_avatar.png';
+        return $host.'/static/img/default_avatar.png';
     }
 
     public function setSidebarAttribute($text)
@@ -199,5 +195,4 @@ class Group extends BaseModel
     {
         return $query->where('shadow_urlname', shadow($name));
     }
-
 }

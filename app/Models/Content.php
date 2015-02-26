@@ -1,12 +1,14 @@
 <?php namespace Strimoid\Models;
 
-use Carbon, OEmbed, Str, Storage, PDP;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use OEmbed;
+use PDP;
+use Str;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasThumbnail;
 
 /**
- * Content model
+ * Content model.
  *
  * @property string   $_id          Content ID
  * @property string   $title        Content title
@@ -20,19 +22,18 @@ use Strimoid\Models\Traits\HasThumbnail;
  */
 class Content extends BaseModel
 {
-
     use HasThumbnail, SoftDeletes;
 
     protected static $rules = [
-        'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
+        'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
         'description' => 'max:255',
-        'groupname' => 'required|exists_ci:groups,urlname'
+        'groupname'   => 'required|exists_ci:groups,urlname',
     ];
 
     protected $attributes = [
-        'uv' => 0,
-        'dv' => 0,
-        'score' => 0,
+        'uv'             => 0,
+        'dv'             => 0,
+        'score'          => 0,
         'comments_count' => 0,
     ];
 
@@ -42,18 +43,15 @@ class Content extends BaseModel
     protected $fillable = ['title', 'description', 'nsfw', 'eng', 'text', 'url'];
     protected $hidden = ['text', 'text_source', 'updated_at'];
 
-    function __construct($attributes = [])
+    public function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(6);
 
-        static::deleted(function(Content $content)
-        {
+        static::deleted(function (Content $content) {
             Notification::where('content_id', $this->getKey())->delete();
 
-            if ( ! $content->trashed())
-            {
-                foreach ($this->getComments() as $comment)
-                {
+            if (! $content->trashed()) {
+                foreach ($this->getComments() as $comment) {
                     $comment->delete();
                 }
             }
@@ -96,7 +94,9 @@ class Content extends BaseModel
 
     public function getEmbed($autoPlay = true)
     {
-        if ( ! $this->url) return false;
+        if (! $this->url) {
+            return false;
+        }
 
         return OEmbed::getEmbedHtml($this->url, $autoPlay);
     }
@@ -109,6 +109,7 @@ class Content extends BaseModel
     public function getSlug()
     {
         $params = [$this->_id, Str::slug($this->title)];
+
         return route('content_comments_slug', $params);
     }
 
@@ -143,13 +144,11 @@ class Content extends BaseModel
     {
         $validator = Validator::make($input, static::$rules);
 
-        $validator->sometimes('text', 'required|min:1|max:50000', function($input)
-        {
+        $validator->sometimes('text', 'required|min:1|max:50000', function ($input) {
             return $input->text;
         });
 
-        $validator->sometimes('url', 'required|url|safe_url|max:2048', function($input)
-        {
+        $validator->sometimes('url', 'required|url|safe_url|max:2048', function ($input) {
             return !$input->text;
         });
 
@@ -184,5 +183,4 @@ class Content extends BaseModel
     {
         return $query->where('score', '>', 1);
     }
-
 }
