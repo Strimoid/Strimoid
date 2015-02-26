@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Http\Controllers\Api; 
 
-use Auth, Input, Queue;
+use Auth, Input, Queue, Response;
 use Illuminate\Http\Request;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
