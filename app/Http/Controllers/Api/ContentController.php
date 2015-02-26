@@ -1,15 +1,17 @@
-<?php namespace Strimoid\Http\Controllers\Api; 
+<?php namespace Strimoid\Http\Controllers\Api;
 
-use Auth, Input, Queue;
+use Auth;
 use Illuminate\Http\Request;
+use Input;
+use Queue;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
-use Strimoid\Models\User;
 use Strimoid\Models\Group;
+use Strimoid\Models\User;
 
-class ContentController extends BaseController {
-
+class ContentController extends BaseController
+{
     /**
      * @var FolderRepository
      */
