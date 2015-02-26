@@ -13,8 +13,10 @@ class PubSubHandler {
      */
     public function subscribe($events)
     {
+        /*
         $events->listen('eloquent.created: '. Notification::class,
             self::class .'@onNewNotification');
+        */
     }
 
     public function onNewNotification(Notification $notification)
