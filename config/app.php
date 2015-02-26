@@ -177,7 +177,6 @@ return [
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Intervention\Image\ImageServiceProvider',
-        'Jenssegers\Rollbar\RollbarServiceProvider',
         'duxet\Realtime\RealtimeServiceProvider',
 
     ],

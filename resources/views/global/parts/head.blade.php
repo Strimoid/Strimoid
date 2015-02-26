@@ -22,7 +22,7 @@
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
         && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
     <link href="/uploads/styles/{!! $group->style !!}" rel="stylesheet" data-id="group_style">
-@elseif (isset($group) && file_exists(Config::get('app.uploads_path').'/styles/'. Str::lower($group->urlname) .'.css') && !@Auth::user()->settings['disable_groupstyles'])
+@elseif (isset($group) && Storage::disk('styles')->exists(Str::lower($group->urlname) .'.css') && !@Auth::user()->settings['disable_groupstyles'])
     <link href="/uploads/styles/{!! Str::lower($group->urlname) !!}.css" rel="stylesheet" data-id="group_style">
 @elseif (Auth::check() && @Auth::user()->settings['css_style'])
     <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">

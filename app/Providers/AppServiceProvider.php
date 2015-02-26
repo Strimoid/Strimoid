@@ -16,6 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->environment('local')) {
+            $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
+        }
+
+        if ($this->app->environment('production')) {
+            $this->app->register('Jenssegers\Rollbar\RollbarServiceProvider');
+        }
     }
 
     /**
