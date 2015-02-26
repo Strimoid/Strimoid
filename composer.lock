@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9f50606b97ca5f9edbf387bc5d724fd5",
+    "hash": "2eee42167b7712e21de078ca9b186178",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -275,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-realtime.git",
-                "reference": "c893c5a519a58d5cf85490d2e7da63fe8233a641"
+                "reference": "ccb02ed800978d021ec966af5335030140330eac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/c893c5a519a58d5cf85490d2e7da63fe8233a641",
-                "reference": "c893c5a519a58d5cf85490d2e7da63fe8233a641",
+                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/ccb02ed800978d021ec966af5335030140330eac",
+                "reference": "ccb02ed800978d021ec966af5335030140330eac",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
                 "pubsub",
                 "realtime"
             ],
-            "time": "2015-02-24 15:05:51"
+            "time": "2015-02-25 19:12:41"
         },
         {
             "name": "graham-campbell/manager",
@@ -1352,16 +1352,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.6",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "43637b796f1ac0b1a960984231251ff04b438006"
+                "reference": "f46adbb5bc753bd9503ee232e8ce1f4421a78b2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/43637b796f1ac0b1a960984231251ff04b438006",
-                "reference": "43637b796f1ac0b1a960984231251ff04b438006",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f46adbb5bc753bd9503ee232e8ce1f4421a78b2a",
+                "reference": "f46adbb5bc753bd9503ee232e8ce1f4421a78b2a",
                 "shasum": ""
             },
             "require": {
@@ -1378,7 +1378,7 @@
                 "mtdowling/cron-expression": "~1.0",
                 "nesbot/carbon": "~1.0",
                 "php": ">=5.4.0",
-                "psy/psysh": "0.3.*",
+                "psy/psysh": "0.4.*",
                 "swiftmailer/swiftmailer": "~5.1",
                 "symfony/console": "2.6.*",
                 "symfony/debug": "2.6.*",
@@ -1473,7 +1473,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-02-20 16:22:21"
+            "time": "2015-02-25 20:23:22"
         },
         {
             "name": "league/commonmark",
@@ -2185,16 +2185,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.3.5",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "2ce0e8f3020fd292c2ad2a496c5d83939823f642"
+                "reference": "3787f3436f4fd898e0ac1eb6f5abd2ab6b24085b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/2ce0e8f3020fd292c2ad2a496c5d83939823f642",
-                "reference": "2ce0e8f3020fd292c2ad2a496c5d83939823f642",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/3787f3436f4fd898e0ac1eb6f5abd2ab6b24085b",
+                "reference": "3787f3436f4fd898e0ac1eb6f5abd2ab6b24085b",
                 "shasum": ""
             },
             "require": {
@@ -2212,6 +2212,7 @@
             },
             "suggest": {
                 "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
+                "ext-pdo-sqlite": "The doc command requires SQLite to work.",
                 "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
                 "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history."
             },
@@ -2251,20 +2252,20 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2015-02-12 19:35:52"
+            "time": "2015-02-25 20:35:54"
         },
         {
             "name": "pubnub/pubnub",
-            "version": "v3.7.1",
+            "version": "v3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pubnub/php.git",
-                "reference": "d4adfb6aaf965286392927eaf24d8b28f3569548"
+                "reference": "0ab62c4bc0a8487c0cc23cbd58e4e2010e748081"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pubnub/php/zipball/d4adfb6aaf965286392927eaf24d8b28f3569548",
-                "reference": "d4adfb6aaf965286392927eaf24d8b28f3569548",
+                "url": "https://api.github.com/repos/pubnub/php/zipball/0ab62c4bc0a8487c0cc23cbd58e4e2010e748081",
+                "reference": "0ab62c4bc0a8487c0cc23cbd58e4e2010e748081",
                 "shasum": ""
             },
             "require": {
@@ -2308,7 +2309,7 @@
                 "real-time",
                 "realtime"
             ],
-            "time": "2015-02-06 10:36:39"
+            "time": "2015-02-25 16:30:57"
         },
         {
             "name": "react/promise",
@@ -2402,12 +2403,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RoumenDamianoff/laravel-sitemap.git",
-                "reference": "f84967646ec1cea5b5e2d38a9828adb8345e6f2c"
+                "reference": "e194489e219c3d0704e85a509b4702b2411b20c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/f84967646ec1cea5b5e2d38a9828adb8345e6f2c",
-                "reference": "f84967646ec1cea5b5e2d38a9828adb8345e6f2c",
+                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-sitemap/zipball/e194489e219c3d0704e85a509b4702b2411b20c8",
+                "reference": "e194489e219c3d0704e85a509b4702b2411b20c8",
                 "shasum": ""
             },
             "require": {
@@ -2420,7 +2421,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -2446,7 +2447,7 @@
                 "Sitemap",
                 "laravel"
             ],
-            "time": "2015-02-17 16:15:21"
+            "time": "2015-02-25 12:32:32"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3468,16 +3469,16 @@
         },
         {
             "name": "behat/behat",
-            "version": "dev-master",
+            "version": "v3.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "aa6e0cefbc4724c7e750be5ebb6e6539a173ecd3"
+                "reference": "b35ae3d45332d80c532af69cc36f780a9397a996"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/aa6e0cefbc4724c7e750be5ebb6e6539a173ecd3",
-                "reference": "aa6e0cefbc4724c7e750be5ebb6e6539a173ecd3",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/b35ae3d45332d80c532af69cc36f780a9397a996",
+                "reference": "b35ae3d45332d80c532af69cc36f780a9397a996",
                 "shasum": ""
             },
             "require": {
@@ -3545,7 +3546,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2015-02-22 14:09:55"
+            "time": "2015-02-22 14:10:33"
         },
         {
             "name": "behat/gherkin",
@@ -3607,16 +3608,16 @@
         },
         {
             "name": "behat/mink",
-            "version": "dev-master",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "30014f0a15579176b7fca879cb461aad900f4db5"
+                "reference": "8b68523a339ec991bcd638b39dc8f04f808da88a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/30014f0a15579176b7fca879cb461aad900f4db5",
-                "reference": "30014f0a15579176b7fca879cb461aad900f4db5",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/8b68523a339ec991bcd638b39dc8f04f808da88a",
+                "reference": "8b68523a339ec991bcd638b39dc8f04f808da88a",
                 "shasum": ""
             },
             "require": {
@@ -3632,7 +3633,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -3658,7 +3659,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2015-02-21 12:27:56"
+            "time": "2015-02-04 17:02:06"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -3717,16 +3718,16 @@
         },
         {
             "name": "behat/mink-extension",
-            "version": "dev-master",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/MinkExtension.git",
-                "reference": "ba5329be65a816adfc2d9ba9b639a92f548371da"
+                "reference": "06a4cb56614b047d8d15ea5cd392d19fd3d856e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkExtension/zipball/ba5329be65a816adfc2d9ba9b639a92f548371da",
-                "reference": "ba5329be65a816adfc2d9ba9b639a92f548371da",
+                "url": "https://api.github.com/repos/Behat/MinkExtension/zipball/06a4cb56614b047d8d15ea5cd392d19fd3d856e8",
+                "reference": "06a4cb56614b047d8d15ea5cd392d19fd3d856e8",
                 "shasum": ""
             },
             "require": {
@@ -3736,7 +3737,7 @@
                 "symfony/config": "~2.2"
             },
             "require-dev": {
-                "behat/mink-goutte-driver": "~1.1@dev",
+                "behat/mink-goutte-driver": "~1.0",
                 "phpspec/phpspec": "~2.0"
             },
             "type": "behat-extension",
@@ -3772,7 +3773,65 @@
                 "test",
                 "web"
             ],
-            "time": "2015-01-23 00:01:18"
+            "time": "2014-09-23 10:59:27"
+        },
+        {
+            "name": "behat/mink-selenium2-driver",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/minkphp/MinkSelenium2Driver.git",
+                "reference": "8018fee80bf6573f909ece3e0dfc07d0eb352210"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/minkphp/MinkSelenium2Driver/zipball/8018fee80bf6573f909ece3e0dfc07d0eb352210",
+                "reference": "8018fee80bf6573f909ece3e0dfc07d0eb352210",
+                "shasum": ""
+            },
+            "require": {
+                "behat/mink": "~1.6@dev",
+                "instaclick/php-webdriver": "~1.1",
+                "php": ">=5.3.1"
+            },
+            "type": "mink-driver",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Mink\\Driver": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                },
+                {
+                    "name": "Pete Otaqui",
+                    "email": "pete@otaqui.com",
+                    "homepage": "https://github.com/pete-otaqui"
+                }
+            ],
+            "description": "Selenium2 (WebDriver) driver for Mink framework",
+            "homepage": "http://mink.behat.org/",
+            "keywords": [
+                "ajax",
+                "browser",
+                "javascript",
+                "selenium",
+                "testing",
+                "webdriver"
+            ],
+            "time": "2014-09-29 13:12:12"
         },
         {
             "name": "behat/transliterator",
@@ -3917,6 +3976,64 @@
             "time": "2014-06-04 14:43:02"
         },
         {
+            "name": "instaclick/php-webdriver",
+            "version": "1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/instaclick/php-webdriver.git",
+                "reference": "a57b2bcd9467e217134a2248b261b8b3a90ccea0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/instaclick/php-webdriver/zipball/a57b2bcd9467e217134a2248b261b8b3a90ccea0",
+                "reference": "a57b2bcd9467e217134a2248b261b8b3a90ccea0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "WebDriver": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Bishop",
+                    "email": "jubishop@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anthon Pang",
+                    "email": "apang@softwaredevelopment.ca",
+                    "role": "Fork Maintainer"
+                }
+            ],
+            "description": "PHP WebDriver for Selenium 2",
+            "homepage": "http://instaclick.com/",
+            "keywords": [
+                "browser",
+                "selenium",
+                "webdriver",
+                "webtest"
+            ],
+            "time": "2014-05-12 21:03:05"
+        },
+        {
             "name": "laracasts/behat-laravel-extension",
             "version": "dev-master",
             "source": {
@@ -4023,16 +4140,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "dev-master",
+            "version": "0.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "2448c5b27f40d11db1f7bcee5a1188fef8ae490a"
+                "reference": "686f85fa5b3b079cc0157d7cd3e9adb97f0b41e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/2448c5b27f40d11db1f7bcee5a1188fef8ae490a",
-                "reference": "2448c5b27f40d11db1f7bcee5a1188fef8ae490a",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/686f85fa5b3b079cc0157d7cd3e9adb97f0b41e1",
+                "reference": "686f85fa5b3b079cc0157d7cd3e9adb97f0b41e1",
                 "shasum": ""
             },
             "require": {
@@ -4041,7 +4158,8 @@
             },
             "require-dev": {
                 "hamcrest/hamcrest-php": "~1.1",
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.7@dev"
             },
             "type": "library",
             "extra": {
@@ -4070,7 +4188,7 @@
                     "homepage": "http://davedevelopment.co.uk"
                 }
             ],
-            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succinct API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
+            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succint API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
             "homepage": "http://github.com/padraic/mockery",
             "keywords": [
                 "BDD",
@@ -4084,7 +4202,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2015-02-20 22:10:40"
+            "time": "2014-12-22 10:06:19"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -5205,11 +5323,7 @@
         "phindmarsh/summon": 20,
         "roumen/sitemap": 20,
         "duxet/laravel-realtime": 20,
-        "behat/behat": 20,
-        "behat/mink": 20,
-        "behat/mink-extension": 20,
-        "laracasts/behat-laravel-extension": 20,
-        "mockery/mockery": 20
+        "laracasts/behat-laravel-extension": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

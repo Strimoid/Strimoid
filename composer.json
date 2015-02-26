@@ -44,15 +44,16 @@
         "duxet/laravel-realtime": "dev-master"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.5.*",
-        "barryvdh/laravel-ide-helper": "2.*",
-        "barryvdh/laravel-debugbar": "2.*",
+        "phpunit/phpunit": "~4.5",
+        "barryvdh/laravel-ide-helper": "~2.0",
+        "barryvdh/laravel-debugbar": "~2.0",
         "fzaninotto/faker": "*",
-	    "behat/behat": "~3.0@dev",
-		"behat/mink": "~1.6@dev",
-		"behat/mink-extension": "~2.0@dev",
+	    "behat/behat": "~3.0",
+		"behat/mink": "~1.6",
+		"behat/mink-extension": "~2.0",
+        "behat/mink-selenium2-driver": "~1.2",
 	    "laracasts/behat-laravel-extension": "dev-master",
-		"mockery/mockery": "0.9.*@dev"
+		"mockery/mockery": "~0.9"
     },
   	"repositories": [
 	    {
