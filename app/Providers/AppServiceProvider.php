@@ -20,7 +20,10 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
         }
 
-        if ($this->app->environment('production')) {
+        $rollbarToken = config('services.rollbar.access_token');
+
+        if ( ! empty($rollbarToken))
+        {
             $this->app->register('Jenssegers\Rollbar\RollbarServiceProvider');
         }
     }
