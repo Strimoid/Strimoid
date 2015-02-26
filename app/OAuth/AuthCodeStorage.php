@@ -1,15 +1,15 @@
-<?php namespace Strimoid\OAuth; 
+<?php namespace Strimoid\OAuth;
 
-use League\OAuth2\Server\Storage\AuthCodeInterface;
 use League\OAuth2\Server\Entity\AuthCodeEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
+use League\OAuth2\Server\Storage\AuthCodeInterface;
 
-class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
-
+class AuthCodeStorage extends MongoStorage implements AuthCodeInterface
+{
     protected $table = 'oauth_auth_codes';
 
     /**
-     * Get the auth code
+     * Get the auth code.
      *
      * @param string $code
      *
@@ -22,7 +22,9 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
             ->where('expire_time', '>=', time())
             ->first();
 
-        if ( ! $result) return;
+        if (! $result) {
+            return;
+        }
 
         return (new AuthCodeEntity($this->server))
             ->setRedirectUri($result['client_redirect_uri'])
@@ -33,10 +35,10 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
     /**
      * Create an auth code.
      *
-     * @param string $token The token ID
-     * @param integer $expireTime Token expire time
-     * @param integer $sessionId Session identifier
-     * @param string $redirectUri Client redirect uri
+     * @param string  $token       The token ID
+     * @param integer $expireTime  Token expire time
+     * @param integer $sessionId   Session identifier
+     * @param string  $redirectUri Client redirect uri
      *
      * @return void
      */
@@ -53,7 +55,7 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
     }
 
     /**
-     * Get the scopes for an access token
+     * Get the scopes for an access token.
      *
      * @param \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
      *
@@ -65,16 +67,18 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
             ->where('_id', $token->getId())
             ->first();
 
-        if (!$result) return [];
+        if (!$result) {
+            return [];
+        }
 
         return $this->loadScopes($result['scopes']);
     }
 
     /**
-     * Associate a scope with an acess token
+     * Associate a scope with an acess token.
      *
      * @param \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
-     * @param \League\OAuth2\Server\Entity\ScopeEntity $scope The scope
+     * @param \League\OAuth2\Server\Entity\ScopeEntity    $scope The scope
      *
      * @return void
      */
@@ -86,7 +90,7 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
     }
 
     /**
-     * Delete an access token
+     * Delete an access token.
      *
      * @param \League\OAuth2\Server\Entity\AuthCodeEntity $token The access token to delete
      *
@@ -98,5 +102,4 @@ class AuthCodeStorage extends MongoStorage implements AuthCodeInterface {
             ->where('_id', $token->getId())
             ->delete();
     }
-
 }

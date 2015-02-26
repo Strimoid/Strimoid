@@ -1,11 +1,9 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
-class UpdateUserPoints extends Command {
-
+class UpdateUserPoints extends Command
+{
     /**
      * The console command name.
      *
@@ -43,13 +41,12 @@ class UpdateUserPoints extends Command {
         $conn->disableQueryLog();
 
         $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))
-            ->with(['user' => function($q) { $q->select(['name', 'avatar']); }])
+            ->with(['user' => function ($q) { $q->select(['name', 'avatar']); }])
             ->groupBy('user_id')
             ->orderBy('points', 'desc')
             ->get();
 
-        foreach($rows as $row)
-        {
+        foreach ($rows as $row) {
             $user = User::find($row['user_id']);
 
             $user->total_points = $row['points'];
@@ -57,7 +54,6 @@ class UpdateUserPoints extends Command {
         }
 
         $this->info('All users processed');
-
     }
 
     /**
@@ -67,7 +63,7 @@ class UpdateUserPoints extends Command {
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -77,7 +73,6 @@ class UpdateUserPoints extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

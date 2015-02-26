@@ -9,5 +9,5 @@ return [
         'consumer_secret' => env('TWITTER_CS'),
         'token'           => env('TWITTER_T'),
         'token_secret'    => env('TWITTER_TS'),
-    ]
+    ],
 ];

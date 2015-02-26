@@ -1,11 +1,10 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class DeleteAvatar extends Command {
-
+class DeleteAvatar extends Command
+{
     /**
      * The console command name.
      *
@@ -37,8 +36,9 @@ class DeleteAvatar extends Command {
      */
     public function fire()
     {
-        if (!$this->argument('username'))
+        if (!$this->argument('username')) {
             print 'no username given';
+        }
 
         $user = User::findOrFail($this->argument('username'));
         $user->deleteAvatar();
@@ -52,9 +52,9 @@ class DeleteAvatar extends Command {
      */
     protected function getArguments()
     {
-        return array(
-            array('username', InputArgument::REQUIRED, 'User name.'),
-        );
+        return [
+            ['username', InputArgument::REQUIRED, 'User name.'],
+        ];
     }
 
     /**
@@ -64,7 +64,6 @@ class DeleteAvatar extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

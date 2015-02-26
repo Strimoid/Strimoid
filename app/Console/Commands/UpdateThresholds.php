@@ -1,11 +1,9 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
-class UpdateThresholds extends Command {
-
+class UpdateThresholds extends Command
+{
     /**
      * The console command name.
      *
@@ -39,8 +37,7 @@ class UpdateThresholds extends Command {
     {
         DB::connection()->disableQueryLog();
 
-        foreach (Group::all() as $group)
-        {
+        foreach (Group::all() as $group) {
             $builder = Content::where('group_id', $group->_id)
                 //->where('created_at', '>', new MongoDate(time() - 86400 * 14))
                 ->orderBy('uv', 'desc')
@@ -49,12 +46,9 @@ class UpdateThresholds extends Command {
             $count = $builder->count();
             //$averageUv = $builder->avg('uv');
 
-            if ($count < 10)
-            {
+            if ($count < 10) {
                 $threshold = 2;
-            }
-            else
-            {
+            } else {
                 $threshold = $this->median($builder->lists('uv'));
                 $threshold = round($threshold);
                 $threshold = max(2, $threshold);
@@ -78,8 +72,7 @@ class UpdateThresholds extends Command {
         $median = $array[$middle_index]; // assume an odd # of items
 
         // Handle the even case by averaging the middle 2 items
-        if ($iCount % 2 == 0)
-        {
+        if ($iCount % 2 == 0) {
             $median = ($median + $array[$middle_index - 1]) / 2;
         }
 
@@ -93,7 +86,7 @@ class UpdateThresholds extends Command {
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -103,7 +96,6 @@ class UpdateThresholds extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

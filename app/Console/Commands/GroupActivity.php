@@ -1,11 +1,9 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
-class GroupActivity extends Command {
-
+class GroupActivity extends Command
+{
     /**
      * The console command name.
      *
@@ -48,25 +46,28 @@ class GroupActivity extends Command {
             $group->activity = 2;
 
             // Low activity, when nothing was added last week
-            if ($total == 0)
+            if ($total == 0) {
                 $group->activity = 1;
+            }
 
-            if ($total > 15)
+            if ($total > 15) {
                 $group->activity = 3;
+            }
 
-            if ($total > 50)
+            if ($total > 50) {
                 $group->activity = 4;
+            }
 
             $group->save();
 
-            if (!($x % 100))
-                $this->info($x .' groups processed');
+            if (!($x % 100)) {
+                $this->info($x.' groups processed');
+            }
 
             $x++;
         }
 
         $this->info('All groups processed');
-
     }
 
     /**
@@ -76,7 +77,7 @@ class GroupActivity extends Command {
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -86,7 +87,6 @@ class GroupActivity extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

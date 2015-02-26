@@ -10,24 +10,6 @@ if (typeof String.prototype.contains !== 'function') {
     };
 }
 
-/*(function($) {
-
-    var oldHide = $.fn.popover.Constructor.prototype.hide;
-
-    $.fn.popover.Constructor.prototype.hide = function() {
-        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
-            var that = this;
-            // try again after what would have been the delay
-            setTimeout(function() {
-                return that.hide.call(that, arguments);
-            }, that.options.delay.hide);
-            return;
-        }
-        oldHide.call(this, arguments);
-    };
-
-})(jQuery);*/
-
 $(document).ready(function() {
     $.ajaxSetup({
         headers: { 'X-XSRF-TOKEN': $.cookie('XSRF-TOKEN') }
@@ -337,18 +319,6 @@ $(document).ready(function() {
     });
 
     $('.entry_expand_replies').click(function() {
-        /*
-        var el = $(this);
-        var entry_id = $(this).attr('data-id');
-        var parent = $(this).prevAll('.entry:not(.entry_reply)').first();
-
-        $.get('/ajax/entry/'+ entry_id +'/replies', function(data){
-            $(parent).nextUntil(el).remove();
-            $(parent).after(data);
-            $(el).remove();
-        });
-        */
-
         var el = $(this);
         var entry_id = $(this).attr('data-id');
 

@@ -1,10 +1,10 @@
 <?php namespace Strimoid\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\View\Factory as ViewFactory;
+use Illuminate\Support\ServiceProvider;
 
-class ComposerServiceProvider extends ServiceProvider {
-
+class ComposerServiceProvider extends ServiceProvider
+{
     /**
      * Register bindings in the container.
      *
@@ -23,5 +23,4 @@ class ComposerServiceProvider extends ServiceProvider {
     public function register()
     {
     }
-
 }

@@ -41,12 +41,12 @@ return [
 
         'thumbnails' => [
             'driver' => 'local',
-            'root'   => env('UPLOADS_PATH' .'/thumbnails', '/data/strimoid/uploads/thumbnails'),
+            'root'   => env('UPLOADS_PATH'.'/thumbnails', '/data/strimoid/uploads/thumbnails'),
         ],
 
         'styles' => [
             'driver' => 'local',
-            'root'   => env('UPLOADS_PATH' .'/styles', '/data/strimoid/uploads/styles'),
+            'root'   => env('UPLOADS_PATH'.'/styles', '/data/strimoid/uploads/styles'),
         ],
 
     ],

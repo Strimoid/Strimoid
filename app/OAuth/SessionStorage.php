@@ -1,17 +1,17 @@
 <?php namespace Strimoid\OAuth;
 
-use League\OAuth2\Server\Storage\SessionInterface;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\AuthCodeEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
+use League\OAuth2\Server\Storage\SessionInterface;
 
-class SessionStorage extends MongoStorage implements SessionInterface {
-
+class SessionStorage extends MongoStorage implements SessionInterface
+{
     protected $table = 'oauth_sessions';
 
     /**
-     * Get a session from an access token
+     * Get a session from an access token.
      *
      * @param \League\OAuth2\Server\Entity\AccessTokenEntity $accessToken The access token
      *
@@ -23,13 +23,15 @@ class SessionStorage extends MongoStorage implements SessionInterface {
             ->where('_id', $accessToken->getId())
             ->first();
 
-        if ( ! $accessToken) return;
+        if (! $accessToken) {
+            return;
+        }
 
         return $this->getById($accessToken['session_id']);
     }
 
     /**
-     * Get a session from an auth code
+     * Get a session from an auth code.
      *
      * @param \League\OAuth2\Server\Entity\AuthCodeEntity $authCode The auth code
      *
@@ -41,13 +43,15 @@ class SessionStorage extends MongoStorage implements SessionInterface {
             ->where('_id', $authCode->getId())
             ->first();
 
-        if ( ! $authCode) return;
+        if (! $authCode) {
+            return;
+        }
 
         return $this->getById($authCode['session_id']);
     }
 
     /**
-     * Get a session from id
+     * Get a session from id.
      *
      * @param $id
      *
@@ -59,7 +63,9 @@ class SessionStorage extends MongoStorage implements SessionInterface {
             ->where('_id', $id)
             ->first();
 
-        if ( ! $result) return;
+        if (! $result) {
+            return;
+        }
 
         return (new SessionEntity($this->server))
             ->setId($result['_id'])
@@ -67,7 +73,7 @@ class SessionStorage extends MongoStorage implements SessionInterface {
     }
 
     /**
-     * Get a session's scopes
+     * Get a session's scopes.
      *
      * @param  \League\OAuth2\Server\Entity\SessionEntity
      *
@@ -79,13 +85,15 @@ class SessionStorage extends MongoStorage implements SessionInterface {
             ->where('_id', $session->getId())
             ->first();
 
-        if ( ! $result) return [];
+        if (! $result) {
+            return [];
+        }
 
         return $this->loadScopes($result['scopes']);
     }
 
     /**
-     * Create a new session
+     * Create a new session.
      *
      * @param string $ownerType         Session owner's type (user, client)
      * @param string $ownerId           Session owner's ID
@@ -98,15 +106,15 @@ class SessionStorage extends MongoStorage implements SessionInterface {
     {
         return $this->table()
             ->insertGetId([
-                'owner_type'  =>  $ownerType,
-                'owner_id'    =>  $ownerId,
-                'client_id'   =>  $clientId,
-                'scopes'      =>  [],
+                'owner_type'  => $ownerType,
+                'owner_id'    => $ownerId,
+                'client_id'   => $clientId,
+                'scopes'      => [],
             ]);
     }
 
     /**
-     * Associate a scope with a session
+     * Associate a scope with a session.
      *
      * @param \League\OAuth2\Server\Entity\SessionEntity $session The session
      * @param \League\OAuth2\Server\Entity\ScopeEntity   $scope   The scope
@@ -119,5 +127,4 @@ class SessionStorage extends MongoStorage implements SessionInterface {
             ->where('_id', $session->getId())
             ->push('scopes', $scope->getId());
     }
-
 }

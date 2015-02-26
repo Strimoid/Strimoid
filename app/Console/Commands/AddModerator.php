@@ -1,11 +1,11 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
-class AddModerator extends Command {
-
+class AddModerator extends Command
+{
     /**
      * The console command name.
      *
@@ -36,7 +36,7 @@ class AddModerator extends Command {
         $moderator->type  = $this->option('admin') ? 'admin' : 'moderator';
         $moderator->save();
 
-        $this->info($user->name .' is now moderator of '. $group->urlname);
+        $this->info($user->name.' is now moderator of '.$group->urlname);
     }
 
     /**
@@ -63,5 +63,4 @@ class AddModerator extends Command {
             ['admin', null, InputOption::VALUE_NONE, 'Makes user admin instead of moderator.', null],
         ];
     }
-
 }

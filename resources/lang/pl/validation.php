@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -21,12 +21,12 @@ return array(
     "alpha_num"        => ":attribute może zawierać jedynie litery i cyfry.",
     "array"            => "The :attribute must be an array.",
     "before"           => ":attribute musi być datą wcześniejszą od :date.",
-    "between"          => array(
+    "between"          => [
         "numeric" => ":attribute musi zawierać się w granicach :min - :max.",
         "file"    => ":attribute musi zawierać się w granicach :min - :max kilobajtów.",
         "string"  => ":attribute musi zawierać się w granicach :min - :max znaków.",
-        "array"   => "The :attribute must have between :min - :max items."
-    ),
+        "array"   => "The :attribute must have between :min - :max items.",
+    ],
     "confirmed"        => "Potwierdzenie :attribute nie zgadza się.",
     "date"             => ":attribute nie jest prawidłową datą.",
     "date_format"      => ":attribute nie jest w formacie :format.",
@@ -40,19 +40,19 @@ return array(
     "in"               => "Zaznaczony :attribute jest nieprawidłowy.",
     "integer"          => ":attribute musi być liczbą całkowitą.",
     "ip"               => ":attribute musi być prawidłowym adresem IP.",
-    "max"              => array(
+    "max"              => [
         "numeric" => ":attribute nie może być większy niż :max.",
         "file"    => ":attribute nie może być większy niż :max kilobajtów.",
         "string"  => ":attribute nie może być dłuższy niż :max znaków.",
-        "array"   => "The :attribute may not have more than :max items."
-    ),
+        "array"   => "The :attribute may not have more than :max items.",
+    ],
     "mimes"            => ":attribute musi być plikiem typu :values.",
-    "min"              => array(
+    "min"              => [
         "numeric" => ":attribute musi być nie mniejszy od :min.",
         "file"    => ":attribute musi mieć przynajmniej :min kilobajtów.",
         "string"  => ":attribute musi mieć przynajmniej :min znaków.",
-        "array"   => "The :attribute must have at least :min items."
-    ),
+        "array"   => "The :attribute must have at least :min items.",
+    ],
     "not_in"           => "Zaznaczony :attribute is jest nieprawidłowy.",
     "numeric"          => ":attribute musi byc liczbą.",
     "real_email"       => "Podany adres email jest nieprawidłowy.",
@@ -62,12 +62,12 @@ return array(
     "required_with"    => "Pole :attribute jest wymagane gdy :values jest obecny.",
     "required_without" => "Pole :attribute jest wymagane gdy :values nie jest obecny.",
     "same"             => "Pole :attribute i :other muszą się zgadzać.",
-    "size"             => array(
+    "size"             => [
         "numeric" => ":attribute musi mieć :size.",
         "file"    => ":attribute musi mieć :size kilobajtów.",
         "string"  => ":attribute musi mieć :size znaków.",
-        "array"   => "The :attribute must contain :size items."
-    ),
+        "array"   => "The :attribute must contain :size items.",
+    ],
     "user_password"    => "Podane hasło jest nieprawidłowe.",
     "unique"           => "Taki :attribute już występuje.",
     "unique_ci"        => "Wybrana nazwa jest już zajęta.",
@@ -86,17 +86,17 @@ return array(
     |
     */
 
-    'custom' => array(
-        'urlname' => array(
-            'regex' => 'Adres może zawierać wyłącznie znaki alfanumeryczne oraz znak podkreślenia.'
-        ),
-        'username' => array(
-            'regex' => 'Nazwa użytkownika może zawierać wyłącznie znaki alfanumeryczne oraz znak podkreślenia.'
-        ),
-        'groupname' => array(
-            'exists_ci' => 'Podana grupa nie istnieje.'
-        ),
-    ),
+    'custom' => [
+        'urlname' => [
+            'regex' => 'Adres może zawierać wyłącznie znaki alfanumeryczne oraz znak podkreślenia.',
+        ],
+        'username' => [
+            'regex' => 'Nazwa użytkownika może zawierać wyłącznie znaki alfanumeryczne oraz znak podkreślenia.',
+        ],
+        'groupname' => [
+            'exists_ci' => 'Podana grupa nie istnieje.',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -109,19 +109,19 @@ return array(
     |
     */
 
-    'attributes' => array(
-        'username' => 'Nazwa użytkownika',
-        'password' => 'Hasło',
-        'email' => 'Adres email',
-        'urlname' => 'Adres grupy',
-        'groupname' => 'Nazwa grupy',
+    'attributes' => [
+        'username'    => 'Nazwa użytkownika',
+        'password'    => 'Hasło',
+        'email'       => 'Adres email',
+        'urlname'     => 'Adres grupy',
+        'groupname'   => 'Nazwa grupy',
         'description' => 'Opis',
-        'text' => 'Treść',
-        'reason' => 'Powód',
-        'location' => 'Miejscowość',
-        'age' => 'Rok urodzenia',
-        'title' => 'Tytuł',
-        'name' => 'Nazwa',
-    ),
+        'text'        => 'Treść',
+        'reason'      => 'Powód',
+        'location'    => 'Miejscowość',
+        'age'         => 'Rok urodzenia',
+        'title'       => 'Tytuł',
+        'name'        => 'Nazwa',
+    ],
 
-);
+];

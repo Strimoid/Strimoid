@@ -1,11 +1,11 @@
-<?php namespace Strimoid\Repositories; 
+<?php namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\FolderRepository as FolderRepositoryContract;
 use Strimoid\Contracts\Repositories\UserRepository;
 use Strimoid\Models\Folder;
 
-class FolderRepository implements FolderRepositoryContract {
-
+class FolderRepository implements FolderRepositoryContract
+{
     /**
      * @var Folder
      */
@@ -33,9 +33,10 @@ class FolderRepository implements FolderRepositoryContract {
     {
         $user = $this->users->getByName($userName);
 
-        if ( ! $user) return;
+        if (! $user) {
+            return;
+        }
 
         return $this->folder->findUserFolder($user->getKey(), $folderName);
     }
-
 }

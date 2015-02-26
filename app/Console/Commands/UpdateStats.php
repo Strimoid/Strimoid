@@ -1,12 +1,11 @@
 <?php namespace Strimoid\Console\Commands;
 
-use Carbon, DB;
+use Carbon;
+use DB;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
-class UpdateStats extends Command {
-
+class UpdateStats extends Command
+{
     /**
      * The console command name.
      *
@@ -58,7 +57,9 @@ class UpdateStats extends Command {
         foreach ($actions as $action) {
             $object = $action->getObject();
 
-            if (!$object) continue;
+            if (!$object) {
+                continue;
+            }
 
             $day = $object->created_at->diffInDays($firstDay);
             $points = $this->calculatePoints($action, $object);
@@ -73,26 +74,27 @@ class UpdateStats extends Command {
             // First try to increase existing record
             $result = $query->increment($fieldName);
 
-            if ($result)
-            {
+            if ($result) {
                 $query->increment('uv', $object->uv);
                 $query->increment('uv', $object->dv);
 
-                if ($points > 0) $query->increment('points', $points);
-                if ($points < 0) $query->decrement('points', $points);
-            }
-            else
-            {
+                if ($points > 0) {
+                    $query->increment('points', $points);
+                }
+                if ($points < 0) {
+                    $query->decrement('points', $points);
+                }
+            } else {
                 $data = [
-                    'day' => $day,
-                    'user_id' => $action->user_id,
+                    'day'      => $day,
+                    'user_id'  => $action->user_id,
                     'group_id' => $object->group_id,
-                    'uv' => $object->uv,
-                    'dv' => $object->dv,
+                    'uv'       => $object->uv,
+                    'dv'       => $object->dv,
                     'contents' => 0,
                     'comments' => 0,
-                    'entries' => 0,
-                    'points' => $points,
+                    'entries'  => 0,
+                    'points'   => $points,
                 ];
 
                 $data[$fieldName] = 1;
@@ -101,7 +103,9 @@ class UpdateStats extends Command {
             }
 
             // Show progress
-            if ( ! ($x++ % 100)) $this->info($x .' actions processed');
+            if (! ($x++ % 100)) {
+                $this->info($x.' actions processed');
+            }
         }
 
         $this->info('All actions processed');
@@ -109,8 +113,7 @@ class UpdateStats extends Command {
 
     protected function getFieldName($action)
     {
-        switch($action->type)
-        {
+        switch ($action->type) {
             case UserAction::TYPE_CONTENT: return 'contents';
 
             case UserAction::TYPE_COMMENT:
@@ -143,7 +146,7 @@ class UpdateStats extends Command {
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -153,7 +156,6 @@ class UpdateStats extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

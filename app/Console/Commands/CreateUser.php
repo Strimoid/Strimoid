@@ -1,11 +1,10 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class CreateUser extends Command {
-
+class CreateUser extends Command
+{
     /**
      * The console command name.
      *
@@ -37,10 +36,11 @@ class CreateUser extends Command {
      */
     public function fire()
     {
-        if (!$this->argument('username'))
+        if (!$this->argument('username')) {
             print 'no username given';
+        }
 
-        $email = $this->argument('username') .'@strimoid.dev';
+        $email = $this->argument('username').'@strimoid.dev';
 
         $user = new User();
         $user->_id = $this->argument('username');
@@ -62,9 +62,9 @@ class CreateUser extends Command {
      */
     protected function getArguments()
     {
-        return array(
-            array('username', InputArgument::REQUIRED, 'User name.'),
-        );
+        return [
+            ['username', InputArgument::REQUIRED, 'User name.'],
+        ];
     }
 
     /**
@@ -74,7 +74,6 @@ class CreateUser extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

@@ -1,14 +1,11 @@
 <?php namespace Strimoid\Console\Commands;
 
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use Illuminate\Console\Command;
 
-
-class TwitterPost extends Command {
-
+class TwitterPost extends Command
+{
     /**
      * The console command name.
      *
@@ -48,7 +45,7 @@ class TwitterPost extends Command {
 
         $client = new Client([
             'base_url' => 'https://api.twitter.com/1.1/',
-            'defaults' => ['auth' => 'oauth']
+            'defaults' => ['auth' => 'oauth'],
         ]);
 
         $oauth = new Oauth1([
@@ -61,11 +58,11 @@ class TwitterPost extends Command {
         $client->getEmitter()->attach($oauth);
 
         $params = [
-            'status' => Str::limit($content->title, 100) .' https://strm.pl/'. $content->_id,
+            'status' => Str::limit($content->title, 100).' https://strm.pl/'.$content->_id,
         ];
 
         $request = $client->post('statuses/update.json', [
-            'body' => $params
+            'body' => $params,
         ]);
     }
 
@@ -76,7 +73,7 @@ class TwitterPost extends Command {
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -86,7 +83,6 @@ class TwitterPost extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }
