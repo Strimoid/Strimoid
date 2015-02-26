@@ -53,6 +53,7 @@
 		"behat/mink-extension": "~2.0",
         "behat/mink-selenium2-driver": "~1.2",
 	    "laracasts/behat-laravel-extension": "dev-master",
+        "vipsoft/code-coverage-extension": "dev-master",
 		"mockery/mockery": "~0.9"
     },
   	"repositories": [

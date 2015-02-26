@@ -34,7 +34,6 @@ before_script:
 
 script:
   - vendor/bin/behat
-  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - vendor/bin/test-reporter --stdout > codeclimate.json
