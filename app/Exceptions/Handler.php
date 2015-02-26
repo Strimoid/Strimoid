@@ -3,6 +3,7 @@
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use League\OAuth2\Server\Exception\OAuthException;
+use Log;
 use Response;
 
 class Handler extends ExceptionHandler
@@ -28,7 +29,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        return parent::report($e);
+        Log::error($e);
+        parent::report($e);
     }
 
     /**
