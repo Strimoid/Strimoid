@@ -1,12 +1,15 @@
 <?php namespace Strimoid\Http\ViewComposers;
 
-use Auth, Cache, Config, Settings;
+use Auth;
+use Cache;
+use Config;
 use Illuminate\Contracts\View\View;
+use Settings;
 use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
 
-class MasterComposer {
-
+class MasterComposer
+{
     /**
      * Create a new profile composer.
      */
@@ -17,7 +20,8 @@ class MasterComposer {
     /**
      * Bind data to the view.
      *
-     * @param  View  $view
+     * @param View $view
+     *
      * @return void
      */
     public function compose(View $view)
@@ -26,12 +30,11 @@ class MasterComposer {
 
         $assetsHost = env('ASSETS_HOST', 'https://static.strimoid.pl');
 
-        $view->with('cssFilename', $assetsHost . Config::get('assets.style'));
-        $view->with('jsFilename', $assetsHost . Config::get('assets.app'));
-        $view->with('componentsFilename', $assetsHost . Config::get('assets.components'));
+        $view->with('cssFilename', $assetsHost.Config::get('assets.style'));
+        $view->with('jsFilename', $assetsHost.Config::get('assets.app'));
+        $view->with('componentsFilename', $assetsHost.Config::get('assets.components'));
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             // Load last 15 notifications
             $notifications = Notification::with('sourceUser')
                 ->target(['user_id' => Auth::id()])
@@ -53,35 +56,28 @@ class MasterComposer {
 
         $view->with('currentGroup', $currentGroup);
 
-        if (isset($currentGroup) && isset($currentGroup->name))
-        {
+        if (isset($currentGroup) && isset($currentGroup->name)) {
             $pageTitle = $currentGroup->name;
 
             // Homepage title shall always be Strimoid.pl
-            if ($currentGroup->urlname == 'all' && !Settings::get('homepage_subscribed'))
-            {
+            if ($currentGroup->urlname == 'all' && !Settings::get('homepage_subscribed')) {
                 $pageTitle = 'Strimoid';
             }
 
-            if ($currentGroup->urlname == 'subscribed' && Settings::get('homepage_subscribed'))
-            {
+            if ($currentGroup->urlname == 'subscribed' && Settings::get('homepage_subscribed')) {
                 $pageTitle = 'Strimoid';
             }
-        }
-        else
-        {
+        } else {
             $pageTitle = 'Strimoid';
         }
 
         $view->with('pageTitle', $pageTitle);
 
         // Needed by top bar with groups
-        $popularGroups = Cache::remember('popularGroups', 60, function()
-        {
+        $popularGroups = Cache::remember('popularGroups', 60, function () {
             return Group::orderBy('subscribers', 'desc', true)
                 ->take(30)->get(['id', 'name', 'urlname']);
         });
         $view->with('popularGroups', $popularGroups);
     }
-
 }

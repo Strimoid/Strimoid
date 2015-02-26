@@ -1,12 +1,11 @@
-<?php namespace Strimoid\Http\Middleware; 
+<?php namespace Strimoid\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Strimoid\Models\Notification;
 
-class NotificationMarkRead {
-
-
+class NotificationMarkRead
+{
     /**
      * The Guard implementation.
      *
@@ -22,7 +21,7 @@ class NotificationMarkRead {
     /**
      * Create a new filter instance.
      *
-     * @param  Guard $auth
+     * @param Guard        $auth
      * @param Notification $notification
      */
     public function __construct(Guard $auth, Notification $notification)
@@ -34,25 +33,23 @@ class NotificationMarkRead {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         if ($request->query->has('ntf_read')
-            && $this->auth->check())
-        {
+            && $this->auth->check()) {
             $id = $request->query->get('ntf_read');
             $id = b58_to_mid($id);
 
             $this->notification->where('_id', $id)
-                ->target(['user_id' => $this->auth->id()])
+                ->target(['user_id'         => $this->auth->id()])
                 ->update(['_targets.$.read' => true]);
         }
 
         return $next($request);
     }
-
-
 }

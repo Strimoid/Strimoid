@@ -2,11 +2,11 @@
 
 use Strimoid\Models\FakeFolder;
 
-class Popular extends FakeFolder {
-
+class Popular extends FakeFolder
+{
     protected function getBuilder($model)
     {
-        $builder = with(new $model)->newQuery();
+        $builder = with(new $model())->newQuery();
 
         $groups = [
             'Nauka',
@@ -110,12 +110,9 @@ class Popular extends FakeFolder {
     {
         $builder = static::getBuilder('Strimoid\Models\Content');
 
-        if ($tab == 'new')
-        {
+        if ($tab == 'new') {
             $builder->frontpage(false);
-        }
-        elseif ($tab == 'popular')
-        {
+        } elseif ($tab == 'popular') {
             $builder->frontpage(true);
             $sortBy = $sortBy ?: 'frontpage_at';
         }
@@ -124,5 +121,4 @@ class Popular extends FakeFolder {
 
         return $builder;
     }
-
 }

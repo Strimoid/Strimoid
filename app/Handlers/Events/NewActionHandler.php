@@ -9,15 +9,13 @@ use Strimoid\Models\UserAction;
 
 /**
  * Create new UserAction when new entity is created.
- *
- * @package Strimoid\Handlers\Events
  */
-class NewActionHandler {
-
+class NewActionHandler
+{
     /**
      * Register the listeners for the subscriber.
      *
-     * @param  \Illuminate\Events\Dispatcher  $events
+     * @param \Illuminate\Events\Dispatcher $events
      */
     public function subscribe($events)
     {
@@ -31,13 +29,13 @@ class NewActionHandler {
     /**
      * Bind given model listener to events handler.
      *
-     * @param  string  $model
-     * @param  \Illuminate\Events\Dispatcher  $events
+     * @param string                        $model
+     * @param \Illuminate\Events\Dispatcher $events
      */
     protected function addHandler($model, $events)
     {
-        $name = 'eloquent.created: Strimoid\\Models\\'. $model;
-        $events->listen($name, self::class .'@onNew'. $model);
+        $name = 'eloquent.created: Strimoid\\Models\\'.$model;
+        $events->listen($name, self::class.'@onNew'.$model);
     }
 
     /**
@@ -48,7 +46,7 @@ class NewActionHandler {
         UserAction::create([
             'user_id'      => $content->user->getKey(),
             'type'         => UserAction::TYPE_CONTENT,
-            'content_id'   => $content->getKey()
+            'content_id'   => $content->getKey(),
         ]);
     }
 
@@ -60,7 +58,7 @@ class NewActionHandler {
         UserAction::create([
             'user_id'      => $comment->user->getKey(),
             'type'         => UserAction::TYPE_COMMENT,
-            'comment_id'   => $comment->getKey()
+            'comment_id'   => $comment->getKey(),
         ]);
     }
 
@@ -72,7 +70,7 @@ class NewActionHandler {
         UserAction::create([
             'user_id'          => $reply->user->getKey(),
             'type'             => UserAction::TYPE_COMMENT_REPLY,
-            'comment_reply_id' => $reply->getKey()
+            'comment_reply_id' => $reply->getKey(),
         ]);
     }
 
@@ -84,7 +82,7 @@ class NewActionHandler {
         UserAction::create([
             'user_id'      => $entry->user->getKey(),
             'type'         => UserAction::TYPE_ENTRY,
-            'entry_id'     => $entry->getKey()
+            'entry_id'     => $entry->getKey(),
         ]);
     }
 
@@ -96,8 +94,7 @@ class NewActionHandler {
         UserAction::create([
             'user_id'        => $reply->user->getKey(),
             'type'           => UserAction::TYPE_ENTRY_REPLY,
-            'entry_reply_id' => $reply->getKey()
+            'entry_reply_id' => $reply->getKey(),
         ]);
     }
-
 }

@@ -3,14 +3,13 @@
 use Auth;
 use Strimoid\Models\FakeFolder;
 
-class All extends FakeFolder {
-
+class All extends FakeFolder
+{
     protected function getBuilder($model)
     {
-        $builder = with(new $model)->newQuery();
+        $builder = with(new $model())->newQuery();
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $blockedGroups = Auth::user()->blockedGroups();
             $builder->whereNotIn('group_id', (array) $blockedGroups);
 
@@ -30,12 +29,9 @@ class All extends FakeFolder {
             $builder->whereNotIn('domain', $blockedDomains);
         }
 
-        if ($tab == 'new')
-        {
+        if ($tab == 'new') {
             $builder->frontpage(false);
-        }
-        elseif ($tab == 'popular')
-        {
+        } elseif ($tab == 'popular') {
             $builder->frontpage(true);
             $sortBy = $sortBy ?: 'frontpage_at';
         }
@@ -44,5 +40,4 @@ class All extends FakeFolder {
 
         return $builder;
     }
-
-} 
+}

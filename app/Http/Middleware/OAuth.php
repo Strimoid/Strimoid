@@ -1,11 +1,11 @@
-<?php namespace Strimoid\Http\Middleware; 
+<?php namespace Strimoid\Http\Middleware;
 
 use Closure;
 use Illuminate\Auth\Guard;
 use League\OAuth2\Server\ResourceServer;
 
-class OAuth {
-
+class OAuth
+{
     /**
      * The Guard implementation.
      *
@@ -21,7 +21,7 @@ class OAuth {
     /**
      * Create a new filter instance.
      *
-     * @param Guard $auth
+     * @param Guard          $auth
      * @param ResourceServer $server
      */
     public function __construct(Guard $auth, ResourceServer $server)
@@ -33,13 +33,13 @@ class OAuth {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         return $next($request);
     }
-
 }

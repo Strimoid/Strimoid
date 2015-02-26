@@ -11,7 +11,6 @@ use Strimoid\Models\User;
 
 class FakeSeeder extends BaseSeeder
 {
-
     private $groups = [];
     private $users = [];
 
@@ -32,10 +31,9 @@ class FakeSeeder extends BaseSeeder
     protected function cleanDatabase()
     {
         $tables = ['contents', 'entries', 'groups',
-            'group_subscribers', 'users'];
+            'group_subscribers', 'users', ];
 
-        foreach ($tables as $table)
-        {
+        foreach ($tables as $table) {
             DB::table($table)->truncate();
         }
     }
@@ -43,10 +41,10 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeUser()
     {
         $user = User::create([
-            'created_at' => $this->faker->dateTimeThisDecade,
-            'name' => $this->faker->userName,
-            'email' => $this->faker->email,
-            'password' => 'qwe123',
+            'created_at'   => $this->faker->dateTimeThisDecade,
+            'name'         => $this->faker->userName,
+            'email'        => $this->faker->email,
+            'password'     => 'qwe123',
             'is_activated' => true,
         ]);
 
@@ -89,15 +87,15 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeContent(Group $group)
     {
         $content = Content::create([
-            with (new Content)->getKeyName() => $this->getRandomId(),
-            'created_at'    => $this->faker->dateTimeThisDecade,
-            'group_id'      => $group->getKey(),
-            'title'         => $this->faker->sentence(10),
-            'description'   => $this->faker->text(200),
-            'user_id'       => $this->getRandomUser()->getKey(),
-            'url'           => $this->faker->url,
-            'nsfw'          => $this->faker->boolean,
-            'eng'           => $this->faker->boolean,
+            with(new Content())->getKeyName() => $this->getRandomId(),
+            'created_at'                      => $this->faker->dateTimeThisDecade,
+            'group_id'                        => $group->getKey(),
+            'title'                           => $this->faker->sentence(10),
+            'description'                     => $this->faker->text(200),
+            'user_id'                         => $this->getRandomUser()->getKey(),
+            'url'                             => $this->faker->url,
+            'nsfw'                            => $this->faker->boolean,
+            'eng'                             => $this->faker->boolean,
         ]);
 
         $commentsNumber = $this->faker->numberBetween(0, 3);
@@ -110,11 +108,11 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeComment(Content $content)
     {
         $comment = Comment::create([
-            with(new Comment)->getKeyName() => $this->getRandomId(),
-            'content_id'    => $content->getKey(),
-            'created_at'    => $this->faker->dateTimeThisDecade,
-            'text'          => $this->faker->text(512),
-            'user_id'       => $this->getRandomUser()->getKey(),
+            with(new Comment())->getKeyName() => $this->getRandomId(),
+            'content_id'                      => $content->getKey(),
+            'created_at'                      => $this->faker->dateTimeThisDecade,
+            'text'                            => $this->faker->text(512),
+            'user_id'                         => $this->getRandomUser()->getKey(),
         ]);
 
         $repliesNumber = $this->faker->numberBetween(0, 3);
@@ -127,21 +125,21 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeCommentReply(Comment $comment)
     {
         $comment->replies()->create([
-            with(new CommentReply)->getKeyName() => $this->getRandomId(),
-            'created_at'    => $this->faker->dateTimeThisDecade,
-            'text'          => $this->faker->text(512),
-            'user_id'       => $this->getRandomUser()->getKey(),
+            with(new CommentReply())->getKeyName() => $this->getRandomId(),
+            'created_at'                           => $this->faker->dateTimeThisDecade,
+            'text'                                 => $this->faker->text(512),
+            'user_id'                              => $this->getRandomUser()->getKey(),
         ]);
     }
 
     protected function createFakeEntry(Group $group)
     {
         $entry = Entry::create([
-            with(new Entry)->getKeyName() => $this->getRandomId(),
-            'created_at'    => $this->faker->dateTimeThisDecade,
-            'group_id'      => $group->getKey(),
-            'text'          => $this->faker->text(512),
-            'user_id'       => $this->getRandomUser()->getKey(),
+            with(new Entry())->getKeyName() => $this->getRandomId(),
+            'created_at'                    => $this->faker->dateTimeThisDecade,
+            'group_id'                      => $group->getKey(),
+            'text'                          => $this->faker->text(512),
+            'user_id'                       => $this->getRandomUser()->getKey(),
         ]);
 
         $repliesNumber = $this->faker->numberBetween(0, 3);
@@ -154,10 +152,10 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeEntryReply(Entry $entry)
     {
         $entry->replies()->create([
-            with(new EntryReply)->getKeyName() => $this->getRandomId(),
-            'created_at'    => $this->faker->dateTimeThisDecade,
-            'text'          => $this->faker->text(512),
-            'user_id'       => $this->getRandomUser()->getKey(),
+            with(new EntryReply())->getKeyName() => $this->getRandomId(),
+            'created_at'                         => $this->faker->dateTimeThisDecade,
+            'text'                               => $this->faker->text(512),
+            'user_id'                            => $this->getRandomUser()->getKey(),
         ]);
     }
 
@@ -172,6 +170,7 @@ class FakeSeeder extends BaseSeeder
     protected function getRandomId()
     {
         $md5 = $this->faker->unique()->md5;
+
         return substr($md5, 0, 6);
     }
 
@@ -182,5 +181,4 @@ class FakeSeeder extends BaseSeeder
 
         return $this->users[$key];
     }
-
 }

@@ -1,14 +1,14 @@
 <?php namespace Strimoid\Helpers;
 
-use OAuth2\Storage\AuthorizationCodeInterface;
 use OAuth2\Storage\AccessTokenInterface;
+use OAuth2\Storage\AuthorizationCodeInterface;
 use OAuth2\Storage\ClientCredentialsInterface;
-use OAuth2\Storage\UserCredentialsInterface;
-use OAuth2\Storage\RefreshTokenInterface;
 use OAuth2\Storage\JwtBearerInterface;
+use OAuth2\Storage\RefreshTokenInterface;
+use OAuth2\Storage\UserCredentialsInterface;
 
 /**
- * Simple MongoDB storage for all storage types
+ * Simple MongoDB storage for all storage types.
  *
  * NOTE: This class is meant to get users started
  * quickly. If your application requires further
@@ -26,7 +26,7 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
     protected $db;
     protected $config;
 
-    public function __construct($connection, $config = array())
+    public function __construct($connection, $config = [])
     {
         if ($connection instanceof \MongoDB) {
             $this->db = $connection;
@@ -39,12 +39,12 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
             $this->db = $m->{$connection['database']};
         }
 
-        $this->config = array_merge(array(
-            'client_table' => 'oauth_clients',
+        $this->config = array_merge([
+            'client_table'       => 'oauth_clients',
             'access_token_table' => 'oauth_access_tokens',
-            'code_table' => 'oauth_authorization_codes',
-            'user_table' => 'oauth_users',
-        ), $config);
+            'code_table'         => 'oauth_authorization_codes',
+            'user_table'         => 'oauth_users',
+        ], $config);
     }
 
     // Helper function to access a MongoDB collection by `type`:
@@ -56,7 +56,7 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
     /* ClientCredentialsInterface */
     public function checkClientCredentials($client_id, $client_secret = null)
     {
-        if ($result = $this->collection('client_table')->findOne(array('_id' => $client_id))) {
+        if ($result = $this->collection('client_table')->findOne(['_id' => $client_id])) {
             return $result['client_secret'] == $client_secret;
         }
 
@@ -65,7 +65,7 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
 
     public function isPublicClient($client_id)
     {
-        if (!$result = $this->collection('client_table')->findOne(array('_id' => $client_id))) {
+        if (!$result = $this->collection('client_table')->findOne(['_id' => $client_id])) {
             return false;
         }
 
@@ -75,7 +75,7 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
     /* ClientInterface */
     public function getClientDetails($client_id)
     {
-        $result = $this->collection('client_table')->findOne(array('_id' => $client_id));
+        $result = $this->collection('client_table')->findOne(['_id' => $client_id]);
 
         return is_null($result) ? false : $result;
     }
@@ -84,25 +84,25 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
     {
         if ($this->getClientDetails($client_id)) {
             $this->collection('client_table')->update(
-                array('_id' => $client_id),
-                array('$set' => array(
+                ['_id'  => $client_id],
+                ['$set' => [
                     'client_secret' => $client_secret,
                     'redirect_uri'  => $redirect_uri,
                     'grant_types'   => $grant_types,
                     'scope'         => $scope,
                     'user_id'       => $user_id,
-                ))
+                ]]
             );
         } else {
             $this->collection('client_table')->insert(
-                array(
-                    '_id'     => $client_id,
+                [
+                    '_id'           => $client_id,
                     'client_secret' => $client_secret,
                     'redirect_uri'  => $redirect_uri,
                     'grant_types'   => $grant_types,
                     'scope'         => $scope,
                     'user_id'       => $user_id,
-                )
+                ]
             );
         }
 
@@ -125,10 +125,9 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
     /* AccessTokenInterface */
     public function getAccessToken($access_token)
     {
-        $token = $this->collection('access_token_table')->findOne(array('_id' => $access_token));
+        $token = $this->collection('access_token_table')->findOne(['_id' => $access_token]);
 
-        if (is_null($token))
-        {
+        if (is_null($token)) {
             return false;
         }
 
@@ -143,32 +142,31 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
         // if it exists, update it.
         if ($this->getAccessToken($access_token)) {
             $this->collection('access_token_table')->update(
-                array('_id' => $access_token),
-                array('$set' => array(
+                ['_id'  => $access_token],
+                ['$set' => [
                     'client_id' => $client_id,
-                    'user_id' => $user_id,
-                    'scope' => $scope
-                ))
+                    'user_id'   => $user_id,
+                    'scope'     => $scope,
+                ]]
             );
         } else {
             $this->collection('access_token_table')->insert(
-                array(
-                    '_id' => $access_token,
+                [
+                    '_id'       => $access_token,
                     'client_id' => $client_id,
-                    'user_id' => $user_id,
-                    'scope' => $scope
-                )
+                    'user_id'   => $user_id,
+                    'scope'     => $scope,
+                ]
             );
         }
 
         return true;
     }
 
-
     /* AuthorizationCodeInterface */
     public function getAuthorizationCode($code)
     {
-        $code = $this->collection('code_table')->findOne(array('_id' => $code));
+        $code = $this->collection('code_table')->findOne(['_id' => $code]);
 
         return is_null($code) ? false : $code;
     }
@@ -178,27 +176,27 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
         // if it exists, update it.
         if ($this->getAuthorizationCode($code)) {
             $this->collection('code_table')->update(
-                array('_id' => $code),
-                array('$set' => array(
-                    'client_id' => $client_id,
-                    'user_id' => $user_id,
+                ['_id'  => $code],
+                ['$set' => [
+                    'client_id'    => $client_id,
+                    'user_id'      => $user_id,
                     'redirect_uri' => $redirect_uri,
-                    'expires' => $expires,
-                    'scope' => $scope,
-                    'id_token' => $id_token,
-                ))
+                    'expires'      => $expires,
+                    'scope'        => $scope,
+                    'id_token'     => $id_token,
+                ]]
             );
         } else {
             $this->collection('code_table')->insert(
-                array(
-                    '_id' => $code,
-                    'client_id' => $client_id,
-                    'user_id' => $user_id,
+                [
+                    '_id'          => $code,
+                    'client_id'    => $client_id,
+                    'user_id'      => $user_id,
                     'redirect_uri' => $redirect_uri,
-                    'expires' => $expires,
-                    'scope' => $scope,
-                    'id_token' => $id_token,
-                )
+                    'expires'      => $expires,
+                    'scope'        => $scope,
+                    'id_token'     => $id_token,
+                ]
             );
         }
 
@@ -207,7 +205,7 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
 
     public function expireAuthorizationCode($code)
     {
-        $this->collection('code_table')->remove(array('_id' => $code));
+        $this->collection('code_table')->remove(['_id' => $code]);
 
         return true;
     }
@@ -218,6 +216,7 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
         if ($user = $this->getUser($username)) {
             return $this->checkPassword($user, $password);
         }
+
         return false;
     }
     public function getUserDetails($username)
@@ -225,30 +224,34 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
         if ($user = $this->getUser($username)) {
             $user['user_id'] = $user['username'];
         }
+
         return $user;
     }
     /* RefreshTokenInterface */
     public function getRefreshToken($refresh_token)
     {
-        $token = $this->collection('refresh_token_table')->findOne(array('refresh_token' => $refresh_token));
+        $token = $this->collection('refresh_token_table')->findOne(['refresh_token' => $refresh_token]);
+
         return is_null($token) ? false : $token;
     }
     public function setRefreshToken($refresh_token, $client_id, $user_id, $expires, $scope = null)
     {
         $this->collection('refresh_token_table')->insert(
-            array(
+            [
                 'refresh_token' => $refresh_token,
-                'client_id' => $client_id,
-                'user_id' => $user_id,
-                'expires' => $expires,
-                'scope' => $scope
-            )
+                'client_id'     => $client_id,
+                'user_id'       => $user_id,
+                'expires'       => $expires,
+                'scope'         => $scope,
+            ]
         );
+
         return true;
     }
     public function unsetRefreshToken($refresh_token)
     {
-        $this->collection('refresh_token_table')->remove(array('refresh_token' => $refresh_token));
+        $this->collection('refresh_token_table')->remove(['refresh_token' => $refresh_token]);
+
         return true;
     }
     // plaintext passwords are bad!  Override this for your application
@@ -258,38 +261,41 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
     }
     public function getUser($username)
     {
-        $result = $this->collection('user_table')->findOne(array('username' => $username));
+        $result = $this->collection('user_table')->findOne(['username' => $username]);
+
         return is_null($result) ? false : $result;
     }
     public function setUser($username, $password, $firstName = null, $lastName = null)
     {
         if ($this->getUser($username)) {
             $this->collection('user_table')->update(
-                array('username' => $username),
-                array('$set' => array(
-                    'password' => $password,
+                ['username' => $username],
+                ['$set'     => [
+                    'password'   => $password,
                     'first_name' => $firstName,
-                    'last_name' => $lastName
-                ))
+                    'last_name'  => $lastName,
+                ]]
             );
         } else {
             $this->collection('user_table')->insert(
-                array(
-                    'username' => $username,
-                    'password' => $password,
+                [
+                    'username'   => $username,
+                    'password'   => $password,
                     'first_name' => $firstName,
-                    'last_name' => $lastName
-                )
+                    'last_name'  => $lastName,
+                ]
             );
         }
+
         return true;
     }
     public function getClientKey($client_id, $subject)
     {
-        $result = $this->collection('jwt_table')->findOne(array(
+        $result = $this->collection('jwt_table')->findOne([
             'client_id' => $client_id,
-            'subject' => $subject
-        ));
+            'subject'   => $subject,
+        ]);
+
         return is_null($result) ? false : $result['key'];
     }
     public function getClientScope($client_id)
@@ -300,7 +306,8 @@ class MongoOAuthStorage implements AuthorizationCodeInterface, AccessTokenInterf
         if (isset($clientDetails['scope'])) {
             return $clientDetails['scope'];
         }
-        return null;
+
+        return;
     }
     public function getJti($client_id, $subject, $audience, $expiration, $jti)
     {

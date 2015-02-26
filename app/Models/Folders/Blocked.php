@@ -3,14 +3,13 @@
 use Auth;
 use Strimoid\Models\FakeFolder;
 
-class Blocked extends FakeFolder {
-
+class Blocked extends FakeFolder
+{
     protected function getBuilder($model)
     {
-        $builder = with(new $model)->newQuery();
+        $builder = with(new $model())->newQuery();
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $blockedGroups = Auth::user()->blockedGroups();
             $builder->whereIn('group_id', (array) $blockedGroups);
 
@@ -28,10 +27,11 @@ class Blocked extends FakeFolder {
         $blockedDomains = Auth::user()->blockedDomains();
         $builder->orWhereIn('domain', $blockedDomains);
 
-        if ($tab == 'popular') $builder->popular();
+        if ($tab == 'popular') {
+            $builder->popular();
+        }
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $builder;
     }
-
 }

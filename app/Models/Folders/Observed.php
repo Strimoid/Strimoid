@@ -3,11 +3,11 @@
 use Auth;
 use Strimoid\Models\FakeFolder;
 
-class Observed extends FakeFolder {
-
+class Observed extends FakeFolder
+{
     protected function getBuilder($model)
     {
-        $builder = with(new $model)->newQuery();
+        $builder = with(new $model())->newQuery();
 
         $observedUsers = (array) Auth::user()->_observed_users;
         $builder->whereIn('user_id', $observedUsers);
@@ -17,5 +17,4 @@ class Observed extends FakeFolder {
 
         return $builder;
     }
-
-} 
+}

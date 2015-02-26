@@ -3,11 +3,11 @@
 use Auth;
 use Strimoid\Models\FakeFolder;
 
-class Subscribed extends FakeFolder {
-
+class Subscribed extends FakeFolder
+{
     protected function getBuilder($model)
     {
-        $builder = with(new $model)->newQuery();
+        $builder = with(new $model())->newQuery();
 
         $subscribedGroups = Auth::user()->subscribedGroups();
         $builder->whereIn('group_id', $subscribedGroups);
@@ -17,5 +17,4 @@ class Subscribed extends FakeFolder {
 
         return $builder;
     }
-
-} 
+}
