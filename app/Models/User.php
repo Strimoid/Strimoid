@@ -135,6 +135,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $groups = DB::table('group_blocks')
             ->where('user_id', $this->getKey())
             ->lists('group_id');
+
         return (array) $groups;
     }
     public function blockedUsers()
@@ -142,6 +143,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $users = DB::table('user_blocks')
             ->where('user_id', $this->getKey())
             ->lists('target_id');
+
         return (array) $users;
     }
     public function subscribedGroups()
@@ -149,6 +151,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $groups = DB::table('group_subscribers')
             ->where('user_id', $this->getKey())
             ->lists('group_id');
+
         return (array) $groups;
     }
 
