@@ -10,3 +10,5 @@ bower_components/
 public/static/js/
 public/static/css/
 .bowery
+public/assets/
+public/build/
