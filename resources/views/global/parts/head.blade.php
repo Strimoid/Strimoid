@@ -13,7 +13,7 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-@if (App::environment('local'))
+@if (App::environment('local', 'testing'))
     <link href="/assets/css/vendor.css" rel="stylesheet">
     <link href="/assets/css/all.css" rel="stylesheet">
     <script src="/assets/js/vendor.js"></script>
