@@ -13,10 +13,11 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-<link href="{!! $cssFilename !!}" rel="stylesheet">
+<link href="{{ elixir('assets/css/vendor.css') }}" rel="stylesheet">
+<link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
 
 @if (Input::get('night') || isset($_COOKIE['night_mode']))
-    <link href="/static/css/night.css?1" rel="stylesheet" data-id="night_mode">
+    <link href="/static/css/night.css" rel="stylesheet" data-id="night_mode">
 @endif
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
@@ -28,8 +29,9 @@
     <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">
 @endif
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
+<script src="/static/js/components.js"></script>
 
-<script src="{!! $componentsFilename !!}"></script>
+<script src="{{ elixir('assets/js/vendor.js') }}"></script>
 
 @yield('head')

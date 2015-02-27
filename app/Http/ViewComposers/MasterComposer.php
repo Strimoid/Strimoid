@@ -28,12 +28,6 @@ class MasterComposer
     {
         $data = $view->getData();
 
-        $assetsHost = env('ASSETS_HOST', 'https://static.strimoid.pl');
-
-        $view->with('cssFilename', $assetsHost.Config::get('assets.style'));
-        $view->with('jsFilename', $assetsHost.Config::get('assets.app'));
-        $view->with('componentsFilename', $assetsHost.Config::get('assets.components'));
-
         if (Auth::check()) {
             // Load last 15 notifications
             $notifications = Notification::with('sourceUser')
