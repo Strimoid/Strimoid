@@ -105,7 +105,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
     @include('global.parts.footer')
 </footer>
 
-<script src="{{ elixir('assets/js/all.js') }}"></script>
+@if (App::environment('local'))
+    <script src="/assets/js/all.js"></script>
+@else
+    <script src="{{ elixir('assets/js/all.js') }}"></script>
+@endif
 
 @if (Auth::check())
 <script>

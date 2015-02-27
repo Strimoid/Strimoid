@@ -13,8 +13,15 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-<link href="{{ elixir('assets/css/vendor.css') }}" rel="stylesheet">
-<link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
+@if (App::environment('local'))
+    <link href="/assets/css/vendor.css" rel="stylesheet">
+    <link href="/assets/css/all.css" rel="stylesheet">
+    <script src="/assets/js/vendor.js"></script>
+@else
+    <link href="{{ elixir('assets/css/vendor.css') }}" rel="stylesheet">
+    <link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
+    <script src="{{ elixir('assets/js/vendor.js') }}"></script>
+@endif
 
 @if (Input::get('night') || isset($_COOKIE['night_mode']))
     <link href="/static/css/night.css" rel="stylesheet" data-id="night_mode">
@@ -31,7 +38,5 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
 <script src="/static/js/components.js"></script>
-
-<script src="{{ elixir('assets/js/vendor.js') }}"></script>
 
 @yield('head')
