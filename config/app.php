@@ -174,10 +174,12 @@ return [
         /*
          * Third party Service Providers...
          */
+        'duxet\Realtime\RealtimeServiceProvider',
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Intervention\Image\ImageServiceProvider',
-        'duxet\Realtime\RealtimeServiceProvider',
+        'Jenssegers\Date\DateServiceProvider',
+        'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
 
     ],
 
@@ -229,8 +231,7 @@ return [
         'Str'                => 'Illuminate\Support\Str',
         'BootstrapPresenter' => 'Illuminate\Pagination\BootstrapThreePresenter',
 
-        'Carbon'    => 'Carbon\Carbon',
-        'DateTime'  => 'DateTime',
+        'Carbon'    => 'Jenssegers\Date\Date',
         'Image'     => 'Intervention\Image\Facades\Image',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',

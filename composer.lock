@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "52874fa021fa817f470b1d934d75a525",
+    "hash": "306cd3d60fb3e6643f05d8f8b13a46c4",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -275,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-realtime.git",
-                "reference": "ccb02ed800978d021ec966af5335030140330eac"
+                "reference": "e492f0e36e5057cda1b18a51a3eab6871e8b3949"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/ccb02ed800978d021ec966af5335030140330eac",
-                "reference": "ccb02ed800978d021ec966af5335030140330eac",
+                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/e492f0e36e5057cda1b18a51a3eab6871e8b3949",
+                "reference": "e492f0e36e5057cda1b18a51a3eab6871e8b3949",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
                 "pubsub",
                 "realtime"
             ],
-            "time": "2015-02-25 19:12:41"
+            "time": "2015-02-27 08:27:06"
         },
         {
             "name": "graham-campbell/manager",
@@ -700,16 +700,16 @@
         },
         {
             "name": "guzzlehttp/ringphp",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/RingPHP.git",
-                "reference": "a903f51b692427318bc813217c0e6505287e79a4"
+                "reference": "f43ab34aad69ca0ba04172cf2c3cd5c12fc0e5a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/a903f51b692427318bc813217c0e6505287e79a4",
-                "reference": "a903f51b692427318bc813217c0e6505287e79a4",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/f43ab34aad69ca0ba04172cf2c3cd5c12fc0e5a4",
+                "reference": "f43ab34aad69ca0ba04172cf2c3cd5c12fc0e5a4",
                 "shasum": ""
             },
             "require": {
@@ -746,7 +746,8 @@
                     "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "time": "2014-12-11 05:50:32"
+            "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "time": "2015-02-26 20:43:09"
         },
         {
             "name": "guzzlehttp/streams",
@@ -1079,6 +1080,54 @@
             "time": "2015-01-22 22:44:57"
         },
         {
+            "name": "jenssegers/date",
+            "version": "v2.0.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jenssegers/laravel-date.git",
+                "reference": "d30ab1b3aeb42eba124f31efd6ad15e411433958"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jenssegers/laravel-date/zipball/d30ab1b3aeb42eba124f31efd6ad15e411433958",
+                "reference": "d30ab1b3aeb42eba124f31efd6ad15e411433958",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "*",
+                "php": ">=5.3.0",
+                "symfony/translation": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*",
+                "satooshi/php-coveralls": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Jenssegers\\Date": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens Segers",
+                    "homepage": "http://jenssegers.be"
+                }
+            ],
+            "description": "A date library to help you work with dates",
+            "keywords": [
+                "date",
+                "datetime",
+                "laravel",
+                "time"
+            ],
+            "time": "2015-02-25 12:41:21"
+        },
+        {
             "name": "jenssegers/mongodb",
             "version": "dev-master",
             "source": {
@@ -1351,17 +1400,61 @@
             "time": "2015-02-16 12:45:33"
         },
         {
-            "name": "laravel/framework",
-            "version": "v5.0.7",
+            "name": "laracasts/utilities",
+            "version": "2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "f46adbb5bc753bd9503ee232e8ce1f4421a78b2a"
+                "url": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer.git",
+                "reference": "fb96d2de843086af87b175c890d75561da66d393"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f46adbb5bc753bd9503ee232e8ce1f4421a78b2a",
-                "reference": "f46adbb5bc753bd9503ee232e8ce1f4421a78b2a",
+                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/fb96d2de843086af87b175c890d75561da66d393",
+                "reference": "fb96d2de843086af87b175c890d75561da66d393",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laracasts\\Utilities\\JavaScript\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Transform your PHP to JavaScript",
+            "keywords": [
+                "javascript",
+                "laravel"
+            ],
+            "time": "2015-02-06 17:35:14"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v5.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "c263240daa383e6b9bd979600dc61dcb2c436d53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/c263240daa383e6b9bd979600dc61dcb2c436d53",
+                "reference": "c263240daa383e6b9bd979600dc61dcb2c436d53",
                 "shasum": ""
             },
             "require": {
@@ -1473,7 +1566,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-02-25 20:23:22"
+            "time": "2015-02-27 00:32:38"
         },
         {
             "name": "league/commonmark",
@@ -3352,16 +3445,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "77b9cc071f4bbd839923269668b14d308778d8b0"
+                "reference": "7bdf8acf3b955f4fcf922e74abdfdec370369196"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/77b9cc071f4bbd839923269668b14d308778d8b0",
-                "reference": "77b9cc071f4bbd839923269668b14d308778d8b0",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/7bdf8acf3b955f4fcf922e74abdfdec370369196",
+                "reference": "7bdf8acf3b955f4fcf922e74abdfdec370369196",
                 "shasum": ""
             },
             "require": {
@@ -3402,20 +3495,20 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2015-02-15 14:11:42"
+            "time": "2015-02-19 10:26:39"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "317ef794a579474e96eaec1d6c1c5e0f7ac6ee5e"
+                "reference": "81b7febfc64168ea1af57261aa4dfc9acefd5429"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/317ef794a579474e96eaec1d6c1c5e0f7ac6ee5e",
-                "reference": "317ef794a579474e96eaec1d6c1c5e0f7ac6ee5e",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/81b7febfc64168ea1af57261aa4dfc9acefd5429",
+                "reference": "81b7febfc64168ea1af57261aa4dfc9acefd5429",
                 "shasum": ""
             },
             "require": {
@@ -3465,7 +3558,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2015-02-04 08:12:01"
+            "time": "2015-02-23 15:55:54"
         },
         {
             "name": "behat/behat",
