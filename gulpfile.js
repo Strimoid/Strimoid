@@ -13,3 +13,8 @@ elixir(function(mix) {
             'public/assets/js/vendor.js'
         ]);
 });
+
+elixir(function(mix) {
+    mix.copy('bower_components/bootstrap/dist/fonts', 'public/assets/fonts')
+       .copy('bower_components/bootstrap/dist/fonts', 'public/build/assets/fonts');
+});
