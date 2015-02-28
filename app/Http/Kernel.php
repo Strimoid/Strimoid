@@ -2,8 +2,8 @@
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
-class Kernel extends HttpKernel {
-
+class Kernel extends HttpKernel
+{
     /**
      * The application's global HTTP middleware stack.
      *
@@ -27,10 +27,9 @@ class Kernel extends HttpKernel {
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => 'Strimoid\Http\Middleware\Authenticate',
+        'auth'       => 'Strimoid\Http\Middleware\Authenticate',
         'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-        'guest' => 'Strimoid\Http\Middleware\RedirectIfAuthenticated',
-        'oauth' => 'Strimoid\Http\Middleware\OAuth',
+        'guest'      => 'Strimoid\Http\Middleware\RedirectIfAuthenticated',
+        'oauth'      => 'Strimoid\Http\Middleware\OAuth',
     ];
-
 }

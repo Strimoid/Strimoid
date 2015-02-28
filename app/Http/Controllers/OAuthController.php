@@ -1,14 +1,14 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Response;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthException;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use Response;
 use Strimoid\Models\OAuth\Client;
 
-class OAuthController extends BaseController {
-
+class OAuthController extends BaseController
+{
     use ValidatesRequests;
 
     /**
@@ -26,16 +26,14 @@ class OAuthController extends BaseController {
      */
     public function getAccessToken()
     {
-        try
-        {
+        try {
             $response = $this->server->issueAccessToken();
+
             return Response::json($response);
-        }
-        catch(OAuthException $e)
-        {
+        } catch (OAuthException $e) {
             return Response::json([
-                'error'     =>  $e->errorType,
-                'message'   =>  $e->getMessage()
+                'error'     => $e->errorType,
+                'message'   => $e->getMessage(),
             ], $e->httpStatusCode);
         }
     }
@@ -65,8 +63,8 @@ class OAuthController extends BaseController {
     public function addApp(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|min:5|max:40',
-            'redirect_url' => 'required|url|max:255'
+            'name'         => 'required|min:5|max:40',
+            'redirect_url' => 'required|url|max:255',
         ]);
 
         Client::create([
@@ -79,5 +77,4 @@ class OAuthController extends BaseController {
 
         return Redirect::action('OAuthController@listApps');
     }
-
 }

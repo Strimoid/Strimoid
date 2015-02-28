@@ -1,13 +1,14 @@
-<?php namespace Strimoid\Models\Traits; 
+<?php namespace Strimoid\Models\Traits;
 
-use Image, Storage, Str;
+use Image;
+use Storage;
+use Str;
 
 /**
- * Class HasAvatar
- * @package Strimoid\Models\Traits
+ * Class HasAvatar.
  */
-trait HasAvatar {
-
+trait HasAvatar
+{
     /**
      * Set entity avatar to image from given path.
      *
@@ -17,13 +18,13 @@ trait HasAvatar {
     {
         $this->deleteAvatar();
 
-        $filename = Str::random(8) .'.png';
+        $filename = Str::random(8).'.png';
 
         $img = Image::make($file);
         $img->fit(100, 100);
         $img->encode('png');
 
-        $path = $this->avatarPath . $filename;
+        $path = $this->avatarPath.$filename;
         Storage::disk('uploads')->put($path, $img);
 
         $this->avatar = $filename;
@@ -34,12 +35,13 @@ trait HasAvatar {
      */
     public function deleteAvatar()
     {
-        if ( ! $this->avatar) return;
+        if (! $this->avatar) {
+            return;
+        }
 
-        $path = $this->avatarPath . $this->avatar;
+        $path = $this->avatarPath.$this->avatar;
         Storage::disk('uploads')->delete($path);
 
         $this->unset('avatar');
     }
-
 }

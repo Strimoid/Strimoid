@@ -1,3 +1,5 @@
-<?php namespace Strimoid\Exceptions; 
+<?php namespace Strimoid\Exceptions;
 
-class EntityNotFoundException extends \Exception {}
+class EntityNotFoundException extends \Exception
+{
+}

@@ -1,31 +1,32 @@
-<?php namespace Strimoid\Models\Traits; 
+<?php namespace Strimoid\Models\Traits;
 
-use Config, Image, OEmbed, Storage, Str;
+use Config;
+use Image;
+use OEmbed;
+use Storage;
+use Str;
 
 /**
- * Class HasThumbnail
- * @package Strimoid\Models\Traits
+ * Class HasThumbnail.
  */
-trait HasThumbnail {
-
+trait HasThumbnail
+{
     /**
      * Get path to thumbnail in requested size.
      *
-     * @param  null  $width   Width in pixels
-     * @param  null  $height  Height in pixels
+     * @param null $width  Width in pixels
+     * @param null $height Height in pixels
+     *
      * @return string Path to thumbnail
      */
     public function getThumbnailPath($width = null, $height = null)
     {
         $host = Config::get('app.cdn_host');
 
-        if ($this->thumbnail && $width && $height)
-        {
-            return $host .'/'. $width .'x'. $height .'/thumbnails/'. $this->thumbnail;
-        }
-        elseif ($this->thumbnail)
-        {
-            return $host .'/thumbnails/'. $this->thumbnail;
+        if ($this->thumbnail && $width && $height) {
+            return $host.'/'.$width.'x'.$height.'/thumbnails/'.$this->thumbnail;
+        } elseif ($this->thumbnail) {
+            return $host.'/thumbnails/'.$this->thumbnail;
         }
 
         return '';
@@ -37,7 +38,9 @@ trait HasThumbnail {
     public function autoThumbnail()
     {
         $url = OEmbed::getThumbnail($this->url);
-        if ($url) $this->setThumbnail($url);
+        if ($url) {
+            $this->setThumbnail($url);
+        }
     }
 
     /**
@@ -49,10 +52,12 @@ trait HasThumbnail {
     {
         $this->removeThumbnail();
 
-        if (starts_with($url, '//')) $url = 'http:'. $url;
+        if (starts_with($url, '//')) {
+            $url = 'http:'.$url;
+        }
 
         $data = file_get_contents($url);
-        $filename = Str::random(9) .'.png';
+        $filename = Str::random(9).'.png';
 
         $img = Image::make($data);
         $img->fit(640, 480);
@@ -69,10 +74,11 @@ trait HasThumbnail {
      */
     public function removeThumbnail()
     {
-        if ( ! $this->thumbnail) return;
+        if (! $this->thumbnail) {
+            return;
+        }
 
-        Storage::disk('uploads')->delete('thumbnails/'. $this->thumbnail);
+        Storage::disk('uploads')->delete('thumbnails/'.$this->thumbnail);
         $this->unset('thumbnail');
     }
-
 }

@@ -1,8 +1,7 @@
 <?php
 
-Route::group(['prefix' => 'api/v1'], function()
-{
-    Route::get('/', function() {
+Route::group(['prefix' => 'api/v1'], function () {
+    Route::get('/', function () {
         return '<a href="https://developers.strimoid.pl">API Documentation</a>';
     });
 
@@ -48,14 +47,14 @@ Route::group(['prefix' => 'api/v1'], function()
 
     // Notifications
     Route::get('/notifications', [
-        'middleware' => 'auth', 'uses' => 'NotificationController@listNotifications'
+        'middleware' => 'auth', 'uses' => 'NotificationController@listNotifications',
     ]);
     Route::patch('/notification/{notification}', [
-        'middleware' => 'auth', 'uses' => 'NotificationController@edit'
+        'middleware' => 'auth', 'uses' => 'NotificationController@edit',
     ]);
 
     Route::post('/notifications/register_gcm', [
-        'middleware' => 'auth', 'uses' => 'NotificationController@registerGCM'
+        'middleware' => 'auth', 'uses' => 'NotificationController@registerGCM',
     ]);
 
     // Ranking
@@ -84,7 +83,7 @@ Route::delete('/me/blocked_domain/{domain}', ['middleware' => 'auth', 'uses' => 
 Route::get('/users.json', 'UserController@showJSONList');
 
 Route::get('/register', ['middleware' => 'guest', 'uses' => 'UserController@showRegisterForm']);
-Route::post('/register', ['middleware' => 'guest','uses' => 'UserController@processRegistration']);
+Route::post('/register', ['middleware' => 'guest', 'uses' => 'UserController@processRegistration']);
 
 Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => 'UserController@showLoginForm']);
 Route::post('/login', ['middleware' => 'guest', 'uses' => 'UserController@login']);
@@ -101,9 +100,9 @@ Route::get('/account/activate/{token}', 'UserController@activateAccount');
 Route::get('/account/remove', 'UserController@showRemoveAccountForm');
 Route::post('/account/remove', 'UserController@removeAccount');
 
-Route::get('/u/{username}', ['as' => 'user_profile', 'uses' =>'UserController@showProfile']);
+Route::get('/u/{username}', ['as' => 'user_profile', 'uses' => 'UserController@showProfile']);
 
-Route::get('/u/{username}/{type}', ['as' => 'user_profile.type_filter', 'uses' =>'UserController@showProfile']);
+Route::get('/u/{username}/{type}', ['as' => 'user_profile.type_filter', 'uses' => 'UserController@showProfile']);
 
 Route::post('/settings/change_password', ['middleware' => 'auth', 'uses' => 'UserController@changePassword']);
 Route::post('/settings/change_email', ['middleware' => 'auth', 'uses' => 'UserController@changeEmail']);
@@ -124,21 +123,20 @@ Route::post('/settings/save/settings', ['middleware' => 'auth', 'uses' => 'Setti
 /* Conversations ==================================================================================================== */
 Route::get('/conversations', ['middleware' => 'auth', 'uses' => 'ConversationController@showConversation']);
 Route::get('/conversation/{id}', [
-    'as' => 'conversation',
+    'as'         => 'conversation',
     'middleware' => 'auth',
-    'uses' => 'ConversationController@showConversation'
+    'uses'       => 'ConversationController@showConversation',
 ]);
 
 Route::get('/conversations/new', ['middleware' => 'auth', 'uses' => 'ConversationController@showCreateForm']);
 Route::get('/conversations/new/{user}', [
-    'as' => 'conversation.new_user',
+    'as'         => 'conversation.new_user',
     'middleware' => 'auth',
-    'uses' => 'ConversationController@showCreateForm'
+    'uses'       => 'ConversationController@showCreateForm',
 ]);
 
 Route::post('/conversations/new', ['middleware' => 'auth', 'uses' => 'ConversationController@createConversation']);
 Route::post('/conversations/send', ['middleware' => 'auth', 'uses' => 'ConversationController@sendMessage']);
-
 
 /* Notifications ==================================================================================================== */
 Route::get('/ajax/notification/get/{count}', ['middleware' => 'auth', 'uses' => 'NotificationController@showJSONList']);
@@ -146,7 +144,6 @@ Route::get('/ajax/notification/get_count', ['middleware' => 'auth', 'uses' => 'N
 Route::post('/ajax/notification/mark_all_read', ['middleware' => 'auth', 'uses' => 'NotificationController@markAllAsRead']);
 
 Route::get('/notifications', ['middleware' => 'auth', 'uses' => 'NotificationController@showList']);
-
 
 /* Contents ========================================================================================================= */
 Route::get('/', ['as' => 'global_contents', 'uses' => 'ContentController@showContentsFromGroup']);
@@ -156,28 +153,28 @@ Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@
 Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContentsFromGroup']);
 
 Route::get('/g/{group}', [
-    'as' => 'group_contents',
-    'uses' => 'ContentController@showContentsFromGroup'
+    'as'   => 'group_contents',
+    'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/g/{group}/rss', [
-    'as' => 'group_contents_rss',
-    'uses' => 'ContentController@showContentsFromGroup'
+    'as'   => 'group_contents_rss',
+    'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/g/{group}/new', [
-    'as' => 'group_contents_new',
-    'uses' => 'ContentController@showContentsFromGroup'
+    'as'   => 'group_contents_new',
+    'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/g/{group}/new/rss', [
-    'as' => 'group_contents_new_rss',
-    'uses' => 'ContentController@showContentsFromGroup'
+    'as'   => 'group_contents_new_rss',
+    'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/g/{group}/deleted', [
-    'as' => 'group_contents_deleted',
-    'uses' => 'ContentController@showContentsFromGroup'
+    'as'   => 'group_contents_deleted',
+    'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/c/{content}', ['as' => 'content_comments', 'uses' => 'ContentController@showComments']);
@@ -204,14 +201,13 @@ Route::get('/c/{content}/{slug}', ['as' => 'content_comments_slug', 'uses' => 'C
 
 Route::post('/c/{content}/add_vote', ['middleware' => 'auth', 'uses' => 'PollController@addVote']);
 
-
 /* Comments ========================================================================================================= */
 
 Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showCommentsFromGroup']);
 
 Route::get('/g/{group}/comments', [
-    'as' => 'group_comments',
-    'uses' => 'CommentController@showCommentsFromGroup'
+    'as'   => 'group_comments',
+    'uses' => 'CommentController@showCommentsFromGroup',
 ]);
 
 Route::post('/ajax/comment/add', ['middleware' => 'auth', 'uses' => 'CommentController@addComment']);
@@ -220,23 +216,22 @@ Route::post('/ajax/comment/source', ['middleware' => 'auth', 'uses' => 'CommentC
 Route::post('/ajax/comment/edit', ['middleware' => 'auth', 'uses' => 'CommentController@editComment']);
 Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentController@removeComment']);
 
-
 /* Entries ========================================================================================================== */
 Route::get('/entries', ['as' => 'global_entries', 'uses' => 'EntryController@showEntriesFromGroup']);
 
 Route::get('/g/{group}/entries', [
-    'as' => 'group_entries',
-    'uses' => 'EntryController@showEntriesFromGroup'
+    'as'   => 'group_entries',
+    'uses' => 'EntryController@showEntriesFromGroup',
 ]);
 
 Route::get('/e/{id}', [
-    'as' => 'single_entry',
-    'uses' => 'EntryController@showEntry'
+    'as'   => 'single_entry',
+    'uses' => 'EntryController@showEntry',
 ]);
 
 Route::get('/er/{id}', [
-    'as' => 'single_entry_reply',
-    'uses' => 'EntryController@showEntry'
+    'as'   => 'single_entry_reply',
+    'uses' => 'EntryController@showEntry',
 ]);
 
 Route::get('/ajax/entry/{id}/replies', 'EntryController@getEntryReplies');
@@ -246,7 +241,6 @@ Route::post('/ajax/entry/add/reply', ['middleware' => 'auth', 'uses' => 'EntryCo
 Route::post('/ajax/entry/source', ['middleware' => 'auth', 'uses' => 'EntryController@getEntrySource']);
 Route::post('/ajax/entry/edit', ['middleware' => 'auth', 'uses' => 'EntryController@editEntry']);
 Route::post('/ajax/entry/remove', ['middleware' => 'auth', 'uses' => 'EntryController@removeEntry']);
-
 
 /* Groups =========================================================================================================== */
 Route::get('/intro', 'GroupController@showWizard');
@@ -265,10 +259,10 @@ Route::post('/groups/remove_moderator', ['middleware' => 'auth', 'uses' => 'Grou
 Route::post('/groups/ban', ['middleware' => 'auth', 'uses' => 'GroupController@addBan']);
 Route::post('/groups/unban', ['middleware' => 'auth', 'uses' => 'GroupController@removeBan']);
 
-Route::get('/g/{group}/moderators', ['as' => 'group_moderators', 'uses' =>'GroupController@showModeratorList']);
-Route::get('/g/{group}/banned', ['as' => 'group_banned', 'uses' =>'GroupController@showBannedList']);
+Route::get('/g/{group}/moderators', ['as' => 'group_moderators', 'uses' => 'GroupController@showModeratorList']);
+Route::get('/g/{group}/banned', ['as' => 'group_banned', 'uses' => 'GroupController@showBannedList']);
 
-Route::get('/g/{group}/settings', ['middleware' => 'auth', 'as' => 'group_settings', 'uses' =>'GroupController@showSettings']);
+Route::get('/g/{group}/settings', ['middleware' => 'auth', 'as' => 'group_settings', 'uses' => 'GroupController@showSettings']);
 
 Route::post('/g/{group}/settings/save/profile', ['middleware' => 'auth', 'uses' => 'GroupController@saveProfile']);
 Route::post('/g/{group}/settings/save/settings', ['middleware' => 'auth', 'uses' => 'GroupController@saveSettings']);
@@ -284,7 +278,6 @@ Route::get('/kreator', ['as' => 'wizard', 'middleware' => 'auth', 'uses' => 'Gro
 Route::get('/kreator/{tag}', ['as' => 'wizard_tag', 'middleware' => 'auth', 'uses' => 'GroupController@wizard']);
 
 Route::get('/ajax/group/{group}/sidebar', ['middleware' => 'auth', 'uses' => 'GroupController@getSidebar']);
-
 
 /* Folders ========================================================================================================== */
 Route::get('/f/{folder}', ['as' => 'folder_contents', 'middleware' => 'auth', 'uses' => 'ContentController@showContentsFromFolder']);
@@ -306,12 +299,10 @@ Route::post('/folder/copy', ['middleware' => 'auth', 'uses' => 'FolderController
 Route::post('/ajax/folder/add_group', ['middleware' => 'auth', 'uses' => 'FolderController@addToFolder']);
 Route::post('/ajax/folder/remove_group', ['middleware' => 'auth', 'uses' => 'FolderController@removeFromFolder']);
 
-
 /* Voting =========================================================================================================== */
 Route::post('/ajax/vote/add', ['middleware' => 'auth', 'uses' => 'VoteController@addVote']);
 Route::post('/ajax/vote/remove', ['middleware' => 'auth', 'uses' => 'VoteController@removeVote']);
 Route::post('/ajax/vote/get_voters', 'VoteController@getVoters');
-
 
 /* Saving =========================================================================================================== */
 Route::post('/ajax/content/add_save', ['middleware' => 'auth', 'uses' => 'SaveController@saveContent']);
@@ -320,16 +311,15 @@ Route::post('/ajax/content/remove_save', ['middleware' => 'auth', 'uses' => 'Sav
 Route::post('/ajax/entry/add_save', ['middleware' => 'auth', 'uses' => 'SaveController@saveEntry']);
 Route::post('/ajax/entry/remove_save', ['middleware' => 'auth', 'uses' => 'SaveController@removeEntry']);
 
-
 /* Utils ============================================================================================================ */
 Route::post('/ajax/utils/get_title', ['middleware' => 'auth', 'uses' => 'UtilsController@getURLTitle']);
 
 /* Static pages ===================================================================================================== */
-Route::get('/cookies', function() { return view('static.cookies'); });
-Route::get('/contact', function() { return view('static.contact'); });
-Route::get('/guide', function() { return view('static.guide'); });
-Route::get('/rules', function() { return view('static.rules'); });
-Route::get('/tag/{tag}', function($tag){ return view('static.tag', ['tag' => $tag]); });
+Route::get('/cookies', function () { return view('static.cookies'); });
+Route::get('/contact', function () { return view('static.contact'); });
+Route::get('/guide', function () { return view('static.guide'); });
+Route::get('/rules', function () { return view('static.rules'); });
+Route::get('/tag/{tag}', function ($tag) { return view('static.tag', ['tag' => $tag]); });
 
 /* Search =========================================================================================================== */
 Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);

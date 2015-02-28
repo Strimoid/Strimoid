@@ -1,11 +1,11 @@
-<?php namespace Strimoid\Http\Middleware; 
+<?php namespace Strimoid\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class CheckForReadOnlyMode {
-
+class CheckForReadOnlyMode
+{
     /**
      * The application implementation.
      *
@@ -16,7 +16,7 @@ class CheckForReadOnlyMode {
     /**
      * Create a new filter instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param \Illuminate\Contracts\Foundation\Application $app
      */
     public function __construct(Application $app)
     {
@@ -26,14 +26,14 @@ class CheckForReadOnlyMode {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if ($request->getMethod() != 'GET' && $this->isReadOnlyModeEnabled())
-        {
+        if ($request->getMethod() != 'GET' && $this->isReadOnlyModeEnabled()) {
             throw new HttpException(503);
         }
 
@@ -44,5 +44,4 @@ class CheckForReadOnlyMode {
     {
         return file_exists($this->app->storagePath().'/framework/readonly');
     }
-
 }

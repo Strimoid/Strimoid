@@ -1,29 +1,32 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Carbon, Config, File, Input, Lang, Response, Redirect, Str;
+use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Input;
+use Lang;
+use Redirect;
+use Response;
+use Str;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBanned;
 use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\ModeratorAction;
+use Strimoid\Models\User;
 
-class GroupController extends BaseController {
-
+class GroupController extends BaseController
+{
     use ValidatesRequests;
 
     public function showList()
     {
         $builder = Group::with('creator')->where('type', '!=', Group::TYPE_PRIVATE);
 
-        if (Input::get('sort') == 'newest')
-        {
+        if (Input::get('sort') == 'newest') {
             $builder->orderBy('created_at', 'desc');
-        }
-        else
-        {
+        } else {
             $builder->orderBy('subscribers', 'desc');
         }
 
@@ -37,13 +40,12 @@ class GroupController extends BaseController {
         $results = [];
         $groups = Group::where('type', '!=', Group::TYPE_PRIVATE)->get();
 
-        foreach($groups as $group)
-        {
+        foreach ($groups as $group) {
             $results[] = [
-                'value' => $group->urlname,
-                'name' => $group->name,
-                'avatar' => $group->getAvatarPath(),
-                'contents' => (int) $group->contents()->count()
+                'value'    => $group->urlname,
+                'name'     => $group->name,
+                'avatar'   => $group->getAvatarPath(),
+                'contents' => (int) $group->contents()->count(),
             ];
         }
 
@@ -56,8 +58,7 @@ class GroupController extends BaseController {
 
         $names = [];
 
-        foreach($subscriptions as $subscription)
-        {
+        foreach ($subscriptions as $subscription) {
             $names[] = $subscription->group->urlname;
         }
 
@@ -86,9 +87,11 @@ class GroupController extends BaseController {
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
+        if (! Auth::user()->isAdmin($group)) {
+            App::abort(403, 'Access denied');
+        }
 
-        $filename = $group->style ?: Str::lower($group->urlname) .'.css';
+        $filename = $group->style ?: Str::lower($group->urlname).'.css';
         $disk = Storage::disk('styles');
 
         $data['group'] = $group;
@@ -109,7 +112,9 @@ class GroupController extends BaseController {
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
+        if (! Auth::user()->isAdmin($group)) {
+            App::abort(403, 'Access denied');
+        }
 
         $this->validate($request, [
             'avatar'        => 'image|max:250',
@@ -124,17 +129,13 @@ class GroupController extends BaseController {
 
         $group->sidebar = Input::get('sidebar');
 
-        if (Input::hasFile('avatar'))
-        {
+        if (Input::hasFile('avatar')) {
             $group->setAvatar(Input::file('avatar')->getRealPath());
         }
 
-        if (Input::get('nsfw') == 'on')
-        {
+        if (Input::get('nsfw') == 'on') {
             $group->nsfw = true;
-        }
-        elseif ($group->nsfw)
-        {
+        } elseif ($group->nsfw) {
             $group->unset('nsfw');
         }
 
@@ -142,7 +143,9 @@ class GroupController extends BaseController {
         $tags = explode(',', $tags);
         $tags = array_map('trim', $tags);
 
-        if (count($tags)) $group->tags = $tags;
+        if (count($tags)) {
+            $group->tags = $tags;
+        }
 
         $group->save();
 
@@ -154,7 +157,9 @@ class GroupController extends BaseController {
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
+        if (! Auth::user()->isAdmin($group)) {
+            App::abort(403, 'Access denied');
+        }
 
         $this->validate($request, [
             'labels' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
@@ -179,7 +184,9 @@ class GroupController extends BaseController {
     {
         $group = Group::where('urlname', $groupName)->firstOrFail();
 
-        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
+        if (! Auth::user()->isAdmin($group)) {
+            App::abort(403, 'Access denied');
+        }
 
         $this->validate($request, ['css' => 'max:15000']);
 
@@ -206,15 +213,15 @@ class GroupController extends BaseController {
         $group = Group::shadow(Input::get('groupname'))->firstOrFail();
         $user = User::shadow(Input::get('username'))->firstOrFail();
 
-        if ( ! Auth::user()->isAdmin($group)) App::abort(403, 'Access denied');
+        if (! Auth::user()->isAdmin($group)) {
+            App::abort(403, 'Access denied');
+        }
 
-        if ($user->isModerator($group))
-        {
+        if ($user->isModerator($group)) {
             return Redirect::route('group_moderators', $group->urlname);
         }
 
-        if ($user->isBlocking($group))
-        {
+        if ($user->isBlocking($group)) {
             return Redirect::route('group_moderators', $group->urlname)
                 ->with('danger_msg', 'Nie możesz dodać wybranego użytkownika jako moderatora, ponieważ zablokował tą grupę.');
         }
@@ -229,11 +236,11 @@ class GroupController extends BaseController {
         $moderator->save();
 
         // Send notification to new moderator
-        $this->sendNotifications([$user->_id], function($notification) use($moderator, $group) {
+        $this->sendNotifications([$user->_id], function ($notification) use ($moderator, $group) {
             $notification->type = 'moderator';
 
             $positionTitle = $moderator->type == 'admin' ? 'administratorem' : 'moderatorem';
-            $notification->setTitle('Zostałeś '. $positionTitle .' w grupie '. $group->urlname);
+            $notification->setTitle('Zostałeś '.$positionTitle.' w grupie '.$group->urlname);
 
             $notification->group()->associate($group);
             $notification->save();
@@ -256,11 +263,12 @@ class GroupController extends BaseController {
         $moderator = GroupModerator::findOrFail(Input::get('id'));
         $group = $moderator->group;
 
-        if ( ! Auth::user()->isAdmin($moderator->group)) App::abort(403, 'Access denied');
+        if (! Auth::user()->isAdmin($moderator->group)) {
+            App::abort(403, 'Access denied');
+        }
 
         if ($moderator->user_id == $group->creator_id
-            && Auth::id() != $group->creator_id)
-        {
+            && Auth::id() != $group->creator_id) {
             return Response::json(['status' => 'error']);
         }
 
@@ -294,19 +302,14 @@ class GroupController extends BaseController {
 
         $this->validate($request, ['reason' => 'max:255']);
 
-        if (Input::get('everywhere') == 'on')
-        {
+        if (Input::get('everywhere') == 'on') {
             $moderated = GroupModerator::with('group')->where('user_id', Auth::id())->get();
 
-            foreach ($moderated as $mod)
-            {
+            foreach ($moderated as $mod) {
                 $mod->group->banUser($user, Input::get('reason'));
             }
-        }
-        else
-        {
-            if ( ! Auth::user()->isModerator($group))
-            {
+        } else {
+            if (! Auth::user()->isModerator($group)) {
                 App::abort(403, 'Access denied');
             }
 
@@ -320,8 +323,7 @@ class GroupController extends BaseController {
     {
         $ban = GroupBanned::findOrFail(Input::get('id'));
 
-        if ( ! Auth::user()->isModerator($ban->group))
-        {
+        if (! Auth::user()->isModerator($ban->group)) {
             App::abort(403, 'Access denied');
         }
 
@@ -337,21 +339,20 @@ class GroupController extends BaseController {
             ->orderBy('created_at', 'desc')
             ->first();
 
-        if ($group && $group->created_at->diffInMinutes() < 30)
-        {
+        if ($group && $group->created_at->diffInMinutes() < 30) {
             Input::flash();
 
             $diff = 30 - $group->created_at->diffInMinutes();
             $minutes = Lang::choice('pluralization.minutes', $diff);
 
-           return Redirect::action('GroupController@showCreateForm')
-                ->with('danger_msg', 'Kolejną grupę będziesz mógł utworzyć za '. $minutes);
+            return Redirect::action('GroupController@showCreateForm')
+                ->with('danger_msg', 'Kolejną grupę będziesz mógł utworzyć za '.$minutes);
         }
 
         $this->validate($request, [
-            'urlname' => 'required|min:3|max:32|unique_ci:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
+            'urlname'   => 'required|min:3|max:32|unique_ci:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
             'groupname' => 'required|min:3|max:50',
-            'desc' => 'max:255'
+            'desc'      => 'max:255',
         ]);
 
         $group = new Group();
@@ -369,7 +370,7 @@ class GroupController extends BaseController {
         $moderator->save();
 
         return Redirect::route('group_contents', $group->urlname)
-            ->with('success_msg', 'Nowa grupa o nazwie '. $group->name .' została utworzona.');
+            ->with('success_msg', 'Nowa grupa o nazwie '.$group->name.' została utworzona.');
     }
 
     public function subscribeGroup()
@@ -377,8 +378,7 @@ class GroupController extends BaseController {
         $group = Group::shadow(Input::get('name'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isSubscriber($group))
-        {
+        if (Auth::user()->isSubscriber($group)) {
             return Response::make('Already subscribed', 400);
         }
 
@@ -397,7 +397,9 @@ class GroupController extends BaseController {
         $subscriber = GroupSubscriber::where('group_id', $group->getKey())
             ->where('user_id', Auth::id())->first();
 
-        if ( ! $subscriber) return Response::make('Not subscribed', 400);
+        if (! $subscriber) {
+            return Response::make('Not subscribed', 400);
+        }
 
         $subscriber->delete();
 
@@ -410,8 +412,7 @@ class GroupController extends BaseController {
         $group->checkAccess();
 
         if (GroupBlock::where('group_id', $group->getKey())
-            ->where('user_id', Auth::id())->first())
-        {
+            ->where('user_id', Auth::id())->first()) {
             return Response::make('Already blocked', 400);
         }
 
@@ -430,9 +431,12 @@ class GroupController extends BaseController {
         $block = GroupBlock::where('group_id', $group->getKey())
             ->where('user_id', Auth::id())->first();
 
-        if ( ! $block) return Response::make('Not blocked', 400);
+        if (! $block) {
+            return Response::make('Not blocked', 400);
+        }
 
         $block->delete();
+
         return Response::json(['status' => 'ok']);
     }
 
@@ -441,12 +445,13 @@ class GroupController extends BaseController {
         $popularTags = ['programowanie', 'muzyka', 'gry', 'obrazki', 'it',
             'internet', 'linux', 'humor', 'nauka', 'strimoid', 'zdjęcia',
             'jam', 'oldschool', 'technika', 'śmieszne', 'art', 'technologia',
-            'wpisy', 'sztuka', 'zainteresowania'];
+            'wpisy', 'sztuka', 'zainteresowania', ];
 
-        if ($tag)
+        if ($tag) {
             $groups = Group::where('tags', $tag)->orderBy('subscribers', 'desc')->paginate(25);
-        else
+        } else {
             $groups = Group::orderBy('subscribers', 'desc')->paginate(25);
+        }
 
         return view('group.wizard', ['popular_tags' => $popularTags, 'groups' => $groups]);
     }
@@ -458,5 +463,4 @@ class GroupController extends BaseController {
 
         return Response::json(compact('sidebar'));
     }
-
 }

@@ -3,18 +3,18 @@
 use Str;
 use Strimoid\Models\Traits\HasThumbnail;
 
-class ContentRelated extends BaseModel {
-
+class ContentRelated extends BaseModel
+{
     use HasThumbnail;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128',
-        'url' => 'required|url_custom',
+        'url'   => 'required|url_custom',
     ];
 
     protected $attributes = [
-        'uv' => 0,
-        'dv' => 0,
+        'uv'    => 0,
+        'dv'    => 0,
         'score' => 0,
     ];
 
@@ -22,7 +22,7 @@ class ContentRelated extends BaseModel {
     protected $hidden = ['content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
 
-    function __construct($attributes = [])
+    public function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(9);
 
@@ -42,6 +42,7 @@ class ContentRelated extends BaseModel {
     public function delete()
     {
         Content::where('_id', $this->content_id)->decrement('related_count');
+
         return parent::delete();
     }
 
@@ -59,5 +60,4 @@ class ContentRelated extends BaseModel {
     {
         return $this->url ?: route('content_comments', $this->getKey());
     }
-
 }

@@ -1,11 +1,10 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class DeleteUser extends Command {
-
+class DeleteUser extends Command
+{
     /**
      * The console command name.
      *
@@ -37,15 +36,13 @@ class DeleteUser extends Command {
      */
     public function fire()
     {
-
         $user = User::findOrFail($this->argument('username'));
 
-        if ($this->confirm('Do you really want to remove user: '. $user->name .'? [yes|no]'))
-        {
+        if ($this->confirm('Do you really want to remove user: '.$user->name.'? [yes|no]')) {
             $user->removed_at = new MongoDate();
             $user->type = 'deleted';
             $user->unset(['age', 'description', 'email', 'last_login', 'last_ip',
-                'location', 'password', 'settings', 'sex', 'shadow_email']);
+                'location', 'password', 'settings', 'sex', 'shadow_email', ]);
             $user->deleteAvatar();
 
             $user->save();
@@ -74,8 +71,6 @@ class DeleteUser extends Command {
             $obj->delete();
 
         */
-
-
     }
 
     /**
@@ -85,9 +80,9 @@ class DeleteUser extends Command {
      */
     protected function getArguments()
     {
-        return array(
-            array('username', InputArgument::REQUIRED, 'User name.'),
-        );
+        return [
+            ['username', InputArgument::REQUIRED, 'User name.'],
+        ];
     }
 
     /**
@@ -97,7 +92,6 @@ class DeleteUser extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

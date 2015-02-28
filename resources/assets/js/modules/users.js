@@ -7,7 +7,7 @@ function UsersModule() {
             html:true, placement:'bottom', trigger: 'hover', delay: 500, content: this.renderActionsWidget
         });
     }
-}
+};
 
 UsersModule.prototype.observeUser = function() {
     var button = $(this);
@@ -32,7 +32,7 @@ UsersModule.prototype.observeUser = function() {
             }
         });
     }
-}
+};
 
 UsersModule.prototype.blockUser = function() {
     var button = $(this);
@@ -57,7 +57,7 @@ UsersModule.prototype.blockUser = function() {
             }
         });
     }
-}
+};
 
 UsersModule.prototype.renderActionsWidget = function() {
     var widget = $(this);
@@ -70,4 +70,4 @@ UsersModule.prototype.renderActionsWidget = function() {
         observe_class: _.contains(window.observed_users, username) ? 'btn-success' : 'btn-default',
         block_class:_.contains(window.blocked_users, username) ? 'btn-danger' : 'btn-default'
     });
-}
+};

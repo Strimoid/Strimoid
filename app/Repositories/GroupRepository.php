@@ -1,11 +1,11 @@
-<?php namespace Strimoid\Repositories; 
+<?php namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\GroupRepository as GroupRepositoryContract;
 use Strimoid\Exceptions\EntityNotFoundException;
 use Strimoid\Models\Group;
 
-class GroupRepository implements GroupRepositoryContract {
-
+class GroupRepository implements GroupRepositoryContract
+{
     /**
      * @var Group
      */
@@ -24,11 +24,10 @@ class GroupRepository implements GroupRepositoryContract {
      */
     public function getByName($name)
     {
-        $className = 'Strimoid\\Models\\Folders\\'. studly_case($name);
+        $className = 'Strimoid\\Models\\Folders\\'.studly_case($name);
 
-        if (class_exists($className))
-        {
-            return new $className;
+        if (class_exists($className)) {
+            return new $className();
         }
 
         return $this->group->shadow($name)->first();
@@ -41,9 +40,8 @@ class GroupRepository implements GroupRepositoryContract {
     {
         $group = $this->getByName($name);
 
-        if ( ! $group)
-        {
-            throw new EntityNotFoundException;
+        if (! $group) {
+            throw new EntityNotFoundException();
         }
 
         return $group;

@@ -1,17 +1,26 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Input;
+use Queue;
+use Redirect;
+use Response;
+use Route;
+use Rss;
+use Session;
+use Settings;
 use Strimoid\Contracts\Repositories\ContentRepository;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
-use Summon\Summon;
-use Auth, Input, Route, Redirect, Response, Rss, Session, Settings, Validator, Queue;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
+use Summon\Summon;
+use Validator;
 
-class ContentController extends BaseController {
-
+class ContentController extends BaseController
+{
     use ValidatesRequests;
 
     /**
@@ -30,9 +39,9 @@ class ContentController extends BaseController {
     protected $folders;
 
     /**
-     * @param  ContentRepository $contents
-     * @param  GroupRepository   $groups
-     * @param  FolderRepository  $folders
+     * @param ContentRepository $contents
+     * @param GroupRepository   $groups
+     * @param FolderRepository  $folders
      */
     public function __construct(ContentRepository $contents,
         GroupRepository $groups, FolderRepository $folders)
@@ -45,7 +54,8 @@ class ContentController extends BaseController {
     /**
      * Display contents from given group.
      *
-     * @param  string  $groupName
+     * @param string $groupName
+     *
      * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
     public function showContentsFromGroup($groupName = null)
@@ -54,13 +64,14 @@ class ContentController extends BaseController {
         $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
 
         // If user is on homepage, then use proper group
-        if ( ! Route::input('group'))
-        {
+        if (! Route::input('group')) {
             $groupName = $this->homepageGroup();
         }
 
         // Make it possible to browse everything by adding all parameter
-        if (Input::get('all')) $tab = null;
+        if (Input::get('all')) {
+            $tab = null;
+        }
 
         $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
@@ -88,12 +99,15 @@ class ContentController extends BaseController {
         $folder = $this->folders->getByName($userName, $folderName);
         view()->share('folder', $folder);
 
-        if ( ! $folder->canBrowse()) App::abort(404);
+        if (! $folder->canBrowse()) {
+            App::abort(404);
+        }
 
         $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
         $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
 
         $builder = $folder->contents($tab, $orderBy);
+
         return $this->showContents($builder);
     }
 
@@ -107,8 +121,7 @@ class ContentController extends BaseController {
         $contents->appends(Input::only(['sort', 'time', 'all']));
 
         // Return RSS feed for some of routes
-        if (ends_with(Route::currentRouteName(), '_rss'))
-        {
+        if (ends_with(Route::currentRouteName(), '_rss')) {
             return $this->generateRssFeed($contents);
         }
 
@@ -117,7 +130,9 @@ class ContentController extends BaseController {
 
     protected function filterByTime($builder, $days)
     {
-        if ( ! $days) return;
+        if (! $days) {
+            return;
+        }
         $builder->fromDaysAgo($days);
     }
 
@@ -125,6 +140,7 @@ class ContentController extends BaseController {
      * Generate RSS feed from given collection of contents.
      *
      * @param $contents
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function generateRssFeed($contents)
@@ -138,16 +154,16 @@ class ContentController extends BaseController {
     /**
      * Show content comments.
      *
-     * @param  Content  $content
+     * @param Content $content
+     *
      * @return \Illuminate\View\View
      */
     public function showComments(Content $content)
     {
         $sortBy = Input::get('sort');
 
-        if (in_array($sortBy, ['uv', 'replies']))
-        {
-            $content->comments = $content->comments->sortBy(function($comment) use($sortBy) {
+        if (in_array($sortBy, ['uv', 'replies'])) {
+            $content->comments = $content->comments->sortBy(function ($comment) use ($sortBy) {
                 return ($sortBy == 'uv') ? $comment->uv : $comment->replies->count();
             })->reverse();
         }
@@ -176,12 +192,12 @@ class ContentController extends BaseController {
      * Show content edit form.
      *
      * @param Content $content
+     *
      * @return \Illuminate\View\View
      */
     public function showEditForm(Content $content)
     {
-        if (!$content->canEdit(Auth::user()))
-        {
+        if (!$content->canEdit(Auth::user())) {
             return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
@@ -191,51 +207,48 @@ class ContentController extends BaseController {
 
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function addContent(Request $request)
     {
         $rules = [
-            'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
+            'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
-            'groupname' => 'required|exists_ci:groups,urlname'
+            'groupname'   => 'required|exists_ci:groups,urlname',
         ];
 
-        if (Input::get('type') == 'link')
+        if (Input::get('type') == 'link') {
             $rules['url'] = 'required|url_custom|max:2048';
-        else
+        } else {
             $rules['text'] = 'required|min:1|max:50000';
+        }
 
         $this->validate($request, $rules);
 
         $group = Group::shadow(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isBanned($group))
-        {
+        if (Auth::user()->isBanned($group)) {
             return Redirect::action('ContentController@showAddForm')
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
         if ($group->type == Group::TYPE_ANNOUNCEMENTS
-            && !Auth::user()->isModerator($group))
-        {
+            && !Auth::user()->isModerator($group)) {
             return Redirect::action('ContentController@showAddForm')
                 ->withInput()
                 ->with('danger_msg', 'Nie możesz dodawać treści do wybranej grupy');
         }
 
         $content = new Content(Input::only([
-            'title', 'description', 'nsfw', 'eng'
+            'title', 'description', 'nsfw', 'eng',
         ]));
 
-        if (Input::get('type') == 'link')
-        {
+        if (Input::get('type') == 'link') {
             $content->url = Input::get('url');
-        }
-        else
-        {
+        } else {
             $content->text = Input::get('text');
         }
 
@@ -243,11 +256,10 @@ class ContentController extends BaseController {
         $content->group()->associate($group);
 
         // Download thumbnail in background to don't waste user time
-        if (Input::get('thumbnail') == 'on')
-        {
+        if (Input::get('thumbnail') == 'on') {
             $content->thumbnail_loading = true;
             Queue::push('Strimoid\Handlers\DownloadThumbnail', [
-                    'id' => $content->getKey()
+                    'id' => $content->getKey(),
             ]);
         }
 
@@ -258,30 +270,25 @@ class ContentController extends BaseController {
 
     public function editContent(Content $content)
     {
-        if (!$content->canEdit(Auth::user()))
-        {
+        if (!$content->canEdit(Auth::user())) {
             return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
         $rules = [
-            'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
+            'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
         ];
 
-        if ($content->text)
-        {
+        if ($content->text) {
             $rules['text'] = 'required|min:1|max:50000';
-        }
-        else
-        {
+        } else {
             $rules['url'] = 'required|url_custom|max:2048';
         }
 
         $validator = Validator::make(Input::all(), $rules);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return Redirect::action('ContentController@showEditForm', $content->getKey())
                 ->withInput()
                 ->withErrors($validator);
@@ -290,12 +297,9 @@ class ContentController extends BaseController {
         $content->title = Input::get('title');
         $content->description = Input::get('description');
 
-        if ($content->text)
-        {
+        if ($content->text) {
             $content->text = Input::get('text');
-        }
-        else
-        {
+        } else {
             $content->url = Input::get('url');
         }
 
@@ -309,29 +313,29 @@ class ContentController extends BaseController {
 
     /**
      * @param Content $content
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function removeContent($content = null)
     {
         $content = $content ?: Content::findOrFail(Input::get('id'));
 
-        if ($content->created_at->diffInMinutes() > 60)
-        {
+        if ($content->created_at->diffInMinutes() > 60) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Minął dozwolony czas na usunięcie treści.'
+                'error'  => 'Minął dozwolony czas na usunięcie treści.',
             ]);
         }
 
-        if (Auth::id() === $content->user_id)
-        {
+        if (Auth::id() === $content->user_id) {
             $content->forceDelete();
+
             return Response::json(['status' => 'ok']);
         }
 
         return Response::json([
             'status' => 'error',
-            'error' => 'Nie masz uprawnień do usunięcia tej treści.'
+            'error'  => 'Nie masz uprawnień do usunięcia tej treści.',
         ]);
     }
 
@@ -342,21 +346,21 @@ class ContentController extends BaseController {
     {
         $content = Content::findOrFail(Input::get('id'));
 
-        if ($content->canRemove(Auth::user()))
-        {
+        if ($content->canRemove(Auth::user())) {
             $content->deleted_by()->associate(Auth::user());
             $content->save();
 
             $content->delete();
 
-            return Response::json(array('status' => 'ok'));
+            return Response::json(['status' => 'ok']);
         }
 
-        return Response::json(array('status' => 'error'));
+        return Response::json(['status' => 'error']);
     }
 
     /**
      * @param Content $content
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getEmbedCode(Content $content)
@@ -368,24 +372,25 @@ class ContentController extends BaseController {
 
     /**
      * @param Content $content
+     *
      * @return \Illuminate\View\View
      */
     public function chooseThumbnail(Content $content)
     {
-        if (!$content->canEdit(Auth::user()))
-        {
+        if (!$content->canEdit(Auth::user())) {
             return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
-        $thumbnails = array();
+        $thumbnails = [];
 
         try {
             $summon = new Summon($content->getURL());
             $thumbnails = $summon->fetch();
-        } catch(Exception $e) {}
+        } catch (Exception $e) {
+        }
 
-        $thumbnails['thumbnails'][] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=100&url='. urlencode($content->url);
+        $thumbnails['thumbnails'][] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=100&url='.urlencode($content->url);
 
         Session::put('thumbnails', $thumbnails['thumbnails']);
 
@@ -400,24 +405,19 @@ class ContentController extends BaseController {
         $content = Content::findOrFail(Input::get('id'));
         $thumbnails = Session::get('thumbnails');
 
-        if (!$content->canEdit(Auth::user()))
-        {
+        if (!$content->canEdit(Auth::user())) {
             return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
         $index = (int) Input::get('thumbnail');
 
-        if (Input::has('thumbnail') && isset($thumbnails[$index]))
-        {
+        if (Input::has('thumbnail') && isset($thumbnails[$index])) {
             $content->setThumbnail($thumbnails[$index]);
-        }
-        else
-        {
+        } else {
             $content->removeThumbnail();
         }
 
         return Redirect::route('content_comments', $content->getKey());
     }
-
 }

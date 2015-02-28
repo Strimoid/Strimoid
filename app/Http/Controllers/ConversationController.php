@@ -1,31 +1,35 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Str, Input, Validator, Redirect;
+use Auth;
+use Input;
+use Redirect;
+use Str;
 use Strimoid\Models\Conversation;
 use Strimoid\Models\ConversationMessage;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
+use Validator;
 
-class ConversationController extends BaseController {
-
+class ConversationController extends BaseController
+{
     public function showConversation($id = null)
     {
         $conversations = Conversation::with('lastMessage')->where('users', Auth::user()->getKey())->get()
-            ->sortBy(function($conversation){
+            ->sortBy(function ($conversation) {
                 return $conversation->lastMessage->created_at;
             })->reverse();
 
-        $data['messages'] = array();
+        $data['messages'] = [];
 
-        if ($id)
+        if ($id) {
             $conversation = Conversation::where('users', Auth::user()->getKey())->findOrFail($id);
-        elseif ($conversations->first())
+        } elseif ($conversations->first()) {
             $conversation = $conversations->first();
+        }
 
         $data['conversations'] = $conversations;
 
-        if (isset($conversation))
-        {
+        if (isset($conversation)) {
             $data['conversation'] = $conversation;
             $data['messages'] = ConversationMessage::where('conversation_id', $conversation->_id)
                 ->orderBy('created_at', 'desc')->paginate(50);
@@ -37,7 +41,7 @@ class ConversationController extends BaseController {
     public function showCreateForm($username = null)
     {
         $conversations = Conversation::with('lastMessage')->where('users', Auth::user()->getKey())->get()
-            ->sortBy(function($conversation){
+            ->sortBy(function ($conversation) {
                 return $conversation->lastMessage->created_at;
             })->reverse();
 
@@ -48,24 +52,21 @@ class ConversationController extends BaseController {
     {
         $target = User::where('shadow_name', Str::lower(Input::get('username')))->firstOrFail();
 
-        if ($target->getKey() == Auth::user()->getKey())
-        {
+        if ($target->getKey() == Auth::user()->getKey()) {
             return Redirect::action('ConversationController@showCreateForm')
                 ->withInput()
                 ->with('danger_msg', 'Ekhm... wysyłanie wiadomości do samego siebie chyba nie ma sensu ;)');
         }
 
-        if ($target->isBlockingUser(Auth::user()))
-        {
+        if ($target->isBlockingUser(Auth::user())) {
             return Redirect::action('ConversationController@showCreateForm')
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zablokowany przez wybranego użytkownika.');
         }
 
-        $validator = Validator::make(Input::all(), ['text' => 'required|max:10000',]);
+        $validator = Validator::make(Input::all(), ['text' => 'required|max:10000']);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return Redirect::action('ConversationController@showCreateForm')
                 ->withInput()
                 ->withErrors($validator);
@@ -75,11 +76,10 @@ class ConversationController extends BaseController {
             ->where('users', $target->getKey())
             ->first();
 
-        if (!$conversation)
-        {
+        if (!$conversation) {
             $conversation = new Conversation();
             $conversation->_id = Str::random(8);
-            $conversation->users = array(Auth::user()->getKey(), $target->getKey());
+            $conversation->users = [Auth::user()->getKey(), $target->getKey()];
             $conversation->save();
         } else {
             Notification::where('type', 'conversation')
@@ -94,8 +94,7 @@ class ConversationController extends BaseController {
         $message->text = Input::get('text');
         $message->save();
 
-        $this->sendNotifications([$target->_id], function($notification) use ($message, $conversation)
-        {
+        $this->sendNotifications([$target->_id], function ($notification) use ($message, $conversation) {
             $notification->type = 'conversation';
             $notification->setTitle($message->text);
             $notification->conversation()->associate($conversation);
@@ -122,9 +121,9 @@ class ConversationController extends BaseController {
 
         $validator = Validator::make(Input::all(), $rules);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             Input::flash();
+
             return Redirect::route('conversation', $conversation->_id)->withErrors($validator);
         }
 
@@ -137,8 +136,7 @@ class ConversationController extends BaseController {
         $message->text = Input::get('text');
         $message->save();
 
-        $this->sendNotifications([$target->_id], function($notification) use ($message, $conversation)
-        {
+        $this->sendNotifications([$target->_id], function ($notification) use ($message, $conversation) {
             $notification->type = 'conversation';
             $notification->setTitle($message->text);
             $notification->conversation()->associate($conversation);
@@ -153,7 +151,7 @@ class ConversationController extends BaseController {
         $conversations = Conversation::with('lastMessage')->with('lastMessage.user')
             ->where('users', Auth::user()->getKey())
             ->get()
-            ->sortBy(function($conversation){
+            ->sortBy(function ($conversation) {
                 return $conversation->lastMessage->created_at;
             })->reverse();
 
@@ -172,5 +170,4 @@ class ConversationController extends BaseController {
 
         return $messages;
     }
-
 }

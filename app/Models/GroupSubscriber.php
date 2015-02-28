@@ -2,20 +2,17 @@
 
 class GroupSubscriber extends BaseModel
 {
-
     protected $table = 'group_subscribers';
 
     public static function boot()
     {
         parent::boot();
 
-        self::created(function(GroupSubscriber $sub)
-        {
+        self::created(function (GroupSubscriber $sub) {
             $sub->group()->increment('subscribers');
         });
 
-        self::deleted(function(GroupSubscriber $sub)
-        {
+        self::deleted(function (GroupSubscriber $sub) {
             $sub->group()->decrement('subscribers');
         });
     }
@@ -30,5 +27,4 @@ class GroupSubscriber extends BaseModel
     {
         return $this->belongsTo('Strimoid\Models\User');
     }
-
 }

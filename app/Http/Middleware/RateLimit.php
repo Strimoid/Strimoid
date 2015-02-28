@@ -4,8 +4,8 @@ use Closure;
 use GrahamCampbell\Throttle\Throttle;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
-class RateLimit {
-
+class RateLimit
+{
     /**
      * The throttle instance.
      *
@@ -36,8 +36,7 @@ class RateLimit {
     public function handle($request, Closure $next)
     {
         // Limit only POST requests
-        if ($request->getMethod() == 'POST')
-        {
+        if ($request->getMethod() == 'POST') {
             $limit = 25; // request limit
             $time = 10; // ban time
 
@@ -48,5 +47,4 @@ class RateLimit {
 
         return $next($request);
     }
-
 }

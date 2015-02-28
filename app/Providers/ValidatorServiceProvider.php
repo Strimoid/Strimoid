@@ -1,10 +1,12 @@
-<?php namespace Strimoid\Providers; 
+<?php namespace Strimoid\Providers;
 
-use DB, Str, Validator;
+use DB;
 use Illuminate\Support\ServiceProvider;
+use Str;
+use Validator;
 
-class ValidatorServiceProvider extends ServiceProvider {
-
+class ValidatorServiceProvider extends ServiceProvider
+{
     /**
      * Register bindings in the container.
      *
@@ -12,38 +14,32 @@ class ValidatorServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        Validator::extend('exists_ci', function($attribute, $value, $parameters)
-        {
-            if (isset($parameters[1]))
-            {
+        Validator::extend('exists_ci', function ($attribute, $value, $parameters) {
+            if (isset($parameters[1])) {
                 $attribute = $parameters[1];
             }
 
             $value = shadow($value);
 
-            $count = DB::collection($parameters[0])->where('shadow_'. $attribute, $value)->count();
+            $count = DB::collection($parameters[0])->where('shadow_'.$attribute, $value)->count();
 
             return $count > 0;
         });
 
-        Validator::extend('unique_ci', function($attribute, $value, $parameters)
-        {
-            if (isset($parameters[1]))
-            {
+        Validator::extend('unique_ci', function ($attribute, $value, $parameters) {
+            if (isset($parameters[1])) {
                 $attribute = $parameters[1];
             }
 
             $value = shadow($value);
 
-            $count = DB::collection($parameters[0])->where('shadow_'. $attribute, $value)->count();
+            $count = DB::collection($parameters[0])->where('shadow_'.$attribute, $value)->count();
 
             return $count == 0;
         });
 
-        Validator::extend('unique_email', function($attribute, $value, $parameters)
-        {
-            if (isset($parameters[1]))
-            {
+        Validator::extend('unique_email', function ($attribute, $value, $parameters) {
+            if (isset($parameters[1])) {
                 $attribute = $parameters[1];
             }
 
@@ -52,24 +48,21 @@ class ValidatorServiceProvider extends ServiceProvider {
             $value = preg_replace('/\+(.)*@/', '@', $value);
             $value = hash_email($value);
 
-            $count = DB::collection($parameters[0])->where('shadow_'. $attribute, $value)->count();
+            $count = DB::collection($parameters[0])->where('shadow_'.$attribute, $value)->count();
 
             return $count == 0;
         });
 
-        Validator::extend('safe_url', function($attribute, $value, $parameters)
-        {
+        Validator::extend('safe_url', function ($attribute, $value, $parameters) {
             return starts_with($value, 'http');
         });
 
-        Validator::extend('url_custom', function($attribute, $value, $parameters)
-        {
+        Validator::extend('url_custom', function ($attribute, $value, $parameters) {
             return preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value);
         });
 
-        Validator::extend('real_email', function($attribute, $value, $parameters)
-        {
-            $blockedDomains = array(
+        Validator::extend('real_email', function ($attribute, $value, $parameters) {
+            $blockedDomains = [
 
                 // normal mail mail providers (used to spam)
 
@@ -144,40 +137,37 @@ class ValidatorServiceProvider extends ServiceProvider {
                 'mytrashmail.com', 'cbair.com', 'doiea.com',
 
                 'karpdami.linuxpl.info', 'cebuloid.pl', 'cebulion.pl', 'atingo.pl', 'reign77.pl', 'beltheze.edl.pl',
-            );
+            ];
 
             $domain = explode('@', $value, 2);
             $parts = explode('.', Str::lower($domain[1]));
 
-            return !in_array($parts[count($parts)-2] .'.'. $parts[count($parts)-1], $blockedDomains);
+            return !in_array($parts[count($parts)-2].'.'.$parts[count($parts)-1], $blockedDomains);
         });
 
-        Validator::extend('strong_password', function($attribute, $value, $parameters)
-        {
-            $easyPasswords = array(
+        Validator::extend('strong_password', function ($attribute, $value, $parameters) {
+            $easyPasswords = [
                 '111111', '121212', '123456', 'qwerty', 'polska', 'zaq12wsx', '111111', 'aaaaaa', 'matrix', 'monika', 'marcin',
-                'misiek', 'master', 'abc123', 'qwerty1', 'qazwsx', 'mateusz', 'strims', 'strimoid', 'qwe123', 'zzzzzz'
-            );
+                'misiek', 'master', 'abc123', 'qwerty1', 'qazwsx', 'mateusz', 'strims', 'strimoid', 'qwe123', 'zzzzzz',
+            ];
 
             return !in_array($value, $easyPasswords);
         });
 
-        Validator::extend('reserved_groupnames', function($attribute, $value, $parameters)
-        {
+        Validator::extend('reserved_groupnames', function ($attribute, $value, $parameters) {
             $names = [
                 'subscribed', 'moderated', 'blocked', 'random', 'all', 'observed', 'saved',
                 'subskrybowane', 'moderowane', 'zablokowane', 'blokowane', 'losowa', 'losowe',
-                'wszystko','wszystkie', 'obserwowani', 'obserwowane', 'zapisane', 'folder',
+                'wszystko', 'wszystkie', 'obserwowani', 'obserwowane', 'zapisane', 'folder',
                 'upvoted', 'downvoted', 'uv', 'dv', 'mod', 'sub', 'los', 'blok', 'blo', 'blocked',
                 'zbanowane', 'zbanowany', 'zbanowano', 'notvoted', 'nieocenione', 'domain', 'domena',
-                'popular', 'popularne'
+                'popular', 'popularne',
             ];
 
             return !in_array($value, $names);
         });
 
-        Validator::extend('user_password', function($attribute, $value, $parameters)
-        {
+        Validator::extend('user_password', function ($attribute, $value, $parameters) {
             return Hash::check($value, Auth::user()->password);
         });
     }
@@ -190,5 +180,4 @@ class ValidatorServiceProvider extends ServiceProvider {
     public function register()
     {
     }
-
 }

@@ -1,17 +1,18 @@
-<?php namespace Strimoid\Http\Controllers; 
+<?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Redirect;
+use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Input;
+use Redirect;
 use Strimoid\Models\GroupBanned;
 use Strimoid\Models\GroupBlock;
-use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\GroupModerator;
+use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\UserBlocked;
 
-
-class SettingsController extends BaseController {
-
+class SettingsController extends BaseController
+{
     use ValidatesRequests;
 
     public function showSettings()
@@ -34,10 +35,10 @@ class SettingsController extends BaseController {
         $user = Auth::user();
 
         $this->validate($request, [
-            'css_style' => 'url|safe_url|max:250',
+            'css_style'         => 'url|safe_url|max:250',
             'contents_per_page' => 'integer|min:1|max:100',
-            'entries_per_page' => 'integer|min:1|max:100',
-            'timezone' => 'timezone',
+            'entries_per_page'  => 'integer|min:1|max:100',
+            'timezone'          => 'timezone',
         ]);
 
         $settings['enter_send'] = Input::get('enter_send') == 'on' ? true : false;
@@ -57,5 +58,4 @@ class SettingsController extends BaseController {
         return Redirect::route('user_settings')
             ->with('success_msg', 'Ustawienia zostały zapisane.');
     }
-
 }

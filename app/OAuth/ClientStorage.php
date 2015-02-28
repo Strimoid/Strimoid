@@ -1,15 +1,15 @@
-<?php namespace Strimoid\OAuth; 
+<?php namespace Strimoid\OAuth;
 
 use League\OAuth2\Server\Entity\ClientEntity;
-use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Entity\SessionEntity;
+use League\OAuth2\Server\Storage\ClientInterface;
 
-class ClientStorage extends MongoStorage implements ClientInterface {
-
+class ClientStorage extends MongoStorage implements ClientInterface
+{
     protected $table = 'oauth_clients';
 
     /**
-     * Validate a client
+     * Validate a client.
      *
      * @param string $clientId     The client's ID
      * @param string $clientSecret The client's secret (default = "null")
@@ -23,25 +23,25 @@ class ClientStorage extends MongoStorage implements ClientInterface {
         $query = $this->table()
             ->where('_id', $clientId);
 
-        if ($clientSecret)
-        {
+        if ($clientSecret) {
             $query->where('secret', $clientSecret);
         }
 
-        if ($redirectUri)
-        {
+        if ($redirectUri) {
             $query->where('redirect_uri', $redirectUri);
         }
 
         $result = $query->first();
 
-        if ( ! $result) return;
+        if (! $result) {
+            return;
+        }
 
         return $this->rowToEntity($result);
     }
 
     /**
-     * Get the client associated with a session
+     * Get the client associated with a session.
      *
      * @param \League\OAuth2\Server\Entity\SessionEntity $session The session
      *
@@ -53,13 +53,17 @@ class ClientStorage extends MongoStorage implements ClientInterface {
             ->where('_id', $session->getId())
             ->first();
 
-        if ( ! $session) return;
+        if (! $session) {
+            return;
+        }
 
         $result = $this->table()
             ->where('_id', $session['client_id'])
             ->first();
 
-        if (!$result) return;
+        if (!$result) {
+            return;
+        }
 
         return $this->rowToEntity($result);
     }
@@ -72,5 +76,4 @@ class ClientStorage extends MongoStorage implements ClientInterface {
                 'name'  => $row['name'],
             ]);
     }
-
 }

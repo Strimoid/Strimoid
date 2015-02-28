@@ -3,8 +3,18 @@ default:
         Laracasts\Behat:
             env_path: .env.behat
         Behat\MinkExtension:
+            base_url: 'http://strimoid.dev'
             default_session: laravel
+            javascript_session: selenium2
             laravel: ~
+            selenium2: ~
+        VIPSoft\CodeCoverageExtension\Extension:
+            drivers:
+                - local
+            report:
+                format: clover
+                options:
+                    target: build/logs/clover.xml
     suites:
         api:
             paths:    [ %paths.base%/features/api ]

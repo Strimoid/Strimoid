@@ -1,48 +1,50 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Str, Lang;
+use Auth;
 use DateTimeZone;
+use Lang;
+use Str;
 
-class UserSettings {
-
+class UserSettings
+{
     protected $settings = [];
 
     public function __construct()
     {
         $this->set('homepage_subscribed', [
-            'type' => 'checkbox',
+            'type'    => 'checkbox',
             'default' => false,
-            'options' => [true, false]
+            'options' => [true, false],
         ]);
 
         $this->set('contents_per_page', [
-            'type' => 'select',
+            'type'    => 'select',
             'default' => 25,
             'options' => [
-                10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100
-            ]
+                10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100,
+            ],
         ]);
 
         $this->set('entries_per_page', [
-            'type' => 'select',
+            'type'    => 'select',
             'default' => 25,
             'options' => [
-                10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100
-            ]
+                10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100,
+            ],
         ]);
 
         $this->set('timezone', [
-            'type' => 'select',
+            'type'    => 'select',
             'default' => 'Europe/Warsaw',
-            'options' => function() {
+            'options' => function () {
                 return $this->getTimezones();
-            }
+            },
         ]);
 
         $this->set('notifications.auto_read', [
-            'type' => 'checkbox',
+            'type'    => 'checkbox',
             'default' => false,
-            'options' => [true, false]
+            'options' => [true, false],
         ]);
     }
 
@@ -50,15 +52,12 @@ class UserSettings {
     {
         $timezones = [];
 
-        foreach (DateTimeZone::listIdentifiers() as $timezone)
-        {
-            $key = 'timezones.'. Str::lower($timezone);
+        foreach (DateTimeZone::listIdentifiers() as $timezone) {
+            $key = 'timezones.'.Str::lower($timezone);
 
-            if ($translation = Lang::has($key))
-            {
+            if ($translation = Lang::has($key)) {
                 $timezones[$timezone] = Lang::get($key);
             }
-
         }
 
         return $timezones;
@@ -71,12 +70,9 @@ class UserSettings {
 
     public function get($key)
     {
-        if (Auth::guest() || !array_get(Auth::user()->settings, $key))
-        {
+        if (Auth::guest() || !array_get(Auth::user()->settings, $key)) {
             return $this->settings[$key]['default'];
-        }
-        else
-        {
+        } else {
             return array_get(Auth::user()->settings, $key);
         }
     }
@@ -85,5 +81,4 @@ class UserSettings {
     {
         return value($this->settings[$key]['options']);
     }
-
-} 
+}

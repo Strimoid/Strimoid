@@ -1,10 +1,12 @@
-<?php namespace Strimoid\Helpers; 
+<?php namespace Strimoid\Helpers;
 
-use Cache, Config, Guzzle;
+use Cache;
+use Config;
+use Guzzle;
 use GuzzleHttp\Exception\RequestException;
 
-class OEmbed {
-
+class OEmbed
+{
     protected $mimetypes = [
         'audio/' => 'embedAudio',
         'image/' => 'embedImage',
@@ -18,21 +20,19 @@ class OEmbed {
             $data = Guzzle::get($this->endpoint(), compact('query'))->json();
 
             return $this->findThumbnail($data);
-        } catch(RequestException $e) {}
+        } catch (RequestException $e) {
+        }
     }
 
     protected function findThumbnail($data)
     {
-        foreach ($data['links'] as $link)
-        {
-            if (in_array('thumbnail', $link['rel']))
-            {
+        foreach ($data['links'] as $link) {
+            if (in_array('thumbnail', $link['rel'])) {
                 return $link['href'];
             }
 
             if (in_array('file', $link['rel'])
-                && starts_with($link['type'], 'image'))
-            {
+                && starts_with($link['type'], 'image')) {
                 return $link['href'];
             }
         }
@@ -44,10 +44,12 @@ class OEmbed {
     {
         $key = md5($url);
 
-        if ( ! $autoPlay) $key .= '.no-ap';
+        if (! $autoPlay) {
+            $key .= '.no-ap';
+        }
 
         $html = Cache::driver('oembed')
-            ->rememberForever($key, function() use($url, $autoPlay) {
+            ->rememberForever($key, function () use ($url, $autoPlay) {
                 return $this->fetchJson($url, $autoPlay);
             });
 
@@ -59,29 +61,31 @@ class OEmbed {
         try {
             $query = ['ssl' => 'true', 'url' => $url];
 
-            if ($autoPlay) $query['autoplay'] = 'true';
+            if ($autoPlay) {
+                $query['autoplay'] = 'true';
+            }
 
             $data = Guzzle::get($this->endpoint(), compact('query'))->json();
 
             return $this->processData($data);
-        } catch(RequestException $e) {}
+        } catch (RequestException $e) {
+        }
 
         return false;
     }
 
     protected function processData($data)
     {
-        if (array_key_exists('html', $data)) return $data['html'];
+        if (array_key_exists('html', $data)) {
+            return $data['html'];
+        }
 
-        foreach ($data['links'] as $link)
-        {
-            if (in_array('file', $link['rel']))
-            {
+        foreach ($data['links'] as $link) {
+            if (in_array('file', $link['rel'])) {
                 return $this->embedMedia($link);
             }
 
-            if (in_array('image', $link['rel']))
-            {
+            if (in_array('image', $link['rel'])) {
                 return $this->embedImage($link['href']);
             }
         }
@@ -91,10 +95,8 @@ class OEmbed {
 
     protected function embedMedia($link)
     {
-        foreach ($this->mimetypes as $mimetype => $function)
-        {
-            if (starts_with($link['type'], $mimetype))
-            {
+        foreach ($this->mimetypes as $mimetype => $function) {
+            if (starts_with($link['type'], $mimetype)) {
                 return $this->{$function}($link['href']);
             }
         }
@@ -104,17 +106,17 @@ class OEmbed {
 
     protected function embedAudio($href)
     {
-        return '<audio src="'. $href .'"controls autoplay></audio>';
+        return '<audio src="'.$href.'"controls autoplay></audio>';
     }
 
     protected function embedImage($href)
     {
-        return '<img src="'. $href .'">';
+        return '<img src="'.$href.'">';
     }
 
     protected function embedVideo($href)
     {
-        return '<video src="'. $href .'"controls autoplay></audio>';
+        return '<video src="'.$href.'"controls autoplay></audio>';
     }
 
     /**
@@ -125,7 +127,7 @@ class OEmbed {
     protected function endpoint()
     {
         $host = Config::get('strimoid.oembed');
-        return $host .'/iframely';
-    }
 
+        return $host.'/iframely';
+    }
 }

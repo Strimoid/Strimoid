@@ -1,14 +1,16 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth;
 use Closure;
-use Auth, Settings, Str;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
+use Settings;
+use Str;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
 
-class BaseController extends Controller {
-
+class BaseController extends Controller
+{
     use ValidatesRequests;
 
     protected function sendNotifications($targets,
@@ -16,21 +18,16 @@ class BaseController extends Controller {
     {
         $sourceUser = $sourceUser ?: Auth::user();
 
-        if (is_array($targets))
-        {
+        if (is_array($targets)) {
             $uniqueUsers = $targets;
-        }
-        else
-        {
+        } else {
             preg_match_all('/@([a-z0-9_-]+)/i', $targets, $mentionedUsers, PREG_SET_ORDER);
 
             $uniqueUsers = [];
 
-            foreach ($mentionedUsers as $mentionedUser)
-            {
-                if ( ! isset($mentionedUser[1])
-                    || in_array(Str::lower($mentionedUser[1]), $uniqueUsers))
-                {
+            foreach ($mentionedUsers as $mentionedUser) {
+                if (! isset($mentionedUser[1])
+                    || in_array(Str::lower($mentionedUser[1]), $uniqueUsers)) {
                     break;
                 }
 
@@ -38,18 +35,18 @@ class BaseController extends Controller {
             }
         }
 
-        if ( ! $uniqueUsers) return;
+        if (! $uniqueUsers) {
+            return;
+        }
 
         $notification = new Notification();
         $notification->sourceUser()->associate($sourceUser);
 
-        foreach ($uniqueUsers as $uniqueUser)
-        {
+        foreach ($uniqueUsers as $uniqueUser) {
             $user = User::shadow($uniqueUser)->first();
 
             if ($user && $user->getKey() != Auth::id()
-                && !$user->isBlockingUser($sourceUser))
-            {
+                && !$user->isBlockingUser($sourceUser)) {
                 $notification->addTarget($user);
             }
         }
@@ -76,5 +73,4 @@ class BaseController extends Controller {
 
         return $groupName;
     }
-
 }

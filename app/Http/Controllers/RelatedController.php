@@ -1,41 +1,45 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth, Input, Redirect, Response, OEmbed;
+use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Input;
+use OEmbed;
+use Redirect;
+use Response;
 use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Group;
 
-class RelatedController extends BaseController {
-
+class RelatedController extends BaseController
+{
     use ValidatesRequests;
 
     public function addRelated(Request $request, $content)
     {
         $this->validate($request, ContentRelated::rules());
 
-        if (Auth::user()->isBanned($content->group))
-        {
+        if (Auth::user()->isBanned($content->group)) {
             return Redirect::route('content_comments', $content->_id)
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
         if ($content->group->type == Group::TYPE_ANNOUNCEMENTS
-            && !Auth::user()->isModerator($content->group))
-        {
+            && !Auth::user()->isModerator($content->group)) {
             return Redirect::route('content_comments', $content->_id)
                 ->withInput()
                 ->with('danger_msg', 'Nie możesz dodawać powiązanych w tej grupie');
         }
 
         $related = new ContentRelated(Input::only([
-            'title', 'url', 'nsfw', 'eng'
+            'title', 'url', 'nsfw', 'eng',
         ]));
 
         if (Input::get('thumbnail') == 'on') {
             $url = OEmbed::getThumbnail($related->url);
-            if ($url) $related->setThumbnail($url);
+            if ($url) {
+                $related->setThumbnail($url);
+            }
         }
 
         $related->user()->associate(Auth::user());
@@ -53,9 +57,9 @@ class RelatedController extends BaseController {
         $related = ($related instanceof ContentRelated)
             ?: ContentRelated::findOrFail(Input::get('id'));
 
-        if (Auth::id() == $related->user->getKey())
-        {
+        if (Auth::id() == $related->user->getKey()) {
             $related->delete();
+
             return Response::json(['status' => 'ok']);
         }
 
@@ -66,21 +70,22 @@ class RelatedController extends BaseController {
     {
         $this->validate($request, ContentRelated::rules());
 
-        if (Auth::user()->isBanned($content->group))
-        {
+        if (Auth::user()->isBanned($content->group)) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Użytkownik został zbanowany w wybranej grupie.'
+                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
             ]);
         }
 
         $related = new ContentRelated(Input::only([
-            'title', 'url', 'nsfw', 'eng'
+            'title', 'url', 'nsfw', 'eng',
         ]));
 
         if (Input::get('thumbnail') != 'false' && Input::get('thumbnail') != 'off') {
             $url = OEmbed::getThumbnail($this->url);
-            if ($url) $related->setThumbnail($url);
+            if ($url) {
+                $related->setThumbnail($url);
+            }
         }
 
         $related->user()->associate(Auth::user());
@@ -91,10 +96,9 @@ class RelatedController extends BaseController {
         $related->save();
 
         return Response::json([
-            'status' => 'ok',
-            '_id' => $related->_id,
-            'related' => $related
+            'status'  => 'ok',
+            '_id'     => $related->_id,
+            'related' => $related,
         ]);
     }
-
 }

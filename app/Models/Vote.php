@@ -1,7 +1,7 @@
 <?php namespace Strimoid\Models;
 
-class Vote extends BaseModel {
-
+class Vote extends BaseModel
+{
     protected static $unguarded = true;
 
     public function user()
@@ -20,6 +20,7 @@ class Vote extends BaseModel {
      *
      * @param mixed $value
      */
-    public function setUpdatedAt($value) {}
-
+    public function setUpdatedAt($value)
+    {
+    }
 }

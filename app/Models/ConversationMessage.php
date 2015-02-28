@@ -2,11 +2,11 @@
 
 use Strimoid\Helpers\MarkdownParser;
 
-class ConversationMessage extends BaseModel {
-
+class ConversationMessage extends BaseModel
+{
     protected $table = 'conversation_messages';
     protected $visible = [
-        'id', 'conversation', 'created_at', 'user', 'text'
+        'id', 'conversation', 'created_at', 'user', 'text',
     ];
 
     public function conversation()
@@ -24,5 +24,4 @@ class ConversationMessage extends BaseModel {
         $this->attributes['text'] = MarkdownParser::instance()->text($text);
         $this->attributes['text_source'] = $text;
     }
-
 }

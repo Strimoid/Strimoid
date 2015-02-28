@@ -2,8 +2,8 @@
 
 use Auth;
 
-class Conversation extends BaseModel {
-
+class Conversation extends BaseModel
+{
     protected $table = 'conversations';
     protected $visible = ['id', 'created_at', 'users', 'lastMessage'];
 
@@ -15,9 +15,10 @@ class Conversation extends BaseModel {
 
     public function getUser()
     {
-        foreach ($this->users as $user)
-        {
-            if ($user == Auth::id()) continue;
+        foreach ($this->users as $user) {
+            if ($user == Auth::id()) {
+                continue;
+            }
 
             return User::find($user);
         }
@@ -28,5 +29,4 @@ class Conversation extends BaseModel {
         return ConversationMessage::where('conversation_id', $this->getKey())
             ->first();
     }
-
 }

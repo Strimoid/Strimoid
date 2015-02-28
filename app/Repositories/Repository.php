@@ -1,11 +1,11 @@
-<?php namespace Strimoid\Repositories; 
+<?php namespace Strimoid\Repositories;
 
-use Paginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Paginator;
 
-abstract class Repository {
-
+abstract class Repository
+{
     protected function paginate(Builder $builder, $perPage)
     {
         $page = Paginator::resolveCurrentPage();
@@ -14,8 +14,7 @@ abstract class Repository {
         $results = $query->get();
 
         return new LengthAwarePaginator($results, $total, $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath()
+            'path' => Paginator::resolveCurrentPath(),
         ]);
     }
-
 }

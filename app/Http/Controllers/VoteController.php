@@ -1,41 +1,40 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use App, Auth, Carbon, Input, Response;
-use Strimoid\Models\Content;
-use Strimoid\Models\ContentRelated;
+use Auth;
+use Carbon;
+use Input;
+use Response;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
+use Strimoid\Models\Content;
+use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Vote;
 
-class VoteController extends BaseController {
-
-    public function addVote() {
+class VoteController extends BaseController
+{
+    public function addVote()
+    {
         $object = $this->getObject(Input::get('id'), Input::get('type'));
 
-        if (!$object)
-        {
+        if (!$object) {
             return Response::make('Object not found', 404);
         }
 
-        if ($this->getVoteElement($object, Auth::user()))
-        {
+        if ($this->getVoteElement($object, Auth::user())) {
             return Response::make('Already voted', 400);
         }
 
-        if ($object->user->getKey() == Auth::user()->getKey())
-        {
+        if ($object->user->getKey() == Auth::user()->getKey()) {
             return Response::make('Do not cheat', 400);
         }
 
-        if (Auth::user()->isBanned($this->getObjectGroup($object)))
-        {
+        if (Auth::user()->isBanned($this->getObjectGroup($object))) {
             return Response::make('Banned', 400);
         }
 
-        if (!apc_add('anti_vote_flood.user.'. Auth::id(), 1, 1))
-        {
+        if (!apc_add('anti_vote_flood.user.'.Auth::id(), 1, 1)) {
             return Response::make('Don\'t flood', 400);
         }
 
@@ -44,8 +43,7 @@ class VoteController extends BaseController {
 
         $up = Input::get('up') === 'true';
 
-        if ($up)
-        {
+        if ($up) {
             $object->increment('uv');
             $object->increment('score');
 
@@ -54,21 +52,18 @@ class VoteController extends BaseController {
 
             // small trigger, needed for pushing contents to front page
             if ($object instanceof Content && $object->uv > 5
-                    && !$object->frontpage_at && $object->created_at->diffInDays() < 5)
-            {
-                $object->frontpage_at = new Carbon;
+                    && !$object->frontpage_at && $object->created_at->diffInDays() < 5) {
+                $object->frontpage_at = new Carbon();
                 $object->save();
             }
-        }
-        else
-        {
+        } else {
             $object->increment('dv');
             $object->decrement('score');
             $dv++;
         }
 
         $vote = new Vote([
-            'created_at'    => new Carbon,
+            'created_at'    => new Carbon(),
             'user_id'       => Auth::id(),
             'up'            => $up,
         ]);
@@ -78,23 +73,23 @@ class VoteController extends BaseController {
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
 
-    public function removeVote() {
+    public function removeVote()
+    {
         $object = $this->getObject(Input::get('id'), Input::get('type'));
         $vote = $this->getVoteElement($object, Auth::user());
 
-        if (!$vote) return Response::make('Vote not found', 404);
+        if (!$vote) {
+            return Response::make('Vote not found', 404);
+        }
 
         $uv = $object->uv;
         $dv = $object->dv;
 
-        if ($vote['up'])
-        {
+        if ($vote['up']) {
             $object->decrement('uv');
             $object->decrement('score');
             $uv--;
-        }
-        else
-        {
+        } else {
             $object->decrement('dv');
             $object->increment('score');
             $dv--;
@@ -108,18 +103,16 @@ class VoteController extends BaseController {
     {
         $object = $this->getObject(Input::get('id'), Input::get('type'));
 
-        if (!$object)
-        {
+        if (!$object) {
             return Response::make('Object not found', 404);
         }
 
-        $results = array();
+        $results = [];
 
         $up = Input::get('filter') === 'up';
         $votes = $object->votes()->where('up', $up ? true : false)->get();
 
-        foreach ($votes as $vote)
-        {
+        foreach ($votes as $vote) {
             $result['username'] = $vote->user->name;
             $result['time_ago'] = $vote->created_at->diffForHumans();
             $result['time'] = $vote->created_at->format('d/m/Y H:i:s');
@@ -135,19 +128,22 @@ class VoteController extends BaseController {
 
     private function getVoteElement($object, $user)
     {
-        if (!$object->votes) return false;
+        if (!$object->votes) {
+            return false;
+        }
 
         $vote = $object->votes()->where('user_id', $user->getKey())->first();
 
-        if (!$vote) return false;
+        if (!$vote) {
+            return false;
+        }
 
         return $vote;
     }
 
     private function getObject($id, $type)
     {
-        switch ($type)
-        {
+        switch ($type) {
             case 'content':
                 return Content::findOrFail($id);
             case 'related':
@@ -165,8 +161,7 @@ class VoteController extends BaseController {
 
     private function getObjectGroup($object)
     {
-        switch (Input::get('type'))
-        {
+        switch (Input::get('type')) {
             case 'content':
             case 'entry':
                 return $object->group;
@@ -180,5 +175,4 @@ class VoteController extends BaseController {
                 return $object->comment->content->group;
         }
     }
-
 }

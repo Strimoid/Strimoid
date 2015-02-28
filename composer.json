@@ -41,25 +41,24 @@
 		"pubnub/pubnub": "3.7.*",
 		"algolia/algoliasearch-client-php": "1.5.*",
 		"jenssegers/rollbar": "~1.4",
-        "duxet/laravel-realtime": "dev-master"
+        "duxet/laravel-realtime": "dev-master",
+        "laracasts/utilities": "~2.0",
+		"jenssegers/date": "~2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.5.*",
-        "barryvdh/laravel-ide-helper": "2.*",
-        "barryvdh/laravel-debugbar": "2.*",
+        "phpunit/phpunit": "~4.5",
+        "barryvdh/laravel-ide-helper": "~2.0",
+        "barryvdh/laravel-debugbar": "~2.0",
         "fzaninotto/faker": "*",
-	    "behat/behat": "~3.0@dev",
-		"behat/mink": "~1.6@dev",
-		"behat/mink-extension": "~2.0@dev",
+	    "behat/behat": "~3.0",
+		"behat/mink": "~1.6",
+		"behat/mink-extension": "~2.0",
+        "behat/mink-selenium2-driver": "~1.2",
 	    "laracasts/behat-laravel-extension": "dev-master",
-		"mockery/mockery": "0.9.*@dev"
+        "vipsoft/code-coverage-extension": "dev-master",
+		"mockery/mockery": "~0.9",
+		"codeception/codeception": "*"
     },
-  	"repositories": [
-	    {
-		    "type": "vcs",
-		    "url": "https://github.com/duxet/Carbon"
-		}
-  	],
 	"autoload": {
 		"classmap": [
 		    "database"
@@ -71,11 +70,6 @@
 			"Strimoid\\": "app/"
 	  	}
 	},
-    "autoload-dev": {
-		"classmap": [
-	  		"tests/TestCase.php"
-		]
-  	},
   	"scripts": {
 		"post-install-cmd": [
 	  		"php artisan clear-compiled",

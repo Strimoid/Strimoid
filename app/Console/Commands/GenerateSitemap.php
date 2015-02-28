@@ -1,11 +1,9 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
-class GenerateSitemap extends Command {
-
+class GenerateSitemap extends Command
+{
     /**
      * The console command name.
      *
@@ -46,8 +44,9 @@ class GenerateSitemap extends Command {
             $sitemap->add(URL::to(route('group_contents_new', $group->_id)), null, '1.0', 'daily');
             $sitemap->add(URL::to(route('group_entries', $group->_id)), null, '1.0', 'daily');
 
-            if (!($x % 100))
-                $this->info($x .' groups processed');
+            if (!($x % 100)) {
+                $this->info($x.' groups processed');
+            }
 
             $x++;
         }
@@ -62,12 +61,13 @@ class GenerateSitemap extends Command {
         $x = 1;
 
         foreach (Content::all() as $content) {
-            $route = route('content_comments_slug', array($content->_id, Str::slug($content->title)));
+            $route = route('content_comments_slug', [$content->_id, Str::slug($content->title)]);
 
             $sitemap->add(URL::to($route), $content->modified_at, '1.0', 'daily');
 
-            if (!($x % 100))
-                $this->info($x .' contents processed');
+            if (!($x % 100)) {
+                $this->info($x.' contents processed');
+            }
 
             $x++;
         }
@@ -86,8 +86,9 @@ class GenerateSitemap extends Command {
 
             $sitemap->add(URL::to($route), $entry->modified_at, '1.0', 'daily');
 
-            if (!($x % 100))
-                $this->info($x .' entries processed');
+            if (!($x % 100)) {
+                $this->info($x.' entries processed');
+            }
 
             $x++;
         }
@@ -98,7 +99,7 @@ class GenerateSitemap extends Command {
         unset($sitemap);
 
         // Generate global sitemap
-        $sitemap = App::make ("sitemap");
+        $sitemap = App::make("sitemap");
 
         $sitemap->addSitemap(URL::to('sitemap-groups.xml'));
         $sitemap->addSitemap(URL::to('sitemap-contents.xml'));
@@ -114,7 +115,7 @@ class GenerateSitemap extends Command {
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -124,7 +125,6 @@ class GenerateSitemap extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

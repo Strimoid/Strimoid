@@ -105,7 +105,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
     @include('global.parts.footer')
 </footer>
 
-<script src="{!! $jsFilename !!}"></script>
+@if (App::environment('local', 'testing'))
+    <script src="/assets/js/all.js"></script>
+@else
+    <script src="{{ elixir('assets/js/all.js') }}"></script>
+@endif
 
 @if (Auth::check())
 <script>
@@ -135,7 +139,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
     ga('send', 'pageview');
 </script>
 
-<script src="//cdn.ravenjs.com/1.1.15/jquery,native/raven.min.js"></script>
+<script src="//cdn.ravenjs.com/1.1.16/native/raven.min.js"></script>
 <script>
     Raven.config('https://5b9dbcd47b434b228585ac5433b0c730@app.getsentry.com/26746', {
         whitelistUrls: ['strimoid.pl/']

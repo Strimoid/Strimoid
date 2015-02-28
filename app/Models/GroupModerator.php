@@ -2,7 +2,6 @@
 
 class GroupModerator extends BaseModel
 {
-
     protected $table = 'group_moderators';
 
     public function group()
@@ -14,5 +13,4 @@ class GroupModerator extends BaseModel
     {
         return $this->belongsTo('Strimoid\Models\User');
     }
-
 }

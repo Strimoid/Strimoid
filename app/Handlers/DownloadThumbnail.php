@@ -1,10 +1,9 @@
 <?php namespace Strimoid\Handlers;
 
-use WS;
 use Strimoid\Models\Content;
 
-class DownloadThumbnail {
-
+class DownloadThumbnail
+{
     public function fire($job, $data)
     {
         $content = Content::findOrFail($data['id']);
@@ -14,5 +13,4 @@ class DownloadThumbnail {
 
         $job->delete();
     }
-
 }

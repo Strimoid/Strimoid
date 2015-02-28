@@ -1,11 +1,10 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class BlockUser extends Command {
-
+class BlockUser extends Command
+{
     /**
      * The console command name.
      *
@@ -51,9 +50,9 @@ class BlockUser extends Command {
      */
     protected function getArguments()
     {
-        return array(
-            array('username', InputArgument::REQUIRED, 'User name.'),
-        );
+        return [
+            ['username', InputArgument::REQUIRED, 'User name.'],
+        ];
     }
 
     /**
@@ -63,7 +62,6 @@ class BlockUser extends Command {
      */
     protected function getOptions()
     {
-        return array();
+        return [];
     }
-
 }

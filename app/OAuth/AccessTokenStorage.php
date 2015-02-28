@@ -1,15 +1,15 @@
-<?php namespace Strimoid\OAuth; 
+<?php namespace Strimoid\OAuth;
 
-use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
+use League\OAuth2\Server\Storage\AccessTokenInterface;
 
-class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
-
+class AccessTokenStorage extends MongoStorage implements AccessTokenInterface
+{
     protected $table = 'oauth_access_tokens';
 
     /**
-     * Get an instance of Entity\AccessTokenEntity
+     * Get an instance of Entity\AccessTokenEntity.
      *
      * @param string $token The access token
      *
@@ -21,7 +21,9 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
             ->where('_id', $token)
             ->first();
 
-        if ( ! $result) return;
+        if (! $result) {
+            return;
+        }
 
         return (new AccessTokenEntity($this->server))
             ->setId($result['_id'])
@@ -29,7 +31,7 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
     }
 
     /**
-     * Get the scopes for an access token
+     * Get the scopes for an access token.
      *
      * @param \League\OAuth2\Server\Entity\AccessTokenEntity $token The access token
      *
@@ -41,13 +43,15 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
             ->where('_id', $token->getId())
             ->first();
 
-        if ( ! $result) return [];
+        if (! $result) {
+            return [];
+        }
 
         return $this->loadScopes($result['scopes']);
     }
 
     /**
-     * Creates a new access token
+     * Creates a new access token.
      *
      * @param string         $token      The access token
      * @param integer        $expireTime The expire time expressed as a unix timestamp
@@ -67,7 +71,7 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
     }
 
     /**
-     * Associate a scope with an access token
+     * Associate a scope with an access token.
      *
      * @param \League\OAuth2\Server\Entity\AccessTokenEntity $token The access token
      * @param \League\OAuth2\Server\Entity\ScopeEntity       $scope The scope
@@ -82,7 +86,7 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
     }
 
     /**
-     * Delete an access token
+     * Delete an access token.
      *
      * @param \League\OAuth2\Server\Entity\AccessTokenEntity $token The access token to delete
      *
@@ -94,5 +98,4 @@ class AccessTokenStorage extends MongoStorage implements AccessTokenInterface {
             ->where('_id', $token)
             ->delete();
     }
-
 }

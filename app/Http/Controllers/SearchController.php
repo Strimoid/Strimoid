@@ -5,31 +5,29 @@ use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Group;
 
-class SearchController extends BaseController {
-
+class SearchController extends BaseController
+{
     protected $builder;
 
     public function search()
     {
-        if (Input::has('q'))
-        {
+        if (Input::has('q')) {
             $keywords = preg_replace('/((\w+):(\w+\pL.))+\s?/i', '', Input::get('q'));
 
             switch (Input::get('t')) {
                 case 'e':
-                    $builder = Entry::where('text', 'like', '%'. $keywords .'%');
+                    $builder = Entry::where('text', 'like', '%'.$keywords.'%');
                     break;
                 case 'g':
-                    $builder = Group::where('name', 'like', '%'. $keywords .'%')
-                        ->orWhere('urlname', 'like', '%'. $keywords .'%')
+                    $builder = Group::where('name', 'like', '%'.$keywords.'%')
+                        ->orWhere('urlname', 'like', '%'.$keywords.'%')
                         ->orWhere('tags', $keywords);
                     break;
                 case 'c':
                 default:
-                    $builder = Content::where(function($query) use($keywords)
-                        {
-                            $query->where('title', 'like', '%'. $keywords .'%')
-                                ->orWhere('description', 'like', '%'. $keywords .'%');
+                    $builder = Content::where(function ($query) use ($keywords) {
+                            $query->where('title', 'like', '%'.$keywords.'%')
+                                ->orWhere('description', 'like', '%'.$keywords.'%');
                         });
                     break;
             }
@@ -40,17 +38,16 @@ class SearchController extends BaseController {
             $results = $this->builder->paginate(25);
         }
 
-        Return view('search.main', compact('results'));
+        return view('search.main', compact('results'));
     }
 
     protected function getArguments($text)
     {
-        $arguments = array();
+        $arguments = [];
 
         preg_match_all('/(\w+):([\w\pL.]+)/i', $text, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $match)
-        {
+        foreach ($matches as $match) {
             $key = $match[1];
             $arguments[$key] = $match[2];
         }
@@ -62,10 +59,8 @@ class SearchController extends BaseController {
     {
         $arguments = $this->getArguments($text);
 
-        foreach ($arguments as $key => $value)
-        {
-            switch ($key)
-            {
+        foreach ($arguments as $key => $value) {
+            switch ($key) {
                 case 'g':
                     $this->filterGroup($value);
                     break;
@@ -89,8 +84,7 @@ class SearchController extends BaseController {
     {
         $group = Group::shadow($value)->first();
 
-        if ($group)
-        {
+        if ($group) {
             $this->builder->where('group_id', $group->_id);
         }
     }
@@ -99,32 +93,27 @@ class SearchController extends BaseController {
     {
         $user = User::shadow($value)->first();
 
-        if ($user)
-        {
+        if ($user) {
             $this->builder->where('user_id', $user->_id);
         }
     }
 
     protected function filterTime($value)
     {
-        try
-        {
-            $value = 'PT'. Str::upper($value);
+        try {
+            $value = 'PT'.Str::upper($value);
             $time = Carbon::now()->sub(new DateInterval($value));
 
             $this->builder->where('created_at', '>', carbon_to_md($time));
+        } catch (Exception $e) {
         }
-        catch (Exception $e) {}
     }
 
     protected function filterNSFW($value)
     {
-        if ($value == 'yes')
-        {
+        if ($value == 'yes') {
             $this->builder->where('nsfw', true);
-        }
-        else if ($value == 'no')
-        {
+        } elseif ($value == 'no') {
             $this->builder->where('nsfw', '!=', true);
         }
     }
@@ -133,5 +122,4 @@ class SearchController extends BaseController {
     {
         $this->builder->where('domain', $value);
     }
-
 }

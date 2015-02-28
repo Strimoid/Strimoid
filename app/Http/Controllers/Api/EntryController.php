@@ -1,41 +1,37 @@
 <?php namespace Strimoid\Http\Controllers\Api;
 
-use Auth, Input, Response;
+use Auth;
 use Illuminate\Http\Request;
-use Strimoid\Models\Group;
+use Input;
+use Response;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
+use Strimoid\Models\Group;
 
-class EntryController extends BaseController {
-
+class EntryController extends BaseController
+{
     public function index()
     {
         $folderName = Input::get('folder');
         $groupName = Input::has('group') ? shadow(Input::get('group')) : 'all';
 
-        $className = 'Strimoid\\Models\\Folders\\'. studly_case($folderName ?: $groupName);
+        $className = 'Strimoid\\Models\\Folders\\'.studly_case($folderName ?: $groupName);
 
-        if (Input::has('folder') && !class_exists('Folders\\'. studly_case($folderName)))
-        {
+        if (Input::has('folder') && !class_exists('Folders\\'.studly_case($folderName))) {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
             $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
 
-            if (!$folder->public && (Auth::guest() || $user->_id != Auth::id()))
-            {
+            if (!$folder->public && (Auth::guest() || $user->_id != Auth::id())) {
                 App::abort(404);
             }
 
             $builder = $folder->entries();
-        }
-        elseif (class_exists($className))
-        {
-            $fakeGroup = new $className;
+        } elseif (class_exists($className)) {
+            $fakeGroup = new $className();
             $builder = $fakeGroup->entries();
 
             $builder->orderBy('sticky_global', 'desc');
-        }
-        else
-        {
+        } else {
             $group = Group::shadow($groupName)->firstOrFail();
             $group->checkAccess();
 
@@ -67,8 +63,7 @@ class EntryController extends BaseController {
 
     public function store(Request $request)
     {
-        if (Input::has('group'))
-        {
+        if (Input::has('group')) {
             Input::merge(['groupname' => Input::get('group')]);
         }
 
@@ -77,13 +72,11 @@ class EntryController extends BaseController {
         $group = Group::shadow(Input::get('group'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isBanned($group))
-        {
+        if (Auth::user()->isBanned($group)) {
             return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'], 400);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group))
-        {
+        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group)) {
             return Response::json(['status' => 'error', 'error' => 'Użytkownik nie może dodawać wpisów w tej grupie.'], 400);
         }
 
@@ -97,19 +90,19 @@ class EntryController extends BaseController {
     }
 
     /**
-     * @param  Request  $request
-     * @param  Entry    $entry
+     * @param Request $request
+     * @param Entry   $entry
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function storeReply(Request $request, $entry)
     {
         $this->validate($request, EntryReply::rules());
 
-        if (Auth::user()->isBanned($entry->group))
-        {
+        if (Auth::user()->isBanned($entry->group)) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Użytkownik został zbanowany w wybranej grupie.'
+                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 
@@ -122,15 +115,18 @@ class EntryController extends BaseController {
     }
 
     /**
-     * @param  Request  $request
-     * @param  Entry    $entry
+     * @param Request $request
+     * @param Entry   $entry
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function edit(Request $request, $entry)
     {
         $this->validate($request, $entry->rules());
 
-        if ( ! $entry->canEdit()) App::abort(403, 'Access denied');
+        if (! $entry->canEdit()) {
+            App::abort(403, 'Access denied');
+        }
 
         $entry->update(Input::only('text'));
 
@@ -138,15 +134,18 @@ class EntryController extends BaseController {
     }
 
     /**
-     * @param  Entry  $entry
+     * @param Entry $entry
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function remove($entry)
     {
-        if ( ! $entry->canRemove()) App::abort(403, 'Access denied');
+        if (! $entry->canRemove()) {
+            App::abort(403, 'Access denied');
+        }
 
         $entry->delete();
+
         return Response::json(['status' => 'ok']);
     }
-
 }

@@ -28,7 +28,7 @@ FoldersModule.prototype.createFolder = function(e) {
             $(input).val('');
         }
     });
-}
+};
 
 FoldersModule.prototype.modifyFolder = function() {
     var input = this;
@@ -49,7 +49,7 @@ FoldersModule.prototype.modifyFolder = function() {
     }
 
     $(input).prop('disabled', true);
-}
+};
 
 FoldersModule.prototype.publishFolder = function() {
     var button = $(this);
@@ -71,7 +71,7 @@ FoldersModule.prototype.publishFolder = function() {
             }
         });
     }
-}
+};
 
 FoldersModule.prototype.removeFolder = function() {
     var id = $(this).parent().attr('data-id');
@@ -83,7 +83,7 @@ FoldersModule.prototype.removeFolder = function() {
                     window.location.href = "/";
             });
     });
-}
+};
 
 FoldersModule.prototype.addGroup = function() {
     var form = $(this);
@@ -107,7 +107,7 @@ FoldersModule.prototype.addGroup = function() {
     });
 
     return false;
-}
+};
 
 FoldersModule.prototype.removeGroup = function() {
     var row = $(this).parent();
@@ -118,4 +118,4 @@ FoldersModule.prototype.removeGroup = function() {
         if (data.status == 'ok')
             $(row).remove();
     });
-}
+};

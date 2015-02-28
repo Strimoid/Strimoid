@@ -1,12 +1,12 @@
 <?php namespace Strimoid\Models;
 
-use Auth, Str;
+use Auth;
+use Str;
 use Strimoid\Helpers\MarkdownParser;
 
 /**
- * Comment model
+ * Comment model.
  *
- * @package Strimoid\Models
  * @property string $_id
  * @property Content $content
  * @property string $text
@@ -15,15 +15,14 @@ use Strimoid\Helpers\MarkdownParser;
  */
 class Comment extends BaseModel
 {
-
     protected $attributes = [
-        'uv' => 0,
-        'dv' => 0,
+        'uv'    => 0,
+        'dv'    => 0,
         'score' => 0,
     ];
 
     protected static $rules = [
-        'text' => 'required|min:1|max:5000'
+        'text' => 'required|min:1|max:5000',
     ];
 
     protected $appends = ['vote_state'];
@@ -31,7 +30,7 @@ class Comment extends BaseModel
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
 
-    function __construct($attributes = [])
+    public function __construct($attributes = [])
     {
         $this->{$this->getKeyName()} = Str::random(6);
         parent::__construct($attributes);
@@ -41,13 +40,11 @@ class Comment extends BaseModel
     {
         parent::boot();
 
-        static::creating(function($comment)
-        {
+        static::creating(function ($comment) {
             $comment->group_id = $comment->content->group_id;
         });
 
-        static::created(function($comment)
-        {
+        static::created(function ($comment) {
             $comment->content->increment('comments_count');
         });
     }
@@ -76,8 +73,7 @@ class Comment extends BaseModel
 
     public function delete()
     {
-        foreach ($this->replies as $reply)
-        {
+        foreach ($this->replies as $reply) {
             $reply->delete();
         }
 
@@ -100,14 +96,16 @@ class Comment extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) return false;
+        if (Auth::guest()) {
+            return false;
+        }
 
         return Auth::user()->isBlockingUser($this->user);
     }
 
     public function getURL()
     {
-        return route('content_comments', $this->content_id) .'#'. $this->getKey();
+        return route('content_comments', $this->content_id).'#'.$this->getKey();
     }
 
     public function canEdit()
@@ -121,5 +119,4 @@ class Comment extends BaseModel
         return Auth::id() === $this->user_id
             || Auth::user()->isModerator($this->group_id);
     }
-
 }

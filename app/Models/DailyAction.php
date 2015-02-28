@@ -2,7 +2,6 @@
 
 class DailyAction extends BaseModel
 {
-
     protected $table = 'daily_actions';
     protected $connection = 'stats';
 
@@ -40,5 +39,4 @@ class DailyAction extends BaseModel
     {
         return intval($value);
     }
-
 }

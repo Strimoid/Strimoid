@@ -1,8 +1,8 @@
 function VotesModule() {
 
     if (window.username) {
-        $('body').on('click', 'button.vote-btn-up', this.addUpvote);
-        $('body').on('click', 'button.vote-btn-down', this.addDownvote);
+        $('body').on('click', 'button.vote-btn-up', this.addUpvote)
+                 .on('click', 'button.vote-btn-down', this.addDownvote);
     }
 
     $('body').popover({
@@ -68,77 +68,6 @@ function VotesModule() {
             }
         });
     });
-
-    /*
-    $('body').hoverIntent(function(){
-        var button = $(this);
-        var content = $(this).parent();
-        var cid = $(content).attr('data-id');
-        var type = $(content).attr('data-type');
-
-        $(button).popover({
-            'html': true,
-            'placement': 'right'
-        }).popover('show');
-
-        $.post('/ajax/vote/get_voters', { id: cid, type: type, filter: 'up' }, function(data){
-            if (data.status == 'ok') {
-                var content = '';
-
-                data.voters.forEach(function(vote) {
-                    content += '<div style="font-size: 11px">';
-
-                    if (vote.up)
-                        content += '<span class="glyphicon glyphicon-arrow-up vote-up"></span>';
-                    else
-                        content += '<span class="glyphicon glyphicon-arrow-down vote-down"></span>';
-
-                    content += ' '+ vote.username + ' <span style="color: #929292">('+ vote.time +')</span></div>';
-                });
-
-                $(button).data('bs.popover').options.content = content;
-                $(button).popover('show');
-            }
-        });
-    }, function(){
-        $(this).popover('destroy');
-    }, 'button.vote-btn-up');
-
-    $('body').hoverIntent(function(){
-        var button = $(this);
-        var content = $(this).parent();
-        var cid = $(content).attr('data-id');
-        var type = $(content).attr('data-type');
-
-        $(button).popover({
-            'html': true,
-            'placement': 'right'
-        });
-
-        $.post('/ajax/vote/get_voters', { id: cid, type: type, filter: 'down' }, function(data){
-            if (data.status == 'ok') {
-                var content = '';
-
-                data.voters.forEach(function(vote) {
-                    content += '<div style="font-size: 11px">';
-
-                    if (vote.up)
-                        content += '<span class="glyphicon glyphicon-arrow-up vote-up"></span>';
-                    else
-                        content += '<span class="glyphicon glyphicon-arrow-down vote-down"></span>';
-
-                    content += ' '+ vote.username + ' <span style="color: #929292">('+ vote.time +')</span></div>';
-                });
-
-                $(button).data('bs.popover').options.content = content;
-                $(button).popover('show');
-            }
-        });
-    }, function(){
-        $(this).popover('destroy');
-    }, 'button.vote-btn-down');
-
-    */
 }
 
 VotesModule.prototype.addUpvote = function() {
@@ -190,7 +119,7 @@ VotesModule.prototype.addUpvote = function() {
             $(content).find('.vote-btn-down .count').text(data.dv);
         });
     }
-}
+};
 
 VotesModule.prototype.addDownvote = function() {
     var content = $(this).parent();
@@ -241,4 +170,4 @@ VotesModule.prototype.addDownvote = function() {
             $(content).find('.vote-btn-down .count').text(data.dv);
         });
     }
-}
+};

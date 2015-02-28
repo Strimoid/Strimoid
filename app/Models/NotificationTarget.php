@@ -2,7 +2,6 @@
 
 class NotificationTarget extends BaseModel
 {
-
     protected $attributes = ['read' => false];
 
     public function user()
@@ -14,5 +13,4 @@ class NotificationTarget extends BaseModel
     {
         $this->attributes['read'] = toBool($value);
     }
-
 }

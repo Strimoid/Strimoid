@@ -1,42 +1,24 @@
-var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
-var mainBowerFiles = require('main-bower-files');
+var elixir = require('laravel-elixir');
 
-gulp.task('default', ['angular', 'js', 'css'], function() {
+require('laravel-elixir-bower');
+
+elixir(function(mix) {
+    mix.bower('vendor.css', 'public/assets/css', 'vendor.js', 'public/assets/js')
+       .stylesIn('resources/assets/css', 'public/assets/css')
+       .scripts([
+            'plugins/*.js',
+            'modules/*.js',
+            'lara.js'
+       ], 'public/assets/js', 'resources/assets/js')
+       .version([
+            'assets/css/all.css',
+            'assets/css/vendor.css',
+            'assets/js/all.js',
+            'assets/js/vendor.js'
+       ]);
 });
 
-gulp.task('angular', function() {
-    return gulp.src([
-            'resources/assets/js/app.js',
-            'resources/assets/js/controllers/*.js'
-        ])
-        //.pipe(plugins.sourcemaps.init())
-        .pipe(plugins.ngAnnotate({ single_quotes: true }))
-        .pipe(plugins.concat('angular.js'))
-        .pipe(plugins.uglify())
-        //.pipe(plugins.sourcemaps.write())
-        .pipe(gulp.dest('public/static/js/'));
-});
-
-gulp.task('js', function() {
-    var src = mainBowerFiles({ filter: /\.js$/ }).concat([
-        'resources/assets/js/plugins/*.js',
-        'resources/assets/js/modules/*.js',
-        'resources/assets/js/lara.js'
-    ]);
-
-    return gulp.src(src)
-        .pipe(plugins.sourcemaps.init())
-        .pipe(plugins.concat('app.js'))
-        .pipe(plugins.uglify())
-        .pipe(plugins.sourcemaps.write('./'))
-        .pipe(gulp.dest('public/static/js/'));
-});
-
-gulp.task('css', function() {
-    return gulp.src('resources/assets/css/*.css')
-        .pipe(plugins.autoprefixer('last 2 versions'))
-        .pipe(plugins.concat('style.css'))
-        .pipe(plugins.minifyCss())
-        .pipe(gulp.dest('public/static/css/'));
+elixir(function(mix) {
+    mix.copy('bower_components/bootstrap/dist/fonts', 'public/assets/fonts')
+       .copy('bower_components/bootstrap/dist/fonts', 'public/build/assets/fonts');
 });

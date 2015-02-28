@@ -36,17 +36,17 @@ return [
 
         'uploads' => [
             'driver' => 'local',
-            'root'   => env('UPLOADS_PATH', '/data/strimoid/uploads'),
+            'root'   => env('UPLOADS_PATH', storage_path().'/uploads'),
         ],
 
         'thumbnails' => [
             'driver' => 'local',
-            'root'   => env('UPLOADS_PATH' .'/thumbnails', '/data/strimoid/uploads/thumbnails'),
+            'root'   => env('UPLOADS_PATH'.'/thumbnails', storage_path().'/uploads/thumbnails'),
         ],
 
         'styles' => [
             'driver' => 'local',
-            'root'   => env('UPLOADS_PATH' .'/styles', '/data/strimoid/uploads/styles'),
+            'root'   => env('UPLOADS_PATH'.'/styles', storage_path().'/uploads/styles'),
         ],
 
     ],

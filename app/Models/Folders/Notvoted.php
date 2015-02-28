@@ -3,18 +3,16 @@
 use Auth;
 use Strimoid\Models\FakeFolder;
 
-class Notvoted extends FakeFolder {
-
+class Notvoted extends FakeFolder
+{
     protected function getBuilder($model)
     {
-        $builder = with(new $model)->newQuery();
+        $builder = with(new $model())->newQuery();
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $builder->where('votes.user_id', '!=', Auth::user()->_id);
         }
 
         return $builder;
     }
-
 }

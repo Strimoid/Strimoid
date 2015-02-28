@@ -3,16 +3,16 @@
 return [
 
     /*
-	|--------------------------------------------------------------------------
-	| Third Party Services
-	|--------------------------------------------------------------------------
-	|
-	| This file is for storing the credentials for third party services such
-	| as Stripe, Mailgun, Mandrill, and others. This file provides a sane
-	| default location for this type of information, allowing packages
-	| to have a conventional place to find your various credentials.
-	|
-	*/
+    |--------------------------------------------------------------------------
+    | Third Party Services
+    |--------------------------------------------------------------------------
+    |
+    | This file is for storing the credentials for third party services such
+    | as Stripe, Mailgun, Mandrill, and others. This file provides a sane
+    | default location for this type of information, allowing packages
+    | to have a conventional place to find your various credentials.
+    |
+    */
 
     'mailgun' => [
         'domain'        => env('MAILGUN_DOMAIN'),
@@ -24,9 +24,9 @@ return [
         'default_inbox' => env('MAILTRAP_INBOX'),
     ],
 
-	'rollbar' => [
-		'access_token'  => env('ROLLBAR_TOKEN'),
+    'rollbar' => [
+        'access_token'  => env('ROLLBAR_TOKEN'),
         'level'         => env('ROLLBAR_LEVEL', 'debug'),
-	],
+    ],
 
 ];

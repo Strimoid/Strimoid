@@ -2,7 +2,6 @@
 
 class UserAction extends BaseModel
 {
-
     protected $table = 'user_actions';
     protected static $unguarded = true;
 
@@ -44,8 +43,7 @@ class UserAction extends BaseModel
 
     public function getObject()
     {
-        switch($this->type)
-        {
+        switch ($this->type) {
             case self::TYPE_CONTENT:        return $this->content;
             case self::TYPE_COMMENT:        return $this->comment;
             case self::TYPE_COMMENT_REPLY:  return CommentReply::find($this->comment_reply_id);
@@ -55,5 +53,4 @@ class UserAction extends BaseModel
 
         throw new Exception('Invalid user action type');
     }
-
 }

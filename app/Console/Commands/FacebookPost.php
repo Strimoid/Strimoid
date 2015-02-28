@@ -1,13 +1,13 @@
 <?php namespace Strimoid\Console\Commands;
 
-use Carbon, Config, Guzzle;
-use Strimoid\Models\Content;
+use Carbon;
+use Config;
+use Guzzle;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Strimoid\Models\Content;
 
-class FacebookPost extends Command {
-
+class FacebookPost extends Command
+{
     /**
      * The console command name.
      *
@@ -46,18 +46,17 @@ class FacebookPost extends Command {
 
         $params = [
             'access_token' => Config::get('social.facebook.page_token'),
-            'name' => $content->title,
-            'link' => route('content_comments', $content->getKey()),
-            'description' => $content->description
+            'name'         => $content->title,
+            'link'         => route('content_comments', $content->getKey()),
+            'description'  => $content->description,
         ];
 
         $params['picture'] = $content->thumbnail
-            ? 'https:' . $content->getThumbnailPath(500, 250)
+            ? 'https:'.$content->getThumbnailPath(500, 250)
             : '';
 
         Guzzle::post('https://graph.facebook.com/strimoid/feed', [
-            'body' => $params
+            'body' => $params,
         ]);
     }
-
 }

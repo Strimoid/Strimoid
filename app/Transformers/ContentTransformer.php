@@ -6,61 +6,61 @@ use League\Fractal\TransformerAbstract;
 
 class ContentTransformer extends TransformerAbstract
 {
-
     /**
-     * List of resources possible to include
+     * List of resources possible to include.
      *
      * @var array
      */
     protected $availableIncludes = [
         'group',
-        'user'
+        'user',
     ];
 
     /**
-     * List of resources to automatically include
+     * List of resources to automatically include.
      *
      * @var array
      */
     protected $defaultIncludes = [
         'group',
-        'user'
+        'user',
     ];
 
     /**
-     * Turn this item object into a generic array
+     * Turn this item object into a generic array.
      *
-     * @var Content $content
+     * @var Content
+     *
      * @return array
      */
     public function transform(Content $content)
     {
         return [
-            '_id' => $content->id,
-            'title' => $content->title,
+            '_id'         => $content->id,
+            'title'       => $content->title,
             'description' => $content->description,
-            'eng' => (bool)$content->eng,
-            'nsfw' => (bool)$content->nsfw,
-            'links' => [
+            'eng'         => (bool) $content->eng,
+            'nsfw'        => (bool) $content->nsfw,
+            'links'       => [
                 [
                     'rel' => 'self',
-                    'uri' => '/books/' . $book->id,
-                ]
+                    'uri' => '/books/'.$book->id,
+                ],
             ],
         ];
     }
 
     /**
-     * Include Group
+     * Include Group.
      *
-     * @var Content $content
+     * @var Content
+     *
      * @return League\Fractal\ItemResource
      */
     public function includeGroup(Content $content)
     {
         $group = $content->group;
 
-        return $this->item($group, new GroupTransformer);
+        return $this->item($group, new GroupTransformer());
     }
-
 }

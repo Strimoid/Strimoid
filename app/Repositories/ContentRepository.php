@@ -1,10 +1,10 @@
-<?php namespace Strimoid\Repositories; 
+<?php namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\ContentRepository as ContentRepositoryContract;
 use Strimoid\Models\Content;
 
-class ContentRepository extends Repository implements ContentRepositoryContract {
-
+class ContentRepository extends Repository implements ContentRepositoryContract
+{
     /**
      * @var Content
      */
@@ -26,8 +26,7 @@ class ContentRepository extends Repository implements ContentRepositoryContract 
         $builder = $from->contents();
         $builder->orderBy($sortBy, 'desc');
 
-        if ($perPage)
-        {
+        if ($perPage) {
             return $this->paginate($builder, $perPage);
         }
 
@@ -42,8 +41,7 @@ class ContentRepository extends Repository implements ContentRepositoryContract 
         $builder = $from->contents();
         $builder->orderBy($sortBy, 'desc');
 
-        if ($perPage)
-        {
+        if ($perPage) {
             return $this->paginate($builder, $perPage);
         }
 
@@ -55,7 +53,5 @@ class ContentRepository extends Repository implements ContentRepositoryContract 
      */
     public function getNewContentsFrom($from, $sortBy = 'created_at', $perPage = null)
     {
-
     }
-
 }

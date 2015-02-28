@@ -1,14 +1,14 @@
 <?php namespace Strimoid\Http\Controllers\Api;
 
-use Response;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
+use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use League\Fractal\Manager;
+use Response;
 
-class BaseController extends Controller {
-
+class BaseController extends Controller
+{
     use ValidatesRequests;
 
     /**
@@ -24,6 +24,7 @@ class BaseController extends Controller {
      *
      * @param $item
      * @param $callback
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function respondWithItem($item, $callback)
@@ -39,6 +40,7 @@ class BaseController extends Controller {
      *
      * @param $collection
      * @param $callback
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function respondWithCollection($collection, $callback)
@@ -48,5 +50,4 @@ class BaseController extends Controller {
 
         return Response::json($rootScope->toArray());
     }
-
 }

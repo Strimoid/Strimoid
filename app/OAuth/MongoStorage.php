@@ -3,8 +3,8 @@
 use Illuminate\Database\ConnectionInterface;
 use League\OAuth2\Server\Storage\AbstractStorage;
 
-class MongoStorage extends AbstractStorage {
-
+class MongoStorage extends AbstractStorage
+{
     /**
      * @var ConnectionInterface
      */
@@ -22,11 +22,13 @@ class MongoStorage extends AbstractStorage {
      * Use given table.
      *
      * @param string $table
+     *
      * @return \Illuminate\Database\Query\Builder
      */
     protected function table($table = null)
     {
         $table = $table ?: $this->table;
+
         return $this->connection->table($table);
     }
 
@@ -34,14 +36,14 @@ class MongoStorage extends AbstractStorage {
      * Turn array of scope names into array of scope entities.
      *
      * @param  $array
+     *
      * @return array
      */
     protected function loadScopes($array)
     {
         $scopes = [];
 
-        foreach ($array as $scope)
-        {
+        foreach ($array as $scope) {
             $scopes[] = $this->server
                 ->getScopeStorage()
                 ->get($scope);
@@ -49,5 +51,4 @@ class MongoStorage extends AbstractStorage {
 
         return $scopes;
     }
-
 }

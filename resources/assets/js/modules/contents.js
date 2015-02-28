@@ -28,7 +28,7 @@ ContentsModule.prototype.saveContent = function(e) {
             }
         });
     }
-}
+};
 
 ContentsModule.prototype.findDuplicates = function() {
     var input = this;
@@ -61,7 +61,7 @@ ContentsModule.prototype.findDuplicates = function() {
             }
         });
     }, 1);
-}
+};
 
 ContentsModule.prototype.showSidebar = function() {
     window.clearTimeout($(this).data('timeout'));
@@ -73,4 +73,4 @@ ContentsModule.prototype.showSidebar = function() {
             $('.sidebar .well').html(data.sidebar);
         });
     }, 500));
-}
+};

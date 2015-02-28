@@ -22,4 +22,4 @@ PollsModule.prototype.updateOptions = function(e) {
         $(question).find('input:not(:checked)').removeAttr('disabled');
     }
 
-}
+};

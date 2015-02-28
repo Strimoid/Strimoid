@@ -2,8 +2,6 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
 use Laracasts\Behat\Context\Services\MailTrap;
 use PHPUnit_Framework_Assert as PHPUnit;
@@ -13,7 +11,6 @@ use PHPUnit_Framework_Assert as PHPUnit;
  */
 class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext
 {
-
     use MailTrap;
 
     /**
@@ -68,5 +65,4 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
     {
         $this->getSession()->getPage()->find('css', $name)->submit();
     }
-
 }
