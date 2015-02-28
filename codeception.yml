@@ -10,6 +10,8 @@ settings:
     memory_limit: 1024M
 modules:
     config:
+        Laravel5:
+            cleanup: false
         Db:
             dsn: ''
             user: ''
