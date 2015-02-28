@@ -21,7 +21,18 @@ class AuthCest {
             'username' => 'Karina14',
             'password' => 'qwe123',
         ]);
-        $I->amLoggedAs(['name' => 'Karina14']);
+        $I->seeAuthentication();
+    }
+
+    public function registerNewAccount(FunctionalTester $I)
+    {
+        $I->amOnPage('/register');
+        $I->submitForm('.main_col form', [
+            'username' => 'NewUser',
+            'password' => 'qwe123',
+            'email'    => 'new@user.com'
+        ]);
+        $I->seeRecord('users', ['name' => 'NewUser']);
     }
 
 }
