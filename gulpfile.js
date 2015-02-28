@@ -5,13 +5,17 @@ require('laravel-elixir-bower');
 elixir(function(mix) {
     mix.bower('vendor.css', 'public/assets/css', 'vendor.js', 'public/assets/js')
        .stylesIn('resources/assets/css', 'public/assets/css')
-       .scriptsIn('resources/assets/js', 'public/assets/js')
+       .scripts([
+            'plugins/*.js',
+            'modules/*.js',
+            'lara.js'
+       ], 'public/assets/js', 'resources/assets/js')
        .version([
-            'public/assets/css/all.css',
-            'public/assets/css/vendor.css',
-            'public/assets/js/all.js',
-            'public/assets/js/vendor.js'
-        ]);
+            'assets/css/all.css',
+            'assets/css/vendor.css',
+            'assets/js/all.js',
+            'assets/js/vendor.js'
+       ]);
 });
 
 elixir(function(mix) {
