@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e1ce88e70fb338cfb4785986773e279d",
+    "hash": "59aa3f2266ebafcd3ade7652cc8e42d2",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -275,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-realtime.git",
-                "reference": "e492f0e36e5057cda1b18a51a3eab6871e8b3949"
+                "reference": "0afd3d1d6889575913d7cae3f30d699e6030578b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/e492f0e36e5057cda1b18a51a3eab6871e8b3949",
-                "reference": "e492f0e36e5057cda1b18a51a3eab6871e8b3949",
+                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/0afd3d1d6889575913d7cae3f30d699e6030578b",
+                "reference": "0afd3d1d6889575913d7cae3f30d699e6030578b",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
                 "pubsub",
                 "realtime"
             ],
-            "time": "2015-02-27 08:27:06"
+            "time": "2015-02-28 18:30:56"
         },
         {
             "name": "graham-campbell/manager",
@@ -4253,12 +4253,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laracasts/Behat-Laravel-Extension.git",
-                "reference": "205a3d217d33d4315d20d0f3497edd65a8b5443e"
+                "reference": "c8eeb440235c23ba14a601ea94801ace3af0e18e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/Behat-Laravel-Extension/zipball/205a3d217d33d4315d20d0f3497edd65a8b5443e",
-                "reference": "205a3d217d33d4315d20d0f3497edd65a8b5443e",
+                "url": "https://api.github.com/repos/laracasts/Behat-Laravel-Extension/zipball/c8eeb440235c23ba14a601ea94801ace3af0e18e",
+                "reference": "c8eeb440235c23ba14a601ea94801ace3af0e18e",
                 "shasum": ""
             },
             "require": {
@@ -4294,7 +4294,7 @@
                 "extension",
                 "laravel"
             ],
-            "time": "2015-01-22 00:00:24"
+            "time": "2015-02-28 14:31:47"
         },
         {
             "name": "maximebf/debugbar",
