@@ -10,4 +10,4 @@ bower_components/
 .bowery
 public/assets/
 public/build/
-build/
+tests/_output/*

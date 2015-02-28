@@ -56,7 +56,8 @@
         "behat/mink-selenium2-driver": "~1.2",
 	    "laracasts/behat-laravel-extension": "dev-master",
         "vipsoft/code-coverage-extension": "dev-master",
-		"mockery/mockery": "~0.9"
+		"mockery/mockery": "~0.9",
+		"codeception/codeception": "*"
     },
 	"autoload": {
 		"classmap": [
