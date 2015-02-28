@@ -1,7 +1,7 @@
 <?php namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\FolderRepository as FolderRepositoryContract;
-use Strimoid\Contracts\Repositories\UserRepository;
+use Strimoid\Contracts\Repositories\UserRepository as UserRepositoryContract;
 use Strimoid\Models\Folder;
 
 class FolderRepository implements FolderRepositoryContract
@@ -17,10 +17,10 @@ class FolderRepository implements FolderRepositoryContract
     protected $users;
 
     /**
-     * @param Folder         $folder
-     * @param UserRepository $users
+     * @param Folder                 $folder
+     * @param UserRepositoryContract $users
      */
-    public function __construct(Folder $folder, UserRepository $users)
+    public function __construct(Folder $folder, UserRepositoryContract $users)
     {
         $this->folder = $folder;
         $this->users = $users;
