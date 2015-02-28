@@ -1,13 +1,20 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Auth;
+use Response;
+use Illuminate\Http\Request;
+use Str;
+use Strimoid\Models\Group;
+use Strimoid\Models\Notification;
+
 class AuthController extends BaseController
 {
-    public function login()
+    public function login(Request $request)
     {
-        $remember = Input::get('remember') == 'true' ? true : false;
+        $remember = $request->input('remember') == 'true' ? true : false;
 
         if (Auth::attempt(['shadow_name' => Str::lower(Input::get('username')),
-            'password' => Input::get('password'), 'is_activated' => true, ], $remember)) {
+            'password' => $request->input('password'), 'is_activated' => true, ], $remember)) {
             if (Auth::user()->removed_at || Auth::user()->blocked_at) {
                 Auth::logout();
 
