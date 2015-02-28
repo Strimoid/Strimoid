@@ -36,7 +36,6 @@
     <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">
 @endif
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
 <script src="/static/js/components.js"></script>
 
 @yield('head')

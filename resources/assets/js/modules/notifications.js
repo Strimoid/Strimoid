@@ -56,7 +56,7 @@ NotificationsModule.prototype.markAllAsRead = function()
 {
     $('.notifications_dropdown a.new').removeClass('new');
     this.changeUnreadCount(0);
-}
+};
 
 NotificationsModule.prototype.markAsRead = function(id)
 {
@@ -66,7 +66,7 @@ NotificationsModule.prototype.markAsRead = function(id)
         this.decrementUnreadCount();
         $(notification).removeClass('new');
     }
-}
+};
 
 NotificationsModule.prototype.renderNotification = function(notification)
 {
@@ -75,7 +75,7 @@ NotificationsModule.prototype.renderNotification = function(notification)
     html += '<time pubdate title="'+ notification.time +'">chwilę temu</time></small></div><div class="clearfix"></div></a>';
 
     $('.notifications_list').prepend(html);
-}
+};
 
 NotificationsModule.prototype.showNotification = function(data)
 {
@@ -93,13 +93,13 @@ NotificationsModule.prototype.showNotification = function(data)
 
         if (window.settings.notifications_sound)
             $.ionSound.play('notification');
-    }
+    };
 
     notification.onclick = function() {
         window.location.href = data.url;
         window.focus();
-    }
-}
+    };
+};
 
 NotificationsModule.prototype.updatePageTitle = function()
 {
@@ -108,7 +108,7 @@ NotificationsModule.prototype.updatePageTitle = function()
     } else {
         document.title = this.pageTitle;
     }
-}
+};
 
 NotificationsModule.prototype.updateIcon = function()
 {
@@ -119,7 +119,7 @@ NotificationsModule.prototype.updateIcon = function()
         $('.notifications_dropdown .notifications_icon').removeClass('notifications_icon_new');
         $('.notifications_dropdown .badge').text(this.unreadNotifications).hide();
     }
-}
+};
 
 NotificationsModule.prototype.changeUnreadCount = function(newValue)
 {
@@ -127,14 +127,14 @@ NotificationsModule.prototype.changeUnreadCount = function(newValue)
 
     this.updatePageTitle();
     this.updateIcon();
-}
+};
 
 NotificationsModule.prototype.incrementUnreadCount = function()
 {
     this.changeUnreadCount(this.unreadNotifications + 1);
-}
+};
 
 NotificationsModule.prototype.decrementUnreadCount = function()
 {
     this.changeUnreadCount(this.unreadNotifications - 1);
-}
+};

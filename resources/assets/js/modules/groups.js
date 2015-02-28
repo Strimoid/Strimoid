@@ -28,7 +28,7 @@ GroupsModule.prototype.subscribeGroup = function () {
             }
         });
     }
-}
+};
 
 GroupsModule.prototype.blockGroup = function () {
     var button = $(this);
@@ -49,7 +49,7 @@ GroupsModule.prototype.blockGroup = function () {
             }
         });
     }
-}
+};
 
 GroupsModule.prototype.renderActionsWidget = function() {
     var widget = $(this);
@@ -64,4 +64,4 @@ GroupsModule.prototype.renderActionsWidget = function() {
         subscribe_class: _.contains(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-default',
         block_class: _.contains(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-default'
     });
-}
+};

@@ -29,7 +29,7 @@ EntriesModule.prototype.saveEntry = function(e) {
             }
         });
     }
-}
+};
 
 EntriesModule.prototype.addEntry = function(e) {
     var form = this;
@@ -47,7 +47,7 @@ EntriesModule.prototype.addEntry = function(e) {
     });
 
     e.preventDefault();
-}
+};
 
 EntriesModule.prototype.addReply = function(e) {
     var form = this;
@@ -80,7 +80,7 @@ EntriesModule.prototype.addReply = function(e) {
     });
 
     e.preventDefault();
-}
+};
 
 EntriesModule.prototype.editEntry = function(e) {
     var entry = $(this).parent().parent();
@@ -117,4 +117,4 @@ EntriesModule.prototype.editEntry = function(e) {
             });
         }
     });
-}
+};

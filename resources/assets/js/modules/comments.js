@@ -26,7 +26,7 @@ CommentsModule.prototype.addComment = function(e) {
     });
 
     e.preventDefault();
-}
+};
 
 CommentsModule.prototype.addReply = function(e) {
     var form = this;
@@ -59,4 +59,4 @@ CommentsModule.prototype.addReply = function(e) {
     });
 
     e.preventDefault();
-}
+};
