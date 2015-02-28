@@ -690,22 +690,6 @@ $(document).ready(function() {
     if ($('.conversation_messages').length) {
         $('.conversation_messages').scrollTop($('.conversation_messages').prop('scrollHeight'));
     }
-
-    Mousetrap.bind('ctrl+alt+a', function(e) {
-        window.location = '/';
-    });
-
-    Mousetrap.bind('ctrl+alt+s', function(e) {
-        window.location = '/g/subscribed';
-    });
-
-    Mousetrap.bind('ctrl+alt+m', function(e) {
-        window.location = '/g/moderated';
-    });
-
-    Mousetrap.bind('ctrl+alt+o', function(e) {
-        window.location = '/g/observed';
-    });
 });
 
 
