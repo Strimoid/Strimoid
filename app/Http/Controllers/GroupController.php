@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth;
-use File;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
@@ -15,6 +14,7 @@ use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\ModeratorAction;
+use Strimoid\Models\User;
 
 class GroupController extends BaseController
 {
