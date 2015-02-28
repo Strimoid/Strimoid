@@ -28,7 +28,8 @@ $(document).ready(function() {
     if (window.username && window.WebSocket)
     {
         var pubnub = PUBNUB.init({
-            subscribe_key: 'sub-c-c6949fbe-a943-11e4-ad17-0619f8945a4f'
+            subscribe_key: 'sub-c-c6949fbe-a943-11e4-ad17-0619f8945a4f',
+            ssl: true
         });
 
         pubnub.subscribe({
