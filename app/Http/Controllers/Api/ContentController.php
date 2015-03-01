@@ -4,6 +4,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Input;
 use Queue;
+use Response;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
