@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 class RateLimit
 {
+
     /**
      * The throttle instance.
      *
@@ -35,16 +36,41 @@ class RateLimit
      */
     public function handle($request, Closure $next)
     {
-        // Limit only POST requests
-        if ($request->getMethod() == 'POST') {
+        if ($this->isEnabledFor($request))
+        {
             $limit = 25; // request limit
             $time = 10; // ban time
 
-            if (false === $this->throttle->attempt($request, $limit, $time)) {
+            if (false === $this->throttle->attempt($request, $limit, $time))
+            {
                 throw new TooManyRequestsHttpException($time * 60, 'Rate limit exceed.');
             }
         }
 
         return $next($request);
+    }
+
+    /**
+     * Shall be throttle limit enabled for given request?
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return bool
+     */
+    protected function isEnabledFor($request)
+    {
+        // Limit only POST requests
+        if ($request->getMethod() != 'POST')
+        {
+            return false;
+        }
+
+        // Disable throttle limit for voting
+        if (starts_with($request->getPathInfo(), '/ajax/vote/'))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

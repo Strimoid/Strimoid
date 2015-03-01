@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "59aa3f2266ebafcd3ade7652cc8e42d2",
+    "hash": "286691ad14553dd5c57facfbc184cd09",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -275,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/duxet/laravel-realtime.git",
-                "reference": "0afd3d1d6889575913d7cae3f30d699e6030578b"
+                "reference": "a827af2968f4196fd14b82227ca418f5e369b24d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/0afd3d1d6889575913d7cae3f30d699e6030578b",
-                "reference": "0afd3d1d6889575913d7cae3f30d699e6030578b",
+                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/a827af2968f4196fd14b82227ca418f5e369b24d",
+                "reference": "a827af2968f4196fd14b82227ca418f5e369b24d",
                 "shasum": ""
             },
             "require": {
@@ -320,7 +320,7 @@
                 "pubsub",
                 "realtime"
             ],
-            "time": "2015-02-28 18:30:56"
+            "time": "2015-03-01 00:08:44"
         },
         {
             "name": "graham-campbell/manager",
