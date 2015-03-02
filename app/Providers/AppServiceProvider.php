@@ -22,8 +22,7 @@ class AppServiceProvider extends ServiceProvider
 
         $rollbarToken = config('services.rollbar.access_token');
 
-        if ( ! empty($rollbarToken))
-        {
+        if (! empty($rollbarToken)) {
             $this->app->register('Jenssegers\Rollbar\RollbarServiceProvider');
         }
     }

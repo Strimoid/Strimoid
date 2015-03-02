@@ -1570,16 +1570,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.7.0",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "5f5137889b2aec36f8a1009ebe8673dac45f004e"
+                "reference": "7b428e962fb83a13715e057c65c88873d3165df0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/5f5137889b2aec36f8a1009ebe8673dac45f004e",
-                "reference": "5f5137889b2aec36f8a1009ebe8673dac45f004e",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/7b428e962fb83a13715e057c65c88873d3165df0",
+                "reference": "7b428e962fb83a13715e057c65c88873d3165df0",
                 "shasum": ""
             },
             "require": {
@@ -1598,7 +1598,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.7-dev"
+                    "dev-master": "0.8-dev"
                 }
             },
             "autoload": {
@@ -1625,7 +1625,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2015-02-16 23:59:27"
+            "time": "2015-03-01 21:29:05"
         },
         {
             "name": "league/event",

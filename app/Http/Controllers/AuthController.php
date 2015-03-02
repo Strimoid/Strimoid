@@ -1,8 +1,8 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth;
-use Response;
 use Illuminate\Http\Request;
+use Response;
 use Str;
 use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
