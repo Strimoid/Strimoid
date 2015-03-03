@@ -1031,16 +1031,16 @@
         },
         {
             "name": "jenssegers/agent",
-            "version": "v2.1.5",
+            "version": "v2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/laravel-agent.git",
-                "reference": "3f7a3b2e5ae420296bb55b644f689d1ec8658b02"
+                "reference": "2ef2718b8461f319ffd354991c55c3e8cb783a6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/laravel-agent/zipball/3f7a3b2e5ae420296bb55b644f689d1ec8658b02",
-                "reference": "3f7a3b2e5ae420296bb55b644f689d1ec8658b02",
+                "url": "https://api.github.com/repos/jenssegers/laravel-agent/zipball/2ef2718b8461f319ffd354991c55c3e8cb783a6a",
+                "reference": "2ef2718b8461f319ffd354991c55c3e8cb783a6a",
                 "shasum": ""
             },
             "require": {
@@ -1077,20 +1077,20 @@
                 "user agent",
                 "useragent"
             ],
-            "time": "2015-01-22 22:44:57"
+            "time": "2015-02-26 10:05:23"
         },
         {
             "name": "jenssegers/date",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/laravel-date.git",
-                "reference": "d30ab1b3aeb42eba124f31efd6ad15e411433958"
+                "reference": "c94babb5cf417151d6b54dfd4fd78d62f38cf5c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/laravel-date/zipball/d30ab1b3aeb42eba124f31efd6ad15e411433958",
-                "reference": "d30ab1b3aeb42eba124f31efd6ad15e411433958",
+                "url": "https://api.github.com/repos/jenssegers/laravel-date/zipball/c94babb5cf417151d6b54dfd4fd78d62f38cf5c1",
+                "reference": "c94babb5cf417151d6b54dfd4fd78d62f38cf5c1",
                 "shasum": ""
             },
             "require": {
@@ -1125,7 +1125,7 @@
                 "laravel",
                 "time"
             ],
-            "time": "2015-02-25 12:41:21"
+            "time": "2015-03-02 18:19:30"
         },
         {
             "name": "jenssegers/mongodb",
@@ -1133,12 +1133,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/laravel-mongodb.git",
-                "reference": "97dbdfc7d2d0991bbc17949abd3928f611788890"
+                "reference": "850bc18ec8129256a7e84f006c76734f7b6d2e27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/laravel-mongodb/zipball/97dbdfc7d2d0991bbc17949abd3928f611788890",
-                "reference": "97dbdfc7d2d0991bbc17949abd3928f611788890",
+                "url": "https://api.github.com/repos/jenssegers/laravel-mongodb/zipball/850bc18ec8129256a7e84f006c76734f7b6d2e27",
+                "reference": "850bc18ec8129256a7e84f006c76734f7b6d2e27",
                 "shasum": ""
             },
             "require": {
@@ -1183,7 +1183,7 @@
                 "mongo",
                 "mongodb"
             ],
-            "time": "2015-02-28 10:16:35"
+            "time": "2015-03-02 17:07:46"
         },
         {
             "name": "jenssegers/mongodb-session",
@@ -2053,16 +2053,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.14.0",
+            "version": "1.15.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/duxet/Carbon.git",
-                "reference": "d79ea38b939f6ab8a87ba813b5720cb8b5fc2408"
+                "url": "https://github.com/briannesbitt/Carbon.git",
+                "reference": "48cb9ae6d9436e156316a59d198cb1ca797f8cd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/duxet/Carbon/zipball/d79ea38b939f6ab8a87ba813b5720cb8b5fc2408",
-                "reference": "d79ea38b939f6ab8a87ba813b5720cb8b5fc2408",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/48cb9ae6d9436e156316a59d198cb1ca797f8cd8",
+                "reference": "48cb9ae6d9436e156316a59d198cb1ca797f8cd8",
                 "shasum": ""
             },
             "require": {
@@ -2077,6 +2077,7 @@
                     "Carbon": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2088,16 +2089,13 @@
                 }
             ],
             "description": "A simple API extension for DateTime.",
-            "homepage": "https://github.com/briannesbitt/Carbon",
+            "homepage": "http://carbon.nesbot.com",
             "keywords": [
-                "DateTime",
                 "date",
+                "datetime",
                 "time"
             ],
-            "support": {
-                "source": "https://github.com/duxet/Carbon/tree/locale-pl"
-            },
-            "time": "2015-01-25 22:08:26"
+            "time": "2015-03-03 03:24:43"
         },
         {
             "name": "nikic/php-parser",
@@ -2450,16 +2448,16 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v0.9.10",
+            "version": "v0.9.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "2b3b2cb0dbe4723af68a502b574d6a1a84c4a383"
+                "reference": "f5ec96554566f36470a096411a4d81b6acc62f8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/2b3b2cb0dbe4723af68a502b574d6a1a84c4a383",
-                "reference": "2b3b2cb0dbe4723af68a502b574d6a1a84c4a383",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/f5ec96554566f36470a096411a4d81b6acc62f8f",
+                "reference": "f5ec96554566f36470a096411a4d81b6acc62f8f",
                 "shasum": ""
             },
             "type": "library",
@@ -2488,7 +2486,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2015-02-11 21:47:49"
+            "time": "2015-03-03 02:02:13"
         },
         {
             "name": "roumen/sitemap",

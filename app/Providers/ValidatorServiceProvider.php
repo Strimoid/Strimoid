@@ -1,6 +1,8 @@
 <?php namespace Strimoid\Providers;
 
+use Auth;
 use DB;
+use Hash;
 use Illuminate\Support\ServiceProvider;
 use Str;
 use Validator;
@@ -21,7 +23,9 @@ class ValidatorServiceProvider extends ServiceProvider
 
             $value = shadow($value);
 
-            $count = DB::collection($parameters[0])->where('shadow_'.$attribute, $value)->count();
+            $count = DB::collection($parameters[0])
+                ->where('shadow_'.$attribute, $value)
+                ->count();
 
             return $count > 0;
         });
@@ -33,7 +37,9 @@ class ValidatorServiceProvider extends ServiceProvider
 
             $value = shadow($value);
 
-            $count = DB::collection($parameters[0])->where('shadow_'.$attribute, $value)->count();
+            $count = DB::collection($parameters[0])
+                ->where('shadow_'.$attribute, $value)
+                ->count();
 
             return $count == 0;
         });
@@ -46,9 +52,10 @@ class ValidatorServiceProvider extends ServiceProvider
             $value = Str::lower($value);
             $value = str_replace('.', '', $value);
             $value = preg_replace('/\+(.)*@/', '@', $value);
-            $value = hash_email($value);
 
-            $count = DB::collection($parameters[0])->where('shadow_'.$attribute, $value)->count();
+            $count = DB::collection($parameters[0])
+                ->where('shadow_'.$attribute, $value)
+                ->count();
 
             return $count == 0;
         });
