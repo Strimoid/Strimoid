@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "286691ad14553dd5c57facfbc184cd09",
+    "hash": "61a41405e6414a39b4ddee618b8d9e96",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -2053,16 +2053,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.15.0",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "48cb9ae6d9436e156316a59d198cb1ca797f8cd8"
+                "url": "https://github.com/duxet/Carbon.git",
+                "reference": "d79ea38b939f6ab8a87ba813b5720cb8b5fc2408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/48cb9ae6d9436e156316a59d198cb1ca797f8cd8",
-                "reference": "48cb9ae6d9436e156316a59d198cb1ca797f8cd8",
+                "url": "https://api.github.com/repos/duxet/Carbon/zipball/d79ea38b939f6ab8a87ba813b5720cb8b5fc2408",
+                "reference": "d79ea38b939f6ab8a87ba813b5720cb8b5fc2408",
                 "shasum": ""
             },
             "require": {
@@ -2077,7 +2077,6 @@
                     "Carbon": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2089,13 +2088,16 @@
                 }
             ],
             "description": "A simple API extension for DateTime.",
-            "homepage": "http://carbon.nesbot.com",
+            "homepage": "https://github.com/briannesbitt/Carbon",
             "keywords": [
+                "DateTime",
                 "date",
-                "datetime",
                 "time"
             ],
-            "time": "2015-03-03 03:24:43"
+            "support": {
+                "source": "https://github.com/duxet/Carbon/tree/locale-pl"
+            },
+            "time": "2015-01-25 22:08:26"
         },
         {
             "name": "nikic/php-parser",
