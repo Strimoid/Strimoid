@@ -4,10 +4,6 @@ body {
     background-color: #F5F5F5;
 }
 
-.container {
-    background: #FFF;
-}
-
 @media (min-width: 992px) {
     .main_col {
         width: 72%;
@@ -325,14 +321,6 @@ thead .glyphicon {
 .navbar .navbar-brand img {
     margin: -18px 0 -16px;
     height: 40px;
-}
-
-.navbar .navbar-nav > li {
-    border-right: 1px solid #191b1f;
-}
-
-.navbar .navbar-nav > li:first-child {
-    border-left: 1px solid #191b1f;
 }
 
 .navbar .navbar-nav > li > a {
