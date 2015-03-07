@@ -4,6 +4,10 @@ body {
     background-color: #F5F5F5;
 }
 
+body > .container {
+    background: #FFF;
+}
+
 @media (min-width: 992px) {
     .main_col {
         width: 72%;
@@ -301,7 +305,7 @@ thead .glyphicon {
     box-shadow: 0 2px 3px 0 #8c8c8c;
 }
 
-.navbar, .navbar .container {
+.navbar-inverse {
     background: #202329;
 }
 
@@ -319,8 +323,10 @@ thead .glyphicon {
 }
 
 .navbar .navbar-brand img {
-    margin: -18px 0 -16px;
     height: 40px;
+    transform: translateY(-50%);
+    position: relative;
+    top: 50%;
 }
 
 .navbar .navbar-nav > li > a {
@@ -346,15 +352,10 @@ thead .glyphicon {
     width: 250px;
 }
 
-.user_dropdown .dropdown-toggle {
-    padding: 9px 15px;
-}
-
 .user_dropdown img {
     width: 20px;
     margin-right: 4px;
-    border: 1px solid #3F3F3F;
-    border-radius: 2px;
+    border-radius: 20px;
 }
 
 .user_menu .glyphicon {
