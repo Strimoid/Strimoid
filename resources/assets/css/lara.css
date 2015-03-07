@@ -55,6 +55,10 @@ footer {
     animation: spin 2s infinite linear;
 }
 
+.input-group-btn {
+    vertical-align: top !important;
+}
+
 /* Image Picker */
 
 ul.thumbnails.image_picker_selector {
