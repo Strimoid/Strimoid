@@ -47,6 +47,12 @@
       "main": [
         "image-picker/image-picker.js"
       ]
+    },
+    "perfect-scrollbar": {
+      "main": [
+        "index.js",
+        "jquery.js"
+      ]
     }
   }
 }
