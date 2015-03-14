@@ -74,6 +74,6 @@ class AuthController extends BaseController
         $channelName = 'private-u-'.Auth::id();
         $socketId = $request->input('socket_id');
 
-        Pusher::socket_auth($channelName, $socketId);
+        return Pusher::socket_auth($channelName, $socketId);
     }
 }
