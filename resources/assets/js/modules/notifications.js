@@ -27,7 +27,7 @@ function NotificationsModule() {
         return false;
     });
 
-    Ps.initialize(('.notifications_scroll')[0]);
+    Ps.initialize($('.notifications_scroll')[0]);
 
     if (this.unreadNotifications > 0) {
         this.updatePageTitle();
