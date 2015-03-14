@@ -237,7 +237,6 @@ return [
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
         'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
-        'Pusher'    => 'Vinkla\Pusher\Facades\Pusher',
 
         'Settings'  => 'Strimoid\Facades\Settings',
         'PDP'       => 'Strimoid\Facades\PDP',
