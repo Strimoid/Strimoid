@@ -10,7 +10,7 @@ build:
           name: Install extensions
           code: |-
             echo yes | pecl install apcu-beta
-            pecl install mongo
+            echo no | pecl install mongo
       - script:
           name: install dependencies
           code: composer install --no-interaction --prefer-source
