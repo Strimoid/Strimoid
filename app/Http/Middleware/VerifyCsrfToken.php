@@ -18,7 +18,7 @@ class VerifyCsrfToken extends IlluminateCsrf
      */
     public function handle($request, Closure $next)
     {
-        if ($this->isOAuth($request) || $this->isApi($request)) {
+        if ($this->canSkipVerification($request)) {
             return $next($request);
         }
 
@@ -30,26 +30,16 @@ class VerifyCsrfToken extends IlluminateCsrf
     }
 
     /**
-     * Check if request is made to OAuth Authorization Server.
+     * Check if verification should be omitted.
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return bool
      */
-    protected function isOAuth($request)
+    protected function canSkipVerification($request)
     {
-        return starts_with($request->getPathInfo(), '/oauth2/');
-    }
-
-    /**
-     * Check if request is made to API.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return bool
-     */
-    protected function isApi($request)
-    {
-        return starts_with($request->getPathInfo(), '/api/');
+        return starts_with($request->getPathInfo(), [
+            '/oauth2/', '/api/', '/pusher/'
+        ]);
     }
 }
