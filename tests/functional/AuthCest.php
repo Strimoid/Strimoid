@@ -2,8 +2,8 @@
 
 use \FunctionalTester;
 
-class AuthCest {
-
+class AuthCest
+{
     public function _before(FunctionalTester $I)
     {
     }
@@ -30,9 +30,8 @@ class AuthCest {
         $I->submitForm('.main_col form', [
             'username' => 'NewUser',
             'password' => 'qwe123',
-            'email'    => 'new@user.com'
+            'email'    => 'new@user.com',
         ]);
         $I->seeRecord('users', ['name' => 'NewUser']);
     }
-
 }

@@ -35,7 +35,7 @@ before_script:
   - mongorestore -d strimoid database/fixtures
 
 script:
-  - vendor/bin/behat
+  - vendor/bin/codecept run
 
 after_script:
   - vendor/bin/test-reporter --stdout > codeclimate.json

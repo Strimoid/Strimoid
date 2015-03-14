@@ -71,7 +71,7 @@ class Content extends BaseModel
             ->select(['avatar', 'name']);
     }
 
-    public function deleted_by()
+    public function deletedBy()
     {
         return $this->belongsTo('Strimoid\Models\User', 'deleted_by');
     }

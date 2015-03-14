@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Exceptions;
 
-class EntityNotFoundException extends \Exception
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class EntityNotFoundException extends NotFoundHttpException
 {
 }

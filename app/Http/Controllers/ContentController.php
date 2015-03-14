@@ -347,7 +347,7 @@ class ContentController extends BaseController
         $content = Content::findOrFail(Input::get('id'));
 
         if ($content->canRemove(Auth::user())) {
-            $content->deleted_by()->associate(Auth::user());
+            $content->deletedBy()->associate(Auth::user());
             $content->save();
 
             $content->delete();

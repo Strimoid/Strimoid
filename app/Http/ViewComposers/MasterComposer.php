@@ -2,7 +2,6 @@
 
 use Auth;
 use Cache;
-use Config;
 use Illuminate\Contracts\View\View;
 use Settings;
 use Strimoid\Models\Group;

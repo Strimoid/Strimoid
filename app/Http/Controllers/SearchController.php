@@ -1,9 +1,12 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Carbon;
+use DateInterval;
 use Input;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Group;
+use Strimoid\Models\User;
 
 class SearchController extends BaseController
 {
@@ -12,7 +15,9 @@ class SearchController extends BaseController
     public function search()
     {
         if (Input::has('q')) {
-            $keywords = preg_replace('/((\w+):(\w+\pL.))+\s?/i', '', Input::get('q'));
+            $keywords = preg_replace(
+                '/((\w+):(\w+\pL.))+\s?/i', '', Input::get('q')
+            );
 
             switch (Input::get('t')) {
                 case 'e':

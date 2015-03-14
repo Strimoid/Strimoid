@@ -111,8 +111,8 @@ class CommentController extends BaseController
     /**
      * Edit comment text.
      *
-     * @param Request $request
-     * @param Comment $comment
+     * @param Request $request Request instance
+     * @param Comment $comment Comment instance
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -132,7 +132,7 @@ class CommentController extends BaseController
     /**
      * Remove comment.
      *
-     * @param Comment $comment
+     * @param Comment $comment Comment instance
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

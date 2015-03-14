@@ -80,7 +80,7 @@ code {
     color: #979797;
 }
 
-.container {
+body > .container {
     background: #333;
 }
 

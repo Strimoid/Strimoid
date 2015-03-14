@@ -27,7 +27,8 @@ class BaseController extends Controller
 
             foreach ($mentionedUsers as $mentionedUser) {
                 if (! isset($mentionedUser[1])
-                    || in_array(Str::lower($mentionedUser[1]), $uniqueUsers)) {
+                    || in_array(Str::lower($mentionedUser[1]), $uniqueUsers)
+                ) {
                     break;
                 }
 

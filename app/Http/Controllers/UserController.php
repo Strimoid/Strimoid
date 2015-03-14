@@ -4,6 +4,7 @@ use App;
 use Auth;
 use Cache;
 use Carbon;
+use Config;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;

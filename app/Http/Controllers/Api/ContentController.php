@@ -4,6 +4,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Input;
 use Queue;
+use Response;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
@@ -42,12 +43,14 @@ class ContentController extends BaseController
             $entity = $this->folders->getByName($username, Input::get('folder'));
         } else {
             $groupName = Input::get('group', 'all');
-            $entity = $this->groups->getByName($groupName);
+            $entity = $this->groups->requireByName($groupName);
         }
 
         $type = Input::get('type', 'all');
         $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
-        $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
+        $orderBy = in_array(Input::get('sort'), $canSortBy)
+            ? Input::get('sort')
+            : null;
 
         $builder = $entity->contents($type, $orderBy)->with('group', 'user');
 
