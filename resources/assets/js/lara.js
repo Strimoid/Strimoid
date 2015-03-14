@@ -25,6 +25,39 @@ $(document).ready(function() {
     var entriesModule = new EntriesModule();
     var pollsModule = new PollsModule();
 
+    if (window.username && window.WebSocket) {
+        var pusher = new Pusher('a77666a1f2baa8903d8b');
+
+        pusher.subscribe('private-u-' + window.username).bind('new-notification', function(data) {
+            notificationsModule.onNotificationReceived(data);
+        });
+
+        if (window.content_id && $('.img-thumbnail.refreshing').length) {
+            pusher.subscribe.('content-' + window.content_id).bind('loaded-thumbnail', function(data) {
+                var parent = $('.img-thumbnail.refreshing').first().parent();
+                $('.img-thumbnail.refreshing').remove();
+                $(parent).append('<img class="media-object img-thumbnail" src="'+ data.url +'">');
+            });
+        }
+
+        if (window.document.location.pathname.endsWith('/entries') && $.query.get('page') <= 1) {
+            var template = Hogan.compile('<div class="panel-default entry" data-id="{{ id }}"><a name="{{ id }}"></a><div class="entry_avatar"><img src="{{ avatar }}" alt="{{ author }}"></div><div class="panel-heading entry_header"><a href="/u/{{ author }}" class="entry_author">{{{ author_color }}}</a><span class="pull-right"><span class="glyphicon glyphicon-tag"></span> <a href="/g/{{ group }}">g/{{ group }}</a><span class="glyphicon glyphicon-time"></span> <a href="/e/{{ id }}"><time pubdate title="{{ time }}">chwilę temu</time></a><span class="voting" data-id="{{ id }}" data-state="none" data-type="entry"><button type="button" class="btn btn-default btn-xs vote-btn-up"><span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">0</span></button><button type="button" class="btn btn-default btn-xs vote-btn-down"><span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">0</span></button></span></span></div><div class="entry_text md">{{{ text }}}</div><div class="entry_actions pull-right"><a class="entry_reply_link action_link">odpowiedz</a></div></div>');
+            pusher.subscribe('entries').bind('new-entry', function(data) {
+                if (window.blocked_users.indexOf(data.author) != -1 || window.blocked_groups.indexOf(data.group) != -1)
+                    return;
+                if (window.group) {
+                    if (window.group == 'subscribed' && window.subscribed_groups.indexOf(data.group) == -1)
+                        return;
+                    else if (window.group == 'moderated' && window.moderated_groups.indexOf(data.group) == -1)
+                        return;
+                    else if (window.group != data.group)
+                        return;
+                }
+                $(template.render(data)).hide().fadeIn(1000).insertBefore($('.entry').eq(1));
+            });
+        }
+    }
+
     $('.groupbar .dropdown').each(function(index) {
         var menu = $(this).find('.dropdown-menu');
         var menuElements = $(menu).children();

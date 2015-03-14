@@ -65,6 +65,9 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::delete('/votes', ['middleware' => 'auth', 'uses' => 'VoteController@removeVote']);
 });
 
+/* Auth ============================================================================================================= */
+Route::post('/pusher/auth', ['middleware' => 'auth', 'uses' => 'AuthController@authenticatePusher']);
+
 /* OAuth2 =========================================================================================================== */
 Route::post('/oauth2/token', 'OAuthController@getAccessToken');
 
