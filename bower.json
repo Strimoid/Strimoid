@@ -28,7 +28,8 @@
     "bootbox": "4.4.0",
     "codemirror": "5.0.0",
     "lodash": "3.4.0",
-    "perfect-scrollbar": "0.6.1"
+    "perfect-scrollbar": "0.6.1",
+    "pusher": "~2.2.4"
   },
   "overrides": {
     "codemirror": {

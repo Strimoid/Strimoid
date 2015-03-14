@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Handlers;
 
 use Strimoid\Models\Content;
+use Vinkla\Pusher\Facades\Pusher;
 
 class DownloadThumbnail
 {
@@ -12,5 +13,9 @@ class DownloadThumbnail
         $content->unset('thumbnail_loading');
 
         $job->delete();
+
+        Pusher::trigger('content-'. $content->getKey(), 'loaded-thumbnail', [
+            'url' => $content->getThumbnailPath(),
+        ]);
     }
 }

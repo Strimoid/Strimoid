@@ -6,6 +6,7 @@ use Response;
 use Str;
 use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
+use Vinkla\Pusher\Facades\Pusher;
 
 class AuthController extends BaseController
 {
@@ -13,7 +14,7 @@ class AuthController extends BaseController
     {
         $remember = $request->input('remember') == 'true' ? true : false;
 
-        if (Auth::attempt(['shadow_name' => Str::lower(Input::get('username')),
+        if (Auth::attempt(['shadow_name' => Str::lower($request->input('username')),
             'password' => $request->input('password'), 'is_activated' => true, ], $remember)) {
             if (Auth::user()->removed_at || Auth::user()->blocked_at) {
                 Auth::logout();
@@ -61,5 +62,18 @@ class AuthController extends BaseController
         ]);
 
         return $data;
+    }
+
+    /**
+     * Generate Pusher authentication token for currently logged user.
+     *
+     * @param  Request  $request
+     */
+    public function authenticatePusher(Request $request)
+    {
+        $channelName = 'private-u-'.Auth::id();
+        $socketId = $request->input('socket_id');
+
+        return Pusher::socket_auth($channelName, $socketId);
     }
 }

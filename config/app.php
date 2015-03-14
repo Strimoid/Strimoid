@@ -180,6 +180,7 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
         'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
+        'Vinkla\Pusher\PusherServiceProvider',
 
     ],
 
@@ -236,7 +237,6 @@ return [
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
         'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
-        'Realtime'  => 'duxet\Realtime\Facades\Realtime',
 
         'Settings'  => 'Strimoid\Facades\Settings',
         'PDP'       => 'Strimoid\Facades\PDP',

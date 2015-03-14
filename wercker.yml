@@ -7,13 +7,10 @@ build:
       # A custom script step, name value is used in the UI
       # and the code value contains the command that get executed
       - script:
-          name: Activate PHP 5.6
-          code: phpenv global 5.6
-      - script:
           name: Install extensions
           code: |-
             echo yes | pecl install apcu-beta
-            pecl install mongo
+            echo no | pecl install mongo
       - script:
           name: install dependencies
           code: composer install --no-interaction --prefer-source
