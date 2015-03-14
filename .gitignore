@@ -1,10 +1,10 @@
 .idea/
 _ide_helper.php
+_ide_helper_models.php
 vendor/
 node_modules/
 .env.php
 .env
-_ide_helper_models.php
 .env.behat
 bower_components/
 .bowery

@@ -50,14 +50,9 @@
           "barryvdh/laravel-ide-helper": "~2.0",
           "barryvdh/laravel-debugbar": "~2.0",
           "fzaninotto/faker": "*",
-          "behat/behat": "~3.0",
-          "behat/mink": "~1.6",
-          "behat/mink-extension": "~2.0",
-          "behat/mink-selenium2-driver": "~1.2",
-          "laracasts/behat-laravel-extension": "dev-master",
           "vipsoft/code-coverage-extension": "dev-master",
           "mockery/mockery": "~0.9",
-          "codeception/codeception": "*"
+          "codeception/codeception": "2.0.x-dev"
       },
       "repositories": [
           {
