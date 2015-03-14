@@ -32,10 +32,12 @@ $(document).ready(function() {
             notificationsModule.onNotificationReceived(data);
         });
 
-        if (window.content_id && $('.img-thumbnail.refreshing').length) {
-            pusher.subscribe.('content-' + window.content_id).bind('loaded-thumbnail', function(data) {
-                var parent = $('.img-thumbnail.refreshing').first().parent();
-                $('.img-thumbnail.refreshing').remove();
+        var thumbnail = $('.img-thumbnail.refreshing');
+
+        if (window.content_id && thumbnail.length) {
+            pusher.subscribe('content-' + window.content_id).bind('loaded-thumbnail', function(data) {
+                var parent = thumbnail.first().parent();
+                thumbnail.remove();
                 $(parent).append('<img class="media-object img-thumbnail" src="'+ data.url +'">');
             });
         }
