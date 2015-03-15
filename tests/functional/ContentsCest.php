@@ -1,5 +1,6 @@
-<?php
-use \FunctionalTester;
+<?php namespace Strimoid\Tests\Functional;
+
+use FunctionalTester;
 
 class ContentsCest
 {
@@ -12,7 +13,8 @@ class ContentsCest
     }
 
     // tests
-    public function tryToTest(FunctionalTester $I)
+    public function showListOfContents(FunctionalTester $I)
     {
+
     }
 }

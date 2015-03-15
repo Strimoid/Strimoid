@@ -1,5 +1,6 @@
-<?php
-use \FunctionalTester;
+<?php namespace Strimoid\Tests\Functional;
+
+use FunctionalTester;
 
 class GroupsCest
 {
@@ -12,7 +13,10 @@ class GroupsCest
     }
 
     // tests
-    public function tryToTest(FunctionalTester $I)
+    public function showListOfGroups(FunctionalTester $I)
     {
+        $I->amOnPage('/groups/list');
+        $I->canSee('Brocktown', '.panel-title');
+        $I->canSee('Nemo ullam aperiam minus consequuntur ipsum.', '.panel-body');
     }
 }

@@ -1,5 +1,6 @@
-<?php
-use \FunctionalTester;
+<?php namespace Strimoid\Tests\Functional;
+
+use FunctionalTester;
 
 class EntriesCest
 {
