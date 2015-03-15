@@ -51,7 +51,7 @@ class Content extends BaseModel
             Notification::where('content_id', $this->getKey())->delete();
 
             if (! $content->trashed()) {
-                foreach ($this->getComments() as $comment) {
+                foreach ($this->comments() as $comment) {
                     $comment->delete();
                 }
             }

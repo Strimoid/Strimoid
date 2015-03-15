@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
 
