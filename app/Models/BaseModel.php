@@ -6,9 +6,12 @@ use DateTimeZone;
 use Jenssegers\Mongodb\Model;
 use Settings;
 use Validator;
+use Watson\Rememberable\Rememberable;
 
-class BaseModel extends Model
+abstract class BaseModel extends Model
 {
+    use Rememberable;
+
     /**
      * @var array
      */
