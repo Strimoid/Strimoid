@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7a94ac22063ff424af3c1bffbc350789",
+    "hash": "88e718a7e84b5e47c15fa48675493d55",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -268,59 +268,6 @@
                 "string"
             ],
             "time": "2014-12-20 21:24:13"
-        },
-        {
-            "name": "duxet/laravel-realtime",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/duxet/laravel-realtime.git",
-                "reference": "a827af2968f4196fd14b82227ca418f5e369b24d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/duxet/laravel-realtime/zipball/a827af2968f4196fd14b82227ca418f5e369b24d",
-                "reference": "a827af2968f4196fd14b82227ca418f5e369b24d",
-                "shasum": ""
-            },
-            "require": {
-                "graham-campbell/manager": "~2.0",
-                "illuminate/support": "5.0.*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "0.1.*",
-                "graham-campbell/testbench": "~2.0",
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.4"
-            },
-            "suggest": {
-                "pubnub/pubnub": "PubNub support.",
-                "pusher/pusher-php-server": "Pusher support."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "duxet\\Realtime\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "duxet",
-                    "email": "duxetlg@gmail.com"
-                }
-            ],
-            "description": "Laravel realtime communication using pub/sub pattern",
-            "keywords": [
-                "laravel",
-                "pubsub",
-                "realtime"
-            ],
-            "time": "2015-03-01 00:08:44"
         },
         {
             "name": "graham-campbell/manager",
@@ -2351,63 +2298,6 @@
             "time": "2015-03-14 17:29:14"
         },
         {
-            "name": "pubnub/pubnub",
-            "version": "v3.7.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pubnub/php.git",
-                "reference": "6f76cb3174872f53e69fc013cdbe385be371dadf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pubnub/php/zipball/6f76cb3174872f53e69fc013cdbe385be371dadf",
-                "reference": "6f76cb3174872f53e69fc013cdbe385be371dadf",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpdocumentor/phpdocumentor": "dev-master",
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Pubnub\\": "composer/lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dmitry Medvedev",
-                    "email": "gektor1@gmail.com"
-                },
-                {
-                    "name": "Victor Kislichenko",
-                    "email": "dofer@bigmir.net"
-                },
-                {
-                    "name": "PubNub Support",
-                    "email": "support@pubnub.com"
-                }
-            ],
-            "description": "The Only Global Network For Real-Time Data -- PubNub!",
-            "homepage": "http://www.pubnub.com/",
-            "keywords": [
-                "ajax",
-                "api",
-                "push",
-                "real time",
-                "real-time",
-                "realtime"
-            ],
-            "time": "2015-03-13 15:24:45"
-        },
-        {
             "name": "pusher/pusher-php-server",
             "version": "v2.2.0",
             "source": {
@@ -3438,6 +3328,62 @@
             "time": "2015-02-02 16:32:08"
         },
         {
+            "name": "vinkla/algolia",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vinkla/algolia.git",
+                "reference": "d633d50d532d81616eb2a275652dad6f8b9fc535"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vinkla/algolia/zipball/d633d50d532d81616eb2a275652dad6f8b9fc535",
+                "reference": "d633d50d532d81616eb2a275652dad6f8b9fc535",
+                "shasum": ""
+            },
+            "require": {
+                "algolia/algoliasearch-client-php": "~1.0",
+                "graham-campbell/manager": "~2.0",
+                "illuminate/contracts": "~5.0",
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.7"
+            },
+            "require-dev": {
+                "graham-campbell/testbench": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vinkla\\Algolia\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Klaiber",
+                    "email": "hello@vinkla.com",
+                    "homepage": "https://vinkla.com"
+                }
+            ],
+            "description": "Laravel wrapper for the Algolia Search API.",
+            "homepage": "https://github.com/vinkla/algolia",
+            "keywords": [
+                "algolia",
+                "api",
+                "laravel",
+                "search"
+            ],
+            "time": "2015-03-14 19:35:30"
+        },
+        {
             "name": "vinkla/pusher",
             "version": "1.0.0",
             "source": {
@@ -4117,6 +4063,50 @@
                 "fixtures"
             ],
             "time": "2014-06-04 14:43:02"
+        },
+        {
+            "name": "laracasts/generators",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/Laravel-5-Generators-Extended.git",
+                "reference": "f1596fa3afc26221fc83549989769322f5cc162d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/Laravel-5-Generators-Extended/zipball/f1596fa3afc26221fc83549989769322f5cc162d",
+                "reference": "f1596fa3afc26221fc83549989769322f5cc162d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laracasts\\Generators\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Extend Laravel 5's generators.",
+            "keywords": [
+                "generators",
+                "laravel"
+            ],
+            "time": "2015-03-02 19:20:34"
         },
         {
             "name": "maximebf/debugbar",
@@ -5467,7 +5457,6 @@
         "jenssegers/mongodb-session": 20,
         "phindmarsh/summon": 20,
         "roumen/sitemap": 20,
-        "duxet/laravel-realtime": 20,
         "watson/rememberable": 20,
         "vipsoft/code-coverage-extension": 20,
         "codeception/codeception": 20

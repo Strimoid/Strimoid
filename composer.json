@@ -24,7 +24,6 @@
           "jenssegers/mongodb-session": "dev-master",
           "intervention/image": "~2.1.1",
           "phindmarsh/summon": "dev-master",
-          "rollbar/rollbar": "~0.9.8",
           "roumen/sitemap": "dev-master",
           "jenssegers/agent": "~2.1.5",
           "jeremykendall/php-domain-parser": "~2.0",
@@ -38,14 +37,13 @@
           "pda/pheanstalk": "~3.0",
           "nesbot/carbon": "~1.0",
           "graham-campbell/throttle": "~3.0",
-          "pubnub/pubnub": "3.7.*",
           "algolia/algoliasearch-client-php": "1.5.*",
           "jenssegers/rollbar": "~1.4",
-          "duxet/laravel-realtime": "dev-master",
           "laracasts/utilities": "~2.0",
           "jenssegers/date": "~2.0",
           "vinkla/pusher": "~1.0",
-            "watson/rememberable": "dev-master"
+          "watson/rememberable": "dev-master",
+            "vinkla/algolia": "~1.0"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",
@@ -54,7 +52,8 @@
           "fzaninotto/faker": "*",
           "vipsoft/code-coverage-extension": "dev-master",
           "mockery/mockery": "~0.9",
-          "codeception/codeception": "2.0.x-dev"
+          "codeception/codeception": "2.0.x-dev",
+          "laracasts/generators": "~1.1"
       },
       "repositories": [
           {
