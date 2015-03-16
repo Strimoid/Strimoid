@@ -174,13 +174,13 @@ return [
         /*
          * Third party Service Providers...
          */
-        'duxet\Realtime\RealtimeServiceProvider',
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
         'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
         'Vinkla\Pusher\PusherServiceProvider',
+        'Vinkla\Algolia\AlgoliaServiceProvider',
 
     ],
 
@@ -232,6 +232,7 @@ return [
         'Str'                => 'Illuminate\Support\Str',
         'BootstrapPresenter' => 'Illuminate\Pagination\BootstrapThreePresenter',
 
+        'Algolia'   => 'Vinkla\Algolia\Facades\Algolia',
         'Carbon'    => 'Jenssegers\Date\Date',
         'Image'     => 'Intervention\Image\Facades\Image',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
