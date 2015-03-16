@@ -42,6 +42,18 @@ return [
             'password' => env('DB_PASSWORD'),
         ],
 
+        'mysql' => [
+            'driver'    => 'mysql',
+            'host'      => env('MYSQL_HOST', 'localhost'),
+            'database'  => env('MYSQL_DATABASE', 'strimoid'),
+            'username'  => env('MYSQL_USERNAME', ''),
+            'password'  => env('MYSQL_PASSWORD', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
+
         'stats' => [
             'driver'   => 'sqlite',
             'database' => storage_path().'/stats.sqlite',
@@ -60,6 +72,7 @@ return [
     | the migrations on disk haven't actually been run in the database.
     |
     */
+
     'migrations' => 'migrations',
 
 ];
