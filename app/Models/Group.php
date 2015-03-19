@@ -24,6 +24,16 @@ class Group extends BaseModel
     protected $attributes = [
         'type' => 'public',
     ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'subscribers_count' => 'integer',
+    ];
+
     protected $table = 'groups';
     protected $visible = [
         '_id', 'avatar', 'created_at', 'creator',
@@ -151,7 +161,7 @@ class Group extends BaseModel
             return false;
         }
 
-        $ban = new GroupBanned();
+        $ban = new GroupBan();
 
         $ban->group()->associate($this);
         $ban->user()->associate($user);
@@ -176,5 +186,10 @@ class Group extends BaseModel
     {
         $this->attributes['sidebar'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['sidebar_source'] = $text;
+    }
+
+    public function scopeName($query, $name)
+    {
+        $query->where('urlname', $name);
     }
 }

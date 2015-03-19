@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-class GroupBanned extends BaseModel
+class GroupBan extends BaseModel
 {
     protected $table = 'group_bans';
 

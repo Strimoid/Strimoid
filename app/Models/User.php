@@ -159,7 +159,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function isBanned(Group $group)
     {
-        $isBanned = GroupBanned::where('group_id', $group->getKey())
+        $isBanned = GroupBan::where('group_id', $group->getKey())
             ->where('user_id', $this->getKey())->first();
 
         return (bool) $isBanned;

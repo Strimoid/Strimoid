@@ -9,7 +9,7 @@ use Redirect;
 use Response;
 use Str;
 use Strimoid\Models\Group;
-use Strimoid\Models\GroupBanned;
+use Strimoid\Models\GroupBan;
 use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\GroupSubscriber;
@@ -27,7 +27,7 @@ class GroupController extends BaseController
         if (Input::get('sort') == 'newest') {
             $builder->orderBy('created_at', 'desc');
         } else {
-            $builder->orderBy('subscribers', 'desc');
+            $builder->orderBy('subscribers_count', 'desc');
         }
 
         $data['groups'] = $builder->paginate(20)->appends(['sort' => Input::get('sort')]);
@@ -101,7 +101,7 @@ class GroupController extends BaseController
             ->where('group_id', $group->getKey())
             ->get();
 
-        $data['bans'] = GroupBanned::with('user')
+        $data['bans'] = GroupBan::with('user')
             ->where('group_id', $group->getKey())
             ->get();
 
@@ -289,7 +289,7 @@ class GroupController extends BaseController
     public function showBannedList($groupName)
     {
         $group = Group::shadow($groupName)->firstOrFail();
-        $bans = GroupBanned::where('group_id', $group->getKey())
+        $bans = GroupBan::where('group_id', $group->getKey())
             ->orderBy('created_at', 'desc')->with('user')->paginate(25);
 
         return view('group.bans', compact('group', 'bans'));
@@ -321,7 +321,7 @@ class GroupController extends BaseController
 
     public function removeBan()
     {
-        $ban = GroupBanned::findOrFail(Input::get('id'));
+        $ban = GroupBan::findOrFail(Input::get('id'));
 
         if (! Auth::user()->isModerator($ban->group)) {
             App::abort(403, 'Access denied');
