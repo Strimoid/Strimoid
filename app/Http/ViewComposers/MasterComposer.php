@@ -68,7 +68,7 @@ class MasterComposer
 
         // Needed by top bar with groups
         $popularGroups = Cache::remember('popularGroups', 60, function () {
-            return Group::orderBy('subscribers', 'desc', true)
+            return Group::orderBy('subscribers_count', 'desc', true)
                 ->take(30)->get(['id', 'name', 'urlname']);
         });
         $view->with('popularGroups', $popularGroups);
