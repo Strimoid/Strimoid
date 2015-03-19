@@ -67,12 +67,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
             </div>
         @endif
 
-        <?php
-         $replies = (starts_with(Route::current()->getName(), 'single_entry'))
-                ? $entry->replies : $entry->replies()->slice(-2, 2);
-         ?>
-
-        @foreach ($replies as $reply)
+        @foreach ($entry->replies as $reply)
             @include('entries.widget', ['entry' => $reply, 'isReply' => true])
         @endforeach
     @endif

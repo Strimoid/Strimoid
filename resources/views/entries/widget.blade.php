@@ -4,7 +4,7 @@ $isReply = isset($isReply) ? true : false;
 
 ?>
 
-<div class="panel-default entry @if ($isReply) entry_reply @endif" data-id="{!! $entry->_id !!}" @if ($isReply) data-parent-id="{!! $entry->entry->_id !!}" @endif>
+<div class="panel-default entry @if ($isReply) entry_reply @endif" data-id="{!! $entry->getKey() !!}" @if ($isReply) data-parent-id="{!! $entry->parent->getKey() !!}" @endif>
     <a name="{!! $entry->_id !!}"></a>
 
     <div class="entry_avatar">
@@ -17,12 +17,12 @@ $isReply = isset($isReply) ? true : false;
 
         <span class="pull-right">
             @if (!$isReply)
-                <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_entries', $entry->group_id) !!}" class="entry_group" data-hover="group_widget" data-group="{!! $entry->group_id !!}">g/{{{ $entry->group_id }}}</a>
+                <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_entries', $entry->group->urlname) !!}" class="entry_group" data-hover="group_widget" data-group="{!! $entry->group->urlname !!}">g/{{{ $entry->group->urlname }}}</a>
             @endif
 
             <span class="glyphicon glyphicon-time"></span> <a href="{!! $entry->getURL() !!}"><time pubdate datetime="{!! $entry->created_at->format('c') !!}" title="{!! $entry->getLocalTime() !!}">{!! $entry->created_at->diffForHumans() !!}</time></a>
 
-            <span class="voting" data-id="{!! $entry->_id !!}" data-state="{!! $entry->getVoteState() !!}" @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
+            <span class="voting" data-id="{!! $entry->getKey() !!}" data-state="{!! $entry->getVoteState() !!}" @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
                 <button type="button" class="btn btn-default btn-xs vote-btn-up @if ($entry->getVoteState() == 'uv') btn-success @endif">
                     <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $entry->uv !!}</span>
                 </button>
