@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth;
+use Illuminate\Http\Request;
 use Input;
 use Response;
 use Str;
@@ -13,13 +14,9 @@ class FolderController extends BaseController
     {
     }
 
-    public function createFolder()
+    public function createFolder(Request $request)
     {
-        $validator = Folder::validate(Input::all());
-
-        if ($validator->fails()) {
-            return Response::json(['status' => 'error']);
-        }
+        $this->validate($request, Folder::rules());
 
         $id = Str::slug(Input::get('name'));
 

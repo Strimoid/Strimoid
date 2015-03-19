@@ -1,8 +1,9 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Carbon;
+use Date;
 use DateTimeZone;
+use Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Settings;
 use Validator;
@@ -13,6 +14,11 @@ abstract class BaseModel extends Model
      * @var array
      */
     protected static $rules = [];
+
+    public function createdAgo()
+    {
+        return Date::instance($this->created_at)->ago();
+    }
 
     public function getLocalTime()
     {
@@ -68,11 +74,6 @@ abstract class BaseModel extends Model
             ->first();
     }
 
-    public static function validate($input)
-    {
-        return Validator::make($input, static::$rules);
-    }
-
     public static function rules()
     {
         return static::$rules;
@@ -83,11 +84,16 @@ abstract class BaseModel extends Model
         return $this->getParentRelation()->getParent();
     }
 
+    public function hashId()
+    {
+        return Hashids::encode($this->getKey());
+    }
+
     /* Scopes */
 
     public function scopeFromDaysAgo($query, $days)
     {
-        $fromTime = Carbon::now()->subDays($days)
+        $fromTime = Date::now()->subDays($days)
             ->hour(0)->minute(0)->second(0);
         $query->where('created_at', '>', $fromTime);
     }
