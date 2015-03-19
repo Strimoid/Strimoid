@@ -22,7 +22,6 @@
           "intervention/image": "~2.1.1",
           "phindmarsh/summon": "dev-master",
           "roumen/sitemap": "dev-master",
-          "jenssegers/agent": "~2.1.5",
           "jeremykendall/php-domain-parser": "~2.0",
           "guzzlehttp/guzzle": "~5.0",
           "guzzlehttp/oauth-subscriber": "0.2.*",
@@ -31,33 +30,27 @@
           "symfony/css-selector": "~2.6",
           "league/fractal": "~0.11",
           "graham-campbell/markdown": "~3.0",
-          "pda/pheanstalk": "~3.0",
-          "nesbot/carbon": "~1.0",
           "graham-campbell/throttle": "~3.0",
-          "algolia/algoliasearch-client-php": "1.5.*",
+          "pda/pheanstalk": "~3.0",
+          "jenssegers/agent": "~2.1.5",
+          "jenssegers/date": "~2.0",
           "jenssegers/rollbar": "~1.4",
           "laracasts/utilities": "~2.0",
-          "jenssegers/date": "~2.0",
-          "vinkla/pusher": "~1.0",
           "watson/rememberable": "dev-master",
-          "vinkla/algolia": "~1.0"
+          "vinkla/pusher": "~1.0",
+          "vinkla/algolia": "~1.0",
+          "vinkla/hashids": "~1.0"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",
           "barryvdh/laravel-ide-helper": "~2.0",
           "barryvdh/laravel-debugbar": "~2.0",
-          "fzaninotto/faker": "*",
-          "vipsoft/code-coverage-extension": "dev-master",
-          "mockery/mockery": "~0.9",
           "codeception/codeception": "2.0.x-dev",
-          "laracasts/generators": "~1.1"
+          "fzaninotto/faker": "*",
+          "laracasts/generators": "~1.1",
+          "mockery/mockery": "~0.9",
+          "vipsoft/code-coverage-extension": "dev-master"
       },
-      "repositories": [
-          {
-                "type": "vcs",
-                "url": "https://github.com/duxet/Carbon"
-          }
-      ],
       "autoload": {
           "classmap": [
               "database"

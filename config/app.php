@@ -172,8 +172,9 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
         'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
-        'Vinkla\Pusher\PusherServiceProvider',
         'Vinkla\Algolia\AlgoliaServiceProvider',
+        'Vinkla\Hashids\HashidsServiceProvider',
+        'Vinkla\Pusher\PusherServiceProvider',
 
     ],
 
@@ -227,8 +228,10 @@ return [
 
         'Algolia'   => 'Vinkla\Algolia\Facades\Algolia',
         'Carbon'    => 'Jenssegers\Date\Date',
-        'Image'     => 'Intervention\Image\Facades\Image',
+        'Date'      => 'Jenssegers\Date\Date',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
+        'Hashids'   => 'Vinkla\Hashids\Facades\Hashids',
+        'Image'     => 'Intervention\Image\Facades\Image',
         'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
         'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
 
