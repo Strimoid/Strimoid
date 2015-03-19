@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models;
 
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OEmbed;
 use PDP;
 use Str;
@@ -30,13 +30,6 @@ class Content extends BaseModel
         'groupname'   => 'required|exists_ci:groups,urlname',
     ];
 
-    protected $attributes = [
-        'uv'             => 0,
-        'dv'             => 0,
-        'score'          => 0,
-        'comments_count' => 0,
-    ];
-
     protected $table = 'contents';
     protected $dates = ['deleted_at', 'frontpage_at'];
     protected $appends = ['vote_state'];
@@ -45,8 +38,6 @@ class Content extends BaseModel
 
     public function __construct($attributes = [])
     {
-        $this->{$this->getKeyName()} = Str::random(6);
-
         static::deleted(function (Content $content) {
             Notification::where('content_id', $this->getKey())->delete();
 
@@ -176,7 +167,8 @@ class Content extends BaseModel
 
     public function scopeFrontpage($query, $exists = true)
     {
-        return $query->where('frontpage_at', 'exists', $exists);
+        $where = $exists ? 'whereNotNull' : 'whereNull';
+        return $query->{ $where }('frontpage_at');
     }
 
     public function scopePopular($query)

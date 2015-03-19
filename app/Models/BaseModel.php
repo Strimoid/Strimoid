@@ -3,7 +3,7 @@
 use Auth;
 use Carbon;
 use DateTimeZone;
-use Jenssegers\Mongodb\Model;
+use Illuminate\Database\Eloquent\Model;
 use Settings;
 use Validator;
 
@@ -44,19 +44,6 @@ abstract class BaseModel extends Model
         return $this->getVoteState();
     }
 
-    protected function embedsMany($related, $localKey = null, $foreignKey = null, $relation = null)
-    {
-        if (is_null($relation)) {
-            list(, $caller) = debug_backtrace(false);
-
-            $relation = $caller['function'];
-        }
-
-        $prefix = 'Strimoid\\Models\\';
-
-        return parent::embedsMany($prefix.$related, $localKey, $foreignKey, $relation);
-    }
-
     public function votes()
     {
         return $this->embedsMany('Vote', 'votes');
@@ -79,18 +66,6 @@ abstract class BaseModel extends Model
         return $this->saves()
             ->where('user_id', $user->getKey())
             ->first();
-    }
-
-    public function mpush($column, $value = null, $unique = false)
-    {
-        $builder = $this->newQuery()->where('_id', $this->_id);
-        $builder->push($column, $value, $unique);
-    }
-
-    public function mpull($column, $value = null)
-    {
-        $builder = $this->newQuery()->where('_id', $this->_id);
-        $builder->pull($column, $value);
     }
 
     public static function validate($input)

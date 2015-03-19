@@ -154,13 +154,6 @@ return [
         'Illuminate\Html\HtmlServiceProvider',
 
         /*
-         * MongoDB Service Providers...
-         */
-        'Jenssegers\Mongodb\MongodbServiceProvider',
-        'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
-        'Jenssegers\Mongodb\Session\SessionServiceProvider',
-
-        /*
          * Application Service Providers...
          */
         'Strimoid\Providers\AppServiceProvider',
