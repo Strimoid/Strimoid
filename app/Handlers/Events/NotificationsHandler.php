@@ -37,7 +37,7 @@ class NotificationsHandler
         $created = 'eloquent.created: Strimoid\\Models\\'.$model;
         $events->listen($created, self::class.'@on'.$model.'Create');
 
-        $updated = 'eloquent.created: Strimoid\\Models\\'.$model;
+        $updated = 'eloquent.updated: Strimoid\\Models\\'.$model;
         $events->listen($updated, self::class.'@on'.$model.'Edit');
     }
 
