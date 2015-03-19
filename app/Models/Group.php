@@ -22,8 +22,7 @@ class Group extends BaseModel
 
     protected $avatarPath = 'groups/';
     protected $attributes = [
-        'subscribers' => 0,
-        'type'        => self::TYPE_PUBLIC,
+        'type' => 'public',
     ];
     protected $table = 'groups';
     protected $visible = [
@@ -177,18 +176,5 @@ class Group extends BaseModel
     {
         $this->attributes['sidebar'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['sidebar_source'] = $text;
-    }
-
-    public function setURLNameAttribute($text)
-    {
-        $this->attributes['urlname'] = $text;
-        $this->attributes['shadow_urlname'] = shadow($text);
-    }
-
-    /* Scopes */
-
-    public function scopeShadow($query, $name)
-    {
-        return $query->where('shadow_urlname', shadow($name));
     }
 }

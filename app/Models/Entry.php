@@ -11,25 +11,11 @@ class Entry extends BaseModel
         'groupname' => 'required|exists_ci:groups,urlname',
     ];
 
-    protected $attributes = [
-        'uv'            => 0,
-        'dv'            => 0,
-        'score'         => 0,
-        'replies_count' => 0,
-    ];
-
     protected $appends = ['vote_state'];
     protected $table = 'entries';
     protected $fillable = ['text'];
     protected $visible = ['_id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies', ];
-
-    public function __construct($attributes = [])
-    {
-        $this->{$this->getKeyName()} = Str::random(6);
-
-        parent::__construct($attributes);
-    }
 
     public function group()
     {
@@ -43,7 +29,9 @@ class Entry extends BaseModel
 
     public function replies()
     {
-        return $this->embedsMany('EntryReply', '_replies')->with('User');
+        return $this
+            ->hasMany('Strimoid\Models\EntryReply', 'parent_id')
+            ->with('User');
     }
 
     public function delete()

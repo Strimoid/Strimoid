@@ -15,12 +15,6 @@ use Strimoid\Helpers\MarkdownParser;
  */
 class Comment extends BaseModel
 {
-    protected $attributes = [
-        'uv'    => 0,
-        'dv'    => 0,
-        'score' => 0,
-    ];
-
     protected static $rules = [
         'text' => 'required|min:1|max:5000',
     ];
@@ -29,12 +23,6 @@ class Comment extends BaseModel
     protected $table = 'comments';
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
-
-    public function __construct($attributes = [])
-    {
-        $this->{$this->getKeyName()} = Str::random(6);
-        parent::__construct($attributes);
-    }
 
     public static function boot()
     {
@@ -67,7 +55,7 @@ class Comment extends BaseModel
 
     public function replies()
     {
-        return $this->embedsMany('CommentReply', '_replies')
+        return $this->hasMany('Strimoid\Models\CommentReply', 'parent_id')
             ->with('user');
     }
 
@@ -77,15 +65,9 @@ class Comment extends BaseModel
             $reply->delete();
         }
 
-        Notification::where('comment_id', $this->getKey())->delete();
         Content::where('_id', $this->content_id)->decrement('comments_count');
 
         return parent::delete();
-    }
-
-    public function deleteNotifications()
-    {
-        Notification::where('comment_id', $this->getKey())->delete();
     }
 
     public function setTextAttribute($text)

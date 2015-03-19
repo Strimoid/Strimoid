@@ -23,18 +23,13 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 {
     use Authenticatable, CanResetPassword, HasAvatar;
 
-    protected $avatarPath = 'avatars/';
-    protected $table = 'users';
-    protected $visible = [
+    protected $avatarPath  = 'avatars/';
+    protected $dates       = ['last_login'];
+    protected $table       = 'users';
+    protected $visible     = [
         'id', 'age', 'avatar', 'created_at',
         'description', 'location', 'sex', 'name',
     ];
-    protected $dates = ['last_login'];
-
-    public function getReminderEmail()
-    {
-        return Str::lower($this->email);
-    }
 
     public function getColoredName()
     {
@@ -84,21 +79,14 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return 'nosex';
     }
 
-    public function setNameAttribute($value)
-    {
-        $lowercase = Str::lower($value);
-
-        $this->attributes['name'] = $value;
-        $this->attributes['shadow_name'] = $lowercase;
-    }
-
     public function setEmailAttribute($value)
     {
         $lowercase = Str::lower($value);
         $this->attributes['email'] = $lowercase;
 
         $shadow = shadow_email($value);
-        $this->attributes['shadow_email'] = $shadow;
+        // TODO:
+        //$this->attributes['shadow_email'] = $shadow;
     }
 
     public function setPasswordAttribute($value)
@@ -231,12 +219,5 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
 
         return in_array($user, $this->blockedUsers());
-    }
-
-    /* Scopes */
-
-    public function scopeShadow($query, $name)
-    {
-        return $query->where('shadow_name', shadow($name));
     }
 }

@@ -2,18 +2,18 @@
 
 class GroupSubscriber extends BaseModel
 {
-    protected $table = 'group_subscribers';
+    protected $table = 'user_groups';
 
     public static function boot()
     {
         parent::boot();
 
         self::created(function (GroupSubscriber $sub) {
-            $sub->group()->increment('subscribers');
+            $sub->group()->increment('subscribers_count');
         });
 
         self::deleted(function (GroupSubscriber $sub) {
-            $sub->group()->decrement('subscribers');
+            $sub->group()->decrement('subscribers_count');
         });
     }
 
