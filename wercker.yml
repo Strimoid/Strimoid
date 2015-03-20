@@ -1,6 +1,7 @@
 box: wercker/php
 services:
-    - wercker/mongodb
+    - wercker/mysql
+    - jonkeating/beanstalkd
 build:
     # The steps that will be executed on build
     steps:
@@ -10,7 +11,6 @@ build:
           name: Install extensions
           code: |-
             echo yes | pecl install apcu-beta
-            echo no | pecl install mongo
       - script:
           name: install dependencies
           code: composer install --no-interaction --prefer-source

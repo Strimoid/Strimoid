@@ -16,7 +16,7 @@ class CommentsCest
     public function showListOfComments(FunctionalTester $I)
     {
         $I->amOnPage('/g/all/comments');
-        $I->canSee('Praesentium excepturi et qui saepe', '.comment_text');
+        $I->canSee('Quod blanditiis ea adipisci.', '.comment_text');
     }
 
 }

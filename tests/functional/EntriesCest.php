@@ -13,7 +13,8 @@ class EntriesCest
     }
 
     // tests
-    public function tryToTest(FunctionalTester $I)
+    public function showListOfEntries(FunctionalTester $I)
     {
+        $I->amOnPage('/g/all/entries');
     }
 }

@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Tests\Functional;
 
 use FunctionalTester;
+use Strimoid\Models\User;
 
 class GroupsCest
 {
@@ -16,7 +17,19 @@ class GroupsCest
     public function showListOfGroups(FunctionalTester $I)
     {
         $I->amOnPage('/groups/list');
-        $I->canSee('Brocktown', '.panel-title');
-        $I->canSee('Nemo ullam aperiam minus consequuntur ipsum.', '.panel-body');
+        $I->canSee('Tedville', '.panel-title');
+        $I->canSee('Commodi pariatur numquam', '.panel-body');
+    }
+
+    public function createNewGroup(FunctionalTester $I)
+    {
+        $I->amLoggedAs(User::first());
+        $I->amOnPage('/groups/list');
+        $I->click('Załóż nową grupę');
+        $I->submitForm('.main_col form', [
+            'urlname'     => 'NewGroup',
+            'groupname'   => 'New group',
+            'description' => 'Example description',
+        ]);
     }
 }

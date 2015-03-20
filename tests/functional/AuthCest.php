@@ -18,7 +18,7 @@ class AuthCest
         $I->dontSeeAuthentication();
         $I->amOnPage('/login');
         $I->submitForm('.main_col form', [
-            'username' => 'Karina14',
+            'username' => 'tobin74',
             'password' => 'qwe123',
         ]);
         $I->seeAuthentication();
@@ -56,5 +56,4 @@ class AuthCest
         ]);
         $I->seeRecord('users', ['name' => 'NewUser']);
     }
-
 }
