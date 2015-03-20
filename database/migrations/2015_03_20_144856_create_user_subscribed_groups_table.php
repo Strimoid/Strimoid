@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupsModeratorsTable extends Migration {
+class CreateUserSubscribedGroupsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,28 +12,19 @@ class CreateGroupsModeratorsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('group_moderators', function(Blueprint $table)
+		Schema::create('user_subscribed_groups', function(Blueprint $table)
 		{
-			$table->increments('id');
-
 			$table->integer('group_id')->unsigned();
 			$table->foreign('group_id')
 				->references('id')->on('groups')
 				->onDelete('cascade');
-
-			$table->integer('moderator_id')->unsigned();
-			$table->foreign('moderator_id')
-				->references('id')->on('users');
 
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')
 				->references('id')->on('users')
 				->onDelete('cascade');
 
-			$table->boolean('accepted');
-			$table->enum('type', ['moderator', 'admin']);
-
-			$table->timestamps();
+			$table->timestamp('created_at');
 		});
 	}
 
@@ -44,7 +35,7 @@ class CreateGroupsModeratorsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('group_moderators');
+		Schema::drop('user_subscribed_groups');
 	}
 
 }

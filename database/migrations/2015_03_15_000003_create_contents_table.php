@@ -21,7 +21,7 @@ class CreateContentsTable extends Migration {
 			$table->string('domain');
 			$table->string('thumbnail')->nullable();
 
-			$table->string('url')->nullable();
+			$table->text('url')->nullable();
 			$table->text('text')->nullable();
 
 			// Counters
@@ -42,6 +42,7 @@ class CreateContentsTable extends Migration {
 			// Vote counts
 			$table->integer('uv')->unsigned()->default(0);
 			$table->integer('dv')->unsigned()->default(0);
+			$table->integer('score')->unsigned()->default(0);
 
 			// Timestamps
 			$table->timestamp('frontpage_at')->nullable();

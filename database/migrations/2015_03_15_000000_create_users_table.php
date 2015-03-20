@@ -36,6 +36,7 @@ class CreateUsersTable extends Migration {
 			// Dates
 			$table->timestamps();
 			$table->softDeletes();
+			$table->timestamp('last_login');
 		});
 	}
 

@@ -35,6 +35,7 @@ class CreateEntriesTable extends Migration {
 			// Vote counts
 			$table->integer('uv')->unsigned()->default(0);
 			$table->integer('dv')->unsigned()->default(0);
+			$table->integer('score')->unsigned()->default(0);
 
 			$table->timestamps();
 		});

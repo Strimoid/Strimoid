@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserGroupsTable extends Migration {
+class CreateContentRelatedTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,20 @@ class CreateUserGroupsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('user_groups', function(Blueprint $table)
+		Schema::create('content_related', function(Blueprint $table)
 		{
+			$table->increments('id');
+
+			$table->string('title');
+			$table->text('url');
+
+			$table->integer('content_id')->unsigned();
+			$table->foreign('content_id')
+				->references('id')->on('contents')
+				->onDelete('cascade');
+
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');
-
-			$table->integer('group_id')->unsigned();
-			$table->foreign('group_id')->references('id')->on('groups');
 
 			$table->timestamps();
 		});
@@ -31,7 +38,7 @@ class CreateUserGroupsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('user_groups');
+		Schema::drop('content_related');
 	}
 
 }
