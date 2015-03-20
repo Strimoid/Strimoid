@@ -6,20 +6,29 @@ use DateTimeZone;
 use Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Settings;
-use Validator;
 
 abstract class BaseModel extends Model
 {
     /**
-     * @var array
+     * @var array Validation rules
      */
     protected static $rules = [];
 
+    /**
+     * Get time ago from object creation.
+     *
+     * @return string
+     */
     public function createdAgo()
     {
         return Date::instance($this->created_at)->ago();
     }
 
+    /**
+     * Get formatted time, converted to current user timezone.
+     *
+     * @return mixed
+     */
     public function getLocalTime()
     {
         $timezone = new DateTimeZone(Settings::get('timezone'));
@@ -28,6 +37,11 @@ abstract class BaseModel extends Model
             ->format('d/m/Y H:i:s');
     }
 
+    /**
+     * Get vote state of current user.
+     *
+     * @return string none|uv|dv
+     */
     public function getVoteState()
     {
         if (Auth::guest() || ! $this->votes()) {
@@ -38,34 +52,53 @@ abstract class BaseModel extends Model
             ->where('user_id', Auth::id())
             ->first();
 
-        if (! $vote) {
-            return 'none';
-        }
+        if (!$vote) return 'none';
 
         return $vote->up ? 'uv' : 'dv';
     }
 
+    /**
+     * Attribute alias for vote state.
+     *
+     * @return string
+     */
     public function getVoteStateAttribute()
     {
         return $this->getVoteState();
     }
 
+    /**
+     * Object votes relationship.
+     *
+     * @return mixed
+     */
     public function votes()
     {
-        return $this->embedsMany('Vote', 'votes');
+        return $this->morphMany('Strimoid\Models\Vote', 'element');
     }
 
+    /**
+     * Object saves relationship.
+     *
+     * @return mixed
+     */
     public function saves()
     {
-        return $this->embedsMany('Save', 'saves');
+        return $this->morphMany('Strimoid\Models\Save', 'element');
     }
 
+    /**
+     * Check if object is saved by given user.
+     *
+     * @param  User  $user
+     *
+     * @return bool
+     */
     public function isSaved(User $user = null)
     {
         if (! $user) {
-            if (Auth::guest()) {
-                return false;
-            }
+            if (Auth::guest()) return false;
+
             $user = Auth::user();
         }
 
@@ -74,23 +107,54 @@ abstract class BaseModel extends Model
             ->first();
     }
 
+    /**
+     * Get validation rules.
+     *
+     * @return array
+     */
     public static function rules()
     {
         return static::$rules;
     }
 
+    /**
+     * Get parent object.
+     *
+     * @return mixed
+     */
     public function parent()
     {
         return $this->getParentRelation()->getParent();
     }
 
+    /**
+     * Get hashed object id.
+     *
+     * @return string
+     */
     public function hashId()
     {
         return Hashids::encode($this->getKey());
     }
 
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return string
+     */
+    public function getRouteKey()
+    {
+        return $this->hashId();
+    }
+
     /* Scopes */
 
+    /**
+     * Filter by created time ago.
+     *
+     * @param $query
+     * @param $days
+     */
     public function scopeFromDaysAgo($query, $days)
     {
         $fromTime = Date::now()->subDays($days)

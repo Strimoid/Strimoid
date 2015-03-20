@@ -17,10 +17,16 @@ $isReply = isset($isReply) ? true : false;
 
         <span class="pull-right">
             @if (!$isReply)
-                <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_entries', $entry->group->urlname) !!}" class="entry_group" data-hover="group_widget" data-group="{!! $entry->group->urlname !!}">g/{{{ $entry->group->urlname }}}</a>
+                <span class="glyphicon glyphicon-tag"></span>
+                <a href="{!! route('group_entries', $entry->group->urlname) !!}" class="entry_group" data-hover="group_widget" data-group="{!! $entry->group->urlname !!}">g/{{{ $entry->group->urlname }}}</a>
             @endif
 
-            <span class="glyphicon glyphicon-time"></span> <a href="{!! $entry->getURL() !!}"><time pubdate datetime="{!! $entry->created_at->format('c') !!}" title="{!! $entry->getLocalTime() !!}">{!! $entry->created_at->diffForHumans() !!}</time></a>
+            <span class="glyphicon glyphicon-time"></span>
+            <a href="{!! $entry->getURL() !!}">
+                <time pubdate datetime="{!! $entry->created_at->format('c') !!}" title="{!! $entry->getLocalTime() !!}">
+                    {{ $entry->createdAgo() }}
+                </time>
+            </a>
 
             <span class="voting" data-id="{!! $entry->getKey() !!}" data-state="{!! $entry->getVoteState() !!}" @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
                 <button type="button" class="btn btn-default btn-xs vote-btn-up @if ($entry->getVoteState() == 'uv') btn-success @endif">

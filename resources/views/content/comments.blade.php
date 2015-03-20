@@ -10,7 +10,7 @@
 @stop
 
 @section('content')
-<div class="content" data-id="{!! $content->_id !!}">
+<div class="content" data-id="{{ $content->hashId() }}">
     <div class="media">
         <div class="voting" data-id="{!! $content->_id !!}" data-state="{!! $content->getVoteState() !!}" data-type="content">
             <button type="button" class="btn btn-default btn-sm pull-left vote-btn-up @if ($content->getVoteState() == 'uv') btn-success @endif">
@@ -42,8 +42,8 @@
             <p class="summary">
                 <small>
                     <span class="glyphicon glyphicon-comment"></span> <a href="{!! route('content_comments_slug', array($content->_id, Str::slug($content->title))) !!}" class="content_comments" rel="nofollow">{!! Lang::choice('pluralization.comments', $content->comments_count) !!}</a>
-                    <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_contents', $content->group_id) !!}" class="content_group">g/{{{ $content->group->urlname }}}</a>
-                    <span class="glyphicon glyphicon-user"></span> <a href="{!! route('user_profile', $content->user_id) !!}" class="content_user">u/{{{ $content->user->name }}}</a>
+                    <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_contents', $content->group) !!}" class="content_group">g/{{ $content->group->urlname }}</a>
+                    <span class="glyphicon glyphicon-user"></span> <a href="{!! route('user_profile', $content->user) !!}" class="content_user">u/{{ $content->user->name }}</a>
                     <span class="glyphicon glyphicon-globe"></span> <span class="content_domain">{!! $content->getDomain() !!}</span>
                     <span class="glyphicon glyphicon-link"></span> <span class="content_comments">{!! intval($content->related_count) !!}</span>
                     <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $content->created_at->format('c') !!}" title="{!! $content->getLocalTime() !!}">{!! $content->created_at->diffForHumans() !!}</time>

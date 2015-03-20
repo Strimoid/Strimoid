@@ -7,9 +7,18 @@
             <p>{!! Lang::choice('pluralization.entries', intval($group->entries->count())) !!}</p>
         </div>
         <div class="col-lg-6">
-            <p>{!! Lang::choice('pluralization.subscribers', $group->subscribers) !!}</p>
-            <p><a href="{!! route('group_banned', $group->urlname) !!}" rel="nofollow">{!! Lang::choice('pluralization.banned', intval(Strimoid\Models\GroupBanned::where('group_id', $group->getKey())->count())) !!}</a></p>
-            <p><a href="{!! route('group_moderators', $group->urlname) !!}" rel="nofollow">{!! Lang::choice('pluralization.moderators', intval(Strimoid\Models\GroupModerator::where('group_id', $group->getKey())->count())) !!}</a></p>
+            <p>
+                {!! Lang::choice('pluralization.subscribers', $group->subscribers_count) !!}
+            </p>
+            <p>
+                <a href="{!! route('group_banned', $group->urlname) !!}" rel="nofollow">
+                    {!! Lang::choice('pluralization.banned', intval(Strimoid\Models\GroupBan::where('group_id', $group->getKey())->count())) !!}
+                </a>
+            </p>
+            <p>
+                <a href="{!! route('group_moderators', $group->urlname) !!}" rel="nofollow">
+                    {!! Lang::choice('pluralization.moderators', intval(Strimoid\Models\GroupModerator::where('group_id', $group->getKey())->count())) !!}</a>
+            </p>
         </div>
     </div>
 

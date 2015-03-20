@@ -4,22 +4,37 @@ $isReply = isset($isReply) ? true : false;
 
 ?>
 
-<div class="panel-default comment @if ($isReply) comment_reply @endif" data-id="{!! $comment->_id !!}" @if ($isReply) data-parent-id="{!! $comment->comment->_id !!}" @endif>
+<div class="panel-default comment @if ($isReply) comment_reply @endif" data-id="{{ $comment->getKey() }}"
+    @if ($isReply) data-parent-id="{{ $comment->parent->getKey() }}" @endif>
     <a name="{!! $comment->_id !!}"></a>
 
     <div class="comment_avatar">
-        <img src="{!! $comment->user->getAvatarPath() !!}" alt="{!! $comment->user->name !!}" class="{!! $comment->user->getSexClass() !!}">
+        <img src="{!! $comment->user->getAvatarPath() !!}" alt="{{ $comment->user->name }}"
+             class="{!! $comment->user->getSexClass() !!}">
         <div class="sex_marker {!! $comment->user->getSexClass() !!}"></div>
     </div>
 
     <div class="panel-heading comment_header">
-        <a href="{!! route('user_profile', $comment->user->name) !!}" class="comment_author" data-hover="user_widget" data-user="{!! $comment->user_id !!}">{!! $comment->user->getColoredName() !!}</a>
+        <a href="{!! route('user_profile', $comment->user->name) !!}" class="comment_author"
+           data-hover="user_widget" data-user="{!! $comment->user_id !!}">
+            {!! $comment->user->getColoredName() !!}
+        </a>
 
         <span class="pull-right">
-            <span class="glyphicon glyphicon-time"></span> <a href="{!! $comment->getURL() !!}"><time pubdate datetime="{!! $comment->created_at->format('c') !!}" title="{!! $comment->getLocalTime() !!}">{!! $comment->created_at->diffForHumans() !!}</time></a>
+            <span class="glyphicon glyphicon-time"></span>
+
+            <a href="{!! $comment->getURL() !!}">
+                <time pubdate datetime="{{ $comment->created_at->format('c') }}" title="{{ $comment->getLocalTime() }}">
+                    {{ $comment->createdAgo() }}
+                </time>
+            </a>
 
             @if (isset($contentLink) && $comment->content)
-                <span class="glyphicon glyphicon-share-alt"></span> <a href="{!! route('content_comments', $comment->content->_id) !!}">{{{ Str::limit($comment->content->title, 40) }}}</a>
+                <span class="glyphicon glyphicon-share-alt"></span>
+
+                <a href="{!! route('content_comments', $comment->content->getKey()) !!}">
+                    {{{ Str::limit($comment->content->title, 40) }}}
+                </a>
             @endif
 
             <span class="voting" data-id="{!! $comment->_id !!}" data-state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
@@ -40,7 +55,9 @@ $isReply = isset($isReply) ? true : false;
 
     @if ($comment->isHidden())
     <div class="comment_text">
-        <a class="show_blocked_link action_link">[Komentarz został ukryty, kliknij aby go wyświetlić]</a>
+        <a class="show_blocked_link action_link">
+            [Komentarz został ukryty, kliknij aby go wyświetlić]
+        </a>
     </div>
     @endif
 

@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Providers;
 
+use Hashids;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 
@@ -23,15 +25,40 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $router->model('content', 'Strimoid\Models\Content');
-        $router->model('related', 'Strimoid\Models\ContentRelated');
-        $router->model('notification', 'Strimoid\Models\Notification');
-        $router->model('comment', 'Strimoid\Models\Comment');
-        $router->model('comment_reply', 'Strimoid\Models\CommentReply');
-        $router->model('entry', 'Strimoid\Models\Entry');
-        $router->model('entry_reply', 'Strimoid\Models\EntryReply');
+        $this->bindModel($router, 'content', 'Content');
+        $this->bindModel($router, 'related', 'ContentRelated');
+        $this->bindModel($router, 'notification', 'Notification');
+        $this->bindModel($router, 'comment', 'Comment');
+        $this->bindModel($router, 'comment_reply', 'CommentReply');
+        $this->bindModel($router, 'entry', 'Entry');
+        $this->bindModel($router, 'entry_reply', 'EntryReply');
+        $this->bindModel($router, 'user', 'User');
 
         parent::boot($router);
+    }
+
+    /**
+     * Bind object resolve function for given model class.
+     *
+     * @param Router $router
+     * @param $key
+     * @param $className
+     */
+    public function bindModel(Router $router, $key, $className)
+    {
+        $router->bind($key, function($value, $route) use($className) {
+            $class = 'Strimoid\\Models\\'. $className;
+
+            if (in_array($className, ['Group', 'User'])) {
+                return $class::name($value)->firstOrFail();
+            }
+
+            $ids = Hashids::decode($value);
+
+            if (!count($ids)) throw new ModelNotFoundException;
+
+            return $class::findOrFail($ids[0]);
+        });
     }
 
     /**
