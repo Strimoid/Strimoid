@@ -1,14 +1,13 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: duxet
- * Date: 20/03/15
- * Time: 17:27
- */
+<?php namespace Strimoid\Models\Traits;
 
-namespace Models\Traits;
-
-
-class NoUpdatedAt {
-
+trait NoUpdatedAt
+{
+    /**
+     * Updated at field is not needed in this model, don't do anything.
+     *
+     * @param mixed $value
+     */
+    public function setUpdatedAt($value)
+    {
+    }
 }
