@@ -77,7 +77,7 @@ class EntryController extends BaseController
             return Response::json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'], 400);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group)) {
+        if ($group->type == 'announcements' && !Auth::user()->isModerator($group)) {
             return Response::json(['status' => 'error', 'error' => 'Użytkownik nie może dodawać wpisów w tej grupie.'], 400);
         }
 

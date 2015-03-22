@@ -7,7 +7,7 @@ class GroupController extends BaseController
 {
     public function index()
     {
-        $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
+        $builder = Group::where('type', '!=', 'private');
 
         if (Input::has('name')) {
             $builder->where('name', 'like', '%'.Input::get('name').'%');

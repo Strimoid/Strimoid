@@ -99,7 +99,7 @@ class Group extends BaseModel
 
     public function checkAccess()
     {
-        if ($this->type == Group::TYPE_PRIVATE) {
+        if ($this->type == 'private') {
             if (!Auth::check() || !Auth::user()->isModerator($this)) {
                 App::abort(403, 'Access denied');
             }

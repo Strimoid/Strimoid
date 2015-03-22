@@ -37,7 +37,7 @@ class EntryController extends BaseController
     public function showEntriesFromGroup($groupName = null)
     {
         // If user is on homepage, then use proper group
-        if (! Route::input('group')) {
+        if (! Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -120,7 +120,7 @@ class EntryController extends BaseController
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group)) {
+        if ($group->type == 'announcements' && !Auth::user()->isModerator($group)) {
             return Response::json(['status' => 'error', 'error' => 'Nie możesz dodawać wpisów do wybranej grupy']);
         }
 

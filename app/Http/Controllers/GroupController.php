@@ -39,7 +39,7 @@ class GroupController extends BaseController
     public function showJSONList()
     {
         $results = [];
-        $groups = Group::where('type', '!=', Group::TYPE_PRIVATE)->get();
+        $groups = Group::where('type', '!=', 'private')->get();
 
         foreach ($groups as $group) {
             $results[] = [
@@ -68,7 +68,7 @@ class GroupController extends BaseController
 
     public function showWizard()
     {
-        $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
+        $builder = Group::where('type', '!=', 'private');
 
         $sortBy = Input::get('sort') == 'popularity'
             ? 'subscribers' : 'created_at';

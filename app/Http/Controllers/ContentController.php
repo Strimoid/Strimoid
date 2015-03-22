@@ -64,7 +64,7 @@ class ContentController extends BaseController
         $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
 
         // If user is on homepage, then use proper group
-        if (! Route::input('group')) {
+        if (! Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -235,7 +235,7 @@ class ContentController extends BaseController
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS
+        if ($group->type == 'announcements'
             && !Auth::user()->isModerator($group)) {
             return Redirect::action('ContentController@showAddForm')
                 ->withInput()

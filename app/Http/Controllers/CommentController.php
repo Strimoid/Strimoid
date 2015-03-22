@@ -40,7 +40,7 @@ class CommentController extends BaseController
     public function showCommentsFromGroup($groupName = 'all')
     {
         // If user is on homepage, then use proper group
-        if (! Route::input('group')) {
+        if (! Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 

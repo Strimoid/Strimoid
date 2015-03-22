@@ -24,7 +24,7 @@ class RelatedController extends BaseController
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
-        if ($content->group->type == Group::TYPE_ANNOUNCEMENTS
+        if ($content->group->type == 'announcements'
             && !Auth::user()->isModerator($content->group)) {
             return Redirect::route('content_comments', $content->_id)
                 ->withInput()

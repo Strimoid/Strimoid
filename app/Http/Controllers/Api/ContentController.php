@@ -126,7 +126,7 @@ class ContentController extends BaseController
             ], 400);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && ! Auth::user()->isModerator($group)) {
+        if ($group->type == 'announcements' && ! Auth::user()->isModerator($group)) {
             return Response::json([
                 'status' => 'error',
                 'error'  => 'Użytkownik nie może dodawać treści w tej grupie.',
