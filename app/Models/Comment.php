@@ -3,6 +3,8 @@
 use Auth;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 /**
  * Comment model.
@@ -15,6 +17,8 @@ use Strimoid\Helpers\MarkdownParser;
  */
 class Comment extends BaseModel
 {
+    use HasGroupRelationship, HasUserRelationship;
+
     protected static $rules = [
         'text' => 'required|min:1|max:5000',
     ];
@@ -43,16 +47,6 @@ class Comment extends BaseModel
             ->withTrashed();
     }
 
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User');
-    }
-
     public function replies()
     {
         return $this->hasMany('Strimoid\Models\CommentReply', 'parent_id')
@@ -78,16 +72,13 @@ class Comment extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) {
-            return false;
-        }
-
+        if (Auth::guest()) return false;
         return Auth::user()->isBlockingUser($this->user);
     }
 
     public function getURL()
     {
-        return route('content_comments', $this->content_id).'#'.$this->getKey();
+        return route('content_comments', $this->content).'#'.$this->hashId();
     }
 
     public function canEdit()

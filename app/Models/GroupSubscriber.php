@@ -1,8 +1,12 @@
 <?php namespace Strimoid\Models;
 
+use Strimoid\Models\Traits\NoUpdatedAt;
+
 class GroupSubscriber extends BaseModel
 {
-    protected $table = 'user_groups';
+    use NoUpdatedAt;
+
+    protected $table = 'user_subscribed_groups';
 
     public static function boot()
     {

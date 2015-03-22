@@ -3,14 +3,19 @@
 use Strimoid\Models\Traits\HasUserRelationship;
 use Strimoid\Models\Traits\NoUpdatedAt;
 
-class Save extends BaseModel
+class Vote extends BaseModel
 {
     use HasUserRelationship, NoUpdatedAt;
 
-    public static $unguarded = true;
+    protected static $unguarded = true;
 
     public function element()
     {
         return $this->morphTo();
+    }
+
+    public function setUpAttribute($value)
+    {
+        $this->attributes['up'] = (bool) $value;
     }
 }

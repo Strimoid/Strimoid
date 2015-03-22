@@ -32,6 +32,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->bindModel($router, 'comment_reply', 'CommentReply');
         $this->bindModel($router, 'entry', 'Entry');
         $this->bindModel($router, 'entry_reply', 'EntryReply');
+        $this->bindModel($router, 'group', 'Group');
         $this->bindModel($router, 'user', 'User');
 
         parent::boot($router);

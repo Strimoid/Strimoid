@@ -153,7 +153,7 @@ class NotificationsHandler
         $notification->sourceUser()->associate($sourceUser);
 
         foreach ($uniqueUsers as $uniqueUser) {
-            $user = User::shadow($uniqueUser)->first();
+            $user = User::name($uniqueUser)->first();
 
             if ($user && $user->getKey() != $sourceUser->getKey()
                 && ! $user->isBlockingUser($sourceUser)) {

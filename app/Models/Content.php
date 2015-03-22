@@ -5,29 +5,17 @@ use OEmbed;
 use PDP;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasThumbnail;
 
-/**
- * Content model.
- *
- * @property string   $_id          Content ID
- * @property string   $title        Content title
- * @property string   $description  Content description
- * @property bool     $eng          Is content using foreign language?
- * @property bool     $nsfw         Is Content "not safe for work"?
- * @property string   $thumbnail    Thumbnail filename
- * @property string   $domain       Domain
- * @property string   $url          URL address
- * @property DateTime $created_at   Date of creation
- */
 class Content extends BaseModel
 {
-    use HasThumbnail, SoftDeletes;
+    use HasGroupRelationship, HasThumbnail, SoftDeletes;
 
     protected static $rules = [
         'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
         'description' => 'max:255',
-        'groupname'   => 'required|exists_ci:groups,urlname',
+        'groupname'   => 'required|exists:groups,urlname',
     ];
 
     protected $table = 'contents';
@@ -49,11 +37,6 @@ class Content extends BaseModel
         });
 
         parent::__construct($attributes);
-    }
-
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
     }
 
     public function user()
@@ -99,7 +82,7 @@ class Content extends BaseModel
 
     public function getSlug()
     {
-        $params = [$this->_id, Str::slug($this->title)];
+        $params = [$this->getKey(), Str::slug($this->title)];
 
         return route('content_comments_slug', $params);
     }

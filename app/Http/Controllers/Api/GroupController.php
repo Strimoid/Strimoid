@@ -26,7 +26,7 @@ class GroupController extends BaseController
 
     public function show($groupName)
     {
-        $group = Group::shadow($groupName)->with('creator')->firstOrFail();
+        $group = Group::name($groupName)->with('creator')->firstOrFail();
         $group->checkAccess();
 
         $stats = [

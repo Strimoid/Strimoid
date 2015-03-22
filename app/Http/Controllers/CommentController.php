@@ -67,7 +67,9 @@ class CommentController extends BaseController
 
     protected function showComments($builder)
     {
-        $builder->orderBy('created_at', 'desc')->with(['user']);
+        $builder->whereNull('parent_id')
+                ->orderBy('created_at', 'desc')
+                ->with(['user']);
 
         $perPage = Settings::get('entries_per_page');
         $comments = $builder->paginate($perPage);

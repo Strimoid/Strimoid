@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models\Traits;
 
-trait HasUser
+trait HasUserRelationship
 {
     /**
      * User relationship.

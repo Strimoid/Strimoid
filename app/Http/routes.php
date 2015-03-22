@@ -103,9 +103,8 @@ Route::get('/account/activate/{token}', 'UserController@activateAccount');
 Route::get('/account/remove', 'UserController@showRemoveAccountForm');
 Route::post('/account/remove', 'UserController@removeAccount');
 
-Route::get('/u/{username}', ['as' => 'user_profile', 'uses' => 'UserController@showProfile']);
-
-Route::get('/u/{username}/{type}', ['as' => 'user_profile.type_filter', 'uses' => 'UserController@showProfile']);
+Route::get('/u/{user}', ['as' => 'user_profile', 'uses' => 'UserController@showProfile']);
+Route::get('/u/{user}/{type}', ['as' => 'user_profile.type_filter', 'uses' => 'UserController@showProfile']);
 
 Route::post('/settings/change_password', ['middleware' => 'auth', 'uses' => 'UserController@changePassword']);
 Route::post('/settings/change_email', ['middleware' => 'auth', 'uses' => 'UserController@changeEmail']);
@@ -155,28 +154,23 @@ Route::get('/rss', ['as' => 'global_contents_rss', 'uses' => 'ContentController@
 Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@showContentsFromGroup']);
 Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContentsFromGroup']);
 
-Route::get('/g/{group}', [
+Route::get('/g/{groupname}', [
     'as'   => 'group_contents',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
-Route::get('/g/{group}/rss', [
+Route::get('/g/{groupname}/rss', [
     'as'   => 'group_contents_rss',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
-Route::get('/g/{group}/new', [
+Route::get('/g/{groupname}/new', [
     'as'   => 'group_contents_new',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
-Route::get('/g/{group}/new/rss', [
+Route::get('/g/{groupname}/new/rss', [
     'as'   => 'group_contents_new_rss',
-    'uses' => 'ContentController@showContentsFromGroup',
-]);
-
-Route::get('/g/{group}/deleted', [
-    'as'   => 'group_contents_deleted',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
@@ -208,7 +202,7 @@ Route::post('/c/{content}/add_vote', ['middleware' => 'auth', 'uses' => 'PollCon
 
 Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showCommentsFromGroup']);
 
-Route::get('/g/{group}/comments', [
+Route::get('/g/{groupname}/comments', [
     'as'   => 'group_comments',
     'uses' => 'CommentController@showCommentsFromGroup',
 ]);
@@ -222,12 +216,12 @@ Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentC
 /* Entries ========================================================================================================== */
 Route::get('/entries', ['as' => 'global_entries', 'uses' => 'EntryController@showEntriesFromGroup']);
 
-Route::get('/g/{group}/entries', [
+Route::get('/g/{groupname}/entries', [
     'as'   => 'group_entries',
     'uses' => 'EntryController@showEntriesFromGroup',
 ]);
 
-Route::get('/e/{id}', [
+Route::get('/e/{entry}', [
     'as'   => 'single_entry',
     'uses' => 'EntryController@showEntry',
 ]);

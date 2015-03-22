@@ -158,7 +158,7 @@ class ContentController extends BaseController
      *
      * @return \Illuminate\View\View
      */
-    public function showComments(Content $content)
+    public function showComments($content)
     {
         $sortBy = Input::get('sort');
 
@@ -168,9 +168,9 @@ class ContentController extends BaseController
             })->reverse();
         }
 
-        $group = $content->group;
+        view()->share('group', $content->group);
 
-        return view('content.comments', compact('content', 'group'));
+        return view('content.comments', compact('content'));
     }
 
     public function showFrame(Content $content)
@@ -215,7 +215,7 @@ class ContentController extends BaseController
         $rules = [
             'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
-            'groupname'   => 'required|exists_ci:groups,urlname',
+            'groupname'   => 'required|exists:groups,urlname',
         ];
 
         if (Input::get('type') == 'link') {
@@ -226,7 +226,7 @@ class ContentController extends BaseController
 
         $this->validate($request, $rules);
 
-        $group = Group::shadow(Input::get('groupname'))->firstOrFail();
+        $group = Group::name(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group)) {
@@ -256,14 +256,17 @@ class ContentController extends BaseController
         $content->group()->associate($group);
 
         // Download thumbnail in background to don't waste user time
-        if (Input::get('thumbnail') == 'on') {
-            $content->thumbnail_loading = true;
-            Queue::push('Strimoid\Handlers\DownloadThumbnail', [
-                    'id' => $content->getKey(),
-            ]);
-        }
+        //if (Input::get('thumbnail') == 'on')
+        //    $content->thumbnail_loading = true;
 
         $content->save();
+
+        if ($content->thumbnail_loading)
+        {
+            Queue::push('Strimoid\Handlers\DownloadThumbnail', [
+                'id' => $content->getKey(),
+            ]);
+        }
 
         return Redirect::route('content_comments', $content->getKey());
     }

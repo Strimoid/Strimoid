@@ -41,7 +41,7 @@ class EntryController extends BaseController
             $groupName = $this->homepageGroup();
         }
 
-        $group = $this->groups->getByName($groupName);
+        $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
         $builder = $group->entries();
@@ -65,7 +65,7 @@ class EntryController extends BaseController
     protected function showEntries($builder)
     {
         $builder->orderBy('created_at', 'desc')
-            ->with(['user', 'replies.user']);
+            ->with(['group', 'user', 'replies.user']);
 
         $perPage = Settings::get('entries_per_page');
         $entries = $builder->paginate($perPage);
@@ -73,25 +73,22 @@ class EntryController extends BaseController
         return view('entries.display', compact('entries'));
     }
 
-    public function showEntry($id)
+    /**
+     * Show entry view.
+     *
+     * @param  Entry  $entry
+     * @return \Illuminate\View\View
+     */
+    public function showEntry($entry)
     {
-        if (Route::currentRouteName() == 'single_entry_reply') {
-            $entry = Entry::where('_replies._id', $id)
-                ->with(['user', 'replies.user'])->firstOrFail();
-        } else {
-            $entry = Entry::with('user')
-                ->with('replies.user')->findOrFail($id);
-        }
-
         $entries = [$entry];
-        $group = $entry->group;
+        view()->share('group', $entry->group);
 
-        return view('entries.display', compact('entries', 'group'));
+        return view('entries.display', compact('entries'));
     }
 
-    public function getEntryReplies($id)
+    public function getEntryReplies($entry)
     {
-        $entry = Entry::findOrFail($id);
         $replies = $entry->replies;
 
         return view('entries.replies', compact('entry', 'replies'));
@@ -116,7 +113,7 @@ class EntryController extends BaseController
     {
         $this->validate($request, Entry::rules());
 
-        $group = Group::shadow(Input::get('groupname'))->firstOrFail();
+        $group = Group::name(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group)) {

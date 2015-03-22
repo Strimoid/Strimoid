@@ -21,7 +21,7 @@ class CreateGroupsModeratorsTable extends Migration {
 				->references('id')->on('groups')
 				->onDelete('cascade');
 
-			$table->integer('moderator_id')->unsigned();
+			$table->integer('moderator_id')->unsigned()->nullable();
 			$table->foreign('moderator_id')
 				->references('id')->on('users');
 

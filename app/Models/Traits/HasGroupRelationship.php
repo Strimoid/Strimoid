@@ -1,6 +1,6 @@
 <?php namespace Strimoid\Models\Traits;
 
-trait HasGroup
+trait HasGroupRelationship
 {
     /**
      * Group relationship.

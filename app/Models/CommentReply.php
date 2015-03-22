@@ -4,9 +4,13 @@ use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 class CommentReply extends BaseModel
 {
+    use HasGroupRelationship, HasUserRelationship;
+
     protected static $rules = [
         'text' => 'required|min:1|max:5000',
     ];
@@ -28,11 +32,6 @@ class CommentReply extends BaseModel
         });
 
         parent::boot();
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User');
     }
 
     public function parent()
@@ -64,9 +63,8 @@ class CommentReply extends BaseModel
 
     public function getURL()
     {
-        $url = route('content_comments', $this->comment->content_id);
-
-        return  $url.'#'.$this->getKey();
+        $url = route('content_comments', $this->parent->content);
+        return $url.'#'.$this->hashId();
     }
 
     public function canEdit()

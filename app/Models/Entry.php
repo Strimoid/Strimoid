@@ -1,14 +1,13 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Str;
 use Strimoid\Helpers\MarkdownParser;
 
 class Entry extends BaseModel
 {
     protected static $rules = [
         'text'      => 'required|min:1|max:2500',
-        'groupname' => 'required|exists_ci:groups,urlname',
+        'groupname' => 'required|exists:groups,urlname',
     ];
 
     protected $appends = ['vote_state'];
@@ -58,9 +57,7 @@ class Entry extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) {
-            return false;
-        }
+        if (Auth::guest()) return false;
 
         return Auth::user()->isBlockingUser($this->user);
     }
@@ -72,7 +69,7 @@ class Entry extends BaseModel
 
     public function getURL()
     {
-        return route('single_entry', $this->getKey());
+        return route('single_entry', $this);
     }
 
     public function canEdit()

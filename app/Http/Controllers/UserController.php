@@ -64,14 +64,13 @@ class UserController extends BaseController
         return Response::json($users);
     }
 
-    public function login()
+    public function login(Request $request)
     {
-        $remember = Input::get('remember') == 'true';
         $result = Auth::attempt([
-            'shadow_name'  => Str::lower(Input::get('username')),
-            'password'     => Input::get('password'),
+            'name'         => $request->input('username'),
+            'password'     => $request->input('password'),
             'is_activated' => true,
-        ], $remember);
+        ], $request->input('remember') == 'true');
 
         if ($result) {
             if (Auth::user()->removed_at || Auth::user()->blocked_at) {
@@ -225,29 +224,25 @@ class UserController extends BaseController
     public function processRegistration(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required|min:2|max:30|unique_ci:users,name|regex:/^[a-zA-Z0-9_]+$/i',
+            'username' => 'required|min:2|max:30|unique:users,name|regex:/^[a-zA-Z0-9_]+$/i',
             'password' => 'required|min:6',
             'email'    => 'required|email|unique_email:users|real_email',
         ]);
 
         $ipHash = md5($request->getClientIp());
+
         if (Cache::has('registration.'.$ipHash)) {
             return App::abort(500);
         }
 
-        $email = Str::lower(Input::get('email'));
+        $email = $request->input('email');
 
         $user = new User();
-        $user->_id = Input::get('username');
-        $user->name = Input::get('username');
-        $user->password = Input::get('password');
-        $user->email = $email;
-        $user->activation_token = Str::random(16);
-        $user->last_ip = $request->getClientIp();
-        $user->settings = [];
+        $user->name     = $request->input('username');
+        $user->password = $request->input('password');
+        $user->email    = $email;
+        $user->last_ip  = $request->getClientIp();
         $user->save();
-
-        Log::info('New user with email from domain: '.strstr($email, '@'));
 
         Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email) {
             $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
@@ -266,7 +261,6 @@ class UserController extends BaseController
             return App::abort(500);
         }
 
-        $user->unset('activation_token');
         $user->is_activated = true;
         $user->save();
 
@@ -302,10 +296,8 @@ class UserController extends BaseController
         return Redirect::to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
 
-    public function showProfile($username, $type = 'all')
+    public function showProfile($user, $type = 'all')
     {
-        $user = User::shadow($username)->firstOrFail();
-
         if ($user->removed_at) {
             App::abort(404, 'Użytkownik usunął konto.');
         }
@@ -455,7 +447,7 @@ class UserController extends BaseController
 
     public function show($username)
     {
-        $user = User::shadow($username)->firstOrFail();
+        $user = User::name($username)->firstOrFail();
 
         return $this->getInfo($user);
     }

@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use App;
 use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class GroupController extends BaseController
 
     public function showList()
     {
-        $builder = Group::with('creator')->where('type', '!=', Group::TYPE_PRIVATE);
+        $builder = Group::with('creator')->where('type', '!=', 'private');
 
         if (Input::get('sort') == 'newest') {
             $builder->orderBy('created_at', 'desc');
@@ -54,7 +55,7 @@ class GroupController extends BaseController
 
     public function showSubscribed()
     {
-        $subscriptions = GroupSubscriber::where('user_id', Auth::user()->getKey())->with('group')->get();
+        $subscriptions = GroupSubscriber::where('user_id', Auth::id())->with('group')->get();
 
         $names = [];
 
@@ -83,10 +84,8 @@ class GroupController extends BaseController
         return view('group.create');
     }
 
-    public function showSettings($groupName)
+    public function showSettings($group)
     {
-        $group = Group::where('urlname', $groupName)->firstOrFail();
-
         if (! Auth::user()->isAdmin($group)) {
             App::abort(403, 'Access denied');
         }
@@ -108,10 +107,8 @@ class GroupController extends BaseController
         return view('group.settings', $data);
     }
 
-    public function saveProfile(Request $request, $groupName)
+    public function saveProfile(Request $request, $group)
     {
-        $group = Group::where('urlname', $groupName)->firstOrFail();
-
         if (! Auth::user()->isAdmin($group)) {
             App::abort(403, 'Access denied');
         }
@@ -149,14 +146,12 @@ class GroupController extends BaseController
 
         $group->save();
 
-        return Redirect::action('GroupController@showSettings', $groupName)
+        return Redirect::action('GroupController@showSettings', $group)
             ->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
-    public function saveSettings(Request $request, $groupName)
+    public function saveSettings(Request $request, $group)
     {
-        $group = Group::where('urlname', $groupName)->firstOrFail();
-
         if (! Auth::user()->isAdmin($group)) {
             App::abort(403, 'Access denied');
         }
@@ -176,14 +171,12 @@ class GroupController extends BaseController
 
         $group->save();
 
-        return Redirect::action('GroupController@showSettings', $groupName)->with('success_msg',
+        return Redirect::action('GroupController@showSettings', $group)->with('success_msg',
             'Zmiany zostały zapisane.');
     }
 
-    public function saveStyle(Request $request, $groupName)
+    public function saveStyle(Request $request, $group)
     {
-        $group = Group::where('urlname', $groupName)->firstOrFail();
-
         if (! Auth::user()->isAdmin($group)) {
             App::abort(403, 'Access denied');
         }
@@ -193,13 +186,12 @@ class GroupController extends BaseController
         $group->setStyle(Input::get('css'));
         $group->save();
 
-        return Redirect::action('GroupController@showSettings', $groupName)->with('success_msg',
+        return Redirect::action('GroupController@showSettings', $group)->with('success_msg',
             'Zmiany zostały zapisane.');
     }
 
-    public function showModeratorList($groupName)
+    public function showModeratorList($group)
     {
-        $group = Group::shadow($groupName)->firstOrFail();
         $moderators = GroupModerator::where('group_id', $group->getKey())
             ->orderBy('created_at', 'asc')
             ->with('user')
@@ -210,8 +202,8 @@ class GroupController extends BaseController
 
     public function addModerator()
     {
-        $group = Group::shadow(Input::get('groupname'))->firstOrFail();
-        $user = User::shadow(Input::get('username'))->firstOrFail();
+        $group = Group::name(Input::get('groupname'))->firstOrFail();
+        $user = User::name(Input::get('username'))->firstOrFail();
 
         if (! Auth::user()->isAdmin($group)) {
             App::abort(403, 'Access denied');
@@ -286,9 +278,8 @@ class GroupController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function showBannedList($groupName)
+    public function showBannedList($group)
     {
-        $group = Group::shadow($groupName)->firstOrFail();
         $bans = GroupBan::where('group_id', $group->getKey())
             ->orderBy('created_at', 'desc')->with('user')->paginate(25);
 
@@ -297,8 +288,8 @@ class GroupController extends BaseController
 
     public function addBan(Request $request)
     {
-        $user = User::shadow(Input::get('username'))->firstOrFail();
-        $group = Group::shadow(Input::get('groupname'))->firstOrFail();
+        $user = User::name(Input::get('username'))->firstOrFail();
+        $group = Group::name(Input::get('groupname'))->firstOrFail();
 
         $this->validate($request, ['reason' => 'max:255']);
 
@@ -350,13 +341,12 @@ class GroupController extends BaseController
         }
 
         $this->validate($request, [
-            'urlname'   => 'required|min:3|max:32|unique_ci:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
+            'urlname'   => 'required|min:3|max:32|unique:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
             'groupname' => 'required|min:3|max:50',
             'desc'      => 'max:255',
         ]);
 
         $group = new Group();
-        $group->_id = Input::get('urlname');
         $group->urlname = Input::get('urlname');
         $group->name = Input::get('groupname');
         $group->description = Input::get('description');
@@ -375,7 +365,7 @@ class GroupController extends BaseController
 
     public function subscribeGroup()
     {
-        $group = Group::shadow(Input::get('name'))->firstOrFail();
+        $group = Group::name(Input::get('name'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isSubscriber($group)) {
@@ -392,7 +382,7 @@ class GroupController extends BaseController
 
     public function unsubscribeGroup()
     {
-        $group = Group::shadow(Input::get('name'))->firstOrFail();
+        $group = Group::name(Input::get('name'))->firstOrFail();
 
         $subscriber = GroupSubscriber::where('group_id', $group->getKey())
             ->where('user_id', Auth::id())->first();
@@ -408,7 +398,7 @@ class GroupController extends BaseController
 
     public function blockGroup()
     {
-        $group = Group::where('urlname', Input::get('name'))->firstOrFail();
+        $group = Group::name(Input::get('name'))->firstOrFail();
         $group->checkAccess();
 
         if (GroupBlock::where('group_id', $group->getKey())
@@ -426,7 +416,7 @@ class GroupController extends BaseController
 
     public function unblockGroup()
     {
-        $group = Group::where('urlname', Input::get('name'))->firstOrFail();
+        $group = Group::name(Input::get('name'))->firstOrFail();
 
         $block = GroupBlock::where('group_id', $group->getKey())
             ->where('user_id', Auth::id())->first();
@@ -458,9 +448,7 @@ class GroupController extends BaseController
 
     public function getSidebar($group)
     {
-        $group = Group::shadow($group)->firstOrFail();
         $sidebar = $group->sidebar;
-
         return Response::json(compact('sidebar'));
     }
 }

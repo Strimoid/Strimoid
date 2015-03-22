@@ -68,7 +68,7 @@ class VoteController extends BaseController
             'up'            => $up,
         ]);
 
-        $object->mpush('votes', $vote->getAttributes());
+        $object->votes()->save($vote);
 
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
@@ -170,9 +170,8 @@ class VoteController extends BaseController
             case 'entry_reply':
                 return $object->entry->group;
             case 'comment':
-                return $object->content->group;
             case 'comment_reply':
-                return $object->comment->content->group;
+                return $object->group;
         }
     }
 }

@@ -120,7 +120,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function blockedGroups()
     {
-        $groups = DB::table('group_blocks')
+        $groups = DB::table('user_blocked_groups')
             ->where('user_id', $this->getKey())
             ->lists('group_id');
 
@@ -128,15 +128,16 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     }
     public function blockedUsers()
     {
-        $users = DB::table('user_blocks')
-            ->where('user_id', $this->getKey())
+        $users = DB::table('user_blocked_users')
+            ->where('source_id', $this->getKey())
             ->lists('target_id');
 
         return (array) $users;
     }
+
     public function subscribedGroups()
     {
-        $groups = DB::table('group_subscribers')
+        $groups = DB::table('user_subscribed_groups')
             ->where('user_id', $this->getKey())
             ->lists('group_id');
 
@@ -154,7 +155,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function folders()
     {
-        return $this->embedsMany('Folder', '_folders');
+        return $this->hasMany('Strimoid\Models\Folder');
     }
 
     public function isBanned(Group $group)
@@ -219,5 +220,10 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
 
         return in_array($user, $this->blockedUsers());
+    }
+
+    public function scopeName($query, $value)
+    {
+        $query->where('name', $value);
     }
 }

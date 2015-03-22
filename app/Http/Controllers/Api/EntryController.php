@@ -6,6 +6,7 @@ use Input;
 use Response;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
+use Strimoid\Models\Folder;
 use Strimoid\Models\Group;
 
 class EntryController extends BaseController
@@ -19,9 +20,9 @@ class EntryController extends BaseController
 
         if (Input::has('folder') && !class_exists('Folders\\'.studly_case($folderName))) {
             $user = Input::has('user') ? User::findOrFail(Input::get('user')) : Auth::user();
-            $folder = Folder::findUserFolderOrFail($user->_id, Input::get('folder'));
+            $folder = Folder::findUserFolderOrFail($user->getKey(), Input::get('folder'));
 
-            if (!$folder->public && (Auth::guest() || $user->_id != Auth::id())) {
+            if (!$folder->public && (Auth::guest() || $user->getKey() != Auth::id())) {
                 App::abort(404);
             }
 
@@ -32,7 +33,7 @@ class EntryController extends BaseController
 
             $builder->orderBy('sticky_global', 'desc');
         } else {
-            $group = Group::shadow($groupName)->firstOrFail();
+            $group = Group::name($groupName)->firstOrFail();
             $group->checkAccess();
 
             $builder = $group->entries();
@@ -69,7 +70,7 @@ class EntryController extends BaseController
 
         $this->validate($request, Entry::rules());
 
-        $group = Group::shadow(Input::get('group'))->firstOrFail();
+        $group = Group::name(Input::get('group'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group)) {

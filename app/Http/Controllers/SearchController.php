@@ -87,19 +87,19 @@ class SearchController extends BaseController
 
     protected function filterGroup($value)
     {
-        $group = Group::shadow($value)->first();
+        $group = Group::name($value)->first();
 
         if ($group) {
-            $this->builder->where('group_id', $group->_id);
+            $this->builder->where('group_id', $group->getKey());
         }
     }
 
     protected function filterUser($value)
     {
-        $user = User::shadow($value)->first();
+        $user = User::name($value)->first();
 
         if ($user) {
-            $this->builder->where('user_id', $user->_id);
+            $this->builder->where('user_id', $user->getKey());
         }
     }
 

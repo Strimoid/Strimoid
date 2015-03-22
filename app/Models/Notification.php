@@ -64,7 +64,7 @@ class Notification extends BaseModel
 
     public function targets()
     {
-        return $this->embedsMany('NotificationTarget', '_targets');
+        return $this->hasMany('Strimoid\Models\NotificationTarget');
     }
 
     public function setTitle($title)
@@ -165,8 +165,11 @@ class Notification extends BaseModel
         $this->targets()->associate($target);
     }
 
-    public function scopeTarget($query, $params)
+    public function scopeTarget($query, $param)
     {
-        return $query->where('_targets', 'elemmatch', $params);
+        $query->whereHas('targets', function($q) use($param)
+        {
+            $q->where('user_id', $param);
+        });
     }
 }

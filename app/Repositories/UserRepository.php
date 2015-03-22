@@ -24,7 +24,7 @@ class UserRepository implements UserRepositoryContract
      */
     public function getByName($name)
     {
-        return $this->users->shadow($name)->first();
+        return $this->users->name($name)->first();
     }
 
     /**

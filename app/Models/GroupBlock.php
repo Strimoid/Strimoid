@@ -2,7 +2,7 @@
 
 class GroupBlock extends BaseModel
 {
-    protected $table = 'group_blocks';
+    protected $table = 'user_blocked_groups';
 
     public function group()
     {

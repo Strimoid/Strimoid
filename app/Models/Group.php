@@ -40,11 +40,6 @@ class Group extends BaseModel
         'description', 'sidebar', 'subscribers', 'name',
     ];
 
-    const TYPE_PUBLIC = 0;
-    const TYPE_MODERATED = 1;
-    const TYPE_PRIVATE = 2;
-    const TYPE_ANNOUNCEMENTS  = 99;
-
     public function creator()
     {
         return $this->belongsTo('Strimoid\Models\User');

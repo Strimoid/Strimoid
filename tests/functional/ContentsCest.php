@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Tests\Functional;
 
 use FunctionalTester;
+use Strimoid\Models\User;
 
 class ContentsCest
 {
@@ -13,8 +14,23 @@ class ContentsCest
     }
 
     // tests
-    public function showListOfContents(FunctionalTester $I)
+    public function showListOfNewContents(FunctionalTester $I)
     {
+        $I->amOnPage('/g/all/new');
+        $I->canSee('Deserunt voluptas aut', '.media-heading');
+    }
 
+    public function addLink(FunctionalTester $I)
+    {
+        $I->amLoggedAs(User::first());
+        $I->amOnPage('/');
+        $I->click('Dodaj link');
+        $I->submitForm('.main_col form', [
+            'groupname'   => 'weimann',
+            'url'         => 'http://strimoid.dev',
+            'title'       => 'New content',
+            'description' => 'Example description'
+        ]);
+        $I->seeRecord('contents', ['title' => 'New content']);
     }
 }
