@@ -10,13 +10,13 @@ class PollController extends BaseController
         $hasVoted = in_array(Auth::id(), array_column($poll['votes'], 'user_id'));
 
         if ($hasVoted) {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Oddałeś już głos w tej ankiecie.');
         }
 
         // Check if poll isn't closed already
         if (isset($poll['ends_at']) && Carbon::now()->gte($poll['ends_at'])) {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Ankieta została już zakończona.');
         }
 
@@ -39,7 +39,7 @@ class PollController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->withInput()
                 ->withErrors($validator);
         }
@@ -52,7 +52,7 @@ class PollController extends BaseController
 
             foreach ($optionIds as $optionId) {
                 if (!in_array($optionId, array_column($question['options'], '_id'))) {
-                    return Redirect::route('content_comments', $content->_id)
+                    return Redirect::route('content_comments', $content->getKey())
                         ->withInput()
                         ->with('danger_msg', 'Wygląda na to, że jedna z odpowiedzi została usunięta. Spróbuj jeszcze raz.');
                 }
@@ -67,17 +67,17 @@ class PollController extends BaseController
             }
 
             foreach ($optionIds as $optionId) {
-                Content::where('_id', $content->_id)
+                Content::where('_id', $content->getKey())
                     ->where('poll.questions.'.$questionId.'.options', 'elemmatch', ['_id' => $optionId])
                     ->increment('poll.questions.'.$questionId.'.options.$.votes', 1);
             }
         }
 
-        $vote = ['created_at' => new MongoDate(), 'user_id' => Auth::user()->_id, 'replies' => $replies];
+        $vote = ['created_at' => new MongoDate(), 'user_id' => Auth::user()->getKey(), 'replies' => $replies];
 
         $content->push('poll.votes', $vote);
 
-        return Redirect::route('content_comments', $content->_id)
+        return Redirect::route('content_comments', $content->getKey())
             ->with('success_msg', 'Twój głos został dodany.');
     }
 }

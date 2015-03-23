@@ -31,7 +31,7 @@ class ConversationController extends BaseController
 
         if (isset($conversation)) {
             $data['conversation'] = $conversation;
-            $data['messages'] = ConversationMessage::where('conversation_id', $conversation->_id)
+            $data['messages'] = ConversationMessage::where('conversation_id', $conversation->getKey())
                 ->orderBy('created_at', 'desc')->paginate(50);
         }
 
@@ -78,13 +78,13 @@ class ConversationController extends BaseController
 
         if (!$conversation) {
             $conversation = new Conversation();
-            $conversation->_id = Str::random(8);
+            $conversation->getKey() = Str::random(8);
             $conversation->users = [Auth::user()->getKey(), $target->getKey()];
             $conversation->save();
         } else {
             Notification::where('type', 'conversation')
-                ->where('conversation_id', $conversation->_id)
-                ->where('user_id', $target->_id)
+                ->where('conversation_id', $conversation->getKey())
+                ->where('user_id', $target->getKey())
                 ->delete();
         }
 
@@ -94,7 +94,7 @@ class ConversationController extends BaseController
         $message->text = Input::get('text');
         $message->save();
 
-        $this->sendNotifications([$target->_id], function ($notification) use ($message, $conversation) {
+        $this->sendNotifications([$target->getKey()], function ($notification) use ($message, $conversation) {
             $notification->type = 'conversation';
             $notification->setTitle($message->text);
             $notification->conversation()->associate($conversation);
@@ -107,12 +107,12 @@ class ConversationController extends BaseController
     public function sendMessage()
     {
         $conversation = Conversation::where('users', Auth::user()->getKey())
-            ->where('_id', Input::get('id'))->firstOrFail();
+            ->where('id', Input::get('id'))->firstOrFail();
 
         $target = $conversation->getUser();
 
         if ($target->isBlockingUser(Auth::user())) {
-            return Redirect::route('conversation', $conversation->_id)
+            return Redirect::route('conversation', $conversation->getKey())
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zablokowany przez wybranego użytkownika.');
         }
@@ -124,11 +124,11 @@ class ConversationController extends BaseController
         if ($validator->fails()) {
             Input::flash();
 
-            return Redirect::route('conversation', $conversation->_id)->withErrors($validator);
+            return Redirect::route('conversation', $conversation->getKey())->withErrors($validator);
         }
 
-        Notification::where('type', 'conversation')->where('conversation_id', $conversation->_id)
-            ->where('user_id', $target->_id)->delete();
+        Notification::where('type', 'conversation')->where('conversation_id', $conversation->getKey())
+            ->where('user_id', $target->getKey())->delete();
 
         $message = new ConversationMessage();
         $message->conversation()->associate($conversation);
@@ -136,14 +136,14 @@ class ConversationController extends BaseController
         $message->text = Input::get('text');
         $message->save();
 
-        $this->sendNotifications([$target->_id], function ($notification) use ($message, $conversation) {
+        $this->sendNotifications([$target->getKey()], function ($notification) use ($message, $conversation) {
             $notification->type = 'conversation';
             $notification->setTitle($message->text);
             $notification->conversation()->associate($conversation);
             $notification->save(); // todo
         });
 
-        return Redirect::route('conversation', $conversation->_id);
+        return Redirect::route('conversation', $conversation->getKey());
     }
 
     public function getIndex()
@@ -161,7 +161,7 @@ class ConversationController extends BaseController
     public function getMessages()
     {
         $ids = Conversation::where('users', Auth::user()->getKey())
-            ->lists('_id');
+            ->lists('id');
 
         $messages = ConversationMessage::with('conversation')->with('user')
             ->whereIn('conversation_id', $ids)

@@ -101,7 +101,7 @@ class Notification extends BaseModel
 
         // Add parameter to mark notification as read
         if (!$this->read) {
-            $params .= '?ntf_read='.mid_to_b58($this->_id);
+            $params .= '?ntf_read='.mid_to_b58($this->getKey());
         }
 
         try {

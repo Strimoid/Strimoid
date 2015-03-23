@@ -50,7 +50,7 @@ class RankingController extends BaseController
 
         if (Input::has('group')) {
             $group = Group::where('shadow_urlname', Str::lower(Input::get('group')))->firstOrFail();
-            $query->where('group_id', $group->_id);
+            $query->where('group_id', $group->getKey());
 
             $data['group'] = $group;
         }

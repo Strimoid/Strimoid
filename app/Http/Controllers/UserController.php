@@ -317,7 +317,7 @@ class UserController extends BaseController
         } elseif ($type == 'moderated') {
             $data['moderated'] = GroupModerator::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
         } else {
-            $data['actions'] = UserAction::where('user_id', $user->_id)->orderBy('created_at', 'desc')->paginate(15);
+            $data['actions'] = UserAction::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
         }
 
         if (isset($data['actions'])) {
@@ -368,7 +368,7 @@ class UserController extends BaseController
     {
         $target = $this->users->requireByName(Input::get('username'));
 
-        if (UserBlocked::where('target_id', $target->_id)
+        if (UserBlocked::where('target_id', $target->getKey())
             ->where('user_id', Auth::user()->getKey())->first()) {
             return Response::make('Already blocked', 400);
         }
@@ -477,7 +477,6 @@ class UserController extends BaseController
         ];
 
         return [
-            '_id'         => $user->_id,
             'name'        => $user->name,
             'age'         => $user->age,
             'avatar'      => $user->avatar,

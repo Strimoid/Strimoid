@@ -36,7 +36,7 @@ class Group extends BaseModel
 
     protected $table = 'groups';
     protected $visible = [
-        '_id', 'avatar', 'created_at', 'creator',
+        'id', 'avatar', 'created_at', 'creator',
         'description', 'sidebar', 'subscribers', 'name',
     ];
 

@@ -228,7 +228,7 @@ class GroupController extends BaseController
         $moderator->save();
 
         // Send notification to new moderator
-        $this->sendNotifications([$user->_id], function ($notification) use ($moderator, $group) {
+        $this->sendNotifications([$user->getKey()], function ($notification) use ($moderator, $group) {
             $notification->type = 'moderator';
 
             $positionTitle = $moderator->type == 'admin' ? 'administratorem' : 'moderatorem';

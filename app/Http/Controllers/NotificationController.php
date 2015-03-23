@@ -20,7 +20,7 @@ class NotificationController extends BaseController
 
         foreach ($notifications as $notification) {
             $list[] = [
-                '_id'      => $notification->_id,
+                'id'       => $notification->hashId(),
                 'title'    => $notification->title,
                 'time'     => $notification->getLocalTime(),
                 'time_ago' => $notification->created_at->diffForHumans(),

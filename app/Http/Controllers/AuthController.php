@@ -42,14 +42,10 @@ class AuthController extends BaseController
 
     private function getUserData()
     {
-        $folders = Auth::user()->folders->toArray();
-
-        foreach ($folders as &$folder) {
-            $folder['groups'] = Group::whereIn('_id', $folder['groups'])->get()->toArray();
-        }
+        $folders = Auth::user()->folders;
 
         $notifications = Notification::with(['sourceUser' => function ($q) { $q->select('avatar'); }])
-            ->target(['user_id' => Auth::id()])
+            ->target(Auth::id())
             ->orderBy('created_at', 'desc')
             ->take(15)->get();
 

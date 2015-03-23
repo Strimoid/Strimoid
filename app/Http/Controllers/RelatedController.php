@@ -19,14 +19,14 @@ class RelatedController extends BaseController
         $this->validate($request, ContentRelated::rules());
 
         if (Auth::user()->isBanned($content->group)) {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
         if ($content->group->type == 'announcements'
             && !Auth::user()->isModerator($content->group)) {
-            return Redirect::route('content_comments', $content->_id)
+            return Redirect::route('content_comments', $content->getKey())
                 ->withInput()
                 ->with('danger_msg', 'Nie możesz dodawać powiązanych w tej grupie');
         }
@@ -49,7 +49,7 @@ class RelatedController extends BaseController
 
         $related->save();
 
-        return Redirect::route('content_comments', $content->_id);
+        return Redirect::route('content_comments', $content->getKey());
     }
 
     public function removeRelated($related = null)
@@ -97,7 +97,7 @@ class RelatedController extends BaseController
 
         return Response::json([
             'status'  => 'ok',
-            '_id'     => $related->_id,
+            '_id'     => $related->getKey(),
             'related' => $related,
         ]);
     }

@@ -26,7 +26,7 @@ class EventsServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             if (Request::getUser() && Request::getPassword()) {
-                return Auth::onceBasic('_id');
+                return Auth::onceBasic('name');
             }
         });
 

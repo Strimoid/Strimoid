@@ -28,7 +28,7 @@ class ContentRelated extends BaseModel
 
     public function delete()
     {
-        Content::where('_id', $this->content_id)->decrement('related_count');
+        Content::where('id', $this->content_id)->decrement('related_count');
 
         return parent::delete();
     }

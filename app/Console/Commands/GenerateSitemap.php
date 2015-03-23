@@ -40,9 +40,9 @@ class GenerateSitemap extends Command
         $x = 1;
 
         foreach (Group::all() as $group) {
-            $sitemap->add(URL::to(route('group_contents', $group->_id)), null, '1.0', 'daily');
-            $sitemap->add(URL::to(route('group_contents_new', $group->_id)), null, '1.0', 'daily');
-            $sitemap->add(URL::to(route('group_entries', $group->_id)), null, '1.0', 'daily');
+            $sitemap->add(URL::to(route('group_contents', $group->getKey())), null, '1.0', 'daily');
+            $sitemap->add(URL::to(route('group_contents_new', $group->getKey())), null, '1.0', 'daily');
+            $sitemap->add(URL::to(route('group_entries', $group->getKey())), null, '1.0', 'daily');
 
             if (!($x % 100)) {
                 $this->info($x.' groups processed');
@@ -61,7 +61,7 @@ class GenerateSitemap extends Command
         $x = 1;
 
         foreach (Content::all() as $content) {
-            $route = route('content_comments_slug', [$content->_id, Str::slug($content->title)]);
+            $route = route('content_comments_slug', [$content->getKey(), Str::slug($content->title)]);
 
             $sitemap->add(URL::to($route), $content->modified_at, '1.0', 'daily');
 
@@ -82,7 +82,7 @@ class GenerateSitemap extends Command
         $x = 1;
 
         foreach (Entry::all() as $entry) {
-            $route = route('single_entry', $entry->_id);
+            $route = route('single_entry', $entry->getKey());
 
             $sitemap->add(URL::to($route), $entry->modified_at, '1.0', 'daily');
 

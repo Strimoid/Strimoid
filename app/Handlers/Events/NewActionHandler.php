@@ -19,11 +19,13 @@ class NewActionHandler
      */
     public function subscribe($events)
     {
+        /*
         $this->addHandler('Content', $events);
         $this->addHandler('Comment', $events);
         $this->addHandler('CommentReply', $events);
         $this->addHandler('Entry', $events);
         $this->addHandler('EntryReply', $events);
+        */
     }
 
     /**

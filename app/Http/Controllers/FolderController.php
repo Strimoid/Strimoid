@@ -18,14 +18,11 @@ class FolderController extends BaseController
     {
         $this->validate($request, Folder::rules());
 
-        $id = Str::slug(Input::get('name'));
-
         if (Folder::find($id)) {
             return Response::json(['status' => 'error']);
         }
 
         $folder = new Folder([
-            '_id'  => $id,
             'name' => Input::get('name'),
         ]);
 
@@ -68,7 +65,7 @@ class FolderController extends BaseController
     {
         $folder = Folder::findUserFolderOrFail(Input::get('user'), Input::get('folder'));
 
-        if (!$folder->public && $folder->user->_id != Auth::id()) {
+        if (!$folder->public && $folder->user->getKey() != Auth::id()) {
             App::abort(404);
         }
 
@@ -87,7 +84,7 @@ class FolderController extends BaseController
         }
 
         $folder->exists = false;
-        $folder->_id = $id;
+        $folder->getKey() = $id;
         $folder->name = Input::get('name');
 
         Auth::user()->folders()->save($folder);
@@ -115,7 +112,7 @@ class FolderController extends BaseController
             Response::json(['status' => 'error']);
         }
 
-        if ($folder->mpush('groups', $group->_id)) {
+        if ($folder->mpush('groups', $group->getKey())) {
             return Response::json(['status' => 'ok']);
         }
 
@@ -127,7 +124,7 @@ class FolderController extends BaseController
         $group = Group::findOrFail(Input::get('group'));
         $folder = Folder::findOrFail(Input::get('folder'));
 
-        if ($folder->mpull('groups', $group->_id)) {
+        if ($folder->mpull('groups', $group->getKey())) {
             return Response::json(['status' => 'ok']);
         }
 

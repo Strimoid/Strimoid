@@ -10,7 +10,7 @@ class Notvoted extends FakeFolder
         $builder = with(new $model())->newQuery();
 
         if (Auth::check()) {
-            $builder->where('votes.user_id', '!=', Auth::user()->_id);
+            $builder->where('votes.user_id', '!=', Auth::user()->getKey());
         }
 
         return $builder;

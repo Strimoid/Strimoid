@@ -109,6 +109,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->hasMany('Strimoid\Models\Entry');
     }
 
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
+
     public function bannedGroups()
     {
         $groups = DB::table('group_bans')
@@ -153,11 +158,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return (array) $groups;
     }
 
-    public function folders()
-    {
-        return $this->hasMany('Strimoid\Models\Folder');
-    }
-
     public function isBanned(Group $group)
     {
         $isBanned = GroupBan::where('group_id', $group->getKey())
@@ -169,7 +169,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function isAdmin($group)
     {
         if ($group instanceof Group) {
-            $group = $group->_id;
+            $group = $group->getKey();
         }
 
         $isAdmin = GroupModerator::where('group_id', $group)
@@ -182,7 +182,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function isModerator($group)
     {
         if ($group instanceof Group) {
-            $group = $group->_id;
+            $group = $group->getKey();
         }
 
         return in_array($group, $this->moderatedGroups());
@@ -207,7 +207,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function isObservingUser($user)
     {
         if ($user instanceof User) {
-            $user = $user->_id;
+            $user = $user->getKey();
         }
 
         return in_array($user, (array) $this->_observed_users);
@@ -216,7 +216,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function isBlockingUser($user)
     {
         if ($user instanceof User) {
-            $user = $user->_id;
+            $user = $user->getKey();
         }
 
         return in_array($user, $this->blockedUsers());

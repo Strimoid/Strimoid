@@ -87,7 +87,7 @@ class EntryController extends BaseController
         $entry->group()->associate($group);
         $entry->save();
 
-        return Response::json(['status' => 'ok', '_id' => $entry->_id, 'entry' => $entry]);
+        return Response::json(['status' => 'ok', '_id' => $entry->getKey(), 'entry' => $entry]);
     }
 
     /**
@@ -112,7 +112,7 @@ class EntryController extends BaseController
         $reply->user()->associate(Auth::user());
         $entry->replies()->save($reply);
 
-        return Response::json(['status' => 'ok', '_id' => $reply->_id, 'reply' => $reply]);
+        return Response::json(['status' => 'ok', '_id' => $reply->getKey(), 'reply' => $reply]);
     }
 
     /**

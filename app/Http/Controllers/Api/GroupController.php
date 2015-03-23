@@ -30,9 +30,9 @@ class GroupController extends BaseController
         $group->checkAccess();
 
         $stats = [
-            'contents'    => intval(Content::where('group_id', $group->_id)->count()),
+            'contents'    => intval(Content::where('group_id', $group->getKey())->count()),
             'comments'    => intval(Content::where('group_id', $group->getKey())->sum('comments')),
-            'entries'     => intval(Entry::where('group_id', $group->_id)->count()),
+            'entries'     => intval(Entry::where('group_id', $group->getKey())->count()),
             'banned'      => intval(GroupBanned::where('group_id', $group->getKey())->count()),
             'subscribers' => $group->subscribers,
             'moderators'  => intval(GroupModerator::where('group_id', $group->getKey())->count()),

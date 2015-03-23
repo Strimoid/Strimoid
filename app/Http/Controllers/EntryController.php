@@ -159,11 +159,11 @@ class EntryController extends BaseController
         if (Input::get('type') == 'entry_reply') {
             $entry = EntryReply::findOrFail(Input::get('id'));
 
-            $lastReply = Entry::where('_id', $entry->entry->_id)
+            $lastReply = Entry::where('id', $entry->parent->getKey())
                 ->project(['_replies' => ['$slice' => -1]])
                 ->first()->replies->first();
 
-            if ($lastReply->_id != $entry->_id) {
+            if ($lastReply->getKey() != $entry->getKey()) {
                 return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
             }
         } else {

@@ -41,7 +41,7 @@ class CommentReply extends BaseModel
 
     public function delete()
     {
-        Content::where('_id', $this->comment->content_id)->decrement('comments_count');
+        Content::where('id', $this->comment->content_id)->decrement('comments_count');
 
         return parent::delete();
     }

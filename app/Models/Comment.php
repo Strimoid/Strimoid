@@ -59,7 +59,7 @@ class Comment extends BaseModel
             $reply->delete();
         }
 
-        Content::where('_id', $this->content_id)->decrement('comments_count');
+        Content::where('id', $this->content_id)->decrement('comments_count');
 
         return parent::delete();
     }

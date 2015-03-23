@@ -58,7 +58,7 @@ class TwitterPost extends Command
         $client->getEmitter()->attach($oauth);
 
         $params = [
-            'status' => Str::limit($content->title, 100).' https://strm.pl/'.$content->_id,
+            'status' => Str::limit($content->title, 100).' https://strm.pl/'.$content->getKey(),
         ];
 
         $request = $client->post('statuses/update.json', [

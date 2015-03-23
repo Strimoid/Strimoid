@@ -133,7 +133,7 @@ class Content extends BaseModel
 
     public function canEdit(User $user = null)
     {
-        $isAuthor = $user->_id == $this->user_id;
+        $isAuthor = $user->getKey() == $this->user_id;
         $hasTime = $this->created_at->diffInMinutes() < 30;
 
         $isAdmin = $user->type == 'admin';

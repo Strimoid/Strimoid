@@ -43,9 +43,8 @@ class NotificationMarkRead
         if ($request->query->has('ntf_read')
             && $this->auth->check()) {
             $id = $request->query->get('ntf_read');
-            $id = b58_to_mid($id);
 
-            $this->notification->where('_id', $id)
+            $this->notification->where('id', $id)
                 ->target(['user_id'         => $this->auth->id()])
                 ->update(['_targets.$.read' => true]);
         }

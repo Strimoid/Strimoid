@@ -42,7 +42,7 @@ class EntryReply extends BaseModel
 
     public function delete()
     {
-        Entry::where('_id', $this->entry->_id)->decrement('replies_count');
+        Entry::where('id', $this->parent_id)->decrement('replies_count');
 
         return parent::delete();
     }
