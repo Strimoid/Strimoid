@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0b7453011c1d7419b0c55c6fa99caa86",
+    "hash": "502ea8485e5ad1708ba4f7aec9b3eb68",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -52,6 +52,51 @@
             "description": "Algolia Search API Client for PHP",
             "homepage": "https://github.com/algolia/algoliasearch-client-php",
             "time": "2015-01-20 17:24:59"
+        },
+        {
+            "name": "anlutro/l4-settings",
+            "version": "0.2.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anlutro/laravel-settings.git",
+                "reference": "3d4e89b0c1fea286ca0d4e37ca9dec5441a44f46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/3d4e89b0c1fea286ca0d4e37ca9dec5441a44f46",
+                "reference": "3d4e89b0c1fea286ca0d4e37ca9dec5441a44f46",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.1 <6.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "illuminate/database": ">=4.1 <6.0",
+                "mockery/mockery": "0.9.*"
+            },
+            "suggest": {
+                "illuminate/database": "Save settings to a database table.",
+                "illuminate/filesystem": "Save settings to a JSON file."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "anlutro\\LaravelSettings\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Lutro",
+                    "email": "anlutro@gmail.com"
+                }
+            ],
+            "description": "Persistant settings in Laravel.",
+            "time": "2015-03-06 16:31:03"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -854,16 +899,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "572806fd083b622dd430d76c34564459596fef2a"
+                "reference": "8f3761154b4c1f5128365dfc32cbf757f27d97b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/572806fd083b622dd430d76c34564459596fef2a",
-                "reference": "572806fd083b622dd430d76c34564459596fef2a",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/8f3761154b4c1f5128365dfc32cbf757f27d97b6",
+                "reference": "8f3761154b4c1f5128365dfc32cbf757f27d97b6",
                 "shasum": ""
             },
             "require": {
@@ -906,7 +951,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2015-03-09 13:03:15"
+            "time": "2015-03-18 17:41:04"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -1349,16 +1394,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.17",
+            "version": "v5.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b4abcbc98885e1b339acc7e993d2758d47f01ecc"
+                "reference": "b21be29a1fb12c84ab4e0b723e9c11492d0b25fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b4abcbc98885e1b339acc7e993d2758d47f01ecc",
-                "reference": "b4abcbc98885e1b339acc7e993d2758d47f01ecc",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b21be29a1fb12c84ab4e0b723e9c11492d0b25fe",
+                "reference": "b21be29a1fb12c84ab4e0b723e9c11492d0b25fe",
                 "shasum": ""
             },
             "require": {
@@ -1471,7 +1516,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-03-17 21:45:31"
+            "time": "2015-03-21 16:10:01"
         },
         {
             "name": "league/commonmark",
@@ -1534,26 +1579,31 @@
         },
         {
             "name": "league/event",
-            "version": "1.0.1",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/event.git",
-                "reference": "9d9bd9e086b3acad09ab03f5317d27511039d71c"
+                "reference": "14b65eeb88d0583c9995473ff803c0634673740c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/event/zipball/9d9bd9e086b3acad09ab03f5317d27511039d71c",
-                "reference": "9d9bd9e086b3acad09ab03f5317d27511039d71c",
+                "url": "https://api.github.com/repos/thephpleague/event/zipball/14b65eeb88d0583c9995473ff803c0634673740c",
+                "reference": "14b65eeb88d0583c9995473ff803c0634673740c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
-                "phpspec/phpspec": "2.0.*@dev"
+                "henrikbjorn/phpspec-code-coverage": "~1.0.1",
+                "phpspec/phpspec": "~2.0.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "League\\Event\\": "src/"
@@ -1575,7 +1625,7 @@
                 "event",
                 "listener"
             ],
-            "time": "2014-10-11 16:18:15"
+            "time": "2015-02-12 21:08:11"
         },
         {
             "name": "league/flysystem",
@@ -1725,20 +1775,20 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "4.1.2",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "19b64c2e65f07cb3d0fc2bb2162ed6b9c715db76"
+                "reference": "34a6b66b8ca4255f8334c5aaf5cb34d7c57cdde8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/19b64c2e65f07cb3d0fc2bb2162ed6b9c715db76",
-                "reference": "19b64c2e65f07cb3d0fc2bb2162ed6b9c715db76",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/34a6b66b8ca4255f8334c5aaf5cb34d7c57cdde8",
+                "reference": "34a6b66b8ca4255f8334c5aaf5cb34d7c57cdde8",
                 "shasum": ""
             },
             "require": {
-                "league/event": "1.0.*",
+                "league/event": "~2.1",
                 "php": ">=5.4.0",
                 "symfony/http-foundation": "~2.4"
             },
@@ -1785,7 +1835,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2015-01-01 12:52:03"
+            "time": "2015-03-22 23:19:36"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -2008,16 +2058,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "ac05ef6f95bf8361549604b6031c115f92f39528"
+                "reference": "edbf162e4cf116102d95eb635608b7d310cc01c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ac05ef6f95bf8361549604b6031c115f92f39528",
-                "reference": "ac05ef6f95bf8361549604b6031c115f92f39528",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/edbf162e4cf116102d95eb635608b7d310cc01c6",
+                "reference": "edbf162e4cf116102d95eb635608b7d310cc01c6",
                 "shasum": ""
             },
             "require": {
@@ -2027,7 +2077,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -2049,7 +2099,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2015-01-18 11:29:59"
+            "time": "2015-03-22 16:17:25"
         },
         {
             "name": "pda/pheanstalk",
@@ -3890,12 +3940,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "1f4744a915a3796d81b361e16d957a5ec5f6bfc4"
+                "reference": "038d25ad0dd38cc59b84be1d2d642eebcd89e7d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/1f4744a915a3796d81b361e16d957a5ec5f6bfc4",
-                "reference": "1f4744a915a3796d81b361e16d957a5ec5f6bfc4",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/038d25ad0dd38cc59b84be1d2d642eebcd89e7d2",
+                "reference": "038d25ad0dd38cc59b84be1d2d642eebcd89e7d2",
                 "shasum": ""
             },
             "require": {
@@ -3962,7 +4012,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2015-03-13 20:28:12"
+            "time": "2015-03-22 23:56:16"
         },
         {
             "name": "doctrine/instantiator",
@@ -5512,6 +5562,7 @@
         "vipsoft/code-coverage-extension": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.5.0"
     },

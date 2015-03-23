@@ -10,7 +10,7 @@ use Response;
 use Route;
 use Rss;
 use Session;
-use Settings;
+use Setting;
 use Strimoid\Contracts\Repositories\ContentRepository;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
@@ -116,7 +116,7 @@ class ContentController extends BaseController
         $this->filterByTime($builder, Input::get('time'));
 
         // Paginate and attach parameters to paginator links
-        $perPage = Settings::get('entries_per_page');
+        $perPage = Setting::get('entries_per_page', 25);
         $contents = $builder->paginate($perPage);
         $contents->appends(Input::only(['sort', 'time', 'all']));
 

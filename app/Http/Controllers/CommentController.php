@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Input;
 use Response;
 use Route;
-use Settings;
+use Setting;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
@@ -71,7 +71,7 @@ class CommentController extends BaseController
                 ->orderBy('created_at', 'desc')
                 ->with(['user']);
 
-        $perPage = Settings::get('entries_per_page');
+        $perPage = Setting::get('entries_per_page', 25);
         $comments = $builder->paginate($perPage);
 
         return view('comments.list', compact('comments'));

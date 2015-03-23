@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Input;
 use Response;
 use Route;
-use Settings;
+use Setting;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Entry;
@@ -67,7 +67,7 @@ class EntryController extends BaseController
         $builder->orderBy('created_at', 'desc')
             ->with(['group', 'user', 'replies.user']);
 
-        $perPage = Settings::get('entries_per_page');
+        $perPage = Setting::get('entries_per_page', 25);
         $entries = $builder->paginate($perPage);
 
         return view('entries.display', compact('entries'));

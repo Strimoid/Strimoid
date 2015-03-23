@@ -5,7 +5,7 @@ use Date;
 use DateTimeZone;
 use Hashids;
 use Illuminate\Database\Eloquent\Model;
-use Settings;
+use Setting;
 
 abstract class BaseModel extends Model
 {
@@ -31,7 +31,7 @@ abstract class BaseModel extends Model
      */
     public function getLocalTime()
     {
-        $timezone = new DateTimeZone(Settings::get('timezone'));
+        $timezone = new DateTimeZone(Setting::get('timezone', 'Europe/Warsaw'));
 
         return $this->created_at->setTimeZone($timezone)
             ->format('d/m/Y H:i:s');

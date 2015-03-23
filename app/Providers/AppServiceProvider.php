@@ -1,11 +1,12 @@
 <?php namespace Strimoid\Providers;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Pdp\Parser;
 use Pdp\PublicSuffixListManager;
+use Setting;
 use Strimoid\Helpers\OEmbed;
-use Strimoid\Models\UserSettings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
         if (! empty($rollbarToken)) {
             $this->app->register('Jenssegers\Rollbar\RollbarServiceProvider');
         }
+
+        Setting::setExtraColumns([
+            'user_id' => Auth::id(),
+        ]);
     }
 
     /**
@@ -40,10 +45,6 @@ class AppServiceProvider extends ServiceProvider
                 'connect_timeout' => 3,
                 'timeout'         => 10,
             ]);
-        });
-
-        $this->app->bind('settings', function () {
-            return new UserSettings();
         });
 
         $this->app->bind('pdp', function () {

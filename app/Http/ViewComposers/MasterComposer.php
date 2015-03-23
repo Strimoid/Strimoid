@@ -3,7 +3,7 @@
 use Auth;
 use Cache;
 use Illuminate\Contracts\View\View;
-use Settings;
+use Setting;
 use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
 
@@ -53,11 +53,11 @@ class MasterComposer
             $pageTitle = $currentGroup->name;
 
             // Homepage title shall always be Strimoid.pl
-            if ($currentGroup->urlname == 'all' && !Settings::get('homepage_subscribed')) {
+            if ($currentGroup->urlname == 'all' && !Setting::get('homepage_subscribed', false)) {
                 $pageTitle = 'Strimoid';
             }
 
-            if ($currentGroup->urlname == 'subscribed' && Settings::get('homepage_subscribed')) {
+            if ($currentGroup->urlname == 'subscribed' && Setting::get('homepage_subscribed', false)) {
                 $pageTitle = 'Strimoid';
             }
         } else {
