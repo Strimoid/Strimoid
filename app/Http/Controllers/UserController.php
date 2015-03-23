@@ -369,7 +369,7 @@ class UserController extends BaseController
         $target = $this->users->requireByName(Input::get('username'));
 
         if (UserBlocked::where('target_id', $target->getKey())
-            ->where('user_id', Auth::user()->getKey())->first()) {
+            ->where('user_id', Auth::id())->first()) {
             return Response::make('Already blocked', 400);
         }
 

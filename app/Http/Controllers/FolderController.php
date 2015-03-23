@@ -18,37 +18,25 @@ class FolderController extends BaseController
     {
         $this->validate($request, Folder::rules());
 
-        if (Folder::find($id)) {
-            return Response::json(['status' => 'error']);
-        }
-
-        $folder = new Folder([
+        $folder = Auth::user()->folders()->create([
             'name' => Input::get('name'),
         ]);
 
         if (Input::has('groupname')) {
             $group = Group::findOrFail(Input::get('groupname'));
-            $folder->groups = [$group->getKey()];
+            $folder->groups()->attach($group);
         }
 
-        if (Auth::user()->folders()->save($folder)) {
-            return Response::json(['status' => 'ok', 'id' => $folder->getKey()]);
-        }
-
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok', 'id' => $folder->getKey()]);
     }
 
-    public function editFolder()
+    public function editFolder(Request $request)
     {
         $folder = Folder::findOrFail(Input::get('folder'));
 
-        $validator = Validator::make(Input::all(), ['name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u']);
-
-        if ($validator->fails()) {
-            return Response::json([
-                'status' => 'error', 'error' => $validator->messages()->first(),
-            ]);
-        }
+        $this->validate($request, [
+            'name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
+        ]);
 
         if (Input::has('public')) {
             $folder->public = Input::get('public') == 'true';
@@ -84,7 +72,6 @@ class FolderController extends BaseController
         }
 
         $folder->exists = false;
-        $folder->getKey() = $id;
         $folder->name = Input::get('name');
 
         Auth::user()->folders()->save($folder);

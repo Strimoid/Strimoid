@@ -73,7 +73,7 @@ class PollController extends BaseController
             }
         }
 
-        $vote = ['created_at' => new MongoDate(), 'user_id' => Auth::user()->getKey(), 'replies' => $replies];
+        $vote = ['created_at' => new MongoDate(), 'user_id' => Auth::id(), 'replies' => $replies];
 
         $content->push('poll.votes', $vote);
 

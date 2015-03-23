@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFoldersTable extends Migration {
+class CreateConversationUsersTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,14 @@ class CreateFoldersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('folders', function(Blueprint $table)
+		Schema::create('conversation_users', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name');
-			$table->boolean('public');
+
+			$table->integer('conversation_id')->unsigned();
+			$table->foreign('conversation_id')
+				->references('id')->on('conversations')
+				->onDelete('cascade');
 
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')
@@ -34,7 +37,7 @@ class CreateFoldersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('folders');
+		Schema::drop('conversation_users');
 	}
 
 }

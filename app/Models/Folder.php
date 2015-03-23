@@ -19,7 +19,7 @@ class Folder extends BaseModel
 
     public function groups()
     {
-        return $this->hasManyThrough('Strimoid\Models\Group', 'FolderGroup');
+        return $this->belongsToMany(Group::class, 'folder_groups');
     }
 
     public function comments($sortBy = null)
