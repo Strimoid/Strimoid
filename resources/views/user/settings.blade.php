@@ -162,7 +162,7 @@
                     </div>
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('notifications[auto_read]', 'on', Settings::get('notifications.auto_read')) !!} Automatycznie oznaczaj powiadomienia jako przeczytane
+                            {!! Form::checkbox('notifications[auto_read]', 'on', Setting::get('notifications.auto_read', false)) !!} Automatycznie oznaczaj powiadomienia jako przeczytane
                         </label>
                     </div>
                 </div>
@@ -185,10 +185,10 @@
                 </div>
             </div>
 
-            @include('global.form.input_select', array('name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Settings::get('contents_per_page'), 'options' => Settings::getOptions('contents_per_page')))
-            @include('global.form.input_select', array('name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Settings::get('entries_per_page'), 'options' => Settings::getOptions('entries_per_page')))
+            @include('global.form.input_select', array('name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25), 'options' => Settings::getOptions('contents_per_page')))
+            @include('global.form.input_select', array('name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25), 'options' => Settings::getOptions('entries_per_page')))
 
-            @include('global.form.input_select', array('name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Settings::get('timezone'), 'options' => Settings::getOptions('timezone')))
+            @include('global.form.input_select', array('name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'), 'options' => Settings::getOptions('timezone')))
 
             @include('global.form.input_value', array('type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => @$user->settings['css_style'], 'placeholder' => 'http://link.do/stylu.css'))
 

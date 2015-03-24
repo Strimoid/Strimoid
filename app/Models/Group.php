@@ -42,7 +42,7 @@ class Group extends BaseModel
 
     public function creator()
     {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function entries()
@@ -50,8 +50,8 @@ class Group extends BaseModel
         $relation = $this->hasMany('Strimoid\Models\Entry');
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers();
-            $relation->whereNotIn('user_id', (array) $blockedUsers);
+            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $relation->whereNotIn('user_id', $blockedUsers);
         }
 
         return $relation;
@@ -63,8 +63,8 @@ class Group extends BaseModel
         $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers();
-            $relation->whereNotIn('user_id', (array) $blockedUsers);
+            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $relation->whereNotIn('user_id', $blockedUsers);
         }
 
         return $relation;
@@ -75,10 +75,10 @@ class Group extends BaseModel
         $relation = $this->hasMany('Strimoid\Models\Content');
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers();
-            $relation->whereNotIn('user_id', $blockedUsers);
+            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $relation->whereNotIn('target_id', $blockedUsers);
 
-            $blockedDomains = Auth::user()->blocked_domains;
+            $blockedDomains = Auth::user()->blockedDomains();
             $relation->whereNotIn('domain', $blockedDomains);
         }
 
@@ -92,9 +92,14 @@ class Group extends BaseModel
         return $relation;
     }
 
+    public function bannedUsers()
+    {
+        return $this->belongsToMany(User::class, 'group_bans');
+    }
+
     public function moderators()
     {
-        return $this->hasMany('Strimoid\Models\GroupModerator');
+        return $this->belongsToMany(User::class, 'group_moderators');
     }
 
     public function checkAccess()

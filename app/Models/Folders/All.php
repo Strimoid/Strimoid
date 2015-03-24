@@ -10,11 +10,11 @@ class All extends FakeFolder
         $builder = with(new $model())->newQuery();
 
         if (Auth::check()) {
-            $blockedGroups = Auth::user()->blockedGroups();
-            $builder->whereNotIn('group_id', (array) $blockedGroups);
+            $blockedGroups = Auth::user()->blockedGroups()->lists('id');
+            $builder->whereNotIn('group_id', $blockedGroups);
 
-            $blockedUsers = Auth::user()->blockedUsers();
-            $builder->whereNotIn('user_id', (array) $blockedUsers);
+            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $builder->whereNotIn('user_id', $blockedUsers);
         }
 
         return $builder;
@@ -25,7 +25,7 @@ class All extends FakeFolder
         $builder = static::getBuilder('Strimoid\Models\Content');
 
         if (Auth::check()) {
-            $blockedDomains = Auth::user()->blocked_domains;
+            $blockedDomains = Auth::user()->blockedDomains();
             $builder->whereNotIn('domain', $blockedDomains);
         }
 

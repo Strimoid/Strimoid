@@ -40,7 +40,7 @@
           "vinkla/pusher": "~1.0",
           "vinkla/algolia": "~1.0",
           "vinkla/hashids": "~1.0",
-            "anlutro/l4-settings": "0.2.*"
+          "anlutro/l4-settings": "0.2.*"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",
@@ -63,7 +63,7 @@
               "Strimoid\\": "app/"
             }
       },
-        "scripts": {
+      "scripts": {
           "post-install-cmd": [
                 "php artisan clear-compiled",
                 "php artisan optimize"
@@ -74,8 +74,9 @@
           ],
           "post-create-project-cmd": [
                 "php artisan key:generate"
-          ]
-        },
+          ],
+          "test": "vendor/bin/codecept run"
+      },
       "config": {
           "preferred-install": "dist"
       }

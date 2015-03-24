@@ -363,9 +363,8 @@ class GroupController extends BaseController
             ->with('success_msg', 'Nowa grupa o nazwie '.$group->name.' została utworzona.');
     }
 
-    public function subscribeGroup()
+    public function subscribeGroup($group)
     {
-        $group = Group::name(Input::get('name'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isSubscriber($group)) {
@@ -380,10 +379,8 @@ class GroupController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function unsubscribeGroup()
+    public function unsubscribeGroup($group)
     {
-        $group = Group::name(Input::get('name'))->firstOrFail();
-
         $subscriber = GroupSubscriber::where('group_id', $group->getKey())
             ->where('user_id', Auth::id())->first();
 
@@ -396,9 +393,8 @@ class GroupController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function blockGroup()
+    public function blockGroup($group)
     {
-        $group = Group::name(Input::get('name'))->firstOrFail();
         $group->checkAccess();
 
         if (GroupBlock::where('group_id', $group->getKey())
@@ -414,10 +410,8 @@ class GroupController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function unblockGroup()
+    public function unblockGroup($group)
     {
-        $group = Group::name(Input::get('name'))->firstOrFail();
-
         $block = GroupBlock::where('group_id', $group->getKey())
             ->where('user_id', Auth::id())->first();
 

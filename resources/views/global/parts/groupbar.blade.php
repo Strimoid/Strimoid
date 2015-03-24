@@ -3,7 +3,7 @@
         <li><a href="/g/all" rel="nofollow">Wszystkie</a></li>
 
         @if (Auth::check())
-            <?php $subscriptions = Auth::user()->subscribedGroups(); natcasesort($subscriptions); ?>
+            <?php $subscriptions = Auth::user()->subscribedGroups()->lists('urlname'); natcasesort($subscriptions); ?>
 
             <li class="dropdown subscribed_dropdown">
                 <a href="/g/subscribed" class="dropdown-toggle" data-hover="dropdown">Subskrybowane</a><b class="caret"></b>
@@ -19,7 +19,7 @@
                 </ul>
             </li>
 
-            <?php $moderatedGroups = Auth::user()->moderatedGroups(); natcasesort($moderatedGroups); ?>
+            <?php $moderatedGroups = Auth::user()->moderatedGroups()->lists('urlname'); natcasesort($moderatedGroups); ?>
 
             <li class="dropdown moderated_dropdown">
                 <a href="/g/moderated" class="dropdown-toggle" data-hover="dropdown">Moderowane</a><b class="caret"></b>

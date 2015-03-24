@@ -63,13 +63,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $host.'/duck/'.$this->name.'.svg';
     }
 
-    public function getBlockedDomainsAttribute($value)
-    {
-        $blockedDomains = $this->getAttributeFromArray('_blocked_domains');
-
-        return (array) $blockedDomains;
-    }
-
     public function getSexClass()
     {
         if ($this->sex && in_array($this->sex, ['male', 'female'])) {
@@ -96,17 +89,17 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function contents()
     {
-        return $this->hasMany('Strimoid\Models\Content');
+        return $this->hasMany(Content::class);
     }
 
     public function comments()
     {
-        return $this->hasMany('Strimoid\Models\Comment');
+        return $this->hasMany(Comment::class);
     }
 
     public function entries()
     {
-        return $this->hasMany('Strimoid\Models\Entry');
+        return $this->hasMany(Entry::class);
     }
 
     public function folders()
@@ -116,54 +109,42 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function bannedGroups()
     {
-        $groups = DB::table('group_bans')
-            ->where('user_id', $this->getKey())
-            ->lists('group_id');
-
-        return (array) $groups;
+        return $this->belongsToMany(Group::class, 'group_bans');
     }
 
     public function blockedGroups()
     {
-        $groups = DB::table('user_blocked_groups')
-            ->where('user_id', $this->getKey())
-            ->lists('group_id');
-
-        return (array) $groups;
-    }
-    public function blockedUsers()
-    {
-        $users = DB::table('user_blocked_users')
-            ->where('source_id', $this->getKey())
-            ->lists('target_id');
-
-        return (array) $users;
+        return $this->belongsToMany(Group::class, 'user_blocked_groups');
     }
 
     public function subscribedGroups()
     {
-        $groups = DB::table('user_subscribed_groups')
-            ->where('user_id', $this->getKey())
-            ->lists('group_id');
-
-        return (array) $groups;
+        return $this->belongsToMany(Group::class, 'user_subscribed_groups');
     }
 
     public function moderatedGroups()
     {
-        $groups = DB::table('group_moderators')
-            ->where('user_id', $this->getKey())
-            ->lists('group_id');
+        return $this->belongsToMany(Group::class, 'group_moderators')->withPivot('type');
+    }
 
-        return (array) $groups;
+    public function blockedUsers()
+    {
+        return $this->belongsToMany(User::class, 'user_blocked_users', 'source_id', 'target_id');
+    }
+
+    public function followedUsers()
+    {
+        return $this->belongsToMany(User::class, 'user_followed_users', 'source_id', 'target_id');
+    }
+
+    public function blockedDomains()
+    {
+        return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->lists('domain');
     }
 
     public function isBanned(Group $group)
     {
-        $isBanned = GroupBan::where('group_id', $group->getKey())
-            ->where('user_id', $this->getKey())->first();
-
-        return (bool) $isBanned;
+        return $this->bannedGroups()->where('group_id', $group)->exists();
     }
 
     public function isAdmin($group)
@@ -172,11 +153,10 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        $isAdmin = GroupModerator::where('group_id', $group)
-            ->where('user_id', $this->getKey())
-            ->where('type', 'admin')->first();
-
-        return (bool) $isAdmin;
+        return $this->moderatedGroups()
+            ->where('group_id', $group)
+            ->where('group_moderators.type', 'admin')
+            ->exists();
     }
 
     public function isModerator($group)
@@ -185,32 +165,23 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        return in_array($group, $this->moderatedGroups());
+        return $this->moderatedGroups()->where('group_id', $group)->exists();
     }
 
     public function isSubscriber(Group $group)
     {
-        $isSubscriber = GroupSubscriber::where('group_id', $group->getKey())
-            ->where('user_id', $this->getKey())->first();
-
-        return (bool) $isSubscriber;
+        return $this->subscribedGroups()->where('group_id', $group)->exists();
     }
 
     public function isBlocking(Group $group)
     {
-        $isBlocking = GroupBlock::where('group_id', $group->getKey())
-            ->where('user_id', $this->getKey())->first();
-
-        return (bool) $isBlocking;
+        return $this->blockedGroups()->where('group_id', $group)->exists();
     }
 
     public function isObservingUser($user)
     {
-        if ($user instanceof User) {
-            $user = $user->getKey();
-        }
-
-        return in_array($user, (array) $this->_observed_users);
+        return false;
+        //return $this->subscribedGroups()->where('group_id', $group)->exists();
     }
 
     public function isBlockingUser($user)
@@ -219,7 +190,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $user = $user->getKey();
         }
 
-        return in_array($user, $this->blockedUsers());
+        return $this->blockedUsers()->where('target_id', $user)->exists();
     }
 
     public function scopeName($query, $value)

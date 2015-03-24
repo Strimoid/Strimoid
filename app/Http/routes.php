@@ -265,11 +265,11 @@ Route::post('/g/{group}/settings/save/profile', ['middleware' => 'auth', 'uses' 
 Route::post('/g/{group}/settings/save/settings', ['middleware' => 'auth', 'uses' => 'GroupController@saveSettings']);
 Route::post('/g/{group}/settings/save/style', ['middleware' => 'auth', 'uses' => 'GroupController@saveStyle']);
 
-Route::post('/ajax/group/subscribe', ['middleware' => 'auth', 'uses' => 'GroupController@subscribeGroup']);
-Route::post('/ajax/group/unsubscribe', ['middleware' => 'auth', 'uses' => 'GroupController@unsubscribeGroup']);
+Route::post('/g/{group}/subscription', ['middleware' => 'auth', 'uses' => 'GroupController@subscribeGroup']);
+Route::delete('/g/{group}/subscription', ['middleware' => 'auth', 'uses' => 'GroupController@unsubscribeGroup']);
 
-Route::post('/ajax/group/block', ['middleware' => 'auth', 'uses' => 'GroupController@blockGroup']);
-Route::post('/ajax/group/unblock', ['middleware' => 'auth', 'uses' => 'GroupController@unblockGroup']);
+Route::post('/g/{group}/block', ['middleware' => 'auth', 'uses' => 'GroupController@blockGroup']);
+Route::delete('/g/{group}/block', ['middleware' => 'auth', 'uses' => 'GroupController@unblockGroup']);
 
 Route::get('/kreator', ['as' => 'wizard', 'middleware' => 'auth', 'uses' => 'GroupController@wizard']);
 Route::get('/kreator/{tag}', ['as' => 'wizard_tag', 'middleware' => 'auth', 'uses' => 'GroupController@wizard']);

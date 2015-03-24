@@ -4,6 +4,7 @@ _ide_helper_models.php
 .phpstorm.meta.php
 .bowery
 .env
+.env.test
 node_modules/
 bower_components/
 vendor/
