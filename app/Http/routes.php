@@ -8,8 +8,8 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('/me', ['middleware' => 'auth', 'uses' => 'UserController@showCurrentUser']);
 
     // Auth
-    Route::post('/login', ['uses' => 'AuthController@login']);
-    Route::post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
+    Route::post('/login', ['uses' => 'Api\AuthController@login']);
+    Route::post('/logout', ['middleware' => 'auth', 'uses' => 'Api\AuthController@logout']);
 
     // Contents
     Route::get('/contents', ['uses' => 'Api\ContentController@index']);
