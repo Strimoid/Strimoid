@@ -27,44 +27,9 @@ class Notification extends BaseModel
             ->select(['avatar', 'name']);
     }
 
-    public function entry()
-    {
-        return $this->belongsTo('Strimoid\Models\Entry');
-    }
-
-    public function entryReply()
-    {
-        return $this->belongsTo('Strimoid\Models\EntryReply');
-    }
-
-    public function content()
-    {
-        return $this->belongsTo('Strimoid\Models\Content');
-    }
-
-    public function comment()
-    {
-        return $this->belongsTo('Strimoid\Models\Comment');
-    }
-
-    public function commentReply()
-    {
-        return $this->belongsTo('Strimoid\Models\CommentReply');
-    }
-
-    public function conversation()
-    {
-        return $this->belongsTo('Strimoid\Models\Conversation');
-    }
-
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
-    }
-
     public function targets()
     {
-        return $this->hasMany('Strimoid\Models\NotificationTarget');
+        return $this->belongsToMany(User::class, 'notification_targets')->withPivot('read');
     }
 
     public function setTitle($title)

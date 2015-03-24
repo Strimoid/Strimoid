@@ -371,25 +371,13 @@ class GroupController extends BaseController
             return Response::make('Already subscribed', 400);
         }
 
-        $subscriber = new GroupSubscriber();
-        $subscriber->user()->associate(Auth::user());
-        $subscriber->group()->associate($group);
-        $subscriber->save();
-
+        Auth::user()->subscribedGroups()->attach($group);
         return Response::json(['status' => 'ok']);
     }
 
     public function unsubscribeGroup($group)
     {
-        $subscriber = GroupSubscriber::where('group_id', $group->getKey())
-            ->where('user_id', Auth::id())->first();
-
-        if (! $subscriber) {
-            return Response::make('Not subscribed', 400);
-        }
-
-        $subscriber->delete();
-
+        Auth::user()->subscribedGroups()->detach($group);
         return Response::json(['status' => 'ok']);
     }
 

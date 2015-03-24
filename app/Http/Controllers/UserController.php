@@ -364,62 +364,27 @@ class UserController extends BaseController
         return Redirect::route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
-    public function blockUser()
+    public function blockUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        if (UserBlocked::where('target_id', $target->getKey())
-            ->where('user_id', Auth::id())->first()) {
-            return Response::make('Already blocked', 400);
-        }
-
-        $block = new UserBlocked();
-        $block->user()->associate(Auth::user());
-        $block->target()->associate($target);
-        $block->save();
-
+        Auth::user()->blockedUsers()->attach($user);
         return Response::json(['status' => 'ok']);
     }
 
-    public function unblockUser()
+    public function unblockUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        $block = UserBlocked::where('target_id', $target->getKey())
-            ->where('user_id', Auth::id())->first();
-
-        if (! $block) {
-            return Response::make('Not blocked', 400);
-        }
-
-        $block->delete();
-
+        Auth::user()->blockedUsers()->detach($user);
         return Response::json(['status' => 'ok']);
     }
 
-    public function observeUser()
+    public function observeUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        if (Auth::user()->isObservingUser($target)) {
-            return Response::make('Already observed', 400);
-        }
-
-        Auth::user()->push('_observed_users', $target->getKey());
-
+        Auth::user()->followedUsers()->attach($user);
         return Response::json(['status' => 'ok']);
     }
 
-    public function unobserveUser()
+    public function unobserveUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        if (! Auth::user()->isObservingUser($target)) {
-            return Response::make('Not observed', 400);
-        }
-
-        Auth::user()->pull('_observed_users', $target->getKey());
-
+        Auth::user()->followedUsers()->detach($user);
         return Response::json(['status' => 'ok']);
     }
 

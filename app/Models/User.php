@@ -87,6 +87,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function actions()
+    {
+        return $this->hasMany(UserAction::class);
+    }
+
     public function contents()
     {
         return $this->hasMany(Content::class);
@@ -191,6 +196,16 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
 
         return $this->blockedUsers()->where('target_id', $user)->exists();
+    }
+
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return string
+     */
+    public function getRouteKey()
+    {
+        return $this->name;
     }
 
     public function scopeName($query, $value)

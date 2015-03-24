@@ -41,24 +41,23 @@ class Content extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('Strimoid\Models\User')
+        return $this->belongsTo(User::class)
             ->select(['avatar', 'name']);
     }
 
     public function deletedBy()
     {
-        return $this->belongsTo('Strimoid\Models\User', 'deleted_by');
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 
     public function related()
     {
-        return $this->hasMany('Strimoid\Models\ContentRelated');
+        return $this->hasMany(ContentRelated::class);
     }
 
     public function comments()
     {
-        return $this->hasMany('Strimoid\Models\Comment')
-            ->orderBy('created_at', 'asc');
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'asc');
     }
 
     public function getDomain()
@@ -68,9 +67,7 @@ class Content extends BaseModel
 
     public function getEmbed($autoPlay = true)
     {
-        if (! $this->url) {
-            return false;
-        }
+        if (! $this->url) return false;
 
         return OEmbed::getEmbedHtml($this->url, $autoPlay);
     }

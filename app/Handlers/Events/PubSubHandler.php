@@ -30,7 +30,7 @@ class PubSubHandler
             $channelName = 'private-u-'.$target->user_id;
 
             $notification = [
-                'tag'   => mid_to_b58($notification->getKey()),
+                'id'    => $notification->hashId(),
                 'type'  => $notification->getTypeDescription(),
                 'title' => $notification->title,
                 'img'   => $notification->getThumbnailPath(),

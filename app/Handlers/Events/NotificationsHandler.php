@@ -144,9 +144,7 @@ class NotificationsHandler
             ? $targets
             : $this->findMentions($targets);
 
-        if (! $uniqueUsers) {
-            return;
-        }
+        if (! $uniqueUsers) return;
 
         $notification = new Notification();
         $notification->type = $type;

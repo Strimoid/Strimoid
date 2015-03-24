@@ -188,6 +188,16 @@ class Group extends BaseModel
         $this->attributes['sidebar_source'] = $text;
     }
 
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return string
+     */
+    public function getRouteKey()
+    {
+        return $this->urlname;
+    }
+
     public function scopeName($query, $name)
     {
         $query->where('urlname', $name);

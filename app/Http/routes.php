@@ -112,11 +112,11 @@ Route::post('/settings/save/profile', ['middleware' => 'auth', 'uses' => 'UserCo
 
 Route::get('/account/change_email/{token}', 'UserController@confirmEmailChange');
 
-Route::post('/ajax/user/block', ['middleware' => 'auth', 'uses' => 'UserController@blockUser']);
-Route::post('/ajax/user/unblock', ['middleware' => 'auth', 'uses' => 'UserController@unblockUser']);
+Route::post('/u/{user}/block', ['middleware' => 'auth', 'uses' => 'UserController@blockUser']);
+Route::delete('/u/{user}/block', ['middleware' => 'auth', 'uses' => 'UserController@unblockUser']);
 
-Route::post('/ajax/user/observe', ['middleware' => 'auth', 'uses' => 'UserController@observeUser']);
-Route::post('/ajax/user/unobserve', ['middleware' => 'auth', 'uses' => 'UserController@unobserveUser']);
+Route::post('/u/{user}/observe', ['middleware' => 'auth', 'uses' => 'UserController@observeUser']);
+Route::delete('/u/{user}/observe', ['middleware' => 'auth', 'uses' => 'UserController@unobserveUser']);
 
 // Settings
 Route::get('/settings', ['as' => 'user_settings', 'middleware' => 'auth', 'uses' => 'SettingsController@showSettings']);

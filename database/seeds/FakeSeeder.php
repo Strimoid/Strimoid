@@ -143,10 +143,7 @@ class FakeSeeder extends BaseSeeder
 
     protected function createFakeSubscriber(Group $group, User $user)
     {
-        GroupSubscriber::create([
-            'group_id'      => $group->getKey(),
-            'user_id'       => $user->getKey(),
-        ]);
+        $user->subscribedGroups()->attach($group);
     }
 
     protected function getRandomUser()
