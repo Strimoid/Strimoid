@@ -18,11 +18,7 @@ class CreateVotesTable extends Migration {
 
 			// Relations
 			$table->integer('element_id')->unsigned();
-			$table->enum('element_type', [
-				'Strimoid\Models\Content',
-				'Strimoid\Models\Entry',
-				'Strimoid\Models\Content'
-			]);
+			$table->string('element_type');
 
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');

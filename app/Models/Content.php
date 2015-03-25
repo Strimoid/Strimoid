@@ -7,10 +7,11 @@ use Str;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasThumbnail;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 class Content extends BaseModel
 {
-    use HasGroupRelationship, HasThumbnail, SoftDeletes;
+    use HasGroupRelationship, HasThumbnail, HasUserRelationship, SoftDeletes;
 
     protected static $rules = [
         'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -37,12 +38,6 @@ class Content extends BaseModel
         });
 
         parent::__construct($attributes);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class)
-            ->select(['avatar', 'name']);
     }
 
     public function deletedBy()

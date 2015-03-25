@@ -113,6 +113,10 @@ class ContentController extends BaseController
 
     protected function showContents($builder)
     {
+        $builder->with('group', 'user');
+
+        if (Auth::check()) $builder->with('usave', 'vote');
+
         $this->filterByTime($builder, Input::get('time'));
 
         // Paginate and attach parameters to paginator links
@@ -130,9 +134,8 @@ class ContentController extends BaseController
 
     protected function filterByTime($builder, $days)
     {
-        if (! $days) {
-            return;
-        }
+        if (! $days) return;
+
         $builder->fromDaysAgo($days);
     }
 

@@ -2,6 +2,7 @@
 
 use Auth;
 use Carbon;
+use Illuminate\Support\Facades\Cache;
 use Input;
 use Response;
 use Strimoid\Models\Comment;

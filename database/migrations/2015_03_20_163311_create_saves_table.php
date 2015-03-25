@@ -15,7 +15,7 @@ class CreateSavesTable extends Migration {
 		Schema::create('saves', function(Blueprint $table)
 		{
 			$table->integer('element_id')->unsigned();
-			$table->enum('element_type', ['content', 'entry', 'comment']);
+			$table->string('element_type');
 
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')

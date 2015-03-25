@@ -18,7 +18,7 @@ class CreateUserActionsTable extends Migration {
 			$table->foreign('user_id')->references('id')->on('users');
 
 			$table->integer('element_id')->unsigned();
-			$table->enum('element_type', ['content', 'entry', 'comment']);
+			$table->string('element_type');
 
 			$table->timestamp('created_at');
 		});

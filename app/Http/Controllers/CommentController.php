@@ -69,7 +69,7 @@ class CommentController extends BaseController
     {
         $builder->whereNull('parent_id')
                 ->orderBy('created_at', 'desc')
-                ->with(['user']);
+                ->with(['user', 'vote']);
 
         $perPage = Setting::get('entries_per_page', 25);
         $comments = $builder->paginate($perPage);

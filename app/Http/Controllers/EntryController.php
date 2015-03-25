@@ -65,7 +65,7 @@ class EntryController extends BaseController
     protected function showEntries($builder)
     {
         $builder->orderBy('created_at', 'desc')
-            ->with(['group', 'user', 'replies.user']);
+            ->with(['group', 'user', 'replies.user', 'vote']);
 
         $perPage = Setting::get('entries_per_page', 25);
         $entries = $builder->paginate($perPage);

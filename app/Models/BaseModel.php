@@ -5,6 +5,7 @@ use Date;
 use DateTimeZone;
 use Hashids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Setting;
 
 abstract class BaseModel extends Model
@@ -13,6 +14,8 @@ abstract class BaseModel extends Model
      * @var array Validation rules
      */
     protected static $rules = [];
+
+    protected $vote_state;
 
     /**
      * Get time ago from object creation.
@@ -48,9 +51,7 @@ abstract class BaseModel extends Model
             return 'none';
         }
 
-        $vote = $this->votes()
-            ->where('user_id', Auth::id())
-            ->first();
+        $vote = $this->vote;
 
         if (!$vote) return 'none';
 
@@ -78,6 +79,16 @@ abstract class BaseModel extends Model
     }
 
     /**
+     * Currently authenticated user vote.
+     *
+     * @return mixed
+     */
+    public function vote()
+    {
+        return $this->morphOne(Vote::class, 'element')->where('user_id', Auth::id());
+    }
+
+    /**
      * Object saves relationship.
      *
      * @return mixed
@@ -88,23 +99,25 @@ abstract class BaseModel extends Model
     }
 
     /**
-     * Check if object is saved by given user.
+     * Currently authenticated user save.
      *
-     * @param  User  $user
-     *
+     * @return mixed
+     */
+    public function usave()
+    {
+        return $this->morphOne(Save::class, 'element')->where('user_id', Auth::id());
+    }
+
+    /**
+     * Check if object is saved by authenticated user.
+
      * @return bool
      */
-    public function isSaved(User $user = null)
+    public function isSaved()
     {
-        if (! $user) {
-            if (Auth::guest()) return false;
+        if (Auth::guest()) return false;
 
-            $user = Auth::user();
-        }
-
-        return $this->saves()
-            ->where('user_id', $user->getKey())
-            ->first();
+        return (bool) $this->usave;
     }
 
     /**
