@@ -19,14 +19,15 @@ class SettingsController extends BaseController
     {
         $user = Auth::user();
 
-        $subscribedGroups = GroupSubscriber::where('user_id', $user->getKey())->with('group')->get();
-        $blockedGroups = GroupBlock::where('user_id', $user->getKey())->with('group')->get();
-        $moderatedGroups = GroupModerator::where('user_id', $user->getKey())->with('group')->get();
-        $blockedUsers = UserBlocked::where('source_id', $user->getKey())->with('user')->get();
-        $bans = GroupBan::where('user_id', $user->getKey())->with('group')->get();
+        $subscribedGroups = $user->subscribedGroups();
+        $blockedGroups    = $user->blockedGroups();
+        $moderatedGroups  = $user->moderatedGroups();
+        $blockedUsers     = $user->blockedUsers();
+        $bans             = $user->bannedGroups();
 
         return view('user.settings', compact(
-            'user', 'subscribedGroups', 'blockedGroups', 'moderatedGroups', 'blockedUsers', 'bans'
+            'user', 'subscribedGroups', 'blockedGroups',
+            'moderatedGroups', 'blockedUsers', 'bans'
         ));
     }
 

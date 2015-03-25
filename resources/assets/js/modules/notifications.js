@@ -27,7 +27,9 @@ function NotificationsModule() {
         return false;
     });
 
-    Ps.initialize($('.notifications_scroll')[0]);
+    $('.notifications_scroll').each(function() {
+        Ps.initialize(this[0]);
+    });
 
     if (this.unreadNotifications > 0) {
         this.updatePageTitle();

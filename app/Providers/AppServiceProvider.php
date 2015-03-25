@@ -7,6 +7,7 @@ use Pdp\Parser;
 use Pdp\PublicSuffixListManager;
 use Setting;
 use Strimoid\Helpers\OEmbed;
+use Strimoid\Models\UserSettings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,6 +57,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind('oembed', function () {
             return new OEmbed();
+        });
+
+        $this->app->bind('settings', function () {
+           return new UserSettings();
         });
     }
 }
