@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models\Traits;
 
+use Strimoid\Models\User;
+
 trait HasUserRelationship
 {
     /**
@@ -9,6 +11,6 @@ trait HasUserRelationship
      */
     public function user()
     {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

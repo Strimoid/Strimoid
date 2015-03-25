@@ -307,29 +307,17 @@ class UserController extends BaseController
         } elseif ($type == 'comments') {
             $data['comments'] = $user->comments()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'comment_replies') {
-            $data['actions'] = UserAction::where('user_id', $user->getKey())
-                ->where('type', UserAction::TYPE_COMMENT_REPLY)->orderBy('created_at', 'desc')->paginate(15);
+            $data['actions'] = $user->actions()->where('type', CommentReply::class)
+                ->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'entries') {
             $data['entries'] = $user->entries()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'entry_replies') {
-            $data['actions'] = UserAction::where('user_id', $user->getKey())
-                ->where('type', UserAction::TYPE_ENTRY_REPLY)->orderBy('created_at', 'desc')->paginate(15);
+            $data['actions'] = $user->actions()->where('type', EntryReply::class)
+                ->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'moderated') {
-            $data['moderated'] = GroupModerator::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
+            $data['moderated'] = $user->moderatedGroups();
         } else {
-            $data['actions'] = UserAction::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
-        }
-
-        if (isset($data['actions'])) {
-            foreach ($data['actions'] as $action) {
-                if ($action->type == UserAction::TYPE_COMMENT_REPLY) {
-                    $action->reply = CommentReply::find($action->comment_reply_id);
-                }
-
-                if ($action->type == UserAction::TYPE_ENTRY_REPLY) {
-                    $action->reply = EntryReply::find($action->entry_reply_id);
-                }
-            }
+            $data['actions'] = $user->actions()->orderBy('created_at', 'desc')->paginate(15);
         }
 
         $data['type'] = $type;

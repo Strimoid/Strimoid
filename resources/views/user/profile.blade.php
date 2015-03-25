@@ -61,34 +61,32 @@
         }
     ?>
 
-    @if ($action->type == Strimoid\Models\UserAction::TYPE_CONTENT && $action->content)
-        @include('content.widget', array('content' => $action->content))
+    @if ($action->element instanceof Strimoid\Models\Content)
+        @include('content.widget', ['content' => $action->element])
     @endif
 
-    @if ($action->type == Strimoid\Models\UserAction::TYPE_COMMENT && $action->comment && $action->comment->content)
-        @include('user.widgets.comment', array('comment' => $action->comment))
+    @if ($action->element instanceof Strimoid\Models\Comment)
+        @include('user.widgets.comment', ['comment' => $action->element])
     @endif
 
-    @if ($action->type == Strimoid\Models\UserAction::TYPE_COMMENT_REPLY && $action->reply)
-        <?php $comment = $action->reply->comment; ?>
-
-        @if (!isset($oldReply->comment) || $oldReply->comment->_id != $comment->_id)
-            @include('user.widgets.comment', array('content' => $comment))
+    @if ($action->element instanceof Strimoid\Models\CommentReply)
+        @if (!isset($oldReply->comment) || $oldReply->comment->getKey() != $comment->getKey())
+            @include('user.widgets.comment', ['content' => $action->element->parent])
         @endif
 
-        @include('user.widgets.comment_reply', array('reply' => $action->reply))
+        @include('user.widgets.comment_reply', ['reply' => $action->element])
     @endif
 
-    @if ($action->type == Strimoid\Models\UserAction::TYPE_ENTRY && $action->entry)
-        @include('user.widgets.entry', array('entry' => $action->entry))
+    @if ($action->element instanceof Strimoid\Models\Entry)
+        @include('user.widgets.entry', ['entry' => $action->element])
     @endif
 
-    @if ($action->type == Strimoid\Models\UserAction::TYPE_ENTRY_REPLY && $action->reply)
-        @if (!isset($oldReply->entry) || $oldReply->entry->_id != $action->reply->entry->_id)
-            @include('user.widgets.entry', array('entry' => $action->reply->entry))
+    @if ($action->element instanceof Strimoid\Models\EntryReply)
+        @if (!isset($oldReply->entry) || $oldReply->entry->getKey() != $action->reply->entry->getKey())
+            @include('user.widgets.entry', ['entry' => $action->reply->entry])
         @endif
 
-        @include('user.widgets.entry_reply', array('reply' => $action->reply))
+        @include('user.widgets.entry_reply', ['reply' => $action->element])
     @endif
 
     @endforeach

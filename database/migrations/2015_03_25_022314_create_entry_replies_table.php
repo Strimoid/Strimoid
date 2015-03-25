@@ -3,21 +3,24 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentsTable extends Migration {
+class CreateEntryRepliesTable extends Migration {
 
 	/**
 	 * Run the migrations.
-	 *`
+	 *
 	 * @return void
 	 */
 	public function up()
 	{
-		Schema::create('comments', function(Blueprint $table)
+		Schema::create('entry_replies', function(Blueprint $table)
 		{
 			$table->increments('id');
 
 			$table->text('text');
 			$table->text('text_source');
+
+			// Counters
+			$table->integer('replies_count')->unsigned()->default(0);
 
 			// Relations
 			$table->integer('user_id')->unsigned();
@@ -26,8 +29,8 @@ class CreateCommentsTable extends Migration {
 			$table->integer('group_id')->unsigned();
 			$table->foreign('group_id')->references('id')->on('groups');
 
-			$table->integer('content_id')->unsigned();
-			$table->foreign('content_id')->references('id')->on('contents');
+			$table->integer('parent_id')->unsigned()->nullable();
+			$table->foreign('parent_id')->references('id')->on('entries');
 
 			// Vote counts
 			$table->integer('uv')->unsigned()->default(0);
@@ -45,7 +48,7 @@ class CreateCommentsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('comments');
+		Schema::drop('entry_replies');
 	}
 
 }

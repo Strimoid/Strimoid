@@ -2,9 +2,13 @@
 
 use Auth;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 class Entry extends BaseModel
 {
+    use HasGroupRelationship, HasUserRelationship;
+
     protected static $rules = [
         'text'      => 'required|min:1|max:2500',
         'groupname' => 'required|exists:groups,urlname',
@@ -15,16 +19,6 @@ class Entry extends BaseModel
     protected $fillable = ['text'];
     protected $visible = ['id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies', ];
-
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User');
-    }
 
     public function replies()
     {

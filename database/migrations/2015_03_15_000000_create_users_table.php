@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration {
 			$table->string('avatar', 16)->nullable();
 			$table->smallInteger('age')->unsigned();
 			$table->enum('sex', ['unknown', 'male', 'female'])->default('unknown');
+			$table->string('location')->nullable();
 			$table->text('description', 255)->nullable();
 
 			// Dates

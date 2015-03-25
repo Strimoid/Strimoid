@@ -18,7 +18,7 @@ class CommentReply extends BaseModel
     protected $appends = ['vote_state'];
     protected $hidden = ['text_source', 'updated_at'];
     protected $fillable = ['text'];
-    protected $table = 'comments';
+    protected $table = 'comment_replies';
 
     public static function boot()
     {
@@ -36,7 +36,7 @@ class CommentReply extends BaseModel
 
     public function parent()
     {
-        return $this->belongsTo('Strimoid\Models\Comment');
+        return $this->belongsTo(Comment::class);
     }
 
     public function delete()

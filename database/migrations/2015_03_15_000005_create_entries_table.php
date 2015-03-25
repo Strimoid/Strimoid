@@ -29,9 +29,6 @@ class CreateEntriesTable extends Migration {
 			$table->integer('group_id')->unsigned();
 			$table->foreign('group_id')->references('id')->on('groups');
 
-			$table->integer('parent_id')->unsigned()->nullable();
-			$table->foreign('parent_id')->references('id')->on('entries');
-
 			// Vote counts
 			$table->integer('uv')->unsigned()->default(0);
 			$table->integer('dv')->unsigned()->default(0);

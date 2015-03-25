@@ -4,9 +4,12 @@ use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 class EntryReply extends BaseModel
 {
+    use HasUserRelationship;
+
     protected static $rules = [
         'text' => 'required|min:1|max:2500',
     ];
@@ -15,7 +18,7 @@ class EntryReply extends BaseModel
     protected $appends = ['vote_state'];
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'updated_at'];
-    protected $table = 'entries';
+    protected $table = 'entry_replies';
 
     public static function boot()
     {
@@ -30,14 +33,9 @@ class EntryReply extends BaseModel
         parent::boot();
     }
 
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User');
-    }
-
     public function parent()
     {
-        return $this->belongsTo('Strimoid\Models\Entry');
+        return $this->belongsTo(Entry::class);
     }
 
     public function delete()
