@@ -16,6 +16,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         'Symfony\Component\HttpKernel\Exception\HttpException',
         'Illuminate\Database\Eloquent\ModelNotFoundException',
+        'Illuminate\Session\TokenMismatchException',
     ];
 
     /**
@@ -53,6 +54,20 @@ class Handler extends ExceptionHandler
                 'error'     => $e->errorType,
                 'message'   => $e->getMessage(),
             ], $e->httpStatusCode);
+        }
+
+        if (config('app.debug'))
+        {
+            $handler = new \Whoops\Handler\PrettyPageHandler;
+            $handler->setEditor('sublime');
+
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler($handler);
+
+            return response($whoops->handleException($e),
+                $e->getStatusCode(),
+                $e->getHeaders()
+            );
         }
 
         return parent::render($request, $e);
