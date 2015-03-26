@@ -23,6 +23,7 @@ class CreateContentsTable extends Migration {
 
 			$table->text('url')->nullable();
 			$table->text('text')->nullable();
+			$table->text('text_source')->nullable();
 
 			// Counters
 			$table->integer('comments_count')->unsigned()->default(0);
@@ -42,12 +43,13 @@ class CreateContentsTable extends Migration {
 			// Vote counts
 			$table->integer('uv')->unsigned()->default(0);
 			$table->integer('dv')->unsigned()->default(0);
-			$table->integer('score')->unsigned()->default(0);
+			$table->integer('score')->default(0);
 
 			// Timestamps
 			$table->timestamp('frontpage_at')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
+			$table->integer('deleted_by')->unsigned();
 		});
 	}
 

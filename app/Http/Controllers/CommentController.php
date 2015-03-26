@@ -156,14 +156,14 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
     }
 
-    public function removeComment()
+    public function removeComment(Request $request)
     {
         $class = (Input::get('type') == 'comment') ? Comment::class : CommentReply::class;
-        $comment = $class::findOrFail(Input::get('id'));
+        $id = hashids_decode($request->input());
+        $comment = $class::findOrFail($id);
 
         if ($comment->canRemove()) {
             $comment->delete();
-
             return Response::json(['status' => 'ok']);
         }
 

@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration {
 			$table->enum('type', ['user', 'banned', 'admin']);
 			$table->string('last_ip', 45);
 			$table->boolean('is_activated')->default(false);
+			$table->integer('total_points')->default(0);
 
 			// User profile
 			$table->string('avatar', 16)->nullable();

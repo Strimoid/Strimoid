@@ -271,10 +271,15 @@ class ContentController extends BaseController
             ]);
         }
 
-        return Redirect::route('content_comments', $content->getKey());
+        return Redirect::route('content_comments');
     }
 
-    public function editContent(Content $content)
+    /**
+     * @param Content $content
+     *
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function editContent($content)
     {
         if (!$content->canEdit(Auth::user())) {
             return Redirect::route('content_comments', $content->getKey())
@@ -369,7 +374,7 @@ class ContentController extends BaseController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getEmbedCode(Content $content)
+    public function getEmbedCode($content)
     {
         $embedCode = $content->getEmbed();
 
@@ -381,7 +386,7 @@ class ContentController extends BaseController
      *
      * @return \Illuminate\View\View
      */
-    public function chooseThumbnail(Content $content)
+    public function chooseThumbnail($content)
     {
         if (!$content->canEdit(Auth::user())) {
             return Redirect::route('content_comments', $content->getKey())

@@ -23,6 +23,7 @@ class CreateGroupsTable extends Migration {
 			$table->string('style')->nullable();
 			$table->string('urlname');
 			$table->enum('type', ['public', 'private']);
+			$table->integer('popular_threshold');
 
 			// Sidebar text
 			$table->text('sidebar')->nullable();

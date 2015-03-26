@@ -29,13 +29,13 @@ class CreateEntryRepliesTable extends Migration {
 			$table->integer('group_id')->unsigned();
 			$table->foreign('group_id')->references('id')->on('groups');
 
-			$table->integer('parent_id')->unsigned()->nullable();
+			$table->integer('parent_id')->unsigned();
 			$table->foreign('parent_id')->references('id')->on('entries');
 
 			// Vote counts
 			$table->integer('uv')->unsigned()->default(0);
 			$table->integer('dv')->unsigned()->default(0);
-			$table->integer('score')->unsigned()->default(0);
+			$table->integer('score')->default(0);
 
 			$table->timestamps();
 		});

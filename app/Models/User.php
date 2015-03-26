@@ -112,6 +112,16 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->hasMany(Folder::class);
     }
 
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_targets')->withPivot('read');
+    }
+
+    public function settings()
+    {
+        return $this->hasMany(UserSetting::class);
+    }
+
     public function bannedGroups()
     {
         return $this->belongsToMany(Group::class, 'group_bans');

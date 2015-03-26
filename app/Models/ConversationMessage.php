@@ -9,14 +9,16 @@ class ConversationMessage extends BaseModel
         'id', 'conversation', 'created_at', 'user', 'text',
     ];
 
+    protected static $unguarded = true;
+
     public function conversation()
     {
-        return $this->belongsTo('Strimoid\Models\Conversation');
+        return $this->belongsTo(Conversation::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function setTextAttribute($text)

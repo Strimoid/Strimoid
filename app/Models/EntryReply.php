@@ -4,11 +4,13 @@ use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasNotificationsRelationship;
 use Strimoid\Models\Traits\HasUserRelationship;
 
 class EntryReply extends BaseModel
 {
-    use HasUserRelationship;
+    use HasUserRelationship, HasGroupRelationship, HasNotificationsRelationship;
 
     protected static $rules = [
         'text' => 'required|min:1|max:2500',

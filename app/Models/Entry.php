@@ -3,11 +3,12 @@
 use Auth;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasNotificationsRelationship;
 use Strimoid\Models\Traits\HasUserRelationship;
 
 class Entry extends BaseModel
 {
-    use HasGroupRelationship, HasUserRelationship;
+    use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
 
     protected static $rules = [
         'text'      => 'required|min:1|max:2500',
@@ -22,9 +23,7 @@ class Entry extends BaseModel
 
     public function replies()
     {
-        return $this
-            ->hasMany('Strimoid\Models\EntryReply', 'parent_id')
-            ->with('User');
+        return $this->hasMany(EntryReply::class, 'parent_id');
     }
 
     public function delete()
@@ -33,14 +32,9 @@ class Entry extends BaseModel
             $reply->delete();
         }
 
-        Notification::where('entry_id', $this->getKey())->delete();
+        $this->notifications()->delete();
 
         return parent::delete();
-    }
-
-    public function deleteNotifications()
-    {
-        Notification::where('entry_id', $this->getKey())->delete();
     }
 
     public function setTextAttribute($text)

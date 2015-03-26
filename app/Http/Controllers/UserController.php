@@ -330,7 +330,7 @@ class UserController extends BaseController
     {
         $this->validate($request, [
             'sex'         => 'in:male,female',
-            'avatar'      => 'image|max:250',
+            'avatar'      => 'image|max:1024',
             'age'         => 'integer|min:1900|max:2010',
             'location'    => 'max:32',
             'description' => 'max:250',

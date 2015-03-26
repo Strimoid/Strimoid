@@ -226,7 +226,7 @@ Route::get('/e/{entry}', [
     'uses' => 'EntryController@showEntry',
 ]);
 
-Route::get('/er/{id}', [
+Route::get('/er/{entry_reply}', [
     'as'   => 'single_entry_reply',
     'uses' => 'EntryController@showEntry',
 ]);

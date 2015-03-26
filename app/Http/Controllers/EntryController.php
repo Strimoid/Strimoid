@@ -156,26 +156,17 @@ class EntryController extends BaseController
 
     public function editEntry(Request $request)
     {
-        if (Input::get('type') == 'entry_reply') {
-            $entry = EntryReply::findOrFail(Input::get('id'));
+        $id = hashids_decode($request->input('id'));
+        $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
 
-            $lastReply = Entry::where('id', $entry->parent->getKey())
-                ->project(['_replies' => ['$slice' => -1]])
-                ->first()->replies->first();
+        $entry = $class::findOrFail($id);
 
-            if ($lastReply->getKey() != $entry->getKey()) {
-                return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
-            }
-        } else {
-            $entry = Entry::findOrFail(Input::get('id'));
 
-            if ($entry->replies_count > 0) {
-                return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
-            }
-        }
-
-        if (Auth::id() !== $entry->user_id) {
-            App::abort(403, 'Access denied');
+        if (!$entry->canEdit()) {
+            return Response::json([
+                'status' => 'error',
+                'error' => 'Pojawiła się już odpowiedź na twój wpis.'
+            ]);
         }
 
         $this->validate($request, EntryReply::rules());
@@ -186,18 +177,14 @@ class EntryController extends BaseController
         return Response::json(['status' => 'ok', 'parsed' => $entry->text]);
     }
 
-    public function removeEntry($id = null)
+    public function removeEntry(Request $request, $id = null)
     {
-        $id = $id ? $id : Input::get('id');
+        $id = hashids_decode($id ? $id : Input::get('id'));
+        $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
 
-        if (Input::get('type') == 'entry_reply') {
-            $entry = EntryReply::findOrFail($id);
-        } else {
-            $entry = Entry::findOrFail($id);
-        }
+        $entry = $class::findOrFail($id);
 
-        if (Auth::id() === $entry->user_id
-            || Auth::user()->isModerator($entry->group_id)) {
+        if ($entry->canRemove()) {
             if ($entry->delete()) {
                 return Response::json(['status' => 'ok']);
             }

@@ -89,10 +89,13 @@ class ConversationController extends BaseController
 
     public function sendMessage(Request $request)
     {
-        $conversation = Conversation::where('users', Auth::id())
-            ->where('id', Input::get('id'))->firstOrFail();
+        $ids = \Hashids::decode($request->input('id'));
+        $id = current($ids);
 
-        $target = $conversation->getUser();
+        $conversation = Conversation::withUser(Auth::id())
+            ->where('id', $id)->firstOrFail();
+
+        $target = $conversation->target();
 
         if ($target->isBlockingUser(Auth::user())) {
             return Redirect::route('conversation', $conversation->getKey())
@@ -102,23 +105,23 @@ class ConversationController extends BaseController
 
         $this->validate($request, ['text' => 'required|max:10000']);
 
-        Notification::where('type', 'conversation')
-            ->where('conversation_id', $conversation->getKey())
-            ->where('user_id', $target->getKey())->delete();
+        $conversation->notifications()->where('user_id', $target->getKey())->delete();
 
         $message = $conversation->messages()->create([
             'user_id' => Auth::id(),
             'text'    => $request->input('text'),
         ]);
 
+        /*
         $this->sendNotifications([$target->getKey()], function ($notification) use ($message, $conversation) {
             $notification->type = 'conversation';
             $notification->setTitle($message->text);
             $notification->conversation()->associate($conversation);
             $notification->save(); // todo
         });
+        */
 
-        return Redirect::route('conversation', $conversation->getKey());
+        return Redirect::route('conversation', $conversation);
     }
 
     private function getConversations()

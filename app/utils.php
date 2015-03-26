@@ -95,3 +95,12 @@ if (! function_exists('between')) {
         return max(min($value, $max), $min);
     }
 }
+
+if (! function_exists('hashids_decode')) {
+    function hashids_decode($raw)
+    {
+        $ids = \Hashids::decode($raw);
+        return current($ids);
+    }
+}
+

@@ -23,7 +23,6 @@ class CommentReply extends BaseModel
     public static function boot()
     {
         static::creating(function ($comment) {
-            $comment->content_id = $comment->parent->content_id;
             $comment->group_id = $comment->parent->group_id;
         });
 
@@ -70,7 +69,7 @@ class CommentReply extends BaseModel
     public function canEdit()
     {
         return Auth::id() == $this->user_id
-            && $this == $this->comment->replies->last();
+            && $this == $this->parent->replies->last();
     }
 
     public function canRemove()

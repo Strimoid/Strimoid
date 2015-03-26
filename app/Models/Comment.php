@@ -33,24 +33,22 @@ class Comment extends BaseModel
         parent::boot();
 
         static::creating(function ($comment) {
-            $comment->group_id = $comment->content->group_id;
+            //$comment->group_id = $comment->content->group_id;
         });
 
         static::created(function ($comment) {
-            $comment->content->increment('comments_count');
+            //$comment->content->increment('comments_count');
         });
     }
 
     public function content()
     {
-        return $this->belongsTo('Strimoid\Models\Content')
-            ->withTrashed();
+        return $this->belongsTo(Content::class)->withTrashed();
     }
 
     public function replies()
     {
-        return $this->hasMany('Strimoid\Models\CommentReply', 'parent_id')
-            ->with('user');
+        return $this->hasMany(CommentReply::class, 'parent_id')->with('user');
     }
 
     public function delete()
@@ -83,13 +81,11 @@ class Comment extends BaseModel
 
     public function canEdit()
     {
-        return Auth::id() === $this->user_id
-            && $this->replies()->count() == 0;
+        return Auth::id() === $this->user_id && $this->replies()->count() == 0;
     }
 
     public function canRemove()
     {
-        return Auth::id() === $this->user_id
-            || Auth::user()->isModerator($this->group_id);
+        return Auth::id() === $this->user_id || Auth::user()->isModerator($this->group_id);
     }
 }

@@ -1,5 +1,7 @@
 <?php namespace Strimoid\Models;
 
+use Illuminate\Support\Facades\Auth;
+
 class Conversation extends BaseModel
 {
     protected $table = 'conversations';
@@ -7,23 +9,29 @@ class Conversation extends BaseModel
 
     public function lastMessage()
     {
-        return $this->hasOne(ConversationMessage::class)
-            ->orderBy('created_at', 'desc');
+        return $this->hasOne(ConversationMessage::class)->orderBy('created_at', 'desc');
     }
 
     public function messages()
     {
-        $this->hasMany(ConversationMessage::class);
+        return $this->hasMany(ConversationMessage::class)->orderBy('created_at', 'desc');
     }
 
     public function notifications()
     {
-        $this->hasMany(Notification::class);
+        return $this->morphMany(Notification::class, 'element');
     }
 
     public function users()
     {
         return $this->belongsToMany(User::class, 'conversation_users');
+    }
+
+    public function target()
+    {
+        return $this->users->filter(function($value) {
+                return $value->getKey() != Auth::id();
+            })->first();
     }
 
     public function scopeWithUser($query, $userName)
