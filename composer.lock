@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ef25602e94982b277c346f6aee6caaec",
+    "hash": "7386d8559f647e1bcd5176601ae49c6f",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -52,51 +52,6 @@
             "description": "Algolia Search API Client for PHP",
             "homepage": "https://github.com/algolia/algoliasearch-client-php",
             "time": "2015-01-20 17:24:59"
-        },
-        {
-            "name": "anlutro/l4-settings",
-            "version": "0.2.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/anlutro/laravel-settings.git",
-                "reference": "3d4e89b0c1fea286ca0d4e37ca9dec5441a44f46"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/3d4e89b0c1fea286ca0d4e37ca9dec5441a44f46",
-                "reference": "3d4e89b0c1fea286ca0d4e37ca9dec5441a44f46",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": ">=4.1 <6.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "illuminate/database": ">=4.1 <6.0",
-                "mockery/mockery": "0.9.*"
-            },
-            "suggest": {
-                "illuminate/database": "Save settings to a database table.",
-                "illuminate/filesystem": "Save settings to a JSON file."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "anlutro\\LaravelSettings\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andreas Lutro",
-                    "email": "anlutro@gmail.com"
-                }
-            ],
-            "description": "Persistant settings in Laravel.",
-            "time": "2015-03-06 16:31:03"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -4047,12 +4002,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "ade835f79160658ae16eb5ce40f8761627559159"
+                "reference": "7202e73252980bf881c3ba4f26b5bf9d70c02470"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/ade835f79160658ae16eb5ce40f8761627559159",
-                "reference": "ade835f79160658ae16eb5ce40f8761627559159",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/7202e73252980bf881c3ba4f26b5bf9d70c02470",
+                "reference": "7202e73252980bf881c3ba4f26b5bf9d70c02470",
                 "shasum": ""
             },
             "require": {
@@ -4119,7 +4074,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2015-03-23 23:00:13"
+            "time": "2015-03-26 10:33:44"
         },
         {
             "name": "doctrine/instantiator",

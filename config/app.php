@@ -167,7 +167,6 @@ return [
         /*
          * Third party Service Providers...
          */
-        'anlutro\LaravelSettings\ServiceProvider',
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Intervention\Image\ImageServiceProvider',
@@ -235,7 +234,7 @@ return [
         'Hashids'   => 'Vinkla\Hashids\Facades\Hashids',
         'Image'     => 'Intervention\Image\Facades\Image',
         'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
-        'Setting'   => 'anlutro\LaravelSettings\Facade',
+        'Setting'   => 'Strimoid\Facades\Settings',
         'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
 
         'Settings'  => 'Strimoid\Facades\Settings',

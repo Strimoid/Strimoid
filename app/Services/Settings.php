@@ -1,23 +1,23 @@
-<?php namespace Strimoid\Models;
+<?php namespace Strimoid\Services;
 
-use Auth;
 use DateTimeZone;
-use Lang;
-use Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Str;
 
-class UserSettings
+class Settings
 {
     protected $settings = [];
 
     public function __construct()
     {
-        $this->set('homepage_subscribed', [
+        $this->add('homepage_subscribed', [
             'type'    => 'checkbox',
             'default' => false,
             'options' => [true, false],
         ]);
 
-        $this->set('contents_per_page', [
+        $this->add('contents_per_page', [
             'type'    => 'select',
             'default' => 25,
             'options' => [
@@ -25,7 +25,7 @@ class UserSettings
             ],
         ]);
 
-        $this->set('entries_per_page', [
+        $this->add('entries_per_page', [
             'type'    => 'select',
             'default' => 25,
             'options' => [
@@ -33,7 +33,7 @@ class UserSettings
             ],
         ]);
 
-        $this->set('timezone', [
+        $this->add('timezone', [
             'type'    => 'select',
             'default' => 'Europe/Warsaw',
             'options' => function () {
@@ -41,7 +41,7 @@ class UserSettings
             },
         ]);
 
-        $this->set('notifications.auto_read', [
+        $this->add('notifications.auto_read', [
             'type'    => 'checkbox',
             'default' => false,
             'options' => [true, false],
@@ -63,18 +63,25 @@ class UserSettings
         return $timezones;
     }
 
-    public function set($key, $options)
+    public function add($key, $options)
     {
         $this->settings[$key] = $options;
     }
 
+    public function set($key, $value)
+    {
+        Auth::user()->settings()->where('key', $key)->updateOrCreate([
+            'key'   => $key,
+            'value' => $value,
+        ]);
+    }
+
     public function get($key)
     {
-        if (Auth::guest() || !array_get(Auth::user()->settings, $key)) {
-            return $this->settings[$key]['default'];
-        } else {
-            return array_get(Auth::user()->settings, $key);
-        }
+        if (Auth::guest()) return $this->settings[$key]['default'];
+
+        $value = Auth::user()->settings()->where('key', $key)->first();
+        return $value ?: $this->settings[$key]['default'];
     }
 
     public function getOptions($key)
