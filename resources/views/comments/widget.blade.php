@@ -4,9 +4,9 @@ $isReply = isset($isReply) ? true : false;
 
 ?>
 
-<div class="panel-default comment @if ($isReply) comment_reply @endif" data-id="{{ $comment->getKey() }}"
+<div class="panel-default comment @if ($isReply) comment_reply @endif" data-id="{{ $comment->hashId() }}"
     @if ($isReply) data-parent-id="{{ $comment->parent->getKey() }}" @endif>
-    <a name="{!! $comment->_id !!}"></a>
+    <a name="{!! $comment->hashId() !!}"></a>
 
     <div class="comment_avatar">
         <img src="{!! $comment->user->getAvatarPath() !!}" alt="{{ $comment->user->name }}"
@@ -15,8 +15,8 @@ $isReply = isset($isReply) ? true : false;
     </div>
 
     <div class="panel-heading comment_header">
-        <a href="{!! route('user_profile', $comment->user->name) !!}" class="comment_author"
-           data-hover="user_widget" data-user="{!! $comment->user_id !!}">
+        <a href="{!! route('user_profile', $comment->user) !!}" class="comment_author"
+           data-hover="user_widget" data-user="{!! $comment->user->name !!}">
             {!! $comment->user->getColoredName() !!}
         </a>
 
@@ -32,12 +32,12 @@ $isReply = isset($isReply) ? true : false;
             @if (isset($contentLink) && $comment->content)
                 <span class="glyphicon glyphicon-share-alt"></span>
 
-                <a href="{!! route('content_comments', $comment->content->getKey()) !!}">
-                    {{{ Str::limit($comment->content->title, 40) }}}
+                <a href="{!! route('content_comments', $comment->content) !!}">
+                    {{ Str::limit($comment->content->title, 40) }}
                 </a>
             @endif
 
-            <span class="voting" data-id="{!! $comment->_id !!}" data-state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
+            <span class="voting" data-id="{!! $comment->hashId() !!}" data-state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
                 <button type="button" class="btn btn-default btn-xs vote-btn-up @if ($comment->getVoteState() == 'uv') btn-success @endif">
                     <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $comment->uv !!}</span>
                 </button>

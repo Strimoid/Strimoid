@@ -67,8 +67,7 @@ class CommentController extends BaseController
 
     protected function showComments($builder)
     {
-        $builder->whereNull('parent_id')
-                ->orderBy('created_at', 'desc')
+        $builder->orderBy('created_at', 'desc')
                 ->with(['user', 'vote']);
 
         $perPage = Setting::get('entries_per_page', 25);
@@ -91,11 +90,9 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'source' => $comment->text_source]);
     }
 
-    public function addComment(Request $request)
+    public function addComment(Request $request, $content)
     {
         $this->validate($request, Comment::rules());
-
-        $content = Content::findOrFail(Input::get('id'));
 
         if (Auth::user()->isBanned($content->group)) {
             return Response::json([
@@ -118,11 +115,10 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'comment' => $comment]);
     }
 
-    public function addReply(Request $request)
+    public function addReply(Request $request, $parent)
     {
         $this->validate($request, CommentReply::rules());
 
-        $parent = Comment::findOrFail(Input::get('id'));
         $content = $parent->content;
 
         if (Auth::user()->isBanned($content->group)) {
@@ -135,13 +131,11 @@ class CommentController extends BaseController
         $comment = new CommentReply([
             'text' => Input::get('text'),
         ]);
-
         $comment->user()->associate(Auth::user());
 
         $parent->replies()->save($comment);
 
-        $replies = view('comments.replies', ['replies' => $parent->replies])
-            ->render();
+        $replies = view('comments.replies', ['replies' => $parent->replies])->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);
     }
@@ -164,8 +158,7 @@ class CommentController extends BaseController
 
     public function removeComment()
     {
-        $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
-        $class = 'Strimoid\Models\\'.$class;
+        $class = (Input::get('type') == 'comment') ? Comment::class : CommentReply::class;
         $comment = $class::findOrFail(Input::get('id'));
 
         if ($comment->canRemove()) {

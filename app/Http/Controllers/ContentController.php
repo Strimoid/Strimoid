@@ -76,7 +76,7 @@ class ContentController extends BaseController
         $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
-        $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
+        $canSortBy = ['comments_count', 'uv', 'created_at', 'frontpage_at'];
         $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
 
         $builder = $group->contents($tab, $orderBy);

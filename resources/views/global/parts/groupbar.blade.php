@@ -10,7 +10,7 @@
 
                 <ul class="dropdown-menu">
                     @foreach ($subscriptions as $subscription)
-                        <li><a href="{!! route('group_contents', array('group' => $subscription)) !!}">{!! $subscription !!}</a></li>
+                        <li><a href="{!! route('group_contents', $subscription) !!}">{!! $subscription !!}</a></li>
                     @endforeach
 
                     @if (!$subscriptions)
@@ -26,7 +26,7 @@
 
                 <ul class="dropdown-menu">
                     @foreach ($moderatedGroups as $moderatedGroup)
-                        <li><a href="{!! route('group_contents', array('group' => $moderatedGroup)) !!}">{!! $moderatedGroup !!}</a></li>
+                        <li><a href="{!! route('group_contents', $moderatedGroup) !!}">{!! $moderatedGroup !!}</a></li>
                     @endforeach
 
                     @if (!$moderatedGroups)
@@ -35,7 +35,7 @@
                 </ul>
             </li>
 
-            <?php $observedUsers = (array) Auth::user()->_observed_users; natcasesort($observedUsers); ?>
+            <?php $observedUsers = Auth::user()->followedUsers()->lists('name'); natcasesort($observedUsers); ?>
 
             <li class="dropdown observed_dropdown">
                 <a href="/g/observed" class="dropdown-toggle" data-hover="dropdown">Obserwowani</a><b class="caret"></b>

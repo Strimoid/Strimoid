@@ -101,7 +101,9 @@ class Popular extends FakeFolder
             'MetaSecurity',
             ];
 
-        $builder->whereIn('group_id', $groups);
+        $builder->whereHas('group', function($q) use($groups) {
+            $q->whereIn('name', $groups);
+        });
 
         return $builder;
     }

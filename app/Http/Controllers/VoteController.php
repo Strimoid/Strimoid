@@ -92,7 +92,7 @@ class VoteController extends BaseController
             $dv--;
         }
 
-        $object->votes->where(['user_id' => $vote->user_id])->delete();
+        $object->votes()->where(['user_id' => $vote->user_id])->delete();
 
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
@@ -137,6 +137,9 @@ class VoteController extends BaseController
 
     private function getObject($id, $type)
     {
+        $id = \Hashids::decode($id);
+        $id = current($id);
+
         switch ($type) {
             case 'content':
                 return Content::findOrFail($id);

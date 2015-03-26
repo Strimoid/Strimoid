@@ -49,7 +49,7 @@ class RankingController extends BaseController
             ->orderBy('points', 'desc');
 
         if (Input::has('group')) {
-            $group = Group::where('shadow_urlname', Str::lower(Input::get('group')))->firstOrFail();
+            $group = Group::name(Input::get('group'))->firstOrFail();
             $query->where('group_id', $group->getKey());
 
             $data['group'] = $group;

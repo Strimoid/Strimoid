@@ -124,7 +124,7 @@ Route::post('/settings/save/settings', ['middleware' => 'auth', 'uses' => 'Setti
 
 /* Conversations ==================================================================================================== */
 Route::get('/conversations', ['middleware' => 'auth', 'uses' => 'ConversationController@showConversation']);
-Route::get('/conversation/{id}', [
+Route::get('/conversation/{conversation}', [
     'as'         => 'conversation',
     'middleware' => 'auth',
     'uses'       => 'ConversationController@showConversation',
@@ -207,8 +207,8 @@ Route::get('/g/{groupname}/comments', [
     'uses' => 'CommentController@showCommentsFromGroup',
 ]);
 
-Route::post('/ajax/comment/add', ['middleware' => 'auth', 'uses' => 'CommentController@addComment']);
-Route::post('/ajax/comment/add/reply', ['middleware' => 'auth', 'uses' => 'CommentController@addReply']);
+Route::post('/c/{content}/comment', ['middleware' => 'auth', 'uses' => 'CommentController@addComment']);
+Route::post('/comment/{comment}/reply', ['middleware' => 'auth', 'uses' => 'CommentController@addReply']);
 Route::post('/ajax/comment/source', ['middleware' => 'auth', 'uses' => 'CommentController@getCommentSource']);
 Route::post('/ajax/comment/edit', ['middleware' => 'auth', 'uses' => 'CommentController@editComment']);
 Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentController@removeComment']);
@@ -231,10 +231,10 @@ Route::get('/er/{id}', [
     'uses' => 'EntryController@showEntry',
 ]);
 
-Route::get('/ajax/entry/{id}/replies', 'EntryController@getEntryReplies');
+Route::get('/ajax/entry/{entry}/replies', 'EntryController@getEntryReplies');
 
 Route::post('/ajax/entry/add', ['middleware' => 'auth', 'uses' => 'EntryController@addEntry']);
-Route::post('/ajax/entry/add/reply', ['middleware' => 'auth', 'uses' => 'EntryController@addReply']);
+Route::post('/entry/{entry}/reply', ['middleware' => 'auth', 'uses' => 'EntryController@addReply']);
 Route::post('/ajax/entry/source', ['middleware' => 'auth', 'uses' => 'EntryController@getEntrySource']);
 Route::post('/ajax/entry/edit', ['middleware' => 'auth', 'uses' => 'EntryController@editEntry']);
 Route::post('/ajax/entry/remove', ['middleware' => 'auth', 'uses' => 'EntryController@removeEntry']);

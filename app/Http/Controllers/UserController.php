@@ -317,7 +317,7 @@ class UserController extends BaseController
         } elseif ($type == 'moderated') {
             $data['moderated'] = $user->moderatedGroups();
         } else {
-            $data['actions'] = $user->actions()->orderBy('created_at', 'desc')->paginate(15);
+            $data['actions'] = $user->actions()->with('element')->orderBy('created_at', 'desc')->paginate(15);
         }
 
         $data['type'] = $type;

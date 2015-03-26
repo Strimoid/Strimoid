@@ -56,7 +56,7 @@ EntriesModule.prototype.addReply = function(e) {
     $(form).find('.form-group').removeClass('has-error');
     $(form).find('.help-block').remove();
 
-    $.post('/ajax/entry/add/reply', $(form).serialize(), function(data){
+    $.post($(form).attr('action'), $(form).serialize(), function(data){
         if (data.status == 'ok') {
             $(form).parent().remove();
 

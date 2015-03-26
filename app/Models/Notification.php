@@ -23,8 +23,7 @@ class Notification extends BaseModel
 
     public function sourceUser()
     {
-        return $this->belongsTo('Strimoid\Models\User')
-            ->select(['avatar', 'name']);
+        return $this->belongsTo(User::class)->select(['avatar', 'name']);
     }
 
     public function targets()

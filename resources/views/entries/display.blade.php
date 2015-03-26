@@ -8,14 +8,14 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
 @section('content_class') col-md-8 entries_col @stop
 
-@if (Route::current()->getName() == 'single_entry' || Route::current()->getName() == 'single_entry_reply')
+@if (Route::currentRouteName() == 'single_entry' || Route::currentRouteName() == 'single_entry_reply')
     @section('title')
-        {{{ Str::limit(strip_tags($entries[0]->text), 60) }}}
+        {{ Str::limit(strip_tags($entries[0]->text), 60) }}
     @stop
 @elseif (isset($group) && $group instanceof Strimoid\Models\Group)
     @section('title')
-        {{{ $group->name }}}
-    @stop
+        {{ $group->name }}
+    @stopś
 @endif
 
 @section('content')
@@ -62,12 +62,18 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
     @if ($entry->replies_count)
         @if ($entry->replies_count > 2 && !starts_with(Route::current()->getName(), 'single_entry'))
-            <div class="entry entry_reply entry_expand_replies" data-id="{!! $entry->_id !!}">
+            <div class="entry entry_reply entry_expand_replies" data-id="{!! $entry->hashId() !!}">
                 Pokaż pozostałe wpisy ({!! Lang::choice('pluralization.replies', ($entry->replies_count-2)) !!})
             </div>
         @endif
 
-        @foreach ($entry->replies as $reply)
+
+            <?php
+            $replies = (starts_with(Route::current()->getName(), 'single_entry'))
+                    ? $entry->replies : $entry->replies->slice(-2, 2);
+            ?>
+
+        @foreach ($replies as $reply)
             @include('entries.widget', ['entry' => $reply, 'isReply' => true])
         @endforeach
     @endif

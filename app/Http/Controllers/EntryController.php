@@ -65,7 +65,9 @@ class EntryController extends BaseController
     protected function showEntries($builder)
     {
         $builder->orderBy('created_at', 'desc')
-            ->with(['group', 'user', 'replies.user', 'vote']);
+            ->with(['group', 'user', 'replies', 'replies.user']);
+
+        if (Auth::check()) $builder->with('vote', 'usave');
 
         $perPage = Setting::get('entries_per_page', 25);
         $entries = $builder->paginate($perPage);
@@ -133,22 +135,20 @@ class EntryController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function addReply(Request $request)
+    public function addReply(Request $request, $parent)
     {
         $this->validate($request, EntryReply::rules());
 
-        $entryParent = Entry::findOrFail(Input::get('id'));
-
-        if (Auth::user()->isBanned($entryParent->group)) {
+        if (Auth::user()->isBanned($parent->group)) {
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
         $entry = new EntryReply();
         $entry->text = Input::get('text');
         $entry->user()->associate(Auth::user());
-        $entryParent->replies()->save($entry);
+        $parent->replies()->save($entry);
 
-        $replies = view('entries.replies', ['entry' => $entryParent, 'replies' => $entryParent->replies])
+        $replies = view('entries.replies', ['entry' => $parent, 'replies' => $parent->replies])
             ->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);

@@ -11,12 +11,12 @@
                 {!! Lang::choice('pluralization.subscribers', $group->subscribers_count) !!}
             </p>
             <p>
-                <a href="{!! route('group_banned', $group->urlname) !!}" rel="nofollow">
+                <a href="{!! route('group_banned', $group) !!}" rel="nofollow">
                     {!! Lang::choice('pluralization.banned', $group->bannedUsers->count()) !!}
                 </a>
             </p>
             <p>
-                <a href="{!! route('group_moderators', $group->urlname) !!}" rel="nofollow">
+                <a href="{!! route('group_moderators', $group) !!}" rel="nofollow">
                     {!! Lang::choice('pluralization.moderators', $group->moderators->count()) !!}</a>
             </p>
         </div>

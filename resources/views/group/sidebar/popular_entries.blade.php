@@ -2,9 +2,7 @@
 
 use Strimoid\Models\Entry;
 
-$builder = Entry::with([
-    'user' => function($q) { $q->select(['avatar', 'name']); }
-])->fromDaysAgo(3);
+$builder = Entry::with('user')->fromDaysAgo(3);
 
 if (isset($group) && $group instanceof Strimoid\Models\Group)
 {

@@ -13,7 +13,9 @@ CommentsModule.prototype.addComment = function(e) {
     $(form).find('.form-group').removeClass('has-error');
     $(form).find('.help-block').remove();
 
-    $.post('/ajax/comment/add', $(form).serialize(), function(data){
+    var id = window.content_id;
+
+    $.post('/c/' + id +'/comment', $(form).serialize(), function(data){
         if (data.status == 'ok') {
             $(form).trigger('reset');
 
@@ -35,7 +37,7 @@ CommentsModule.prototype.addReply = function(e) {
     $(form).find('.form-group').removeClass('has-error');
     $(form).find('.help-block').remove();
 
-    $.post('/ajax/comment/add/reply', $(form).serialize(), function(data){
+    $.post($(form).attr('action'), $(form).serialize(), function(data){
         if (data.status == 'ok') {
             $(form).parent().remove();
 

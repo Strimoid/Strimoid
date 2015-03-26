@@ -4,6 +4,16 @@ use Hashids;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Strimoid\Models\Comment;
+use Strimoid\Models\CommentReply;
+use Strimoid\Models\Content;
+use Strimoid\Models\ContentRelated;
+use Strimoid\Models\Conversation;
+use Strimoid\Models\Entry;
+use Strimoid\Models\EntryReply;
+use Strimoid\Models\Group;
+use Strimoid\Models\Notification;
+use Strimoid\Models\User;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -25,15 +35,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $this->bindModel($router, 'content', 'Content');
-        $this->bindModel($router, 'related', 'ContentRelated');
-        $this->bindModel($router, 'notification', 'Notification');
-        $this->bindModel($router, 'comment', 'Comment');
-        $this->bindModel($router, 'comment_reply', 'CommentReply');
-        $this->bindModel($router, 'entry', 'Entry');
-        $this->bindModel($router, 'entry_reply', 'EntryReply');
-        $this->bindModel($router, 'group', 'Group');
-        $this->bindModel($router, 'user', 'User');
+        $this->bindModel($router, 'content', Content::class);
+        $this->bindModel($router, 'related', ContentRelated::class);
+        $this->bindModel($router, 'notification', Notification::class);
+        $this->bindModel($router, 'comment', Comment::class);
+        $this->bindModel($router, 'comment_reply', CommentReply::class);
+        $this->bindModel($router, 'entry', Entry::class);
+        $this->bindModel($router, 'entry_reply', EntryReply::class);
+        $this->bindModel($router, 'group', Group::class);
+        $this->bindModel($router, 'user', User::class);
+        $this->bindModel($router, 'conversation', Conversation::class);
 
         parent::boot($router);
     }
@@ -48,17 +59,15 @@ class RouteServiceProvider extends ServiceProvider
     public function bindModel(Router $router, $key, $className)
     {
         $router->bind($key, function($value, $route) use($className) {
-            $class = 'Strimoid\\Models\\'. $className;
-
-            if (in_array($className, ['Group', 'User'])) {
-                return $class::name($value)->firstOrFail();
+            if (ends_with($className, ['Group', 'User'])) {
+                return $className::name($value)->firstOrFail();
             }
 
             $ids = Hashids::decode($value);
 
             if (!count($ids)) throw new ModelNotFoundException;
 
-            return $class::findOrFail($ids[0]);
+            return $className::findOrFail($ids[0]);
         });
     }
 

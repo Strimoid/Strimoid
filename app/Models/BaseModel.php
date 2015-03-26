@@ -75,7 +75,7 @@ abstract class BaseModel extends Model
      */
     public function votes()
     {
-        return $this->morphMany('Strimoid\Models\Vote', 'element');
+        return $this->morphMany(Vote::class, 'element');
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class BaseModel extends Model
      */
     public function saves()
     {
-        return $this->morphMany('Strimoid\Models\Save', 'element');
+        return $this->morphMany(Save::class, 'element');
     }
 
     /**

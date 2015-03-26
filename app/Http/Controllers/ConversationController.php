@@ -11,14 +11,13 @@ use Strimoid\Models\User;
 
 class ConversationController extends BaseController
 {
-    public function showConversation($id = null)
+    public function showConversation($conversation = null)
     {
         $conversations = $this->getConversations();
 
         $data['messages'] = [];
 
-        if ($id) {
-            $conversation = Conversation::withUser(Auth::id())->findOrFail($id);
+        if ($conversation && $conversation->users->where('id', Auth::id())->count()) {
         } elseif ($conversations->first()) {
             $conversation = $conversations->first();
         }
@@ -27,9 +26,7 @@ class ConversationController extends BaseController
 
         if (isset($conversation)) {
             $data['conversation'] = $conversation;
-            $data['messages'] = $conversation->messages()
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+            $data['messages'] = $conversation->messages()->paginate(50);
         }
 
         return view('conversations.display', $data);
@@ -136,8 +133,7 @@ class ConversationController extends BaseController
 
     public function getIndex()
     {
-        $conversations = Conversation::with('lastMessage')
-            ->with('lastMessage.user')
+        $conversations = Conversation::with('lastMessage', 'lastMessage.user')
             ->withUser(Auth::id())
             ->get()
             ->sortBy(function ($conversation) {

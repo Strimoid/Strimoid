@@ -2,8 +2,10 @@
 
 use Strimoid\Models\BaseModel;
 use Strimoid\Models\Comment;
+use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
+use Strimoid\Models\EntryReply;
 use Strimoid\Models\UserAction;
 
 /**
@@ -20,7 +22,9 @@ class NewActionHandler
     {
         $this->addHandler(Content::class, $events);
         $this->addHandler(Comment::class, $events);
+        $this->addHandler(CommentReply::class, $events);
         $this->addHandler(Entry::class, $events);
+        $this->addHandler(EntryReply::class, $events);
     }
 
     /**

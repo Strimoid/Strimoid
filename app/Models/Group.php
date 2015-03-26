@@ -76,7 +76,7 @@ class Group extends BaseModel
 
         if (Auth::check()) {
             $blockedUsers = Auth::user()->blockedUsers()->lists('id');
-            $relation->whereNotIn('target_id', $blockedUsers);
+            $relation->whereNotIn('user_id', $blockedUsers);
 
             $blockedDomains = Auth::user()->blockedDomains();
             $relation->whereNotIn('domain', $blockedDomains);
@@ -141,7 +141,7 @@ class Group extends BaseModel
         $this->deleteStyle();
 
         if ($css) {
-            $this->style = $this->shadow_urlname.'.'.Str::random(8).'.css';
+            $this->style = $this->urlname.'.'.Str::random(8).'.css';
 
             $disk->put($this->style, $css);
         }

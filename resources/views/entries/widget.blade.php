@@ -4,8 +4,8 @@ $isReply = isset($isReply) ? true : false;
 
 ?>
 
-<div class="panel-default entry @if ($isReply) entry_reply @endif" data-id="{!! $entry->getKey() !!}" @if ($isReply) data-parent-id="{!! $entry->parent->getKey() !!}" @endif>
-    <a name="{!! $entry->_id !!}"></a>
+<div class="panel-default entry @if ($isReply) entry_reply @endif" data-id="{!! $entry->hashId() !!}" @if ($isReply) data-parent-id="{!! $entry->parent->hashId() !!}" @endif>
+    <a name="{!! $entry->hashId() !!}"></a>
 
     <div class="entry_avatar">
         <img src="{!! $entry->user->getAvatarPath() !!}" alt="{!! $entry->user->name !!}">
@@ -28,7 +28,7 @@ $isReply = isset($isReply) ? true : false;
                 </time>
             </a>
 
-            <span class="voting" data-id="{!! $entry->getKey() !!}" data-state="{!! $entry->getVoteState() !!}" @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
+            <span class="voting" data-id="{!! $entry->hashId() !!}" data-state="{!! $entry->getVoteState() !!}" @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
                 <button type="button" class="btn btn-default btn-xs vote-btn-up @if ($entry->getVoteState() == 'uv') btn-success @endif">
                     <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $entry->uv !!}</span>
                 </button>
