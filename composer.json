@@ -41,7 +41,8 @@
           "vinkla/algolia": "~1.0",
           "vinkla/hashids": "~1.0",
           "anlutro/l4-settings": "0.2.*",
-          "filp/whoops": "~1.1"
+          "filp/whoops": "~1.1",
+          "msurguy/honeypot": "dev-master"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",

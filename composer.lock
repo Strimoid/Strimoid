@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ac8a83fa31991f0969d9b8e2988f792a",
+    "hash": "ef25602e94982b277c346f6aee6caaec",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -2021,6 +2021,55 @@
                 "psr-3"
             ],
             "time": "2015-03-09 09:58:04"
+        },
+        {
+            "name": "msurguy/honeypot",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/msurguy/Honeypot.git",
+                "reference": "4c9b2c6bf10c4b974f999bd3feac75ec3c6fefe5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/msurguy/Honeypot/zipball/4c9b2c6bf10c4b974f999bd3feac75ec3c6fefe5",
+                "reference": "4c9b2c6bf10c4b974f999bd3feac75ec3c6fefe5",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "4.*|5.*",
+                "illuminate/support": "4.*|5.*",
+                "illuminate/translation": "4.*|5.*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Msurguy\\Honeypot\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maksim Surguy",
+                    "email": "m.surguy@gmail.com"
+                }
+            ],
+            "description": "Honeypot spam prevention",
+            "keywords": [
+                "Forms",
+                "Honeypot",
+                "laravel",
+                "spam"
+            ],
+            "time": "2015-03-13 22:49:47"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -5616,6 +5665,7 @@
         "phindmarsh/summon": 20,
         "roumen/sitemap": 20,
         "watson/rememberable": 20,
+        "msurguy/honeypot": 20,
         "codeception/codeception": 20,
         "vipsoft/code-coverage-extension": 20
     },

@@ -173,6 +173,7 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
         'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
+        'Msurguy\Honeypot\HoneypotServiceProvider',
         'Vinkla\Algolia\AlgoliaServiceProvider',
         'Vinkla\Hashids\HashidsServiceProvider',
         'Vinkla\Pusher\PusherServiceProvider',
