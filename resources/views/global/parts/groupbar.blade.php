@@ -6,7 +6,7 @@
             <?php $subscriptions = Auth::user()->subscribedGroups()->lists('urlname'); natcasesort($subscriptions); ?>
 
             <li class="dropdown subscribed_dropdown">
-                <a href="/g/subscribed" class="dropdown-toggle" data-hover="dropdown">Subskrybowane</a><b class="caret"></b>
+                <a href="/g/subscribed" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Subskrybowane</a><b class="caret"></b>
 
                 <ul class="dropdown-menu">
                     @foreach ($subscriptions as $subscription)
@@ -22,7 +22,7 @@
             <?php $moderatedGroups = Auth::user()->moderatedGroups()->lists('urlname'); natcasesort($moderatedGroups); ?>
 
             <li class="dropdown moderated_dropdown">
-                <a href="/g/moderated" class="dropdown-toggle" data-hover="dropdown">Moderowane</a><b class="caret"></b>
+                <a href="/g/moderated" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Moderowane</a><b class="caret"></b>
 
                 <ul class="dropdown-menu">
                     @foreach ($moderatedGroups as $moderatedGroup)
@@ -38,7 +38,7 @@
             <?php $observedUsers = Auth::user()->followedUsers()->lists('name'); natcasesort($observedUsers); ?>
 
             <li class="dropdown observed_dropdown">
-                <a href="/g/observed" class="dropdown-toggle" data-hover="dropdown">Obserwowani</a><b class="caret"></b>
+                <a href="/g/observed" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Obserwowani</a><b class="caret"></b>
 
                 <ul class="dropdown-menu">
                     @foreach ($observedUsers as $observedUser)
@@ -55,7 +55,7 @@
 
                     <ul class="dropdown-menu">
                         @foreach ($folderGroups as $folderGroup)
-                            <li><a href="{!! route('group_contents', array('group' => $folderGroup)) !!}">{!! $folderGroup !!}</a></li>
+                            <li><a href="{!! route('group_contents', $folderGroup) !!}">{!! $folderGroup !!}</a></li>
                         @endforeach
                     </ul>
                 </li>

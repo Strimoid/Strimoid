@@ -83,7 +83,7 @@
                 </div>
             </div>
 
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'age', 'label' => 'Rok urodzenia', 'value' => $user->age))
+            @include('global.form.input_value', array('type' => 'text', 'name' => 'age', 'label' => 'Rok urodzenia', 'value' => $user->age ?: ''))
             @include('global.form.input_value', array('type' => 'text', 'name' => 'location', 'label' => 'Miejscowość', 'value' => $user->location))
             @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'O sobie', 'value' => $user->description))
 

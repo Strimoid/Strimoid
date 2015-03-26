@@ -21,15 +21,15 @@
 <div class="conversation_messages">
 
 @foreach (array_reverse($messages->all()) as $message)
-<div class="panel-default entry" data-id="{!! $message->_id !!}">
-    <a name="{!! $message->_id !!}"></a>
+<div class="panel-default entry" data-id="{!! $message->hashId() !!}">
+    <a name="{!! $message->hashId() !!}"></a>
 
     <div class="entry_avatar">
         <img src="{!! $message->user->getAvatarPath() !!}" alt="{!! $message->user->name !!}">
     </div>
 
     <div class="panel-heading entry_header">
-        <a href="{!! route('user_profile', $message->user->name) !!}" class="entry_author">{!! $message->user->getColoredName() !!}</a>
+        <a href="{!! route('user_profile', $message->user) !!}" class="entry_author">{!! $message->user->getColoredName() !!}</a>
 
         <span class="pull-right">
             <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $message->created_at->format('c') !!}" title="{!! $message->getLocalTime() !!}">{!! $message->created_at->diffForHumans() !!}</time>
@@ -47,8 +47,8 @@
 @endif
 
 @if (isset($conversation))
-{!! Form::open(array('action' => array('ConversationController@sendMessage'), 'class' => 'form entry_add_form enter_send')) !!}
-<input type="hidden" name="id" value="{!! $conversation->_id !!}">
+{!! Form::open(['action' => array('ConversationController@sendMessage'), 'class' => 'form entry_add_form enter_send']) !!}
+<input type="hidden" name="id" value="{!! $conversation->hashId() !!}">
 
 <div class="panel-default entry">
     <div class="entry_avatar">

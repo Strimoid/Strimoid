@@ -2,15 +2,15 @@
     @include('user.widgets.comment_parent', ['content' => $comment->content])
 @endif
 
-<div class="panel-default comment" data-id="{!! $comment->_id !!}">
-    <a name="{!! $comment->_id !!}"></a>
+<div class="panel-default comment" data-id="{!! $comment->hashId() !!}">
+    <a name="{!! $comment->hashId() !!}"></a>
 
     <div class="comment_avatar">
         <img src="{!! $comment->user->getAvatarPath() !!}" alt="{!! $comment->user->name !!}" class="{!! $comment->user->getSexClass() !!}">
     </div>
 
     <div class="panel-heading comment_header">
-        <a href="{!! route('user_profile', $comment->user->name) !!}" class="comment_author">{!! $comment->user->getColoredName() !!}</a>
+        <a href="{!! route('user_profile', $comment->user) !!}" class="comment_author">{!! $comment->user->getColoredName() !!}</a>
 
         <span class="pull-right">
             <span class="glyphicon glyphicon-time"></span> <a href="{!! $comment->getURL() !!}" rel="nofollow"><time pubdate datetime="{!! $comment->created_at->format('c') !!}" title="{!! $comment->getLocalTime() !!}">{!! $comment->created_at->diffForHumans() !!}</time></a>
