@@ -1,5 +1,6 @@
-<?php
-use \FunctionalTester;
+<?php namespace Strimoid\Tests\Functional;
+
+use FunctionalTester;
 
 class CommentsCest
 {
@@ -12,7 +13,10 @@ class CommentsCest
     }
 
     // tests
-    public function tryToTest(FunctionalTester $I)
+    public function showListOfComments(FunctionalTester $I)
     {
+        $I->amOnPage('/g/all/comments');
+        $I->canSee('Quod blanditiis ea adipisci.', '.comment_text');
     }
+
 }

@@ -2,6 +2,7 @@
 
 use Auth;
 use Carbon;
+use Illuminate\Support\Facades\Cache;
 use Input;
 use Response;
 use Strimoid\Models\Comment;
@@ -26,11 +27,11 @@ class VoteController extends BaseController
             return Response::make('Already voted', 400);
         }
 
-        if ($object->user->getKey() == Auth::user()->getKey()) {
+        if ($object->user->getKey() == Auth::id()) {
             return Response::make('Do not cheat', 400);
         }
 
-        if (Auth::user()->isBanned($this->getObjectGroup($object))) {
+        if (Auth::user()->isBanned($object->group)) {
             return Response::make('Banned', 400);
         }
 
@@ -62,13 +63,11 @@ class VoteController extends BaseController
             $dv++;
         }
 
-        $vote = new Vote([
+        $object->votes()->create([
             'created_at'    => new Carbon(),
             'user_id'       => Auth::id(),
             'up'            => $up,
         ]);
-
-        $object->mpush('votes', $vote->getAttributes());
 
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
@@ -94,7 +93,8 @@ class VoteController extends BaseController
             $object->increment('score');
             $dv--;
         }
-        $object->mpull('votes', ['user_id' => $vote->user_id]);
+
+        $object->votes()->where(['user_id' => $vote->user_id])->delete();
 
         return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
@@ -128,21 +128,25 @@ class VoteController extends BaseController
 
     private function getVoteElement($object, $user)
     {
-        if (!$object->votes) {
-            return false;
-        }
+        if (!$object->votes) return false;
 
         $vote = $object->votes()->where('user_id', $user->getKey())->first();
 
-        if (!$vote) {
-            return false;
-        }
+        if (!$vote) return false;
 
         return $vote;
     }
 
+    /**
+     * @param  string  $id
+     * @param  string  $type
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
     private function getObject($id, $type)
     {
+        $id = \Hashids::decode($id);
+        $id = current($id);
+
         switch ($type) {
             case 'content':
                 return Content::findOrFail($id);
@@ -156,23 +160,6 @@ class VoteController extends BaseController
                 return Comment::findOrFail($id);
             case 'comment_reply':
                 return CommentReply::findOrFail($id);
-        }
-    }
-
-    private function getObjectGroup($object)
-    {
-        switch (Input::get('type')) {
-            case 'content':
-            case 'entry':
-                return $object->group;
-            case 'related':
-                return $object->content->group;
-            case 'entry_reply':
-                return $object->entry->group;
-            case 'comment':
-                return $object->content->group;
-            case 'comment_reply':
-                return $object->comment->content->group;
         }
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Input;
 use Response;
 use Route;
+use Setting;
 use Settings;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
@@ -37,11 +38,11 @@ class EntryController extends BaseController
     public function showEntriesFromGroup($groupName = null)
     {
         // If user is on homepage, then use proper group
-        if (! Route::input('group')) {
+        if (! Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
-        $group = $this->groups->getByName($groupName);
+        $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
         $builder = $group->entries();
@@ -65,7 +66,11 @@ class EntryController extends BaseController
     protected function showEntries($builder)
     {
         $builder->orderBy('created_at', 'desc')
-            ->with(['user', 'replies.user']);
+            ->with(['group', 'user', 'replies', 'replies.user']);
+
+        if (Auth::check()) {
+            $builder->with('vote', 'usave');
+        }
 
         $perPage = Settings::get('entries_per_page');
         $entries = $builder->paginate($perPage);
@@ -73,25 +78,22 @@ class EntryController extends BaseController
         return view('entries.display', compact('entries'));
     }
 
-    public function showEntry($id)
+    /**
+     * Show entry view.
+     *
+     * @param  Entry  $entry
+     * @return \Illuminate\View\View
+     */
+    public function showEntry($entry)
     {
-        if (Route::currentRouteName() == 'single_entry_reply') {
-            $entry = Entry::where('_replies._id', $id)
-                ->with(['user', 'replies.user'])->firstOrFail();
-        } else {
-            $entry = Entry::with('user')
-                ->with('replies.user')->findOrFail($id);
-        }
-
         $entries = [$entry];
-        $group = $entry->group;
+        view()->share('group', $entry->group);
 
-        return view('entries.display', compact('entries', 'group'));
+        return view('entries.display', compact('entries'));
     }
 
-    public function getEntryReplies($id)
+    public function getEntryReplies($entry)
     {
-        $entry = Entry::findOrFail($id);
         $replies = $entry->replies;
 
         return view('entries.replies', compact('entry', 'replies'));
@@ -116,14 +118,14 @@ class EntryController extends BaseController
     {
         $this->validate($request, Entry::rules());
 
-        $group = Group::shadow(Input::get('groupname'))->firstOrFail();
+        $group = Group::name(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group)) {
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && !Auth::user()->isModerator($group)) {
+        if ($group->type == 'announcements' && !Auth::user()->isModerator($group)) {
             return Response::json(['status' => 'error', 'error' => 'Nie możesz dodawać wpisów do wybranej grupy']);
         }
 
@@ -136,22 +138,20 @@ class EntryController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function addReply(Request $request)
+    public function addReply(Request $request, $parent)
     {
         $this->validate($request, EntryReply::rules());
 
-        $entryParent = Entry::findOrFail(Input::get('id'));
-
-        if (Auth::user()->isBanned($entryParent->group)) {
+        if (Auth::user()->isBanned($parent->group)) {
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
         $entry = new EntryReply();
         $entry->text = Input::get('text');
         $entry->user()->associate(Auth::user());
-        $entryParent->replies()->save($entry);
+        $parent->replies()->save($entry);
 
-        $replies = view('entries.replies', ['entry' => $entryParent, 'replies' => $entryParent->replies])
+        $replies = view('entries.replies', ['entry' => $parent, 'replies' => $parent->replies])
             ->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);
@@ -159,26 +159,17 @@ class EntryController extends BaseController
 
     public function editEntry(Request $request)
     {
-        if (Input::get('type') == 'entry_reply') {
-            $entry = EntryReply::findOrFail(Input::get('id'));
+        $id = hashids_decode($request->input('id'));
+        $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
 
-            $lastReply = Entry::where('_id', $entry->entry->_id)
-                ->project(['_replies' => ['$slice' => -1]])
-                ->first()->replies->first();
+        $entry = $class::findOrFail($id);
 
-            if ($lastReply->_id != $entry->_id) {
-                return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
-            }
-        } else {
-            $entry = Entry::findOrFail(Input::get('id'));
 
-            if ($entry->replies_count > 0) {
-                return Response::json(['status' => 'error', 'error' => 'Pojawiła się już odpowiedź na twój wpis.']);
-            }
-        }
-
-        if (Auth::id() !== $entry->user_id) {
-            App::abort(403, 'Access denied');
+        if (!$entry->canEdit()) {
+            return Response::json([
+                'status' => 'error',
+                'error' => 'Pojawiła się już odpowiedź na twój wpis.'
+            ]);
         }
 
         $this->validate($request, EntryReply::rules());
@@ -189,18 +180,14 @@ class EntryController extends BaseController
         return Response::json(['status' => 'ok', 'parsed' => $entry->text]);
     }
 
-    public function removeEntry($id = null)
+    public function removeEntry(Request $request, $id = null)
     {
-        $id = $id ? $id : Input::get('id');
+        $id = hashids_decode($id ? $id : Input::get('id'));
+        $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
 
-        if (Input::get('type') == 'entry_reply') {
-            $entry = EntryReply::findOrFail($id);
-        } else {
-            $entry = Entry::findOrFail($id);
-        }
+        $entry = $class::findOrFail($id);
 
-        if (Auth::id() === $entry->user_id
-            || Auth::user()->isModerator($entry->group_id)) {
+        if ($entry->canRemove()) {
             if ($entry->delete()) {
                 return Response::json(['status' => 'ok']);
             }

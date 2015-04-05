@@ -1,6 +1,6 @@
-<?php
+<?php namespace Strimoid\Tests\Functional;
 
-use \FunctionalTester;
+use FunctionalTester;
 
 class AuthCest
 {
@@ -13,15 +13,37 @@ class AuthCest
     }
 
     // tests
-    public function loginUsingCredentials(FunctionalTester $I)
+    public function loginUsingValidCredentials(FunctionalTester $I)
+    {
+        $I->dontSeeAuthentication();
+        $I->amOnPage('/login');
+        $I->submitForm('.main_col form', [
+            'username' => 'tobin74',
+            'password' => 'qwe123',
+        ]);
+        $I->seeAuthentication();
+    }
+
+    public function loginUsingInvalidUsername(FunctionalTester $I)
+    {
+        $I->dontSeeAuthentication();
+        $I->amOnPage('/login');
+        $I->submitForm('.main_col form', [
+            'username' => 'invalid-username',
+            'password' => 'qwe123',
+        ]);
+        $I->dontSeeAuthentication();
+    }
+
+    public function loginUsingInvalidPassword(FunctionalTester $I)
     {
         $I->dontSeeAuthentication();
         $I->amOnPage('/login');
         $I->submitForm('.main_col form', [
             'username' => 'Karina14',
-            'password' => 'qwe123',
+            'password' => 'invalid-password',
         ]);
-        $I->seeAuthentication();
+        $I->dontSeeAuthentication();
     }
 
     public function registerNewAccount(FunctionalTester $I)

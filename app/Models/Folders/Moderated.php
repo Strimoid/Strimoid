@@ -9,7 +9,7 @@ class Moderated extends FakeFolder
     {
         $builder = with(new $model())->newQuery();
 
-        $moderatedGroups = Auth::user()->moderatedGroups();
+        $moderatedGroups = Auth::user()->moderatedGroups()->lists('id');
         $builder->whereIn('group_id', $moderatedGroups);
 
         return $builder;

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Input;
 use Response;
 use Route;
-use Settings;
+use Setting;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
@@ -40,7 +40,7 @@ class CommentController extends BaseController
     public function showCommentsFromGroup($groupName = 'all')
     {
         // If user is on homepage, then use proper group
-        if (! Route::input('group')) {
+        if (! Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -67,9 +67,10 @@ class CommentController extends BaseController
 
     protected function showComments($builder)
     {
-        $builder->orderBy('created_at', 'desc')->with(['user']);
+        $builder->orderBy('created_at', 'desc')
+                ->with(['user', 'vote']);
 
-        $perPage = Settings::get('entries_per_page');
+        $perPage = Setting::get('entries_per_page', 25);
         $comments = $builder->paginate($perPage);
 
         return view('comments.list', compact('comments'));
@@ -89,11 +90,9 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'source' => $comment->text_source]);
     }
 
-    public function addComment(Request $request)
+    public function addComment(Request $request, $content)
     {
         $this->validate($request, Comment::rules());
-
-        $content = Content::findOrFail(Input::get('id'));
 
         if (Auth::user()->isBanned($content->group)) {
             return Response::json([
@@ -116,11 +115,18 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'comment' => $comment]);
     }
 
-    public function addReply(Request $request)
+    /**
+     * Add new reply to given Comment object.
+     *
+     * @param  Request  $request
+     * @param  Comment  $parent
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function addReply(Request $request, $parent)
     {
         $this->validate($request, CommentReply::rules());
 
-        $parent = Comment::findOrFail(Input::get('id'));
         $content = $parent->content;
 
         if (Auth::user()->isBanned($content->group)) {
@@ -133,13 +139,11 @@ class CommentController extends BaseController
         $comment = new CommentReply([
             'text' => Input::get('text'),
         ]);
-
         $comment->user()->associate(Auth::user());
 
         $parent->replies()->save($comment);
 
-        $replies = view('comments.replies', ['replies' => $parent->replies])
-            ->render();
+        $replies = view('comments.replies', ['replies' => $parent->replies])->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);
     }
@@ -151,7 +155,7 @@ class CommentController extends BaseController
         $comment = $class::findOrFail(Input::get('id'));
 
         if (! $comment->canEdit()) {
-            App::abort(403, 'Access denied');
+            app()->abort(403, 'Access denied');
         }
 
         $this->validate($request, CommentReply::rules());
@@ -160,15 +164,14 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
     }
 
-    public function removeComment()
+    public function removeComment(Request $request)
     {
-        $class = (Input::get('type') == 'comment') ? 'Comment' : 'CommentReply';
-        $class = 'Strimoid\Models\\'.$class;
-        $comment = $class::findOrFail(Input::get('id'));
+        $class = (Input::get('type') == 'comment') ? Comment::class : CommentReply::class;
+        $id = hashids_decode($request->input());
+        $comment = $class::findOrFail($id);
 
         if ($comment->canRemove()) {
             $comment->delete();
-
             return Response::json(['status' => 'ok']);
         }
 

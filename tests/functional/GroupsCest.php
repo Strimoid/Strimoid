@@ -1,5 +1,7 @@
-<?php
-use \FunctionalTester;
+<?php namespace Strimoid\Tests\Functional;
+
+use FunctionalTester;
+use Strimoid\Models\User;
 
 class GroupsCest
 {
@@ -12,7 +14,22 @@ class GroupsCest
     }
 
     // tests
-    public function tryToTest(FunctionalTester $I)
+    public function showListOfGroups(FunctionalTester $I)
     {
+        $I->amOnPage('/groups/list');
+        $I->canSee('Tedville', '.panel-title');
+        $I->canSee('Commodi pariatur numquam', '.panel-body');
+    }
+
+    public function createNewGroup(FunctionalTester $I)
+    {
+        $I->amLoggedAs(User::first());
+        $I->amOnPage('/groups/list');
+        $I->click('Załóż nową grupę');
+        $I->submitForm('.main_col form', [
+            'urlname'     => 'NewGroup',
+            'groupname'   => 'New group',
+            'description' => 'Example description',
+        ]);
     }
 }

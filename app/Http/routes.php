@@ -8,8 +8,8 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('/me', ['middleware' => 'auth', 'uses' => 'UserController@showCurrentUser']);
 
     // Auth
-    Route::post('/login', ['uses' => 'AuthController@login']);
-    Route::post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
+    Route::post('/login', ['uses' => 'Api\AuthController@login']);
+    Route::post('/logout', ['middleware' => 'auth', 'uses' => 'Api\AuthController@logout']);
 
     // Contents
     Route::get('/contents', ['uses' => 'Api\ContentController@index']);
@@ -103,9 +103,8 @@ Route::get('/account/activate/{token}', 'UserController@activateAccount');
 Route::get('/account/remove', 'UserController@showRemoveAccountForm');
 Route::post('/account/remove', 'UserController@removeAccount');
 
-Route::get('/u/{username}', ['as' => 'user_profile', 'uses' => 'UserController@showProfile']);
-
-Route::get('/u/{username}/{type}', ['as' => 'user_profile.type_filter', 'uses' => 'UserController@showProfile']);
+Route::get('/u/{user}', ['as' => 'user_profile', 'uses' => 'UserController@showProfile']);
+Route::get('/u/{user}/{type}', ['as' => 'user_profile.type_filter', 'uses' => 'UserController@showProfile']);
 
 Route::post('/settings/change_password', ['middleware' => 'auth', 'uses' => 'UserController@changePassword']);
 Route::post('/settings/change_email', ['middleware' => 'auth', 'uses' => 'UserController@changeEmail']);
@@ -113,11 +112,11 @@ Route::post('/settings/save/profile', ['middleware' => 'auth', 'uses' => 'UserCo
 
 Route::get('/account/change_email/{token}', 'UserController@confirmEmailChange');
 
-Route::post('/ajax/user/block', ['middleware' => 'auth', 'uses' => 'UserController@blockUser']);
-Route::post('/ajax/user/unblock', ['middleware' => 'auth', 'uses' => 'UserController@unblockUser']);
+Route::post('/u/{user}/block', ['middleware' => 'auth', 'uses' => 'UserController@blockUser']);
+Route::delete('/u/{user}/block', ['middleware' => 'auth', 'uses' => 'UserController@unblockUser']);
 
-Route::post('/ajax/user/observe', ['middleware' => 'auth', 'uses' => 'UserController@observeUser']);
-Route::post('/ajax/user/unobserve', ['middleware' => 'auth', 'uses' => 'UserController@unobserveUser']);
+Route::post('/u/{user}/observe', ['middleware' => 'auth', 'uses' => 'UserController@observeUser']);
+Route::delete('/u/{user}/observe', ['middleware' => 'auth', 'uses' => 'UserController@unobserveUser']);
 
 // Settings
 Route::get('/settings', ['as' => 'user_settings', 'middleware' => 'auth', 'uses' => 'SettingsController@showSettings']);
@@ -125,7 +124,7 @@ Route::post('/settings/save/settings', ['middleware' => 'auth', 'uses' => 'Setti
 
 /* Conversations ==================================================================================================== */
 Route::get('/conversations', ['middleware' => 'auth', 'uses' => 'ConversationController@showConversation']);
-Route::get('/conversation/{id}', [
+Route::get('/conversation/{conversation}', [
     'as'         => 'conversation',
     'middleware' => 'auth',
     'uses'       => 'ConversationController@showConversation',
@@ -155,28 +154,23 @@ Route::get('/rss', ['as' => 'global_contents_rss', 'uses' => 'ContentController@
 Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@showContentsFromGroup']);
 Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContentsFromGroup']);
 
-Route::get('/g/{group}', [
+Route::get('/g/{groupname}', [
     'as'   => 'group_contents',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
-Route::get('/g/{group}/rss', [
+Route::get('/g/{groupname}/rss', [
     'as'   => 'group_contents_rss',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
-Route::get('/g/{group}/new', [
+Route::get('/g/{groupname}/new', [
     'as'   => 'group_contents_new',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
-Route::get('/g/{group}/new/rss', [
+Route::get('/g/{groupname}/new/rss', [
     'as'   => 'group_contents_new_rss',
-    'uses' => 'ContentController@showContentsFromGroup',
-]);
-
-Route::get('/g/{group}/deleted', [
-    'as'   => 'group_contents_deleted',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
@@ -208,13 +202,13 @@ Route::post('/c/{content}/add_vote', ['middleware' => 'auth', 'uses' => 'PollCon
 
 Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showCommentsFromGroup']);
 
-Route::get('/g/{group}/comments', [
+Route::get('/g/{groupname}/comments', [
     'as'   => 'group_comments',
     'uses' => 'CommentController@showCommentsFromGroup',
 ]);
 
-Route::post('/ajax/comment/add', ['middleware' => 'auth', 'uses' => 'CommentController@addComment']);
-Route::post('/ajax/comment/add/reply', ['middleware' => 'auth', 'uses' => 'CommentController@addReply']);
+Route::post('/c/{content}/comment', ['middleware' => 'auth', 'uses' => 'CommentController@addComment']);
+Route::post('/comment/{comment}/reply', ['middleware' => 'auth', 'uses' => 'CommentController@addReply']);
 Route::post('/ajax/comment/source', ['middleware' => 'auth', 'uses' => 'CommentController@getCommentSource']);
 Route::post('/ajax/comment/edit', ['middleware' => 'auth', 'uses' => 'CommentController@editComment']);
 Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentController@removeComment']);
@@ -222,25 +216,25 @@ Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentC
 /* Entries ========================================================================================================== */
 Route::get('/entries', ['as' => 'global_entries', 'uses' => 'EntryController@showEntriesFromGroup']);
 
-Route::get('/g/{group}/entries', [
+Route::get('/g/{groupname}/entries', [
     'as'   => 'group_entries',
     'uses' => 'EntryController@showEntriesFromGroup',
 ]);
 
-Route::get('/e/{id}', [
+Route::get('/e/{entry}', [
     'as'   => 'single_entry',
     'uses' => 'EntryController@showEntry',
 ]);
 
-Route::get('/er/{id}', [
+Route::get('/er/{entry_reply}', [
     'as'   => 'single_entry_reply',
     'uses' => 'EntryController@showEntry',
 ]);
 
-Route::get('/ajax/entry/{id}/replies', 'EntryController@getEntryReplies');
+Route::get('/ajax/entry/{entry}/replies', 'EntryController@getEntryReplies');
 
 Route::post('/ajax/entry/add', ['middleware' => 'auth', 'uses' => 'EntryController@addEntry']);
-Route::post('/ajax/entry/add/reply', ['middleware' => 'auth', 'uses' => 'EntryController@addReply']);
+Route::post('/entry/{entry}/reply', ['middleware' => 'auth', 'uses' => 'EntryController@addReply']);
 Route::post('/ajax/entry/source', ['middleware' => 'auth', 'uses' => 'EntryController@getEntrySource']);
 Route::post('/ajax/entry/edit', ['middleware' => 'auth', 'uses' => 'EntryController@editEntry']);
 Route::post('/ajax/entry/remove', ['middleware' => 'auth', 'uses' => 'EntryController@removeEntry']);
@@ -271,11 +265,11 @@ Route::post('/g/{group}/settings/save/profile', ['middleware' => 'auth', 'uses' 
 Route::post('/g/{group}/settings/save/settings', ['middleware' => 'auth', 'uses' => 'GroupController@saveSettings']);
 Route::post('/g/{group}/settings/save/style', ['middleware' => 'auth', 'uses' => 'GroupController@saveStyle']);
 
-Route::post('/ajax/group/subscribe', ['middleware' => 'auth', 'uses' => 'GroupController@subscribeGroup']);
-Route::post('/ajax/group/unsubscribe', ['middleware' => 'auth', 'uses' => 'GroupController@unsubscribeGroup']);
+Route::post('/g/{group}/subscription', ['middleware' => 'auth', 'uses' => 'GroupController@subscribeGroup']);
+Route::delete('/g/{group}/subscription', ['middleware' => 'auth', 'uses' => 'GroupController@unsubscribeGroup']);
 
-Route::post('/ajax/group/block', ['middleware' => 'auth', 'uses' => 'GroupController@blockGroup']);
-Route::post('/ajax/group/unblock', ['middleware' => 'auth', 'uses' => 'GroupController@unblockGroup']);
+Route::post('/g/{group}/block', ['middleware' => 'auth', 'uses' => 'GroupController@blockGroup']);
+Route::delete('/g/{group}/block', ['middleware' => 'auth', 'uses' => 'GroupController@unblockGroup']);
 
 Route::get('/kreator', ['as' => 'wizard', 'middleware' => 'auth', 'uses' => 'GroupController@wizard']);
 Route::get('/kreator/{tag}', ['as' => 'wizard_tag', 'middleware' => 'auth', 'uses' => 'GroupController@wizard']);

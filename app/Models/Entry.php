@@ -1,49 +1,42 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasNotificationsRelationship;
+use Strimoid\Models\Traits\HasUserRelationship;
 
+/**
+ * Strimoid\Models\Entry
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|EntryReply[] $replies 
+ * @property-write mixed $text 
+ * @property-read mixed $vote_state 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
+ * @property-read Group $group 
+ * @property-read User $user 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Notification[] $notifications 
+ * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
+ */
 class Entry extends BaseModel
 {
+    use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
+
     protected static $rules = [
         'text'      => 'required|min:1|max:2500',
-        'groupname' => 'required|exists_ci:groups,urlname',
-    ];
-
-    protected $attributes = [
-        'uv'            => 0,
-        'dv'            => 0,
-        'score'         => 0,
-        'replies_count' => 0,
+        'groupname' => 'required|exists:groups,urlname',
     ];
 
     protected $appends = ['vote_state'];
     protected $table = 'entries';
     protected $fillable = ['text'];
-    protected $visible = ['_id', 'created_at', 'user', 'group', 'text', 'text_source',
+    protected $visible = ['id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies', ];
-
-    public function __construct($attributes = [])
-    {
-        $this->{$this->getKeyName()} = Str::random(6);
-
-        parent::__construct($attributes);
-    }
-
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User');
-    }
 
     public function replies()
     {
-        return $this->embedsMany('EntryReply', '_replies')->with('User');
+        return $this->hasMany(EntryReply::class, 'parent_id');
     }
 
     public function delete()
@@ -52,14 +45,9 @@ class Entry extends BaseModel
             $reply->delete();
         }
 
-        Notification::where('entry_id', $this->getKey())->delete();
+        $this->notifications()->delete();
 
         return parent::delete();
-    }
-
-    public function deleteNotifications()
-    {
-        Notification::where('entry_id', $this->getKey())->delete();
     }
 
     public function setTextAttribute($text)
@@ -70,9 +58,7 @@ class Entry extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) {
-            return false;
-        }
+        if (Auth::guest()) return false;
 
         return Auth::user()->isBlockingUser($this->user);
     }
@@ -84,7 +70,7 @@ class Entry extends BaseModel
 
     public function getURL()
     {
-        return route('single_entry', $this->getKey());
+        return route('single_entry', $this);
     }
 
     public function canEdit()

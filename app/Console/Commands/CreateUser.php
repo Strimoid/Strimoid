@@ -43,9 +43,7 @@ class CreateUser extends Command
         $email = $this->argument('username').'@strimoid.dev';
 
         $user = new User();
-        $user->_id = $this->argument('username');
         $user->name = $this->argument('username');
-        $user->shadow_name = Str::lower($this->argument('username'));
         $user->password = $this->argument('username');
         $user->email = $email;
         $user->is_activated = true;

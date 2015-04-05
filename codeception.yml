@@ -11,7 +11,8 @@ settings:
 modules:
     config:
         Laravel5:
-            cleanup: false
+            cleanup: true
+            environment_file: .env.test
         Db:
             dsn: ''
             user: ''

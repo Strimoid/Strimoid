@@ -17,50 +17,42 @@
       },
       "require": {
           "php": ">=5.5.0",
-          "ext-mongo": "*",
           "laravel/framework": "5.0.*",
           "illuminate/html": "5.0.*",
-          "jenssegers/mongodb": "dev-master",
-          "jenssegers/mongodb-session": "dev-master",
           "intervention/image": "~2.1.1",
           "phindmarsh/summon": "dev-master",
-          "rollbar/rollbar": "~0.9.8",
           "roumen/sitemap": "dev-master",
-          "jenssegers/agent": "~2.1.5",
           "jeremykendall/php-domain-parser": "~2.0",
           "guzzlehttp/guzzle": "~5.0",
           "guzzlehttp/oauth-subscriber": "0.2.*",
-          "league/oauth2-server": "4.*",
           "symfony/dom-crawler": "~2.6",
           "symfony/css-selector": "~2.6",
-          "league/fractal": "~0.11",
           "graham-campbell/markdown": "~3.0",
-          "pda/pheanstalk": "~3.0",
-          "nesbot/carbon": "~1.0",
           "graham-campbell/throttle": "~3.0",
-          "pubnub/pubnub": "3.7.*",
-          "algolia/algoliasearch-client-php": "1.5.*",
-          "jenssegers/rollbar": "~1.4",
-          "duxet/laravel-realtime": "dev-master",
-          "laracasts/utilities": "~2.0",
+          "pda/pheanstalk": "~3.0",
+          "jenssegers/agent": "~2.1.5",
           "jenssegers/date": "~2.0",
-          "vinkla/pusher": "~1.0"
+          "jenssegers/rollbar": "~1.4",
+          "laracasts/utilities": "~2.0",
+          "watson/rememberable": "dev-master",
+          "vinkla/pusher": "~1.0",
+          "vinkla/algolia": "~1.0",
+          "vinkla/hashids": "~1.0",
+          "filp/whoops": "~1.1",
+          "msurguy/honeypot": "dev-master",
+          "lucadegasperi/oauth2-server-laravel": "4.0.x@dev"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",
           "barryvdh/laravel-ide-helper": "~2.0",
+          "doctrine/dbal": "~2.3",
           "barryvdh/laravel-debugbar": "~2.0",
+          "codeception/codeception": "2.0.x-dev",
           "fzaninotto/faker": "*",
-          "vipsoft/code-coverage-extension": "dev-master",
+          "laracasts/generators": "~1.1",
           "mockery/mockery": "~0.9",
-          "codeception/codeception": "2.0.x-dev"
+          "vipsoft/code-coverage-extension": "dev-master"
       },
-      "repositories": [
-          {
-                "type": "vcs",
-                "url": "https://github.com/duxet/Carbon"
-          }
-      ],
       "autoload": {
           "classmap": [
               "database"
@@ -72,19 +64,21 @@
               "Strimoid\\": "app/"
             }
       },
-        "scripts": {
+      "scripts": {
           "post-install-cmd": [
                 "php artisan clear-compiled",
                 "php artisan optimize"
           ],
           "post-update-cmd": [
                 "php artisan clear-compiled",
+                "php artisan ide-helper:generate -M",
                 "php artisan optimize"
           ],
           "post-create-project-cmd": [
                 "php artisan key:generate"
-          ]
-        },
+          ],
+          "test": "vendor/bin/codecept run"
+      },
       "config": {
           "preferred-install": "dist"
       }

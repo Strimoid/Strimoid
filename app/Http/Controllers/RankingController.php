@@ -20,14 +20,12 @@ class RankingController extends BaseController
             ->orderBy('points', 'desc');
 
         if ($group) {
-            $group = Group::where('shadow_urlname', shadow($group))->firstOrFail();
-            $query->where('group_id', $group->_id);
-
+            $query->where('group_id', $group->getKey());
             $data['group'] = $group;
         }
 
         if (Input::has('user')) {
-            $user = User::where('shadow_name', Str::lower(Input::get('user')))->firstOrFail();
+            $user = User::name(Input::get('user'))->firstOrFail();
         }
 
         // Time filter
@@ -51,8 +49,8 @@ class RankingController extends BaseController
             ->orderBy('points', 'desc');
 
         if (Input::has('group')) {
-            $group = Group::where('shadow_urlname', Str::lower(Input::get('group')))->firstOrFail();
-            $query->where('group_id', $group->_id);
+            $group = Group::name(Input::get('group'))->firstOrFail();
+            $query->where('group_id', $group->getKey());
 
             $data['group'] = $group;
         }

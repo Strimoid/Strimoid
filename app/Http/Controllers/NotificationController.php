@@ -20,7 +20,7 @@ class NotificationController extends BaseController
 
         foreach ($notifications as $notification) {
             $list[] = [
-                '_id'      => $notification->_id,
+                'id'       => $notification->hashId(),
                 'title'    => $notification->title,
                 'time'     => $notification->getLocalTime(),
                 'time_ago' => $notification->created_at->diffForHumans(),
@@ -53,14 +53,6 @@ class NotificationController extends BaseController
     public function markAllAsRead()
     {
         Notification::target(['user_id' => Auth::id(), 'read' => false])->update(['_targets.$.read' => true]);
-
-        /*
-        WS::send(json_encode([
-            'topic' => 'u.'. Auth::id(),
-            'tag' => Input::get('ntf_read'),
-            'type' => 'notification_read_all'
-        ]));
-        */
 
         return Response::json(['status' => 'ok']);
     }

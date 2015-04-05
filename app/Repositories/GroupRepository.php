@@ -30,7 +30,7 @@ class GroupRepository implements GroupRepositoryContract
             return new $className();
         }
 
-        return $this->group->shadow($name)->first();
+        return $this->group->name($name)->first();
     }
 
     /**

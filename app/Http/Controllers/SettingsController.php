@@ -5,7 +5,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use Redirect;
-use Strimoid\Models\GroupBanned;
+use Strimoid\Models\GroupBan;
 use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\GroupSubscriber;
@@ -19,14 +19,15 @@ class SettingsController extends BaseController
     {
         $user = Auth::user();
 
-        $subscribedGroups = GroupSubscriber::where('user_id', $user->getKey())->with('group')->get();
-        $blockedGroups = GroupBlock::where('user_id', $user->getKey())->with('group')->get();
-        $moderatedGroups = GroupModerator::where('user_id', $user->getKey())->with('group')->get();
-        $blockedUsers = UserBlocked::where('user_id', $user->getKey())->with('user')->get();
-        $bans = GroupBanned::where('user_id', $user->getKey())->with('group')->get();
+        $subscribedGroups = $user->subscribedGroups();
+        $blockedGroups    = $user->blockedGroups();
+        $moderatedGroups  = $user->moderatedGroups();
+        $blockedUsers     = $user->blockedUsers();
+        $bans             = $user->bannedGroups();
 
-        return view('user.settings', compact(
-            'user', 'subscribedGroups', 'blockedGroups', 'moderatedGroups', 'blockedUsers', 'bans'
+        return view('user.settings',compact(
+            'user', 'subscribedGroups', 'blockedGroups',
+            'moderatedGroups', 'blockedUsers', 'bans'
         ));
     }
 

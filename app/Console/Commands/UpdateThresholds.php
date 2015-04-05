@@ -38,7 +38,7 @@ class UpdateThresholds extends Command
         DB::connection()->disableQueryLog();
 
         foreach (Group::all() as $group) {
-            $builder = Content::where('group_id', $group->_id)
+            $builder = Content::where('group_id', $group->getKey())
                 //->where('created_at', '>', new MongoDate(time() - 86400 * 14))
                 ->orderBy('uv', 'desc')
                 ->take(50);

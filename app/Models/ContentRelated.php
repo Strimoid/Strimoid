@@ -3,6 +3,18 @@
 use Str;
 use Strimoid\Models\Traits\HasThumbnail;
 
+/**
+ * Strimoid\Models\ContentRelated
+ *
+ * @property-read \Strimoid\Models\Content $content 
+ * @property-read \Strimoid\Models\User $user 
+ * @property-write mixed $nsfw 
+ * @property-write mixed $eng 
+ * @property-read mixed $vote_state 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
+ * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
+ */
 class ContentRelated extends BaseModel
 {
     use HasThumbnail;
@@ -12,22 +24,9 @@ class ContentRelated extends BaseModel
         'url'   => 'required|url_custom',
     ];
 
-    protected $attributes = [
-        'uv'    => 0,
-        'dv'    => 0,
-        'score' => 0,
-    ];
-
     protected $table = 'content_related';
     protected $hidden = ['content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
-
-    public function __construct($attributes = [])
-    {
-        $this->{$this->getKeyName()} = Str::random(9);
-
-        parent::__construct($attributes);
-    }
 
     public function content()
     {
@@ -41,7 +40,7 @@ class ContentRelated extends BaseModel
 
     public function delete()
     {
-        Content::where('_id', $this->content_id)->decrement('related_count');
+        Content::where('id', $this->content_id)->decrement('related_count');
 
         return parent::delete();
     }

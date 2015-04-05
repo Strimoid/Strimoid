@@ -94,7 +94,7 @@ return [
             'regex' => 'Nazwa użytkownika może zawierać wyłącznie znaki alfanumeryczne oraz znak podkreślenia.',
         ],
         'groupname' => [
-            'exists_ci' => 'Podana grupa nie istnieje.',
+            'exists' => 'Podana grupa nie istnieje.',
         ],
     ],
 

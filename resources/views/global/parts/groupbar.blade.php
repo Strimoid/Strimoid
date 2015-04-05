@@ -3,14 +3,14 @@
         <li><a href="/g/all" rel="nofollow">Wszystkie</a></li>
 
         @if (Auth::check())
-            <?php $subscriptions = Auth::user()->subscribedGroups(); natcasesort($subscriptions); ?>
+            <?php $subscriptions = Auth::user()->subscribedGroups()->lists('urlname'); natcasesort($subscriptions); ?>
 
             <li class="dropdown subscribed_dropdown">
-                <a href="/g/subscribed" class="dropdown-toggle" data-hover="dropdown">Subskrybowane</a><b class="caret"></b>
+                <a href="/g/subscribed" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Subskrybowane</a><b class="caret"></b>
 
                 <ul class="dropdown-menu">
                     @foreach ($subscriptions as $subscription)
-                        <li><a href="{!! route('group_contents', array('group' => $subscription)) !!}">{!! $subscription !!}</a></li>
+                        <li><a href="{!! route('group_contents', $subscription) !!}">{!! $subscription !!}</a></li>
                     @endforeach
 
                     @if (!$subscriptions)
@@ -19,14 +19,14 @@
                 </ul>
             </li>
 
-            <?php $moderatedGroups = Auth::user()->moderatedGroups(); natcasesort($moderatedGroups); ?>
+            <?php $moderatedGroups = Auth::user()->moderatedGroups()->lists('urlname'); natcasesort($moderatedGroups); ?>
 
             <li class="dropdown moderated_dropdown">
-                <a href="/g/moderated" class="dropdown-toggle" data-hover="dropdown">Moderowane</a><b class="caret"></b>
+                <a href="/g/moderated" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Moderowane</a><b class="caret"></b>
 
                 <ul class="dropdown-menu">
                     @foreach ($moderatedGroups as $moderatedGroup)
-                        <li><a href="{!! route('group_contents', array('group' => $moderatedGroup)) !!}">{!! $moderatedGroup !!}</a></li>
+                        <li><a href="{!! route('group_contents', $moderatedGroup) !!}">{!! $moderatedGroup !!}</a></li>
                     @endforeach
 
                     @if (!$moderatedGroups)
@@ -35,10 +35,10 @@
                 </ul>
             </li>
 
-            <?php $observedUsers = (array) Auth::user()->_observed_users; natcasesort($observedUsers); ?>
+            <?php $observedUsers = Auth::user()->followedUsers()->lists('name'); natcasesort($observedUsers); ?>
 
             <li class="dropdown observed_dropdown">
-                <a href="/g/observed" class="dropdown-toggle" data-hover="dropdown">Obserwowani</a><b class="caret"></b>
+                <a href="/g/observed" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Obserwowani</a><b class="caret"></b>
 
                 <ul class="dropdown-menu">
                     @foreach ($observedUsers as $observedUser)
@@ -55,7 +55,7 @@
 
                     <ul class="dropdown-menu">
                         @foreach ($folderGroups as $folderGroup)
-                            <li><a href="{!! route('group_contents', array('group' => $folderGroup)) !!}">{!! $folderGroup !!}</a></li>
+                            <li><a href="{!! route('group_contents', $folderGroup) !!}">{!! $folderGroup !!}</a></li>
                         @endforeach
                     </ul>
                 </li>

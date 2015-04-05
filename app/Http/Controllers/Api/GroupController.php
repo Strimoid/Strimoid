@@ -7,7 +7,7 @@ class GroupController extends BaseController
 {
     public function index()
     {
-        $builder = Group::where('type', '!=', Group::TYPE_PRIVATE);
+        $builder = Group::where('type', '!=', 'private');
 
         if (Input::has('name')) {
             $builder->where('name', 'like', '%'.Input::get('name').'%');
@@ -26,13 +26,13 @@ class GroupController extends BaseController
 
     public function show($groupName)
     {
-        $group = Group::shadow($groupName)->with('creator')->firstOrFail();
+        $group = Group::name($groupName)->with('creator')->firstOrFail();
         $group->checkAccess();
 
         $stats = [
-            'contents'    => intval(Content::where('group_id', $group->_id)->count()),
+            'contents'    => intval(Content::where('group_id', $group->getKey())->count()),
             'comments'    => intval(Content::where('group_id', $group->getKey())->sum('comments')),
-            'entries'     => intval(Entry::where('group_id', $group->_id)->count()),
+            'entries'     => intval(Entry::where('group_id', $group->getKey())->count()),
             'banned'      => intval(GroupBanned::where('group_id', $group->getKey())->count()),
             'subscribers' => $group->subscribers,
             'moderators'  => intval(GroupModerator::where('group_id', $group->getKey())->count()),

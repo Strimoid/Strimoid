@@ -9,8 +9,8 @@ use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
-use Log;
 use Mail;
+use PDP;
 use Redirect;
 use Response;
 use Str;
@@ -19,8 +19,6 @@ use Strimoid\Models\CommentReply;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
-use Strimoid\Models\UserAction;
-use Strimoid\Models\UserBlocked;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use URL;
 
@@ -64,14 +62,13 @@ class UserController extends BaseController
         return Response::json($users);
     }
 
-    public function login()
+    public function login(Request $request)
     {
-        $remember = Input::get('remember') == 'true';
         $result = Auth::attempt([
-            'shadow_name'  => Str::lower(Input::get('username')),
-            'password'     => Input::get('password'),
+            'name'         => $request->input('username'),
+            'password'     => $request->input('password'),
             'is_activated' => true,
-        ], $remember);
+        ], $request->input('remember') == 'true');
 
         if ($result) {
             if (Auth::user()->removed_at || Auth::user()->blocked_at) {
@@ -225,36 +222,34 @@ class UserController extends BaseController
     public function processRegistration(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required|min:2|max:30|unique_ci:users,name|regex:/^[a-zA-Z0-9_]+$/i',
+            'username' => 'required|min:2|max:30|unique:users,name|regex:/^[a-zA-Z0-9_]+$/i',
             'password' => 'required|min:6',
             'email'    => 'required|email|unique_email:users|real_email',
         ]);
 
         $ipHash = md5($request->getClientIp());
+
         if (Cache::has('registration.'.$ipHash)) {
             return App::abort(500);
         }
 
-        $email = Str::lower(Input::get('email'));
+        $email = $request->input('email');
 
         $user = new User();
-        $user->_id = Input::get('username');
-        $user->name = Input::get('username');
-        $user->password = Input::get('password');
-        $user->email = $email;
-        $user->activation_token = Str::random(16);
-        $user->last_ip = $request->getClientIp();
-        $user->settings = [];
+        $user->name     = $request->input('username');
+        $user->password = $request->input('password');
+        $user->email    = $email;
+        $user->last_ip  = $request->getClientIp();
         $user->save();
-
-        Log::info('New user with email from domain: '.strstr($email, '@'));
 
         Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email) {
             $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
         });
 
-        return Redirect::to('')->with('success_msg',
-            'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, klikając na link przesłany na twój adres email.');
+        return Redirect::to('')->with(
+            'success_msg',
+            'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, klikając na link przesłany na twój adres email.'
+        );
     }
 
     public function activateAccount(Request $request, $token)
@@ -266,7 +261,6 @@ class UserController extends BaseController
             return App::abort(500);
         }
 
-        $user->unset('activation_token');
         $user->is_activated = true;
         $user->save();
 
@@ -274,9 +268,11 @@ class UserController extends BaseController
 
         Cache::put('registration.'.$ipHash, 'true', 60 * 24 * 7);
 
-        return Redirect::to('/kreator')->with('success_msg',
+        return Redirect::to('/kreator')->with(
+            'success_msg',
             'Witaj w gronie użytkowników serwisu '.Config::get('app.site_name').'! ;) '.
-            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.');
+            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.'
+        );
     }
 
     public function showRemoveAccountForm()
@@ -302,10 +298,16 @@ class UserController extends BaseController
         return Redirect::to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
 
-    public function showProfile($username, $type = 'all')
+    /**
+     * Show user profile view.
+     *
+     * @param  User  $user
+     * @param  string $type
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showProfile($user, $type = 'all')
     {
-        $user = User::shadow($username)->firstOrFail();
-
         if ($user->removed_at) {
             App::abort(404, 'Użytkownik usunął konto.');
         }
@@ -315,29 +317,17 @@ class UserController extends BaseController
         } elseif ($type == 'comments') {
             $data['comments'] = $user->comments()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'comment_replies') {
-            $data['actions'] = UserAction::where('user_id', $user->getKey())
-                ->where('type', UserAction::TYPE_COMMENT_REPLY)->orderBy('created_at', 'desc')->paginate(15);
+            $data['actions'] = $user->actions()->where('type', CommentReply::class)
+                ->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'entries') {
             $data['entries'] = $user->entries()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'entry_replies') {
-            $data['actions'] = UserAction::where('user_id', $user->getKey())
-                ->where('type', UserAction::TYPE_ENTRY_REPLY)->orderBy('created_at', 'desc')->paginate(15);
+            $data['actions'] = $user->actions()->where('type', EntryReply::class)
+                ->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'moderated') {
-            $data['moderated'] = GroupModerator::where('user_id', $user->getKey())->orderBy('created_at', 'desc')->paginate(15);
+            $data['moderated'] = $user->moderatedGroups();
         } else {
-            $data['actions'] = UserAction::where('user_id', $user->_id)->orderBy('created_at', 'desc')->paginate(15);
-        }
-
-        if (isset($data['actions'])) {
-            foreach ($data['actions'] as $action) {
-                if ($action->type == UserAction::TYPE_COMMENT_REPLY) {
-                    $action->reply = CommentReply::find($action->comment_reply_id);
-                }
-
-                if ($action->type == UserAction::TYPE_ENTRY_REPLY) {
-                    $action->reply = EntryReply::find($action->entry_reply_id);
-                }
-            }
+            $data['actions'] = $user->actions()->with('element')->orderBy('created_at', 'desc')->paginate(15);
         }
 
         $data['type'] = $type;
@@ -350,7 +340,7 @@ class UserController extends BaseController
     {
         $this->validate($request, [
             'sex'         => 'in:male,female',
-            'avatar'      => 'image|max:250',
+            'avatar'      => 'image|max:1024',
             'age'         => 'integer|min:1900|max:2010',
             'location'    => 'max:32',
             'description' => 'max:250',
@@ -372,62 +362,27 @@ class UserController extends BaseController
         return Redirect::route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
-    public function blockUser()
+    public function blockUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        if (UserBlocked::where('target_id', $target->_id)
-            ->where('user_id', Auth::user()->getKey())->first()) {
-            return Response::make('Already blocked', 400);
-        }
-
-        $block = new UserBlocked();
-        $block->user()->associate(Auth::user());
-        $block->target()->associate($target);
-        $block->save();
-
+        Auth::user()->blockedUsers()->attach($user);
         return Response::json(['status' => 'ok']);
     }
 
-    public function unblockUser()
+    public function unblockUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        $block = UserBlocked::where('target_id', $target->getKey())
-            ->where('user_id', Auth::id())->first();
-
-        if (! $block) {
-            return Response::make('Not blocked', 400);
-        }
-
-        $block->delete();
-
+        Auth::user()->blockedUsers()->detach($user);
         return Response::json(['status' => 'ok']);
     }
 
-    public function observeUser()
+    public function observeUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        if (Auth::user()->isObservingUser($target)) {
-            return Response::make('Already observed', 400);
-        }
-
-        Auth::user()->push('_observed_users', $target->getKey());
-
+        Auth::user()->followedUsers()->attach($user);
         return Response::json(['status' => 'ok']);
     }
 
-    public function unobserveUser()
+    public function unobserveUser($user)
     {
-        $target = $this->users->requireByName(Input::get('username'));
-
-        if (! Auth::user()->isObservingUser($target)) {
-            return Response::make('Not observed', 400);
-        }
-
-        Auth::user()->pull('_observed_users', $target->getKey());
-
+        Auth::user()->followedUsers()->detach($user);
         return Response::json(['status' => 'ok']);
     }
 
@@ -455,7 +410,7 @@ class UserController extends BaseController
 
     public function show($username)
     {
-        $user = User::shadow($username)->firstOrFail();
+        $user = User::name($username)->firstOrFail();
 
         return $this->getInfo($user);
     }
@@ -485,7 +440,6 @@ class UserController extends BaseController
         ];
 
         return [
-            '_id'         => $user->_id,
             'name'        => $user->name,
             'age'         => $user->age,
             'avatar'      => $user->avatar,

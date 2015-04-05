@@ -10,9 +10,9 @@
 @stop
 
 @section('content')
-<div class="content" data-id="{!! $content->_id !!}">
+<div class="content" data-id="{{ $content->hashId() }}">
     <div class="media">
-        <div class="voting" data-id="{!! $content->_id !!}" data-state="{!! $content->getVoteState() !!}" data-type="content">
+        <div class="voting" data-id="{!! $content->hashId() !!}" data-state="{!! $content->getVoteState() !!}" data-type="content">
             <button type="button" class="btn btn-default btn-sm pull-left vote-btn-up @if ($content->getVoteState() == 'uv') btn-success @endif">
                 <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $content->uv !!}</span>
             </button>
@@ -23,11 +23,11 @@
         </div>
 
         @if ($content->thumbnail)
-        <a class="pull-left" href="{{{ $content->url }}}" rel="nofollow" target="_blank">
+        <a class="pull-left" href="{{ $content->url }}" rel="nofollow" target="_blank">
             <img class="media-object img-thumbnail" src="{!! $content->getThumbnailPath() !!}">
         </a>
         @elseif ($content->thumbnail_loading)
-        <a class="pull-left" href="{{{ $content->url }}}" rel="nofollow" target="_blank">
+        <a class="pull-left" href="{{ $content->url }}" rel="nofollow" target="_blank">
             <div class="media-object img-thumbnail refreshing">
                 <span class="glyphicon glyphicon-refresh"></span>
             </div>
@@ -41,9 +41,9 @@
             {{{ $content->description }}}
             <p class="summary">
                 <small>
-                    <span class="glyphicon glyphicon-comment"></span> <a href="{!! route('content_comments_slug', array($content->_id, Str::slug($content->title))) !!}" class="content_comments" rel="nofollow">{!! Lang::choice('pluralization.comments', $content->comments_count) !!}</a>
-                    <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_contents', $content->group_id) !!}" class="content_group">g/{{{ $content->group->urlname }}}</a>
-                    <span class="glyphicon glyphicon-user"></span> <a href="{!! route('user_profile', $content->user_id) !!}" class="content_user">u/{{{ $content->user->name }}}</a>
+                    <span class="glyphicon glyphicon-comment"></span> <a href="{!! route('content_comments_slug', [$content, Str::slug($content->title)]) !!}" class="content_comments" rel="nofollow">{!! Lang::choice('pluralization.comments', $content->comments_count) !!}</a>
+                    <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_contents', $content->group) !!}" class="content_group">g/{{ $content->group->urlname }}</a>
+                    <span class="glyphicon glyphicon-user"></span> <a href="{!! route('user_profile', $content->user) !!}" class="content_user">u/{{ $content->user->name }}</a>
                     <span class="glyphicon glyphicon-globe"></span> <span class="content_domain">{!! $content->getDomain() !!}</span>
                     <span class="glyphicon glyphicon-link"></span> <span class="content_comments">{!! intval($content->related_count) !!}</span>
                     <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $content->created_at->format('c') !!}" title="{!! $content->getLocalTime() !!}">{!! $content->created_at->diffForHumans() !!}</time>
@@ -96,7 +96,7 @@
     @endif
 </div>
 
-{!! Form::open(['action' => array('RelatedController@addRelated', $content->_id), 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) !!}
+{!! Form::open(['action' => ['RelatedController@addRelated', $content], 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) !!}
 
 @include('global.form.input', ['type' => 'text', 'name' => 'title', 'label' => 'Tytuł linku'])
 @include('global.form.input', ['type' => 'text', 'name' => 'url', 'label' => 'Adres URL'])
@@ -136,7 +136,7 @@ Brak powiązanych.
 
 @foreach ($content->related as $related)
 <div class="media related_link">
-    <div class="voting" data-id="{!! $related->_id !!}" data-state="{!! $related->getVoteState() !!}" data-type="related">
+    <div class="voting" data-id="{!! $related->hashId() !!}" data-state="{!! $related->getVoteState() !!}" data-type="related">
         <button type="button" class="btn btn-default btn-xs pull-left vote-btn-up @if ($related->getVoteState() == 'uv') btn-success @endif">
             <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $related->uv !!}</span>
         </button>
@@ -159,13 +159,13 @@ Brak powiązanych.
             @if ($related->eng) <span class="eng">[ENG]</span> @endif
             @if ($related->nsfw) <span class="nsfw">[+18]</span> @endif
 
-            @if (Auth::check() && Auth::user()->getKey() == $related->user->getKey())
-            <a class="related_remove_link" data-id="{!! $related->_id !!}"><span class="glyphicon glyphicon-trash"></span></a>
+            @if (Auth::check() && Auth::id() == $related->user->getKey())
+            <a class="related_remove_link" data-id="{!! $related->hashId() !!}"><span class="glyphicon glyphicon-trash"></span></a>
             @endif
         </h4>
         <span class="info">
             Dodane <time pubdate datetime="{!! $related->created_at->format('c') !!}" title="{!! $related->getLocalTime() !!}">{!! $related->created_at->diffForHumans() !!}</time>
-            przez <a href="{!! route('user_profile', $related->user_id) !!}">u/{{{ $related->user_id }}}</a>
+            przez <a href="{!! route('user_profile', $related->user) !!}">u/{{{ $related->user->name }}}</a>
         </span>
     </div>
 </div>
@@ -224,7 +224,7 @@ Brak powiązanych.
 
     <div class="comment_text">
         {!! Form::open(['class' => 'comment_add enter_send']) !!}
-        <input name="id" type="hidden" value="{!! $content->_id !!}">
+        <input name="id" type="hidden" value="{!! $content->hashId() !!}">
 
         <div class="form-group @if ($errors->has('text')) has-error @endif col-lg-12">
             {!! Form::textarea('text', null, ['class' => 'form-control enter_send', 'placeholder' => 'Treść komentarza...', 'rows' => 3]) !!}
@@ -260,6 +260,6 @@ Brak powiązanych.
 
 @section('scripts')
 <script type="text/javascript">
-    window.content_id = '{!! $content->_id !!}';
+    window.content_id = '{!! $content->hashId() !!}';
 </script>
 @stop

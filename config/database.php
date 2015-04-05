@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'mongodb',
+    'default' => 'mysql',
 
     /*
     |--------------------------------------------------------------------------
@@ -33,13 +33,16 @@ return [
 
     'connections' => [
 
-        'mongodb' => [
-            'driver'   => 'mongodb',
-            'host'     => env('DB_HOST', 'localhost'),
-            'port'     => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE', 'strimoid'),
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
+        'mysql' => [
+            'driver'    => 'mysql',
+            'host'      => env('MYSQL_HOST', '127.0.0.1'),
+            'database'  => env('MYSQL_DATABASE', 'strimoid'),
+            'username'  => env('MYSQL_USERNAME', ''),
+            'password'  => env('MYSQL_PASSWORD', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
         ],
 
         'stats' => [
@@ -60,6 +63,7 @@ return [
     | the migrations on disk haven't actually been run in the database.
     |
     */
+
     'migrations' => 'migrations',
 
 ];

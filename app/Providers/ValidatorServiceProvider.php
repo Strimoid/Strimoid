@@ -16,45 +16,16 @@ class ValidatorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('exists_ci', function ($attribute, $value, $parameters) {
-            if (isset($parameters[1])) {
-                $attribute = $parameters[1];
-            }
-
-            $value = shadow($value);
-
-            $count = DB::collection($parameters[0])
-                ->where('shadow_'.$attribute, $value)
-                ->count();
-
-            return $count > 0;
-        });
-
-        Validator::extend('unique_ci', function ($attribute, $value, $parameters) {
-            if (isset($parameters[1])) {
-                $attribute = $parameters[1];
-            }
-
-            $value = shadow($value);
-
-            $count = DB::collection($parameters[0])
-                ->where('shadow_'.$attribute, $value)
-                ->count();
-
-            return $count == 0;
-        });
-
         Validator::extend('unique_email', function ($attribute, $value, $parameters) {
             if (isset($parameters[1])) {
                 $attribute = $parameters[1];
             }
 
-            $value = Str::lower($value);
             $value = str_replace('.', '', $value);
             $value = preg_replace('/\+(.)*@/', '@', $value);
 
-            $count = DB::collection($parameters[0])
-                ->where('shadow_'.$attribute, $value)
+            $count = DB::table($parameters[0])
+                ->where($attribute, $value)
                 ->count();
 
             return $count == 0;

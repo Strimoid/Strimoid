@@ -10,7 +10,7 @@ class Upvoted extends FakeFolder
         $builder = with(new $model())->newQuery();
 
         if (Auth::check()) {
-            $builder->where('votes.user_id', Auth::user()->_id)
+            $builder->where('votes.user_id', Auth::id())
                 ->where('votes.up', true);
         }
 

@@ -14,7 +14,7 @@ UsersModule.prototype.observeUser = function() {
     var name = $(this).parent().attr('data-name');
 
     if (button.hasClass('btn-success')) {
-        $.post('/ajax/user/unobserve', { username: name }, function(data){
+        $.delete('/u/'+ name +'/observe', function(data){
             if (data.status == 'ok') {
                 $(button).removeClass('btn-success');
                 $(button).addClass('btn-default');
@@ -23,7 +23,7 @@ UsersModule.prototype.observeUser = function() {
             }
         });
     } else {
-        $.post('/ajax/user/observe', { username: name }, function(data){
+        $.post('/u/'+ name +'/observe', function(data){
             if (data.status == 'ok') {
                 $(button).removeClass('btn-default');
                 $(button).addClass('btn-success');
@@ -39,7 +39,7 @@ UsersModule.prototype.blockUser = function() {
     var name = $(this).parent().attr('data-name');
 
     if (button.hasClass('btn-danger')) {
-        $.post('/ajax/user/unblock', { username: name }, function(data){
+        $.delete('/u/'+ name +'/block', function(data){
             if (data.status == 'ok') {
                 $(button).removeClass('btn-danger');
                 $(button).addClass('btn-default');
@@ -48,7 +48,7 @@ UsersModule.prototype.blockUser = function() {
             }
         });
     } else {
-        $.post('/ajax/user/block', { username: name }, function(data){
+        $.post('/u/'+ name +'/block', function(data){
             if (data.status == 'ok') {
                 $(button).removeClass('btn-default');
                 $(button).addClass('btn-danger');

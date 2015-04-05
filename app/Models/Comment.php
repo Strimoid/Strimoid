@@ -3,6 +3,8 @@
 use Auth;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 /**
  * Comment model.
@@ -12,14 +14,16 @@ use Strimoid\Helpers\MarkdownParser;
  * @property string $text
  * @property string $text_source
  * @property User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|CommentReply[] $replies 
+ * @property-read mixed $vote_state 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
+ * @property-read Group $group 
+ * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
  */
 class Comment extends BaseModel
 {
-    protected $attributes = [
-        'uv'    => 0,
-        'dv'    => 0,
-        'score' => 0,
-    ];
+    use HasGroupRelationship, HasUserRelationship;
 
     protected static $rules = [
         'text' => 'required|min:1|max:5000',
@@ -30,45 +34,27 @@ class Comment extends BaseModel
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
 
-    public function __construct($attributes = [])
-    {
-        $this->{$this->getKeyName()} = Str::random(6);
-        parent::__construct($attributes);
-    }
-
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($comment) {
-            $comment->group_id = $comment->content->group_id;
+            //$comment->group_id = $comment->content->group_id;
         });
 
         static::created(function ($comment) {
-            $comment->content->increment('comments_count');
+            //$comment->content->increment('comments_count');
         });
     }
 
     public function content()
     {
-        return $this->belongsTo('Strimoid\Models\Content')
-            ->withTrashed();
-    }
-
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(Content::class)->withTrashed();
     }
 
     public function replies()
     {
-        return $this->embedsMany('CommentReply', '_replies')
-            ->with('user');
+        return $this->hasMany(CommentReply::class, 'parent_id')->with('user');
     }
 
     public function delete()
@@ -77,15 +63,9 @@ class Comment extends BaseModel
             $reply->delete();
         }
 
-        Notification::where('comment_id', $this->getKey())->delete();
-        Content::where('_id', $this->content_id)->decrement('comments_count');
+        Content::where('id', $this->content_id)->decrement('comments_count');
 
         return parent::delete();
-    }
-
-    public function deleteNotifications()
-    {
-        Notification::where('comment_id', $this->getKey())->delete();
     }
 
     public function setTextAttribute($text)
@@ -105,18 +85,16 @@ class Comment extends BaseModel
 
     public function getURL()
     {
-        return route('content_comments', $this->content_id).'#'.$this->getKey();
+        return route('content_comments', $this->content).'#'.$this->hashId();
     }
 
     public function canEdit()
     {
-        return Auth::id() === $this->user_id
-            && $this->replies()->count() == 0;
+        return Auth::id() === $this->user_id && $this->replies()->count() == 0;
     }
 
     public function canRemove()
     {
-        return Auth::id() === $this->user_id
-            || Auth::user()->isModerator($this->group_id);
+        return Auth::id() === $this->user_id || Auth::user()->isModerator($this->group_id);
     }
 }

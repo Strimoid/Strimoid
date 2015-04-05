@@ -14,13 +14,6 @@ if (! function_exists('shadow')) {
     }
 }
 
-if (! function_exists('hash_email')) {
-    function hash_email($email)
-    {
-        return hash('sha384', Config::get('app.email_salt').$email.md5($email));
-    }
-}
-
 if (! function_exists('shadow_email')) {
     function shadow_email($email)
     {
@@ -47,56 +40,36 @@ if (! function_exists('parse_usernames')) {
         }, $body);
 
         $body = preg_replace_callback('/(?<=^|\s)u\/([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
-            $target = User::where('shadow_name', Str::lower($matches[1]))->first();
+            $target = User::name($matches[1])->first();
 
-            if ($target) {
+            if ($target)
                 return '[u/'.str_replace('_', '\_', $target->name).'](/u/'.$target->name.')';
-            } else {
-                return 'u/'.$matches[1];
-            }
+
+            return 'u/'.$matches[1];
         }, $body);
 
         $body = preg_replace_callback('/(?<=^|\s)@([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
-            $target = User::where('shadow_name', Str::lower($matches[1]))->first();
+            $target = User::name($matches[1])->first();
 
-            if ($target) {
+            if ($target)
                 return '[@'.str_replace('_', '\_', $target->name).'](/u/'.$target->name.')';
-            } else {
-                return '@'.$matches[1];
-            }
+
+            return '@'.$matches[1];
         }, $body);
 
         $body = preg_replace_callback('/(?<=^|\s)(?<=\s|^)g\/([a-z0-9_-żźćńółęąśŻŹĆĄŚĘŁÓŃ]+)(?=$|\s|:|.)/i', function ($matches) {
-            $groupName = shadow($matches[1]);
-
-            $target = Group::where('shadow_urlname', $groupName)->first();
-            $fakeGroup = class_exists('Folders\\'.studly_case($groupName));
+            $target = Group::name($matches[1])->first();
+            $fakeGroup = class_exists('Folders\\'.studly_case($matches[1]));
 
             if ($target || $fakeGroup) {
-                $urlname = $target ? $target->urlname : $groupName;
-
+                $urlname = $target ? $target->urlname : $matches[1];
                 return '[g/'.str_replace('_', '\_', $urlname).'](/g/'.$urlname.')';
-            } else {
-                return 'g/'.$matches[1];
             }
+
+            return 'g/'.$matches[1];
         }, $body);
 
         return $body;
-    }
-}
-
-if (! function_exists('mid_to_b58')) {
-    // Convert MongoID to Base58
-    function mid_to_b58($mongoId)
-    {
-        return gmp_strval(gmp_init($mongoId, 16), 58);
-    }
-}
-
-if (! function_exists('b58_to_mid')) {
-    function b58_to_mid($base58)
-    {
-        return gmp_strval(gmp_init($base58, 58), 16);
     }
 }
 
@@ -122,3 +95,12 @@ if (! function_exists('between')) {
         return max(min($value, $max), $min);
     }
 }
+
+if (! function_exists('hashids_decode')) {
+    function hashids_decode($raw)
+    {
+        $ids = \Hashids::decode($raw);
+        return current($ids);
+    }
+}
+

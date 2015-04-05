@@ -1,11 +1,19 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+/**
+ * Strimoid\Models\Folder
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups 
+ * @property-read mixed $vote_state 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
+ * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
+ */
 class Folder extends BaseModel
 {
-    protected static $unguarded = true;
+    protected $table   = 'folders';
     protected $visible = ['id', 'name', 'groups'];
 
     protected $attributes = [
@@ -17,30 +25,9 @@ class Folder extends BaseModel
         'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u',
     ];
 
-    public static function find($id, $columns = ['*'])
+    public function groups()
     {
-        return static::findUserFolder(Auth::id(), $id, $columns);
-    }
-
-    public static function findUserFolder($userId, $id, $columns = ['*'])
-    {
-        $parent = User::where('_id', $userId)
-            ->project(['_folders' => ['$elemMatch' => ['_id' => $id]]])
-            ->first();
-
-        if (!$parent) {
-            return;
-        }
-
-        return $parent->folders->first();
-    }
-    public static function findUserFolderOrFail($userId, $id, $columns = ['*'])
-    {
-        if (! is_null($model = static::findUserFolder($userId, $id, $columns))) {
-            return $model;
-        }
-
-        throw new ModelNotFoundException();
+        return $this->belongsToMany(Group::class, 'folder_groups');
     }
 
     public function comments($sortBy = null)
@@ -77,32 +64,6 @@ class Folder extends BaseModel
         $builder->whereIn('group_id', $groups);
 
         return $builder;
-    }
-
-    public function mpush($column, $value = null, $unique = false)
-    {
-        if (!$this->_id) {
-            return new Exception('Tried to push on model without id');
-        }
-
-        $column = '_folders.$.'.$column;
-
-        $builder = User::where('_id', $this->user->_id)->where('_folders._id', $this->_id);
-
-        return $builder->push($column, $value, $unique);
-    }
-
-    public function mpull($column, $value = null)
-    {
-        if (!$this->_id) {
-            return new Exception('Tried to pull on model without id');
-        }
-
-        $column = '_folders.$.'.$column;
-
-        $builder = User::where('_id', $this->user->_id)->where('_folders._id', $this->_id);
-
-        return $builder->pull($column, $value);
     }
 
     public function canBrowse()

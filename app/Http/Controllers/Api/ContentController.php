@@ -68,7 +68,7 @@ class ContentController extends BaseController
 
         // User filter
         if (Input::has('user')) {
-            $user = User::shadow(Input::get('user'))->firstOrFail();
+            $user = User::name(Input::get('user'))->firstOrFail();
             $builder->where('user_id', $user->getKey());
         }
 
@@ -105,7 +105,7 @@ class ContentController extends BaseController
         $rules = [
             'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
-            'group'       => 'required|exists_ci:groups,urlname',
+            'group'       => 'required|exists:groups,urlname',
         ];
 
         if (Input::get('text')) {
@@ -116,7 +116,7 @@ class ContentController extends BaseController
 
         $this->validate($request, $rules);
 
-        $group = Group::shadow(Input::get('group'))->firstOrFail();
+        $group = Group::name(Input::get('group'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group)) {
@@ -126,7 +126,7 @@ class ContentController extends BaseController
             ], 400);
         }
 
-        if ($group->type == Group::TYPE_ANNOUNCEMENTS && ! Auth::user()->isModerator($group)) {
+        if ($group->type == 'announcements' && ! Auth::user()->isModerator($group)) {
             return Response::json([
                 'status' => 'error',
                 'error'  => 'Użytkownik nie może dodawać treści w tej grupie.',

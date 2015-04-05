@@ -38,8 +38,8 @@ class GroupActivity extends Command
         $x = 1;
 
         foreach (Group::all() as $group) {
-            $contents = Content::where('group_id', $group->_id)->count();
-            $entries = Entry::where('group_id', $group->_id)->count();
+            $contents = Content::where('group_id', $group->getKey())->count();
+            $entries = Entry::where('group_id', $group->getKey())->count();
             $total = $contents + $entries;
 
             // Default activity is medium = 2

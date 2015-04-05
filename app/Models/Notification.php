@@ -12,6 +12,14 @@ use URL;
  * @property string $type Type of notification
  * @property array $targets
  * @property DateTime $created_at
+ * @property-read User::class)->select([' $sourceUser 
+ * @property-read \ $element 
+ * @property mixed $read 
+ * @property-read mixed $vote_state 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
+ * @method static \Strimoid\Models\Notification target($param)
+ * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
  */
 class Notification extends BaseModel
 {
@@ -23,48 +31,17 @@ class Notification extends BaseModel
 
     public function sourceUser()
     {
-        return $this->belongsTo('Strimoid\Models\User')
-            ->select(['avatar', 'name']);
-    }
-
-    public function entry()
-    {
-        return $this->belongsTo('Strimoid\Models\Entry');
-    }
-
-    public function entryReply()
-    {
-        return $this->belongsTo('Strimoid\Models\EntryReply');
-    }
-
-    public function content()
-    {
-        return $this->belongsTo('Strimoid\Models\Content');
-    }
-
-    public function comment()
-    {
-        return $this->belongsTo('Strimoid\Models\Comment');
-    }
-
-    public function commentReply()
-    {
-        return $this->belongsTo('Strimoid\Models\CommentReply');
-    }
-
-    public function conversation()
-    {
-        return $this->belongsTo('Strimoid\Models\Conversation');
-    }
-
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
+        return $this->belongsTo(User::class)->select(['avatar', 'name']);
     }
 
     public function targets()
     {
-        return $this->embedsMany('NotificationTarget', '_targets');
+        return $this->belongsToMany(User::class, 'notification_targets')->withPivot('read');
+    }
+
+    public function element()
+    {
+        return $this->morphTo();
     }
 
     public function setTitle($title)
@@ -101,7 +78,7 @@ class Notification extends BaseModel
 
         // Add parameter to mark notification as read
         if (!$this->read) {
-            $params .= '?ntf_read='.mid_to_b58($this->_id);
+            $params .= '?ntf_read='.mid_to_b58($this->getKey());
         }
 
         try {
@@ -165,8 +142,11 @@ class Notification extends BaseModel
         $this->targets()->associate($target);
     }
 
-    public function scopeTarget($query, $params)
+    public function scopeTarget($query, $param)
     {
-        return $query->where('_targets', 'elemmatch', $params);
+        $query->whereHas('targets', function($q) use($param)
+        {
+            $q->where('user_id', $param);
+        });
     }
 }

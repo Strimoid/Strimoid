@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth;
+use Illuminate\Http\Request;
 use Input;
 use Response;
 use Str;
@@ -13,65 +14,44 @@ class FolderController extends BaseController
     {
     }
 
-    public function createFolder()
+    public function createFolder(Request $request)
     {
-        $validator = Folder::validate(Input::all());
+        $this->validate($request, Folder::rules());
 
-        if ($validator->fails()) {
-            return Response::json(['status' => 'error']);
-        }
-
-        $id = Str::slug(Input::get('name'));
-
-        if (Folder::find($id)) {
-            return Response::json(['status' => 'error']);
-        }
-
-        $folder = new Folder([
-            '_id'  => $id,
+        $folder = Auth::user()->folders()->create([
             'name' => Input::get('name'),
         ]);
 
         if (Input::has('groupname')) {
             $group = Group::findOrFail(Input::get('groupname'));
-            $folder->groups = [$group->getKey()];
+            $folder->groups()->attach($group);
         }
 
-        if (Auth::user()->folders()->save($folder)) {
-            return Response::json(['status' => 'ok', 'id' => $folder->getKey()]);
-        }
-
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok', 'id' => $folder->getKey()]);
     }
 
-    public function editFolder()
+    public function editFolder(Request $request)
     {
         $folder = Folder::findOrFail(Input::get('folder'));
 
-        $validator = Validator::make(Input::all(), ['name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u']);
-
-        if ($validator->fails()) {
-            return Response::json([
-                'status' => 'error', 'error' => $validator->messages()->first(),
-            ]);
-        }
+        $this->validate($request, [
+            'name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
+        ]);
 
         if (Input::has('public')) {
             $folder->public = Input::get('public') == 'true';
         }
 
-        if (Auth::user()->folders()->save($folder)) {
-            return Response::json(['status' => 'ok']);
-        }
+        $folder->save();
 
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 
     public function copyFolder()
     {
         $folder = Folder::findUserFolderOrFail(Input::get('user'), Input::get('folder'));
 
-        if (!$folder->public && $folder->user->_id != Auth::id()) {
+        if (!$folder->public && $folder->user->getKey() != Auth::id()) {
             App::abort(404);
         }
 
@@ -90,7 +70,6 @@ class FolderController extends BaseController
         }
 
         $folder->exists = false;
-        $folder->_id = $id;
         $folder->name = Input::get('name');
 
         Auth::user()->folders()->save($folder);
@@ -101,12 +80,9 @@ class FolderController extends BaseController
     public function removeFolder()
     {
         $folder = Folder::findOrFail(Input::get('folder'));
+        $folder->delete();
 
-        if ($folder->user->folders()->destroy($folder)) {
-            return Response::json(['status' => 'ok']);
-        }
-
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 
     public function addToFolder()
@@ -114,15 +90,9 @@ class FolderController extends BaseController
         $group = Group::findOrFail(Input::get('group'));
         $folder = Folder::findOrFail(Input::get('folder'));
 
-        if (in_array($group, $folder->groups)) {
-            Response::json(['status' => 'error']);
-        }
+        $folder->groups()->attach($group);
 
-        if ($folder->mpush('groups', $group->_id)) {
-            return Response::json(['status' => 'ok']);
-        }
-
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 
     public function removeFromFolder()
@@ -130,10 +100,8 @@ class FolderController extends BaseController
         $group = Group::findOrFail(Input::get('group'));
         $folder = Folder::findOrFail(Input::get('folder'));
 
-        if ($folder->mpull('groups', $group->_id)) {
-            return Response::json(['status' => 'ok']);
-        }
+        $folder->groups()->detach($group);
 
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 }

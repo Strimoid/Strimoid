@@ -4,14 +4,24 @@ use Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasUserRelationship;
 
+/**
+ * Strimoid\Models\CommentReply
+ *
+ * @property-read Comment $parent 
+ * @property-write mixed $text 
+ * @property-read mixed $vote_state 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
+ * @property-read Group $group 
+ * @property-read User $user 
+ * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
+ */
 class CommentReply extends BaseModel
 {
-    protected $attributes = [
-        'uv'    => 0,
-        'dv'    => 0,
-        'score' => 0,
-    ];
+    use HasGroupRelationship, HasUserRelationship;
 
     protected static $rules = [
         'text' => 'required|min:1|max:5000',
@@ -20,109 +30,37 @@ class CommentReply extends BaseModel
     protected $appends = ['vote_state'];
     protected $hidden = ['text_source', 'updated_at'];
     protected $fillable = ['text'];
-
-    public function __construct($attributes = [])
-    {
-        $this->{$this->getKeyName()} = Str::random(8);
-
-        parent::__construct($attributes);
-    }
+    protected $table = 'comment_replies';
 
     public static function boot()
     {
-        parent::boot();
+        static::creating(function ($comment) {
+            $comment->group_id = $comment->parent->group_id;
+        });
 
         static::created(function ($reply) {
-            $reply->parent()->content->increment('comments_count');
+            $reply->parent->content->increment('comments_count');
         });
+
+        parent::boot();
     }
 
-    public static function find($id, $columns = ['*'])
+    public function parent()
     {
-        $parent = Comment::where('_replies._id', $id)
-            ->project(['_replies' => ['$elemMatch' => ['_id' => $id]]])
-            ->first(['created_at', 'content_id', 'user_id', 'text', 'uv', 'dv', 'votes']);
-
-        if (!$parent) {
-            return;
-        }
-
-        return $parent->replies->first();
-    }
-
-    public static function findOrFail($id, $columns = ['*'])
-    {
-        $result = self::find($id, $columns);
-        if ($result) {
-            return $result;
-        }
-
-        throw new ModelNotFoundException();
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(Comment::class);
     }
 
     public function delete()
     {
-        Content::where('_id', $this->comment->content_id)->decrement('comments_count');
-        $this->deleteNotifications();
+        Content::where('id', $this->comment->content_id)->decrement('comments_count');
 
         return parent::delete();
-    }
-
-    public function deleteNotifications()
-    {
-        Notification::where('comment_reply_id', $this->getKey())->delete();
-    }
-
-    public function getGroupIdAttribute($value)
-    {
-        return $this->comment->group_id;
     }
 
     public function setTextAttribute($text)
     {
         $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['text_source'] = $text;
-    }
-
-    public function mpush($column, $value = null, $unique = false)
-    {
-        $column = '_replies.$.'.$column;
-
-        $builder = Comment::where('_id', $this->comment->_id)
-            ->where('_replies._id', $this->_id);
-        $builder->push($column, $value, $unique);
-    }
-
-    public function mpull($column, $value = null)
-    {
-        $column = '_replies.$.'.$column;
-
-        $builder = Comment::where('_id', $this->comment->_id)
-            ->where('_replies._id', $this->_id);
-        $builder->pull($column, $value);
-    }
-
-    public function increment($column, $amount = 1)
-    {
-        $column = '_replies.$.'.$column;
-
-        $builder = Comment::where('_id', $this->comment->_id)
-            ->where('_replies._id', $this->_id);
-        $builder->increment($column, $amount);
-    }
-
-    public function decrement($column, $amount = 1)
-    {
-        $column = '_replies.$.'.$column;
-
-        $builder = Comment::where('_id', $this->comment->_id)
-            ->where('_replies._id', $this->_id);
-        $builder->decrement($column, $amount);
     }
 
     public function isHidden()
@@ -136,15 +74,14 @@ class CommentReply extends BaseModel
 
     public function getURL()
     {
-        $url = route('content_comments', $this->comment->content_id);
-
-        return  $url.'#'.$this->getKey();
+        $url = route('content_comments', $this->parent->content);
+        return $url.'#'.$this->hashId();
     }
 
     public function canEdit()
     {
         return Auth::id() == $this->user_id
-            && $this == $this->comment->replies->last();
+            && $this == $this->parent->replies->last();
     }
 
     public function canRemove()

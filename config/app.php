@@ -154,19 +154,11 @@ return [
         'Illuminate\Html\HtmlServiceProvider',
 
         /*
-         * MongoDB Service Providers...
-         */
-        'Jenssegers\Mongodb\MongodbServiceProvider',
-        'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
-        'Jenssegers\Mongodb\Session\SessionServiceProvider',
-
-        /*
          * Application Service Providers...
          */
         'Strimoid\Providers\AppServiceProvider',
         'Strimoid\Providers\ComposerServiceProvider',
         'Strimoid\Providers\EventsServiceProvider',
-        'Strimoid\Providers\OAuthServiceProvider',
         'Strimoid\Providers\RepositoriesServiceProvider',
         'Strimoid\Providers\RouteServiceProvider',
         'Strimoid\Providers\ValidatorServiceProvider',
@@ -174,12 +166,16 @@ return [
         /*
          * Third party Service Providers...
          */
-        'duxet\Realtime\RealtimeServiceProvider',
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
         'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
+        'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
+        'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
+        'Msurguy\Honeypot\HoneypotServiceProvider',
+        'Vinkla\Algolia\AlgoliaServiceProvider',
+        'Vinkla\Hashids\HashidsServiceProvider',
         'Vinkla\Pusher\PusherServiceProvider',
 
     ],
@@ -206,11 +202,11 @@ return [
         'Cookie'             => 'Illuminate\Support\Facades\Cookie',
         'Crypt'              => 'Illuminate\Support\Facades\Crypt',
         'DB'                 => 'Illuminate\Support\Facades\DB',
+        'Eloquent'           => 'Illuminate\Database\Eloquent\Model',
         'Event'              => 'Illuminate\Support\Facades\Event',
         'File'               => 'Illuminate\Support\Facades\File',
         'Hash'               => 'Illuminate\Support\Facades\Hash',
         'Input'              => 'Illuminate\Support\Facades\Input',
-        'Inspiring'          => 'Illuminate\Foundation\Inspiring',
         'Lang'               => 'Illuminate\Support\Facades\Lang',
         'Log'                => 'Illuminate\Support\Facades\Log',
         'Mail'               => 'Illuminate\Support\Facades\Mail',
@@ -229,14 +225,20 @@ return [
         'Validator'          => 'Illuminate\Support\Facades\Validator',
         'View'               => 'Illuminate\Support\Facades\View',
         'Form'               => 'Illuminate\Html\FormFacade',
+        'HTML'               => 'Illuminate\Html\HtmlFacade',
         'Str'                => 'Illuminate\Support\Str',
         'BootstrapPresenter' => 'Illuminate\Pagination\BootstrapThreePresenter',
 
-        'Carbon'    => 'Jenssegers\Date\Date',
-        'Image'     => 'Intervention\Image\Facades\Image',
-        'Debugbar'  => 'Barryvdh\Debugbar\Facade',
-        'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
-        'Throttle'  => 'GrahamCampbell\Throttle\Facades\Throttle',
+        'Algolia'    => 'Vinkla\Algolia\Facades\Algolia',
+        'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade',
+        'Carbon'     => 'Jenssegers\Date\Date',
+        'Date'       => 'Jenssegers\Date\Date',
+        'Debugbar'   => 'Barryvdh\Debugbar\Facade',
+        'Hashids'    => 'Vinkla\Hashids\Facades\Hashids',
+        'Image'      => 'Intervention\Image\Facades\Image',
+        'Markdown'   => 'GrahamCampbell\Markdown\Facades\Markdown',
+        'Setting'    => 'Strimoid\Facades\Settings',
+        'Throttle'   => 'GrahamCampbell\Throttle\Facades\Throttle',
 
         'Settings'  => 'Strimoid\Facades\Settings',
         'PDP'       => 'Strimoid\Facades\PDP',

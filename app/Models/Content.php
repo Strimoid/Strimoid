@@ -1,40 +1,41 @@
 <?php namespace Strimoid\Models;
 
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OEmbed;
 use PDP;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasThumbnail;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 /**
- * Content model.
+ * Strimoid\Models\Content
  *
- * @property string   $_id          Content ID
- * @property string   $title        Content title
- * @property string   $description  Content description
- * @property bool     $eng          Is content using foreign language?
- * @property bool     $nsfw         Is Content "not safe for work"?
- * @property string   $thumbnail    Thumbnail filename
- * @property string   $domain       Domain
- * @property string   $url          URL address
- * @property DateTime $created_at   Date of creation
+ * @property-read User $deletedBy 
+ * @property-read \Illuminate\Database\Eloquent\Collection|ContentRelated[] $related 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Comment::class)->orderBy('crea[] $comments 
+ * @property-write mixed $nsfw 
+ * @property-write mixed $eng 
+ * @property-write mixed $url 
+ * @property-write mixed $text 
+ * @property-read mixed $vote_state 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
+ * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
+ * @property-read Group $group 
+ * @property-read User $user 
+ * @method static \Strimoid\Models\Content frontpage($exists = true)
+ * @method static \Strimoid\Models\Content popular()
+ * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
  */
 class Content extends BaseModel
 {
-    use HasThumbnail, SoftDeletes;
+    use HasGroupRelationship, HasThumbnail, HasUserRelationship, SoftDeletes;
 
     protected static $rules = [
         'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
         'description' => 'max:255',
-        'groupname'   => 'required|exists_ci:groups,urlname',
-    ];
-
-    protected $attributes = [
-        'uv'             => 0,
-        'dv'             => 0,
-        'score'          => 0,
-        'comments_count' => 0,
+        'groupname'   => 'required|exists:groups,urlname',
     ];
 
     protected $table = 'contents';
@@ -45,8 +46,6 @@ class Content extends BaseModel
 
     public function __construct($attributes = [])
     {
-        $this->{$this->getKeyName()} = Str::random(6);
-
         static::deleted(function (Content $content) {
             Notification::where('content_id', $this->getKey())->delete();
 
@@ -60,31 +59,19 @@ class Content extends BaseModel
         parent::__construct($attributes);
     }
 
-    public function group()
-    {
-        return $this->belongsTo('Strimoid\Models\Group');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('Strimoid\Models\User')
-            ->select(['avatar', 'name']);
-    }
-
     public function deletedBy()
     {
-        return $this->belongsTo('Strimoid\Models\User', 'deleted_by');
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 
     public function related()
     {
-        return $this->hasMany('Strimoid\Models\ContentRelated');
+        return $this->hasMany(ContentRelated::class);
     }
 
     public function comments()
     {
-        return $this->hasMany('Strimoid\Models\Comment')
-            ->orderBy('created_at', 'asc');
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'asc');
     }
 
     public function getDomain()
@@ -94,9 +81,7 @@ class Content extends BaseModel
 
     public function getEmbed($autoPlay = true)
     {
-        if (! $this->url) {
-            return false;
-        }
+        if (! $this->url) return false;
 
         return OEmbed::getEmbedHtml($this->url, $autoPlay);
     }
@@ -108,7 +93,7 @@ class Content extends BaseModel
 
     public function getSlug()
     {
-        $params = [$this->_id, Str::slug($this->title)];
+        $params = [$this->getKey(), Str::slug($this->title)];
 
         return route('content_comments_slug', $params);
     }
@@ -159,7 +144,7 @@ class Content extends BaseModel
 
     public function canEdit(User $user = null)
     {
-        $isAuthor = $user->_id == $this->user_id;
+        $isAuthor = $user->getKey() == $this->user_id;
         $hasTime = $this->created_at->diffInMinutes() < 30;
 
         $isAdmin = $user->type == 'admin';
@@ -176,7 +161,8 @@ class Content extends BaseModel
 
     public function scopeFrontpage($query, $exists = true)
     {
-        return $query->where('frontpage_at', 'exists', $exists);
+        $where = $exists ? 'whereNotNull' : 'whereNull';
+        return $query->{ $where }('frontpage_at');
     }
 
     public function scopePopular($query)

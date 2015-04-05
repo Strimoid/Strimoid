@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Handlers\Events;
 
+use Strimoid\Models\BaseModel;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
@@ -19,11 +20,11 @@ class NewActionHandler
      */
     public function subscribe($events)
     {
-        $this->addHandler('Content', $events);
-        $this->addHandler('Comment', $events);
-        $this->addHandler('CommentReply', $events);
-        $this->addHandler('Entry', $events);
-        $this->addHandler('EntryReply', $events);
+        $this->addHandler(Content::class, $events);
+        $this->addHandler(Comment::class, $events);
+        $this->addHandler(CommentReply::class, $events);
+        $this->addHandler(Entry::class, $events);
+        $this->addHandler(EntryReply::class, $events);
     }
 
     /**
@@ -32,69 +33,21 @@ class NewActionHandler
      * @param string                        $model
      * @param \Illuminate\Events\Dispatcher $events
      */
-    protected function addHandler($model, $events)
+    protected function addHandler($class, $events)
     {
-        $name = 'eloquent.created: Strimoid\\Models\\'.$model;
-        $events->listen($name, self::class.'@onNew'.$model);
+        $name = 'eloquent.created: '. $class;
+        $events->listen($name, self::class.'@onNewElement');
     }
 
     /**
-     * @param Content $content
+     * @param BaseModel $element
      */
-    public function onNewContent($content)
+    public function onNewElement($element)
     {
-        UserAction::create([
-            'user_id'      => $content->user->getKey(),
-            'type'         => UserAction::TYPE_CONTENT,
-            'content_id'   => $content->getKey(),
+        $action = new UserAction([
+            'user_id' => $element->user_id
         ]);
-    }
-
-    /**
-     * @param Comment $comment
-     */
-    public function onNewComment($comment)
-    {
-        UserAction::create([
-            'user_id'      => $comment->user->getKey(),
-            'type'         => UserAction::TYPE_COMMENT,
-            'comment_id'   => $comment->getKey(),
-        ]);
-    }
-
-    /**
-     * @param CommentReply $reply
-     */
-    public function onNewCommentReply($reply)
-    {
-        UserAction::create([
-            'user_id'          => $reply->user->getKey(),
-            'type'             => UserAction::TYPE_COMMENT_REPLY,
-            'comment_reply_id' => $reply->getKey(),
-        ]);
-    }
-
-    /**
-     * @param Entry $entry
-     */
-    public function onNewEntry($entry)
-    {
-        UserAction::create([
-            'user_id'      => $entry->user->getKey(),
-            'type'         => UserAction::TYPE_ENTRY,
-            'entry_id'     => $entry->getKey(),
-        ]);
-    }
-
-    /**
-     * @param EntryReply $reply
-     */
-    public function onNewEntryReply($reply)
-    {
-        UserAction::create([
-            'user_id'        => $reply->user->getKey(),
-            'type'           => UserAction::TYPE_ENTRY_REPLY,
-            'entry_reply_id' => $reply->getKey(),
-        ]);
+        $action->element()->associate($element);
+        $action->save();
     }
 }

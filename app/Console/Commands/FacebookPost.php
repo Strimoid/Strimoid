@@ -23,24 +23,14 @@ class FacebookPost extends Command
     protected $description = 'Posts most popular content to FB fanpage.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return void
      */
     public function fire()
     {
-        $time = Carbon::now()->subDay();
-        $content = Content::where('created_at', '>', $time)
+        $dayBefore = Carbon::now()->subDay();
+        $content = Content::where('created_at', '>', $dayBefore)
             ->orderBy('uv', 'desc')
             ->firstOrFail();
 
@@ -51,9 +41,9 @@ class FacebookPost extends Command
             'description'  => $content->description,
         ];
 
-        $params['picture'] = $content->thumbnail
-            ? 'https:'.$content->getThumbnailPath(500, 250)
-            : '';
+        if ($content->thumbnail) {
+            $params['picture'] = 'https:'.$content->getThumbnailPath(500, 250);
+        }
 
         Guzzle::post('https://graph.facebook.com/strimoid/feed', [
             'body' => $params,

@@ -11,30 +11,17 @@ use Strimoid\Models\User;
 
 class FakeSeeder extends BaseSeeder
 {
-    private $groups = [];
     private $users = [];
 
     const SEED = 12345;
 
     public function run()
     {
-        $this->cleanDatabase();
-
         // Make sure we will get same data every time
         $this->faker->seed(self::SEED);
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $this->createFakeUser();
-        }
-    }
-
-    protected function cleanDatabase()
-    {
-        $tables = ['contents', 'entries', 'groups',
-            'group_subscribers', 'users', ];
-
-        foreach ($tables as $table) {
-            DB::table($table)->truncate();
         }
     }
 
@@ -50,7 +37,7 @@ class FakeSeeder extends BaseSeeder
 
         $this->users[] = $user;
 
-        $groupsNumber = $this->faker->numberBetween(0, 10);
+        $groupsNumber = $this->faker->numberBetween(0, 2);
 
         for ($i = 0; $i < $groupsNumber; $i++) {
             $this->createFakeGroup($user);
@@ -65,11 +52,11 @@ class FakeSeeder extends BaseSeeder
             'name'          => $this->faker->city,
             'description'   => implode(' ', $this->faker->sentences(2)),
             'sidebar'       => $this->faker->paragraph,
-            'tags'          => $this->faker->words(5),
+            //'tags'          => $this->faker->words(5),
             'urlname'       => $this->faker->domainWord,
         ]);
 
-        $contentsNumber = $this->faker->numberBetween(0, 10);
+        $contentsNumber = $this->faker->numberBetween(0, 5);
 
         for ($i = 0; $i < $contentsNumber; $i++) {
             $this->createFakeContent($group);
@@ -87,7 +74,6 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeContent(Group $group)
     {
         $content = Content::create([
-            with(new Content())->getKeyName() => $this->getRandomId(),
             'created_at'                      => $this->faker->dateTimeThisDecade,
             'group_id'                        => $group->getKey(),
             'title'                           => $this->faker->sentence(10),
@@ -108,7 +94,6 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeComment(Content $content)
     {
         $comment = Comment::create([
-            with(new Comment())->getKeyName() => $this->getRandomId(),
             'content_id'                      => $content->getKey(),
             'created_at'                      => $this->faker->dateTimeThisDecade,
             'text'                            => $this->faker->text(512),
@@ -125,7 +110,6 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeCommentReply(Comment $comment)
     {
         $comment->replies()->create([
-            with(new CommentReply())->getKeyName() => $this->getRandomId(),
             'created_at'                           => $this->faker->dateTimeThisDecade,
             'text'                                 => $this->faker->text(512),
             'user_id'                              => $this->getRandomUser()->getKey(),
@@ -135,7 +119,6 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeEntry(Group $group)
     {
         $entry = Entry::create([
-            with(new Entry())->getKeyName() => $this->getRandomId(),
             'created_at'                    => $this->faker->dateTimeThisDecade,
             'group_id'                      => $group->getKey(),
             'text'                          => $this->faker->text(512),
@@ -152,7 +135,6 @@ class FakeSeeder extends BaseSeeder
     protected function createFakeEntryReply(Entry $entry)
     {
         $entry->replies()->create([
-            with(new EntryReply())->getKeyName() => $this->getRandomId(),
             'created_at'                         => $this->faker->dateTimeThisDecade,
             'text'                               => $this->faker->text(512),
             'user_id'                            => $this->getRandomUser()->getKey(),
@@ -161,17 +143,7 @@ class FakeSeeder extends BaseSeeder
 
     protected function createFakeSubscriber(Group $group, User $user)
     {
-        GroupSubscriber::create([
-            'group_id'      => $group->getKey(),
-            'user_id'       => $user->getKey(),
-        ]);
-    }
-
-    protected function getRandomId()
-    {
-        $md5 = $this->faker->unique()->md5;
-
-        return substr($md5, 0, 6);
+        $user->subscribedGroups()->attach($group);
     }
 
     protected function getRandomUser()

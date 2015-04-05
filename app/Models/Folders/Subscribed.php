@@ -9,11 +9,11 @@ class Subscribed extends FakeFolder
     {
         $builder = with(new $model())->newQuery();
 
-        $subscribedGroups = Auth::user()->subscribedGroups();
+        $subscribedGroups = Auth::user()->subscribedGroups()->lists('id');
         $builder->whereIn('group_id', $subscribedGroups);
 
-        $blockedUsers = Auth::user()->blockedUsers();
-        $builder->whereNotIn('user_id', (array) $blockedUsers);
+        $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+        $builder->whereNotIn('user_id', $blockedUsers);
 
         return $builder;
     }

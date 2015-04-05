@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 use Pdp\Parser;
 use Pdp\PublicSuffixListManager;
 use Strimoid\Helpers\OEmbed;
-use Strimoid\Models\UserSettings;
+use Strimoid\Services\Settings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,10 +42,6 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
-        $this->app->bind('settings', function () {
-            return new UserSettings();
-        });
-
         $this->app->bind('pdp', function () {
             $pslManager = new PublicSuffixListManager();
             $parser = new Parser($pslManager->getList());
@@ -55,6 +51,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind('oembed', function () {
             return new OEmbed();
+        });
+
+        $this->app->bind('settings', function () {
+           return new Settings();
         });
     }
 }
