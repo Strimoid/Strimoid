@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" ng-app="app">
+<html lang="pl">
 <head>
     @include('global.parts.head')
 </head>
@@ -105,11 +105,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
     @include('global.parts.footer')
 </footer>
 
-@if (App::environment('local', 'testing'))
-    <script src="/assets/js/all.js"></script>
-@else
-    <script src="{{ elixir('assets/js/all.js') }}"></script>
-@endif
+<script src="{{ elixir('assets/js/all.js') }}"></script>
 
 @if (Auth::check())
 <script>
