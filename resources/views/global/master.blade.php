@@ -46,7 +46,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
         if (isset($groupURLName))
         {
             $routeData = ['name' => 'group', 'params' => [
-                'group' => $groupURLName
+                $groupURLName
             ]];
         }
         elseif (isset($folder))
