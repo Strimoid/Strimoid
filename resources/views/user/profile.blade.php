@@ -82,8 +82,8 @@
     @endif
 
     @if ($action->element instanceof Strimoid\Models\EntryReply)
-        @if (!isset($oldReply->entry) || $oldReply->entry->getKey() != $action->reply->entry->getKey())
-            @include('user.widgets.entry', ['entry' => $action->reply->entry])
+        @if (!isset($oldReply->entry) || $oldReply->entry->getKey() != $action->element->entry->getKey())
+            @include('user.widgets.entry', ['entry' => $action->element->entry])
         @endif
 
         @include('user.widgets.entry_reply', ['reply' => $action->element])

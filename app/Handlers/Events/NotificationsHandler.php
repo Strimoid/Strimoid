@@ -145,7 +145,8 @@ class NotificationsHandler
      */
     public function onConversationMessageCreate($message)
     {
-        $targets = $message->conversation->users;
+        $conversation = $message->conversation;
+        $targets = $conversation->users;
 
         $this->sendNotifications(
             $targets,
@@ -155,6 +156,8 @@ class NotificationsHandler
             },
             $message->user
         );
+
+        $conversation->notifications()->whereIn('user_id', $targets)->delete();
     }
 
     /**
@@ -177,6 +180,10 @@ class NotificationsHandler
         $notification = new Notification();
         $notification->sourceUser()->associate($sourceUser);
 
+        $callback($notification);
+
+        $notification->save();
+
         foreach ($uniqueUsers as $uniqueUser) {
             $user = User::name($uniqueUser)->first();
 
@@ -185,9 +192,6 @@ class NotificationsHandler
                 $notification->addTarget($user);
             }
         }
-
-        $callback($notification);
-        $notification->save();
     }
 
     /**
