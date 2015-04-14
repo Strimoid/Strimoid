@@ -26,7 +26,7 @@ $popularComments = $builder->orderBy('uv', 'desc')->take(5)->get();
         $text = preg_replace('/<span class="spoiler">(.*?)<\/span>/s', '', $text);
         $text = strip_tags($text);
 
-        $url = route('content_comments', ['content' => $comment->content_id]) .'#'. $comment->id;
+        $url = route('content_comments', ['content' => $comment->content]) .'#'. $comment->hashId();
 
         ?>
         <li class="media">
