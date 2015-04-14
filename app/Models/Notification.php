@@ -139,7 +139,7 @@ class Notification extends BaseModel
         $target = new NotificationTarget();
         $target->user()->associate($user);
 
-        $this->targets()->associate($target);
+        $this->targets()->save($target);
     }
 
     public function scopeTarget($query, $param)
