@@ -1,4 +1,4 @@
-<div class="panel-default entry" data-id="{!! $entry->_id !!}">
+<div class="panel-default entry" data-id="{!! $entry->hashId() !!}">
     <a name="{!! $entry->_id !!}"></a>
 
     <div class="entry_avatar">
