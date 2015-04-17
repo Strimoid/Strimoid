@@ -2,7 +2,6 @@
 
 use Auth;
 use Carbon;
-use Illuminate\Support\Facades\Cache;
 use Input;
 use Response;
 use Strimoid\Models\Comment;
@@ -11,7 +10,6 @@ use Strimoid\Models\Content;
 use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
-use Strimoid\Models\Vote;
 
 class VoteController extends BaseController
 {

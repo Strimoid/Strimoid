@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use Input;
 use Response;
 use Route;
-use Setting;
 use Settings;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;

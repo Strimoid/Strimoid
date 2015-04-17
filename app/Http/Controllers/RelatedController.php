@@ -8,7 +8,6 @@ use OEmbed;
 use Redirect;
 use Response;
 use Strimoid\Models\ContentRelated;
-use Strimoid\Models\Group;
 
 class RelatedController extends BaseController
 {

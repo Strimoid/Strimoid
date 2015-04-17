@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use App;
 use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -11,7 +12,6 @@ use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
-use Strimoid\Models\Content;
 
 class CommentController extends BaseController
 {
@@ -81,7 +81,8 @@ class CommentController extends BaseController
         $class = Input::get('type') == 'comment'
             ? Comment::class : CommentReply::class;
 
-        $comment = $class::findOrFail(Input::get('id'));
+        $id = hashids_decode(Input::get('id'));
+        $comment = $class::findOrFail($id);
 
         if (Auth::id() !== $comment->user_id) {
             App::abort(403, 'Access denied');
