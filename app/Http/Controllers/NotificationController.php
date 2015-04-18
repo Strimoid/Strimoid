@@ -72,7 +72,7 @@ class NotificationController extends BaseController
 
     public function listNotifications()
     {
-        $notifications = Notification::with('sourceUser')
+        $notifications = Notification::with('user')
             ->target(['user_id' => Auth::id()])
             ->orderBy('created_at', 'desc')
             ->paginate(50);

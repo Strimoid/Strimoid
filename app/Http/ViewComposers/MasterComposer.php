@@ -29,7 +29,7 @@ class MasterComposer
 
         if (Auth::check()) {
             // Load last 15 notifications
-            $notifications = Notification::with('sourceUser')
+            $notifications = Notification::with('user')
                 ->target(['user_id' => Auth::id()])
                 ->orderBy('created_at', 'desc')
                 ->take(15)->get();

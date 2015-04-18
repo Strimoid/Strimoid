@@ -178,7 +178,7 @@ class NotificationsHandler
         }
 
         $notification = new Notification();
-        $notification->sourceUser()->associate($sourceUser);
+        $notification->user()->associate($sourceUser);
 
         $callback($notification);
 

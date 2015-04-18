@@ -4,34 +4,17 @@ use Auth;
 use Str;
 use URL;
 
-/**
- * Notification model.
- *
- * @property string $_id
- * @property string $title Notification title
- * @property string $type Type of notification
- * @property array $targets
- * @property DateTime $created_at
- * @property-read User::class)->select([' $sourceUser 
- * @property-read \ $element 
- * @property mixed $read 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @method static \Strimoid\Models\Notification target($param)
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class Notification extends BaseModel
 {
     protected $table = 'notifications';
     protected $visible = [
-        'id', 'created_at', 'sourceUser',
+        'id', 'created_at', 'user',
         'read', 'title', 'type', 'url',
     ];
 
-    public function sourceUser()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id')->select(['avatar', 'name']);
+        return $this->belongsTo(User::class)->select(['avatar', 'name']);
     }
 
     public function targets()
@@ -131,7 +114,7 @@ class Notification extends BaseModel
 
     public function getThumbnailPath()
     {
-        return $this->sourceUser->getAvatarPath();
+        return $this->user->getAvatarPath();
     }
 
     public function addTarget(User $user)
