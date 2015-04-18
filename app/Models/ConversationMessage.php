@@ -2,17 +2,6 @@
 
 use Strimoid\Helpers\MarkdownParser;
 
-/**
- * Strimoid\Models\ConversationMessage
- *
- * @property-read Conversation $conversation 
- * @property-read User $user 
- * @property-write mixed $text 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class ConversationMessage extends BaseModel
 {
     protected $table = 'conversation_messages';

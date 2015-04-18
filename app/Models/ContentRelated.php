@@ -2,22 +2,11 @@
 
 use Str;
 use Strimoid\Models\Traits\HasThumbnail;
+use Strimoid\Models\Traits\HasVotes;
 
-/**
- * Strimoid\Models\ContentRelated
- *
- * @property-read \Strimoid\Models\Content $content 
- * @property-read \Strimoid\Models\User $user 
- * @property-write mixed $nsfw 
- * @property-write mixed $eng 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class ContentRelated extends BaseModel
 {
-    use HasThumbnail;
+    use HasThumbnail, HasVotes;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128',

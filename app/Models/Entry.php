@@ -4,24 +4,14 @@ use Auth;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
+use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasUserRelationship;
+use Strimoid\Models\Traits\HasVotes;
 
-/**
- * Strimoid\Models\Entry
- *
- * @property-read \Illuminate\Database\Eloquent\Collection|EntryReply[] $replies 
- * @property-write mixed $text 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @property-read Group $group 
- * @property-read User $user 
- * @property-read \Illuminate\Database\Eloquent\Collection|Notification[] $notifications 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class Entry extends BaseModel
 {
     use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
+    use HasSaves, HasVotes;
 
     protected static $rules = [
         'text'      => 'required|min:1|max:2500',
@@ -58,7 +48,9 @@ class Entry extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) return false;
+        if (Auth::guest()) {
+            return false;
+        }
 
         return Auth::user()->isBlockingUser($this->user);
     }

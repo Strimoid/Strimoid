@@ -6,31 +6,15 @@ use PDP;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasThumbnail;
 use Strimoid\Models\Traits\HasUserRelationship;
+use Strimoid\Models\Traits\HasVotes;
 
-/**
- * Strimoid\Models\Content
- *
- * @property-read User $deletedBy 
- * @property-read \Illuminate\Database\Eloquent\Collection|ContentRelated[] $related 
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment::class)->orderBy('crea[] $comments 
- * @property-write mixed $nsfw 
- * @property-write mixed $eng 
- * @property-write mixed $url 
- * @property-write mixed $text 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @property-read Group $group 
- * @property-read User $user 
- * @method static \Strimoid\Models\Content frontpage($exists = true)
- * @method static \Strimoid\Models\Content popular()
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class Content extends BaseModel
 {
     use HasGroupRelationship, HasThumbnail, HasUserRelationship, SoftDeletes;
+    use HasSaves, HasVotes;
 
     protected static $rules = [
         'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',

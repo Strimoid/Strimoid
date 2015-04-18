@@ -2,19 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Strimoid\Models\Conversation
- *
- * @property-read ConversationMessage::class)->orderBy('crea $lastMessage 
- * @property-read \Illuminate\Database\Eloquent\Collection|ConversationMessage::class)->orderBy('crea[] $messages 
- * @property-read \Illuminate\Database\Eloquent\Collection|Notification[] $notifications 
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $users 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @method static \Strimoid\Models\Conversation withUser($userName)
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class Conversation extends BaseModel
 {
     protected $table = 'conversations';

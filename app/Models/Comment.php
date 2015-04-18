@@ -1,29 +1,16 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Str;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasUserRelationship;
+use Strimoid\Models\Traits\HasVotes;
 
-/**
- * Comment model.
- *
- * @property string $_id
- * @property Content $content
- * @property string $text
- * @property string $text_source
- * @property User $user
- * @property-read \Illuminate\Database\Eloquent\Collection|CommentReply[] $replies 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @property-read Group $group 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class Comment extends BaseModel
 {
     use HasGroupRelationship, HasUserRelationship;
+    use HasSaves, HasVotes;
 
     protected static $rules = [
         'text' => 'required|min:1|max:5000',

@@ -1,28 +1,9 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Str;
-use Strimoid\Helpers\MarkdownParser;
-use Strimoid\Models\Traits\HasGroupRelationship;
-use Strimoid\Models\Traits\HasUserRelationship;
 
-/**
- * Strimoid\Models\CommentReply
- *
- * @property-read Comment $parent 
- * @property-write mixed $text 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @property-read Group $group 
- * @property-read User $user 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
-class CommentReply extends BaseModel
+class CommentReply extends Comment
 {
-    use HasGroupRelationship, HasUserRelationship;
-
     protected static $rules = [
         'text' => 'required|min:1|max:5000',
     ];
@@ -55,12 +36,6 @@ class CommentReply extends BaseModel
         Content::where('id', $this->comment->content_id)->decrement('comments_count');
 
         return parent::delete();
-    }
-
-    public function setTextAttribute($text)
-    {
-        $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
-        $this->attributes['text_source'] = $text;
     }
 
     public function isHidden()

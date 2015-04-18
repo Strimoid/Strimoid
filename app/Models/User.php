@@ -10,33 +10,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Str;
 use Strimoid\Models\Traits\HasAvatar;
 
-/**
- * User model.
- *
- * @property string $_id
- * @property string $name User name
- * @property string $email User email address, hashed
- * @property string $password User password, hashed
- * @property DateTime $created_at
- * @property-read \Illuminate\Database\Eloquent\Collection|UserAction[] $actions 
- * @property-read \Illuminate\Database\Eloquent\Collection|Content[] $contents 
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments 
- * @property-read \Illuminate\Database\Eloquent\Collection|Entry[] $entries 
- * @property-read \Illuminate\Database\Eloquent\Collection|Folder[] $folders 
- * @property-read \Illuminate\Database\Eloquent\Collection|Notification[] $notifications 
- * @property-read \Illuminate\Database\Eloquent\Collection|UserSetting[] $settings 
- * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $bannedGroups 
- * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $blockedGroups 
- * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $subscribedGroups 
- * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $moderatedGroups 
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $blockedUsers 
- * @property-read \Illuminate\Database\Eloquent\Collection|User[] $followedUsers 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @method static \Strimoid\Models\User name($value)
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword, HasAvatar;

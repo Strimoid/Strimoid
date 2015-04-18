@@ -1,35 +1,13 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Str;
-use Strimoid\Helpers\MarkdownParser;
-use Strimoid\Models\Traits\HasGroupRelationship;
-use Strimoid\Models\Traits\HasNotificationsRelationship;
-use Strimoid\Models\Traits\HasUserRelationship;
 
-/**
- * Strimoid\Models\EntryReply
- *
- * @property-read Entry $parent 
- * @property-write mixed $text 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @property-read User $user 
- * @property-read Group $group 
- * @property-read \Illuminate\Database\Eloquent\Collection|Notification[] $notifications 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
-class EntryReply extends BaseModel
+class EntryReply extends Entry
 {
-    use HasUserRelationship, HasGroupRelationship, HasNotificationsRelationship;
-
     protected static $rules = [
         'text' => 'required|min:1|max:2500',
     ];
 
-    protected static $unguarded = true;
     protected $appends = ['vote_state'];
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'updated_at'];
@@ -58,19 +36,6 @@ class EntryReply extends BaseModel
         Entry::where('id', $this->parent_id)->decrement('replies_count');
 
         return parent::delete();
-    }
-
-    public function setTextAttribute($text)
-    {
-        $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
-        $this->attributes['text_source'] = $text;
-    }
-
-    public function isHidden()
-    {
-        if (Auth::guest()) return false;
-
-        return Auth::user()->isBlockingUser($this->user);
     }
 
     public function isLast()

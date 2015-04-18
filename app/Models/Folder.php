@@ -2,15 +2,6 @@
 
 use Auth;
 
-/**
- * Strimoid\Models\Folder
- *
- * @property-read \Illuminate\Database\Eloquent\Collection|Group[] $groups 
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $vote 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $usave 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
 class Folder extends BaseModel
 {
     protected $table   = 'folders';

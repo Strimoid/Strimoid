@@ -1,28 +1,17 @@
 <?php namespace Strimoid\Models;
 
-use Auth;
 use Date;
 use DateTimeZone;
 use Eloquent;
 use Hashids;
 use Setting;
 
-/**
- * Strimoid\Models\BaseModel
- *
- * @property-read mixed $vote_state 
- * @property-read \Illuminate\Database\Eloquent\Collection|Vote[] $votes 
- * @property-read \Illuminate\Database\Eloquent\Collection|Save[] $saves 
- * @method static \Strimoid\Models\BaseModel fromDaysAgo($days)
- */
-class BaseModel extends Eloquent
+abstract class BaseModel extends Eloquent
 {
     /**
      * @var array Validation rules
      */
     protected static $rules = [];
-
-    protected $vote_state;
 
     /**
      * Get time ago from object creation.
@@ -48,88 +37,6 @@ class BaseModel extends Eloquent
     }
 
     /**
-     * Get vote state of current user.
-     *
-     * @return string none|uv|dv
-     */
-    public function getVoteState()
-    {
-        if (Auth::guest() || ! $this->votes()) {
-            return 'none';
-        }
-
-        $vote = $this->vote;
-
-        if (!$vote) return 'none';
-
-        return $vote->up ? 'uv' : 'dv';
-    }
-
-    /**
-     * Attribute alias for vote state.
-     *
-     * @return string
-     */
-    public function getVoteStateAttribute()
-    {
-        return $this->getVoteState();
-    }
-
-    /**
-     * Object votes relationship.
-     *
-     * @return mixed
-     */
-    public function votes()
-    {
-        return $this->morphMany(Vote::class, 'element');
-    }
-
-    /**
-     * Currently authenticated user vote.
-     *
-     * @return mixed
-     */
-    public function vote()
-    {
-        return $this->morphOne(Vote::class, 'element')->where('user_id', Auth::id());
-    }
-
-    /**
-     * Object saves relationship.
-     *
-     * @return mixed
-     */
-    public function saves()
-    {
-        return $this->morphMany(Save::class, 'element');
-    }
-
-    /**
-     * Currently authenticated user save.
-     *
-     * @return mixed
-     */
-    public function usave()
-    {
-        return $this->morphOne(Save::class, 'element')->where('user_id', Auth::id());
-    }
-
-    /**
-     * Check if object is saved by authenticated user.
-
-     * @return bool
-     */
-    public function isSaved()
-    {
-        if (Auth::guest()) {
-            return false;
-        }
-
-        return (bool) $this->usave;
-    }
-
-    /**
      * Get validation rules.
      *
      * @return array
@@ -137,16 +44,6 @@ class BaseModel extends Eloquent
     public static function rules()
     {
         return static::$rules;
-    }
-
-    /**
-     * Get parent object.
-     *
-     * @return mixed
-     */
-    public function parent()
-    {
-        return $this->getParentRelation()->getParent();
     }
 
     /**
