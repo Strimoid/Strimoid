@@ -1,9 +1,9 @@
 <?php namespace Strimoid\Services;
 
 use DateTimeZone;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Str;
+use Auth;
+use Lang;
+use Str;
 
 class Settings
 {

@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Models\Folders;
 
 use Auth;
+use Strimoid\Models\Content;
 use Strimoid\Models\FakeFolder;
 
 class Blocked extends FakeFolder
@@ -20,9 +21,9 @@ class Blocked extends FakeFolder
         return $builder;
     }
 
-    public function contents($tab, $sortBy)
+    public function contents($tab = null, $sortBy = null)
     {
-        $builder = static::getBuilder('Strimoid\Models\Content');
+        $builder = static::getBuilder(Content::class);
 
         $blockedDomains = Auth::user()->blockedDomains();
         $builder->orWhereIn('domain', $blockedDomains);

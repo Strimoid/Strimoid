@@ -42,11 +42,9 @@ class FolderController extends BaseController
             $folder->public = Input::get('public') == 'true';
         }
 
-        if (Auth::user()->folders()->save($folder)) {
-            return Response::json(['status' => 'ok']);
-        }
+        $folder->save();
 
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 
     public function copyFolder()
@@ -82,12 +80,9 @@ class FolderController extends BaseController
     public function removeFolder()
     {
         $folder = Folder::findOrFail(Input::get('folder'));
+        $folder->delete();
 
-        if ($folder->user->folders()->destroy($folder)) {
-            return Response::json(['status' => 'ok']);
-        }
-
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 
     public function addToFolder()
@@ -95,15 +90,9 @@ class FolderController extends BaseController
         $group = Group::findOrFail(Input::get('group'));
         $folder = Folder::findOrFail(Input::get('folder'));
 
-        if (in_array($group, $folder->groups)) {
-            Response::json(['status' => 'error']);
-        }
+        $folder->groups()->attach($group);
 
-        if ($folder->mpush('groups', $group->getKey())) {
-            return Response::json(['status' => 'ok']);
-        }
-
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 
     public function removeFromFolder()
@@ -111,10 +100,8 @@ class FolderController extends BaseController
         $group = Group::findOrFail(Input::get('group'));
         $folder = Folder::findOrFail(Input::get('folder'));
 
-        if ($folder->mpull('groups', $group->getKey())) {
-            return Response::json(['status' => 'ok']);
-        }
+        $folder->groups()->detach($group);
 
-        return Response::json(['status' => 'error']);
+        return Response::json(['status' => 'ok']);
     }
 }

@@ -1,4 +1,4 @@
-<div class="panel-default entry entry_reply" data-id="{!! $reply->_id !!}">
+<div class="panel-default entry entry_reply" data-id="{!! $reply->hashId() !!}">
     <a name="{!! $reply->_id !!}"></a>
 
     <div class="entry_avatar">

@@ -29,8 +29,11 @@ class UtilsController extends BaseController
         $html = $response->getBody();
 
         // Fix for HTML5
-        $html = preg_replace('/<meta charset="(.+)">/',
-            '<meta http-equiv="Content-Type" content="text/html; charset=$1">', $html);
+        $html = preg_replace(
+            '/<meta charset="(.+)">/',
+            '<meta http-equiv="Content-Type" content="text/html; charset=$1">',
+            $html
+        );
 
         $contentType = $response->getHeader('Content-Type');
 

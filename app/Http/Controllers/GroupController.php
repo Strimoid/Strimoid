@@ -8,6 +8,7 @@ use Input;
 use Lang;
 use Redirect;
 use Response;
+use Storage;
 use Str;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBan;
@@ -55,14 +56,7 @@ class GroupController extends BaseController
 
     public function showSubscribed()
     {
-        $subscriptions = GroupSubscriber::where('user_id', Auth::id())->with('group')->get();
-
-        $names = [];
-
-        foreach ($subscriptions as $subscription) {
-            $names[] = $subscription->group->urlname;
-        }
-
+        $names = Auth::user()->subscribedGroups()->getQuery()->lists('urlname');
         return Response::json(['status' => 'ok', 'groups' => $names]);
     }
 
@@ -71,7 +65,7 @@ class GroupController extends BaseController
         $builder = Group::where('type', '!=', 'private');
 
         $sortBy = Input::get('sort') == 'popularity'
-            ? 'subscribers' : 'created_at';
+            ? 'subscribers_count' : 'created_at';
         $builder->orderBy($sortBy, 'desc');
 
         $groups = $builder->paginate(10);
@@ -84,6 +78,10 @@ class GroupController extends BaseController
         return view('group.create');
     }
 
+    /**
+     * @param  Group  $group
+     * @return \Illuminate\View\View
+     */
     public function showSettings($group)
     {
         if (! Auth::user()->isAdmin($group)) {
@@ -133,7 +131,7 @@ class GroupController extends BaseController
         if (Input::get('nsfw') == 'on') {
             $group->nsfw = true;
         } elseif ($group->nsfw) {
-            $group->unset('nsfw');
+            $group->nsfw = false;
         }
 
         $tags = Str::lower(Input::get('tags'));

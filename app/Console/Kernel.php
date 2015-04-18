@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        'LucaDegasperi\OAuth2Server\Console\ClientCreatorCommand',
         'Strimoid\Console\Commands\AddModerator',
         'Strimoid\Console\Commands\ChangePassword',
         'Strimoid\Console\Commands\FacebookPost',

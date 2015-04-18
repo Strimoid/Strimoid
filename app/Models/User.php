@@ -10,15 +10,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Str;
 use Strimoid\Models\Traits\HasAvatar;
 
-/**
- * User model.
- *
- * @property string $_id
- * @property string $name User name
- * @property string $email User email address, hashed
- * @property string $password User password, hashed
- * @property DateTime $created_at
- */
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword, HasAvatar;

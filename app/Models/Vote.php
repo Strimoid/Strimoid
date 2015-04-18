@@ -13,9 +13,4 @@ class Vote extends BaseModel
     {
         return $this->morphTo();
     }
-
-    public function setUpAttribute($value)
-    {
-        $this->attributes['up'] = (bool) $value;
-    }
 }

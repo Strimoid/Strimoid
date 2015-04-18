@@ -13,18 +13,12 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-@if (App::environment('local', 'testing'))
-    <link href="/assets/css/vendor.css" rel="stylesheet">
-    <link href="/assets/css/all.css" rel="stylesheet">
-    <script src="/assets/js/vendor.js"></script>
-@else
-    <link href="{{ elixir('assets/css/vendor.css') }}" rel="stylesheet">
-    <link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
-    <script src="{{ elixir('assets/js/vendor.js') }}"></script>
-@endif
+<link href="{{ elixir('assets/css/vendor.css') }}" rel="stylesheet">
+<link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
+<script src="{{ elixir('assets/js/vendor.js') }}"></script>
 
 @if (Input::get('night') || isset($_COOKIE['night_mode']))
-    <link href="/static/css/night.css" rel="stylesheet" data-id="night_mode">
+    <link href="{{ elixir('assets/stylus/night.css') }}" rel="stylesheet" data-id="night_mode">
 @endif
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group

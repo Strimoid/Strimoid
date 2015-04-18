@@ -1,16 +1,15 @@
 <?php namespace Strimoid\Models;
 
+use Strimoid\Models\Traits\HasUserRelationship;
+
 class NotificationTarget extends BaseModel
 {
+    use HasUserRelationship;
+
     protected $attributes = ['read' => false];
 
-    public function user()
+    public function notification()
     {
-        return $this->belongsTo('Strimoid\Models\User');
-    }
-
-    public function setReadAttribute($value)
-    {
-        $this->attributes['read'] = toBool($value);
+        return $this->belongsTo(Notification::class);
     }
 }

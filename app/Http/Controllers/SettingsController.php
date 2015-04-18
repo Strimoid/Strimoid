@@ -5,11 +5,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use Redirect;
-use Strimoid\Models\GroupBan;
-use Strimoid\Models\GroupBlock;
-use Strimoid\Models\GroupModerator;
-use Strimoid\Models\GroupSubscriber;
-use Strimoid\Models\UserBlocked;
 
 class SettingsController extends BaseController
 {
@@ -25,7 +20,7 @@ class SettingsController extends BaseController
         $blockedUsers     = $user->blockedUsers();
         $bans             = $user->bannedGroups();
 
-        return view('user.settings', compact(
+        return view('user.settings',compact(
             'user', 'subscribedGroups', 'blockedGroups',
             'moderatedGroups', 'blockedUsers', 'bans'
         ));

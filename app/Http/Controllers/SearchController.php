@@ -110,7 +110,7 @@ class SearchController extends BaseController
             $time = Carbon::now()->sub(new DateInterval($value));
 
             $this->builder->where('created_at', '>', carbon_to_md($time));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 

@@ -6,12 +6,15 @@ use PDP;
 use Str;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasThumbnail;
 use Strimoid\Models\Traits\HasUserRelationship;
+use Strimoid\Models\Traits\HasVotes;
 
 class Content extends BaseModel
 {
     use HasGroupRelationship, HasThumbnail, HasUserRelationship, SoftDeletes;
+    use HasSaves, HasVotes;
 
     protected static $rules = [
         'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -74,7 +77,7 @@ class Content extends BaseModel
 
     public function getSlug()
     {
-        $params = [$this->getKey(), Str::slug($this->title)];
+        $params = [$this, Str::slug($this->title)];
 
         return route('content_comments_slug', $params);
     }

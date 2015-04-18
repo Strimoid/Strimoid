@@ -6,16 +6,6 @@ use Input;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasAvatar;
 
-/**
- * Group model.
- *
- * @property string $_id
- * @property string $name Group name
- * @property string $description Group description
- * @property string $avatar Group avatar filename
- * @property string $sidebar Sidebar text
- * @property DateTime $created_at
- */
 class Group extends BaseModel
 {
     use HasAvatar;
@@ -47,7 +37,7 @@ class Group extends BaseModel
 
     public function entries()
     {
-        $relation = $this->hasMany('Strimoid\Models\Entry');
+        $relation = $this->hasMany(Entry::class);
 
         if (Auth::check()) {
             $blockedUsers = Auth::user()->blockedUsers()->lists('id');
@@ -59,7 +49,7 @@ class Group extends BaseModel
 
     public function comments($sortBy = null)
     {
-        $relation = $this->hasMany('Strimoid\Models\Comment');
+        $relation = $this->hasMany(Comment::class);
         $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
         if (Auth::check()) {
@@ -72,7 +62,7 @@ class Group extends BaseModel
 
     public function contents($tab = null, $sortBy = null)
     {
-        $relation = $this->hasMany('Strimoid\Models\Content');
+        $relation = $this->hasMany(Content::class);
 
         if (Auth::check()) {
             $blockedUsers = Auth::user()->blockedUsers()->lists('id');
@@ -121,8 +111,10 @@ class Group extends BaseModel
 
     public function getAvatarPath()
     {
+        $host = config('app.cdn_host');
+
         if ($this->avatar) {
-            return '/uploads/groups/'.$this->avatar;
+            return $host.'/groups/'.$this->avatar;
         }
 
         return '/static/img/default_avatar.png';

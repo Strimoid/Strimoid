@@ -41,7 +41,7 @@ return [
     */
 
     'model_locations' => [
-        'app',
+        'app/models',
     ],
 
     /*
@@ -82,7 +82,7 @@ return [
     */
 
     'interfaces' => [
-        '\Illuminate\Contracts\Auth\Authenticatable' => config('auth.model', 'App\User'),
+        '\Illuminate\Contracts\Auth\Authenticatable' => config('auth.model', 'Strimoid\Models\User'),
     ],
 
 ];

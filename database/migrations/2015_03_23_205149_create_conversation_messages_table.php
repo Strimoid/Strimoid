@@ -27,6 +27,8 @@ class CreateConversationMessagesTable extends Migration {
 				->onDelete('cascade');
 
 			$table->text('text');
+			$table->text('text_source');
+
 			$table->timestamps();
 		});
 	}

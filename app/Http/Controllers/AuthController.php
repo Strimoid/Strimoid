@@ -1,20 +1,26 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Vinkla\Pusher\Facades\Pusher;
+use Auth;
+use Vinkla\Pusher\PusherManager;
 
-class AuthController extends BaseController {
+class AuthController extends BaseController
+{
     /**
      * Generate Pusher authentication token for currently logged user.
      *
-     * @param  Request  $request
+     * @param  Request $request
+     * @param  PusherManager $pusher
+     *
+     * @return string
      */
-    public function authenticatePusher(Request $request)
+    public function authenticatePusher(Request $request, PusherManager $pusher)
     {
         $channelName = 'private-u-'.Auth::id();
         $socketId = $request->input('socket_id');
 
-        return Pusher::socket_auth($channelName, $socketId);
+        $pusher->connection();
+
+        return $pusher->socket_auth($channelName, $socketId);
     }
 }

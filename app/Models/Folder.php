@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Folder extends BaseModel
 {

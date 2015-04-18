@@ -11,7 +11,6 @@ use Strimoid\Models\Content;
 use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
-use Strimoid\Models\Vote;
 
 class VoteController extends BaseController
 {
@@ -135,6 +134,11 @@ class VoteController extends BaseController
         return $vote;
     }
 
+    /**
+     * @param  string  $id
+     * @param  string  $type
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
     private function getObject($id, $type)
     {
         $id = \Hashids::decode($id);

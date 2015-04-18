@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use App;
 use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -134,7 +135,9 @@ class ContentController extends BaseController
 
     protected function filterByTime($builder, $days)
     {
-        if (! $days) return;
+        if (! $days) {
+            return;
+        }
 
         $builder->fromDaysAgo($days);
     }
@@ -264,14 +267,13 @@ class ContentController extends BaseController
 
         $content->save();
 
-        if ($content->thumbnail_loading)
-        {
+        if ($content->thumbnail_loading) {
             Queue::push('Strimoid\Handlers\DownloadThumbnail', [
                 'id' => $content->getKey(),
             ]);
         }
 
-        return Redirect::route('content_comments');
+        return Redirect::route('content_comments', $content);
     }
 
     /**
@@ -398,10 +400,11 @@ class ContentController extends BaseController
         try {
             $summon = new Summon($content->getURL());
             $thumbnails = $summon->fetch();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
-        $thumbnails['thumbnails'][] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=100&url='.urlencode($content->url);
+        $websiteThumbnail = 'http://img.bitpixels.com/getthumbnail?code=74491&size=100&url='.urlencode($content->url);
+        $thumbnails['thumbnails'][] = $websiteThumbnail;
 
         Session::put('thumbnails', $thumbnails['thumbnails']);
 

@@ -43,7 +43,7 @@ class AuthController extends BaseController
     private function getUserData()
     {
         $notifications = Notification::with([
-                'sourceUser' => function ($q) { $q->select('avatar'); }
+                'user' => function ($q) { $q->select('avatar'); }
             ])
             ->target(Auth::id())
             ->orderBy('created_at', 'desc')

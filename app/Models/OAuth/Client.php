@@ -1,13 +1,11 @@
 <?php namespace Strimoid\Models\OAuth;
 
-use Jenssegers\Mongodb\Model;
+use Strimoid\Models\BaseModel;
+use Strimoid\Models\Traits\HasUserRelationship;
 
-class Client extends Model
+class Client extends BaseModel
 {
-    protected $table = 'oauth_clients';
+    use HasUserRelationship;
 
-    public function user()
-    {
-        return $this->belongsTo('User');
-    }
+    protected $table = 'oauth_clients';
 }

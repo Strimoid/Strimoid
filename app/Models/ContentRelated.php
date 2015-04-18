@@ -2,10 +2,11 @@
 
 use Str;
 use Strimoid\Models\Traits\HasThumbnail;
+use Strimoid\Models\Traits\HasVotes;
 
 class ContentRelated extends BaseModel
 {
-    use HasThumbnail;
+    use HasThumbnail, HasVotes;
 
     protected static $rules = [
         'title' => 'required|min:1|max:128',

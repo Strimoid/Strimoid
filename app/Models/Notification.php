@@ -4,24 +4,15 @@ use Auth;
 use Str;
 use URL;
 
-/**
- * Notification model.
- *
- * @property string $_id
- * @property string $title Notification title
- * @property string $type Type of notification
- * @property array $targets
- * @property DateTime $created_at
- */
 class Notification extends BaseModel
 {
     protected $table = 'notifications';
     protected $visible = [
-        'id', 'created_at', 'sourceUser',
+        'id', 'created_at', 'user',
         'read', 'title', 'type', 'url',
     ];
 
-    public function sourceUser()
+    public function user()
     {
         return $this->belongsTo(User::class)->select(['avatar', 'name']);
     }
@@ -29,6 +20,11 @@ class Notification extends BaseModel
     public function targets()
     {
         return $this->belongsToMany(User::class, 'notification_targets')->withPivot('read');
+    }
+
+    public function element()
+    {
+        return $this->morphTo();
     }
 
     public function setTitle($title)
@@ -65,7 +61,7 @@ class Notification extends BaseModel
 
         // Add parameter to mark notification as read
         if (!$this->read) {
-            $params .= '?ntf_read='.mid_to_b58($this->getKey());
+            $params .= '?ntf_read='.$this->hashId();
         }
 
         try {
@@ -118,15 +114,7 @@ class Notification extends BaseModel
 
     public function getThumbnailPath()
     {
-        return $this->sourceUser->getAvatarPath();
-    }
-
-    public function addTarget(User $user)
-    {
-        $target = new NotificationTarget();
-        $target->user()->associate($user);
-
-        $this->targets()->associate($target);
+        return $this->user->getAvatarPath();
     }
 
     public function scopeTarget($query, $param)

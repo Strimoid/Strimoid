@@ -1,23 +1,16 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
-use Str;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasUserRelationship;
+use Strimoid\Models\Traits\HasVotes;
 
-/**
- * Comment model.
- *
- * @property string $_id
- * @property Content $content
- * @property string $text
- * @property string $text_source
- * @property User $user
- */
 class Comment extends BaseModel
 {
     use HasGroupRelationship, HasUserRelationship;
+    use HasSaves, HasVotes;
 
     protected static $rules = [
         'text' => 'required|min:1|max:5000',
@@ -70,7 +63,10 @@ class Comment extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) return false;
+        if (Auth::guest()) {
+            return false;
+        }
+
         return Auth::user()->isBlockingUser($this->user);
     }
 

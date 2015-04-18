@@ -4,11 +4,14 @@ use Auth;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
+use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasUserRelationship;
+use Strimoid\Models\Traits\HasVotes;
 
 class Entry extends BaseModel
 {
     use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
+    use HasSaves, HasVotes;
 
     protected static $rules = [
         'text'      => 'required|min:1|max:2500',
@@ -45,7 +48,9 @@ class Entry extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) return false;
+        if (Auth::guest()) {
+            return false;
+        }
 
         return Auth::user()->isBlockingUser($this->user);
     }

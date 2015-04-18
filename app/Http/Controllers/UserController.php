@@ -9,8 +9,8 @@ use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
-use Log;
 use Mail;
+use PDP;
 use Redirect;
 use Response;
 use Str;
@@ -19,8 +19,6 @@ use Strimoid\Models\CommentReply;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
-use Strimoid\Models\UserAction;
-use Strimoid\Models\UserBlocked;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use URL;
 
@@ -248,8 +246,10 @@ class UserController extends BaseController
             $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
         });
 
-        return Redirect::to('')->with('success_msg',
-            'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, klikając na link przesłany na twój adres email.');
+        return Redirect::to('')->with(
+            'success_msg',
+            'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, klikając na link przesłany na twój adres email.'
+        );
     }
 
     public function activateAccount(Request $request, $token)
@@ -268,9 +268,11 @@ class UserController extends BaseController
 
         Cache::put('registration.'.$ipHash, 'true', 60 * 24 * 7);
 
-        return Redirect::to('/kreator')->with('success_msg',
+        return Redirect::to('/kreator')->with(
+            'success_msg',
             'Witaj w gronie użytkowników serwisu '.Config::get('app.site_name').'! ;) '.
-            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.');
+            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.'
+        );
     }
 
     public function showRemoveAccountForm()
@@ -296,6 +298,14 @@ class UserController extends BaseController
         return Redirect::to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
 
+    /**
+     * Show user profile view.
+     *
+     * @param  User  $user
+     * @param  string $type
+     *
+     * @return \Illuminate\View\View
+     */
     public function showProfile($user, $type = 'all')
     {
         if ($user->removed_at) {

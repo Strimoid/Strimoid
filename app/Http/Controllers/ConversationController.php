@@ -6,7 +6,6 @@ use Input;
 use Redirect;
 use Strimoid\Models\Conversation;
 use Strimoid\Models\ConversationMessage;
-use Strimoid\Models\Notification;
 use Strimoid\Models\User;
 
 class ConversationController extends BaseController
@@ -72,17 +71,10 @@ class ConversationController extends BaseController
                 ->delete();
         }
 
-        $message = $conversation->messages()->create([
+        $conversation->messages()->create([
             'user_id' => Auth::id(),
             'text'    => $request->input('text'),
         ]);
-
-        $this->sendNotifications([$target->getKey()], function ($notification) use ($message, $conversation) {
-            $notification->type = 'conversation';
-            $notification->setTitle($message->text);
-            $notification->conversation()->associate($conversation);
-            $notification->save(); // todo
-        });
 
         return Redirect::to('/conversations');
     }
@@ -107,19 +99,10 @@ class ConversationController extends BaseController
 
         $conversation->notifications()->where('user_id', $target->getKey())->delete();
 
-        $message = $conversation->messages()->create([
+        $conversation->messages()->create([
             'user_id' => Auth::id(),
             'text'    => $request->input('text'),
         ]);
-
-        /*
-        $this->sendNotifications([$target->getKey()], function ($notification) use ($message, $conversation) {
-            $notification->type = 'conversation';
-            $notification->setTitle($message->text);
-            $notification->conversation()->associate($conversation);
-            $notification->save(); // todo
-        });
-        */
 
         return Redirect::route('conversation', $conversation);
     }

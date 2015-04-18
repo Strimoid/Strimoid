@@ -56,29 +56,24 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 @endif
 
 <div class="entries">
+    @foreach ($entries as $entry)
+        @include('entries.widget', ['entry' => $entry])
 
-@foreach ($entries as $entry)
-    @include('entries.widget', ['entry' => $entry])
-
-    @if ($entry->replies_count)
         @if ($entry->replies_count > 2 && !starts_with(Route::current()->getName(), 'single_entry'))
             <div class="entry entry_reply entry_expand_replies" data-id="{!! $entry->hashId() !!}">
                 Pokaż pozostałe wpisy ({!! Lang::choice('pluralization.replies', ($entry->replies_count-2)) !!})
             </div>
         @endif
 
-
-            <?php
-            $replies = (starts_with(Route::current()->getName(), 'single_entry'))
-                    ? $entry->replies : $entry->replies->slice(-2, 2);
-            ?>
+        <?php
+        $replies = (starts_with(Route::current()->getName(), 'single_entry'))
+            ? $entry->replies : $entry->replies->slice(-2, 2);
+        ?>
 
         @foreach ($replies as $reply)
             @include('entries.widget', ['entry' => $reply, 'isReply' => true])
         @endforeach
-    @endif
-@endforeach
-
+    @endforeach
 </div>
 
 @if (is_object($entries))

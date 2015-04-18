@@ -3,7 +3,7 @@
 use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
-use Setting;
+use Settings;
 
 class BaseController extends Controller
 {
@@ -22,7 +22,7 @@ class BaseController extends Controller
         $groupName = Auth::guest() ? 'popular' : $groupName;
 
         // Maybe user is having subscribed set as his homepage?
-        $subscribedEnabled = Setting::get('homepage_subscribed', false);
+        $subscribedEnabled = Settings::get('homepage_subscribed');
         $groupName = $subscribedEnabled ? 'subscribed' : $groupName;
 
         return $groupName;

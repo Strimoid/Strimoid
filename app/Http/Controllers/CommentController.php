@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use App;
 use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -11,7 +12,6 @@ use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
-use Strimoid\Models\Content;
 
 class CommentController extends BaseController
 {
@@ -81,7 +81,8 @@ class CommentController extends BaseController
         $class = Input::get('type') == 'comment'
             ? Comment::class : CommentReply::class;
 
-        $comment = $class::findOrFail(Input::get('id'));
+        $id = hashids_decode(Input::get('id'));
+        $comment = $class::findOrFail($id);
 
         if (Auth::id() !== $comment->user_id) {
             App::abort(403, 'Access denied');
@@ -115,6 +116,14 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'comment' => $comment]);
     }
 
+    /**
+     * Add new reply to given Comment object.
+     *
+     * @param  Request  $request
+     * @param  Comment  $parent
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function addReply(Request $request, $parent)
     {
         $this->validate($request, CommentReply::rules());
@@ -147,7 +156,7 @@ class CommentController extends BaseController
         $comment = $class::findOrFail(Input::get('id'));
 
         if (! $comment->canEdit()) {
-            App::abort(403, 'Access denied');
+            app()->abort(403, 'Access denied');
         }
 
         $this->validate($request, CommentReply::rules());
