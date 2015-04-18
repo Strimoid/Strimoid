@@ -26,11 +26,11 @@ class Comment extends BaseModel
         parent::boot();
 
         static::creating(function ($comment) {
-            //$comment->group_id = $comment->content->group_id;
+            $comment->group_id = $comment->content->group_id;
         });
 
         static::created(function ($comment) {
-            //$comment->content->increment('comments_count');
+            $comment->content->increment('comments_count');
         });
     }
 
