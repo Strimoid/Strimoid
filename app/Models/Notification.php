@@ -117,15 +117,6 @@ class Notification extends BaseModel
         return $this->user->getAvatarPath();
     }
 
-    public function addTarget(User $user)
-    {
-        $target = new NotificationTarget();
-        $target->user()->associate($user);
-        $target->notification()->associate($this);
-
-        $this->targets()->save($target);
-    }
-
     public function scopeTarget($query, $param)
     {
         $query->whereHas('targets', function($q) use($param)

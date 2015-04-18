@@ -189,7 +189,7 @@ class NotificationsHandler
 
             if ($user && $user->getKey() != $sourceUser->getKey()
                 && ! $user->isBlockingUser($sourceUser)) {
-                $notification->addTarget($user);
+                $notification->targets()->attach($user. ['read' => false]);
             }
         }
     }
