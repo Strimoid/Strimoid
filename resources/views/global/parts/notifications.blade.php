@@ -8,7 +8,7 @@
         <div class="notifications_scroll">
             <div class="notifications_list">
                 @foreach ($notifications as $notification)
-                    <a href="{!! $notification->getURL() !!}" class="@if (!$notification->read) new @endif" data-id="{!! mid_to_b58($notification->_id) !!}">
+                    <a href="{!! $notification->getURL() !!}" class="@if (!$notification->read) new @endif" data-id="{!! $notification->hashId() !!}">
                         @if ($notification->user)
                             <img src="{!! $notification->user->getAvatarPath() !!}" class="pull-left">
                         @endif
