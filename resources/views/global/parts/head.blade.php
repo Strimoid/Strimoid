@@ -9,7 +9,10 @@
 @endif
 
 <link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
 <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss">
+<link rel="manifest" href="/manifest.json">
 
 <title>@yield('title', e($pageTitle))</title>
 
