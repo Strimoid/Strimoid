@@ -10,8 +10,6 @@ class DownloadThumbnail
         $content = Content::findOrFail($data['id']);
         $content->autoThumbnail();
 
-        $content->unset('thumbnail_loading');
-
         $job->delete();
 
         Pusher::trigger('content-'. $content->getKey(), 'loaded-thumbnail', [

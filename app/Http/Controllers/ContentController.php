@@ -261,13 +261,9 @@ class ContentController extends BaseController
         $content->user()->associate(Auth::user());
         $content->group()->associate($group);
 
-        // Download thumbnail in background to don't waste user time
-        //if (Input::get('thumbnail') == 'on')
-        //    $content->thumbnail_loading = true;
-
         $content->save();
 
-        if ($content->thumbnail_loading) {
+        if (Input::get('thumbnail') == 'on') {
             Queue::push('Strimoid\Handlers\DownloadThumbnail', [
                 'id' => $content->getKey(),
             ]);
