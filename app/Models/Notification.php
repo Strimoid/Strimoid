@@ -31,7 +31,7 @@ class Notification extends BaseModel
 
     public function sourceUser()
     {
-        return $this->belongsTo(User::class)->select(['avatar', 'name']);
+        return $this->belongsTo(User::class, 'user_id')->select(['avatar', 'name']);
     }
 
     public function targets()
