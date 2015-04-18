@@ -11,8 +11,6 @@ class RankingController extends BaseController
 {
     public function showRanking($group = null)
     {
-        $conn = DB::connection('stats');
-
         $query = DailyAction::select(DB::raw('user_id, Sum(points) as points, Sum(contents) as contents,
                 Sum(comments) as comments, Sum(entries) as entries, Sum(uv) as uv, Sum(dv) as dv'))
             ->with(['user' => function ($q) { $q->select(['name', 'avatar']); }])
@@ -40,8 +38,6 @@ class RankingController extends BaseController
 
     public function getIndex()
     {
-        $conn = DB::connection('stats');
-
         $query = DailyAction::select(DB::raw('user_id, Sum(points) as points, Sum(contents) as contents,
                 Sum(comments) as comments, Sum(entries) as entries, Sum(uv) as uv, Sum(dv) as dv'))
             ->with('user')

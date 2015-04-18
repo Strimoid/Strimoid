@@ -273,7 +273,7 @@ class ContentController extends BaseController
             ]);
         }
 
-        return Redirect::route('content_comments');
+        return Redirect::route('content_comments', $content);
     }
 
     /**

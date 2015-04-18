@@ -93,7 +93,7 @@ class Content extends BaseModel
 
     public function getSlug()
     {
-        $params = [$this->getKey(), Str::slug($this->title)];
+        $params = [$this, Str::slug($this->title)];
 
         return route('content_comments_slug', $params);
     }
