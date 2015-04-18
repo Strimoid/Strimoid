@@ -15,7 +15,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 @elseif (isset($group) && $group instanceof Strimoid\Models\Group)
     @section('title')
         {{ $group->name }}
-    @stopś
+    @stop
 @endif
 
 @section('content')
