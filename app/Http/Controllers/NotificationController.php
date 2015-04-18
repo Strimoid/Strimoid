@@ -3,6 +3,7 @@
 use Auth;
 use Response;
 use Strimoid\Models\Notification;
+use Strimoid\Models\NotificationTarget;
 
 class NotificationController extends BaseController
 {
@@ -52,7 +53,9 @@ class NotificationController extends BaseController
 
     public function markAllAsRead()
     {
-        Notification::target(['user_id' => Auth::id(), 'read' => false])->update(['_targets.$.read' => true]);
+        NotificationTarget::where('user_id', Auth::id())
+            ->where('read', false)
+            ->update(['read' => true]);
 
         return Response::json(['status' => 'ok']);
     }
