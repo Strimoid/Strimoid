@@ -121,6 +121,7 @@ class Notification extends BaseModel
     {
         $target = new NotificationTarget();
         $target->user()->associate($user);
+        $target->notification()->associate($this);
 
         $this->targets()->save($target);
     }
