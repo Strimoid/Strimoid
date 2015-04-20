@@ -13,7 +13,7 @@ $isReply = isset($isReply) ? true : false;
     </div>
 
     <div class="panel-heading entry_header">
-        <a href="{!! route('user_profile', $entry->user->name) !!}" class="entry_author" data-hover="user_widget" data-user="{!! $entry->user_id !!}">{!! $entry->user->getColoredName() !!}</a>
+        <a href="{!! route('user_profile', $entry->user->name) !!}" class="entry_author" data-hover="user_widget" data-user="{!! $entry->user->name !!}">{!! $entry->user->getColoredName() !!}</a>
 
         <span class="pull-right">
             @if (!$isReply)
