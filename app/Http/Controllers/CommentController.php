@@ -170,7 +170,7 @@ class CommentController extends BaseController
     {
         $class = (Input::get('type') == 'comment')
             ? Comment::class : CommentReply::class;
-        $id = hashids_decode($request->input());
+        $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
 
         if ($comment->canRemove()) {
