@@ -153,7 +153,8 @@ class CommentController extends BaseController
     {
         $class = (Input::get('type') == 'comment')
             ? Comment::class : CommentReply::class;
-        $comment = $class::findOrFail(Input::get('id'));
+        $id = hashids_decode($request->input('id'));
+        $comment = $class::findOrFail($id);
 
         if (! $comment->canEdit()) {
             app()->abort(403, 'Access denied');
@@ -167,7 +168,8 @@ class CommentController extends BaseController
 
     public function removeComment(Request $request)
     {
-        $class = (Input::get('type') == 'comment') ? Comment::class : CommentReply::class;
+        $class = (Input::get('type') == 'comment')
+            ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input());
         $comment = $class::findOrFail($id);
 
