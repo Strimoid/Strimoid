@@ -324,7 +324,7 @@ $(document).ready(function() {
     $('body').on('click', '.comment_reply_link', function() {
         var link = $(this);
         var comment = $(this).parent().parent();
-        var author = $(comment).find('.comment_author').text();
+        var author = $(comment).find('.comment_author').text().trim();
 
         if (comment.hasClass('comment_reply'))
             var parent = $(comment).prevAll(".comment:not(.comment_reply)").first();
