@@ -23,7 +23,7 @@ class CommentReply extends Comment
             $reply->parent->content->increment('comments_count');
         });
 
-        parent::boot();
+        static::bootTraits();
     }
 
     public function parent()

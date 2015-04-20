@@ -23,8 +23,6 @@ class Comment extends BaseModel
 
     public static function boot()
     {
-        parent::boot();
-
         static::creating(function ($comment) {
             $comment->group_id = $comment->content->group_id;
         });
@@ -32,6 +30,8 @@ class Comment extends BaseModel
         static::created(function ($comment) {
             $comment->content->increment('comments_count');
         });
+
+        static::bootTraits();
     }
 
     public function content()
