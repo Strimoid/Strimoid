@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "16aa1edc189bebe875db65f2e7bfbb5e",
+    "hash": "b96e74d17e726238b780f94011f32415",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -58,20 +58,20 @@
         },
         {
             "name": "classpreloader/classpreloader",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ClassPreloader/ClassPreloader.git",
-                "reference": "f0bfbf71fb3335c9473f695d4d966ba2fb879a9f"
+                "reference": "0544616ba33fb2a6b792b3a7822650810c6d65d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ClassPreloader/ClassPreloader/zipball/f0bfbf71fb3335c9473f695d4d966ba2fb879a9f",
-                "reference": "f0bfbf71fb3335c9473f695d4d966ba2fb879a9f",
+                "url": "https://api.github.com/repos/ClassPreloader/ClassPreloader/zipball/0544616ba33fb2a6b792b3a7822650810c6d65d9",
+                "reference": "0544616ba33fb2a6b792b3a7822650810c6d65d9",
                 "shasum": ""
             },
             "require": {
-                "nikic/php-parser": "~1.0",
+                "nikic/php-parser": "^1.2.2",
                 "php": ">=5.3.3",
                 "symfony/console": "~2.1",
                 "symfony/filesystem": "~2.1",
@@ -86,7 +86,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -114,7 +114,7 @@
                 "class",
                 "preload"
             ],
-            "time": "2015-01-26 22:06:19"
+            "time": "2015-04-15 21:59:30"
         },
         {
             "name": "danielstjules/stringy",
@@ -1197,22 +1197,22 @@
         },
         {
             "name": "jenssegers/rollbar",
-            "version": "v1.4.1",
+            "version": "v1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/laravel-rollbar.git",
-                "reference": "929814c1cb4a66d1e513ba7b07edf6e2100169e2"
+                "reference": "924277d928d0799a844132f905fee8c6172c0bc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/laravel-rollbar/zipball/929814c1cb4a66d1e513ba7b07edf6e2100169e2",
-                "reference": "929814c1cb4a66d1e513ba7b07edf6e2100169e2",
+                "url": "https://api.github.com/repos/jenssegers/laravel-rollbar/zipball/924277d928d0799a844132f905fee8c6172c0bc0",
+                "reference": "924277d928d0799a844132f905fee8c6172c0bc0",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "4.*|5.*",
                 "php": ">=5.3",
-                "rollbar/rollbar": "0.9.*"
+                "rollbar/rollbar": "~0.11"
             },
             "require-dev": {
                 "mockery/mockery": "*",
@@ -1243,7 +1243,7 @@
                 "monitoring",
                 "rollbar"
             ],
-            "time": "2015-02-08 22:39:49"
+            "time": "2015-04-19 12:41:57"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1796,16 +1796,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucadegasperi/oauth2-server-laravel.git",
-                "reference": "fd7b6639c2627ce8350f74937b7b726f5a1eba79"
+                "reference": "556ccd46ffadf35e0cf027e85b9f2bf59c7d3c89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucadegasperi/oauth2-server-laravel/zipball/fd7b6639c2627ce8350f74937b7b726f5a1eba79",
-                "reference": "fd7b6639c2627ce8350f74937b7b726f5a1eba79",
+                "url": "https://api.github.com/repos/lucadegasperi/oauth2-server-laravel/zipball/556ccd46ffadf35e0cf027e85b9f2bf59c7d3c89",
+                "reference": "556ccd46ffadf35e0cf027e85b9f2bf59c7d3c89",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "5.0.*",
+                "illuminate/config": "5.0.*",
+                "illuminate/console": "5.0.*",
+                "illuminate/contracts": "5.0.*",
+                "illuminate/database": "5.0.*",
+                "illuminate/http": "5.0.*",
+                "illuminate/support": "5.0.*",
                 "league/oauth2-server": "4.1.*",
                 "php": ">=5.4.0"
             },
@@ -1850,7 +1855,7 @@
                 "oauth2",
                 "server"
             ],
-            "time": "2015-03-09 10:48:56"
+            "time": "2015-04-20 18:25:14"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -2258,6 +2263,56 @@
             "time": "2013-06-07 02:13:19"
         },
         {
+            "name": "predis/predis",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "7a170b3d8123c556597b4fbdb88631f99de180c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/7a170b3d8123c556597b4fbdb88631f99de180c2",
+                "reference": "7a170b3d8123c556597b4fbdb88631f99de180c2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete PHP client library for Redis",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2015-01-02 12:51:34"
+        },
+        {
             "name": "psr/log",
             "version": "1.0.0",
             "source": {
@@ -2456,22 +2511,26 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v0.9.12",
+            "version": "v0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "9b4c80cec8d9485fe0d7758cc98e820673ddea82"
+                "reference": "ef8bd4e16ec1e84eece96aeea17a1909d639e241"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/9b4c80cec8d9485fe0d7758cc98e820673ddea82",
-                "reference": "9b4c80cec8d9485fe0d7758cc98e820673ddea82",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/ef8bd4e16ec1e84eece96aeea17a1909d639e241",
+                "reference": "ef8bd4e16ec1e84eece96aeea17a1909d639e241",
                 "shasum": ""
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.5.*"
             },
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "rollbar.php"
+                    "src/rollbar.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2494,7 +2553,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2015-03-06 16:24:58"
+            "time": "2015-04-04 00:22:54"
         },
         {
             "name": "roumen/sitemap",

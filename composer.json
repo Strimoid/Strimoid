@@ -40,7 +40,8 @@
           "vinkla/hashids": "~1.0",
           "filp/whoops": "~1.1",
           "msurguy/honeypot": "dev-master",
-          "lucadegasperi/oauth2-server-laravel": "4.0.x@dev"
+          "lucadegasperi/oauth2-server-laravel": "4.0.x@dev",
+            "predis/predis": "~1.0"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",
