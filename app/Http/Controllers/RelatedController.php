@@ -44,8 +44,6 @@ class RelatedController extends BaseController
         $related->user()->associate(Auth::user());
         $related->content()->associate($content);
 
-        $content->increment('related_count');
-
         $related->save();
 
         return Redirect::route('content_comments', $content->getKey());
@@ -90,13 +88,11 @@ class RelatedController extends BaseController
         $related->user()->associate(Auth::user());
         $related->content()->associate($content);
 
-        $content->increment('related_count');
-
         $related->save();
 
         return Response::json([
             'status'  => 'ok',
-            '_id'     => $related->getKey(),
+            '_id'     => $related->hashId(),
             'related' => $related,
         ]);
     }

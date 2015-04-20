@@ -17,14 +17,27 @@ class ContentRelated extends BaseModel
     protected $hidden = ['content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
 
+    public static function boot()
+    {
+        static::creating(function ($related) {
+            $related->group_id = $related->content->group_id;
+        });
+
+        static::created(function ($related) {
+            $related->content->increment('related_count');
+        });
+
+        static::bootTraits();
+    }
+
     public function content()
     {
-        return $this->belongsTo('Strimoid\Models\Content');
+        return $this->belongsTo(Content::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function delete()
@@ -32,16 +45,6 @@ class ContentRelated extends BaseModel
         Content::where('id', $this->content_id)->decrement('related_count');
 
         return parent::delete();
-    }
-
-    public function setNsfwAttribute($value)
-    {
-        $this->attributes['nsfw'] = toBool($value);
-    }
-
-    public function setEngAttribute($value)
-    {
-        $this->attributes['eng'] = toBool($value);
     }
 
     public function getURL()
