@@ -325,7 +325,7 @@ class UserController extends BaseController
             $data['actions'] = $user->actions()->where('element_type', EntryReply::class)
                 ->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'moderated') {
-            $data['moderated'] = $user->moderatedGroups();
+            $data['moderated'] = $user->moderatedGroups()->paginate(25);
         } else {
             $data['actions'] = $user->actions()->with('element')->orderBy('created_at', 'desc')->paginate(15);
         }

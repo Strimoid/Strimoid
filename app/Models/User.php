@@ -115,32 +115,32 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function bannedGroups()
     {
-        return $this->belongsToMany(Group::class, 'group_bans');
+        return $this->belongsToMany(Group::class, 'group_bans')->withTimestamps();
     }
 
     public function blockedGroups()
     {
-        return $this->belongsToMany(Group::class, 'user_blocked_groups');
+        return $this->belongsToMany(Group::class, 'user_blocked_groups')->withTimestamps();
     }
 
     public function subscribedGroups()
     {
-        return $this->belongsToMany(Group::class, 'user_subscribed_groups');
+        return $this->belongsToMany(Group::class, 'user_subscribed_groups')->withTimestamps();
     }
 
     public function moderatedGroups()
     {
-        return $this->belongsToMany(Group::class, 'group_moderators')->withPivot('type');
+        return $this->belongsToMany(Group::class, 'group_moderators')->withTimestamps()->withPivot('type');
     }
 
     public function blockedUsers()
     {
-        return $this->belongsToMany(User::class, 'user_blocked_users', 'source_id', 'target_id');
+        return $this->belongsToMany(User::class, 'user_blocked_users', 'source_id', 'target_id')->withTimestamps();
     }
 
     public function followedUsers()
     {
-        return $this->belongsToMany(User::class, 'user_followed_users', 'source_id', 'target_id');
+        return $this->belongsToMany(User::class, 'user_followed_users', 'source_id', 'target_id')->withTimestamps();
     }
 
     public function blockedDomains()

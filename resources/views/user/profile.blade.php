@@ -30,11 +30,11 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($moderated as $moderator)
+            @foreach ($moderated as $group)
             <tr>
                 <td>{!! $x++ !!}</td>
-                <td><a href="{!! route('group_contents', $moderator->group_id) !!}">{!! $moderator->group_id !!}</a></td>
-                <td><time pubdate datetime="{!! $moderator->created_at->format('c') !!}" title="{!! $moderator->getLocalTime() !!}">{!! $moderator->created_at->diffForHumans() !!}</time></td>
+                <td><a href="{!! route('group_contents', $group) !!}">{{ $group->urlname }}</a></td>
+                <td><time pubdate datetime="{!! $group->pivot->created_at->format('c') !!}" title="{!! $group->getLocalTime() !!}">{!! $group->pivot->created_at->diffForHumans() !!}</time></td>
             </tr>
             @endforeach
             </tbody>
