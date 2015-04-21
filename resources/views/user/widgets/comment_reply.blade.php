@@ -1,5 +1,5 @@
-<div class="panel-default comment comment_reply" data-id="{!! $reply->_id !!}" data-parent-id="{!! $comment->_id !!}">
-    <a name="{!! $reply->_id !!}"></a>
+<div class="panel-default comment comment_reply" data-id="{!! $reply->hashId() !!}" data-parent-id="{!! $reply->parent->hashId() !!}">
+    <a name="{!! $reply->hashId() !!}"></a>
 
     <div class="comment_avatar">
         <img src="{!! $reply->user->getAvatarPath() !!}" alt="{!! $reply->user->name !!}" class="{!! $reply->user->getSexClass() !!}">
@@ -11,7 +11,7 @@
         <span class="pull-right">
             <span class="glyphicon glyphicon-time"></span> <a href="{!! $reply->getURL() !!}" rel="nofollow"><time pubdate datetime="{!! $reply->created_at->format('c') !!}" title="{!! $reply->getLocalTime() !!}">{!! $reply->created_at->diffForHumans() !!}</time></a>
 
-            <span class="voting" data-id="{!! $reply->_id !!}" data-state="{!! $reply->getVoteState() !!}" data-type="comment_reply">
+            <span class="voting" data-id="{!! $reply->hashId() !!}" data-state="{!! $reply->getVoteState() !!}" data-type="comment_reply">
                 <button type="button" class="btn btn-default btn-xs vote-btn-up @if ($reply->getVoteState() == 'uv') btn-success @endif">
                     <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $reply->uv !!}</span>
                 </button>
