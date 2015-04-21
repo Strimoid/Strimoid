@@ -70,7 +70,7 @@
     @endif
 
     @if ($action->element instanceof Strimoid\Models\CommentReply)
-        @if (!isset($oldReply->comment) || $oldReply->comment->getKey() != $comment->getKey())
+        @if (!isset($oldReply->comment) || $oldReply->comment->getKey() != $action->element->parent->getKey())
             @include('user.widgets.comment', ['content' => $action->element->parent])
         @endif
 
