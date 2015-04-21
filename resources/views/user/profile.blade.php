@@ -71,7 +71,7 @@
 
     @if ($action->element instanceof Strimoid\Models\CommentReply)
         @if (!isset($oldReply->comment) || $oldReply->comment->getKey() != $action->element->parent->getKey())
-            @include('user.widgets.comment', ['content' => $action->element->parent])
+            @include('user.widgets.comment', ['comment' => $action->element->parent])
         @endif
 
         @include('user.widgets.comment_reply', ['reply' => $action->element])
@@ -162,7 +162,7 @@ $blocked = Auth::user()->isBlockingUser($user);
         <a href="{!! route('user_profile.type_filter', array($user->name, 'entry_replies')) !!}">{!! Lang::choice('pluralization.replies', intval($user->entries->count())) !!} na wpisy</a>
         </li>
         <li @if ($type == 'moderated') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'moderated')) !!}">{!! Lang::choice('pluralization.moderatedgroups', intval(Strimoid\Models\GroupModerator::where('user_id', $user->getKey())->count())) !!}</a>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'moderated')) !!}">{!! Lang::choice('pluralization.moderatedgroups', intval($user->moderatedGroups->count())) !!}</a>
         </li>
     </ul>
 </div>

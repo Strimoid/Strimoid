@@ -5,7 +5,7 @@ return [
     'subscribers'     => ':count subskrybujący|:count subskrybujących|:count subskrybujących',
     'contents'        => ':count treść|:count treści|:count treści',
     'entries'         => ':count wpis|:count wpisy|:count wpisów',
-    'replies'         => ':count odpowiedź|:count odpowiedzi|:count odpowiezi',
+    'replies'         => ':count odpowiedź|:count odpowiedzi|:count odpowiedzi',
     'moderators'      => ':count moderator|:count moderatorów|:count moderatorów',
     'banned'          => ':count zbanowany|:count zbanowanych|:count zbanowanych',
     'comments'        => ':count komentarz|:count komentarze|:count komentarzy',
