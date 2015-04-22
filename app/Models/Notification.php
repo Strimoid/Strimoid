@@ -33,6 +33,10 @@ class Notification extends BaseModel
 
     public function getReadAttribute()
     {
+        if (!isset($this->pivot)) {
+            return false;
+        }
+
         return Auth::check() ? $this->pivot->read : false;
     }
 
