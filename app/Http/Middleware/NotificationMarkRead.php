@@ -2,7 +2,7 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Strimoid\Models\Notification;
+use Strimoid\Models\NotificationTarget;
 
 class NotificationMarkRead
 {
@@ -14,20 +14,13 @@ class NotificationMarkRead
     protected $auth;
 
     /**
-     * @var Notification
-     */
-    protected $notification;
-
-    /**
      * Create a new filter instance.
      *
      * @param Guard        $auth
-     * @param Notification $notification
      */
-    public function __construct(Guard $auth, Notification $notification)
+    public function __construct(Guard $auth)
     {
         $this->auth = $auth;
-        $this->notification = $notification;
     }
 
     /**
@@ -40,13 +33,13 @@ class NotificationMarkRead
      */
     public function handle($request, Closure $next)
     {
-        if ($request->query->has('ntf_read')
-            && $this->auth->check()) {
+        if ($request->query->has('ntf_read') && $this->auth->check()) {
             $id = $request->query->get('ntf_read');
+            $id = hashids_decode($id);
 
-            $this->notification->where('id', $id)
-                ->target(['user_id'         => $this->auth->id()])
-                ->update(['_targets.$.read' => true]);
+            NotificationTarget::where('notification_id', $id)
+                ->where('user_id', $this->auth->id())
+                ->update(['read' => true]);
         }
 
         return $next($request);
