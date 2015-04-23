@@ -27,10 +27,12 @@
     "bootstrap-hover-dropdown": "~2.1.3",
     "bootbox": "4.4.0",
     "codemirror": "5.0.0",
-    "lodash": "3.4.0",
-    "perfect-scrollbar": "0.6.1",
+    "lodash": "~3.7.0",
+    "perfect-scrollbar": "~0.6.2",
     "pusher": "~2.2.4",
-    "jquery-methodOverride": "*"
+    "jquery-methodOverride": "*",
+    "react": "~0.13.2",
+    "react-bootstrap": "~0.21.0"
   },
   "overrides": {
     "codemirror": {

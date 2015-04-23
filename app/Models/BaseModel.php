@@ -5,9 +5,12 @@ use DateTimeZone;
 use Eloquent;
 use Hashids;
 use Setting;
+use Watson\Rememberable\Rememberable;
 
 abstract class BaseModel extends Eloquent
 {
+    use Rememberable;
+
     /**
      * @var array Validation rules
      */

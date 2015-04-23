@@ -78,9 +78,11 @@ class Settings
 
     public function get($key)
     {
-        if (Auth::guest()) return $this->settings[$key]['default'];
+        if (Auth::guest()) {
+            return $this->settings[$key]['default'];
+        }
 
-        $value = Auth::user()->settings()->where('key', $key)->first();
+        $value = Auth::user()->settings()->remember(60)->where('key', $key)->first();
         return $value ?: $this->settings[$key]['default'];
     }
 

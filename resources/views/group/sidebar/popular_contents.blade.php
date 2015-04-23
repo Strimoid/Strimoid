@@ -9,7 +9,7 @@ if (isset($group) && $group instanceof Strimoid\Models\Group)
     $builder->where('group_id', $group->getKey());
 }
 
-$popularContents = $builder->orderBy('uv', 'desc')->take(5)->get();
+$popularContents = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
 
 ?>
 

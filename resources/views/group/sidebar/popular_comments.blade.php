@@ -12,7 +12,7 @@ if (isset($group) && $group instanceof Strimoid\Models\Group)
     $builder->where('group_id', $group->getKey());
 }
 
-$popularComments = $builder->orderBy('uv', 'desc')->take(5)->get();
+$popularComments = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
 
 ?>
 

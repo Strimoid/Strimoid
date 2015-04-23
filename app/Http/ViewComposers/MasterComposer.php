@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Setting;
 use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
+use Strimoid\Models\NotificationTarget;
 
 class MasterComposer
 {
@@ -28,20 +29,16 @@ class MasterComposer
         $data = $view->getData();
 
         if (Auth::check()) {
-            // Load last 15 notifications
-            $notifications = Notification::with('user')
-                ->target(['user_id' => Auth::id()])
+            $notifications = Auth::user()->notifications()
+                ->with('user')
                 ->orderBy('created_at', 'desc')
                 ->take(15)->get();
-
             $view->with('notifications', $notifications);
 
-            // And check how much unread notifications user has
-            $elemMatch = ['user_id' => Auth::id(), 'read' => false];
-
-            $newNotificationsCount = Notification::target($elemMatch)->count();
-
-            $view->with('newNotificationsCount', $newNotificationsCount);
+            $unreadCount = Auth::user()->notifications()
+                ->wherePivot('read', false)
+                ->count();
+            $view->with('newNotificationsCount', $unreadCount);
         }
 
         // Get object from which we can extract name to use as page title

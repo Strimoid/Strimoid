@@ -9,5 +9,7 @@
         }
     ],
     "start_url": "/",
-    "display": "standalone"
+    "display": "standalone",
+    "gcm_sender_id": "885886815669",
+    "gcm_user_visible_only": true
 }
