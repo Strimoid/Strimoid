@@ -37,11 +37,10 @@ class EntryReply extends Entry
 
     public function isLast()
     {
-        $lastReply = Entry::where('id', $this->parent->getKey())
-            ->project(['_replies' => ['$slice' => -1]])
-            ->first()->replies->first();
-
-        return $lastReply->getKey() == $this->getKey();
+        $lastId = $this->parent->replies()
+            ->orderBy('created_at', 'desc')
+            ->pluck('id');
+        return $lastId == $this->getKey();
     }
 
     public function getURL()
@@ -51,8 +50,7 @@ class EntryReply extends Entry
 
     public function canEdit()
     {
-        return Auth::id() === $this->user_id
-            && $this == $this->parent->replies->last();
+        return Auth::id() === $this->user_id && $this->isLast();
     }
 
     public function canRemove()

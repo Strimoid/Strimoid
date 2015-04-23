@@ -35,13 +35,12 @@ class CommentReply extends Comment
         return $this->belongsTo(Comment::class);
     }
 
-    public function isHidden()
+    public function isLast()
     {
-        if (Auth::guest()) {
-            return false;
-        }
-
-        return Auth::user()->isBlockingUser($this->user);
+        $lastId = $this->parent->replies()
+            ->orderBy('created_at', 'desc')
+            ->pluck('id');
+        return $lastId == $this->getKey();
     }
 
     public function getURL()
@@ -52,8 +51,7 @@ class CommentReply extends Comment
 
     public function canEdit()
     {
-        return Auth::id() == $this->user_id
-            && $this == $this->parent->replies->last();
+        return Auth::id() == $this->user_id && $this->isLast();
     }
 
     public function canRemove()
