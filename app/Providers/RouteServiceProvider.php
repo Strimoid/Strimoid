@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
             $ids = Hashids::decode($value);
 
             if (!count($ids)) {
-                throw new ModelNotFoundException;
+                abort(404);
             }
 
             return $className::findOrFail($ids[0]);
