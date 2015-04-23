@@ -7,12 +7,14 @@ class Banned extends FakeFolder
 {
     protected function getBuilder($model)
     {
+        if (Auth::guest()) {
+            return redirect()->guest('login');
+        }
+
         $builder = with(new $model())->newQuery();
 
-        if (Auth::check()) {
-            $bannedGroups = Auth::user()->bannedGroups()->lists('id');
-            $builder->whereIn('group_id', $bannedGroups);
-        }
+        $bannedGroups = Auth::user()->bannedGroups()->lists('id');
+        $builder->whereIn('group_id', $bannedGroups);
 
         return $builder;
     }

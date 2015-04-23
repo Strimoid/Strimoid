@@ -7,12 +7,14 @@ class Downvoted extends FakeFolder
 {
     protected function getBuilder($model)
     {
+        if (Auth::guest()) {
+            return redirect()->guest('login');
+        }
+
         $builder = with(new $model())->newQuery();
 
-        if (Auth::check()) {
-            $builder->where('votes.user_id', Auth::id())
-                ->where('votes.up', '!=', true);
-        }
+        $builder->where('votes.user_id', Auth::id())
+            ->where('votes.up', '!=', true);
 
         return $builder;
     }

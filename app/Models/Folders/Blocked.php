@@ -8,21 +8,27 @@ class Blocked extends FakeFolder
 {
     protected function getBuilder($model)
     {
+        if (Auth::guest()) {
+            return redirect()->guest('login');
+        }
+
         $builder = with(new $model())->newQuery();
 
-        if (Auth::check()) {
-            $blockedGroups = Auth::user()->blockedGroups()->lists('id');
-            $builder->whereIn('group_id', $blockedGroups);
+        $blockedGroups = Auth::user()->blockedGroups()->lists('id');
+        $builder->whereIn('group_id', $blockedGroups);
 
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
-            $builder->orWhereIn('user_id', $blockedUsers);
-        }
+        $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+        $builder->orWhereIn('user_id', $blockedUsers);
 
         return $builder;
     }
 
     public function contents($tab = null, $sortBy = null)
     {
+        if (Auth::guest()) {
+            return redirect()->guest('login');
+        }
+
         $builder = static::getBuilder(Content::class);
 
         $blockedDomains = Auth::user()->blockedDomains();

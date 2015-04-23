@@ -7,6 +7,10 @@ class Observed extends FakeFolder
 {
     protected function getBuilder($model)
     {
+        if (Auth::guest()) {
+            return redirect()->guest('login');
+        }
+
         $builder = with(new $model())->newQuery();
 
         $observedUsers = Auth::user()->followedUsers()->lists('id');
