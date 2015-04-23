@@ -94,6 +94,6 @@ abstract class BaseModel extends Eloquent
     {
         $fromTime = Carbon::now()->subDays($days)
             ->hour(0)->minute(0)->second(0);
-        $query->where('created_at', '>', $fromTime);
+        $query->where('created_at', '>', $fromTime->toDateTimeString());
     }
 }
