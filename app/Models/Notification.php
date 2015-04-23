@@ -1,9 +1,9 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
+use Hashids;
 use Str;
 use Strimoid\Models\Traits\HasUserRelationship;
-use URL;
 
 class Notification extends BaseModel
 {
@@ -58,15 +58,15 @@ class Notification extends BaseModel
                     $url = route('single_entry', $this->element);
                     break;
                 case EntryReply::class:
-                    $url = route('single_entry', $this->element->parent_id);
+                    $url = route('single_entry', Hashids::encode($this->element->parent_id));
                     $params .= '#'.$this->element->hashId();
                     break;
                 case Comment::class:
-                    $url = route('content_comments', $this->element->content_id);
+                    $url = route('content_comments', Hashids::encode($this->element->content_id));
                     $params .= '#'.$this->element->hashId();
                     break;
                 case CommentReply::class:
-                    $url = route('content_comments', $this->element->parent->content_id);
+                    $url = route('content_comments', Hashids::encode($this->element->parent->content_id));
                     $params .= '#'.$this->element->hashId();
                     break;
                 case Conversation::class:
