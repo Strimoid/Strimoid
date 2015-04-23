@@ -17,13 +17,25 @@ abstract class BaseModel extends Eloquent
     protected static $rules = [];
 
     /**
+     * Return a timestamp as DateTime object.
+     *
+     * @param  mixed  $value
+     * @return \Jenssegers\Date\Date
+     */
+    protected function asDateTime($value)
+    {
+        $value = parent::asDateTime($value);
+        return Date::instance($value);
+    }
+
+    /**
      * Get time ago from object creation.
      *
      * @return string
      */
     public function createdAgo()
     {
-        return Date::instance($this->created_at)->ago();
+        return $this->created_at->ago();
     }
 
     /**
@@ -33,10 +45,10 @@ abstract class BaseModel extends Eloquent
      */
     public function getLocalTime()
     {
-        $timezone = new DateTimeZone(Setting::get('timezone', 'Europe/Warsaw'));
+        $timezone = Setting::get('timezone');
+        $timezone = new DateTimeZone($timezone);
 
-        return $this->created_at->setTimeZone($timezone)
-            ->format('d/m/Y H:i:s');
+        return $this->created_at->setTimeZone($timezone)->format('d/m/Y H:i:s');
     }
 
     /**

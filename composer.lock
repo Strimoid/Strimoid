@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b96e74d17e726238b780f94011f32415",
+    "hash": "15521032f607a5d7c3868da1747edd15",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -915,16 +915,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "8f3761154b4c1f5128365dfc32cbf757f27d97b6"
+                "reference": "9c26a834ff7d1c2bb4e88f98228030eed26960d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/8f3761154b4c1f5128365dfc32cbf757f27d97b6",
-                "reference": "8f3761154b4c1f5128365dfc32cbf757f27d97b6",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/9c26a834ff7d1c2bb4e88f98228030eed26960d4",
+                "reference": "9c26a834ff7d1c2bb4e88f98228030eed26960d4",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +967,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2015-03-18 17:41:04"
+            "time": "2015-04-22 16:05:20"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -1410,16 +1410,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.27",
+            "version": "v5.0.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "4d6330118a295086ce9ff8eed2200d5b67f17688"
+                "reference": "06a09429322cf53e5bd4587db1060f02a291562e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4d6330118a295086ce9ff8eed2200d5b67f17688",
-                "reference": "4d6330118a295086ce9ff8eed2200d5b67f17688",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/06a09429322cf53e5bd4587db1060f02a291562e",
+                "reference": "06a09429322cf53e5bd4587db1060f02a291562e",
                 "shasum": ""
             },
             "require": {
@@ -1489,7 +1489,7 @@
                 "predis/predis": "~1.0"
             },
             "suggest": {
-                "aws/aws-sdk-php": "Required to use the SQS queue driver (~2.4).",
+                "aws/aws-sdk-php": "Required to use the SQS queue driver and SES mail driver (~2.4).",
                 "doctrine/dbal": "Required to rename columns and drop SQLite columns (~2.4).",
                 "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers (~5.0).",
                 "iron-io/iron_mq": "Required to use the iron queue driver (~1.5).",
@@ -1532,7 +1532,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-04-04 01:34:57"
+            "time": "2015-04-21 01:44:32"
         },
         {
             "name": "league/commonmark",
@@ -1796,12 +1796,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucadegasperi/oauth2-server-laravel.git",
-                "reference": "556ccd46ffadf35e0cf027e85b9f2bf59c7d3c89"
+                "reference": "996c0498c746289e4738dd4f2a33b3ab3db62350"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucadegasperi/oauth2-server-laravel/zipball/556ccd46ffadf35e0cf027e85b9f2bf59c7d3c89",
-                "reference": "556ccd46ffadf35e0cf027e85b9f2bf59c7d3c89",
+                "url": "https://api.github.com/repos/lucadegasperi/oauth2-server-laravel/zipball/996c0498c746289e4738dd4f2a33b3ab3db62350",
+                "reference": "996c0498c746289e4738dd4f2a33b3ab3db62350",
                 "shasum": ""
             },
             "require": {
@@ -1855,7 +1855,7 @@
                 "oauth2",
                 "server"
             ],
-            "time": "2015-04-20 18:25:14"
+            "time": "2015-04-22 13:11:38"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -3716,12 +3716,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dwightwatson/rememberable.git",
-                "reference": "f79cc55b89d0f1aab7a7959ddc40d7caee030f9f"
+                "reference": "dd3d188c1f66c4f73f736a61dad8e8a364e40122"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dwightwatson/rememberable/zipball/f79cc55b89d0f1aab7a7959ddc40d7caee030f9f",
-                "reference": "f79cc55b89d0f1aab7a7959ddc40d7caee030f9f",
+                "url": "https://api.github.com/repos/dwightwatson/rememberable/zipball/dd3d188c1f66c4f73f736a61dad8e8a364e40122",
+                "reference": "dd3d188c1f66c4f73f736a61dad8e8a364e40122",
                 "shasum": ""
             },
             "require": {
@@ -3756,7 +3756,7 @@
                 "laravel",
                 "remember"
             ],
-            "time": "2015-03-27 10:11:54"
+            "time": "2015-04-21 01:07:16"
         }
     ],
     "packages-dev": [
@@ -4062,12 +4062,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "9ec8e63ae205244131b1a1ab7ea8557a11ab1102"
+                "reference": "e35ec6b8814a8e7d03f9b13c3976ab476852b05a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/9ec8e63ae205244131b1a1ab7ea8557a11ab1102",
-                "reference": "9ec8e63ae205244131b1a1ab7ea8557a11ab1102",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/e35ec6b8814a8e7d03f9b13c3976ab476852b05a",
+                "reference": "e35ec6b8814a8e7d03f9b13c3976ab476852b05a",
                 "shasum": ""
             },
             "require": {
@@ -4134,7 +4134,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2015-04-17 01:56:59"
+            "time": "2015-04-23 01:12:21"
         },
         {
             "name": "doctrine/annotations",
