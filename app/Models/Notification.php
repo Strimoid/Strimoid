@@ -58,7 +58,7 @@ class Notification extends BaseModel
                     $url = route('single_entry', $this->element);
                     break;
                 case EntryReply::class:
-                    $url = route('single_entry_reply', $this->element);
+                    $url = route('single_entry', $this->element->parent_id);
                     $params .= '#'.$this->element->hashId();
                     break;
                 case Comment::class:
