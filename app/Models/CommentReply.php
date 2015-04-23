@@ -23,19 +23,16 @@ class CommentReply extends Comment
             $reply->parent->content->increment('comments_count');
         });
 
+        static::deleted(function ($reply) {
+            $reply->parent->content->decrement('comments_count');
+        });
+
         static::bootTraits();
     }
 
     public function parent()
     {
         return $this->belongsTo(Comment::class);
-    }
-
-    public function delete()
-    {
-        Content::where('id', $this->comment->content_id)->decrement('comments_count');
-
-        return parent::delete();
     }
 
     public function isHidden()

@@ -23,19 +23,16 @@ class EntryReply extends Entry
             $reply->parent->increment('replies_count');
         });
 
+        static::deleted(function ($reply) {
+            $reply->parent->decrement('replies_count');
+        });
+
         parent::boot();
     }
 
     public function parent()
     {
         return $this->belongsTo(Entry::class);
-    }
-
-    public function delete()
-    {
-        Entry::where('id', $this->parent_id)->decrement('replies_count');
-
-        return parent::delete();
     }
 
     public function isLast()
