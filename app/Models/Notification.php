@@ -62,11 +62,11 @@ class Notification extends BaseModel
                     $params .= '#'.$this->element->hashId();
                     break;
                 case Comment::class:
-                    $url = route('content_comments', $this->element);
+                    $url = route('content_comments', $this->element->content_id);
                     $params .= '#'.$this->element->hashId();
                     break;
                 case CommentReply::class:
-                    $url = route('content_comments', $this->element);
+                    $url = route('content_comments', $this->element->parent->content_id);
                     $params .= '#'.$this->element->hashId();
                     break;
                 case Conversation::class:
