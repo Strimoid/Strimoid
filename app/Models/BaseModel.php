@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Models;
 
+use Carbon\Carbon;
 use Date;
 use DateTimeZone;
 use Eloquent;
@@ -91,7 +92,7 @@ abstract class BaseModel extends Eloquent
      */
     public function scopeFromDaysAgo($query, $days)
     {
-        $fromTime = Date::now()->subDays($days)
+        $fromTime = Carbon::now()->subDays($days)
             ->hour(0)->minute(0)->second(0);
         $query->where('created_at', '>', $fromTime);
     }
