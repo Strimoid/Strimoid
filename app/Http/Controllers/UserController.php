@@ -288,8 +288,6 @@ class UserController extends BaseController
 
         Auth::user()->removed_at = new Carbon();
         Auth::user()->type = 'deleted';
-        Auth::user()->unset(['age', 'description', 'email', 'location', 'password', 'sex', 'shadow_email']);
-        Auth::user()->deleteAvatar();
 
         Auth::user()->save();
 
