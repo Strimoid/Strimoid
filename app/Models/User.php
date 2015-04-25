@@ -93,9 +93,19 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->hasMany(Comment::class);
     }
 
+    public function commentReplies()
+    {
+        return $this->hasMany(CommentReply::class);
+    }
+
     public function entries()
     {
         return $this->hasMany(Entry::class);
+    }
+
+    public function entryReplies()
+    {
+        return $this->hasMany(EntryReply::class);
     }
 
     public function folders()
