@@ -6,19 +6,33 @@
             @include('content.widget', ['content' => $content])
         @endforeach
 
-        {!! with(new BootstrapPresenter($contents))->render() !!}
+        {!! $contents->render() !!}
     @elseif ($type == 'comments')
         @foreach ($comments as $comment)
             @include('user.widgets.comment', ['comment' => $comment])
         @endforeach
 
-        {!! with(new BootstrapPresenter($comments))->render() !!}
+        {!! $comments->render() !!}
+    @elseif ($type == 'comment_replies')
+        @foreach ($replies as $reply)
+            @include('user.widgets.comment', ['comment' => $reply->parent])
+            @include('user.widgets.comment_reply', ['reply' => $reply])
+        @endforeach
+
+        {!! $replies->render() !!}
     @elseif ($type == 'entries')
         @foreach ($entries as $entry)
             @include('user.widgets.entry', ['entry' => $entry])
         @endforeach
 
-        {!! with(new BootstrapPresenter($entries))->render() !!}
+        {!! $entries->render() !!}
+    @elseif ($type == 'entry_replies')
+        @foreach ($replies as $reply)
+            @include('user.widgets.entry', ['entry' => $reply->parent])
+            @include('user.widgets.entry_reply', ['reply' => $reply])
+        @endforeach
+
+        {!! $replies->render() !!}
     @elseif ($type == 'moderated')
     <?php $x = $moderated->firstItem() ?>
         <table class="table">
@@ -40,7 +54,7 @@
             </tbody>
         </table>
 
-        {!! with(new BootstrapPresenter($moderated))->render() !!}
+        {!! $moderated->render() !!}
     @endif
 
     @if (isset($actions))
@@ -65,7 +79,8 @@
         @include('content.widget', ['content' => $action->element])
     @endif
 
-    @if ($action->element instanceof Strimoid\Models\Comment)
+    @if ($action->element instanceof Strimoid\Models\Comment
+            && ! $action->element instanceof Strimoid\Models\CommentReply)
         @include('user.widgets.comment', ['comment' => $action->element])
     @endif
 
@@ -77,7 +92,8 @@
         @include('user.widgets.comment_reply', ['reply' => $action->element])
     @endif
 
-    @if ($action->element instanceof Strimoid\Models\Entry)
+    @if ($action->element instanceof Strimoid\Models\Entry
+            && ! $action->element instanceof Strimoid\Models\EntryReply)
         @include('user.widgets.entry', ['entry' => $action->element])
     @endif
 

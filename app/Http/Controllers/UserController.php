@@ -315,13 +315,11 @@ class UserController extends BaseController
         } elseif ($type == 'comments') {
             $data['comments'] = $user->comments()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'comment_replies') {
-            $data['actions'] = $user->actions()->where('element_type', CommentReply::class)
-                ->orderBy('created_at', 'desc')->paginate(15);
+            $data['replies'] = $user->commentReplies()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'entries') {
             $data['entries'] = $user->entries()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'entry_replies') {
-            $data['actions'] = $user->actions()->where('element_type', EntryReply::class)
-                ->orderBy('created_at', 'desc')->paginate(15);
+            $data['replies'] = $user->entryReplies()->orderBy('created_at', 'desc')->paginate(15);
         } elseif ($type == 'moderated') {
             $data['moderated'] = $user->moderatedGroups()->paginate(25);
         } else {
