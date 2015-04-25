@@ -23,15 +23,17 @@
         </div>
 
         @if ($content->thumbnail)
-        <a class="pull-left" href="{{ $content->url }}" rel="nofollow" target="_blank">
-            <img class="media-object img-thumbnail" src="{!! $content->getThumbnailPath() !!}">
-        </a>
+            <a class="pull-left" href="{{ $content->getURL() }}" rel="nofollow" target="_blank">
+                <img class="media-object img-thumbnail"
+                     src="{!! $content->getThumbnailPath(100, 75) !!}"
+                     srcset="{!! $content->getThumbnailPath(200, 150) !!} 2x">
+            </a>
         @elseif ($content->thumbnail_loading)
-        <a class="pull-left" href="{{ $content->url }}" rel="nofollow" target="_blank">
-            <div class="media-object img-thumbnail refreshing">
-                <span class="glyphicon glyphicon-refresh"></span>
-            </div>
-        </a>
+            <a class="pull-left" href="{{ $content->url }}" rel="nofollow" target="_blank">
+                <div class="media-object img-thumbnail refreshing">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </div>
+            </a>
         @endif
 
         <div class="media-body content_desc">
