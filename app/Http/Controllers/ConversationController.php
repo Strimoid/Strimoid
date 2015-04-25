@@ -31,9 +31,10 @@ class ConversationController extends BaseController
         return view('conversations.display', $data);
     }
 
-    public function showCreateForm($username = null)
+    public function showCreateForm($user = null)
     {
         $conversations = $this->getConversations();
+        $username = $user ? $user->name : '';
 
         return view('conversations.create', compact('conversations', 'username'));
     }
