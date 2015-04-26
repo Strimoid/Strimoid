@@ -5,12 +5,10 @@ use Strimoid\Models\FakeFolder;
 
 class Upvoted extends FakeFolder
 {
+    public $isPrivate = true;
+
     protected function getBuilder($model)
     {
-        if (Auth::guest()) {
-            redirect()->guest('login');
-        }
-
         $builder = with(new $model())->newQuery();
 
         $builder->where('votes.user_id', Auth::id())

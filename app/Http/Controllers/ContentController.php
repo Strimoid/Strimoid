@@ -77,6 +77,10 @@ class ContentController extends BaseController
         $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
+        if (Auth::guest() && $group->isPrivate) {
+            return redirect()->guest('login');
+        }
+
         $canSortBy = ['comments_count', 'uv', 'created_at', 'frontpage_at'];
         $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
 

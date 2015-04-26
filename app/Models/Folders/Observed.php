@@ -5,12 +5,10 @@ use Strimoid\Models\FakeFolder;
 
 class Observed extends FakeFolder
 {
+    public $isPrivate = true;
+
     protected function getBuilder($model)
     {
-        if (Auth::guest()) {
-            redirect()->guest('login');
-        }
-
         $builder = with(new $model())->newQuery();
 
         $observedUsers = Auth::user()->followedUsers()->lists('id');

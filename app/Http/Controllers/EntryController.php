@@ -44,6 +44,10 @@ class EntryController extends BaseController
         $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
+        if (Auth::guest() && $group->isPrivate) {
+            return redirect()->guest('login');
+        }
+
         $builder = $group->entries();
 
         return $this->showEntries($builder);

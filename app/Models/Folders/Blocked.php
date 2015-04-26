@@ -6,12 +6,10 @@ use Strimoid\Models\FakeFolder;
 
 class Blocked extends FakeFolder
 {
+    public $isPrivate = true;
+
     protected function getBuilder($model)
     {
-        if (Auth::guest()) {
-            redirect()->guest('login');
-        }
-
         $builder = with(new $model())->newQuery();
 
         $blockedGroups = Auth::user()->blockedGroups()->lists('id');
@@ -25,10 +23,6 @@ class Blocked extends FakeFolder
 
     public function contents($tab = null, $sortBy = null)
     {
-        if (Auth::guest()) {
-            return redirect()->guest('login');
-        }
-
         $builder = static::getBuilder(Content::class);
 
         $blockedDomains = Auth::user()->blockedDomains();

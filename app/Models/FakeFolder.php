@@ -10,6 +10,11 @@ abstract class FakeFolder
     public $urlname;
 
     /**
+     * @var bool
+     */
+    public $isPrivate = false;
+
+    /**
      * @param  $model  Class name of requested model
      *
      * @return \Illuminate\Database\Eloquent\Builder

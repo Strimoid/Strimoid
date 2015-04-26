@@ -7,10 +7,6 @@ class Moderated extends FakeFolder
 {
     protected function getBuilder($model)
     {
-        if (Auth::guest()) {
-            redirect()->guest('login');
-        }
-
         $builder = with(new $model())->newQuery();
 
         $moderatedGroups = Auth::user()->moderatedGroups()->select('groups.id')->lists('id');

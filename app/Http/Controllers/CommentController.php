@@ -47,6 +47,10 @@ class CommentController extends BaseController
         $group = $this->groups->getByName($groupName);
         view()->share('group', $group);
 
+        if (Auth::guest() && $group->isPrivate) {
+            return redirect()->guest('login');
+        }
+
         $builder = $group->comments();
 
         return $this->showComments($builder);

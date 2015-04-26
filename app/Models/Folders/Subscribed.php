@@ -5,12 +5,10 @@ use Strimoid\Models\FakeFolder;
 
 class Subscribed extends FakeFolder
 {
+    public $isPrivate = true;
+
     protected function getBuilder($model)
     {
-        if (Auth::guest()) {
-            redirect()->guest('login');
-        }
-
         $builder = with(new $model())->newQuery();
 
         $subscribedGroups = Auth::user()->subscribedGroups()->lists('id');
