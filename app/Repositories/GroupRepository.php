@@ -4,7 +4,7 @@ use Strimoid\Contracts\Repositories\GroupRepository as GroupRepositoryContract;
 use Strimoid\Exceptions\EntityNotFoundException;
 use Strimoid\Models\Group;
 
-class GroupRepository implements GroupRepositoryContract
+class GroupRepository extends Repository implements GroupRepositoryContract
 {
     /**
      * @var Group
@@ -31,19 +31,5 @@ class GroupRepository implements GroupRepositoryContract
         }
 
         return $this->group->name($name)->first();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function requireByName($name)
-    {
-        $group = $this->getByName($name);
-
-        if (! $group) {
-            throw new EntityNotFoundException();
-        }
-
-        return $group;
     }
 }

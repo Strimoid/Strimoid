@@ -97,7 +97,7 @@ class ContentController extends BaseController
         $userName = Route::input('user') ?: Auth::id();
         $folderName = Route::input('folder');
 
-        $folder = $this->folders->getByName($userName, $folderName);
+        $folder = $this->folders->requireByName($userName, $folderName);
         view()->share('folder', $folder);
 
         if (! $folder->canBrowse()) {
@@ -116,7 +116,9 @@ class ContentController extends BaseController
     {
         $builder->with('group', 'user');
 
-        if (Auth::check()) $builder->with('usave', 'vote');
+        if (Auth::check()) {
+            $builder->with('usave', 'vote');
+        }
 
         $this->filterByTime($builder, Input::get('time'));
 

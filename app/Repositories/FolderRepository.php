@@ -4,7 +4,7 @@ use Strimoid\Contracts\Repositories\FolderRepository as FolderRepositoryContract
 use Strimoid\Contracts\Repositories\UserRepository as UserRepositoryContract;
 use Strimoid\Models\Folder;
 
-class FolderRepository implements FolderRepositoryContract
+class FolderRepository extends Repository implements FolderRepositoryContract
 {
     /**
      * @var Folder
