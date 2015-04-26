@@ -5,6 +5,8 @@ use Strimoid\Models\FakeFolder;
 
 class Moderated extends FakeFolder
 {
+    public $isPrivate = true;
+
     protected function getBuilder($model)
     {
         $builder = with(new $model())->newQuery();
