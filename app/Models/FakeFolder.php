@@ -32,7 +32,7 @@ abstract class FakeFolder
      */
     public function comments($sortBy = null)
     {
-        $builder = static::getBuilder('Strimoid\Models\Comment');
+        $builder = static::getBuilder(Comment::class);
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         return $builder;
@@ -46,7 +46,7 @@ abstract class FakeFolder
      */
     public function contents($tab = null, $sortBy = null)
     {
-        $builder = static::getBuilder('Strimoid\Models\Content');
+        $builder = static::getBuilder(Content::class);
 
         if ($tab == 'popular') {
             $builder->popular();
@@ -61,7 +61,7 @@ abstract class FakeFolder
      */
     public function entries()
     {
-        $builder = static::getBuilder('Strimoid\Models\Entry');
+        $builder = static::getBuilder(Entry::class);
 
         return $builder;
     }

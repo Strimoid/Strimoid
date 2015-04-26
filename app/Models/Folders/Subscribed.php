@@ -8,7 +8,7 @@ class Subscribed extends FakeFolder
     protected function getBuilder($model)
     {
         if (Auth::guest()) {
-            return redirect()->guest('login');
+            redirect()->guest('login');
         }
 
         $builder = with(new $model())->newQuery();
