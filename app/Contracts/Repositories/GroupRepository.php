@@ -21,5 +21,5 @@ interface GroupRepository
      *
      * @return \Strimoid\Models\Group
      */
-    public function requireByName($name);
+    public function requireByName(... $params);
 }

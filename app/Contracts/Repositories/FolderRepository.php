@@ -20,5 +20,5 @@ interface FolderRepository
      *
      * @return \Strimoid\Models\Folder
      */
-    public function requireByName($ownerName, $folderName);
+    public function requireByName(... $params);
 }
