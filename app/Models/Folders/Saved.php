@@ -12,7 +12,9 @@ class Saved extends FakeFolder
         }
 
         $builder = with(new $model())->newQuery();
-        $builder->where('saves.user_id', Auth::id());
+        $builder->whereHas('saves', function ($q) {
+            $q->where('user_id', Auth::id());
+        });
 
         return $builder;
     }
