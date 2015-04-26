@@ -42,6 +42,7 @@ trait HasAvatar
         $path = $this->avatarPath.$this->avatar;
         Storage::disk('uploads')->delete($path);
 
-        $this->unset('avatar');
+        $this->avatar = null;
+        $this->save();
     }
 }
