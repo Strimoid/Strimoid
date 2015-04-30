@@ -152,7 +152,7 @@ class NotificationsHandler
     public function onConversationMessageCreate($message)
     {
         $conversation = $message->conversation;
-        $targets = $conversation->users()->select('users.id')->lists('id');
+        $targets = $conversation->users;
 
         $this->sendNotifications(
             $targets,
