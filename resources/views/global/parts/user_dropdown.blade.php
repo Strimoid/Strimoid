@@ -15,7 +15,7 @@
             <a class="action_link" onclick="$('.logout_form').submit()">
                 <span class="glyphicon glyphicon-log-out"></span> wyloguj
             </a>
-            {!! Form::open(array('action' => 'UserController@logout', 'class' => 'logout_form')) !!}
+            {!! Form::open(['action' => 'AuthController@logout', 'class' => 'logout_form']) !!}
             {!! Form::close() !!}
         </li>
     </ul>

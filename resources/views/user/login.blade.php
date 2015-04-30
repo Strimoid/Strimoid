@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(array('action' => 'UserController@login', 'class' => 'form-horizontal')) !!}
+    {!! Form::open(['action' => 'AuthController@login', 'class' => 'form-horizontal']) !!}
 
     @include('global.form.input', array('type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'))
     @include('global.form.input', array('type' => 'password', 'name' => 'password', 'label' => 'Hasło'))

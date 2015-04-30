@@ -62,36 +62,6 @@ class UserController extends BaseController
         return Response::json($users);
     }
 
-    public function login(Request $request)
-    {
-        $result = Auth::attempt([
-            'name'         => $request->input('username'),
-            'password'     => $request->input('password'),
-            'is_activated' => true,
-        ], $request->input('remember') == 'true');
-
-        if ($result) {
-            if (Auth::user()->removed_at || Auth::user()->blocked_at) {
-                Auth::logout();
-
-                return Redirect::to('/login')->with('warning_msg', 'Błędna nazwa użytkownika lub hasło.');
-            }
-
-            $url = URL::previous() ?: '/';
-
-            return Redirect::intended($url);
-        }
-
-        return Redirect::to('/login')->with('warning_msg', 'Błędna nazwa użytkownika lub hasło.');
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-
-        return Redirect::to('')->with('success_msg', 'Zostałeś wylogowany.');
-    }
-
     public function changePassword(Request $request)
     {
         $this->validate($request, [

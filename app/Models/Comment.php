@@ -3,13 +3,14 @@
 use Auth;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasGroupRelationship;
+use Strimoid\Models\Traits\HasNotificationsRelationship;
 use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasUserRelationship;
 use Strimoid\Models\Traits\HasVotes;
 
 class Comment extends BaseModel
 {
-    use HasGroupRelationship, HasUserRelationship;
+    use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
     use HasSaves, HasVotes;
 
     protected static $rules = [

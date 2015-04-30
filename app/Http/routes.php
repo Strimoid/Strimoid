@@ -66,6 +66,9 @@ Route::group(['prefix' => 'api/v1'], function () {
 });
 
 /* Auth ============================================================================================================= */
+Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => 'AuthController@showLoginForm']);
+Route::post('/login', ['middleware' => 'guest', 'uses' => 'AuthController@login']);
+Route::post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
 Route::post('/pusher/auth', ['middleware' => 'auth', 'uses' => 'AuthController@authenticatePusher']);
 
 /* OAuth2 =========================================================================================================== */
@@ -87,10 +90,6 @@ Route::get('/users.json', 'UserController@showJSONList');
 
 Route::get('/register', ['middleware' => 'guest', 'uses' => 'UserController@showRegisterForm']);
 Route::post('/register', ['middleware' => 'guest', 'uses' => 'UserController@processRegistration']);
-
-Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => 'UserController@showLoginForm']);
-Route::post('/login', ['middleware' => 'guest', 'uses' => 'UserController@login']);
-Route::post('/logout', ['middleware' => 'auth', 'uses' => 'UserController@logout']);
 
 Route::get('/remind', 'UserController@remindPassword');
 Route::post('/remind', 'UserController@remindPassword');
