@@ -102,16 +102,16 @@ class EntryController extends BaseController
         return view('entries.replies', compact('entry', 'replies'));
     }
 
-    public function getEntrySource()
+    public function getEntrySource(Request $request)
     {
-        if (Input::get('type') == 'entry_reply') {
-            $entry = EntryReply::findOrFail(Input::get('id'));
-        } else {
-            $entry = Entry::findOrFail(Input::get('id'));
-        }
+        $id = hashids_decode($request->get('id'));
+        $class = $request->get('type') == 'entry'
+            ? Entry::class : EntryReply::class;
 
-        if (Auth::id() !== $entry->user_id) {
-            App::abort(403, 'Access denied');
+        $entry = $class::findOrFail($id);
+
+        if (auth()->id() !== $entry->user_id) {
+            abort(403);
         }
 
         return Response::json(['status' => 'ok', 'source' => $entry->text_source]);
