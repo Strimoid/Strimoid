@@ -163,7 +163,8 @@ class NotificationsHandler
             $message->user
         );
 
-        $conversation->notifications()->whereIn('user_id', $targets)->delete();
+        $targetIds = $targets->lists('id');
+        $conversation->notifications()->whereIn('user_id', $targetIds)->delete();
     }
 
     /**
