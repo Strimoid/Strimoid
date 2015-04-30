@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Handlers\Events;
 
 use Closure;
+use Illuminate\Support\Collection;
 use Str;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
@@ -173,24 +174,19 @@ class NotificationsHandler
      */
     protected function updateNotificationTargets($notification, $newText)
     {
-        $oldList = $notification->targets()->lists('user_id');
-        $newList = $this->findMentions($newText);
+        $oldUserIds = $notification->targets()->lists('user_id');
+        $newUsers = $this->findMentionedUsers($newText);
 
-        $addedMentions = array_diff($newList, $oldList);
+        $newTargets = $newUsers->filter(function ($user) use ($oldUserIds) {
+            return ! in_array($user->getKey(), $oldUserIds);
+        });
 
-        foreach ($addedMentions as $addedMention) {
-            $target = User::name($addedMention)->first();
-            $source = $notification->user->getKey();
+        $this->addTargets($notification, $newTargets);
 
-            if ($target && $target->getKey() != $source->getKey() && ! $target->isBlockingUser($source)) {
-                $notification->targets()->attach($target, ['read' => false]);
-            }
-        }
+        $removedTargets = array_diff($oldUserIds, $newUsers->lists('id'));
 
-        $removedMentions = array_diff($oldList, $newList);
-
-        foreach ($removedMentions as $removedMention) {
-            $notification->targets()->detach($removedMention);
+        foreach ($removedTargets as $removedTarget) {
+            $notification->targets()->detach($removedTarget);
         }
     }
 
@@ -203,26 +199,30 @@ class NotificationsHandler
      */
     protected function sendNotifications($targets, Closure $callback, User $sourceUser)
     {
-        $uniqueUsers = is_array($targets)
+        $users = is_array($targets)
             ? $targets
-            : $this->findMentions($targets);
-
-        if (! $uniqueUsers) {
-            return;
-        }
+            : $this->findMentionedUsers($targets);
 
         $notification = new Notification();
         $notification->user()->associate($sourceUser);
-
         $callback($notification);
-
         $notification->save();
 
-        foreach ($uniqueUsers as $uniqueUser) {
-            $user = User::name($uniqueUser)->first();
+        $this->addTargets($notification, $users);
+    }
 
-            if ($user && $user->getKey() != $sourceUser->getKey()
-                && ! $user->isBlockingUser($sourceUser)) {
+    /**
+     * Add users as targets of notification.
+     *
+     * @param $notification Notification
+     * @param $users
+     */
+    protected function addTargets($notification, $users)
+    {
+        $sourceUser = $notification->user;
+
+        foreach ($users as $user) {
+            if ($user->getKey() != $sourceUser->getKey() && ! $user->isBlockingUser($sourceUser)) {
                 $notification->targets()->attach($user, ['read' => false]);
             }
         }
@@ -233,26 +233,13 @@ class NotificationsHandler
      *
      * @param string $text Source text
      *
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    protected function findMentions($text)
+    protected function findMentionedUsers($text)
     {
-        preg_match_all('/@([a-z0-9_-]+)/i', $text, $users, PREG_SET_ORDER);
+        preg_match_all('/@([a-z0-9_-]+)/i', $text, $matches, PREG_SET_ORDER);
+        $nicknames = array_pluck($matches, 1);
 
-        $uniqueUsers = [];
-
-        foreach ($users as $user) {
-            if (! isset($user[1])) {
-                break;
-            }
-
-            $lowercase = Str::lower($user[1]);
-            if (in_array($lowercase, $uniqueUsers)) {
-                break;
-            }
-            $uniqueUsers[] = $lowercase;
-        }
-
-        return $uniqueUsers;
+        return User::whereIn('name', $nicknames)->get();
     }
 }

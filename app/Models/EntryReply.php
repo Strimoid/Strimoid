@@ -1,9 +1,12 @@
 <?php namespace Strimoid\Models;
 
 use Auth;
+use Strimoid\Models\Traits\HasNotificationsRelationship;
 
 class EntryReply extends Entry
 {
+    use HasNotificationsRelationship;
+
     protected static $rules = [
         'text' => 'required|min:1|max:2500',
     ];
