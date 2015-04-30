@@ -1,64 +1,53 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth;
-use Input;
+use Illuminate\Http\Request;
 use Response;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
-use Strimoid\Models\Save;
 
 class SaveController extends BaseController
 {
-    public function saveContent()
+    public function saveContent(Request $request)
     {
-        $content = Content::findOrFail(Input::get('content'));
+        $id = hashids_decode($request->get('content'));
+        $content = Content::findOrFail($id);
 
-        if ($this->findUserSave($content, Auth::id())) return;
-
-        $save = new Save(['user_id' => Auth::id()]);
-        $content->saves()->save($save);
+        $content->saves()->create([
+            'user_id' => auth()->id(),
+        ]);
 
         return Response::json(['status' => 'ok']);
     }
 
-    public function removeContent()
+    public function removeContent(Request $request)
     {
-        $content = Content::findOrFail(Input::get('content'));
+        $id = hashids_decode($request->get('content'));
+        $content = Content::findOrFail($id);
 
-        $save = $this->findUserSave($content, Auth::id());
-        $save->delete();
+        $content->usave()->delete();
 
         return Response::json(['status' => 'ok']);
     }
 
-    public function saveEntry()
+    public function saveEntry(Request $request)
     {
-        $entry = Entry::findOrFail(Input::get('entry'));
+        $id = hashids_decode($request->get('content'));
+        $entry = Entry::findOrFail($id);
 
-        if ($this->findUserSave($entry, Auth::id())) return;
-
-        $save = new Save(['user_id' => Auth::id()]);
-        $entry->saves()->save($save);
+        $entry->saves()->create([
+            'user_id' => auth()->id(),
+        ]);
 
         return Response::json(['status' => 'ok']);
     }
 
-    public function removeEntry()
+    public function removeEntry(Request $request)
     {
-        $entry = Entry::findOrFail(Input::get('entry'));
+        $id = hashids_decode($request->get('content'));
+        $entry = Entry::findOrFail($id);
 
-        $save = $this->findUserSave($entry, Auth::id());
-        $save->delete();
+        $entry->usave()->delete();
 
         return Response::json(['status' => 'ok']);
-    }
-
-    private function findUserSave($object, $id)
-    {
-        $save = $object->saves()
-            ->where('user_id', $id)
-            ->first();
-
-        return $save;
     }
 }

@@ -2,6 +2,7 @@
 
 use Auth;
 use Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Input;
 use Response;
@@ -14,9 +15,9 @@ use Strimoid\Models\EntryReply;
 
 class VoteController extends BaseController
 {
-    public function addVote()
+    public function addVote(Request $request)
     {
-        $object = $this->getObject(Input::get('id'), Input::get('type'));
+        $object = $this->getObject($request->get('id'), $request->get('type'));
 
         if (!$object) {
             return Response::make('Object not found', 404);
@@ -76,7 +77,9 @@ class VoteController extends BaseController
         $object = $this->getObject(Input::get('id'), Input::get('type'));
         $vote = $this->getVoteElement($object, Auth::user());
 
-        if (!$vote) return Response::make('Vote not found', 404);
+        if (!$vote) {
+            return Response::make('Vote not found', 404);
+        }
 
         $uv = $object->uv;
         $dv = $object->dv;
