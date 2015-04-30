@@ -27,6 +27,11 @@ class NotificationsHandler
         $this->addHandlers(CommentReply::class, $events);
         $this->addHandlers(Entry::class, $events);
         $this->addHandlers(EntryReply::class, $events);
+
+        $events->listen(
+            'eloquent.created: '.ConversationMessage::class,
+            self::class.'@onConversationMessageCreate'
+        );
     }
 
     /**
@@ -64,8 +69,8 @@ class NotificationsHandler
      */
     public function onCommentEdit($comment)
     {
-        $comment->deleteNotifications();
-        $this->onCommentCreate($comment);
+        $notification = $comment->notifications()->first();
+        $this->updateNotificationTargets($notification, $comment->text_source);
     }
 
     /**
@@ -88,8 +93,8 @@ class NotificationsHandler
      */
     public function onCommentReplyEdit($comment)
     {
-        $comment->deleteNotifications();
-        $this->onCommentReplyCreate($comment);
+        $notification = $comment->notifications()->first();
+        $this->updateNotificationTargets($notification, $comment->text_source);
     }
 
     /**
@@ -112,8 +117,8 @@ class NotificationsHandler
      */
     public function onEntryEdit($entry)
     {
-        $entry->deleteNotifications();
-        $this->onEntryCreate($entry);
+        $notification = $entry->notifications()->first();
+        $this->updateNotificationTargets($notification, $entry->text_source);
     }
 
     /**
@@ -136,8 +141,8 @@ class NotificationsHandler
      */
     public function onEntryReplyEdit($entry)
     {
-        $entry->deleteNotifications();
-        $this->onEntryReplyCreate($entry);
+        $notification = $entry->notifications()->first();
+        $this->updateNotificationTargets($notification, $entry->text_source);
     }
 
     /**
@@ -146,7 +151,7 @@ class NotificationsHandler
     public function onConversationMessageCreate($message)
     {
         $conversation = $message->conversation;
-        $targets = $conversation->users;
+        $targets = $conversation->users()->lists('id');
 
         $this->sendNotifications(
             $targets,
@@ -158,6 +163,35 @@ class NotificationsHandler
         );
 
         $conversation->notifications()->whereIn('user_id', $targets)->delete();
+    }
+
+    /**
+     * Find mention differences and update related notification targets.
+     *
+     * @param $notification Notification
+     * @param $newText string
+     */
+    protected function updateNotificationTargets($notification, $newText)
+    {
+        $oldList = $notification->targets()->lists('user_id');
+        $newList = $this->findMentions($newText);
+
+        $addedMentions = array_diff($newList, $oldList);
+
+        foreach ($addedMentions as $addedMention) {
+            $target = User::name($addedMention)->first();
+            $source = $notification->user->getKey();
+
+            if ($target && $target->getKey() != $source->getKey() && ! $target->isBlockingUser($source)) {
+                $notification->targets()->attach($target, ['read' => false]);
+            }
+        }
+
+        $removedMentions = array_diff($oldList, $newList);
+
+        foreach ($removedMentions as $removedMention) {
+            $notification->targets()->detach($removedMention);
+        }
     }
 
     /**
