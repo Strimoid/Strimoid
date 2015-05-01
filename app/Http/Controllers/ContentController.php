@@ -323,7 +323,7 @@ class ContentController extends BaseController
 
         $content->save();
 
-        return Redirect::route('content_comments', $content->getKey());
+        return Redirect::route('content_comments', $content);
     }
 
     /**

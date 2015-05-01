@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(array('action' => array('ContentController@editContent', $content->_id), 'class' => 'form-horizontal')) !!}
+    {!! Form::open(['action' => ['ContentController@editContent', $content], 'class' => 'form-horizontal']) !!}
 
     @include('global.form.input_value', array('type' => 'text', 'name' => 'title', 'label' => 'Nazwa treści', 'value' => $content->title))
     @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis treści', 'value' => $content->description))
