@@ -51,4 +51,14 @@ class ContentRelated extends BaseModel
     {
         return $this->url ?: route('content_comments', $this->getKey());
     }
+
+    public function setNsfwAttribute($value)
+    {
+        $this->attributes['nsfw'] = toBool($value);
+    }
+
+    public function setEngAttribute($value)
+    {
+        $this->attributes['eng'] = toBool($value);
+    }
 }
