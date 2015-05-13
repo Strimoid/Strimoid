@@ -2,6 +2,6 @@
 
 return [
 
-    'oembed' => 'https://embed.strimoid.pl',
+    'oembed' => env('OEMBED_URL', 'https://embed.strm.pl'),
 
 ];
