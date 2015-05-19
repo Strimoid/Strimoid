@@ -34,8 +34,8 @@ class CreateContentRelatedTable extends Migration {
 			$table->foreign('user_id')->references('id')->on('users');
 
 			// Flags
-			$table->boolean('eng');
-			$table->boolean('nsfw');
+			$table->boolean('eng')->default(0);
+			$table->boolean('nsfw')->default(0);
 
 			// Vote counts
 			$table->integer('uv')->unsigned()->default(0);

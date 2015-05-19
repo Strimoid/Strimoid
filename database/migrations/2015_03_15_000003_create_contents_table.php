@@ -30,8 +30,8 @@ class CreateContentsTable extends Migration {
 			$table->integer('related_count')->unsigned()->default(0);
 
 			// Flags
-			$table->boolean('eng');
-			$table->boolean('nsfw');
+			$table->boolean('eng')->default(0);
+			$table->boolean('nsfw')->default(0);
 
 			// Relations
 			$table->integer('user_id')->unsigned();
