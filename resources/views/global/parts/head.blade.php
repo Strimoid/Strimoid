@@ -20,9 +20,6 @@
 <link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
 <script src="{{ elixir('assets/js/vendor.js') }}"></script>
 
-@if (Input::get('night') || isset($_COOKIE['night_mode']))
-    <link href="{{ elixir('assets/stylus/night.css') }}" rel="stylesheet" data-id="night_mode">
-@endif
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
         && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
