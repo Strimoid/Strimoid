@@ -436,6 +436,6 @@ class ContentController extends BaseController
             $content->removeThumbnail();
         }
 
-        return Redirect::route('content_comments', $content->getKey());
+        return Redirect::route('content_comments', $content);
     }
 }
