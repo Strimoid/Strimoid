@@ -1,0 +1,61 @@
+.md {
+  word-wrap: break-word;
+}
+
+.md code {
+  white-space: normal;
+}
+
+.md .show_spoiler {
+  background: #F8F8F8;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.md .spoiler {
+  display: none;
+}
+
+.md a.image:before {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  margin-right: 3px;
+  content: "\e060";
+  color: #CFCFCF;
+}
+
+.md a.yt-video:before {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  margin-right: 3px;
+  content: "\e009";
+  color: #CFCFCF;
+}
+
+.md img {
+  vertical-align: text-top;
+  max-width: 100%;
+  display: block;
+}
+
+.md iframe {
+  display: block;
+}
+
+.md blockquote p {
+  font-size: 13px;
+  font-weight: normal;
+  font-style: italic;
+}

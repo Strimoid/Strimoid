@@ -1,27 +1,30 @@
-var elixir = require('laravel-elixir');
+var elixir = require('laravel-elixir')
 
-require('laravel-elixir-bower');
-require('laravel-elixir-stylus');
+require('laravel-elixir-bower')
+require('laravel-elixir-stylus')
+require('laravel-elixir-riot')
 
 elixir(function(mix) {
     mix.bower('vendor.css', 'public/assets/css', 'vendor.js', 'public/assets/js')
-       .stylesIn('resources/assets/css', 'public/assets/css')
-       .stylus('night.styl', 'public/assets/stylus')
+       .stylus(null, 'public/assets/stylus')
+       .stylesIn('public/assets/stylus', 'public/assets/css')
+       .riot(null, 'public/assets/riot')
        .scripts([
             'plugins/*.js',
             'modules/*.js',
             'lara.js'
        ], 'public/assets/js', 'resources/assets/js')
+       .scriptsIn('public/assets/riot', 'public/assets/js/riot.js')
        .version([
             'assets/css/all.css',
             'assets/css/vendor.css',
             'assets/js/all.js',
-            'assets/js/vendor.js',
-            'assets/stylus/night.css'
-       ]);
+            'assets/js/riot.js',
+            'assets/js/vendor.js'
+       ])
 });
 
 elixir(function(mix) {
     mix.copy('bower_components/bootstrap/dist/fonts', 'public/assets/fonts')
-       .copy('bower_components/bootstrap/dist/fonts', 'public/build/assets/fonts');
+       .copy('bower_components/bootstrap/dist/fonts', 'public/build/assets/fonts')
 });
