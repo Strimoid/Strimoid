@@ -1538,5 +1538,5 @@ Editor.prototype.toggleFullScreen = function() {
   toggleFullScreen(this);
 };
 
-global.Editor = Editor;
+window.Editor = Editor;
 })(this);

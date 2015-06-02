@@ -32,7 +32,8 @@
     "pusher": "~2.2.4",
     "jquery-methodOverride": "*",
     "jquery-pjax": "latest",
-    "riot": "~2.1.0"
+    "riot": "~2.1.0",
+    "ladda": "~0.9.8"
   },
   "overrides": {
     "codemirror": {
