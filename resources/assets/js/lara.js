@@ -327,7 +327,6 @@ $(document).ready(function() {
             riot.mount('video-yt');
         }
 
-
         return false;
     });
 

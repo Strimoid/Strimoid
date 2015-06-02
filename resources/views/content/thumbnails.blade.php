@@ -1,8 +1,8 @@
 @extends('global.master')
 
 @section('content')
-{!! Form::open(array('action' => 'ContentController@saveThumbnail')) !!}
-<input type="hidden" name="id" value="{!! $content->_id !!}">
+{!! Form::open(['action' => 'ContentController@saveThumbnail']) !!}
+<input type="hidden" name="id" value="{!! $content->hashId() !!}">
 
 <select class="image-picker" name="thumbnail">
     <option value=""></option>

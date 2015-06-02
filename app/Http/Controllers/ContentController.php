@@ -416,9 +416,11 @@ class ContentController extends BaseController
     /**
      * @return mixed
      */
-    public function saveThumbnail()
+    public function saveThumbnail(Request $request)
     {
-        $content = Content::findOrFail(Input::get('id'));
+        $id = hashids_decode($request->input('id'));
+        $content = Content::findOrFail($id);
+
         $thumbnails = Session::get('thumbnails');
 
         if (!$content->canEdit(Auth::user())) {
