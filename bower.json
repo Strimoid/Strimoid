@@ -31,8 +31,8 @@
     "perfect-scrollbar": "~0.6.2",
     "pusher": "~2.2.4",
     "jquery-methodOverride": "*",
-    "react": "~0.13.2",
-    "react-bootstrap": "~0.21.0"
+    "jquery-pjax": "latest",
+    "riot": "~2.1.0"
   },
   "overrides": {
     "codemirror": {
