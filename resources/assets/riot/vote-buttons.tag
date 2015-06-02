@@ -10,8 +10,8 @@
     </button>
 
     <script>
-        this.size = opts.size || 'sm';
-        this.state = opts.state || '';
+        this.size = opts["data-size"] || 'sm';
+        this.state = opts["data-state"] || '';
 
         this.uvClass = '';
         this.dvClass = '';
