@@ -13,7 +13,7 @@ class RankingController extends BaseController
     {
         $query = DailyAction::select(DB::raw('user_id, Sum(points) as points, Sum(contents) as contents,
                 Sum(comments) as comments, Sum(entries) as entries, Sum(uv) as uv, Sum(dv) as dv'))
-            ->with(['user' => function ($q) { $q->select(['name', 'avatar']); }])
+            ->with('user')
             ->groupBy('user_id')
             ->orderBy('points', 'desc');
 

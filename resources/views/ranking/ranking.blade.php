@@ -38,7 +38,7 @@
         ?>
         <td>
             <img src="{!! $user->user->getAvatarPath() !!}" style="width: 20px; height: 20px">
-            <a href="{!! route('user_profile', $user->user_id) !!}">{!! $user->user_id !!}</a>
+            <a href="{!! route('user_profile', $user->user) !!}">{!! $user->user->name !!}</a>
             <img src="https://chart.googleapis.com/chart?chs=100x20&cht=ls&chco=0077CC&chf=bg,s,FFFFFF00&chds=a&chd=t:{!! implode(',', $chartData) !!}" class="pull-right">
         </td>
         <td>{!! $user->contents !!}</td>
