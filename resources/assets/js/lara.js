@@ -444,16 +444,12 @@ $(document).ready(function() {
     });
 
     $('.toggle_night_mode').click(function() {
-        var style = $('link[data-id="night_mode"]');
-
-        if (style.length) {
+        if ($('body').hasClass('night')) {
             $.removeCookie('night_mode', { path: '/' });
             $('body').removeClass('night');
-            $(style).remove();
         } else {
             $.cookie('night_mode', 'on', { expires: 365, path: '/' });
             $('body').addClass('night');
-            $('head').append('<link href="/static/css/night.css" rel="stylesheet" data-id="night_mode">');
         }
     });
 
@@ -697,5 +693,3 @@ $(document).ready(function() {
         $('.conversation_messages').scrollTop($('.conversation_messages').prop('scrollHeight'));
     }
 });
-
-

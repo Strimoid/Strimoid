@@ -142,5 +142,9 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
     }).install();
 </script>
 
+<script>
+    riot.mount('*')
+</script>
+
 </body>
 </html>

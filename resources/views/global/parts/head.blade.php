@@ -18,8 +18,9 @@
 
 <link href="{{ elixir('assets/css/vendor.css') }}" rel="stylesheet">
 <link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
-<script src="{{ elixir('assets/js/vendor.js') }}"></script>
 
+<script src="{{ elixir('assets/js/vendor.js') }}"></script>
+<script src="{{ elixir('assets/js/riot.js') }}"></script>
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
         && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
@@ -29,7 +30,5 @@
 @elseif (Auth::check() && @Auth::user()->settings['css_style'])
     <link href="{{{ Auth::user()->settings['css_style'] }}}" rel="stylesheet">
 @endif
-
-<script src="/static/js/components.js"></script>
 
 @yield('head')
