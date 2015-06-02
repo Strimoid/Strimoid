@@ -322,8 +322,11 @@ $(document).ready(function() {
 
         if (next.length && $(next).hasClass('yt-embed'))
             $(next).remove();
-        else
+        else {
             $(this).after('<video-yt class="yt-embed" style="width: 480px; height: 360px;" vid="'+ id +'"></video-yt>');
+            riot.mount('video-yt');
+        }
+
 
         return false;
     });
