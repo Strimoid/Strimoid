@@ -3,6 +3,12 @@
 use Carbon;
 use DB;
 use Illuminate\Console\Command;
+use Strimoid\Models\Comment;
+use Strimoid\Models\CommentReply;
+use Strimoid\Models\Content;
+use Strimoid\Models\Entry;
+use Strimoid\Models\EntryReply;
+use Strimoid\Models\UserAction;
 
 class UpdateStats extends Command
 {
@@ -19,16 +25,6 @@ class UpdateStats extends Command
      * @var string
      */
     protected $description = 'Updates stats.';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
@@ -55,7 +51,7 @@ class UpdateStats extends Command
         $conn->table('daily_actions')->where('day', '>=', $fromDay)->delete();
 
         foreach ($actions as $action) {
-            $object = $action->getObject();
+            $object = $action->element;
 
             if (!$object) {
                 continue;
@@ -113,14 +109,19 @@ class UpdateStats extends Command
 
     protected function getFieldName($action)
     {
-        switch ($action->type) {
-            case UserAction::TYPE_CONTENT: return 'contents';
+        $className = get_class($action->element);
 
-            case UserAction::TYPE_COMMENT:
-            case UserAction::TYPE_COMMENT_REPLY: return 'comments';
+        switch ($className) {
+            case Content::class:
+                return 'contents';
 
-            case UserAction::TYPE_ENTRY:
-            case UserAction::TYPE_ENTRY_REPLY: return 'entries';
+            case Comment::class:
+            case CommentReply::class:
+                return 'comments';
+
+            case Entry::class:
+            case EntryReply::class:
+                return 'entries';
         }
     }
 
