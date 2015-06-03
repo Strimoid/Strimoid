@@ -32,6 +32,8 @@ function VotesModule() {
 
         $(button).data('loading', true);
 
+        var filter;
+
         if ($(this).hasClass('vote-btn-up'))
             filter = 'up';
         else
