@@ -111,11 +111,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 <script>
     window.username = '{!! Auth::id()  !!}';
     window.settings = {!! json_encode(Auth::User()->settings) !!};
-    window.observed_users = {!! json_encode((array) Auth::user()->_observed_users) !!};
-    window.blocked_users = {!! json_encode(Auth::user()->blockedUsers()) !!};
-    window.blocked_groups = {!! json_encode(Auth::user()->blockedGroups()) !!};
-    window.subscribed_groups = {!! json_encode(Auth::user()->subscribedGroups()) !!};
-    window.moderated_groups = {!! json_encode(Auth::user()->moderatedGroups()) !!};
+    window.observed_users = {!! json_encode((array) Auth::user()->followedUsers()->lists('name')) !!};
+    window.blocked_users = {!! json_encode(Auth::user()->blockedUsers()->lists('name')) !!};
+    window.blocked_groups = {!! json_encode(Auth::user()->blockedGroups()->lists('urlname')) !!};
+    window.subscribed_groups = {!! json_encode(Auth::user()->subscribedGroups()->lists('urlname')) !!};
+    window.moderated_groups = {!! json_encode(Auth::user()->moderatedGroups()->lists('urlname')) !!};
 
     @if (isset($groupURLName) && $groupURLName)
         window.group = '{{{ $groupURLName }}}';
@@ -125,6 +125,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 
 @yield('scripts')
 
+@if (!config('app.debug'))
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -138,11 +139,17 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 <script src="//cdn.ravenjs.com/1.1.16/native/raven.min.js"></script>
 <script>
     Raven.config('https://5b9dbcd47b434b228585ac5433b0c730@app.getsentry.com/26746', {
-        whitelistUrls: ['strimoid.pl/']
-    }).install();
+        whitelistUrls: ['strm.pl/']
+    }).install()
 </script>
+@endif
 
 <script>
+    $(document).pjax('a', 'body > .container')
+    $(document).on('pjax:end', function() {
+        riot.mount('*')
+    })
+
     riot.mount('*')
 </script>
 
