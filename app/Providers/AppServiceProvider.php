@@ -1,5 +1,6 @@
 <?php namespace Strimoid\Providers;
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use Pdp\Parser;
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         if (! empty($rollbarToken)) {
             $this->app->register('Jenssegers\Rollbar\RollbarServiceProvider');
         }
+
+        Carbon::setLocale('pl');
     }
 
     /**
