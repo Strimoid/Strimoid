@@ -333,7 +333,8 @@ class ContentController extends BaseController
      */
     public function removeContent($content = null)
     {
-        $content = $content ?: Content::findOrFail(Input::get('id'));
+        $id = hashids_decode(Input::get('id'));
+        $content = $content ?: Content::findOrFail($id);
 
         if ($content->created_at->diffInMinutes() > 60) {
             return Response::json([
@@ -359,7 +360,8 @@ class ContentController extends BaseController
      */
     public function softRemoveContent()
     {
-        $content = Content::findOrFail(Input::get('id'));
+        $id = hashids_decode(Input::get('id'));
+        $content = Content::findOrFail($id);
 
         if ($content->canRemove(Auth::user())) {
             $content->deletedBy()->associate(Auth::user());
