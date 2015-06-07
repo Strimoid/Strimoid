@@ -169,7 +169,6 @@ return [
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Intervention\Image\ImageServiceProvider',
-        'Jenssegers\Date\DateServiceProvider',
         'Laracasts\Utilities\JavaScript\JavascriptServiceProvider',
         'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
         'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
@@ -231,8 +230,8 @@ return [
 
         'Algolia'    => 'Vinkla\Algolia\Facades\Algolia',
         'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade',
-        'Carbon'     => 'Jenssegers\Date\Date',
-        'Date'       => 'Jenssegers\Date\Date',
+        'Carbon'     => 'Carbon\Carbon',
+        'Date'       => 'Carbon\Carbon',
         'Debugbar'   => 'Barryvdh\Debugbar\Facade',
         'Hashids'    => 'Vinkla\Hashids\Facades\Hashids',
         'Image'      => 'Intervention\Image\Facades\Image',

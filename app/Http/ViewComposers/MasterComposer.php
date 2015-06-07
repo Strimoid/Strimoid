@@ -5,8 +5,6 @@ use Cache;
 use Illuminate\Contracts\View\View;
 use Setting;
 use Strimoid\Models\Group;
-use Strimoid\Models\Notification;
-use Strimoid\Models\NotificationTarget;
 
 class MasterComposer
 {

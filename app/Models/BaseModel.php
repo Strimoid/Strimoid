@@ -36,7 +36,8 @@ abstract class BaseModel extends Eloquent
      */
     public function createdAgo()
     {
-        return $this->created_at->ago();
+        $now = Carbon::now();
+        return $this->created_at->diffForHumans($now);
     }
 
     /**

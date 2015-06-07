@@ -3,7 +3,7 @@
         <li><a href="/g/all" rel="nofollow">Wszystkie</a></li>
 
         @if (Auth::check())
-            <?php $subscriptions = Auth::user()->subscribedGroups()->lists('urlname'); natcasesort($subscriptions); ?>
+            <?php $subscriptions = Auth::user()->subscribedGroups()->lists('urlname')->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE); ?>
 
             <li class="dropdown subscribed_dropdown">
                 <a href="/g/subscribed" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Subskrybowane</a><b class="caret"></b>
@@ -19,7 +19,7 @@
                 </ul>
             </li>
 
-            <?php $moderatedGroups = Auth::user()->moderatedGroups()->lists('urlname'); natcasesort($moderatedGroups); ?>
+            <?php $moderatedGroups = Auth::user()->moderatedGroups()->lists('urlname')->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE);  ?>
 
             <li class="dropdown moderated_dropdown">
                 <a href="/g/moderated" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Moderowane</a><b class="caret"></b>
@@ -35,7 +35,7 @@
                 </ul>
             </li>
 
-            <?php $observedUsers = Auth::user()->followedUsers()->lists('name'); natcasesort($observedUsers); ?>
+            <?php $observedUsers = Auth::user()->followedUsers()->lists('name')->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE);  ?>
 
             <li class="dropdown observed_dropdown">
                 <a href="/g/observed" class="dropdown-toggle" data-hover="dropdown" data-hover-delay="250">Obserwowani</a><b class="caret"></b>
