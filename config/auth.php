@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => 'Strimoid\Models\User',
+    'model' => Strimoid\Models\User::class,
 
     /*
     |--------------------------------------------------------------------------

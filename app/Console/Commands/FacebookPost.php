@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Carbon;
-use Config;
 use Guzzle;
 use Illuminate\Console\Command;
 use Strimoid\Models\Content;
@@ -35,7 +34,7 @@ class FacebookPost extends Command
             ->firstOrFail();
 
         $params = [
-            'access_token' => Config::get('social.facebook.page_token'),
+            'access_token' => config('social.facebook.page_token'),
             'name'         => $content->title,
             'link'         => route('content_comments', $content->getKey()),
             'description'  => $content->description,
