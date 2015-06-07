@@ -42,7 +42,7 @@ class FacebookPost extends Command
         ];
 
         if ($content->thumbnail) {
-            $params['picture'] = 'https:'.$content->getThumbnailPath(500, 250);
+            $params['picture'] = $content->getThumbnailPath(500, 250);
         }
 
         Guzzle::post('https://graph.facebook.com/strimoid/feed', [
