@@ -69,7 +69,7 @@ $(document).ready(function() {
             pusher.subscribe('entries').bind('new-entry', function(data) {
                 if (window.blocked_users.indexOf(data.author) != -1 || window.blocked_groups.indexOf(data.group) != -1)
                     return;
-                if (window.group) {
+                if (window.group && window.group != 'all') {
                     if (window.group == 'subscribed' && window.subscribed_groups.indexOf(data.group) == -1)
                         return;
                     else if (window.group == 'moderated' && window.moderated_groups.indexOf(data.group) == -1)
