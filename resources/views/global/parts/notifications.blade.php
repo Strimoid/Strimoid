@@ -36,8 +36,8 @@
         </div>
 
         <div class="notifications_footer">
-            <a href="/notifications">Wszystkie</a>
-            <a class="mark_as_read_link action_link pull-right">Oznacz jako przeczytane</a>
+            <a href="/notifications">{{ trans('notifications.all') }}</a>
+            <a class="mark_as_read_link action_link pull-right">{{ trans('notifications.mark as read') }}</a>
         </div>
     </div>
 </li>

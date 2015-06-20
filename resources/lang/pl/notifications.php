@@ -2,6 +2,9 @@
 
 return [
 
+    'all' => 'Wszystkie',
+    'mark as read' => 'Oznacz jako przeczytane',
+
     'types' => [
         'Content'             => 'Treść',
         'ContentRelated'      => 'Powiązany link',
