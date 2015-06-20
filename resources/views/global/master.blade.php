@@ -107,7 +107,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 @endif
 
 <script>
-    $(document).pjax('a', 'body > .container')
+    $(document).pjax('body > .container a', 'body > .container')
     $(document).on('pjax:end', function() {
         riot.mount('*')
     })

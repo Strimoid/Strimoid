@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
         'Strimoid\Http\Middleware\VerifyCsrfToken',
         'Strimoid\Http\Middleware\RateLimit',
         'Strimoid\Http\Middleware\NotificationMarkRead',
+        'Strimoid\Http\Middleware\Pjax',
     ];
 
     /**
