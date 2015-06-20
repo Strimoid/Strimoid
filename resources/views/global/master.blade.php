@@ -90,6 +90,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 <div class="container @if (@Auth::user()->settings['pin_navbar']) navbar-fixed-margin @endif">
     <div class="row">
         <div class="main_col @yield('content_class', 'col-md-8')">
+            @include('flash::message')
             @include('global.parts.alerts')
 
             @yield('content')
@@ -132,7 +133,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-45119517-1', 'strimoid.pl');
+    ga('create', 'UA-45119517-1', 'auto');
     ga('send', 'pageview');
 </script>
 
