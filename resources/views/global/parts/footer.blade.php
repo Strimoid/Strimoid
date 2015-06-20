@@ -4,7 +4,7 @@
     <div class="col-sm-2 col-sm-offset-2">
         <ul>
             <li><a href="/" rel="nofollow">{{ trans('common.homepage') }}</a></li>
-            <li><a href="{!! action('GroupController@showList') !!}" rel="nofollow">Lista grup</a></li>
+            <li><a href="{!! action('GroupController@showList') !!}" rel="nofollow">{{ trans('common.group list') }}</a></li>
         </ul>
     </div>
 
@@ -32,5 +32,5 @@
 
 <hr>
 
-<p class="pull-left">Serwis wykorzystuje <a href="/cookies" rel="nofollow">pliki cookies.</a></p>
+<p class="pull-left">{{ trans('common.website uses') }} <a href="/cookies" rel="nofollow">{{ trans('common.cookie files') }}.</a></p>
 <p class="pull-right toggle_night_mode">{{ trans('common.night mode') }} <span class="glyphicon glyphicon-adjust"></span></p>

@@ -30,7 +30,7 @@
                 @endforeach
 
                 @if (!count($notifications))
-                    <a>Nie posiadasz żadnych powiadomień.</a>
+                    <a>{{ trans('notifications.empty') }}</a>
                 @endif
             </div>
         </div>

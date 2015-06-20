@@ -4,6 +4,7 @@ return [
 
     'all' => 'Wszystkie',
     'mark as read' => 'Oznacz jako przeczytane',
+    'empty' => 'Nie posiadasz żadnych powiadomień.',
 
     'types' => [
         'Content'             => 'Treść',

@@ -1,6 +1,6 @@
 <div class="groupbar groupbar-{!! $navbarClass !!}">
     <ul>
-        <li><a href="/g/all" rel="nofollow">Wszystkie</a></li>
+        <li><a href="/g/all" rel="nofollow">{{ trans('common.all') }}</a></li>
 
         @if (Auth::check())
             <?php $subscriptions = Auth::user()->subscribedGroups()->lists('urlname')->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE); ?>
@@ -14,7 +14,7 @@
                     @endforeach
 
                     @if (!$subscriptions)
-                        <li><a href="{!! action('GroupController@showList') !!}">Lista grup</a></li>
+                        <li><a href="{!! action('GroupController@showList') !!}">{{ trans('common.group list') }}</a></li>
                     @endif
                 </ul>
             </li>
@@ -69,6 +69,10 @@
             <li><a href="/g/{!! $pgroup['urlname'] !!}">{!! $pgroup['name'] !!}</a></li>
         @endforeach
 
-        <li class="group_list_link"><a href="/groups/list"><span class="glyphicon glyphicon-th-list"></span> Lista grup</a></li>
+        <li class="group_list_link">
+            <a href="/groups/list">
+                <span class="glyphicon glyphicon-th-list"></span> {{ trans('common.group list') }}
+            </a>
+        </li>
     </ul>
 </div>
