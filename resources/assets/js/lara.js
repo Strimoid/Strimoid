@@ -48,7 +48,7 @@ $(document).ready(function() {
     var pollsModule = new PollsModule();
 
     if (window.username && window.WebSocket) {
-        var pusher = new Pusher('a77666a1f2baa8903d8b');
+        var pusher = new Pusher(data.config.pusher_key);
 
         pusher.subscribe('private-u-' + window.username).bind('new-notification', function(data) {
             notificationsModule.onNotificationReceived(data);

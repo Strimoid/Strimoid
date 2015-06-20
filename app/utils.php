@@ -104,3 +104,13 @@ if (! function_exists('hashids_decode')) {
     }
 }
 
+if (! function_exists('user')) {
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function user()
+    {
+        return auth()->user();
+    }
+}
+
