@@ -36,6 +36,12 @@
     "ladda": "~0.9.8"
   },
   "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
     "codemirror": {
       "main": [
         "lib/codemirror.js",
