@@ -35,6 +35,7 @@ return [
     "digits_between"   => "The :attribute must be between :min and :max digits.",
     "email"            => "The :attribute format is invalid.",
     "exists"           => "The selected :attribute is invalid.",
+    "exists_ci"        => ":attribute doesn't exist.",
     "image"            => "The :attribute must be an image.",
     "in"               => "The selected :attribute is invalid.",
     "integer"          => "The :attribute must be an integer.",
@@ -54,6 +55,7 @@ return [
     ],
     "not_in"           => "The selected :attribute is invalid.",
     "numeric"          => "The :attribute must be a number.",
+    "real_email"       => "Given e-mail address is not valid.",
     "regex"            => "The :attribute format is invalid.",
     "required"         => "The :attribute field is required.",
     "required_if"      => "The :attribute field is required when :other is :value.",
@@ -66,8 +68,12 @@ return [
         "string"  => "The :attribute must be :size characters.",
         "array"   => "The :attribute must contain :size items.",
     ],
+    "user_password"    => "Given password is not valid.",
     "unique"           => "The :attribute has already been taken.",
+    "unique_ci"        => "Given username is already taken.",
+    "unique_email"     => "Given e-mail address was already registered.",
     "url"              => "The :attribute format is invalid.",
+    "safe_url"         => ":attribute format is invalid.",
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +86,17 @@ return [
     |
     */
 
-    'custom' => [],
+    'custom' => [
+        'urlname' => [
+            'regex' => 'Address may only contain alphanumeric characters and underscore.',
+        ],
+        'username' => [
+            'regex' => 'Username may only contain alphanumeric characters and underscore.',
+        ],
+        'groupname' => [
+            'exists' => 'Given group does not exist.',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -93,6 +109,19 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'username'    => 'Username',
+        'password'    => 'Password',
+        'email'       => 'E-mail address',
+        'urlname'     => 'Group address',
+        'groupname'   => 'Group name',
+        'description' => 'Description',
+        'text'        => 'Content',
+        'reason'      => 'Reason',
+        'location'    => 'City',
+        'age'         => 'Year of birth',
+        'title'       => 'Title',
+        'name'        => 'Name',
+    ],
 
 ];
