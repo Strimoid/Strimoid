@@ -174,6 +174,7 @@ return [
         'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
         'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
         'Msurguy\Honeypot\HoneypotServiceProvider',
+        'TwigBridge\ServiceProvider',
         'Vinkla\Algolia\AlgoliaServiceProvider',
         'Vinkla\Hashids\HashidsServiceProvider',
         'Vinkla\Pusher\PusherServiceProvider',
@@ -240,6 +241,7 @@ return [
         'Markdown'   => 'GrahamCampbell\Markdown\Facades\Markdown',
         'Setting'    => 'Strimoid\Facades\Settings',
         'Throttle'   => 'GrahamCampbell\Throttle\Facades\Throttle',
+        'Twig'       => 'TwigBridge\Facade\Twig',
 
         'Settings'  => 'Strimoid\Facades\Settings',
         'PDP'       => 'Strimoid\Facades\PDP',

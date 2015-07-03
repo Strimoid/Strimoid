@@ -106,7 +106,7 @@ if (! function_exists('hashids_decode')) {
 
 if (! function_exists('user')) {
     /**
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @return User
      */
     function user()
     {
