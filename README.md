@@ -9,9 +9,8 @@ Source code of Strimoid.pl, brand-new social service.
 
 Requirements
 ========
-* PHP 5.5+ with APCu, MongoDB and ZMQ extensions.
-* If you have too much free time, you can try with HHVM + Mongofill and hhvm-zmq instead of PHP.
-* MongoDB.
+* PHP 5.6+.
+* MySQL.
 
 API
 ========
@@ -39,9 +38,9 @@ gulp
 To do
 ========
 * [ ] Tests, tests, tests!
-* [ ] AngularJS based frontend, developed as external project.
+* [ ] Better frontend.
 * [ ] Improve API: change routing, add more documentation, add ETags support.
-* [ ] Many, many, other things...
+* [ ] Many many other things...
 
 Questions?
 ========
