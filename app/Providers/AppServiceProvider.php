@@ -28,7 +28,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register('Jenssegers\Rollbar\RollbarServiceProvider');
         }
 
-        Carbon::setLocale('pl');
+        $locale = config('app.locale');
+        Carbon::setLocale($locale);
     }
 
     /**
