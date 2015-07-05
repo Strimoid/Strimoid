@@ -1,5 +1,7 @@
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">logowanie <b class="caret"></b></a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        {{ trans('auth.logging in') }} <b class="caret"></b>
+    </a>
     <ul class="dropdown-menu login_menu">
         {!! Form::open(['action' => 'AuthController@login', 'class' => 'navbar-form']) !!}
         <input type="text" name="username" placeholder="Login" class="form-control" style="margin-bottom: 10px">
@@ -14,4 +16,8 @@
         {!! Form::close() !!}
     </ul>
 </li>
-<li><a href="{!! action('UserController@showRegisterForm') !!}">rejestracja</a></li>
+<li>
+    <a href="{!! action('UserController@showRegisterForm') !!}">
+        {{ trans('auth.registration') }}
+    </a>
+</li>
