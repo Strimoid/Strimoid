@@ -9,23 +9,23 @@ Source code of Strimoid.pl, brand-new social service.
 
 Requirements
 ========
-* PHP 5.6+.
-* MySQL.
+* PHP 5.6+ / HHVM 3.7+
+* MySQL
 
 API
 ========
-You can find API documentation at https://developers.strimoid.pl
+You can find API documentation at https://developers.strm.pl
 
 Documentation
 ========
-We are providing documentation generated automatically by Sami at https://sami.strimoid.pl
+We are providing documentation generated automatically by Sami at https://sami.strm.pl
 
 How to start?
 ========
 Install dependencies using Composer:
 
 ```
-composer.phar install
+composer install
 ```
 
 Compile resources using Gulp:
