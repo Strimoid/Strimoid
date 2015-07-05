@@ -286,8 +286,8 @@ class GroupController extends BaseController
 
     public function addBan(Request $request)
     {
-        $user = User::name(Input::get('username'))->firstOrFail();
-        $group = Group::name(Input::get('groupname'))->firstOrFail();
+        $user = User::name($request->get('username'))->firstOrFail();
+        $group = Group::name($request->get('groupname'))->firstOrFail();
 
         $this->validate($request, ['reason' => 'max:255']);
 
@@ -296,8 +296,8 @@ class GroupController extends BaseController
                 $group->banUser($user, $request->get('reason'));
             }
         } else {
-            if (! Auth::user()->isModerator($group)) {
-                App::abort(403, 'Access denied');
+            if (! user()->isModerator($group)) {
+                abort(403, 'Access denied');
             }
 
             $group->banUser($user, $request->get('reason'));

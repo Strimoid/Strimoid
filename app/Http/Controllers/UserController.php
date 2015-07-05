@@ -184,67 +184,6 @@ class UserController extends BaseController
         return view('user.login');
     }
 
-    public function showRegisterForm()
-    {
-        return view('user.register');
-    }
-
-    public function processRegistration(Request $request)
-    {
-        $this->validate($request, [
-            'username' => 'required|min:2|max:30|unique:users,name|regex:/^[a-zA-Z0-9_]+$/i',
-            'password' => 'required|min:6',
-            'email'    => 'required|email|unique_email:users|real_email',
-        ]);
-
-        $ipHash = md5($request->getClientIp());
-
-        if (Cache::has('registration.'.$ipHash)) {
-            return App::abort(500);
-        }
-
-        $email = $request->input('email');
-
-        $user = new User();
-        $user->name     = $request->input('username');
-        $user->password = $request->input('password');
-        $user->email    = $email;
-        $user->last_ip  = $request->getClientIp();
-        $user->save();
-
-        Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email) {
-            $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
-        });
-
-        return Redirect::to('')->with(
-            'success_msg',
-            'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, klikając na link przesłany na twój adres email.'
-        );
-    }
-
-    public function activateAccount(Request $request, $token)
-    {
-        $user = User::where('activation_token', $token)->firstOrFail();
-
-        $ipHash = md5($request->getClientIp());
-        if (Cache::has('registration.'.$ipHash)) {
-            return App::abort(500);
-        }
-
-        $user->is_activated = true;
-        $user->save();
-
-        Auth::login($user);
-
-        Cache::put('registration.'.$ipHash, 'true', 60 * 24 * 7);
-
-        return Redirect::to('/kreator')->with(
-            'success_msg',
-            'Witaj w gronie użytkowników serwisu '.Config::get('app.site_name').'! ;) '.
-            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.'
-        );
-    }
-
     public function showRemoveAccountForm()
     {
         return view('user.remove');

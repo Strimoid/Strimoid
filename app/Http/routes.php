@@ -88,16 +88,15 @@ Route::delete('/me/blocked_domain/{domain}', ['middleware' => 'auth', 'uses' => 
 
 Route::get('/users.json', 'UserController@showJSONList');
 
-Route::get('/register', ['middleware' => 'guest', 'uses' => 'UserController@showRegisterForm']);
-Route::post('/register', ['middleware' => 'guest', 'uses' => 'UserController@processRegistration']);
+Route::get('/register', ['as' => 'auth.register', 'middleware' => 'guest', 'uses' => 'Auth\RegistrationController@showRegisterForm']);
+Route::post('/register', ['middleware' => 'guest', 'uses' => 'Auth\RegistrationController@processRegistration']);
+Route::get('/account/activate/{token}', 'Auth\RegistrationController@activateAccount');
 
 Route::get('/remind', 'UserController@remindPassword');
 Route::post('/remind', 'UserController@remindPassword');
 
 Route::get('/password/reset/{token}', 'UserController@showPasswordResetForm');
 Route::post('/password/reset/{token}', 'UserController@resetPassword');
-
-Route::get('/account/activate/{token}', 'UserController@activateAccount');
 
 Route::get('/account/remove', 'UserController@showRemoveAccountForm');
 Route::post('/account/remove', 'UserController@removeAccount');
