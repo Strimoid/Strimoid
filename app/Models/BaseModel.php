@@ -73,6 +73,16 @@ abstract class BaseModel extends Eloquent
     }
 
     /**
+     * Get hashed object id.
+     *
+     * @return string
+     */
+    public function getHashIdAttribute()
+    {
+        return $this->hashId();
+    }
+
+    /**
      * Get the value of the model's route key.
      *
      * @return string

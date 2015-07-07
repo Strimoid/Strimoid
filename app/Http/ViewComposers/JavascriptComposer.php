@@ -3,6 +3,7 @@
 use Auth;
 use Illuminate\View\View;
 use JavaScript;
+use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
 class JavascriptComposer
@@ -17,6 +18,10 @@ class JavascriptComposer
 
         if (array_key_exists('group', $data) && $data['group'] instanceof Group) {
             JavaScript::put(['group' => $data['group']]);
+        }
+
+        if (array_key_exists('content', $data) && $data['content'] instanceof Content) {
+            JavaScript::put(['content' => $data['content']->toArray()]);
         }
 
         JavaScript::put([

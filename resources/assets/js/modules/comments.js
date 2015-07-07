@@ -13,9 +13,9 @@ CommentsModule.prototype.addComment = function(e) {
     $(form).find('.form-group').removeClass('has-error');
     $(form).find('.help-block').remove();
 
-    var id = window.content_id;
+    var url = laroute.route('CommentController@addComment', { content: data.content.hashid });
 
-    $.post('/c/' + id +'/comment', $(form).serialize(), function(data){
+    $.post(url, $(form).serialize(), function(data){
         if (data.status == 'ok') {
             $(form).trigger('reset');
 
