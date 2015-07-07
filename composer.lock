@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8eef00af362392d4e767378243ff3160",
+    "hash": "9e5176baa7d4c8d8082c693344bbb3af",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1754,6 +1754,57 @@
                 "server"
             ],
             "time": "2015-03-22 23:19:36"
+        },
+        {
+            "name": "lord/laroute",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aaronlord/laroute.git",
+                "reference": "e9ced9e9c4f69e5da2dae1c2aebc185289748a33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aaronlord/laroute/zipball/e9ced9e9c4f69e5da2dae1c2aebc185289748a33",
+                "reference": "e9ced9e9c4f69e5da2dae1c2aebc185289748a33",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "5.0.*|5.1.*",
+                "illuminate/console": "5.0.*|5.1.*",
+                "illuminate/filesystem": "5.0.*|5.1.*",
+                "illuminate/routing": "5.0.*|5.1.*",
+                "illuminate/support": "5.0.*|5.1.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lord\\Laroute\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Lord",
+                    "email": "hello@aaronlord.is"
+                }
+            ],
+            "description": "Access Laravels URL/Route helper functions, from JavaScript.",
+            "keywords": [
+                "javascript",
+                "laravel",
+                "routes",
+                "routing"
+            ],
+            "time": "2015-06-10 10:22:58"
         },
         {
             "name": "lucadegasperi/oauth2-server-laravel",

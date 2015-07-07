@@ -42,7 +42,8 @@
           "lucadegasperi/oauth2-server-laravel": "4.0.x@dev",
           "pda/pheanstalk": "~3.0",
           "predis/predis": "~1.0",
-          "rcrowe/twigbridge": "0.7.x"
+          "rcrowe/twigbridge": "0.7.x",
+          "lord/laroute" : "2.*"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",
