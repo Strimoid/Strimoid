@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(array('action' => 'ContentController@addContent', 'class' => 'form-horizontal content_add_form')) !!}
+    {!! Form::open(['action' => 'ContentController@addContent', 'class' => 'form-horizontal content_add_form']) !!}
     <input type="hidden" name="type" value="link">
 
     <p id="currentTab"></p>
@@ -33,7 +33,7 @@
     <div class="form-group">
         <label class="col-lg-3 control-label">Dodatkowe opcje</label>
 
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="checkbox">
                 <label>
                     {!! Form::checkbox('thumbnail', 'on', Input::get('thumbnail') == 'no' ? false : true) !!} Miniaturka
@@ -50,11 +50,11 @@
                 </label>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-6">
-            <button type="submit" class="btn btn-default btn-primary pull-right">Dodaj treść</button>
+        <div class="col-lg-2">
+            <button type="submit" class="btn btn-primary pull-right">
+                Dodaj treść
+            </button>
         </div>
     </div>
     {!! Form::close() !!}
@@ -63,8 +63,17 @@
 
 @section('sidebar')
 <div class="well">
-    <p>Dołączenie do społeczności {!! Config::get('app.site_name') !!} pozwoli Ci na pełny udział w życiu serwisu
-        oraz możliwość dostosowania go do własnych upodobań.</p>
-    <p>Zapraszamy!</p>
+    <p></p>
 </div>
 @stop
+
+@section('scripts')
+    <link href="/static/css/simplemde.min.css" rel="stylesheet">
+    <script src="/static/js/simplemde.min.js"></script>
+
+    <script>
+        var editor = new SimpleMDE($('.md_editor')[0]);
+        editor.render();
+    </script>
+@endsection
+
