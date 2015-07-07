@@ -656,14 +656,12 @@ $(document).ready(function() {
 
     if ($('textarea.md_editor').length) {
         var textarea = $('textarea.md_editor')[0];
-
-        var editor = new Editor();
-        editor.render(textarea);
     }
 
     if ($('textarea.css_editor').length) {
         var textarea = $('textarea.css_editor')[0];
 
+        /*
         var editor = CodeMirror.fromTextArea(textarea, {
             mode: 'text/css',
             lineNumbers: true
@@ -673,6 +671,7 @@ $(document).ready(function() {
             editor.refresh();
             editor.refresh();
         });
+        */
     }
 
     if (document.location.hash) {
