@@ -292,7 +292,7 @@ class GroupController extends BaseController
         $this->validate($request, ['reason' => 'max:255']);
 
         if ($request->get('everywhere') == '1') {
-            foreach (user()->moderatedGroups() as $group) {
+            foreach (user()->moderatedGroups as $group) {
                 $group->banUser($user, $request->get('reason'));
             }
         } else {

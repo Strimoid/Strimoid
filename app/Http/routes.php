@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'api/v1'], function () {
+Route::group(['prefix' => 'api/v1', 'laroute' => false], function () {
     Route::get('/', function () {
         return '<a href="https://developers.strimoid.pl">API Documentation</a>';
     });
