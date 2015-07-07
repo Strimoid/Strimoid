@@ -38,12 +38,12 @@
                             {!! Lang::choice('pluralization.comments', intval($content->comments_count)) !!}</a>
                     <span class="glyphicon glyphicon-tag"></span>
                         <a href="{!! route('group_contents', $content->group) !!}" class="content_group"
-                           data-hover="group_widget" data-group="{!! $content->group_id !!}">
+                           data-hover="group_widget" data-group="{!! $content->group->urlname !!}">
                             {{ $content->group->urlname }}
                         </a>
                     <span class="glyphicon glyphicon-user"></span>
                         <a href="{!! route('user_profile', $content->user) !!}" class="content_user"
-                           data-hover="user_widget" data-user="{!! $content->user_id !!}">
+                           data-hover="user_widget" data-user="{!! $content->user->name !!}">
                             {{ $content->user->name }}
                         </a>
                     <span class="glyphicon glyphicon-globe"></span>

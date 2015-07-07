@@ -10,7 +10,7 @@
     <p>Witaj {!! $user->_id !!}!</p>
     <p>Aby zakończyć proces rejestracji i aktywować konto, wystarczy, że klikniesz na poniższy link:</p>
     <p>
-        <a href="{!! URL::to('account/activate', array($user->activation_token)) !!}">{!! URL::to('account/activate', array($user->activation_token)) !!}</a>
+        <a href="{!! URL::to('account/activate', $user->activation_token) !!}">{!! URL::to('account/activate', array($user->activation_token)) !!}</a>
     </p>
 </div>
 

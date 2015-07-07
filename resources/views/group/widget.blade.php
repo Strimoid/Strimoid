@@ -3,7 +3,7 @@
         <h3 class="panel-title media" data-name="{!! $group->urlname !!}">
             <img class="media-object pull-left" src="{!! $group->getAvatarPath() !!}">
 
-            <a href="{!! route('group_contents', ['group' => $group->urlname]) !!}">
+            <a href="{!! route('group_contents', $group->urlname) !!}">
                 {{{ $group->name }}}
             </a>
             <button type="button" class="btn btn-default @if(Auth::check() && Auth::user()->isSubscriber($group)) btn-success @endif pull-right group_subscribe_btn">

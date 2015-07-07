@@ -7,7 +7,7 @@ Rejestracja
 @section('content')
 <div class="row">
     {!! Form::open([
-        'action' => 'UserController@processRegistration',
+        'action' => 'Auth\RegistrationController@processRegistration',
         'class' => 'form-horizontal'
     ]) !!}
         @include('global.form.input_icon', [

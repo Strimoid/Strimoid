@@ -17,7 +17,7 @@
     </ul>
 </li>
 <li>
-    <a href="{!! action('UserController@showRegisterForm') !!}">
+    <a href="{{ route('auth.register') }}">
         {{ trans('auth.registration') }}
     </a>
 </li>
