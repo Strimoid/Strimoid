@@ -184,13 +184,21 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->moderatedGroups()->where('group_id', $group)->exists();
     }
 
-    public function isSubscriber(Group $group)
+    public function isSubscriber($group)
     {
+        if ($group instanceof Group) {
+            $group = $group->getKey();
+        }
+
         return $this->subscribedGroups()->where('group_id', $group)->exists();
     }
 
-    public function isBlocking(Group $group)
+    public function isBlocking($group)
     {
+        if ($group instanceof Group) {
+            $group = $group->getKey();
+        }
+
         return $this->blockedGroups()->where('group_id', $group)->exists();
     }
 

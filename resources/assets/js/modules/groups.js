@@ -12,16 +12,17 @@ function GroupsModule() {
 GroupsModule.prototype.subscribeGroup = function () {
     var button = $(this);
     var name = $(this).parent().attr('data-name');
+    var url = laroute.action('GroupController@subscribeGroup', {group: name});
 
     if (button.hasClass('btn-success')) {
-        $.post('/ajax/group/unsubscribe', { name: name }, function(data){
+        $.delete(url, function(data) {
             if (data.status == 'ok') {
                 $(button).removeClass('btn-success');
                 $(button).addClass('btn-default');
             }
         });
     } else {
-        $.post('/ajax/group/subscribe', { name: name }, function(data){
+        $.post(url, function(data){
             if (data.status == 'ok') {
                 $(button).removeClass('btn-default');
                 $(button).addClass('btn-success');

@@ -24,7 +24,7 @@ class CreateUserSubscribedGroupsTable extends Migration {
 				->references('id')->on('users')
 				->onDelete('cascade');
 
-			$table->timestamp('created_at');
+			$table->timestamps();
 		});
 	}
 

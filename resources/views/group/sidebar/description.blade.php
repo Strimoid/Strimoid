@@ -4,9 +4,8 @@ $subscribed = false;
 $blocked = false;
 
 if (Auth::check()) {
-    $user = Auth::user();
-    $subscribed = $user->isSubscriber($group);
-    $blocked = $user->isBlocking($group);
+    $subscribed = user()->isSubscriber($group);
+    $blocked = user()->isBlocking($group);
 }
 
 ?>

@@ -24,7 +24,7 @@ class CreateFolderGroupsTable extends Migration {
 				->references('id')->on('groups')
 				->onDelete('cascade');
 
-			$table->timestamp('created_at');
+			$table->timestamps();
 		});
 	}
 
