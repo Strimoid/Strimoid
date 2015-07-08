@@ -13,7 +13,7 @@ CommentsModule.prototype.addComment = function(e) {
     $(form).find('.form-group').removeClass('has-error');
     $(form).find('.help-block').remove();
 
-    var url = laroute.route('CommentController@addComment', { content: data.content.hashid });
+    var url = laroute.action('CommentController@addComment', { content: data.content.hashid });
 
     $.post(url, $(form).serialize(), function(data){
         if (data.status == 'ok') {

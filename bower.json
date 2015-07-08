@@ -31,7 +31,8 @@
     "jquery-methodOverride": "*",
     "jquery-pjax": "latest",
     "riot": "~2.1.0",
-    "ladda": "~0.9.8"
+    "ladda": "~0.9.8",
+    "font-awesome": "~4.3.0"
   },
   "overrides": {
     "bootstrap": {
