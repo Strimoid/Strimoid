@@ -9,11 +9,12 @@ function CommentsModule() {
 
 CommentsModule.prototype.addComment = function(e) {
     var form = this;
+    var id = $(form).find('input[name=id]').val();
 
     $(form).find('.form-group').removeClass('has-error');
     $(form).find('.help-block').remove();
 
-    var url = laroute.action('CommentController@addComment', { content: data.content.hashid });
+    var url = laroute.action('CommentController@addComment', { content: id });
 
     $.post(url, $(form).serialize(), function(data){
         if (data.status == 'ok') {
