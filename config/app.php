@@ -166,6 +166,7 @@ return [
         /*
          * Third party Service Providers...
          */
+        Barryvdh\Cors\ServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
