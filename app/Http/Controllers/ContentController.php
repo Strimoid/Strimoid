@@ -22,8 +22,6 @@ use Validator;
 
 class ContentController extends BaseController
 {
-    use ValidatesRequests;
-
     /**
      * @var ContentRepository
      */
