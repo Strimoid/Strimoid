@@ -308,7 +308,7 @@ class GroupController extends BaseController
 
     public function removeBan()
     {
-        $ban = GroupBan::findOrFail(Input::get('id'));
+        $ban = GroupBan::name(Input::get('id'));
 
         if (! Auth::user()->isModerator($ban->group)) {
             App::abort(403, 'Access denied');

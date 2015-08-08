@@ -31,7 +31,7 @@ class EntryController extends BaseController
             $fakeGroup = new $className();
             $builder = $fakeGroup->entries();
 
-            $builder->orderBy('sticky_global', 'desc');
+            //$builder->orderBy('sticky_global', 'desc');
         } else {
             $group = Group::name($groupName)->firstOrFail();
             $group->checkAccess();
@@ -39,7 +39,7 @@ class EntryController extends BaseController
             $builder = $group->entries();
 
             // Allow group moderators to stick contents
-            $builder->orderBy('sticky_group', 'desc');
+            //$builder->orderBy('sticky_group', 'desc');
         }
 
         $builder->with(['user', 'group', 'replies', 'replies.user'])
