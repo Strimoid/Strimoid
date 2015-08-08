@@ -175,7 +175,7 @@ class NotificationsHandler
      */
     protected function updateNotificationTargets($notification, $newText)
     {
-        $oldUserIds = $notification->targets()->lists('user_id');
+        $oldUserIds = (array) $notification->targets()->lists('user_id');
         $newUsers = $this->findMentionedUsers($newText);
 
         $newTargets = $newUsers->filter(function ($user) use ($oldUserIds) {
@@ -184,7 +184,7 @@ class NotificationsHandler
 
         $this->addTargets($notification, $newTargets);
 
-        $removedTargets = array_diff($oldUserIds, $newUsers->lists('id'));
+        $removedTargets = array_diff($oldUserIds, (array) $newUsers->lists('id'));
 
         foreach ($removedTargets as $removedTarget) {
             $notification->targets()->detach($removedTarget);
