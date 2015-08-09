@@ -9,4 +9,3 @@ vendor/
 public/assets/
 public/build/
 tests/_output/*
-config/database.php
