@@ -1,4 +1,5 @@
 {!! '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>'."\n" !!}
+
 <rss version="2.0"
      xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -15,10 +16,10 @@
         </image>
         @foreach($contents as $content)
             <item>
-                <title>{{ $content->title }}</title>
+                <title>{!! $content->title !!}</title>
                 <link>{{ route('content_comments', $content->getKey()) }}</link>
                 <guid isPermaLink="true">{{ route('content_comments', $content->getKey()) }}</guid>
-                <description>{{ $content->description }}</description>
+                <description>{!! $content->description !!}</description>
                 <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $content->user->name }}</dc:creator>
                 <pubDate>{{ $content->created_at->format(\DateTime::RSS) }}</pubDate>
             </item>
