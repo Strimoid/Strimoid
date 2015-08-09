@@ -50,7 +50,7 @@
         <td>{{{ $ban->reason }}}</td>
 
         @if (Auth::check() && Auth::user()->isModerator($group))
-            <td><button type="button" class="btn btn-xs btn-default ban_remove_btn" data-id="{!! $ban->_id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
+            <td><button type="button" class="btn btn-xs btn-default ban_remove_btn" data-id="{!! $ban->id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
         @endif
     </tr>
     @endforeach
