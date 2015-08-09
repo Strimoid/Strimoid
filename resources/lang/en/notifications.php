@@ -13,6 +13,7 @@ return [
         'Entry'               => 'Entry',
         'EntryReply'          => 'Entry reply',
         'ConversationMessage' => 'Conversation'
+        'Conversation'        => 'New message in conversation',
     ]
 
 ];

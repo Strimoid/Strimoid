@@ -13,7 +13,8 @@ return [
         'CommentReply'        => 'Odpowiedź na komentarz',
         'Entry'               => 'Wpis',
         'EntryReply'          => 'Odpowiedź na wpis',
-        'ConversationMessage' => 'Konwersacja'
+        'ConversationMessage' => 'Konwersacja',
+        'Conversation'        => 'Nowa wiadomość w konwersacji',
     ]
 
 ];
