@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php 
+
+namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;

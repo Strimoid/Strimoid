@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Middleware;
+<?php 
+
+namespace Strimoid\Http\Middleware;
 
 use Closure;
 use GrahamCampbell\Throttle\Throttle;

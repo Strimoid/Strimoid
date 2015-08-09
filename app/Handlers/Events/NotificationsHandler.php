@@ -28,6 +28,7 @@ class NotificationsHandler
         $this->addHandlers(CommentReply::class, $events);
         $this->addHandlers(Entry::class, $events);
         $this->addHandlers(EntryReply::class, $events);
+        $this->addHandlers(ConversationMessage::class, $events);
 
         $events->listen(
             'eloquent.created: '.ConversationMessage::class,
@@ -154,8 +155,11 @@ class NotificationsHandler
         $conversation = $message->conversation;
         $targets = $conversation->users;
 
+        $targetIds = $targets->lists('id');
+        $conversation->notifications()->whereIn('user_id', $targetIds)->delete();
+
         $this->sendNotifications(
-            $targets,
+            $targets->all(),
             function (Notification $notification) use ($message) {
                 $notification->setTitle($message->text);
                 $notification->element()->associate($message->conversation);
@@ -163,8 +167,6 @@ class NotificationsHandler
             $message->user
         );
 
-        $targetIds = $targets->lists('id');
-        $conversation->notifications()->whereIn('user_id', $targetIds)->delete();
     }
 
     /**
