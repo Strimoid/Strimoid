@@ -13,7 +13,7 @@ class GroupController extends BaseController
             $builder->where('name', 'like', '%'.Input::get('name').'%');
         }
 
-        if (in_array(Input::get('sort'), ['created_at', 'subscribers'])) {
+        if (in_array(Input::get('sort'), ['created_at', 'subscribers_count'])) {
             $builder->orderBy(Input::get('sort'), 'desc');
         } else {
             $builder->orderBy('created_at', 'desc');
