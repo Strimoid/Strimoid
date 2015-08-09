@@ -26,7 +26,8 @@ class SearchController extends BaseController
                 case 'g':
                     $builder = Group::where('name', 'like', '%'.$keywords.'%')
                         ->orWhere('urlname', 'like', '%'.$keywords.'%')
-                        ->orWhere('tags', $keywords);
+                        // ->orWhere('tags', $keywords)
+                    ;
                     break;
                 case 'c':
                 default:
