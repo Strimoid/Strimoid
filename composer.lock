@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "521c6b2384df8ca45adf61ab72fd6dcb",
+    "hash": "762f73c6b0383b16b43d034866e2a98c",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1205,23 +1205,23 @@
             "time": "2015-05-15 08:40:47"
         },
         {
-            "name": "jenssegers/rollbar",
-            "version": "v1.4.4",
+            "name": "jenssegers/raven",
+            "version": "v1.4.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jenssegers/laravel-rollbar.git",
-                "reference": "063f9c317ab0314a457dbd19bf4ed81deee1d8d1"
+                "url": "https://github.com/jenssegers/laravel-raven.git",
+                "reference": "6cde4eefe6f1636acb36ee840a0cadbcdfe5ebd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/laravel-rollbar/zipball/063f9c317ab0314a457dbd19bf4ed81deee1d8d1",
-                "reference": "063f9c317ab0314a457dbd19bf4ed81deee1d8d1",
+                "url": "https://api.github.com/repos/jenssegers/laravel-raven/zipball/6cde4eefe6f1636acb36ee840a0cadbcdfe5ebd6",
+                "reference": "6cde4eefe6f1636acb36ee840a0cadbcdfe5ebd6",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "4.*|5.*",
                 "php": ">=5.3",
-                "rollbar/rollbar": "~0.11"
+                "raven/raven": "~0.11"
             },
             "require-dev": {
                 "mockery/mockery": "*",
@@ -1231,7 +1231,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Jenssegers\\Rollbar\\": "src/"
+                    "Jenssegers\\Raven\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1244,15 +1244,17 @@
                     "homepage": "http://jenssegers.be"
                 }
             ],
-            "description": "Rollbar error monitoring integration for Laravel projects",
+            "description": "Sentry (Raven) error monitoring integration for Laravel projects",
             "keywords": [
                 "error",
+                "getsentry",
                 "laravel",
                 "logging",
                 "monitoring",
-                "rollbar"
+                "raven",
+                "sentry"
             ],
-            "time": "2015-06-06 08:23:36"
+            "time": "2015-05-30 21:28:15"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -2018,16 +2020,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.15.0",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "dc5150cc608f2334c72c3b6a553ec9668a4156b0"
+                "reference": "c0c0b4bee3aabce7182876b0d912ef2595563db7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/dc5150cc608f2334c72c3b6a553ec9668a4156b0",
-                "reference": "dc5150cc608f2334c72c3b6a553ec9668a4156b0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c0c0b4bee3aabce7182876b0d912ef2595563db7",
+                "reference": "c0c0b4bee3aabce7182876b0d912ef2595563db7",
                 "shasum": ""
             },
             "require": {
@@ -2064,7 +2066,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15.x-dev"
+                    "dev-master": "1.16.x-dev"
                 }
             },
             "autoload": {
@@ -2090,7 +2092,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2015-07-12 13:54:09"
+            "time": "2015-08-09 17:44:44"
         },
         {
             "name": "msurguy/honeypot",
@@ -2575,6 +2577,60 @@
             "time": "2015-05-13 11:01:46"
         },
         {
+            "name": "raven/raven",
+            "version": "0.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getsentry/raven-php.git",
+                "reference": "bd247ca2a8fd9ccfb99b60285c9b31286384a92b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getsentry/raven-php/zipball/bd247ca2a8fd9ccfb99b60285c9b31286384a92b",
+                "reference": "bd247ca2a8fd9ccfb99b60285c9b31286384a92b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2.4"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.8.0",
+                "phpunit/phpunit": "^4.6.6"
+            },
+            "bin": [
+                "bin/raven"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Raven_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "David Cramer",
+                    "email": "dcramer@gmail.com"
+                }
+            ],
+            "description": "A PHP client for Sentry (http://getsentry.com)",
+            "homepage": "http://getsentry.com",
+            "keywords": [
+                "log",
+                "logging"
+            ],
+            "time": "2015-05-19 20:20:08"
+        },
+        {
             "name": "rcrowe/twigbridge",
             "version": "v0.7.2",
             "source": {
@@ -2681,55 +2737,6 @@
             ],
             "description": "A lightweight implementation of CommonJS Promises/A for PHP",
             "time": "2015-07-03 13:48:55"
-        },
-        {
-            "name": "rollbar/rollbar",
-            "version": "v0.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "f4ead5be5e52443f0c9e0272a0cd5813a5b3199a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/f4ead5be5e52443f0c9e0272a0cd5813a5b3199a",
-                "reference": "f4ead5be5e52443f0c9e0272a0cd5813a5b3199a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "4.5.*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/rollbar.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rollbar, Inc.",
-                    "email": "support@rollbar.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Monitors errors and exceptions and reports them to Rollbar",
-            "homepage": "http://github.com/rollbar/rollbar-php",
-            "keywords": [
-                "debugging",
-                "errors",
-                "exceptions",
-                "logging",
-                "monitoring"
-            ],
-            "time": "2015-07-29 00:03:24"
         },
         {
             "name": "roumen/sitemap",
@@ -3922,12 +3929,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "2b7733c6b9ddee94655269a01794a31280c1d162"
+                "reference": "0a717d1e79e128f65ac18d30110b86138ac9a6a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/2b7733c6b9ddee94655269a01794a31280c1d162",
-                "reference": "2b7733c6b9ddee94655269a01794a31280c1d162",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/0a717d1e79e128f65ac18d30110b86138ac9a6a4",
+                "reference": "0a717d1e79e128f65ac18d30110b86138ac9a6a4",
                 "shasum": ""
             },
             "require": {
@@ -3977,7 +3984,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2015-08-01 14:59:45"
+            "time": "2015-08-09 13:04:14"
         },
         {
             "name": "behat/behat",

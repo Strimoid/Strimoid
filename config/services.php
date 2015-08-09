@@ -24,9 +24,9 @@ return [
         'default_inbox' => env('MAILTRAP_INBOX'),
     ],
 
-    'rollbar' => [
-        'access_token'  => env('ROLLBAR_TOKEN'),
-        'level'         => env('ROLLBAR_LEVEL', 'debug'),
+    'raven' => [
+        'dsn'           => env('RAVEN_DSN'),
+        'level'         => env('RAVEN_LEVEL', 'error'),
     ],
 
 ];
