@@ -293,14 +293,20 @@ class GroupController extends BaseController
 
         if ($request->get('everywhere') == '1') {
             foreach (user()->moderatedGroups as $group) {
-                $group->banUser($user, $request->get('reason'));
+                // $ban = GroupBan::group($request->get('groupname'))::user($request->get('username'));
+                $ban = GroupBan::where('group_id', $group->id)->where('user_id', $user->id)->first();
+                if (!$ban) {
+                    $group->banUser($user, $request->get('reason'));
+                }
             }
         } else {
             if (!user()->isModerator($group)) {
                 abort(403, 'Access denied');
             }
-
-            $group->banUser($user, $request->get('reason'));
+            $ban = GroupBan::where('group_id', $group->id)->where('user_id', $user->id)->first();
+            if (!$ban) {
+                $group->banUser($user, $request->get('reason'));
+            }
         }
 
         return redirect()->route('group_banned', $group);
@@ -308,7 +314,7 @@ class GroupController extends BaseController
 
     public function removeBan()
     {
-        $ban = GroupBan::where('id', Input::get('id'))->firstOrFail();
+        $ban = GroupBan::find(Input::get('id'))->first();
 
         if (!Auth::user()->isModerator($ban->group)) {
             App::abort(403, 'Access denied');
