@@ -186,10 +186,12 @@ class NotificationsHandler
 
         $this->addTargets($notification, $newTargets);
 
-        $removedTargets = array_diff($oldUserIds, (array) $newUsers->lists('id'));
+        $removedTargets = array_diff($oldUserIds, $newUsers->lists('id')->toArray());
 
-        foreach ($removedTargets as $removedTarget) {
-            $notification->targets()->detach($removedTarget);
+        if (sizeof($removedTargets) > 0) {
+            foreach ($removedTargets as $removedTarget) {
+                $notification->targets()->detach($removedTarget);
+            }
         }
     }
 
