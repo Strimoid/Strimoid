@@ -11,7 +11,7 @@ use Strimoid\Models\ContentRelated;
 
 class RelatedController extends BaseController
 {
-    use ValidatesRequests;
+    // use ValidatesRequests;
 
     public function addRelated(Request $request, $content)
     {
@@ -46,7 +46,7 @@ class RelatedController extends BaseController
 
         $related->save();
 
-        return Redirect::route('content_comments', $content->getKey());
+        return Redirect::route('content_comments', $content->hashid);
     }
 
     public function removeRelated($related = null)

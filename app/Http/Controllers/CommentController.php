@@ -15,7 +15,7 @@ use Strimoid\Models\CommentReply;
 
 class CommentController extends BaseController
 {
-    use ValidatesRequests;
+    // use ValidatesRequests;
 
     /**
      * @var FolderRepository
