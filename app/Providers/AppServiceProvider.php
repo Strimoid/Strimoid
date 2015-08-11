@@ -22,10 +22,10 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         }
 
-        $rollbarToken = config('services.rollbar.access_token');
+        $dsn = config('services.raven.dsn');
 
-        if (! empty($rollbarToken)) {
-            $this->app->register('Jenssegers\Rollbar\RollbarServiceProvider');
+        if (!empty($dsn)) {
+            $this->app->register('Jenssegers\Raven\RavenServiceProvider');
         }
 
         $locale = config('app.locale');

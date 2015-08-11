@@ -30,7 +30,6 @@
           "graham-campbell/markdown": "~3.0",
           "graham-campbell/throttle": "dev-master",
           "jenssegers/agent": "~2.1.5",
-          "jenssegers/rollbar": "~1.4",
           "laracasts/flash": "~1.3",
           "laracasts/utilities": "~2.0",
           "watson/rememberable": "dev-master",
@@ -44,7 +43,8 @@
           "predis/predis": "~1.0",
           "rcrowe/twigbridge": "0.7.x",
           "lord/laroute" : "2.*",
-          "barryvdh/laravel-cors": "^0.7.1"
+          "barryvdh/laravel-cors": "^0.7.1",
+            "jenssegers/raven": "^1.4"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.5",

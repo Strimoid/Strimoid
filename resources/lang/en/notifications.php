@@ -12,7 +12,7 @@ return [
         'CommentReply'        => 'Comment reply',
         'Entry'               => 'Entry',
         'EntryReply'          => 'Entry reply',
-        'ConversationMessage' => 'Conversation'
+        'ConversationMessage' => 'Conversation',
         'Conversation'        => 'New message in conversation',
     ]
 
