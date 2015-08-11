@@ -8,7 +8,7 @@ use Redirect;
 
 class SettingsController extends BaseController
 {
-    use ValidatesRequests;
+    // use ValidatesRequests;
 
     public function showSettings()
     {
