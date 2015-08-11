@@ -24,7 +24,7 @@ use URL;
 
 class UserController extends BaseController
 {
-    use ValidatesRequests;
+    // use ValidatesRequests;
 
     /**
      * @var UserRepository
