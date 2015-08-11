@@ -21,7 +21,8 @@ class PubSubHandler
 
     public function onNewEntry(Entry $entry)
     {
-        Pusher::trigger('entries', 'new-entry', $entry);
+        $arrayEntry = $entry->toArray();
+        Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, ['hashId' => $entry->hashId()]));
     }
 
     public function onNewNotification(Notification $notification)
