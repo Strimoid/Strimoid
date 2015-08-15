@@ -52,7 +52,7 @@ class RelatedController extends BaseController
     public function removeRelated($related = null)
     {
         $related = ($related instanceof ContentRelated)
-            ?: ContentRelated::findOrFail(Input::get('id'));
+            ?: ContentRelated::findOrFail(hashids_decode(Input::get('id')));
 
         if (Auth::id() == $related->user->getKey()) {
             $related->delete();
