@@ -9,6 +9,7 @@ use Strimoid\Models\ConversationMessage;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Notification;
+use Strimoid\Models\NotificationTarget;
 use Strimoid\Models\User;
 
 /**
@@ -29,11 +30,6 @@ class NotificationsHandler
         $this->addHandlers(Entry::class, $events);
         $this->addHandlers(EntryReply::class, $events);
         $this->addHandlers(ConversationMessage::class, $events);
-
-        $events->listen(
-            'eloquent.created: '.ConversationMessage::class,
-            self::class.'@onConversationMessageCreate'
-        );
     }
 
     /**
@@ -156,7 +152,7 @@ class NotificationsHandler
         $targets = $conversation->users;
 
         $targetIds = $targets->lists('id');
-        $conversation->notifications()->whereIn('user_id', $targetIds)->delete();
+        // $conversation->notifications()->whereIn('user_id', $targetIds)->delete();
 
         $this->sendNotifications(
             $targets->all(),
@@ -184,8 +180,6 @@ class NotificationsHandler
             return ! in_array($user->getKey(), $oldUserIds);
         });
 
-        $this->addTargets($notification, $newTargets);
-
         $removedTargets = array_diff($oldUserIds, $newUsers->lists('id')->toArray());
 
         if (sizeof($removedTargets) > 0) {
@@ -211,9 +205,25 @@ class NotificationsHandler
         $notification = new Notification();
         $notification->user()->associate($sourceUser);
         $callback($notification);
+        $this->addPushTargets($notification, $users);
         $notification->save();
+        $this->addTargets($notification, $users);        
+    }
 
-        $this->addTargets($notification, $users);
+    /**
+     * Add users as targets of push notification.
+     *
+     * @param $notification Notification
+     * @param $users
+     */
+    protected function addPushTargets($notification, $users)
+    {
+        $sourceUser = $notification->user;
+        foreach ($users as $targetUser) {
+            if ($this->isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser)) {
+                $notification->targets->add($targetUser);
+            }
+        }
     }
 
     /**
@@ -225,12 +235,25 @@ class NotificationsHandler
     protected function addTargets($notification, $users)
     {
         $sourceUser = $notification->user;
-
-        foreach ($users as $user) {
-            if ($user->getKey() != $sourceUser->getKey() && ! $user->isBlockingUser($sourceUser)) {
-                $notification->targets()->attach($user, ['read' => false]);
+        foreach ($users as $targetUser) {
+            if ($this->isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser)) {
+                $notification->targets()->attach($targetUser);
             }
+
         }
+    }
+
+    /**
+     * Checks that user is not "myself" or is not blocked by notification target user
+     *
+     * @param $sourceUser User
+     * @param $targetUser User
+     */
+    public function isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser) {
+        if ($targetUser->getKey() != $sourceUser->getKey() && ! $targetUser->isBlockingUser($sourceUser)) {
+            return true;
+        } 
+        return false;
     }
 
     /**

@@ -28,8 +28,7 @@ class PubSubHandler
     public function onNewNotification(Notification $notification)
     {
         foreach ($notification->targets as $target) {
-            $channelName = 'private-u-'.$target->user_id;
-
+            $channelName = 'privateU'.$target->id;
             $notification = [
                 'id'    => $notification->hashId(),
                 'type'  => $notification->getTypeDescription(),

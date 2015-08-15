@@ -117,6 +117,7 @@ NotificationsModule.prototype.updateIcon = function()
     if (this.unreadNotifications > 0) {
         $('.notifications_dropdown .notifications_icon').addClass('notifications_icon_new');
         $('.notifications_dropdown .badge').text(this.unreadNotifications).show();
+        $('.notifications_dropdown .badge').removeClass('hide');
     } else {
         $('.notifications_dropdown .notifications_icon').removeClass('notifications_icon_new');
         $('.notifications_dropdown .badge').text(this.unreadNotifications).hide();

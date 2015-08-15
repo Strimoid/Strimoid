@@ -63,7 +63,7 @@ class AuthController extends BaseController
      */
     public function authenticatePusher(Request $request, PusherManager $pusher)
     {
-        $channelName = 'private-u-'.auth()->id();
+        $channelName = 'privateU'.auth()->id();
         $socketId = $request->input('socket_id');
 
         $pusher->connection();

@@ -49,11 +49,10 @@ $(document).ready(function() {
 
     if (window.username && window.WebSocket) {
         var pusher = new Pusher(data.config.pusher_key);
-
-        pusher.subscribe('private-u-' + window.username).bind('new-notification', function(data) {
+        pusher.subscribe('privateU' + window.username).bind('new-notification', function(data) {
             notificationsModule.onNotificationReceived(data);
         });
-
+        
         var thumbnail = $('.img-thumbnail.refreshing');
 
         if (window.content_id && thumbnail.length) {
