@@ -22,7 +22,13 @@ class PubSubHandler
     public function onNewEntry(Entry $entry)
     {
         $arrayEntry = $entry->toArray();
-        Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, ['hashId' => $entry->hashId()]));
+        $additioanlData = array(
+            'hashId' => $entry->hashId(),
+            'avatarPath' => $entry->user->getAvatarPath(),
+            'entryUrl' => $entry->getURL(),
+        );
+
+        Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, $additioanlData));
     }
 
     public function onNewNotification(Notification $notification)

@@ -64,7 +64,42 @@ $(document).ready(function() {
         }
 
         if (window.document.location.pathname.endsWith('/entries') && $.query.get('page') <= 1) {
-            var template = Hogan.compile('<div class="panel-default entry" data-id="{{ hashId }}"><a name="{{ hashId }}"></a><div class="entry_avatar"><img src="{{ avatar }}" alt="{{ user.name }}"></div><div class="panel-heading entry_header"><a href="/u/{{ user.name }}" class="entry_author">{{{ user.name }}}</a><span class="pull-right"><span class="glyphicon glyphicon-tag"></span> <a href="/g/{{ group.urlname }}">g/{{ group.urlname }}</a><span class="glyphicon glyphicon-time"></span> <a href="/e/{{ hashId }}"><time pubdate title="{{ time }}">chwilę temu</time></a><span class="voting" data-id="{{ hashId }}" data-state="none" data-type="entry"><button type="button" class="btn btn-default btn-xs vote-btn-up"><span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">0</span></button><button type="button" class="btn btn-default btn-xs vote-btn-down"><span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">0</span></button></span></span></div><div class="entry_text md">{{{ text }}}</div><div class="entry_actions pull-right"><a class="entry_reply_link action_link">odpowiedz</a></div></div>');
+            var template = Hogan.compile('\
+<div class="panel-default entry" data-id="{{ hashId }}">\
+    <a name="{{ hashId }}"></a>\
+    <div class="entry_avatar">\
+        <img src="{{ avatarPath }}" alt="{{ user.name }}">\
+    </div>\
+    <div class="panel-heading entry_header" data-hover="user_widget" data-user="{{{ user.name }}}">\
+        <a href="/u/{{ user.name }}" class="entry_author">\
+            {{{ user.name }}}\
+        </a>\
+        <span class="pull-right">\
+            <span class="glyphicon glyphicon-tag"></span>\
+            <a href="/g/{{ group.urlname }}" class="entry_group" data-hover="group_widget"  data-group="{{{ group.urlname }}}">g/{{ group.urlname }}</a>\
+            <span class="glyphicon glyphicon-time"></span>\
+            <a href="/e/{{ hashId }}">\
+                <time pubdate title="{{ time }}">chwilę temu</time>\
+            </a>\
+            <span class="voting" data-id="{{ hashId }}" data-state="none" data-type="entry">\
+                <button type="button" class="btn btn-default btn-xs vote-btn-up">\
+                    <span class="glyphicon glyphicon-arrow-up vote-up"></span>\
+                    <span class="count">0</span>\
+                </button>\
+                <button type="button" class="btn btn-default btn-xs vote-btn-down">\
+                    <span class="glyphicon glyphicon-arrow-down vote-down"></span>\
+                    <span class="count">0</span>\
+                </button>\
+            </span>\
+        </span>\
+    </div>\
+    <div class="entry_text md">{{{ text }}}</div>\
+    <div class="entry_actions pull-right">\
+        <a class="entry_reply_link action_link">odpowiedz</a>\
+        <a href="{{{ entryUrl }}}">#</a>\
+    </div>\
+</div>\
+');
 
             pusher.subscribe('entries').bind('new-entry', function(data) {
                 if (window.blocked_users.indexOf(data.author) != -1 || window.blocked_groups.indexOf(data.group) != -1)
