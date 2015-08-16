@@ -95,6 +95,7 @@ $(document).ready(function() {
     </div>\
     <div class="entry_text md">{{{ text }}}</div>\
     <div class="entry_actions pull-right">\
+        <span class="glyphicon glyphicon-star-empty action_link save_entry" title="zapisz"></span>\
         <a class="entry_reply_link action_link">odpowiedz</a>\
         <a href="{{{ entryUrl }}}">#</a>\
     </div>\

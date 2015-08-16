@@ -31,7 +31,7 @@ class SaveController extends BaseController
 
     public function saveEntry(Request $request)
     {
-        $id = hashids_decode($request->get('content'));
+        $id = hashids_decode($request->get('entry'));
         $entry = Entry::findOrFail($id);
 
         $entry->saves()->create([
@@ -43,7 +43,7 @@ class SaveController extends BaseController
 
     public function removeEntry(Request $request)
     {
-        $id = hashids_decode($request->get('content'));
+        $id = hashids_decode($request->get('entry'));
         $entry = Entry::findOrFail($id);
 
         $entry->usave()->delete();
