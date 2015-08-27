@@ -6,8 +6,9 @@ require('laravel-elixir-riot')
 
 elixir(function(mix) {
     mix.bower('vendor.css', 'public/assets/css', 'vendor.js', 'public/assets/js')
-       .stylus(null, 'public/assets/stylus')
-       .stylesIn('public/assets/stylus', 'public/assets/css')
+       //.stylus(null, 'public/assets/stylus')
+       .sass(null, 'public/assets/sass')
+       .stylesIn('public/assets/sass', 'public/assets/css')
        .riot(null, 'public/assets/riot')
        .scripts([
             'plugins/*.js',

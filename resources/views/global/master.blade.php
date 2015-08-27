@@ -18,33 +18,22 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 
 <div class="navbar navbar-inverse navbar-{!! $navbarClass !!}">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+        <a class="navbar-brand" href="/">
+            <img src="/static/img/logo.png" alt="Strimoid">
+        </a>
 
-            <a class="navbar-brand" href="/">
-                <img src="/static/img/logo.png" alt="Strimoid">
-            </a>
-        </div>
+        <ul class="nav navbar-nav">
+            @include('global.parts.tabs')
+        </ul>
 
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                @include('global.parts.tabs')
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav pull-right">
             @if (Auth::check())
                 @include('global.parts.notifications')
                 @include('global.parts.user_dropdown')
             @else
                 @include('global.parts.login')
             @endif
-            </ul>
-
-        </div>
+        </ul>
     </div>
 </div>
 

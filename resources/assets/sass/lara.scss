@@ -1,4 +1,4 @@
-@import url(//fonts.googleapis.com/css?family=Monda:400,700&subset=latin,latin-ext);
+@import "https://fonts.googleapis.com/css?family=Monda:400,700&subset=latin,latin-ext";
 
 body {
   background-color: #F5F5F5;
@@ -330,7 +330,7 @@ thead .glyphicon {
   height: 40px;
   transform: translateY(-50%);
   position: relative;
-  top: 50%;
+  top: -2px;
 }
 
 .navbar .navbar-nav > li > a {
