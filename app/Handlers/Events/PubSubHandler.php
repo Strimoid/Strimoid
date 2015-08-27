@@ -35,7 +35,7 @@ class PubSubHandler
     {
         foreach ($notification->targets as $target) {
             $channelName = 'privateU'.$target->id;
-            $notification = [
+            $notificationData = [
                 'id'    => $notification->hashId(),
                 'type'  => $notification->getTypeDescription(),
                 'title' => $notification->title,
@@ -43,7 +43,7 @@ class PubSubHandler
                 'url'   => $notification->getURL(true),
             ];
 
-            Pusher::trigger($channelName, 'new-notification', $notification);
+            Pusher::trigger($channelName, 'new-notification', $notificationData);
         }
     }
 }
