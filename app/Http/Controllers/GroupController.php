@@ -424,7 +424,7 @@ class GroupController extends BaseController
         if ($tag) {
             $groups = Group::where('tags', $tag)->orderBy('subscribers', 'desc')->paginate(25);
         } else {
-            $groups = Group::orderBy('subscribers', 'desc')->paginate(25);
+            $groups = Group::orderBy('id', 'desc')->paginate(25);
         }
 
         return view('group.wizard', ['popular_tags' => $popularTags, 'groups' => $groups]);
