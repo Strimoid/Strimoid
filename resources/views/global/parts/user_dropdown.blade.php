@@ -1,4 +1,4 @@
-<li class="dropdown user_dropdown">
+<li class="nav-item dropdown user_dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <img src="{!! Auth::user()->getAvatarPath(50, 50) !!}">
         {!! Auth::user()->name !!} <b class="caret"></b>

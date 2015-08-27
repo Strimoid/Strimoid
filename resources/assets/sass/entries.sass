@@ -1,0 +1,95 @@
+.entry_add_form
+  .entry
+    border: none
+  .entry_text
+    padding: 0
+
+.entry
+  margin: 0 0 15px
+  border-radius: 0
+  box-shadow: none
+  border: none
+  .entry_avatar
+    float: left
+    position: relative
+    overflow: hidden
+    img
+      height: 50px
+      width: 50px
+  .entry_actions
+    visibility: hidden
+    position: relative
+    bottom: 10px
+    right: 15px
+    font-size: 13px
+    a
+      margin-left: 8px
+  &:hover
+    .entry_actions
+      visibility: visible
+  .voting
+    position: relative
+    margin-left: 10px
+    top: -2px
+  .glyphicon
+    color: #c0c0c0
+    margin-right: 1px
+    margin-left: 8px
+
+.entry.highlighted, .comment.highlighted
+  background: #FFFFE4
+
+.entry_reply
+  margin-left: 60px
+  background: #FCFCFC
+  form
+    .btn
+      margin-bottom: 10px
+
+.sex_marker
+  width: 16px
+  height: 16px
+  background: rgba(50, 50, 50, 0.75)
+  position: absolute
+  top: -8px
+  left: -8px
+  transform: rotate(45deg)
+  &.nosex
+    display: none
+  &.male
+    background-color: rgba(119, 195, 255, 0.75)
+  &.female
+    background-color: rgba(255, 119, 212, 0.75)
+
+.entry_header
+  font-size: 13px
+  margin: 2px
+  padding: 5px 10px
+  margin: 2px 2px 2px 56px
+  .glyphicon
+    &:first-of-type
+      margin-left: 0px
+
+.entry_text
+  padding: 5px 10px 8px
+  margin-left: 56px
+  font-size: 13px
+
+.entry_text.blocked, .comment_text.blocked
+  display: none
+
+.entry_text p:last-child, .comment_text p:last-child
+  margin: 0px
+
+.entry .voting .popover, .comment .voting .popover
+  width: 250px
+
+.entry_expand_replies
+  padding: 5px
+  text-align: center
+  background: #F5F5F5
+  border-top: 1px solid #DADADA
+  border-bottom: 1px solid #DADADA
+  color: #535353
+  font-size: 13px
+  cursor: pointer
