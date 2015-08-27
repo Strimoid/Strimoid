@@ -33,16 +33,14 @@ class RelatedController extends BaseController
         $related = new ContentRelated(Input::only([
             'title', 'url', 'nsfw', 'eng',
         ]));
-
+        $related->user()->associate(Auth::user());
+        $related->content()->associate($content);
         if (Input::get('thumbnail') == 'on') {
             $url = OEmbed::getThumbnail($related->url);
             if ($url) {
                 $related->setThumbnail($url);
             }
         }
-
-        $related->user()->associate(Auth::user());
-        $related->content()->associate($content);
 
         $related->save();
 
