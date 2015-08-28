@@ -326,9 +326,9 @@
                 <?php $x++; ?>
                 <tr>
                     <td>{!! $x !!}</td>
-                    <td><a href="{!! route('user_profile', $blockedUser->target_id) !!}">{!! $blockedUser->target_id !!}</a></td>
+                    <td><a href="{!! route('user_profile', $blockedUser->name) !!}">{!! $blockedUser->name !!}</a></td>
                     <td>{!! $blockedUser->created_at->diffForHumans() !!}</td>
-                    <td data-name="{!! $blockedUser->target_id !!}"><button type="button" data-name="{!! $blockedUser->target_id !!}" class="btn btn-xs group_block_btn btn-danger">Zablokuj</button></td>
+                    <td data-name="{!! $blockedUser->name !!}">{{--<button type="button" data-name="{!! $blockedUser->name !!}" class="btn btn-xs group_block_btn btn-danger">Zablokuj</button>--}}</td>
                 </tr>
                 @endforeach
 

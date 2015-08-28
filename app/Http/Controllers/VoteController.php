@@ -31,8 +31,12 @@ class VoteController extends BaseController
             return Response::make('Do not cheat', 400);
         }
 
-//        if (Auth::user()->isBanned($object->content->group)) {
-        if (Auth::user()->isBanned($object->group)) {
+        if ($object instanceof ContentRelated) {
+            $group = $object->content->group;
+        } else {
+            $group = $object->group;
+        }
+        if (Auth::user()->isBanned($group)) {
             return Response::make('Banned', 400);
         }
 
