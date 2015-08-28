@@ -71,9 +71,7 @@ $(document).ready(function() {
         <img src="{{ avatarPath }}" alt="{{ user.name }}">\
     </div>\
     <div class="panel-heading entry_header" data-hover="user_widget" data-user="{{{ user.name }}}">\
-        <a href="/u/{{ user.name }}" class="entry_author">\
-            {{{ user.name }}}\
-        </a>\
+        <a href="/u/{{ user.name }}" class="entry_author">{{{ user.name }}}</a>\
         <span class="pull-right">\
             <span class="glyphicon glyphicon-tag"></span>\
             <a href="/g/{{ group.urlname }}" class="entry_group" data-hover="group_widget"  data-group="{{{ group.urlname }}}">g/{{ group.urlname }}</a>\
