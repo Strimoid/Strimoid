@@ -17,7 +17,7 @@ class SettingsController extends BaseController
         $subscribedGroups = $user->subscribedGroups();
         $blockedGroups    = $user->blockedGroups();
         $moderatedGroups  = $user->moderatedGroups();
-        $blockedUsers     = $user->blockedUsers();
+        $blockedUsers     = $user->blockedUsers()->get();
         $bans             = $user->bannedGroups();
 
         return view('user.settings',compact(
@@ -48,8 +48,9 @@ class SettingsController extends BaseController
         $settings['timezone'] = Input::get('timezone');
         $settings['notifications']['auto_read'] = Input::get('notifications.auto_read') == 'on' ? true : false;
 
-        $user->settings = $settings;
-        $user->save();
+        // $user->settings = $settings;
+        // $user->save();
+        $user->settings->push($settings);
 
         return Redirect::route('user_settings')
             ->with('success_msg', 'Ustawienia zostały zapisane.');
