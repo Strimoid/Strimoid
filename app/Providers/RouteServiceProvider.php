@@ -14,6 +14,7 @@ use Strimoid\Models\EntryReply;
 use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -60,7 +61,11 @@ class RouteServiceProvider extends ServiceProvider
     {
         $router->bind($key, function($value, $route) use($className) {
             if (ends_with($className, ['Group', 'User'])) {
-                return $className::name($value)->firstOrFail();
+                try {
+                    return $className::name($value)->firstOrFail();
+                } catch (ModelNotFoundException $e ) {
+                    throw new NotFoundHttpException;
+                }
             }
 
             $ids = Hashids::decode($value);
@@ -68,8 +73,12 @@ class RouteServiceProvider extends ServiceProvider
             if (!count($ids)) {
                 abort(404);
             }
-
-            return $className::findOrFail($ids[0]);
+            try {
+                return $className::findOrFail($ids[0]);
+            } catch (ModelNotFoundException $e ) {
+                throw new NotFoundHttpException;
+            }
+           
         });
     }
 
