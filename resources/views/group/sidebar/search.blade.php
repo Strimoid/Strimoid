@@ -5,7 +5,7 @@
 
         <div class="input-group-btn">
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-search"></span>
+                <i class="fa fa-search"></i>
             </button>
         </div>
     </div>
