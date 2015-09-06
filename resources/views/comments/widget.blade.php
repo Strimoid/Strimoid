@@ -21,7 +21,7 @@ $isReply = isset($isReply) ? true : false;
         </a>
 
         <span class="pull-right">
-            <span class="glyphicon glyphicon-time"></span>
+            <i class="fa fa-clock-o"></i>
 
             <a href="{!! $comment->getURL() !!}">
                 <time pubdate datetime="{{ $comment->created_at->format('c') }}" title="{{ $comment->getLocalTime() }}">
@@ -30,7 +30,7 @@ $isReply = isset($isReply) ? true : false;
             </a>
 
             @if (isset($contentLink) && $comment->content)
-                <span class="glyphicon glyphicon-share-alt"></span>
+                <i class="fa fa-share"></i>
 
                 <a href="{!! route('content_comments', $comment->content) !!}">
                     {{ Str::limit($comment->content->title, 40) }}
@@ -39,11 +39,11 @@ $isReply = isset($isReply) ? true : false;
 
             <span class="voting" data-id="{!! $comment->hashId() !!}" data-state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
                 <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($comment->getVoteState() == 'uv') btn-success @endif">
-                    <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $comment->uv !!}</span>
+                    <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $comment->uv !!}</span>
                 </button>
 
                 <button type="button" class="btn btn-secondary btn-xs vote-btn-down @if ($comment->getVoteState() == 'dv') btn-danger @endif">
-                    <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{!! $comment->dv !!}</span>
+                    <i class="fa fa-arrow-down vote-down"></i> <span class="count">{!! $comment->dv !!}</span>
                 </button>
             </span>
         </span>

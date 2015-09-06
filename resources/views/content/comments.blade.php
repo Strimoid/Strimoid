@@ -164,11 +164,11 @@ Brak powiązanych.
 <div class="media related_link">
     <div class="voting" data-id="{!! $related->hashId() !!}" data-state="{!! $related->getVoteState() !!}" data-type="related">
         <button type="button" class="btn btn-secondary btn-xs pull-left vote-btn-up @if ($related->getVoteState() == 'uv') btn-success @endif">
-            <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $related->uv !!}</span>
+            <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $related->uv !!}</span>
         </button>
 
         <button type="button" class="btn btn-secondary btn-xs pull-left vote-btn-down @if ($related->getVoteState() == 'dv') btn-danger @endif">
-            <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{!! $related->dv !!}</span>
+            <i class="fa fa-arrow-down vote-down"></i> <span class="count">{!! $related->dv !!}</span>
         </button>
     </div>
 

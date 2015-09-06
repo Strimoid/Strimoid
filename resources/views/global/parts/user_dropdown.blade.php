@@ -26,7 +26,7 @@
             <i class="fa fa-sign-out"></i>
             {{ trans('common.logout') }}
         </a>
-        
+
         {!! Form::open(['action' => 'AuthController@logout', 'class' => 'logout_form']) !!}
         {!! Form::close() !!}
     </div>
