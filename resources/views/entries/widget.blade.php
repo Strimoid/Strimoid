@@ -17,11 +17,14 @@ $isReply = isset($isReply) ? true : false;
 
         <span class="pull-right">
             @if (!$isReply)
-                <span class="glyphicon glyphicon-tag"></span>
-                <a href="{!! route('group_entries', $entry->group->urlname) !!}" class="entry_group" data-hover="group_widget" data-group="{!! $entry->group->urlname !!}">g/{{{ $entry->group->urlname }}}</a>
+                <i class="fa fa-tag"></i>
+                <a href="{!! route('group_entries', $entry->group) !!}" class="entry_group"
+                   data-hover="group_widget" data-group="{!! $entry->group->urlname !!}">
+                    g/{{{ $entry->group->urlname }}}
+                </a>
             @endif
 
-            <span class="glyphicon glyphicon-time"></span>
+            <i class="fa fa-clock-o"></i>
             <a href="{!! $entry->getURL() !!}">
                 <time pubdate datetime="{!! $entry->created_at->format('c') !!}" title="{!! $entry->getLocalTime() !!}">
                     {{ $entry->createdAgo() }}
