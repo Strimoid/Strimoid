@@ -3,13 +3,15 @@
 namespace Strimoid\Http\Controllers;
 
 use Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Settings;
 
 class BaseController extends Controller
 {
-    use ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
      * Return homepage group name.
