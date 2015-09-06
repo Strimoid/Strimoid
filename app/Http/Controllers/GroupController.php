@@ -139,7 +139,7 @@ class GroupController extends BaseController
         $tags = array_map('trim', $tags);
 
         if (count($tags)) {
-            $group->tags = $tags;
+            //$group->tags = $tags;
         }
 
         $group->save();
