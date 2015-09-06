@@ -34,16 +34,17 @@ GroupsModule.prototype.subscribeGroup = function () {
 GroupsModule.prototype.blockGroup = function () {
     var button = $(this);
     var name = $(this).parent().attr('data-name');
+    var url = laroute.action('GroupController@blockGroup', {group: name});
 
     if (button.hasClass('btn-danger')) {
-        $.post('/ajax/group/unblock', { name: name }, function(data){
+        $.delete(url, function(data){
             if (data.status == 'ok') {
                 $(button).removeClass('btn-danger');
                 $(button).addClass('btn-default');
             }
         });
     } else {
-        $.post('/ajax/group/block', { name: name }, function(data){
+        $.post(url, function(data){
             if (data.status == 'ok') {
                 $(button).removeClass('btn-default');
                 $(button).addClass('btn-danger');
