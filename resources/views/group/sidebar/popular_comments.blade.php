@@ -17,7 +17,7 @@ $popularComments = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
 ?>
 
 <div class="well popular_contents_widget">
-    <h4>Popularne komentarze</h4>
+    <h5>Popularne komentarze</h5>
 
     <ul class="media-list popular_contents_list">
         @foreach ($popularComments as $comment)
