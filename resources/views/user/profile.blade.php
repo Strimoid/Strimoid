@@ -148,9 +148,9 @@ $blocked = Auth::user()->isBlockingUser($user);
 ?>
 <div class="well">
     <div class="btn-group" data-name="{!! $user->name !!}">
-        <a href="{!! route('conversation.new_user', array('user' => $user->name)) !!}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-envelope"></span></a>
-        <button class="user_observe_btn btn btn-sm @if($observed) btn-success @else btn-default @endif"><span class="glyphicon glyphicon-eye-open"></span> Obserwuj</button>
-        <button class="user_block_btn btn btn-sm @if($blocked) btn-danger @else btn-default @endif"><span class="glyphicon glyphicon-ban-circle"></span> Zablokuj</button>
+        <a href="{!! route('conversation.new_user', array('user' => $user->name)) !!}" class="btn btn-sm btn-secondary"><span class="glyphicon glyphicon-envelope"></span></a>
+        <button class="user_observe_btn btn btn-sm @if($observed) btn-success @else btn-secondary @endif"><span class="glyphicon glyphicon-eye-open"></span> Obserwuj</button>
+        <button class="user_block_btn btn btn-sm @if($blocked) btn-danger @else btn-secondary @endif"><span class="glyphicon glyphicon-ban-circle"></span> Zablokuj</button>
     </div>
 </div>
 @endif

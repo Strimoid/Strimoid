@@ -9,11 +9,11 @@ else
 
 <div class="well add_content_widget">
     <div class="btn-group btn-block">
-        <a href="{!! $url !!}" class="btn btn-default half-width" rel="nofollow">
+        <a href="{!! $url !!}" class="btn btn-secondary half-width" rel="nofollow">
             <i class="fa fa-link"></i>
             Dodaj link
         </a>
-        <a href="{!! $url !!}#content" class="btn btn-default half-width" rel="nofollow">
+        <a href="{!! $url !!}#content" class="btn btn-secondary half-width" rel="nofollow">
             <i class="fa fa-file-text-o"></i>
             Dodaj treść
         </a>

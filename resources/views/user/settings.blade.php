@@ -359,7 +359,7 @@
                 <label for="domain">Domena</label>
                 <input type="text" class="form-control" id="domain" placeholder="np. strims.pl" ng-model="domain">
               </div>
-              <button class="btn btn-default" ng-click="blockDomain(domain)">Zablokuj domenę</button>
+              <button class="btn btn-secondary" ng-click="blockDomain(domain)">Zablokuj domenę</button>
             </form>
         </div>
     </div>

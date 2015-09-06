@@ -21,9 +21,9 @@ if (Auth::check()) {
 
             @if (Auth::check())
             <div class="btn-group group_buttons" data-name="{!! $group->urlname !!}">
-                <button type="button" class="btn btn-sm  group_subscribe_btn @if ($subscribed) btn-success @else btn-default @endif">Subskrybuj</button>
-                <button type="button" class="btn btn-sm  group_block_btn @if ($blocked) btn-danger @else btn-default @endif" title="Zablokuj"><span class="glyphicon glyphicon-ban-circle"></span></button>
-                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" title="Foldery"><span class="glyphicon glyphicon-folder-open"></span> <span class="caret"></span></button>
+                <button type="button" class="btn btn-sm  group_subscribe_btn @if ($subscribed) btn-success @else btn-secondary @endif">Subskrybuj</button>
+                <button type="button" class="btn btn-sm  group_block_btn @if ($blocked) btn-danger @else btn-secondary @endif" title="Zablokuj"><span class="glyphicon glyphicon-ban-circle"></span></button>
+                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" title="Foldery"><span class="glyphicon glyphicon-folder-open"></span> <span class="caret"></span></button>
                 <ul class="dropdown-menu folder-menu" role="menu" data-group="{{{ $group->getKey() }}}">
                     @foreach (Auth::user()->folders as $folder)
                     <li>

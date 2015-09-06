@@ -135,7 +135,7 @@
                     <td>{!! $x !!}</td>
                     <td><a href="{!! route('user_profile', $moderator->user->name) !!}">{!! $moderator->user->name !!}</a></td>
                     <td>{!! $moderator->created_at->diffForHumans() !!}</td>
-                    <td><button type="button" class="btn btn-xs btn-default">Usuń</button></td>
+                    <td><button type="button" class="btn btn-xs btn-secondary">Usuń</button></td>
                 </tr>
                 @endforeach
 

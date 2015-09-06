@@ -49,7 +49,7 @@
         <td><time pubdate datetime="{!! $moderator->created_at->format('c') !!}" title="{!! $moderator->getLocalTime() !!}">{!! $moderator->created_at->diffForHumans() !!}</time></td>
 
         @if (Auth::check() && Auth::user()->isAdmin($group))
-            <td><button type="button" class="btn btn-sm btn-default moderator_remove_btn" data-id="{!! $moderator->_id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
+            <td><button type="button" class="btn btn-sm btn-secondary moderator_remove_btn" data-id="{!! $moderator->_id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
         @endif
     </tr>
     @endforeach

@@ -6,7 +6,7 @@
             <a href="{!! route('group_contents', $group->urlname) !!}">
                 {{{ $group->name }}}
             </a>
-            <button type="button" class="btn btn-default @if(Auth::check() && Auth::user()->isSubscriber($group)) btn-success @endif pull-right group_subscribe_btn">
+            <button type="button" class="btn btn-secondary @if(Auth::check() && Auth::user()->isSubscriber($group)) btn-success @endif pull-right group_subscribe_btn">
                 Subskrybuj
             </button>
 

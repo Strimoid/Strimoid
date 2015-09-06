@@ -9,7 +9,7 @@
     <input type="hidden" name="t" value="{{{ Input::get('t') }}}">
 
     <div class="input-group-btn">
-        <button type="submit" class="btn btn-default btn-primary">Szukaj</button>
+        <button type="submit" class="btn btn-secondary btn-primary">Szukaj</button>
     </div>
 </div>
 {!! Form::close() !!}
