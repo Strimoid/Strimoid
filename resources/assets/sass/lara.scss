@@ -545,3 +545,23 @@ thead .glyphicon {
   background-color: #f5f5f5;
 }
 
+.form-horizontal .form-group {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.form-horizontal .control-label {
+  padding-top: 7px;
+  margin-bottom: 0;
+  text-align: right;
+}
+
+

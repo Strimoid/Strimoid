@@ -2,16 +2,23 @@
 
 @section('content')
 <div>
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active">
-            <a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-user"></span> Profil</a>
-        </li>
-        <li>
-            <a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-wrench"></span> Ustawienia</a>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#profile" data-toggle="tab">
+                <span class="glyphicon glyphicon-user"></span>
+                Profil
+            </a>
         </li>
 
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item">
+            <a class="nav-link" href="#settings" data-toggle="tab">
+                <span class="glyphicon glyphicon-wrench"></span>
+                Ustawienia
+            </a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 <span class="glyphicon glyphicon-lock"></span> Konto <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -24,8 +31,8 @@
             </ul>
         </li>
 
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Domeny <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -35,8 +42,8 @@
             </ul>
         </li>
 
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Grupy <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -47,8 +54,8 @@
             </ul>
         </li>
 
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Użytkownicy <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -57,7 +64,7 @@
         </li>
     </ul>
 
-    <div id="myTabContent" class="tab-content">
+    <div class="tab-content">
         <div class="tab-pane fade in active" id="profile">
             {!! Form::open(['action' => 'UserController@saveProfile', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true]) !!}
 
