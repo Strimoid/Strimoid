@@ -23,6 +23,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'id', 'age', 'avatar', 'created_at',
         'description', 'location', 'sex', 'name',
     ];
+    protected $casts = [
+        'settings' => 'array',
+    ];
 
     public function getColoredName()
     {
@@ -163,6 +166,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function isBanned(Group $group)
     {
         return $this->bannedGroups()->where('group_id', $group)->exists();
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->type === 'admin';
     }
 
     public function isAdmin($group)
