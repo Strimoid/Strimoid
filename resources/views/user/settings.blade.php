@@ -21,46 +21,40 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 <span class="glyphicon glyphicon-lock"></span> Konto <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="#password" data-toggle="tab">Zmiana hasła</a>
-                </li>
-                <li>
-                    <a href="#email" data-toggle="tab">Zmiana adresu email</a>
-                </li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#password" data-toggle="tab">Zmiana hasła</a>
+                <a class="dropdown-item" href="#email" data-toggle="tab">Zmiana adresu email</a>
+            </div>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Domeny <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="#domains" data-toggle="tab">Zablokowane</a>
-                </li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#domains" data-toggle="tab">Zablokowane</a>
+            </div>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Grupy <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li><a href="#subscribed" data-toggle="tab">Subskrybowane</a></li>
-                <li><a href="#moderated" data-toggle="tab">Moderowane</a></li>
-                <li><a href="#blocked" data-toggle="tab">Zablokowane</a></li>
-                <li><a href="#bans" data-toggle="tab">Twoje bany</a></li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#subscribed" data-toggle="tab">Subskrybowane</a>
+                <a class="dropdown-item" href="#moderated" data-toggle="tab">Moderowane</a>
+                <a class="dropdown-item" href="#blocked" data-toggle="tab">Zablokowane</a>
+                <a class="dropdown-item" href="#bans" data-toggle="tab">Twoje bany</a>
+            </div>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Użytkownicy <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li><a href="#blockedusers" data-toggle="tab">Zablokowani użytownicy</a></li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#blockedusers" data-toggle="tab">Zablokowani użytownicy</a>
+            </div>
         </li>
     </ul>
 
