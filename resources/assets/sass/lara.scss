@@ -479,7 +479,7 @@ thead .glyphicon {
   }
 }
 
-.group_list .panel {
+.group_list .card {
   display: inline-block;
   width: 100%;
 }
@@ -487,11 +487,19 @@ thead .glyphicon {
 .group_list .media-object {
   width: 40px;
   height: 40px;
+  margin-right: 15px;
 }
 
 .group_list .info {
-  font-size: 70%;
   display: block;
+}
+
+.group_list h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0;
+  small {
+    font-size: 0.8rem;
+  }
 }
 
 .comment_parent {
