@@ -2,12 +2,12 @@
 
 @section('content')
 <div>
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="nav-item active"><a href="#profile" data-toggle="tab">Profil</a></li>
-        <li class="nav-item"><a href="#settings" data-toggle="tab">Ustawienia</a></li>
-        <li class="nav-item"><a href="#style" data-toggle="tab">Styl CSS</a></li>
-        <li class="nav-item"><a href="#moderators" data-toggle="tab">Moderatorzy</a></li>
-        <li class="nav-item"><a href="#blocked" data-toggle="tab">Zablokowani użytkownicy</a></li>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ustawienia</a></li>
+        <li class="nav-item"><a class="nav-link" href="#style" data-toggle="tab">Styl CSS</a></li>
+        <li class="nav-item"><a class="nav-link" href="#moderators" data-toggle="tab">Moderatorzy</a></li>
+        <li class="nav-item"><a class="nav-link" href="#blocked" data-toggle="tab">Zablokowani użytkownicy</a></li>
     </ul>
 
     <div id="myTabContent" class="tab-content">
