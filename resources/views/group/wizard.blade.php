@@ -23,10 +23,10 @@
     @endforeach
 </div>
 
-<?php $group = null; ?>
+<?php $group = null;?>
 
 {!! $groups->appends(['sort' => Input::get('sort')])!!}
-{!! with(new BootstrapPresenter($groups))->render() !!}
+{{--!! with(new BootstrapPresenter($groups))->render() !!--}}
 @stop
 
 @section('sidebar')
