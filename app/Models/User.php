@@ -6,13 +6,15 @@ use DB;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Str;
 use Strimoid\Models\Traits\HasAvatar;
 
-class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
+class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
 {
-    use Authenticatable, CanResetPassword, HasAvatar;
+    use Authenticatable, Authorizable, CanResetPassword, HasAvatar;
 
     protected $avatarPath  = 'avatars/';
     protected $dates       = ['last_login'];
@@ -20,6 +22,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     protected $visible     = [
         'id', 'age', 'avatar', 'created_at',
         'description', 'location', 'sex', 'name',
+    ];
+    protected $casts = [
+        'settings' => 'array',
     ];
 
     public function getColoredName()
@@ -161,6 +166,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function isBanned(Group $group)
     {
         return $this->bannedGroups()->where('group_id', $group)->exists();
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->type === 'admin';
     }
 
     public function isAdmin($group)

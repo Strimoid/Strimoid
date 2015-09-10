@@ -12,7 +12,7 @@
 
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="profile">
-            {!! Form::open(array('action' => ['GroupController@saveProfile', $group->_id], 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true)) !!}
+            {!! Form::open(['action' => ['GroupController@saveProfile', $group], 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true]) !!}
 
             <div class="form-group">
                 <label class="col-lg-3 control-label">Adres grupy</label>

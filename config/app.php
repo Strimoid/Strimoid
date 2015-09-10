@@ -157,6 +157,7 @@ return [
          * Application Service Providers...
          */
         Strimoid\Providers\AppServiceProvider::class,
+        Strimoid\Providers\AuthServiceProvider::class,
         Strimoid\Providers\ComposerServiceProvider::class,
         Strimoid\Providers\EventsServiceProvider::class,
         Strimoid\Providers\RepositoriesServiceProvider::class,
@@ -172,6 +173,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavascriptServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
@@ -208,6 +210,7 @@ return [
         'Eloquent'           => 'Illuminate\Database\Eloquent\Model',
         'Event'              => 'Illuminate\Support\Facades\Event',
         'File'               => 'Illuminate\Support\Facades\File',
+        'Gate'               => Illuminate\Support\Facades\Gate::class,
         'Hash'               => 'Illuminate\Support\Facades\Hash',
         'Input'              => 'Illuminate\Support\Facades\Input',
         'Lang'               => 'Illuminate\Support\Facades\Lang',
@@ -244,6 +247,7 @@ return [
         'Setting'    => 'Strimoid\Facades\Settings',
         'Throttle'   => 'GrahamCampbell\Throttle\Facades\Throttle',
         'Twig'       => 'TwigBridge\Facade\Twig',
+        'Socialite'   => Laravel\Socialite\Facades\Socialite::class,
 
         'Settings'  => 'Strimoid\Facades\Settings',
         'PDP'       => 'Strimoid\Facades\PDP',

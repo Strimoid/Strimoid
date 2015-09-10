@@ -139,7 +139,7 @@ class GroupController extends BaseController
         $tags = array_map('trim', $tags);
 
         if (count($tags)) {
-            $group->tags = $tags;
+            //$group->tags = $tags;
         }
 
         $group->save();
@@ -387,29 +387,14 @@ class GroupController extends BaseController
     {
         $group->checkAccess();
 
-        if (GroupBlock::where('group_id', $group->getKey())
-            ->where('user_id', Auth::id())->first()) {
-            return Response::make('Already blocked', 400);
-        }
-
-        $block = new GroupBlock();
-        $block->user()->associate(Auth::user());
-        $block->group()->associate($group);
-        $block->save();
+        user()->blockedGroups()->attach($group);
 
         return Response::json(['status' => 'ok']);
     }
 
     public function unblockGroup($group)
     {
-        $block = GroupBlock::where('group_id', $group->getKey())
-            ->where('user_id', Auth::id())->first();
-
-        if (!$block) {
-            return Response::make('Not blocked', 400);
-        }
-
-        $block->delete();
+        user()->blockedGroups()->detach();
 
         return Response::json(['status' => 'ok']);
     }
