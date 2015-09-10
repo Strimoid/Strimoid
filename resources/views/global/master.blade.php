@@ -36,6 +36,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
+                <li><a><p class="toggle_night_mode"><span class="glyphicon glyphicon-adjust"></span></p></a></li>
             @if (Auth::check())
                 @include('global.parts.notifications')
                 @include('global.parts.user_dropdown')
