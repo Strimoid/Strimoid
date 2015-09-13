@@ -1,12 +1,10 @@
 var elixir = require('laravel-elixir')
 
 require('laravel-elixir-bower')
-require('laravel-elixir-stylus')
 require('laravel-elixir-riot')
 
 elixir(function(mix) {
     mix.bower('vendor.css', 'public/assets/css', 'vendor.js', 'public/assets/js')
-       //.stylus(null, 'public/assets/stylus')
        .sass(null, 'public/assets/sass')
        .stylesIn('public/assets/sass', 'public/assets/css')
        .riot(null, 'public/assets/riot')

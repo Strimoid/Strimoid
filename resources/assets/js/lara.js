@@ -10,23 +10,32 @@ if (typeof String.prototype.contains !== 'function') {
     };
 }
 
-var originalLeave = $.fn.popover.Constructor.prototype.leave;
-$.fn.popover.Constructor.prototype.leave = function(obj){
-    var self = obj instanceof this.constructor ?
-        obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type);
-    var container, timeout;
+var originalLeave = $.fn.popover.Constructor.prototype._leave;
+$.fn.popover.Constructor.prototype._leave = function(event, context){
+    var dataKey = this.constructor.DATA_KEY
+    var self = this
 
-    originalLeave.call(this, obj);
+    context = context || $(event.currentTarget).data(dataKey)
 
-    if(obj.currentTarget) {
-        container = $(obj.currentTarget).siblings('.popover');
-        timeout = self.timeout;
+    if (!context) {
+        context = new this.constructor(
+            event.currentTarget,
+            this._getDelegateConfig()
+        )
+        $(event.currentTarget).data(dataKey, context)
+    }
+
+    originalLeave.call(this, event, context);
+
+    if ($(event.currentTarget)) {
+        var container = $(context.tip);
+
         container.one('mouseenter', function(){
             //We entered the actual popover – call off the dogs
-            clearTimeout(timeout);
+            clearTimeout(context._timeout)
             //Let's monitor popover content instead
             container.one('mouseleave', function(){
-                $.fn.popover.Constructor.prototype.leave.call(self, self);
+                $.fn.popover.Constructor.prototype._leave.call(self, event, context);
             });
         })
     }

@@ -4,7 +4,6 @@
     "gulp": "^3.9.0",
     "laravel-elixir": "^2.0.0",
     "laravel-elixir-bower": "^0.1.0",
-    "laravel-elixir-stylus": "^0.2.12",
     "laravel-elixir-riot": "^1.0.0"
   }
 }
