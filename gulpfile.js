@@ -9,11 +9,13 @@ elixir(function(mix) {
        .scripts(bower('**/*.js'), 'public/assets/js/vendor.js', '/')
        .sass('**/*.(sass|scss)', 'public/assets/css/all.css')
        .riot('**/*.tag', 'public/assets/js/riot.js')
-       .scripts([
+       .babel([
             'plugins/*.js',
             'modules/*.js',
             'lara.js'
        ], 'public/assets/js', 'resources/assets/js')
+       .copy('bower_components/font-awesome/fonts', 'public/assets/fonts')
+       .copy('bower_components/font-awesome/fonts', 'public/build/assets/fonts')
        .version([
             'assets/css/all.css',
             'assets/css/vendor.css',
@@ -21,11 +23,4 @@ elixir(function(mix) {
             'assets/js/riot.js',
             'assets/js/vendor.js'
        ])
-});
-
-elixir(function(mix) {
-    mix.copy('bower_components/bootstrap/dist/fonts', 'public/assets/fonts')
-       .copy('bower_components/bootstrap/dist/fonts', 'public/build/assets/fonts')
-       .copy('bower_components/font-awesome/fonts', 'public/assets/fonts')
-       .copy('bower_components/font-awesome/fonts', 'public/build/assets/fonts')
 });
