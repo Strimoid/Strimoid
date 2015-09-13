@@ -1,19 +1,19 @@
 var elixir = require('laravel-elixir')
-
-require('laravel-elixir-bower')
+var bower = require('main-bower-files')
 require('laravel-elixir-riot')
 
 elixir(function(mix) {
-    mix.bower('vendor.css', 'public/assets/css', 'vendor.js', 'public/assets/js')
-       .sass(null, 'public/assets/sass')
-       .stylesIn('public/assets/sass', 'public/assets/css')
-       .riot(null, 'public/assets/riot')
+    console.log(bower('**/*.css'))
+
+    mix.styles(bower('**/*.css'), 'public/assets/js/vendor.css', '/')
+       .scripts(bower('**/*.js'), 'public/assets/js/vendor.js', '/')
+       .sass('**/*.(sass|scss)', 'public/assets/css/all.css')
+       .riot('**/*.tag', 'public/assets/js/riot.js')
        .scripts([
             'plugins/*.js',
             'modules/*.js',
             'lara.js'
        ], 'public/assets/js', 'resources/assets/js')
-       .scriptsIn('public/assets/riot', 'public/assets/js/riot.js')
        .version([
             'assets/css/all.css',
             'assets/css/vendor.css',
