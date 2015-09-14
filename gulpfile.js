@@ -3,8 +3,6 @@ var bower = require('main-bower-files')
 require('laravel-elixir-riot')
 
 elixir(function(mix) {
-    console.log(bower('**/*.css'))
-
     mix.styles(bower('**/*.css'), 'public/assets/js/vendor.css', '/')
        .scripts(bower('**/*.js'), 'public/assets/js/vendor.js', '/')
        .sass('**/*.(sass|scss)', 'public/assets/css/all.css')
