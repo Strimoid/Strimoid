@@ -7,5 +7,4 @@ node_modules/
 bower_components/
 vendor/
 public/assets/
-public/build/
 tests/_output/*
