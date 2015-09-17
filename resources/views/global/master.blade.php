@@ -90,22 +90,26 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 @yield('scripts')
 
 @if (!config('app.debug'))
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//piwik.strm.pl/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 1]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript><p><img src="//piwik.strm.pl/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 
-    ga('create', 'UA-45119517-1', 'auto');
-    ga('send', 'pageview');
-</script>
-
-<script src="//cdn.ravenjs.com/1.1.19/jquery,native/raven.min.js"></script>
-<script>
-    Raven.config('https://82749a9909f643b8834fe88dba7a7f4b@sentry.strm.pl/3', {
-        whitelistUrls: ['strm.pl/']
-    }).install()
-</script>
+    <script src="//cdn.ravenjs.com/1.1.22/jquery,native/raven.min.js"></script>
+    <script>
+        Raven.config('https://90c44c5ad4ff4a13abbb0721278678f9:1096b02c7bd64defbe32f64930c64288@sentry.strm.pl/3', {
+            whitelistUrls: [/strm\.pl/]
+        }).install()
+    </script>
 @endif
 
 <script>
