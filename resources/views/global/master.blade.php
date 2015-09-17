@@ -106,7 +106,7 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
 
     <script src="//cdn.ravenjs.com/1.1.22/jquery,native/raven.min.js"></script>
     <script>
-        Raven.config('https://90c44c5ad4ff4a13abbb0721278678f9:1096b02c7bd64defbe32f64930c64288@sentry.strm.pl/3', {
+        Raven.config('https://92d245965d8911e5b64700224da9f05c@sentry.strm.pl/3', {
             whitelistUrls: [/strm\.pl/]
         }).install()
     </script>
