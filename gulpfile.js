@@ -1,9 +1,18 @@
+var gulp = require('gulp')
 var elixir = require('laravel-elixir')
 var bower = require('main-bower-files')
+var shell = require('gulp-shell')
 require('laravel-elixir-riot')
 
+elixir.extend('laroute', function(message) {
+    new elixir.Task('laroute', function() {
+        return gulp.src('').pipe(shell('php artisan laroute:generate'));
+    }).watch('./app/Http/routes.php')
+});
+
 elixir(function(mix) {
-    mix.styles(bower('**/*.css'), 'public/assets/js/vendor.css', '/')
+    mix.laroute()
+       .styles(bower('**/*.css'), 'public/assets/js/vendor.css', '/')
        .scripts(bower('**/*.js'), 'public/assets/js/vendor.js', '/')
        .sass('**/*.(sass|scss)', 'public/assets/css/all.css')
        .riot('**/*.tag', 'public/assets/js/riot.js')
