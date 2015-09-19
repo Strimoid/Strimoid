@@ -2,9 +2,7 @@
 
 @section('content')
 <div class="group_list">
-@foreach ($groups as $group)
-    @include('group.widget', array('group' => $group))
-@endforeach
+    @each('group.widget', $groups, 'group')
 </div>
 
 <?php $group = null; ?>
@@ -14,9 +12,9 @@
 
 @section('sidebar')
 <div class="well group_search_widget">
-    {!! Form::open(array('action' => 'SearchController@search', 'method' => 'GET')) !!}
+    {!! Form::open(['action' => 'SearchController@search', 'method' => 'GET']) !!}
     <div class="input-group">
-        {!! Form::text('q', '', array('class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...')) !!}
+        {!! Form::text('q', '', ['class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...']) !!}
         <input type="hidden" name="t" value="g">
 
         <div class="input-group-btn">
@@ -29,15 +27,18 @@
 <div class="well">
     <div class="row">
         <div class="btn-group col-lg-12">
-            <a href="{!! action('GroupController@showList') !!}" class="col-lg-6 btn @if (Input::get('sort') == '') btn-primary @else btn-default @endif">Najpopularniejsze</a>
-            <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}" class="col-lg-6 btn @if (Input::get('sort') == 'newest') btn-primary @else btn-default @endif">Najnowsze</a>
+            <a href="{!! action('GroupController@showList') !!}" class="col-lg-6 btn @if (Input::get('sort') == '') btn-primary @else btn-secondary @endif">Najpopularniejsze</a>
+            <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}" class="col-lg-6 btn @if (Input::get('sort') == 'newest') btn-primary @else btn-secondary @endif">Najnowsze</a>
         </div>
     </div>
 </div>
 
 <div class="well">
     <a href="{!! action('GroupController@showCreateForm') !!}">
-        <button type="button" class="btn btn-default group_subscribe_btn"><span class="glyphicon glyphicon-plus"></span> Załóż nową grupę</button>
+        <button type="button" class="btn btn-secondary group_subscribe_btn">
+            <i class="fa fa-plus"></i>
+            Załóż nową grupę
+        </button>
     </a>
 </div>
 
@@ -62,7 +63,7 @@
             </small>
         </div>
 
-        <button type="button" class="btn btn-default @if(Auth::check() && Auth::user()->isSubscriber($recommended)) btn-success @endif pull-right group_subscribe_btn">Subskrybuj</button>
+        <button type="button" class="btn btn-secondary @if(Auth::check() && Auth::user()->isSubscriber($recommended)) btn-success @endif pull-right group_subscribe_btn">Subskrybuj</button>
     </div>
     @endif
     @endforeach

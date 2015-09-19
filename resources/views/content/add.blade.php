@@ -9,9 +9,9 @@
 
     <div>
         <div class="row" style="margin-bottom: 20px">
-            <ul id="myTab" class="nav nav-tabs col-lg-offset-3 col-lg-6">
-                <li class="active"><a href="#link" data-toggle="tab"><span class="glyphicon glyphicon-link"></span>  Dodaj link</a></li>
-                <li><a href="#content" data-toggle="tab"><span class="glyphicon glyphicon-pencil"></span>  Dodaj własną treść</a></li>
+            <ul class="nav nav-tabs col-lg-offset-3 col-lg-6">
+                <li class="nav-item"><a class="nav-link active" href="#link" data-toggle="tab"><span class="glyphicon glyphicon-link"></span>  Dodaj link</a></li>
+                <li class="nav-item"><a class="nav-link" href="#content" data-toggle="tab"><span class="glyphicon glyphicon-pencil"></span>  Dodaj własną treść</a></li>
             </ul>
         </div>
 

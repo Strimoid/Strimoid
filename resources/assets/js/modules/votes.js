@@ -9,7 +9,6 @@ function VotesModule() {
         html: true,
         selector: 'button.vote-btn-up, button.vote-btn-down',
         trigger: 'hover',
-        title: '',
         content: 'ładowanie...',
         placement: 'right',
         delay: 500
@@ -58,15 +57,13 @@ function VotesModule() {
                 var popover = $(button).data('bs.popover');
 
                 if (content == '')
-                    popover.options.content = 'brak głosów';
+                    popover.config.content = 'brak głosów';
                 else
-                    popover.options.content = content;
+                    popover.config.content = content;
 
-                popover.options.animation = false;
-                //popover.setContent();
-                //popover.$tip.addClass(popover.options.placement);
+                popover.config.animation = false;
                 popover.show();
-                popover.options.animation = true;
+                popover.config.animation = true;
             }
         });
     });

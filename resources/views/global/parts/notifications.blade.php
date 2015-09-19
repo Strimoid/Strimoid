@@ -1,6 +1,6 @@
-<li class="dropdown notifications_dropdown">
+<li class="nav-item dropdown notifications_dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <span class="glyphicon glyphicon-globe notifications_icon @if ($newNotificationsCount > 0) notifications_icon_new @endif"></span> <b class="caret"></b>
+        <span class="fa fa-globe notifications_icon @if ($newNotificationsCount > 0) notifications_icon_new @endif"></span> <b class="caret"></b>
         <span class="badge @if (!$newNotificationsCount) hide @endif">{!! $newNotificationsCount !!}</span>
     </a>
 

@@ -14,7 +14,7 @@ $popularEntries = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
 ?>
 
 <div class="well popular_contents_widget">
-    <h4>Ostatnio popularne</h4>
+    <h5>Ostatnio popularne</h5>
 
     <ul class="media-list popular_contents_list">
         @foreach ($popularEntries as $entry)

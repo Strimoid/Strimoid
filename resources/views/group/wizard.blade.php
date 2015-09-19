@@ -45,7 +45,7 @@
 
 <div class="well">
     <a href="{!! action('GroupController@showCreateForm') !!}">
-        <button type="button" class="btn btn-default group_subscribe_btn">
+        <button type="button" class="btn btn-secondary group_subscribe_btn">
             <span class="glyphicon glyphicon-plus"></span> Załóż nową grupę
         </button>
     </a>

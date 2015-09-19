@@ -11,10 +11,10 @@ else
     @if (Auth::check())
     <div class="btn-group" data-id="{{{ $folder->_id }}}">
         @if ($isOwner)
-        <button type="button" class="btn btn-sm @if ($folder->public) btn-success @else btn-default @endif folder_publish"><span class="glyphicon glyphicon-lock"></span> Opublikuj</button>
+        <button type="button" class="btn btn-sm @if ($folder->public) btn-success @else btn-secondary @endif folder_publish"><span class="glyphicon glyphicon-lock"></span> Opublikuj</button>
         @endif
 
-        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-file"></span> Skopiuj</button>
+        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-file"></span> Skopiuj</button>
 
         <ul class="dropdown-menu" role="menu">
             <li style="padding: 5px">

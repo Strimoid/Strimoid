@@ -1,8 +1,9 @@
 <div class="well content_sort_widget">
     <div class="btn-group btn-block">
         <div class="btn-group half-width">
-            <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Sortowanie
+            <button type="button" class="btn btn-secondary btn-block dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-sort"></i>
+                Sortowanie
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu content_sort">
@@ -19,8 +20,9 @@
         </div>
 
         <div class="btn-group half-width">
-            <button type="button" class="btn btn-block btn-default dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-calendar"></span> Filtrowanie
+            <button type="button" class="btn btn-block btn-secondary dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-calendar"></i>
+                Filtrowanie
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu content_filter">

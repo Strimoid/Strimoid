@@ -17,7 +17,7 @@
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-default">Zapisz</button>
+        <button type="submit" class="btn btn-secondary">Zapisz</button>
     </div>
 </div>
 {!! Form::close() !!}

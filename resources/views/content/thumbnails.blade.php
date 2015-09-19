@@ -12,7 +12,7 @@
 </select>
 
 <div class="form-group col-lg-12">
-    <button type="submit" class="btn btn-default btn-primary pull-right">Zapisz</button>
+    <button type="submit" class="btn btn-secondary btn-primary pull-right">Zapisz</button>
 </div>
 
 {!! Form::close() !!}

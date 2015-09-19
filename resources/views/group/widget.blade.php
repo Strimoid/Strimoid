@@ -1,34 +1,35 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title media" data-name="{!! $group->urlname !!}">
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title" data-name="{!! $group->urlname !!}">
             <img class="media-object pull-left" src="{!! $group->getAvatarPath() !!}">
 
             <a href="{!! route('group_contents', $group->urlname) !!}">
                 {{{ $group->name }}}
             </a>
-            <button type="button" class="btn btn-default @if(Auth::check() && Auth::user()->isSubscriber($group)) btn-success @endif pull-right group_subscribe_btn">
+            <button type="button" class="btn btn-secondary @if(Auth::check() && Auth::user()->isSubscriber($group)) btn-success @endif pull-right group_subscribe_btn">
                 Subskrybuj
             </button>
 
-            <span class="urlname" style="font-size: 70%; display: block">
+            <small class="urlname text-muted" style="display: block">
                 g/{!! $group->urlname !!}
-            </span>
-
-            <span class="info" style="font-size: 70%; display: block">
-                Utworzona {!! $group->created_at->diffForHumans() !!} przez <a href="{!! route('user_profile', $group->creator->name) !!}">{!! $group->creator->name !!}</a>
-            </span>
+            </small>
         </h3>
     </div>
 
-    <div class="panel-body">
-        {{{ $group->description }}}
+    <div class="card-block">
+        {{ $group->description }}
     </div>
 
-    <div class="panel-footer">
+    <div class="card-footer">
         @if ($group->tags)
             @foreach ($group->tags as $tag)
                 <a href="{!! route('wizard_tag', $tag) !!}" class="label label-default">{{{ $tag }}}</a>
             @endforeach
         @endif
+
+            <small class="text-muted">
+                Utworzona {!! $group->created_at->diffForHumans() !!} przez
+                <a href="{!! route('user_profile', $group->creator) !!}">{!! $group->creator->name !!}</a>
+            </small>
     </div>
 </div>

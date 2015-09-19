@@ -78,7 +78,7 @@
 
 @section('sidebar')
     <div class="well">
-        <a href="{!! action('ConversationController@showCreateForm', ['user' => null]) !!}" class="btn btn-default">Rozpocznij nową konwersację</a>
+        <a href="{!! action('ConversationController@showCreateForm', ['user' => null]) !!}" class="btn btn-secondary">Rozpocznij nową konwersację</a>
     </div>
 
     @include('conversations.list')

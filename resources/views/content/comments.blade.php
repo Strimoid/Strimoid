@@ -12,15 +12,12 @@
 @section('content')
 <div class="content" data-id="{{ $content->hashId() }}">
     <div class="media">
-        <div class="voting" data-id="{!! $content->hashId() !!}" data-state="{!! $content->getVoteState() !!}" data-type="content">
-            <button type="button" class="btn btn-default btn-sm pull-left vote-btn-up @if ($content->getVoteState() == 'uv') btn-success @endif">
-                <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $content->uv !!}</span>
-            </button>
-
-            <button type="button" class="btn btn-default btn-sm pull-left vote-btn-down @if ($content->getVoteState() == 'dv') btn-danger @endif">
-                <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{!! $content->dv !!}</span>
-            </button>
-        </div>
+        <vote-buttons class="voting"
+                      uv="{!! $content->uv !!}"
+                      dv="{!! $content->dv !!}"
+                      data-id="{!! $content->hashId() !!}"
+                      data-state="{!! $content->getVoteState()  !!}"
+                      data-type="content"></vote-buttons>
 
         @if ($content->thumbnail)
             <a class="pull-left" href="{{ $content->getURL() }}" rel="nofollow" target="_blank">
@@ -43,12 +40,39 @@
             {{{ $content->description }}}
             <p class="summary">
                 <small>
-                    <span class="glyphicon glyphicon-comment"></span> <a href="{!! route('content_comments_slug', [$content, Str::slug($content->title)]) !!}" class="content_comments" rel="nofollow">{!! Lang::choice('pluralization.comments', $content->comments_count) !!}</a>
-                    <span class="glyphicon glyphicon-tag"></span> <a href="{!! route('group_contents', $content->group) !!}" class="content_group">g/{{ $content->group->urlname }}</a>
-                    <span class="glyphicon glyphicon-user"></span> <a href="{!! route('user_profile', $content->user) !!}" class="content_user">u/{{ $content->user->name }}</a>
-                    <span class="glyphicon glyphicon-globe"></span> <span class="content_domain">{!! $content->getDomain() !!}</span>
-                    <span class="glyphicon glyphicon-link"></span> <span class="content_comments">{!! intval($content->related_count) !!}</span>
-                    <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $content->created_at->format('c') !!}" title="{!! $content->getLocalTime() !!}">{!! $content->created_at->diffForHumans() !!}</time>
+                    <i class="fa fa-comments"></i>
+                    <a href="{{ route('content_comments_slug', [$content, Str::slug($content->title)]) }}"
+                       class="content_comments">
+                        {!! Lang::choice('pluralization.comments', intval($content->comments_count)) !!}</a>
+
+                    <i class="fa fa-tag"></i>
+                    <a href="{!! route('group_contents', $content->group) !!}" class="content_group"
+                       data-hover="group_widget" data-group="{!! $content->group->urlname !!}">
+                        {{ $content->group->urlname }}
+                    </a>
+
+                    <i class="fa fa-user"></i>
+                    <a href="{!! route('user_profile', $content->user) !!}" class="content_user"
+                       data-hover="user_widget" data-user="{!! $content->user->name !!}">
+                        {{ $content->user->name }}
+                    </a>
+
+                    <i class="fa fa-globe"></i>
+                        <span class="content_domain">
+                            {!! $content->getDomain() !!}
+                        </span>
+
+                    <i class="fa fa-link"></i>
+                        <span class="content_comments">
+                            {!! intval($content->related_count) !!}
+                        </span>
+
+                    <i class="fa fa-clock-o"></i>
+                    <time pubdate datetime="{!! $content->created_at->getTimestamp() !!}"
+                          title="{!! $content->getLocalTime() !!}">
+                        {{ $content->createdAgo() }}
+                    </time>
+
                     @if (Auth::check())
                         @if ($content->isSaved())
                             <span class="glyphicon glyphicon-star action_link save_content" title="zapisz"></span>
@@ -94,7 +118,7 @@
     <h4 class="pull-left">Powiązane</h4>
 
     @if (Auth::check())
-        <button type="button" class="btn btn-sm btn-default pull-right add_related_btn" data-toggle="button">+dodaj</button>
+        <button type="button" class="btn btn-sm btn-secondary pull-right add_related_btn" data-toggle="button">+dodaj</button>
     @endif
 </div>
 
@@ -139,12 +163,12 @@ Brak powiązanych.
 @foreach ($content->related as $related)
 <div class="media related_link">
     <div class="voting" data-id="{!! $related->hashId() !!}" data-state="{!! $related->getVoteState() !!}" data-type="related">
-        <button type="button" class="btn btn-default btn-xs pull-left vote-btn-up @if ($related->getVoteState() == 'uv') btn-success @endif">
-            <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $related->uv !!}</span>
+        <button type="button" class="btn btn-secondary btn-xs pull-left vote-btn-up @if ($related->getVoteState() == 'uv') btn-success @endif">
+            <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $related->uv !!}</span>
         </button>
 
-        <button type="button" class="btn btn-default btn-xs pull-left vote-btn-down @if ($related->getVoteState() == 'dv') btn-danger @endif">
-            <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{!! $related->dv !!}</span>
+        <button type="button" class="btn btn-secondary btn-xs pull-left vote-btn-down @if ($related->getVoteState() == 'dv') btn-danger @endif">
+            <i class="fa fa-arrow-down vote-down"></i> <span class="count">{!! $related->dv !!}</span>
         </button>
     </div>
 
@@ -179,7 +203,7 @@ Brak powiązanych.
         <h4 class="pull-left">Komentarze</h4>
 
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
                 <span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Sortowanie
                 <span class="caret"></span>
             </button>
