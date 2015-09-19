@@ -17,8 +17,8 @@ class GroupsCest
     public function showListOfGroups(FunctionalTester $I)
     {
         $I->amOnPage('/groups/list');
-        $I->canSee('Tedville', '.panel-title');
-        $I->canSee('Commodi pariatur numquam', '.panel-body');
+        $I->canSee('Tedville', '.card-title');
+        $I->canSee('Commodi pariatur numquam', '.card-block');
     }
 
     public function createNewGroup(FunctionalTester $I)
