@@ -48,6 +48,7 @@ class AuthCest
 
     public function registerNewAccount(FunctionalTester $I)
     {
+        $I->dontSeeAuthentication();
         $I->amOnPage('/register');
         $I->submitForm('.main_col form', [
             'username' => 'NewUser',
