@@ -19,7 +19,9 @@ $options = [
 
     <div class="col-lg-6">
         <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-{!! $icon !!}"></span></span>
+            <span class="input-group-addon">
+                <span class="fa fa-fw fa-{!! $icon !!}"></span>
+            </span>
 
             @if ($type == 'text')
                 {!! Form::text($name, null, $options) !!}
@@ -34,7 +36,7 @@ $options = [
 
 
         @if ($errors->has($name))
-        <p class="help-block">{!! $errors->first($name) !!}</p>
+            <p class="help-block">{!! $errors->first($name) !!}</p>
         @endif
     </div>
 </div>
