@@ -10,4 +10,6 @@ server('box', getenv('HOST'))
     ->env('deploy_path', '/www/strimoid'); // Define the base path to deploy your project to.
 
 set('ssh_type', 'ext-ssh2');
+
+env('branch', 'develop');
 set('repository', 'https://github.com/Strimoid/Strimoid.git');
