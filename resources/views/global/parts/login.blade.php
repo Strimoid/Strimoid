@@ -1,4 +1,4 @@
-<li class="dropdown">
+<li class="nav-item dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         {{ trans('auth.logging in') }} <b class="caret"></b>
     </a>
@@ -16,7 +16,7 @@
         {!! Form::close() !!}
     </ul>
 </li>
-<li>
+<li class="nav-item">
     <a href="{{ route('auth.register') }}">
         {{ trans('auth.registration') }}
     </a>
