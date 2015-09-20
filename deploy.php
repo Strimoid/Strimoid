@@ -3,7 +3,7 @@
 require 'recipe/laravel.php';
 
 // Define a server for deployment.
-server('box', getenv('SEMAPHORE_SERVER_NAME'))
+server('box', getenv('HOST'))
     ->user('strimoid')
     ->identityFile()
     ->stage('staging')
