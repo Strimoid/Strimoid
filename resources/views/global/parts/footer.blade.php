@@ -32,5 +32,10 @@
 
 <hr>
 
-<p class="pull-left">{{ trans('common.website uses') }} <a href="/cookies" rel="nofollow">{{ trans('common.cookie files') }}.</a></p>
-<p class="pull-right toggle_night_mode">{{ trans('common.night mode') }} <span class="glyphicon glyphicon-adjust"></span></p>
+<p class="pull-left">
+    {{ trans('common.website uses') }} <a href="/cookies" rel="nofollow">{{ trans('common.cookie files') }}.</a>
+</p>
+<p class="pull-right toggle_night_mode">
+    <i class="fa fa-adjust"></i>
+    {{ trans('common.night mode') }}
+</p>
