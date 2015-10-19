@@ -14,7 +14,7 @@ $popularContents = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
 ?>
 
 <div class="well popular_contents_widget">
-    <h5>Popularne treści</h5>
+    <h5>@lang('common.popular contents')</h5>
 
     <ul class="media-list popular_contents_list">
         @foreach ($popularContents as $content)
@@ -27,8 +27,8 @@ $popularContents = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
             <div class="media-body">
                 <h6 class="media-heading"><a href="{!! route('content_comments_slug', [$content, Str::slug($content->title)]) !!}">{{{ Str::limit($content->title, 50) }}}</a></h6>
                 <small>
-                    <span class="glyphicon glyphicon-thumbs-up"></span> {!! $content->uv !!}
-                    <span class="glyphicon glyphicon-thumbs-down"></span> {!! $content->dv !!}
+                    <i class="fa fa-thumbs-up"></i> {!! $content->uv !!}
+                    <i class="fa fa-thumbs-down"></i> {!! $content->dv !!}
                 </small>
             </div>
         </li>

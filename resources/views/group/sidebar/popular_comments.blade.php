@@ -17,7 +17,7 @@ $popularComments = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
 ?>
 
 <div class="well popular_contents_widget">
-    <h5>Popularne komentarze</h5>
+    <h5>@lang('common.popular comments')</h5>
 
     <ul class="media-list popular_contents_list">
         @foreach ($popularComments as $comment)
@@ -36,8 +36,8 @@ $popularComments = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
             <div class="media-body">
                 <h6 class="media-heading"><a href="{!! $url !!}">{!! Str::limit($text, 100) !!}</a></h6>
                 <small>
-                    <span class="glyphicon glyphicon-thumbs-up"></span> {!! $comment->uv !!}
-                    <span class="glyphicon glyphicon-thumbs-down"></span> {!! $comment->dv !!}
+                    <i class="fa fa-thumbs-up"></i> {!! $comment->uv !!}
+                    <i class="fa fa-thumbs-down"></i> {!! $comment->dv !!}
 
                     @if ($comment->content)
                         <span class="glyphicon glyphicon-share-alt"></span> {!! Str::limit($comment->content->title, 20) !!}

@@ -26,6 +26,11 @@ return [
     'website uses' => 'Website uses',
     'cookie files' => 'cookies',
 
+    // Sidebars
+    'popular contents' => 'Popular contents',
+    'popular comments' => 'Popular comments',
+    'stats' => 'Stats',
+
     // Actions
     'add link' => 'Add link',
     'add content' => 'Add content',
@@ -37,5 +42,10 @@ return [
     'folders' => 'Folders',
 
     // Other
+    'description' => 'Description',
+    'title' => 'Title',
     'recently popular' => 'Recently popular',
+    'sort' => 'Sort',
+    'filter' => 'Filter',
+    'url address' => 'URL Address',
 ];

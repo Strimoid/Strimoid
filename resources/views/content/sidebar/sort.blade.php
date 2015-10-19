@@ -3,7 +3,7 @@
         <div class="btn-group half-width">
             <button type="button" class="btn btn-secondary btn-block dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-sort"></i>
-                Sortowanie
+                @lang('common.sort')
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu content_sort">
@@ -22,7 +22,7 @@
         <div class="btn-group half-width">
             <button type="button" class="btn btn-block btn-secondary dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-calendar"></i>
-                Filtrowanie
+                @lang('common.filter')
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu content_filter">
