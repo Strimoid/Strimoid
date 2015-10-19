@@ -419,18 +419,26 @@ thead .glyphicon {
 
 /* POPULAR CONTENTS WIDGET */
 .popular_contents_list {
-  margin-top: 20px;
+  margin-top: 20px
+
+  h6 {
+    font-size: 12px
+  }
+
+  small {
+    font-size: 11px
+  }
+
+  .media-body {
+    padding-left: 10px
+  }
 }
 
-.popular_contents_list small {
-  font-size: 11px;
-}
-
-.popular_contents_list small .glyphicon:first-of-type {
+.popular_contents_list small .fa:first-of-type {
   margin-left: 0px;
 }
 
-.popular_contents_list small .glyphicon {
+.popular_contents_list small .fa {
   color: lightgray;
   margin-right: 1px;
   margin-left: 8px;
