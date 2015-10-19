@@ -171,7 +171,7 @@ return [
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
-        Laracasts\Utilities\JavaScript\JavascriptServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
