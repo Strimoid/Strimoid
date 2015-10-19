@@ -14,7 +14,7 @@ $popularEntries = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
 ?>
 
 <div class="well popular_contents_widget">
-    <h5>Ostatnio popularne</h5>
+    <h5>@lang('common.recently popular')</h5>
 
     <ul class="media-list popular_contents_list">
         @foreach ($popularEntries as $entry)
@@ -25,13 +25,16 @@ $popularEntries = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get();
         ?>
         <li class="media">
             <a class="pull-left" href="{!! route('single_entry', $entry) !!}">
-                <img src="{!! $entry->user->getAvatarPath(40, 40) !!}" alt="{!! $entry->user->name !!}" style="height: 40px; width: 40px; border-radius: 3px;">
+                <img src="{!! $entry->user->getAvatarPath(40, 40) !!}" alt="{!! $entry->user->name !!}"
+                     style="height: 40px; width: 40px; border-radius: 3px;">
             </a>
             <div class="media-body">
-                <h6 class="media-heading"><a href="{!! route('single_entry', $entry) !!}">{!! Str::limit($text, 100) !!}</a></h6>
+                <h6 class="media-heading">
+                    <a href="{!! route('single_entry', $entry) !!}">{!! Str::limit($text, 100) !!}</a>
+                </h6>
                 <small>
-                    <span class="glyphicon glyphicon-thumbs-up"></span> {!! $entry->uv !!}</a>
-                    <span class="glyphicon glyphicon-thumbs-down"></span> {!! $entry->dv !!}</a>
+                    <i class="fa fa-thumbs-up"></i> {{ $entry->uv }}</a>
+                    <i class="fa fa-thumbs-down"></i> {{ $entry->dv }}</a>
                 </small>
             </div>
         </li>

@@ -25,4 +25,17 @@ return [
     'night mode' => 'night mode',
     'website uses' => 'Website uses',
     'cookie files' => 'cookies',
+
+    // Actions
+    'add link' => 'Add link',
+    'add content' => 'Add content',
+    'block' => 'Block',
+    'unblock' => 'Unblock',
+
+    // Things
+    'group' => 'Group',
+    'folders' => 'Folders',
+
+    // Other
+    'recently popular' => 'Recently popular',
 ];
