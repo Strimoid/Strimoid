@@ -9,8 +9,8 @@ Source code of Strimoid.pl, brand-new social service.
 
 Requirements
 ========
-* PHP 5.6+ / HHVM 3.7+
-* MySQL
+* PHP 5.6+ / HHVM 3.9+
+* MySQL (MariaDB 10.1 recommended, but might even work with PostgreSQL)
 
 API
 ========
