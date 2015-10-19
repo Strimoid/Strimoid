@@ -6789,7 +6789,8 @@ a.bg-danger:hover {
   width: 100%; }
   .content .voting {
     float: left;
-    width: 70px; }
+    width: 70px;
+    min-height: 1px; }
   .content .img-thumbnail {
     width: 100px;
     margin-right: 10px;

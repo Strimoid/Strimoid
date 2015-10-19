@@ -32,12 +32,15 @@ return [
     'stats' => 'Stats',
 
     // Actions
+    'add' => 'Add',
+    'add comment' => 'Add comment',
     'add link' => 'Add link',
     'add content' => 'Add content',
     'block' => 'Block',
     'unblock' => 'Unblock',
 
     // Things
+    'comments' => 'Comments',
     'group' => 'Group',
     'folders' => 'Folders',
 

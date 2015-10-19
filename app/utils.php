@@ -110,6 +110,10 @@ if (! function_exists('user')) {
      */
     function user()
     {
+        if (auth()->guest()) {
+            return (object) [];
+        }
+
         return auth()->user();
     }
 }

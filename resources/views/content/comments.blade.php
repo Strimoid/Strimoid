@@ -28,7 +28,7 @@
         @elseif ($content->thumbnail_loading)
             <a class="pull-left" href="{{ $content->url }}" rel="nofollow" target="_blank">
                 <div class="media-object img-thumbnail refreshing">
-                    <span class="glyphicon glyphicon-refresh"></span>
+                    <i class="fa fa-refresh"></i>
                 </div>
             </a>
         @endif
@@ -75,9 +75,9 @@
 
                     @if (Auth::check())
                         @if ($content->isSaved())
-                            <span class="glyphicon glyphicon-star action_link save_content" title="zapisz"></span>
+                            <i class="fa fa-star action_link save_content" title="zapisz"></i>
                         @else
-                            <span class="glyphicon glyphicon-star-empty action_link save_content" title="zapisz"></span>
+                            <i class="fa fa-star-o action_link save_content" title="zapisz"></i>
                         @endif
                     @endif
                 </small>
@@ -186,7 +186,9 @@ Brak powiązanych.
             @if ($related->nsfw) <span class="nsfw">[+18]</span> @endif
 
             @if (Auth::check() && Auth::id() == $related->user->getKey())
-            <a class="related_remove_link" data-id="{!! $related->hashId() !!}"><span class="glyphicon glyphicon-trash"></span></a>
+                <a class="related_remove_link" data-id="{!! $related->hashId() !!}">
+                    <i class="fa fa-trash"></i>
+                </a>
             @endif
         </h4>
         <span class="info">
@@ -200,11 +202,11 @@ Brak powiązanych.
 <div class="comments">
 
     <div class="page-header clearfix">
-        <h4 class="pull-left">Komentarze</h4>
+        <h4 class="pull-left">@lang('common.comments')</h4>
 
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Sortowanie
+                <i class="fa fa-sort"></i> @lang('common.sort')
                 <span class="caret"></span>
             </button>
 
@@ -223,7 +225,7 @@ Brak powiązanych.
     </div>
 
     @if (!count($content->comments))
-    <p class="no_comments">Nie dodano jeszcze komentarzy do tej treści.</p>
+        <p class="no_comments">Nie dodano jeszcze komentarzy do tej treści.</p>
     @endif
 
 @foreach ($content->comments as $comment)
@@ -240,12 +242,12 @@ Brak powiązanych.
 
 @if (Auth::check())
 <div class="page-header">
-    <h4>Dodaj komentarz</h4>
+    <h4>@lang('common.add comment')</h4>
 </div>
 
 <div class="panel-default comment comment_add">
     <div class="comment_avatar">
-        <img src="{!! Auth::user()->getAvatarPath() !!}">
+        <img src="{!! user()->getAvatarPath() !!}">
     </div>
 
     <div class="comment_text">
@@ -261,7 +263,9 @@ Brak powiązanych.
         </div>
 
         <div class="form-group col-lg-12">
-                <button type="submit" class="btn btn-primary pull-right">Dodaj</button>
+                <button type="submit" class="btn btn-primary pull-right">
+                    @lang('common.add')
+                </button>
         </div>
         {!! Form::close() !!}
     </div>
@@ -273,11 +277,11 @@ Brak powiązanych.
 @section('sidebar')
     @include('group.sidebar.add_content')
 
-    @include('content.sidebar.author_panel', array('content' => $content))
+    @include('content.sidebar.author_panel', ['content' => $content])
 
     @if (isset($group))
-        @include('group.sidebar.description', array('group' => $group))
-        @include('group.sidebar.stats', array('group' => $group))
+        @include('group.sidebar.description', ['group' => $group])
+        @include('group.sidebar.stats', ['group' => $group])
     @endif
 
     @include('group.sidebar.popular_contents')
