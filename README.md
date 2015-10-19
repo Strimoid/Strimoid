@@ -20,19 +20,12 @@ Documentation
 ========
 We are providing documentation generated automatically by Sami at https://sami.strm.pl
 
-How to start?
+How to use?
 ========
-Install dependencies using Composer:
+Just type in your shell:
 
 ```
-composer install
-```
-
-Compile resources using Gulp:
-
-```
-npm install
-gulp
+composer create-project strimoid/strimoid --prefer-dist
 ```
 
 To do
