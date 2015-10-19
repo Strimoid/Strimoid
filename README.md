@@ -28,6 +28,12 @@ Just type in your shell:
 composer create-project strimoid/strimoid --prefer-dist
 ```
 
+Then edit .env file and run:
+
+```
+php artisan migrate
+```
+
 To do
 ========
 * [ ] Tests, tests, tests!

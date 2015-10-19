@@ -44,7 +44,8 @@
           "rcrowe/twigbridge": "~0.8",
           "lord/laroute" : "~2.1",
           "barryvdh/laravel-cors": "^0.7.1",
-          "jenssegers/raven": "^1.4"
+          "jenssegers/raven": "^1.4",
+          "laravel/socialite": "^2.0"
       },
       "require-dev": {
           "phpunit/phpunit": "~4.8",
@@ -77,6 +78,9 @@
                 "php artisan clear-compiled",
                 "php artisan ide-helper:generate -M",
                 "php artisan optimize"
+          ],
+          "post-root-package-install": [
+              "php -r \"copy('.env.sample', '.env');\""
           ],
           "post-create-project-cmd": [
                 "php artisan key:generate"
