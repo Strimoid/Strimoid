@@ -5,21 +5,23 @@
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" href="#profile" data-toggle="tab">
-                <span class="glyphicon glyphicon-user"></span>
+                <span class="fa fa-user"></span>
                 Profil
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="#settings" data-toggle="tab">
-                <span class="glyphicon glyphicon-wrench"></span>
+                <i class="fa fa-wrench"></i>
                 Ustawienia
             </a>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                <span class="glyphicon glyphicon-lock"></span> Konto <span class="caret"></span>
+                <i class="fa fa-lock"></i>
+                Konto
+                <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#password" data-toggle="tab">Zmiana hasła</a>

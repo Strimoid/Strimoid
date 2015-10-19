@@ -59,7 +59,8 @@
             <h6 class="media-heading"><a href="{!! route('group_contents', array('group' => $recommended->urlname)) !!}">{{{ Str::limit($recommended->name, 50) }}}</a></h6>
 
             <small>
-                <span class="glyphicon glyphicon-tag" style="color: #D3D3D3;"></span> g/{!! $recommended->urlname !!}</a>
+                <i class="fa fa-tag" style="color: #D3D3D3;"></i>
+                g/{!! $recommended->urlname !!}</a>
             </small>
         </div>
 

@@ -40,7 +40,8 @@ $popularComments = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
                     <i class="fa fa-thumbs-down"></i> {!! $comment->dv !!}
 
                     @if ($comment->content)
-                        <span class="glyphicon glyphicon-share-alt"></span> {!! Str::limit($comment->content->title, 20) !!}
+                        <i class="fa fa-share-alt"></i>
+                        {!! Str::limit($comment->content->title, 20) !!}
                     @endif
                 </small>
             </div>
