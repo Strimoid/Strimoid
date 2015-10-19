@@ -7350,8 +7350,9 @@ thead .glyphicon {
 
 /* POPULAR CONTENTS WIDGET */
 .popular_contents_list {
-  margin-top: 20px h6;
-    margin-top-font-size: 12px; }
+  margin-top: 20px; }
+  .popular_contents_list h6 {
+    font-size: 12px; }
   .popular_contents_list small {
     font-size: 11px; }
   .popular_contents_list .media-body {
