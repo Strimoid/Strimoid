@@ -172,6 +172,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavascriptServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
@@ -241,6 +242,7 @@ return [
         'Image'      => Intervention\Image\Facades\Image::class,
         'Markdown'   => GrahamCampbell\Markdown\Facades\Markdown::class,
         'Setting'    => Strimoid\Facades\Settings::class,
+        'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
         'Throttle'   => GrahamCampbell\Throttle\Facades\Throttle::class,
         'Twig'       => TwigBridge\Facade\Twig::class,
 

@@ -24,6 +24,10 @@ return [
         'default_inbox' => env('MAILTRAP_INBOX'),
     ],
 
+    'mandrill' => [
+        'secret'        => env('MANDRILL_SECRET'),
+    ],
+
     'raven' => [
         'dsn'           => env('RAVEN_DSN'),
         'level'         => env('RAVEN_LEVEL', 'error'),
