@@ -66,10 +66,9 @@
                         </time>
 
                     @if (Auth::check())
-                        <span class="glyphicon action_link save_content
-                            @if ($content->isSaved()) glyphicon-star
-                            @else glyphicon-star-empty @endif"
-                            title="zapisz"></span>
+                        <i class="fa action_link save_content
+                            @if ($content->isSaved()) fa-star @else fa-star-o @endif"
+                            title="zapisz"></i>
                     @endif
                 </small>
             </p>
@@ -77,7 +76,9 @@
 
         @if (Auth::check() && Auth::user()->isModerator($content->group_id))
         <div class="content_actions pull-right">
-            <a class="content_remove_link action_link"><span class="glyphicon glyphicon-trash"></span> usuń</a>
+            <a class="content_remove_link action_link">
+                <i class="fa fa-trash"></i> usuń
+            </a>
         </div>
         @endif
 </div>

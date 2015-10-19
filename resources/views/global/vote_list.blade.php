@@ -4,9 +4,9 @@
     <?php if (($up && !$vote['up']) || !$up && $vote['up']) continue; ?>
     <div>
         @if ($vote['up'])
-        <span class="glyphicon glyphicon-arrow-up vote-up"></span>
+        <i class="fa fa-arrow-up vote-up"></i>
         @else
-        <span class="glyphicon glyphicon-arrow-down vote-down"></span>
+        <i class="fa fa-arrow-down vote-down"></i>
         @endif
 
         {!! $vote['user_id'] !!}

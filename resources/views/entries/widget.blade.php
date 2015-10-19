@@ -56,9 +56,9 @@ $isReply = isset($isReply) ? true : false;
     <div class="entry_actions pull-right">
         @if (Auth::check())
             @if(!$isReply && $entry->isSaved())
-                <span class="glyphicon glyphicon-star action_link save_entry" title="zapisz"></span>
+                <i class="fa fa-star action_link save_entry" title="zapisz"></i>
             @elseif (!$isReply)
-                <span class="glyphicon glyphicon-star-empty action_link save_entry" title="zapisz"></span>
+                <i class="fa fa-star-o action_link save_entry" title="zapisz"></i>
             @endif
 
             <a class="entry_reply_link action_link">odpowiedz</a>

@@ -32,7 +32,10 @@
         <a href="{!! route('user_profile', $message->user) !!}" class="entry_author">{!! $message->user->getColoredName() !!}</a>
 
         <span class="pull-right">
-            <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $message->created_at->format('c') !!}" title="{!! $message->getLocalTime() !!}">{!! $message->created_at->diffForHumans() !!}</time>
+            <span class="fa fa-clock-o"></span>
+            <time pubdate datetime="{!! $message->created_at->format('c') !!}" title="{!! $message->getLocalTime() !!}">
+                {!! $message->created_at->diffForHumans() !!}
+            </time>
         </span>
     </div>
 
