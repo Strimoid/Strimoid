@@ -1,4 +1,4 @@
-FROM ubuntu:utopic
+FROM ubuntu:vivid
 COPY . /usr/src/strimoid
 WORKDIR /usr/src/strimoid
 EXPOSE 9000
