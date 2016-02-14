@@ -43,7 +43,9 @@
           "lord/laroute" : "~2.1",
           "barryvdh/laravel-cors": "^0.8",
           "jenssegers/raven": "^1.4",
-          "laravel/socialite": "^2.0"
+          "laravel/socialite": "^2.0",
+          "symfony/dom-crawler": "^3.0",
+          "symfony/css-selector": "^3.0"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "~2.1",
