@@ -167,26 +167,32 @@ $blocked = user()->isBlockingUser($user);
     <h4>Nawigacja</h4>
 
     <ul class="nav nav-pills nav-stacked">
-        <li @if ($type == 'all') class="active" @endif>
+        <li class="nav-item @if ($type == 'all') active" @endif>
             <a href="{!! route('user_profile', $user->name) !!}">Wszystkie akcje</a>
         </li>
-        <li @if ($type == 'contents') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'contents')) !!}">{!! Lang::choice('pluralization.contents', intval($user->contents()->count())) !!}</a>
+        <li class="nav-item @if ($type == 'contents') active" @endif>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'contents')) !!}">
+                {!! Lang::choice('pluralization.contents', intval($user->contents()->count())) !!}</a>
         </li>
-        <li @if ($type == 'comments') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'comments')) !!}">{!! Lang::choice('pluralization.comments', intval($user->comments()->count())) !!}</a>
+        <li class="nav-item @if ($type == 'comments') active" @endif>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'comments')) !!}">
+                {!! Lang::choice('pluralization.comments', intval($user->comments()->count())) !!}</a>
         </li>
-        <li @if ($type == 'comment_replies') class="active" @endif>
-        <a href="{!! route('user_profile.type_filter', array($user->name, 'comment_replies')) !!}">{!! Lang::choice('pluralization.comments', intval($user->commentReplies()->count())) !!} na komentarze</a>
+        <li class="nav-item @if ($type == 'comment_replies') active" @endif>
+        <a href="{!! route('user_profile.type_filter', array($user->name, 'comment_replies')) !!}">
+            {!! Lang::choice('pluralization.comments', intval($user->commentReplies()->count())) !!} na komentarze</a>
         </li>
-        <li @if ($type == 'entries') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'entries')) !!}">{!! Lang::choice('pluralization.entries', intval($user->entries()->count())) !!}</a>
+        <li class="nav-item @if ($type == 'entries') active" @endif>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'entries')) !!}">
+                {!! Lang::choice('pluralization.entries', intval($user->entries()->count())) !!}</a>
         </li>
-        <li @if ($type == 'entry_replies') class="active" @endif>
-        <a href="{!! route('user_profile.type_filter', array($user->name, 'entry_replies')) !!}">{!! Lang::choice('pluralization.replies', intval($user->entryReplies()->count())) !!} na wpisy</a>
+        <li class="nav-item @if ($type == 'entry_replies') active" @endif>
+        <a href="{!! route('user_profile.type_filter', array($user->name, 'entry_replies')) !!}">
+            {!! Lang::choice('pluralization.replies', intval($user->entryReplies()->count())) !!} na wpisy</a>
         </li>
-        <li @if ($type == 'moderated') class="active" @endif>
-            <a href="{!! route('user_profile.type_filter', array($user->name, 'moderated')) !!}">{!! Lang::choice('pluralization.moderatedgroups', intval($user->moderatedGroups()->count())) !!}</a>
+        <li class="nav-item @if ($type == 'moderated') active" @endif>
+            <a href="{!! route('user_profile.type_filter', array($user->name, 'moderated')) !!}">
+                {!! Lang::choice('pluralization.moderatedgroups', intval($user->moderatedGroups()->count())) !!}</a>
         </li>
     </ul>
 </div>
