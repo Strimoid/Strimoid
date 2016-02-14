@@ -96,12 +96,12 @@ $navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' 
     </script>
     <noscript><p><img src="//piwik.strm.pl/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 
-    <script src="//cdn.ravenjs.com/1.1.22/jquery,native/raven.min.js"></script>
-    <script>
-        Raven.config('https://92d245965d8911e5b64700224da9f05c@sentry.strm.pl/3', {
-            whitelistUrls: [/strm\.pl/]
-        }).install()
-    </script>
+    @if (config('services.raven.public_dsn'))
+        <script src="//cdn.ravenjs.com/2.1.1/console/raven.min.js"></script>
+        <script>
+            Raven.config('{{ config('services.raven.public_dsn') }}').install()
+        </script>
+    @endif
 @endif
 
 <script>

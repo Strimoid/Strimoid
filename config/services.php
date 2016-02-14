@@ -28,8 +28,20 @@ return [
         'secret'        => env('MANDRILL_SECRET'),
     ],
 
+    /**
+    |--------------------------------------------------------------------------
+    | Raven - used for reporting errors to Sentry
+    |--------------------------------------------------------------------------
+     *
+     * https://github.com/getsentry/sentry
+     *
+     * DSN is used for backend errors
+     * Public DSN is used for frontend errors
+     */
+
     'raven' => [
         'dsn'           => env('RAVEN_DSN'),
+        'public_dsn'    => env('RAVEN_PUBLIC_DSN'),
         'level'         => env('RAVEN_LEVEL', 'error'),
     ],
 
