@@ -17,9 +17,7 @@
 }
 
 .md a.image:before {
-  position: relative;
-  top: 1px;
-  display: inline-block;
+  margin-right: 3px;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
@@ -29,9 +27,7 @@
 }
 
 .md a.yt-video:before {
-  position: relative;
-  top: 1px;
-  display: inline-block;
+  margin-right: 3px;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
