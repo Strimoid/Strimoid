@@ -27,12 +27,14 @@ class OEmbed
     protected function findThumbnail($data)
     {
         foreach ($data['links'] as $link) {
-            if (in_array('thumbnail', $link['rel'])) {
+            $rel = data_get($link, 'rel', []);
+            $type = data_get($link, 'type');
+
+            if (in_array('thumbnail', $rel)) {
                 return $link['href'];
             }
 
-            if (in_array('file', $link['rel'])
-                && starts_with($link['type'], 'image')) {
+            if (in_array('file', $rel) && starts_with($type, 'image')) {
                 return $link['href'];
             }
         }
@@ -81,11 +83,13 @@ class OEmbed
         }
 
         foreach ($data['links'] as $link) {
-            if (in_array('file', $link['rel'])) {
+            $rel = data_get($link, 'rel', []);
+
+            if (in_array('file', $rel)) {
                 return $this->embedMedia($link);
             }
 
-            if (in_array('image', $link['rel'])) {
+            if (in_array('image', $rel)) {
                 return $this->embedImage($link['href']);
             }
         }
