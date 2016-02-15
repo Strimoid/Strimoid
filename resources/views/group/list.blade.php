@@ -27,8 +27,14 @@
 <div class="well">
     <div class="row">
         <div class="btn-group col-lg-12">
-            <a href="{!! action('GroupController@showList') !!}" class="col-lg-6 btn @if (Input::get('sort') == '') btn-primary @else btn-secondary @endif">Najpopularniejsze</a>
-            <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}" class="col-lg-6 btn @if (Input::get('sort') == 'newest') btn-primary @else btn-secondary @endif">Najnowsze</a>
+            <a href="{!! action('GroupController@showList') !!}"
+               class="col-lg-6 btn {{ Input::get('sort') == '' ? 'btn-primary' : 'btn-secondary' }}">
+                Popularne
+            </a>
+            <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}"
+               class="col-lg-6 btn {{ Input::get('sort') == 'newest' ? 'btn-primary' : 'btn-secondary' }}">
+                Nowe
+            </a>
         </div>
     </div>
 </div>
@@ -50,13 +56,17 @@
     @if (!Auth::user()->isSubscriber($recommended))
     <div class="row" style="margin: 15px 0px;" data-name="{!! $recommended->urlname !!}">
         <div style="float: left; width: 50px;">
-            <a href="{!! route('group_contents', array('group' => $recommended->urlname)) !!}" rel="nofollow" target="_blank">
+            <a href="{!! route('group_contents', ['group' => $recommended->urlname]) !!}" rel="nofollow" target="_blank">
                 <img src="{!! $recommended->getAvatarPath() !!}" style="height: 40px; width: 40px; border-radius: 3px;">
             </a>
         </div>
 
         <div style="float: left;">
-            <h6 class="media-heading"><a href="{!! route('group_contents', array('group' => $recommended->urlname)) !!}">{{{ Str::limit($recommended->name, 50) }}}</a></h6>
+            <h6 class="media-heading">
+                <a href="{!! route('group_contents', ['group' => $recommended->urlname]) !!}">
+                    {{{ Str::limit($recommended->name, 50) }}}
+                </a>
+            </h6>
 
             <small>
                 <i class="fa fa-tag" style="color: #D3D3D3;"></i>

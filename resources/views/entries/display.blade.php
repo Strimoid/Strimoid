@@ -38,7 +38,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
         <div class="form-group col-lg-12 pull-right @if ($errors->has('groupname')) has-error @endif">
             <div class="input-group input-group-appended">
-                {!! Form::text('groupname', $suggestedGroup, array('class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...')) !!}
+                {!! Form::text('groupname', $suggestedGroup, ['class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...']) !!}
 
                 <div class="input-group-btn">
                     <button type="submit" class="btn btn-primary">Dodaj</button>

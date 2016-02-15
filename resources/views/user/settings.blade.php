@@ -86,9 +86,9 @@
                 </div>
             </div>
 
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'age', 'label' => 'Rok urodzenia', 'value' => $user->age ?: ''))
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'location', 'label' => 'Miejscowość', 'value' => $user->location))
-            @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'O sobie', 'value' => $user->description))
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'age', 'label' => 'Rok urodzenia', 'value' => $user->age ?: ''])
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'location', 'label' => 'Miejscowość', 'value' => $user->location])
+            @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => 'O sobie', 'value' => $user->description])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
@@ -188,12 +188,12 @@
                 </div>
             </div>
 
-            @include('global.form.input_select', array('name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25), 'options' => app('settings')->getOptions('contents_per_page')))
-            @include('global.form.input_select', array('name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25), 'options' => app('settings')->getOptions('entries_per_page')))
+            @include('global.form.input_select', ['name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25], 'options' => app('settings')->getOptions('contents_per_page')))
+            @include('global.form.input_select', ['name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25], 'options' => app('settings')->getOptions('entries_per_page')))
 
-            @include('global.form.input_select', array('name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'), 'options' => app('settings')->getOptions('timezone')))
+            @include('global.form.input_select', ['name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'], 'options' => app('settings')->getOptions('timezone')))
 
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => @$user->settings['css_style'], 'placeholder' => 'http://link.do/stylu.css'))
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => @$user->settings['css_style'], 'placeholder' => 'http://link.do/stylu.css'])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">

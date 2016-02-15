@@ -18,7 +18,7 @@ else
 
         <ul class="dropdown-menu" role="menu">
             <li style="padding: 5px">
-                {!! Form::open(array('action' => 'FolderController@copyFolder', 'class' => 'form-horizontal')) !!}
+                {!! Form::open(['action' => 'FolderController@copyFolder', 'class' => 'form-horizontal']) !!}
                 <div class="input-group">
                     <input type="hidden" name="user" value="{!! $folder->user->_id !!}">
                     <input type="hidden" name="folder" value="{!! $folder->_id !!}">

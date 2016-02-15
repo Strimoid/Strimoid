@@ -17,8 +17,8 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                {!! Form::open(array('action' => array('OAuthController@authorize',
-                'response_type' => Input::get('response_type'),
+                {!! Form::open(['action' => array('OAuthController@authorize',
+                'response_type' => Input::get('response_type'],
                 'client_id' => Input::get('client_id'),
                 'redirect_uri' => Input::get('redirect_uri'),
                 'scope' => Input::get('scope'),

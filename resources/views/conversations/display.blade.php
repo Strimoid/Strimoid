@@ -3,7 +3,7 @@
 @section('content')
 
 @if (!$messages)
-{!! Form::open(array('action' => 'ConversationController@createConversation', 'class' => 'form-horizontal')) !!}
+{!! Form::open(['action' => 'ConversationController@createConversation', 'class' => 'form-horizontal']) !!}
 
 @include('global.form.input', ['type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'])
 @include('global.form.input', ['type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'])
@@ -50,7 +50,7 @@
 @endif
 
 @if (isset($conversation))
-{!! Form::open(['action' => array('ConversationController@sendMessage'), 'class' => 'form entry_add_form enter_send']) !!}
+{!! Form::open(['action' => ['ConversationController@sendMessage'], 'class' => 'form entry_add_form enter_send']) !!}
 <input type="hidden" name="id" value="{!! $conversation->hashId() !!}">
 
 <div class="panel-default entry">

@@ -8,12 +8,12 @@
 </div>
 @endif
 
-{!! Form::open(array('class' => 'form-horizontal')) !!}
+{!! Form::open(['class' => 'form-horizontal']) !!}
 {!! Form::hidden('token', $token) !!}
 
-@include('global.form.input', array('type' => 'email', 'name' => 'email', 'label' => 'Adres email'))
-@include('global.form.input', array('type' => 'password', 'name' => 'password', 'label' => 'Nowe hasło'))
-@include('global.form.input', array('type' => 'password', 'name' => 'password_confirmation', 'label' => 'Potwierdzenie hasła'))
+@include('global.form.input', ['type' => 'email', 'name' => 'email', 'label' => 'Adres email'])
+@include('global.form.input', ['type' => 'password', 'name' => 'password', 'label' => 'Nowe hasło'])
+@include('global.form.input', ['type' => 'password', 'name' => 'password_confirmation', 'label' => 'Potwierdzenie hasła'])
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">

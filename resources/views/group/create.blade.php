@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(array('action' => 'GroupController@createGroup', 'class' => 'form-horizontal')) !!}
+    {!! Form::open(['action' => 'GroupController@createGroup', 'class' => 'form-horizontal']) !!}
 
     <div class="form-group @if ($errors->has('urlname')) has-error @endif">
         <label for="urlname" class="col-lg-3 control-label">Adres grupy</label>
@@ -20,8 +20,8 @@
         </div>
     </div>
 
-    @include('global.form.input', array('type' => 'text', 'name' => 'groupname', 'label' => 'Nazwa grupy'))
-    @include('global.form.input', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis grupy'))
+    @include('global.form.input', ['type' => 'text', 'name' => 'groupname', 'label' => 'Nazwa grupy'])
+    @include('global.form.input', ['type' => 'textarea', 'name' => 'description', 'label' => 'Opis grupy'])
 
     {{--<div class="form-group">
         <label class="control-label col-lg-3">Rodzaj grupy</label>
