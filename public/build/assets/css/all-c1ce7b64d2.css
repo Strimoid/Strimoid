@@ -10060,6 +10060,7 @@ thead .glyphicon {
 }
 
 .navbar .open .login_menu {
+  padding: 12px;
   width: 250px;
 }
 
