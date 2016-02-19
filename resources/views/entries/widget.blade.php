@@ -63,10 +63,10 @@ $isReply = isset($isReply) ? true : false;
 
             <a class="entry_reply_link action_link">odpowiedz</a>
 
-            @if ($entry->canRemove(Auth::user()))
+            @if ($entry->canRemove(user()))
                 <a class="entry_remove_link action_link">usuń</a>
             @endif
-            @if ($entry->canEdit(Auth::user()))
+            @if ($entry->canEdit(user()))
                 <a class="entry_edit_link action_link">edytuj</a>
             @endif
         @endif

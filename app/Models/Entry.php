@@ -65,15 +65,20 @@ class Entry extends BaseModel
         return route('single_entry', $this);
     }
 
+    public function isAuthor(User $user = null)
+    {
+        $userId = $user ? $user->getKey() : auth()->id();
+
+        return (int) $userId === (int) $this->user_id;
+    }
+
     public function canEdit()
     {
-        return Auth::id() === $this->user_id
-            && $this->replies_count == 0;
+        return $this->isAuthor() && $this->replies_count == 0;
     }
 
     public function canRemove()
     {
-        return Auth::id() === $this->user_id
-            || Auth::user()->isModerator($this->group_id);
+        return $this->isAuthor() || user()->isModerator($this->group_id);
     }
 }

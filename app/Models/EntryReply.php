@@ -53,12 +53,11 @@ class EntryReply extends Entry
 
     public function canEdit()
     {
-        return Auth::id() === $this->user_id && $this->isLast();
+        return auth()->id() === $this->user_id && $this->isLast();
     }
 
     public function canRemove()
     {
-        return Auth::id() === $this->user_id
-            || Auth::user()->isModerator($this->group_id);
+        return auth()->id() === $this->user_id || user()->isModerator($this->group_id);
     }
 }
