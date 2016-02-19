@@ -878,7 +878,7 @@ class MarkdownParser
         if (isset($Element['text'])) {
             $markup .= '>';
 
-            if (isset($Element['handler'])) {
+            if (isset($Element['handler']) && is_callable($Element)) {
                 $markup .= $this->$Element['handler']($Element['text']);
             } else {
                 $markup .= $Element['text'];
