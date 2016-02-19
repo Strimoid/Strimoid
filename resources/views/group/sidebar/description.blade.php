@@ -38,7 +38,7 @@ if (Auth::check()) {
                     @foreach (user()->folders as $folder)
                     <li>
                         <label>
-                            <input type="checkbox" class="modify_folder" data-id="{!! $folder->_id !!}" @if(in_[$group->_id, $folder->groups]) checked @endif>
+                            <input type="checkbox" class="modify_folder" data-id="{!! $folder->_id !!}" {{ in_array($group->getKey(), $folder->groups) ? 'checked' : '' }}>
                              {{{ $folder->name }}}
                         </label>
                     </li>

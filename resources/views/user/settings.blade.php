@@ -188,10 +188,10 @@
                 </div>
             </div>
 
-            @include('global.form.input_select', ['name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25], 'options' => app('settings')->getOptions('contents_per_page')))
-            @include('global.form.input_select', ['name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25], 'options' => app('settings')->getOptions('entries_per_page')))
+            @include('global.form.input_select', ['name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25), 'options' => app('settings')->getOptions('contents_per_page')])
+            @include('global.form.input_select', ['name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25), 'options' => app('settings')->getOptions('entries_per_page')])
 
-            @include('global.form.input_select', ['name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'], 'options' => app('settings')->getOptions('timezone')))
+            @include('global.form.input_select', ['name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'), 'options' => app('settings')->getOptions('timezone')])
 
             @include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => @$user->settings['css_style'], 'placeholder' => 'http://link.do/stylu.css'])
 
