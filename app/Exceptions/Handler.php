@@ -1,10 +1,14 @@
 <?php namespace Strimoid\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use League\OAuth2\Server\Exception\OAuthException;
 use Log;
 use Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -14,9 +18,10 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        'Symfony\Component\HttpKernel\Exception\HttpException',
-        'Illuminate\Database\Eloquent\ModelNotFoundException',
-        'Illuminate\Session\TokenMismatchException',
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
     ];
 
     /**
@@ -56,15 +61,15 @@ class Handler extends ExceptionHandler
             ], $e->httpStatusCode);
         }
 
-        if (config('app.debug'))
-        {
+        if (config('app.debug')) {
             $handler = new \Whoops\Handler\PrettyPageHandler;
             $handler->setEditor('sublime');
 
             $whoops = new \Whoops\Run;
             $whoops->pushHandler($handler);
 
-            return response($whoops->handleException($e),
+            return response(
+                $whoops->handleException($e),
                 $e->getStatusCode(),
                 $e->getHeaders()
             );
