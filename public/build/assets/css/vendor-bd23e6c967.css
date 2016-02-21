@@ -63,16 +63,31 @@
 .bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
-/* perfect-scrollbar v0.6.5 */
+/* perfect-scrollbar v0.6.10 */
 
 .ps-container {
   -ms-touch-action: none;
+  touch-action: none;
   overflow: hidden !important;
+  -ms-overflow-style: none;
+}
+
+@supports (-ms-overflow-style: none) {
+  .ps-container {
+    overflow: auto !important;
+  }
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ps-container {
+    overflow: auto !important;
+  }
 }
 
 .ps-container.ps-active-x > .ps-scrollbar-x-rail,
 .ps-container.ps-active-y > .ps-scrollbar-y-rail {
   display: block;
+  background-color: transparent;
 }
 
 .ps-container.ps-in-scrolling {
@@ -103,7 +118,6 @@
   /* please don't change 'position' */
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
   border-radius: 4px;
   opacity: 0;
   -webkit-transition: background-color .2s linear, opacity .2s linear;
@@ -121,7 +135,6 @@
   background-color: #aaa;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
   border-radius: 4px;
   -webkit-transition: background-color .2s linear;
   -moz-transition: background-color .2s linear;
@@ -138,7 +151,6 @@
   /* please don't change 'position' */
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
   border-radius: 4px;
   opacity: 0;
   -webkit-transition: background-color .2s linear, opacity .2s linear;
@@ -156,7 +168,6 @@
   background-color: #aaa;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
   border-radius: 4px;
   -webkit-transition: background-color .2s linear;
   -moz-transition: background-color .2s linear;

@@ -92,7 +92,7 @@ Route::get('/register', ['as' => 'auth.register', 'middleware' => 'guest', 'uses
 Route::post('/register', ['middleware' => 'guest', 'uses' => 'Auth\RegistrationController@processRegistration']);
 Route::get('/account/activate/{token}', 'Auth\RegistrationController@activateAccount');
 
-Route::get('/remind', 'UserController@remindPassword');
+Route::get('/remind', ['as' => 'auth.remind', 'uses' => 'UserController@remindPassword']);
 Route::post('/remind', 'UserController@remindPassword');
 
 Route::get('/password/reset/{token}', 'UserController@showPasswordResetForm');

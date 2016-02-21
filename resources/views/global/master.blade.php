@@ -60,6 +60,10 @@ $navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' 
     @include('global.parts.footer')
 </footer>
 
+@if (auth()->guest())
+    @include('auth.login-modal')
+@endif
+
 <script src="/assets/js/laroute.js"></script>
 <script src="{{ elixir('assets/js/all.js') }}"></script>
 
