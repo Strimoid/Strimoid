@@ -31,6 +31,7 @@ elixir(function(mix) {
             'assets/css/vendor.css',
             'assets/js/all.js',
             'assets/js/riot.js',
-            'assets/js/vendor.js'
+            'assets/js/vendor.js',
+            'assets/js/laroute.js'
        ])
 });

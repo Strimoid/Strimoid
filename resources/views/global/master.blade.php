@@ -64,7 +64,7 @@ $navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' 
     @include('auth.login-modal')
 @endif
 
-<script src="/assets/js/laroute.js"></script>
+<script src="{{ elixir('assets/js/laroute.js') }}"></script>
 <script src="{{ elixir('assets/js/all.js') }}"></script>
 
 @if (Auth::check())
