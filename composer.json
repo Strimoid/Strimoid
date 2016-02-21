@@ -45,7 +45,8 @@
           "jenssegers/raven": "^1.4",
           "laravel/socialite": "^2.0",
           "symfony/dom-crawler": "^3.0",
-          "symfony/css-selector": "^3.0"
+          "symfony/css-selector": "^3.0",
+            "anhskohbo/no-captcha": "^2.1"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "~2.1",
