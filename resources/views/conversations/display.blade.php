@@ -16,7 +16,7 @@
 {!! Form::close() !!}
 @else
 
-{!! with(new BootstrapPresenter($messages))->render() !!}
+{!! $messages->links() !!}
 
 <div class="conversation_messages">
 

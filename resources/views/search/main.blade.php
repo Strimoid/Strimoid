@@ -34,7 +34,7 @@
     <?php $group = null; ?>
 @endif
 
-{!! with(new BootstrapPresenter($results->appends(['q' => $q, 't' => $t])))->render() !!}
+{!! $results->appends(['q' => $q, 't' => $t])->links() !!}
 
 @endif
 

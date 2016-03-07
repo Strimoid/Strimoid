@@ -107,7 +107,7 @@
 
     @endforeach
 
-    {!! with(new BootstrapPresenter($actions))->render() !!}
+    {!! $actions->links() !!}
 
     @endif
 @stop

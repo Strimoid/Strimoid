@@ -7,7 +7,7 @@
 
 <?php $group = null; ?>
 
-{!! with(new BootstrapPresenter($groups))->render() !!}
+{!! $groups->links() !!}
 @stop
 
 @section('sidebar')

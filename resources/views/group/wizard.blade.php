@@ -26,7 +26,6 @@
 <?php $group = null;?>
 
 {!! $groups->appends(['sort' => Input::get('sort')])!!}
-{{--!! with(new BootstrapPresenter($groups))->render() !!--}}
 @stop
 
 @section('sidebar')

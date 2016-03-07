@@ -77,7 +77,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 </div>
 
 @if (is_object($entries))
-    {!! with(new BootstrapPresenter($entries))->render() !!}
+    {!! $entries->links() !!}
 @endif
 
 @stop

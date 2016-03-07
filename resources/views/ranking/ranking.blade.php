@@ -53,7 +53,7 @@
 
 </table>
 
-{!! with(new BootstrapPresenter($users))->render() !!}
+{!! $users->links() !!}
 
 @stop
 
