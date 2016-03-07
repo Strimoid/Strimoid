@@ -14,32 +14,7 @@ $navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' 
 ?>
 
 @include('global.parts.groupbar')
-
-<div class="navbar navbar-inverse navbar-{{ $navbarClass }}">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/static/img/logo.png" alt="Strimoid">
-        </a>
-
-        <ul class="nav navbar-nav">
-            @include('global.parts.tabs')
-        </ul>
-
-        <ul class="nav navbar-nav pull-right">
-            <li class="nav-item">
-                <a class="toggle_night_mode">
-                    <i class="fa fa-adjust"></i>
-                </a>
-            </li>
-            @if (Auth::check())
-                @include('global.parts.notifications')
-                @include('global.parts.user_dropdown')
-            @else
-                @include('global.parts.login')
-            @endif
-        </ul>
-    </div>
-</div>
+@include('global.parts.navbar')
 
 <div class="container @if (@Auth::user()->settings['pin_navbar']) navbar-fixed-margin @endif">
     <div class="row">
@@ -101,7 +76,7 @@ $navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' 
     <noscript><p><img src="//piwik.strm.pl/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 
     @if (config('services.raven.public_dsn'))
-        <script src="//cdn.ravenjs.com/2.1.1/console/raven.min.js"></script>
+        <script src="//cdn.ravenjs.com/2.2.0/console/raven.min.js"></script>
         <script>
             Raven.config('{{ config('services.raven.public_dsn') }}').install()
         </script>

@@ -18,7 +18,7 @@
     <div class="col-sm-2">
         <ul>
             <li><a href="/rss" rel="nofollow">RSS</a></li>
-            <li><a href="http://developers.strimoid.pl/" rel="nofollow">API</a></li>
+            <li><a href="https://developers.strm.pl" rel="nofollow">API</a></li>
         </ul>
     </div>
 
