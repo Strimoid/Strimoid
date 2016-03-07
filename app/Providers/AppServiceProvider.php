@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Pagination\BootstrapFourPresenter;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Pdp\Parser;
 use Pdp\PublicSuffixListManager;
@@ -30,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
 
         $locale = config('app.locale');
         Carbon::setLocale($locale);
+
+        Paginator::presenter(function($paginator) {
+            return new BootstrapFourPresenter($paginator);
+        });
     }
 
     /**
