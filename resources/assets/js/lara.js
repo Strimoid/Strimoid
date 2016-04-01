@@ -646,7 +646,7 @@ $(document).ready(function() {
                 url: '/users.json',
                 filter: function(d) {
                     if (window.blocked_users)
-                        return _.filter(d, function(u){ return !_.contains(window.blocked_users, u.value); })
+                        return _.filter(d, function(u){ return !_.includes(window.blocked_users, u.value); })
                     else
                         return d;
                 }

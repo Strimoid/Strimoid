@@ -1698,7 +1698,7 @@ $(document).ready(function () {
                 url: '/users.json',
                 filter: function filter(d) {
                     if (window.blocked_users) return _.filter(d, function (u) {
-                        return !_.contains(window.blocked_users, u.value);
+                        return !_.includes(window.blocked_users, u.value);
                     });else return d;
                 }
             }
