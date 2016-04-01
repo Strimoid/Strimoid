@@ -619,9 +619,9 @@ $(document).ready(function() {
                 url: '/groups.json',
                 filter: function(d) {
                     if (window.settings && window.settings.homepage_subscribed)
-                        return _.filter(d, function(g){ return _.contains(window.subscribed_groups, g.value); })
+                        return _.filter(d, function(g){ return _.includes(window.subscribed_groups, g.value); })
                     else
-                        return _.filter(d, function(g){ return !_.contains(window.blocked_groups, g.value); })
+                        return _.filter(d, function(g){ return !_.includes(window.blocked_groups, g.value); })
                 }
             },
             sorter: function(a, b) {
