@@ -72,7 +72,7 @@ class UserController extends BaseController
         Auth::user()->password = $request->get('password');
         Auth::user()->save();
 
-        return Redirect::action('UserController@showSettings')
+        return Redirect::action('SettingsController@showSettings')
             ->with('success_msg', 'Hasło zostało zmienione.');
     }
 
@@ -90,10 +90,10 @@ class UserController extends BaseController
         Auth::user()->save();
 
         Mail::send('emails.auth.email_change', ['user' => Auth::user()], function ($message) use ($email) {
-            $message->to($email, Auth::user()->name)->subject('Potwierdź zmianę adresu email');
+            $message->to($email, user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
-        return Redirect::action('UserController@showSettings')
+        return Redirect::action('SettingsController@showSettings')
             ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
