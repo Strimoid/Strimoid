@@ -10945,10 +10945,12 @@ body.night .content_preview_link {
   background: #505050;
 }
 
+body.night .entry_reply,
 body.night .comment_reply {
   background: #2B2B2B;
 }
 
+body.night .comment.highlighted,
 body.night .entry.highlighted {
   background: #63635B;
 }
