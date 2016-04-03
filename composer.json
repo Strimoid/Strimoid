@@ -46,7 +46,9 @@
           "laravel/socialite": "^2.0",
           "symfony/dom-crawler": "^3.0",
           "symfony/css-selector": "^3.0",
-          "anhskohbo/no-captcha": "^2.1"
+          "anhskohbo/no-captcha": "^2.1",
+          "dingo/api": "1.0.x@dev",
+          "thomaswelton/laravel-gravatar": "^1.1"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "~2.1",
