@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'no-reply@strm.pl', 'name' => 'Strimoid'],
+    'from' => ['address' => 'kontakt@strm.pl', 'name' => 'Strm.pl'],
 
     /*
     |--------------------------------------------------------------------------
