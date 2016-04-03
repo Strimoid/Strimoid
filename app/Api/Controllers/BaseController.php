@@ -1,4 +1,4 @@
-<?php namespace Strimoid\Http\Controllers\Api;
+<?php namespace Strimoid\Api\Controllers;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;

@@ -167,6 +167,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Strimoid\Providers\ApiServiceProvider::class,
         Strimoid\Providers\AppServiceProvider::class,
         Strimoid\Providers\ComposerServiceProvider::class,
         Strimoid\Providers\EventsServiceProvider::class,

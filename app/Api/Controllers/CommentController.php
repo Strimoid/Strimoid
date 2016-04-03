@@ -1,4 +1,4 @@
-<?php namespace Strimoid\Http\Controllers\Api;
+<?php namespace Strimoid\Api\Controllers;
 
 use App;
 use Auth;

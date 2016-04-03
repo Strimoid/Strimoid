@@ -1,4 +1,4 @@
-<?php namespace Strimoid\Http\Controllers\Api;
+<?php namespace Strimoid\Api\Controllers;
 
 use Input;
 use Strimoid\Models\Group;
