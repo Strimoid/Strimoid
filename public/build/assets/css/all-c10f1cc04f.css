@@ -10741,7 +10741,9 @@ body.night .navbar .container {
   background: #1c1c1c;
 }
 
-body.night .navbar .navbar-nav > .active > afocus {
+body.night .navbar .navbar-nav > .active > a,
+body.night .navbar .navbar-nav > .active > a:hover,
+body.night .navbar .navbar-nav > .active > a:focus {
   color: #DDD;
   background-color: #353535;
 }
@@ -10750,11 +10752,13 @@ body.night .navbar-inverse .navbar-nav > li {
   border-right: 1px solid #161616;
 }
 
-body.night .navbar-inverse .navbar-nav > lifirst-child {
+body.night .navbar-inverse .navbar-nav > li:first-child {
   border-left: 1px solid #161616;
 }
 
-body.night .navbar .navbar-nav .active afocus {
+body.night .navbar .navbar-nav .active a,
+body.night .navbar .navbar-nav .active a:hover,
+body.night .navbar .navbar-nav .active a:focus {
   color: #fff;
   background-color: #131313;
 }
@@ -10842,12 +10846,16 @@ body.night .btn-danger {
   border-color: #D43F3A;
 }
 
+body.night .pagination > li > a,
 body.night .pagination > li > span {
   background-color: #4D4D4D;
   border: 1px solid #696969;
 }
 
-body.night .pagination > .disabled > afocus {
+body.night .pagination > .disabled > span,
+body.night .pagination > .disabled > a,
+body.night .pagination > .disabled > a:hover,
+body.night .pagination > .disabled > a:focus {
   color: #999;
   cursor: not-allowed;
   background-color: #303030;
@@ -10894,11 +10902,14 @@ body.night a.list-group-item .list-group-item-heading {
   color: #C0C0C0;
 }
 
-body.night a.list-group-itemhover {
+body.night a.list-group-item:focus,
+body.night a.list-group-item:hover {
   background-color: #585858;
 }
 
-body.night .nav-tabs > li.active > ahover {
+body.night .nav-tabs > li.active > a,
+body.night .nav-tabs > li.active > a:focus,
+body.night .nav-tabs > li.active > a:hover {
   color: #E7E7E7;
   background: #333;
 }
@@ -10965,6 +10976,10 @@ body.night .label-default {
   background-color: #535353;
 }
 
+body.night .table tbody > tr > td,
+body.night .table tbody > tr > th,
+body.night .table tfoot > tr > td,
+body.night .table tfoot > tr > th,
 body.night .table thead > tr > td,
 body.night .table thead > tr > th {
   border-top: 1px solid #5E5E5E;
@@ -10995,6 +11010,7 @@ body.night .cm-s-default span.cm-number {
   color: #00a8c6;
 }
 
+body.night .cm-s-default span.cm-property,
 body.night .cm-s-default span.cm-attribute {
   color: #9ddfe9;
 }
