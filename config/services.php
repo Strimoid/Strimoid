@@ -28,6 +28,10 @@ return [
         'secret'        => env('MANDRILL_SECRET'),
     ],
 
+    'sparkpost' => [
+        'secret'        => env('SPARKPOST_SECRET'),
+    ],
+
     /**
     |--------------------------------------------------------------------------
     | Raven - used for reporting errors to Sentry
