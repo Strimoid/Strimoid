@@ -10828,7 +10828,8 @@ body.night .bootstrap-tagsinput {
   color: #BBB;
 }
 
-body.night .btn-default {
+body.night .btn-default,
+body.night .btn-secondary {
   border-color: #818181;
   color: #D8D8D8;
   background-color: #5A5A5A;
