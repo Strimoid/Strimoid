@@ -1,4 +1,4 @@
-<?php
+<?php // @codingStandardsIgnoreFile
 
 /* Auth ============================================================================================================= */
 Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => 'AuthController@showLoginForm']);

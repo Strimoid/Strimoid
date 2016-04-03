@@ -1,4 +1,4 @@
-<?php
+<?php // @codingStandardsIgnoreFile
 
 /* @var $api Dingo\Api\Routing\Router */
 
