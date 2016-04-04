@@ -70,7 +70,7 @@ class Settings
 
     public function set($key, $value)
     {
-        Auth::user()->settings()->where('key', $key)->updateOrCreate([
+        user()->settings()->where('key', $key)->updateOrCreate([
             'key'   => $key,
             'value' => $value,
         ]);
