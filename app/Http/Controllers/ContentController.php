@@ -397,18 +397,15 @@ class ContentController extends BaseController
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
 
-        $thumbnails = [];
-
         try {
-            $summon = new Summon($content->getURL());
-            $thumbnails = $summon->fetch();
+            $thumbnails = \OEmbed::getThumbnails($content->url);
         } catch (\Exception $e) {
+            $thumbnails = [];
         }
 
-        $websiteThumbnail = 'http://img.bitpixels.com/getthumbnail?code=74491&size=100&url='.urlencode($content->url);
-        $thumbnails['thumbnails'][] = $websiteThumbnail;
+        $thumbnails[] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=200&url='.urlencode($content->url);
 
-        Session::put('thumbnails', $thumbnails['thumbnails']);
+        Session::put('thumbnails', $thumbnails);
 
         return view('content.thumbnails', compact('content', 'thumbnails'));
     }

@@ -6,7 +6,7 @@
 
 <select class="image-picker" name="thumbnail">
     <option value=""></option>
-    @foreach ($thumbnails['thumbnails'] as $id => $thumbnail)
+    @foreach ($thumbnails as $id => $thumbnail)
         <option data-img-src="{!! $thumbnail !!}" value="{!! $id !!}"></option>
     @endforeach
 </select>
