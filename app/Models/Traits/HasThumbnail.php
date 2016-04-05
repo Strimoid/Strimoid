@@ -74,11 +74,11 @@ trait HasThumbnail
      */
     public function removeThumbnail()
     {
-        if (! $this->thumbnail) {
+        if (!$this->thumbnail) {
             return;
         }
 
         Storage::disk('uploads')->delete('thumbnails/'.$this->thumbnail);
-        $this->unset('thumbnail');
+        $this->thumbnail = null;
     }
 }
