@@ -4,50 +4,17 @@
     @include('global.parts.head')
 </head>
 
-<body class="@if (Input::get('night') || isset($_COOKIE['night_mode'])) night @endif">
+<body class="@if (isset($_COOKIE['night_mode'])) night @endif">
 
 <?php
 
 $currentRoute = Route::currentRouteName() ?: '';
-$navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
-    ? 'fixed-top' : 'static-top';
+$navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' : 'static-top';
 
 ?>
 
 @include('global.parts.groupbar')
-
-<div class="navbar navbar-inverse navbar-{!! $navbarClass !!}">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="/">
-                <img src="/static/img/logo.png" alt="Strimoid">
-            </a>
-        </div>
-
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                @include('global.parts.tabs')
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a><p class="toggle_night_mode"><span class="glyphicon glyphicon-adjust"></span></p></a></li>
-            @if (Auth::check())
-                @include('global.parts.notifications')
-                @include('global.parts.user_dropdown')
-            @else
-                @include('global.parts.login')
-            @endif
-            </ul>
-
-        </div>
-    </div>
-</div>
+@include('global.parts.navbar')
 
 <div class="container @if (@Auth::user()->settings['pin_navbar']) navbar-fixed-margin @endif">
     <div class="row">
@@ -68,7 +35,11 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
     @include('global.parts.footer')
 </footer>
 
-<script src="/assets/js/laroute.js"></script>
+@if (auth()->guest())
+    @include('auth.login-modal')
+@endif
+
+<script src="{{ elixir('assets/js/laroute.js') }}"></script>
 <script src="{{ elixir('assets/js/all.js') }}"></script>
 
 @if (Auth::check())
@@ -104,12 +75,12 @@ $navbarClass = (Auth::check() && @Auth::user()->settings['pin_navbar'])
     </script>
     <noscript><p><img src="//piwik.strm.pl/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 
-    <script src="//cdn.ravenjs.com/1.1.22/jquery,native/raven.min.js"></script>
-    <script>
-        Raven.config('https://92d245965d8911e5b64700224da9f05c@sentry.strm.pl/3', {
-            whitelistUrls: [/strm\.pl/]
-        }).install()
-    </script>
+    @if (config('services.raven.public_dsn'))
+        <script src="//cdn.ravenjs.com/2.2.0/console/raven.min.js"></script>
+        <script>
+            Raven.config('{{ config('services.raven.public_dsn') }}').install()
+        </script>
+    @endif
 @endif
 
 <script>

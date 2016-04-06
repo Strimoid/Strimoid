@@ -3,7 +3,7 @@
 <div class="well group_admin_widget">
     <div class="btn-group">
         <a href="{!! route('group_settings', $group->urlname) !!}">
-            <button type="button" class="btn btn-sm btn-default">Ustawienia</button>
+            <button type="button" class="btn btn-sm btn-secondary">Ustawienia</button>
         </a>
     </div>
 </div>

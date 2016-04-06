@@ -5,7 +5,7 @@ use ApiTester;
 class ContentsCest
 {
 
-    protected $endpoint = '/api/v1/contents';
+    protected $endpoint = 'contents';
 
     public function _before(ApiTester $I)
     {

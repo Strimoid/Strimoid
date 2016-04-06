@@ -3,12 +3,12 @@
 @section('content')
 
 @if (Auth::check() && Auth::user()->isModerator($group))
-{!! Form::open(array('action' => 'GroupController@addBan', 'class' => 'form-horizontal')) !!}
+{!! Form::open(['action' => 'GroupController@addBan', 'class' => 'form-horizontal']) !!}
 
 <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
 
-@include('global.form.input', array('type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'))
-@include('global.form.input', array('type' => 'text', 'name' => 'reason', 'label' => 'Powód zbanowania'))
+@include('global.form.input', ['type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'])
+@include('global.form.input', ['type' => 'text', 'name' => 'reason', 'label' => 'Powód zbanowania'])
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">
@@ -50,7 +50,7 @@
         <td>{{{ $ban->reason }}}</td>
 
         @if (Auth::check() && Auth::user()->isModerator($group))
-            <td><button type="button" class="btn btn-xs btn-default ban_remove_btn" data-id="{!! $ban->id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
+            <td><button type="button" class="btn btn-xs btn-secondary ban_remove_btn" data-id="{!! $ban->id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
         @endif
     </tr>
     @endforeach
@@ -59,15 +59,15 @@
 
 </table>
 
-{!! with(new BootstrapPresenter($bans))->render() !!}
+{!! $bans->links() !!}
 @stop
 
 @section('sidebar')
 @include('group.sidebar.add_content')
 
 @if (isset($group))
-@include('group.sidebar.description', array('group' => $group))
-@include('group.sidebar.stats', array('group' => $group))
+@include('group.sidebar.description', ['group' => $group])
+@include('group.sidebar.stats', ['group' => $group])
 @endif
 
 @include('group.sidebar.popular_contents')

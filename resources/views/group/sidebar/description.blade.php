@@ -14,21 +14,31 @@ if (Auth::check()) {
 
     <div class="row">
         <div class="col-lg-4">
-            <img src="{!! $group->getAvatarPath() !!}" alt="{!! $group->name !!}" style="width: 100%; height: 100%;">
+            <img src="{!! $group->getAvatarPath() !!}" alt="{{ $group->name }}" style="width: 100%; height: 100%;">
         </div>
         <div class="col-lg-8 group_info">
-            <h4 class="group_name">{!! $group->name !!} <small class="group_urlname">[g/{!! $group->urlname !!}]</small></h4>
+            <h4 class="group_name">
+                {{ $group->name }}
+                <small class="group_urlname">[g/{{ $group->urlname }}]</small>
+            </h4>
 
             @if (Auth::check())
-            <div class="btn-group group_buttons" data-name="{!! $group->urlname !!}">
-                <button type="button" class="btn btn-sm  group_subscribe_btn @if ($subscribed) btn-success @else btn-default @endif">Subskrybuj</button>
-                <button type="button" class="btn btn-sm  group_block_btn @if ($blocked) btn-danger @else btn-default @endif" title="Zablokuj"><span class="glyphicon glyphicon-ban-circle"></span></button>
-                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" title="Foldery"><span class="glyphicon glyphicon-folder-open"></span> <span class="caret"></span></button>
+            <div class="btn-group group_buttons" data-name="{{ $group->urlname }}">
+                <button type="button" class="btn btn-sm group_subscribe_btn @if ($subscribed) btn-success @else btn-secondary @endif">
+                    Subskrybuj
+                </button>
+                <button type="button" class="btn btn-sm group_block_btn @if ($blocked) btn-danger @else btn-secondary @endif" title="@lang('common.block')">
+                    <i class="fa fa-ban"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" title="@lang('common.folders')">
+                    <span class="fa fa-folder-open"></span>
+                    <span class="caret"></span>
+                </button>
                 <ul class="dropdown-menu folder-menu" role="menu" data-group="{{{ $group->getKey() }}}">
-                    @foreach (Auth::user()->folders as $folder)
+                    @foreach (user()->folders as $folder)
                     <li>
                         <label>
-                            <input type="checkbox" class="modify_folder" data-id="{!! $folder->_id !!}" @if(in_array($group->_id, $folder->groups)) checked @endif>
+                            <input type="checkbox" class="modify_folder" data-id="{!! $folder->_id !!}" {{ in_array($group->getKey(), $folder->groups) ? 'checked' : '' }}>
                              {{{ $folder->name }}}
                         </label>
                     </li>

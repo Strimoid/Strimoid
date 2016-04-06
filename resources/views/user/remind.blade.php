@@ -1,9 +1,9 @@
 @extends('global.master')
 
 @section('content')
-{!! Form::open(array('action' => 'UserController@remindPassword', 'class' => 'form-horizontal')) !!}
+{!! Form::open(['action' => 'UserController@remindPassword', 'class' => 'form-horizontal']) !!}
 
-@include('global.form.input', array('type' => 'email', 'name' => 'email', 'label' => 'Adres email'))
+@include('global.form.input', ['type' => 'email', 'name' => 'email', 'label' => 'Adres email'])
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">

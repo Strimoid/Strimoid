@@ -13,15 +13,18 @@
         <a href="{!! route('user_profile', $comment->user) !!}" class="comment_author">{!! $comment->user->getColoredName() !!}</a>
 
         <span class="pull-right">
-            <span class="glyphicon glyphicon-time"></span> <a href="{!! $comment->getURL() !!}" rel="nofollow"><time pubdate datetime="{!! $comment->created_at->format('c') !!}" title="{!! $comment->getLocalTime() !!}">{!! $comment->created_at->diffForHumans() !!}</time></a>
+            <span class="fa fa-clock-o"></span>
+            <a href="{!! $comment->getURL() !!}" rel="nofollow">
+                @include('global.el.time', ['date' => $comment->created_at])
+            </a>
 
             <span class="voting" data-id="{!! $comment->_id !!}" data-state="{!! $comment->getVoteState() !!}" data-type="comment">
-                <button type="button" class="btn btn-default btn-xs vote-btn-up @if ($comment->getVoteState() == 'uv') btn-success @endif">
-                    <span class="glyphicon glyphicon-arrow-up vote-up"></span> <span class="count">{!! $comment->uv !!}</span>
+                <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($comment->getVoteState() == 'uv') btn-success @endif">
+                    <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $comment->uv !!}</span>
                 </button>
 
-                <button type="button" class="btn btn-default btn-xs vote-btn-down @if ($comment->getVoteState() == 'dv') btn-danger @endif">
-                    <span class="glyphicon glyphicon-arrow-down vote-down"></span> <span class="count">{!! $comment->dv !!}</span>
+                <button type="button" class="btn btn-secondary btn-xs vote-btn-down @if ($comment->getVoteState() == 'dv') btn-danger @endif">
+                    <i class="fa fa-arrow-down vote-down"></i> <span class="count">{!! $comment->dv !!}</span>
                 </button>
             </span>
         </span>

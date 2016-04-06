@@ -1,34 +1,33 @@
-<li class="dropdown user_dropdown">
+<li class="nav-item dropdown user_dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <img src="{!! Auth::user()->getAvatarPath(50, 50) !!}">
-        {!! Auth::user()->name !!} <b class="caret"></b>
+        <img src="{!! user()->getAvatarPath(50, 50) !!}">
+        {{ user()->name }} <b class="caret"></b>
     </a>
 
-    <ul class="dropdown-menu user_menu">
-        <li>
-            <a href="{!! route('user_profile', user()) !!}">
-                <span class="glyphicon glyphicon-user"></span> {{ trans('common.your profile') }}
-            </a>
-        </li>
-        <li>
-            <a href="/conversations">
-                <span class="glyphicon glyphicon-envelope"></span> {{ trans('common.conversations') }}
-            </a>
-        </li>
-        <li>
-            <a href="{!! action('SettingsController@showSettings') !!}">
-                <span class="glyphicon glyphicon-wrench"></span> {{ trans('common.settings') }}
-            </a>
-        </li>
+    <div class="dropdown-menu user_menu">
+        <a class="dropdown-item" href="{!! route('user_profile', user()) !!}">
+            <i class="fa fa-user"></i>
+            {{ trans('common.your profile') }}
+        </a>
 
-        <li class="divider"></li>
+        <a class="dropdown-item" href="/conversations">
+            <i class="fa fa-envelope"></i>
+            {{ trans('common.conversations') }}
+        </a>
 
-        <li>
-            <a class="action_link" onclick="$('.logout_form').submit()">
-                <span class="glyphicon glyphicon-log-out"></span> {{ trans('common.logout') }}
-            </a>
-            {!! Form::open(['action' => 'AuthController@logout', 'class' => 'logout_form']) !!}
-            {!! Form::close() !!}
-        </li>
-    </ul>
+        <a class="dropdown-item" href="{!! action('SettingsController@showSettings') !!}">
+            <i class="fa fa-cogs"></i>
+            {{ trans('common.settings') }}
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <a class="dropdown-item action_link" onclick="$('.logout_form').submit()">
+            <i class="fa fa-sign-out"></i>
+            {{ trans('common.logout') }}
+        </a>
+
+        {!! Form::open(['action' => 'AuthController@logout', 'class' => 'logout_form']) !!}
+        {!! Form::close() !!}
+    </div>
 </li>

@@ -9,9 +9,9 @@
     <thead>
     <tr>
         <th></th>
-        <th><span class="glyphicon glyphicon-envelope"></span> Treść</th>
-        <th><span class="glyphicon glyphicon-user"></span> Autor</th>
-        <th><span class="glyphicon glyphicon-time"></span> Data</th>
+        <th><i class="fa fa-envelope"></i> Treść</th>
+        <th><i class="fa fa-user"></i> Autor</th>
+        <th><i class="fa fa-clock-o"></i> Data</th>
     </tr>
     </thead>
     <tbody>
@@ -29,7 +29,7 @@
 
 </table>
 
-{!! with(new BootstrapPresenter($notifications))->render() !!}
+{!! $notifications->links() !!}
 @stop
 
 @section('sidebar')

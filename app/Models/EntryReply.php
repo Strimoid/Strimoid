@@ -1,6 +1,5 @@
 <?php namespace Strimoid\Models;
 
-use Auth;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 
 class EntryReply extends Entry
@@ -42,7 +41,7 @@ class EntryReply extends Entry
     {
         $lastId = $this->parent->replies()
             ->orderBy('created_at', 'desc')
-            ->pluck('id');
+            ->value('id');
         return $lastId == $this->getKey();
     }
 
@@ -53,12 +52,11 @@ class EntryReply extends Entry
 
     public function canEdit()
     {
-        return Auth::id() === $this->user_id && $this->isLast();
+        return auth()->id() === $this->user_id && $this->isLast();
     }
 
     public function canRemove()
     {
-        return Auth::id() === $this->user_id
-            || Auth::user()->isModerator($this->group_id);
+        return auth()->id() === $this->user_id || user()->isModerator($this->group_id);
     }
 }

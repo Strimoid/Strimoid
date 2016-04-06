@@ -1,13 +1,13 @@
 @extends('global.master')
 
 @section('content')
-<div class="bs-example bs-example-tabs">
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a href="#profile" data-toggle="tab">Profil</a></li>
-        <li><a href="#settings" data-toggle="tab">Ustawienia</a></li>
-        <li><a href="#style" data-toggle="tab">Styl CSS</a></li>
-        <li><a href="#moderators" data-toggle="tab">Moderatorzy</a></li>
-        <li><a href="#blocked" data-toggle="tab">Zablokowani użytkownicy</a></li>
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ustawienia</a></li>
+        <li class="nav-item"><a class="nav-link" href="#style" data-toggle="tab">Styl CSS</a></li>
+        <li class="nav-item"><a class="nav-link" href="#moderators" data-toggle="tab">Moderatorzy</a></li>
+        <li class="nav-item"><a class="nav-link" href="#blocked" data-toggle="tab">Zablokowani użytkownicy</a></li>
     </ul>
 
     <div id="myTabContent" class="tab-content">
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'name', 'label' => 'Nazwa grupy', 'value' => $group->name))
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'name', 'label' => 'Nazwa grupy', 'value' => $group->name])
 
             <div class="form-group @if ($errors->has('avatar')) has-error @endif">
                 <label class="col-lg-3 control-label">Avatar</label>
@@ -36,9 +36,9 @@
                 </div>
             </div>
 
-            @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis grupy', 'value' => $group->description))
-            @include('global.form.input_value', array('type' => 'textarea', 'name' => 'sidebar', 'label' => 'Opis w sidebarze', 'value' => $group->sidebar_source))
-            @include('global.form.input_tags', array('type' => 'text', 'name' => 'tags', 'label' => 'Tagi', 'tags' => $group->tags))
+            @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => 'Opis grupy', 'value' => $group->description])
+            @include('global.form.input_value', ['type' => 'textarea', 'name' => 'sidebar', 'label' => 'Opis w sidebarze', 'value' => $group->sidebar_source])
+            @include('global.form.input_tags', ['type' => 'text', 'name' => 'tags', 'label' => 'Tagi', 'tags' => $group->tags])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            @include('global.form.input_tags', array('type' => 'text', 'name' => 'labels', 'label' => 'Lista etykiet', 'noun' => 'Etykiety', 'tags' => $group->labels))
+            @include('global.form.input_tags', ['type' => 'text', 'name' => 'labels', 'label' => 'Lista etykiet', 'noun' => 'Etykiety', 'tags' => $group->labels])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
@@ -77,9 +77,9 @@
         </div>
 
         <div class="tab-pane fade" id="style">
-            {!! Form::open(array('action' => array('GroupController@saveStyle', $group->urlname), 'class' => 'form-horizontal', 'style' => 'margin-top: 20px')) !!}
+            {!! Form::open(['action' => array('GroupController@saveStyle', $group->urlname], 'class' => 'form-horizontal', 'style' => 'margin-top: 20px')) !!}
 
-            @include('global.form.input_value', array('type' => 'textarea', 'class' => 'css_editor', 'name' => 'css', 'label' => 'Styl CSS', 'rows' => '20', 'value' => $css))
+            @include('global.form.input_value', ['type' => 'textarea', 'class' => 'css_editor', 'name' => 'css', 'label' => 'Styl CSS', 'rows' => '20', 'value' => $css])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
@@ -91,11 +91,11 @@
 
         <div class="tab-pane fade" id="moderators">
             @if (Auth::check() && Auth::user()->isAdmin($group))
-            {!! Form::open(array('action' => 'GroupController@addModerator', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px')) !!}
+            {!! Form::open(['action' => 'GroupController@addModerator', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
 
             <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
 
-            @include('global.form.input', array('type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'))
+            @include('global.form.input', ['type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
@@ -135,7 +135,7 @@
                     <td>{!! $x !!}</td>
                     <td><a href="{!! route('user_profile', $moderator->user->name) !!}">{!! $moderator->user->name !!}</a></td>
                     <td>{!! $moderator->created_at->diffForHumans() !!}</td>
-                    <td><button type="button" class="btn btn-xs btn-default">Usuń</button></td>
+                    <td><button type="button" class="btn btn-xs btn-secondary">Usuń</button></td>
                 </tr>
                 @endforeach
 

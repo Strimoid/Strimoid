@@ -4,8 +4,8 @@
 <div class="row">
     {!! Form::open(['action' => 'AuthController@login', 'class' => 'form-horizontal']) !!}
 
-    @include('global.form.input', array('type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'))
-    @include('global.form.input', array('type' => 'password', 'name' => 'password', 'label' => 'Hasło'))
+    @include('global.form.input', ['type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'])
+    @include('global.form.input', ['type' => 'password', 'name' => 'password', 'label' => 'Hasło'])
 
     <div class="form-group">
         <div class="col-lg-offset-3 col-lg-6">

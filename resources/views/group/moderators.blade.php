@@ -3,11 +3,11 @@
 @section('content')
 
 @if (Auth::check() && Auth::user()->isAdmin($group))
-{!! Form::open(array('action' => 'GroupController@addModerator', 'class' => 'form-horizontal')) !!}
+{!! Form::open(['action' => 'GroupController@addModerator', 'class' => 'form-horizontal']) !!}
 
 <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
 
-@include('global.form.input', array('type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'))
+@include('global.form.input', ['type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'])
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">
@@ -49,7 +49,7 @@
         <td><time pubdate datetime="{!! $moderator->created_at->format('c') !!}" title="{!! $moderator->getLocalTime() !!}">{!! $moderator->created_at->diffForHumans() !!}</time></td>
 
         @if (Auth::check() && Auth::user()->isAdmin($group))
-            <td><button type="button" class="btn btn-sm btn-default moderator_remove_btn" data-id="{!! $moderator->_id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
+            <td><button type="button" class="btn btn-sm btn-secondary moderator_remove_btn" data-id="{!! $moderator->_id !!}"><span class="glyphicon glyphicon-remove"></span> Usuń</button></td>
         @endif
     </tr>
     @endforeach
@@ -58,15 +58,15 @@
 
 </table>
 
-{!! with(new BootstrapPresenter($moderators))->render() !!}
+{!! $moderators->links() !!}
 @stop
 
 @section('sidebar')
 @include('group.sidebar.add_content')
 
 @if (isset($group))
-@include('group.sidebar.description', array('group' => $group))
-@include('group.sidebar.stats', array('group' => $group))
+@include('group.sidebar.description', ['group' => $group])
+@include('group.sidebar.stats', ['group' => $group])
 @endif
 
 @include('group.sidebar.popular_contents')

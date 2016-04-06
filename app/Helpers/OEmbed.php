@@ -19,22 +19,42 @@ class OEmbed
             $query = ['url' => $url];
             $data = Guzzle::get($this->endpoint(), compact('query'))->json();
 
-            return $this->findThumbnail($data);
+            $image = array_first($data['links'], function ($key, $value) {
+                return $this->isImage($value);
+            });
+
+            return data_get($image, 'href', null);
         } catch (RequestException $e) {
         }
+
+        return null;
     }
 
-    protected function findThumbnail($data)
+    public function getThumbnails($url)
     {
-        foreach ($data['links'] as $link) {
-            if (in_array('thumbnail', $link['rel'])) {
-                return $link['href'];
-            }
+        $query = ['url' => $url];
+        $data = Guzzle::get($this->endpoint(), compact('query'))->json();
 
-            if (in_array('file', $link['rel'])
-                && starts_with($link['type'], 'image')) {
-                return $link['href'];
-            }
+        $data = array_where($data['links'], function ($key, $value) {
+            return $this->isImage($value);
+        });
+
+        $data = array_pluck($data, 'href');
+
+        return $data;
+    }
+
+    protected function isImage($link)
+    {
+        $rel = data_get($link, 'rel', []);
+        $type = data_get($link, 'type');
+
+        if (in_array('thumbnail', $rel)) {
+            return true;
+        }
+
+        if (in_array('file', $rel) && starts_with($type, 'image')) {
+            return true;
         }
 
         return false;
@@ -56,6 +76,9 @@ class OEmbed
         return $html;
     }
 
+    /**
+     * @param boolean $autoPlay
+     */
     protected function fetchJson($url, $autoPlay)
     {
         try {
@@ -81,11 +104,13 @@ class OEmbed
         }
 
         foreach ($data['links'] as $link) {
-            if (in_array('file', $link['rel'])) {
+            $rel = data_get($link, 'rel', []);
+
+            if (in_array('file', $rel)) {
                 return $this->embedMedia($link);
             }
 
-            if (in_array('image', $link['rel'])) {
+            if (in_array('image', $rel)) {
                 return $this->embedImage($link['href']);
             }
         }

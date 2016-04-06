@@ -27,44 +27,48 @@
                 <small>
                     @if ($content->getEmbed())
                         <a class="content_preview_link">
-                            <span class="glyphicon glyphicon-play"></span>
+                            <i class="fa fa-play"></i>
                             podgląd
                         </a>
                     @endif
 
-                    <span class="glyphicon glyphicon-comment"></span>
+                        <i class="fa fa-comments"></i>
                         <a href="{{ route('content_comments_slug', [$content, Str::slug($content->title)]) }}"
                            class="content_comments">
                             {!! Lang::choice('pluralization.comments', intval($content->comments_count)) !!}</a>
-                    <span class="glyphicon glyphicon-tag"></span>
+
+                        <i class="fa fa-tag"></i>
                         <a href="{!! route('group_contents', $content->group) !!}" class="content_group"
                            data-hover="group_widget" data-group="{!! $content->group->urlname !!}">
                             {{ $content->group->urlname }}
                         </a>
-                    <span class="glyphicon glyphicon-user"></span>
+
+                        <i class="fa fa-user"></i>
                         <a href="{!! route('user_profile', $content->user) !!}" class="content_user"
                            data-hover="user_widget" data-user="{!! $content->user->name !!}">
                             {{ $content->user->name }}
                         </a>
-                    <span class="glyphicon glyphicon-globe"></span>
+
+                        <i class="fa fa-globe"></i>
                         <span class="content_domain">
                             {!! $content->getDomain() !!}
                         </span>
-                    <span class="glyphicon glyphicon-link"></span>
+
+                        <i class="fa fa-link"></i>
                         <span class="content_comments">
                             {!! intval($content->related_count) !!}
                         </span>
-                    <span class="glyphicon glyphicon-time"></span>
+
+                        <i class="fa fa-clock-o"></i>
                         <time pubdate datetime="{!! $content->created_at->getTimestamp() !!}"
                               title="{!! $content->getLocalTime() !!}">
                             {{ $content->createdAgo() }}
                         </time>
 
                     @if (Auth::check())
-                        <span class="glyphicon action_link save_content
-                            @if ($content->isSaved()) glyphicon-star
-                            @else glyphicon-star-empty @endif"
-                            title="zapisz"></span>
+                        <i class="fa action_link save_content
+                            @if ($content->isSaved()) fa-star @else fa-star-o @endif"
+                            title="zapisz"></i>
                     @endif
                 </small>
             </p>
@@ -72,9 +76,9 @@
 
         @if (Auth::check() && Auth::user()->isModerator($content->group_id))
         <div class="content_actions pull-right">
-            <a class="content_remove_link action_link"><span class="glyphicon glyphicon-trash"></span> usuń</a>
+            <a class="content_remove_link action_link">
+                <i class="fa fa-trash"></i> usuń
+            </a>
         </div>
         @endif
 </div>
-
-<div class="clearfix"></div>

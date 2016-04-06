@@ -3,7 +3,7 @@
 @section('content')
 
 @if (!$messages)
-{!! Form::open(array('action' => 'ConversationController@createConversation', 'class' => 'form-horizontal')) !!}
+{!! Form::open(['action' => 'ConversationController@createConversation', 'class' => 'form-horizontal']) !!}
 
 @include('global.form.input', ['type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'])
 @include('global.form.input', ['type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'])
@@ -16,7 +16,7 @@
 {!! Form::close() !!}
 @else
 
-{!! with(new BootstrapPresenter($messages))->render() !!}
+{!! $messages->links() !!}
 
 <div class="conversation_messages">
 
@@ -32,7 +32,10 @@
         <a href="{!! route('user_profile', $message->user) !!}" class="entry_author">{!! $message->user->getColoredName() !!}</a>
 
         <span class="pull-right">
-            <span class="glyphicon glyphicon-time"></span> <time pubdate datetime="{!! $message->created_at->format('c') !!}" title="{!! $message->getLocalTime() !!}">{!! $message->created_at->diffForHumans() !!}</time>
+            <span class="fa fa-clock-o"></span>
+            <time pubdate datetime="{!! $message->created_at->format('c') !!}" title="{!! $message->getLocalTime() !!}">
+                {!! $message->created_at->diffForHumans() !!}
+            </time>
         </span>
     </div>
 
@@ -47,7 +50,7 @@
 @endif
 
 @if (isset($conversation))
-{!! Form::open(['action' => array('ConversationController@sendMessage'), 'class' => 'form entry_add_form enter_send']) !!}
+{!! Form::open(['action' => ['ConversationController@sendMessage'], 'class' => 'form entry_add_form enter_send']) !!}
 <input type="hidden" name="id" value="{!! $conversation->hashId() !!}">
 
 <div class="panel-default entry">
@@ -78,7 +81,7 @@
 
 @section('sidebar')
     <div class="well">
-        <a href="{!! action('ConversationController@showCreateForm', ['user' => null]) !!}" class="btn btn-default">Rozpocznij nową konwersację</a>
+        <a href="{!! action('ConversationController@showCreateForm', ['user' => null]) !!}" class="btn btn-secondary">Rozpocznij nową konwersację</a>
     </div>
 
     @include('conversations.list')

@@ -2,10 +2,10 @@
 
 @section('content')
 
-{!! Form::open(array('action' => 'OAuthController@addApp', 'class' => 'form-horizontal')) !!}
+{!! Form::open(['action' => 'OAuthController@addApp', 'class' => 'form-horizontal']) !!}
 
-@include('global.form.input', array('type' => 'text', 'name' => 'name', 'label' => 'Nazwa aplikacji'))
-@include('global.form.input', array('type' => 'textarea', 'name' => 'redirect_url', 'label' => 'Redirect URL'))
+@include('global.form.input', ['type' => 'text', 'name' => 'name', 'label' => 'Nazwa aplikacji'])
+@include('global.form.input', ['type' => 'textarea', 'name' => 'redirect_url', 'label' => 'Redirect URL'])
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-6">

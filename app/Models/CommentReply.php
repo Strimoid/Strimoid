@@ -42,7 +42,7 @@ class CommentReply extends Comment
     {
         $lastId = $this->parent->replies()
             ->orderBy('created_at', 'desc')
-            ->pluck('id');
+            ->value('id');
         return $lastId == $this->getKey();
     }
 

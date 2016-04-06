@@ -88,6 +88,11 @@ if (! function_exists('toBool')) {
 }
 
 if (! function_exists('between')) {
+
+    /**
+     * @param integer $min
+     * @param integer $max
+     */
     function between($value, $min, $max)
     {
         $value = (int) $value;
@@ -110,6 +115,10 @@ if (! function_exists('user')) {
      */
     function user()
     {
+        if (auth()->guest()) {
+            return (object) [];
+        }
+
         return auth()->user();
     }
 }

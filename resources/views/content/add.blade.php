@@ -2,33 +2,46 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(['action' => 'ContentController@addContent', 'class' => 'form-horizontal content_add_form']) !!}
+    {!! Form::open([
+        'action' => 'ContentController@addContent',
+        'class' => 'form-horizontal content_add_form'
+    ]) !!}
     <input type="hidden" name="type" value="link">
 
     <p id="currentTab"></p>
 
     <div>
         <div class="row" style="margin-bottom: 20px">
-            <ul id="myTab" class="nav nav-tabs col-lg-offset-3 col-lg-6">
-                <li class="active"><a href="#link" data-toggle="tab"><span class="glyphicon glyphicon-link"></span>  Dodaj link</a></li>
-                <li><a href="#content" data-toggle="tab"><span class="glyphicon glyphicon-pencil"></span>  Dodaj własną treść</a></li>
+            <ul class="nav nav-tabs col-lg-offset-3 col-lg-6">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#link" data-toggle="tab">
+                        <i class="fa fa-link"></i>
+                        @lang('common.add link')
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#content" data-toggle="tab">
+                        <i class="fa fa-pencil"></i>
+                        @lang('common.add content')
+                    </a>
+                </li>
             </ul>
         </div>
 
-        @include('global.form.input_value', array('type' => 'text', 'class' => 'group_typeahead', 'name' => 'groupname', 'label' => 'Grupa', 'value' => Input::get('group')))
+        @include('global.form.input_value', ['type' => 'text', 'class' => 'group_typeahead', 'name' => 'groupname', 'label' => trans('common.group'), 'value' => Input::get('group')])
 
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade in active" id="link">
-                @include('global.form.input_value', array('type' => 'text', 'name' => 'url', 'label' => 'Adres URL', 'value' => Input::get('url')))
+                @include('global.form.input_value', ['type' => 'text', 'name' => 'url', 'label' => trans('common.url address'), 'value' => Input::get('url')])
             </div>
             <div class="tab-pane fade" id="content">
-                @include('global.form.input', array('type' => 'textarea', 'class' => 'md_editor', 'name' => 'text', 'label' => 'Twoja treść', 'rows' => 10))
+                @include('global.form.input', ['type' => 'textarea', 'class' => 'md_editor', 'name' => 'text', 'label' => 'Twoja treść', 'rows' => 10])
             </div>
         </div>
     </div>
 
-    @include('global.form.input_value', array('type' => 'text', 'name' => 'title', 'label' => 'Nazwa treści', 'maxlength' => '128', 'value' => Input::get('title')))
-    @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'Opis treści', 'maxlength' => '255', 'value' => Input::get('description')))
+    @include('global.form.input_value', ['type' => 'text', 'name' => 'title', 'label' => trans('common.title'), 'maxlength' => '128', 'value' => Input::get('title')])
+    @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => trans('common.description'), 'maxlength' => '255', 'value' => Input::get('description')])
 
     <div class="form-group">
         <label class="col-lg-3 control-label">Dodatkowe opcje</label>

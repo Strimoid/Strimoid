@@ -2,62 +2,65 @@
 
 @section('content')
 <div>
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active">
-            <a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-user"></span> Profil</a>
-        </li>
-        <li>
-            <a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-wrench"></span> Ustawienia</a>
-        </li>
-
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <span class="glyphicon glyphicon-lock"></span> Konto <span class="caret"></span>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#profile" data-toggle="tab">
+                <span class="fa fa-user"></span>
+                Profil
             </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="#password" data-toggle="tab">Zmiana hasła</a>
-                </li>
-                <li>
-                    <a href="#email" data-toggle="tab">Zmiana adresu email</a>
-                </li>
-            </ul>
         </li>
 
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item">
+            <a class="nav-link" href="#settings" data-toggle="tab">
+                <i class="fa fa-wrench"></i>
+                Ustawienia
+            </a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-lock"></i>
+                Konto
+                <span class="caret"></span>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#password" data-toggle="tab">Zmiana hasła</a>
+                <a class="dropdown-item" href="#email" data-toggle="tab">Zmiana adresu email</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Domeny <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="#domains" data-toggle="tab">Zablokowane</a>
-                </li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#domains" data-toggle="tab">Zablokowane</a>
+            </div>
         </li>
 
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Grupy <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li><a href="#subscribed" data-toggle="tab">Subskrybowane</a></li>
-                <li><a href="#moderated" data-toggle="tab">Moderowane</a></li>
-                <li><a href="#blocked" data-toggle="tab">Zablokowane</a></li>
-                <li><a href="#bans" data-toggle="tab">Twoje bany</a></li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#subscribed" data-toggle="tab">Subskrybowane</a>
+                <a class="dropdown-item" href="#moderated" data-toggle="tab">Moderowane</a>
+                <a class="dropdown-item" href="#blocked" data-toggle="tab">Zablokowane</a>
+                <a class="dropdown-item" href="#bans" data-toggle="tab">Twoje bany</a>
+            </div>
         </li>
 
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 Użytkownicy <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li><a href="#blockedusers" data-toggle="tab">Zablokowani użytownicy</a></li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#blockedusers" data-toggle="tab">Zablokowani użytownicy</a>
+            </div>
         </li>
     </ul>
 
-    <div id="myTabContent" class="tab-content">
+    <div class="tab-content">
         <div class="tab-pane fade in active" id="profile">
             {!! Form::open(['action' => 'UserController@saveProfile', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true]) !!}
 
@@ -83,9 +86,9 @@
                 </div>
             </div>
 
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'age', 'label' => 'Rok urodzenia', 'value' => $user->age ?: ''))
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'location', 'label' => 'Miejscowość', 'value' => $user->location))
-            @include('global.form.input_value', array('type' => 'textarea', 'name' => 'description', 'label' => 'O sobie', 'value' => $user->description))
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'age', 'label' => 'Rok urodzenia', 'value' => $user->age ?: ''])
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'location', 'label' => 'Miejscowość', 'value' => $user->location])
+            @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => 'O sobie', 'value' => $user->description])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
@@ -185,12 +188,12 @@
                 </div>
             </div>
 
-            @include('global.form.input_select', array('name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25), 'options' => app('settings')->getOptions('contents_per_page')))
-            @include('global.form.input_select', array('name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25), 'options' => app('settings')->getOptions('entries_per_page')))
+            @include('global.form.input_select', ['name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25), 'options' => app('settings')->getOptions('contents_per_page')])
+            @include('global.form.input_select', ['name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25), 'options' => app('settings')->getOptions('entries_per_page')])
 
-            @include('global.form.input_select', array('name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'), 'options' => app('settings')->getOptions('timezone')))
+            @include('global.form.input_select', ['name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'), 'options' => app('settings')->getOptions('timezone')])
 
-            @include('global.form.input_value', array('type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => @$user->settings['css_style'], 'placeholder' => 'http://link.do/stylu.css'))
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => @$user->settings['css_style'], 'placeholder' => 'http://link.do/stylu.css'])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
@@ -359,7 +362,7 @@
                 <label for="domain">Domena</label>
                 <input type="text" class="form-control" id="domain" placeholder="np. strims.pl" ng-model="domain">
               </div>
-              <button class="btn btn-default" ng-click="blockDomain(domain)">Zablokuj domenę</button>
+              <button class="btn btn-secondary" ng-click="blockDomain(domain)">Zablokuj domenę</button>
             </form>
         </div>
     </div>

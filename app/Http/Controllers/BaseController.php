@@ -23,7 +23,7 @@ class BaseController extends Controller
         $groupName = 'all';
 
         // Show popular instead of all as homepage for guests
-        $groupName = Auth::guest() ? 'popular' : $groupName;
+        // $groupName = Auth::guest() ? 'popular' : $groupName;
 
         // Maybe user is having subscribed set as his homepage?
         $subscribedEnabled = Settings::get('homepage_subscribed');

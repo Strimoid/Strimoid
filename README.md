@@ -9,8 +9,8 @@ Source code of Strimoid.pl, brand-new social service.
 
 Requirements
 ========
-* PHP 5.6+ / HHVM 3.7+
-* MySQL
+* PHP 5.6+ / HHVM 3.9+
+* MySQL (MariaDB 10.1 recommended, but might even work with PostgreSQL)
 
 API
 ========
@@ -20,19 +20,18 @@ Documentation
 ========
 We are providing documentation generated automatically by Sami at https://sami.strm.pl
 
-How to start?
+How to use?
 ========
-Install dependencies using Composer:
+Just type in your shell:
 
 ```
-composer install
+composer create-project strimoid/strimoid --prefer-dist
 ```
 
-Compile resources using Gulp:
+Then edit .env file and run:
 
 ```
-npm install
-gulp
+php artisan migrate
 ```
 
 To do

@@ -13,7 +13,7 @@
         @include('content.widget', ['content' => $content])
     @endforeach
 
-    {!! with(new BootstrapPresenter($contents))->render() !!}
+    {!! $contents->links() !!}
 @stop
 
 @section('sidebar')

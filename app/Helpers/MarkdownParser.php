@@ -879,7 +879,7 @@ class MarkdownParser
             $markup .= '>';
 
             if (isset($Element['handler'])) {
-                $markup .= $this->$Element['handler']($Element['text']);
+                $markup .= $this->{$Element['handler']}($Element['text']);
             } else {
                 $markup .= $Element['text'];
             }
@@ -945,6 +945,9 @@ class MarkdownParser
     # ~
     #
 
+    /**
+     * @param string $text
+     */
     public function line($text)
     {
         $markup = '';

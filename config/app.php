@@ -4,6 +4,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Environment
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services your application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'env' => env('APP_ENV', 'production'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Site name
     |--------------------------------------------------------------------------
     */
@@ -129,12 +142,11 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Routing\ControllerServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -155,6 +167,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Strimoid\Providers\ApiServiceProvider::class,
         Strimoid\Providers\AppServiceProvider::class,
         Strimoid\Providers\ComposerServiceProvider::class,
         Strimoid\Providers\EventsServiceProvider::class,
@@ -165,17 +178,21 @@ return [
         /*
          * Third party Service Providers...
          */
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Dingo\Api\Provider\LaravelServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
-        Laracasts\Utilities\JavaScript\JavascriptServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
         Msurguy\Honeypot\HoneypotServiceProvider::class,
+        Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
         TwigBridge\ServiceProvider::class,
         Vinkla\Algolia\AlgoliaServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
@@ -237,10 +254,12 @@ return [
         'Date'       => Carbon\Carbon::class,
         'Debugbar'   => Barryvdh\Debugbar\Facade::class,
         'Flash'      => Laracasts\Flash\Flash::class,
+        'Gravatar'   => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
         'Hashids'    => Vinkla\Hashids\Facades\Hashids::class,
         'Image'      => Intervention\Image\Facades\Image::class,
         'Markdown'   => GrahamCampbell\Markdown\Facades\Markdown::class,
         'Setting'    => Strimoid\Facades\Settings::class,
+        'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
         'Throttle'   => GrahamCampbell\Throttle\Facades\Throttle::class,
         'Twig'       => TwigBridge\Facade\Twig::class,
 

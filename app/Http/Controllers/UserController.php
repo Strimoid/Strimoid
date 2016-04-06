@@ -4,9 +4,7 @@ use App;
 use Auth;
 use Cache;
 use Carbon;
-use Config;
 use Illuminate\Contracts\Auth\PasswordBroker;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use Mail;
@@ -15,17 +13,11 @@ use Redirect;
 use Response;
 use Str;
 use Strimoid\Contracts\Repositories\UserRepository;
-use Strimoid\Models\CommentReply;
-use Strimoid\Models\EntryReply;
-use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use URL;
 
 class UserController extends BaseController
 {
-    // use ValidatesRequests;
-
     /**
      * @var UserRepository
      */
@@ -72,7 +64,7 @@ class UserController extends BaseController
         Auth::user()->password = $request->get('password');
         Auth::user()->save();
 
-        return Redirect::action('UserController@showSettings')
+        return Redirect::action('SettingsController@showSettings')
             ->with('success_msg', 'Hasło zostało zmienione.');
     }
 
@@ -90,10 +82,10 @@ class UserController extends BaseController
         Auth::user()->save();
 
         Mail::send('emails.auth.email_change', ['user' => Auth::user()], function ($message) use ($email) {
-            $message->to($email, Auth::user()->name)->subject('Potwierdź zmianę adresu email');
+            $message->to($email, user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
-        return Redirect::action('UserController@showSettings')
+        return Redirect::action('SettingsController@showSettings')
             ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
@@ -311,48 +303,5 @@ class UserController extends BaseController
         Auth::user()->pull('_blocked_domains', $domain);
 
         return Response::json(['status' => 'ok']);
-    }
-
-    public function show($username)
-    {
-        $user = User::name($username)->firstOrFail();
-
-        return $this->getInfo($user);
-    }
-
-    public function showCurrentUser()
-    {
-        $user = Auth::user();
-
-        $info = $this->getInfo($user);
-
-        $info['subscribed_groups'] = Auth::user()->subscribedGroups();
-        $info['blocked_groups'] = Auth::user()->blockedGroups();
-        $info['moderated_groups'] = Auth::user()->moderatedGroups();
-
-        $info['folders'] = Auth::user()->folders->toArray();
-
-        return $info;
-    }
-
-    public function getInfo($user)
-    {
-        $stats = [
-            'contents'         => (int) $user->contents->count(),
-            'comments'         => (int) $user->comments->count(),
-            'entries'          => (int) $user->entries->count(),
-            'moderated_groups' => intval(GroupModerator::where('user_id', $user->getKey())->count()),
-        ];
-
-        return [
-            'name'        => $user->name,
-            'age'         => $user->age,
-            'avatar'      => $user->avatar,
-            'description' => $user->description,
-            'joined'      => current($user->created_at),
-            'location'    => $user->location,
-            'sex'         => $user->sex,
-            'stats'       => $stats,
-        ];
     }
 }

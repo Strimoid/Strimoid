@@ -1,32 +1,37 @@
+var gulp = require('gulp')
 var elixir = require('laravel-elixir')
-
-require('laravel-elixir-bower')
-require('laravel-elixir-stylus')
+var bower = require('main-bower-files')
+var shell = require('gulp-shell')
 require('laravel-elixir-riot')
 
+elixir.config.css.outputFolder = 'assets/css'
+elixir.config.js.outputFolder = 'assets/js'
+
+elixir.extend('laroute', function(message) {
+    new elixir.Task('laroute', function() {
+        return gulp.src('').pipe(shell('php artisan laroute:generate'));
+    }).watch('./app/Http/routes.php')
+});
+
 elixir(function(mix) {
-    mix.bower('vendor.css', 'public/assets/css', 'vendor.js', 'public/assets/js')
-       .stylus(null, 'public/assets/stylus')
-       .stylesIn('public/assets/stylus', 'public/assets/css')
-       .riot(null, 'public/assets/riot')
-       .scripts([
+    mix.laroute()
+       .styles(bower('**/*.css'), 'public/assets/css/vendor.css', '/')
+       .scripts(bower('**/*.js'), 'public/assets/js/vendor.js', '/')
+       .sass('**/*.+(sass|scss)', 'public/assets/css/all.css')
+       .riot('**/*.tag', 'public/assets/js/riot.js')
+       .babel([
             'plugins/*.js',
             'modules/*.js',
             'lara.js'
-       ], 'public/assets/js', 'resources/assets/js')
-       .scriptsIn('public/assets/riot', 'public/assets/js/riot.js')
+       ])
+       .copy('bower_components/font-awesome/fonts', 'public/assets/fonts')
+       .copy('bower_components/font-awesome/fonts', 'public/build/assets/fonts')
        .version([
             'assets/css/all.css',
             'assets/css/vendor.css',
             'assets/js/all.js',
             'assets/js/riot.js',
-            'assets/js/vendor.js'
+            'assets/js/vendor.js',
+            'assets/js/laroute.js'
        ])
-});
-
-elixir(function(mix) {
-    mix.copy('bower_components/bootstrap/dist/fonts', 'public/assets/fonts')
-       .copy('bower_components/bootstrap/dist/fonts', 'public/build/assets/fonts')
-       .copy('bower_components/font-awesome/fonts', 'public/assets/fonts')
-       .copy('bower_components/font-awesome/fonts', 'public/build/assets/fonts')
 });

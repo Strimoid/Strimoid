@@ -1,5 +1,5 @@
 <div class="well group_stats_widget">
-    <h4>Statystyki</h4>
+    <h4>@lang('common.stats')</h4>
     <div class="row">
        <div class="col-lg-6">
             <p>{!! Lang::choice('pluralization.contents', $group->contents->count()) !!}</p>
