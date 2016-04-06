@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider
      * Bind object resolve function for given model class.
      *
      * @param Router $router
-     * @param $key
+     * @param string $key
      * @param $className
      */
     public function bindModel(Router $router, $key, $className)
