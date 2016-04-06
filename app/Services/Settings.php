@@ -63,6 +63,9 @@ class Settings
         return $timezones;
     }
 
+    /**
+     * @param string $key
+     */
     public function add($key, $options)
     {
         $this->settings[$key] = $options;

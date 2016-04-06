@@ -76,6 +76,9 @@ class OEmbed
         return $html;
     }
 
+    /**
+     * @param boolean $autoPlay
+     */
     protected function fetchJson($url, $autoPlay)
     {
         try {

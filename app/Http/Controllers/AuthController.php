@@ -20,7 +20,7 @@ class AuthController extends BaseController
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function login(Request $request)
     {
@@ -45,7 +45,7 @@ class AuthController extends BaseController
     /**
      * Logout current user.
      *
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function logout()
     {

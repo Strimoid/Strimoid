@@ -88,6 +88,11 @@ if (! function_exists('toBool')) {
 }
 
 if (! function_exists('between')) {
+
+    /**
+     * @param integer $min
+     * @param integer $max
+     */
     function between($value, $min, $max)
     {
         $value = (int) $value;

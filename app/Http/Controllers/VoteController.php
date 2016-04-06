@@ -3,7 +3,6 @@
 use Auth;
 use Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Input;
 use Response;
 use Strimoid\Models\Comment;
@@ -131,6 +130,9 @@ class VoteController extends BaseController
         return Response::json(['status' => 'ok', 'voters' => $results]);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection $object
+     */
     private function getVoteElement($object, $user)
     {
         if (!$object->votes()) return false;
