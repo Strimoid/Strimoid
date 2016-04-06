@@ -4,9 +4,7 @@ use App;
 use Auth;
 use Cache;
 use Carbon;
-use Config;
 use Illuminate\Contracts\Auth\PasswordBroker;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use Mail;
@@ -15,12 +13,8 @@ use Redirect;
 use Response;
 use Str;
 use Strimoid\Contracts\Repositories\UserRepository;
-use Strimoid\Models\CommentReply;
-use Strimoid\Models\EntryReply;
-use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use URL;
 
 class UserController extends BaseController
 {

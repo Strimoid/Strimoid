@@ -3,11 +3,8 @@
 use Auth;
 use Illuminate\Http\Request;
 use Response;
-use Str;
 use Strimoid\Http\Controllers\BaseController;
-use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
-use Vinkla\Pusher\Facades\Pusher;
 
 class AuthController extends BaseController
 {

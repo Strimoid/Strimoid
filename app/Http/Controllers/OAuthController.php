@@ -22,7 +22,7 @@ class OAuthController extends BaseController
     /**
      * Issue a new token.
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAccessToken()
     {

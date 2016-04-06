@@ -1,6 +1,5 @@
 <?php namespace Strimoid\Models;
 
-use Auth;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 
 class EntryReply extends Entry

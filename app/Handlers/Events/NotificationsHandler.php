@@ -2,14 +2,12 @@
 
 use Closure;
 use Illuminate\Support\Collection;
-use Str;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\ConversationMessage;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Notification;
-use Strimoid\Models\NotificationTarget;
 use Strimoid\Models\User;
 
 /**
@@ -213,7 +211,7 @@ class NotificationsHandler
     /**
      * Add users as targets of push notification.
      *
-     * @param $notification Notification
+     * @param Notification $notification Notification
      * @param $users
      */
     protected function addPushTargets($notification, $users)
@@ -229,7 +227,7 @@ class NotificationsHandler
     /**
      * Add users as targets of notification.
      *
-     * @param $notification Notification
+     * @param Notification $notification Notification
      * @param $users
      */
     protected function addTargets($notification, $users)

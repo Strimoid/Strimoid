@@ -30,7 +30,6 @@ class NewActionHandler
     /**
      * Bind given model listener to events handler.
      *
-     * @param string                        $model
      * @param \Illuminate\Events\Dispatcher $events
      */
     protected function addHandler($class, $events)

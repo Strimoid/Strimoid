@@ -59,6 +59,9 @@ class UpdateThresholds extends Command
         }
     }
 
+    /**
+     * @return double
+     */
     public function median($array)
     {
         // perhaps all non numeric values should filtered out of $array here?

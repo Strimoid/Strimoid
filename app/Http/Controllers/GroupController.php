@@ -13,7 +13,6 @@ use Storage;
 use Str;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBan;
-use Strimoid\Models\GroupBlock;
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\ModeratorAction;
 use Strimoid\Models\User;

@@ -2,14 +2,12 @@
 
 use App;
 use Auth;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use Queue;
 use Redirect;
 use Response;
 use Route;
-use Rss;
 use Session;
 use Setting;
 use Strimoid\Contracts\Repositories\ContentRepository;
@@ -17,7 +15,6 @@ use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
-use Summon\Summon;
 use Validator;
 
 class ContentController extends BaseController

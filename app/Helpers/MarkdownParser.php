@@ -945,6 +945,9 @@ class MarkdownParser
     # ~
     #
 
+    /**
+     * @param string $text
+     */
     public function line($text)
     {
         $markup = '';
