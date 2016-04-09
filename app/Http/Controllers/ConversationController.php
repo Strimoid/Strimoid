@@ -2,10 +2,8 @@
 
 use Auth;
 use Illuminate\Http\Request;
-use Input;
 use Redirect;
 use Strimoid\Models\Conversation;
-use Strimoid\Models\ConversationMessage;
 use Strimoid\Models\User;
 
 class ConversationController extends BaseController
@@ -16,7 +14,7 @@ class ConversationController extends BaseController
 
         $data['messages'] = [];
 
-        if ($conversation && $conversation->users->where('id', Auth::id())->count()) {
+        if ($conversation && $conversation->users->where('id', auth()->id())->count()) {
         } elseif ($conversations->first()) {
             $conversation = $conversations->first();
         }
@@ -41,30 +39,30 @@ class ConversationController extends BaseController
 
     public function createConversation(Request $request)
     {
-        $target = User::name(Input::get('username'))->firstOrFail();
+        $target = User::name(request('username'))->firstOrFail();
 
-        if ($target->getKey() == Auth::id()) {
-            return Redirect::action('ConversationController@showCreateForm')
+        if ($target->getKey() == auth()->id()) {
+            return redirect()->action('ConversationController@showCreateForm')
                 ->withInput()
                 ->with('danger_msg', 'Ekhm... wysyłanie wiadomości do samego siebie chyba nie ma sensu ;)');
         }
 
-        if ($target->isBlockingUser(Auth::user())) {
-            return Redirect::action('ConversationController@showCreateForm')
+        if ($target->isBlockingUser(user())) {
+            return redirect()->action('ConversationController@showCreateForm')
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zablokowany przez wybranego użytkownika.');
         }
 
         $this->validate($request, ['text' => 'required|max:10000']);
 
-        $conversation = Conversation::withUser(Auth::id())
+        $conversation = Conversation::withUser(auth()->id())
             ->withUser($target->getKey())
             ->first();
 
         if (!$conversation) {
             $conversation = Conversation::create([]);
             $conversation->users()->attach([
-                Auth::id(), $target->getKey()
+                auth()->id(), $target->getKey()
             ]);
         } else {
             $conversation->notifications()
@@ -77,7 +75,7 @@ class ConversationController extends BaseController
             'text'    => $request->input('text'),
         ]);
 
-        return Redirect::to('/conversations');
+        return redirect()->to('/conversations');
     }
 
     public function sendMessage(Request $request)
@@ -91,7 +89,7 @@ class ConversationController extends BaseController
         $target = $conversation->target();
 
         if ($target->isBlockingUser(Auth::user())) {
-            return Redirect::route('conversation', $conversation->getKey())
+            return redirect()->route('conversation', $conversation->getKey())
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zablokowany przez wybranego użytkownika.');
         }
@@ -105,7 +103,7 @@ class ConversationController extends BaseController
             'text'    => $request->input('text'),
         ]);
 
-        return Redirect::route('conversation', $conversation);
+        return redirect()->route('conversation', $conversation);
     }
 
     private function getConversations()
