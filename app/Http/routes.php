@@ -183,13 +183,13 @@ Route::get('/ajax/groups/subscribed', 'GroupController@showSubscribed');
 Route::get('/groups/create', ['middleware' => 'auth', 'uses' => 'GroupController@showCreateForm']);
 Route::post('/groups/create', ['middleware' => 'auth', 'uses' => 'GroupController@createGroup']);
 
-Route::post('/groups/add_moderator', ['middleware' => 'auth', 'uses' => 'GroupController@addModerator']);
-Route::post('/groups/remove_moderator', ['middleware' => 'auth', 'uses' => 'GroupController@removeModerator']);
+Route::post('/groups/add_moderator', ['middleware' => 'auth', 'uses' => 'Group\ModeratorController@addModerator']);
+Route::post('/groups/remove_moderator', ['middleware' => 'auth', 'uses' => 'Group\ModeratorController@removeModerator']);
 
 Route::post('/groups/ban', ['middleware' => 'auth', 'uses' => 'Group\BanController@addBan']);
 Route::post('/groups/unban', ['middleware' => 'auth', 'uses' => 'Group\BanController@removeBan']);
 
-Route::get('/g/{group}/moderators', ['as' => 'group_moderators', 'uses' => 'GroupController@showModeratorList']);
+Route::get('/g/{group}/moderators', ['as' => 'group_moderators', 'uses' => 'Group\ModeratorController@showModeratorList']);
 Route::get('/g/{group}/banned', ['as' => 'group_banned', 'uses' => 'Group\BanController@showBannedList']);
 
 Route::get('/g/{group}/settings', ['middleware' => 'auth', 'as' => 'group_settings', 'uses' => 'GroupController@showSettings']);
