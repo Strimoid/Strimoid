@@ -19,8 +19,6 @@ use Strimoid\Models\User;
 
 class GroupController extends BaseController
 {
-    // use ValidatesRequests;
-
     public function showList()
     {
         $builder = Group::with('creator')->where('type', '!=', 'private');
@@ -274,56 +272,7 @@ class GroupController extends BaseController
 
         return Response::json(['status' => 'ok']);
     }
-
-    public function showBannedList($group)
-    {
-        $bans = GroupBan::where('group_id', $group->getKey())
-            ->orderBy('created_at', 'desc')->with('user')->paginate(25);
-
-        return view('group.bans', compact('group', 'bans'));
-    }
-
-    public function addBan(Request $request)
-    {
-        $user = User::name($request->get('username'))->firstOrFail();
-        $group = Group::name($request->get('groupname'))->firstOrFail();
-
-        $this->validate($request, ['reason' => 'max:255']);
-
-        if ($request->get('everywhere') == '1') {
-            foreach (user()->moderatedGroups as $group) {
-                // $ban = GroupBan::group($request->get('groupname'))::user($request->get('username'));
-                $ban = GroupBan::where('group_id', $group->id)->where('user_id', $user->id)->first();
-                if (!$ban) {
-                    $group->banUser($user, $request->get('reason'));
-                }
-            }
-        } else {
-            if (!user()->isModerator($group)) {
-                abort(403, 'Access denied');
-            }
-            $ban = GroupBan::where('group_id', $group->id)->where('user_id', $user->id)->first();
-            if (!$ban) {
-                $group->banUser($user, $request->get('reason'));
-            }
-        }
-
-        return redirect()->route('group_banned', $group);
-    }
-
-    public function removeBan()
-    {
-        $ban = GroupBan::findOrFail(Input::get('id'));
-
-        if (!Auth::user()->isModerator($ban->group)) {
-            App::abort(403, 'Access denied');
-        }
-
-        $ban->delete();
-
-        return Response::json(['status' => 'ok']);
-    }
-
+    
     public function createGroup(Request $request)
     {
         // Require 15 minutes break before creating next group
