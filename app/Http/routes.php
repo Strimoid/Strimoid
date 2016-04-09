@@ -112,8 +112,8 @@ Route::get('/c/{content}', ['as' => 'content_comments', 'uses' => 'ContentContro
 Route::get('/c/{content}/frame', ['uses' => 'ContentController@showFrame']);
 Route::get('/ajax/content/{content}/embed', 'ContentController@getEmbedCode');
 
-Route::get('/c/{content}/thumbnail', ['middleware' => 'auth', 'uses' => 'ContentController@chooseThumbnail']);
-Route::post('/save_thumbnail', ['middleware' => 'auth', 'uses' => 'ContentController@saveThumbnail']);
+Route::get('/c/{content}/thumbnail', ['middleware' => 'auth', 'uses' => 'Content\ThumbnailController@chooseThumbnail']);
+Route::post('/save_thumbnail', ['middleware' => 'auth', 'uses' => 'Content\ThumbnailController@saveThumbnail']);
 
 Route::get('/add', ['middleware' => 'auth', 'uses' => 'ContentController@showAddForm']);
 Route::post('/add', ['middleware' => 'auth', 'uses' => 'ContentController@addContent']);
