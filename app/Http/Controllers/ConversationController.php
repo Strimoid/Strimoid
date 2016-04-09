@@ -117,28 +117,4 @@ class ConversationController extends BaseController
                 return $conversation->lastMessage->created_at;
             })->reverse();
     }
-
-    public function getIndex()
-    {
-        $conversations = Conversation::with('lastMessage', 'lastMessage.user')
-            ->withUser(Auth::id())
-            ->get()
-            ->sortBy(function ($conversation) {
-                return $conversation->lastMessage->created_at;
-            })->reverse();
-
-        return $conversations;
-    }
-
-    public function getMessages()
-    {
-        $ids = Conversation::withUser(Auth::id())->lists('id');
-
-        $messages = ConversationMessage::with('conversation')->with('user')
-            ->whereIn('conversation_id', $ids)
-            ->orderBy('created_at', 'desc')
-            ->paginate(50);
-
-        return $messages;
-    }
 }
