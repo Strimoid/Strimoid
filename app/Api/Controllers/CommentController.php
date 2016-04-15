@@ -1,11 +1,7 @@
 <?php namespace Strimoid\Api\Controllers;
 
-use App;
-use Auth;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
-use Response;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
@@ -13,8 +9,6 @@ use Strimoid\Models\CommentReply;
 
 class CommentController extends BaseController
 {
-    use ValidatesRequests;
-
     /**
      * @var FolderRepository
      */
@@ -38,15 +32,15 @@ class CommentController extends BaseController
     public function index()
     {
         if (Input::has('folder')) {
-            $username = Input::get('user', Auth::id());
-            $entity = $this->folders->getByName($username, Input::get('folder'));
+            $username = request('user', auth()->id());
+            $entity = $this->folders->getByName($username, request('folder'));
         } else {
-            $groupName = Input::get('group', 'all');
+            $groupName = request('group', 'all');
             $entity = $this->groups->getByName($groupName);
         }
 
-        $sortBy = in_array(Input::get('sort'), ['uv', 'created_at'])
-            ? Input::get('sort') : 'created_at';
+        $sortBy = in_array(request('sort'), ['uv', 'created_at'])
+            ? request('sort') : 'created_at';
 
         $builder = $entity->comments($sortBy)->with([
             'user', 'group', 'replies', 'replies.user',
@@ -54,11 +48,11 @@ class CommentController extends BaseController
 
         // Time filter
         if (Input::has('time')) {
-            $builder->fromDaysAgo(Input::get('time'));
+            $builder->fromDaysAgo(request('time'));
         }
 
         $perPage = Input::has('per_page')
-            ? between(Input::get('per_page'), 1, 100)
+            ? between(request('per_page'), 1, 100)
             : 20;
 
         return $builder->paginate($perPage);
@@ -68,20 +62,20 @@ class CommentController extends BaseController
     {
         $this->validate($request, Comment::rules());
 
-        if (Auth::user()->isBanned($content->group)) {
-            return Response::json([
+        if (user()->isBanned($content->group)) {
+            return response()->json([
                 'status' => 'error',
                 'error'  => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
         $comment = new Comment();
-        $comment->text = Input::get('text');
-        $comment->user()->associate(Auth::user());
+        $comment->text = request('text');
+        $comment->user()->associate(user());
         $comment->content()->associate($content);
         $comment->save();
 
-        return Response::json([
+        return response()->json([
             'status' => 'ok', '_id' => $comment->getKey(), 'comment' => $comment,
         ]);
     }
@@ -91,19 +85,19 @@ class CommentController extends BaseController
         $this->validate($request, CommentReply::rules());
         $content = $comment->content;
 
-        if (Auth::user()->isBanned($content->group)) {
-            return Response::json([
+        if (user()->isBanned($content->group)) {
+            return response()->json([
                 'status' => 'error',
                 'error'  => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
         $reply = new CommentReply();
-        $reply->text = Input::get('text');
-        $reply->user()->associate(Auth::user());
+        $reply->text = request('text');
+        $reply->user()->associate(user());
         $comment->replies()->save($comment);
 
-        return Response::json([
+        return response()->json([
             'status' => 'ok', '_id' => $reply->getKey(), 'comment' => $reply,
         ]);
     }
@@ -121,12 +115,12 @@ class CommentController extends BaseController
         $this->validate($request, $comment->rules());
 
         if (! $comment->canEdit()) {
-            App::abort(403);
+            abort(403);
         }
 
         $comment->update(Input::only('text'));
 
-        return Response::json(['status' => 'ok', 'comment' => $comment]);
+        return response()->json(['status' => 'ok', 'comment' => $comment]);
     }
 
     /**
@@ -139,11 +133,11 @@ class CommentController extends BaseController
     public function remove($comment)
     {
         if (! $comment->canRemove()) {
-            App::abort(403);
+            abort(403);
         }
 
         $comment->delete();
 
-        return Response::json(['status' => 'ok']);
+        return response()->json(['status' => 'ok']);
     }
 }

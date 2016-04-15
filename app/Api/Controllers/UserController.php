@@ -1,5 +1,8 @@
 <?php namespace Strimoid\Api\Controllers;
 
+use Strimoid\Models\GroupModerator;
+use Strimoid\Models\User;
+
 class UserController
 {
     public function show($username)
@@ -11,15 +14,15 @@ class UserController
 
     public function showCurrentUser()
     {
-        $user = Auth::user();
+        $user = user();
 
         $info = $this->getInfo($user);
 
-        $info['subscribed_groups'] = Auth::user()->subscribedGroups();
-        $info['blocked_groups'] = Auth::user()->blockedGroups();
-        $info['moderated_groups'] = Auth::user()->moderatedGroups();
+        $info['subscribed_groups'] = user()->subscribedGroups();
+        $info['blocked_groups'] = user()->blockedGroups();
+        $info['moderated_groups'] = user()->moderatedGroups();
 
-        $info['folders'] = Auth::user()->folders->toArray();
+        $info['folders'] = user()->folders->toArray();
 
         return $info;
     }

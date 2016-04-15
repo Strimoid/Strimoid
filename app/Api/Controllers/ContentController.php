@@ -1,10 +1,8 @@
 <?php namespace Strimoid\Api\Controllers;
 
-use Auth;
 use Illuminate\Http\Request;
 use Input;
 use Queue;
-use Response;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
@@ -39,41 +37,41 @@ class ContentController extends BaseController
     public function index()
     {
         if (Input::has('folder')) {
-            $username = Input::get('user', Auth::id());
-            $entity = $this->folders->getByName($username, Input::get('folder'));
+            $username = request('user', auth()->id());
+            $entity = $this->folders->getByName($username, request('folder'));
         } else {
-            $groupName = Input::get('group', 'all');
+            $groupName = request('group', 'all');
             $entity = $this->groups->requireByName($groupName);
         }
 
-        $type = Input::get('type', 'all');
+        $type = request('type', 'all');
         $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
-        $orderBy = in_array(Input::get('sort'), $canSortBy)
-            ? Input::get('sort')
+        $orderBy = in_array(request('sort'), $canSortBy)
+            ? request('sort')
             : null;
 
         $builder = $entity->contents($type, $orderBy)->with('group', 'user');
 
         // Time filter
-        $time = Input::get('time');
+        $time = request('time');
         if ($time) {
             $builder->fromDaysAgo($time);
         }
 
         // Domain filter
-        $domain = Input::get('domain');
+        $domain = request('domain');
         if ($domain) {
             $builder->where('domain', $domain);
         }
 
         // User filter
         if (Input::has('user')) {
-            $user = User::name(Input::get('user'))->firstOrFail();
+            $user = User::name(request('user'))->firstOrFail();
             $builder->where('user_id', $user->getKey());
         }
 
         $perPage = Input::has('per_page')
-            ? between(Input::get('per_page'), 1, 100)
+            ? between(request('per_page'), 1, 100)
             : 20;
 
         return $builder->paginate($perPage);
@@ -108,7 +106,7 @@ class ContentController extends BaseController
             'group'       => 'required|exists:groups,urlname',
         ];
 
-        if (Input::get('text')) {
+        if (request('text')) {
             $rules['text'] = 'required|min:1|max:50000';
         } else {
             $rules['url'] = 'required|url_custom';
@@ -116,18 +114,18 @@ class ContentController extends BaseController
 
         $this->validate($request, $rules);
 
-        $group = Group::name(Input::get('group'))->firstOrFail();
+        $group = Group::name(request('group'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isBanned($group)) {
-            return Response::json([
+        if (user()->isBanned($group)) {
+            return response()->json([
                 'status' => 'error',
                 'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 
-        if ($group->type == 'announcements' && ! Auth::user()->isModerator($group)) {
-            return Response::json([
+        if ($group->type == 'announcements' && ! user()->isModerator($group)) {
+            return response()->json([
                 'status' => 'error',
                 'error'  => 'Użytkownik nie może dodawać treści w tej grupie.',
             ], 400);
@@ -137,13 +135,13 @@ class ContentController extends BaseController
             'title', 'description', 'nsfw', 'eng',
         ]));
 
-        if (Input::get('text')) {
-            $content->text = Input::get('text');
+        if (request('text')) {
+            $content->text = request('text');
         } else {
-            $content->url = Input::get('url');
+            $content->url = request('url');
         }
 
-        $content->user()->associate(Auth::user());
+        $content->user()->associate(user());
         $content->group()->associate($group);
 
         $content->save();
@@ -158,7 +156,7 @@ class ContentController extends BaseController
             ]);
         }
 
-        return Response::json([
+        return response()->json([
             'status' => 'ok', '_id' => $content->getKey(), 'content' => $content,
         ]);
     }
@@ -171,8 +169,8 @@ class ContentController extends BaseController
      */
     public function edit(Request $request, $content)
     {
-        if (! $content->canEdit(Auth::user())) {
-            return Response::json([
+        if (! $content->canEdit(user())) {
+            return response()->json([
                 'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.',
             ], 400);
         }

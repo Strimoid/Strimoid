@@ -1,7 +1,11 @@
 <?php namespace Strimoid\Api\Controllers;
 
 use Input;
+use Strimoid\Models\Content;
+use Strimoid\Models\Entry;
 use Strimoid\Models\Group;
+use Strimoid\Models\GroupBan;
+use Strimoid\Models\GroupModerator;
 
 class GroupController extends BaseController
 {
@@ -33,7 +37,7 @@ class GroupController extends BaseController
             'contents'    => intval(Content::where('group_id', $group->getKey())->count()),
             'comments'    => intval(Content::where('group_id', $group->getKey())->sum('comments')),
             'entries'     => intval(Entry::where('group_id', $group->getKey())->count()),
-            'banned'      => intval(GroupBanned::where('group_id', $group->getKey())->count()),
+            'banned'      => intval(GroupBan::where('group_id', $group->getKey())->count()),
             'subscribers' => $group->subscribers,
             'moderators'  => intval(GroupModerator::where('group_id', $group->getKey())->count()),
         ];
