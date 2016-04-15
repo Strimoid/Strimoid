@@ -65,7 +65,7 @@ class ContentController extends BaseController
         }
 
         // Make it possible to browse everything by adding all parameter
-        if (Input::get('all')) {
+        if (request('all')) {
             $tab = null;
         }
 
@@ -77,7 +77,7 @@ class ContentController extends BaseController
         }
 
         $canSortBy = ['comments_count', 'uv', 'created_at', 'frontpage_at'];
-        $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
+        $orderBy = in_array(request('sort'), $canSortBy) ? request('sort') : null;
 
         $builder = $group->contents($tab, $orderBy);
 
@@ -100,11 +100,11 @@ class ContentController extends BaseController
         view()->share('folder', $folder);
 
         if (! $folder->canBrowse()) {
-            App::abort(404);
+            abort(404);
         }
 
         $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
-        $orderBy = in_array(Input::get('sort'), $canSortBy) ? Input::get('sort') : null;
+        $orderBy = in_array(request('sort'), $canSortBy) ? request('sort') : null;
 
         $builder = $folder->contents($tab, $orderBy);
 
@@ -119,7 +119,7 @@ class ContentController extends BaseController
             $builder->with('usave', 'vote');
         }
 
-        $this->filterByTime($builder, Input::get('time'));
+        $this->filterByTime($builder, request('time'));
 
         // Paginate and attach parameters to paginator links
         $perPage = Setting::get('entries_per_page', 25);
@@ -167,7 +167,7 @@ class ContentController extends BaseController
      */
     public function showComments($content)
     {
-        $sortBy = Input::get('sort');
+        $sortBy = request('sort');
 
         if (in_array($sortBy, ['uv', 'replies'])) {
             $content->comments = $content->comments->sortBy(function ($comment) use ($sortBy) {
@@ -204,7 +204,7 @@ class ContentController extends BaseController
      */
     public function showEditForm(Content $content)
     {
-        if (!$content->canEdit(Auth::user())) {
+        if (!$content->canEdit(user())) {
             return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
@@ -225,7 +225,7 @@ class ContentController extends BaseController
             'groupname'   => 'required|exists:groups,urlname',
         ];
 
-        if (Input::get('type') == 'link') {
+        if (request('type') == 'link') {
             $rules['url'] = 'required|url_custom|max:2048';
         } else {
             $rules['text'] = 'required|min:1|max:50000';
@@ -233,17 +233,17 @@ class ContentController extends BaseController
 
         $this->validate($request, $rules);
 
-        $group = Group::name(Input::get('groupname'))->firstOrFail();
+        $group = Group::name(request('groupname'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isBanned($group)) {
+        if (user()->isBanned($group)) {
             return Redirect::action('ContentController@showAddForm')
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
         if ($group->type == 'announcements'
-            && !Auth::user()->isModerator($group)) {
+            && !user()->isModerator($group)) {
             return Redirect::action('ContentController@showAddForm')
                 ->withInput()
                 ->with('danger_msg', 'Nie możesz dodawać treści do wybranej grupy');
@@ -253,18 +253,18 @@ class ContentController extends BaseController
             'title', 'description', 'nsfw', 'eng',
         ]));
 
-        if (Input::get('type') == 'link') {
-            $content->url = Input::get('url');
+        if (request('type') == 'link') {
+            $content->url = request('url');
         } else {
-            $content->text = Input::get('text');
+            $content->text = request('text');
         }
 
-        $content->user()->associate(Auth::user());
+        $content->user()->associate(user());
         $content->group()->associate($group);
 
         $content->save();
 
-        if (Input::get('thumbnail') == 'on') {
+        if (request('thumbnail') == 'on') {
             Queue::push('Strimoid\Handlers\DownloadThumbnail', [
                 'id' => $content->getKey(),
             ]);
@@ -280,7 +280,7 @@ class ContentController extends BaseController
      */
     public function editContent($content)
     {
-        if (!$content->canEdit(Auth::user())) {
+        if (!$content->canEdit(user())) {
             return Redirect::route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
         }
@@ -304,17 +304,14 @@ class ContentController extends BaseController
                 ->withErrors($validator);
         }
 
-        $content->title = Input::get('title');
-        $content->description = Input::get('description');
+        $data = request()->only(['title', 'description', 'nsfw', 'eng']);
+        $content->fill($data);
 
         if ($content->text) {
-            $content->text = Input::get('text');
+            $content->text = request('text');
         } else {
-            $content->url = Input::get('url');
+            $content->url = request('url');
         }
-
-        $content->nsfw = Input::get('nsfw');
-        $content->eng = Input::get('eng');
 
         $content->save();
 
@@ -328,7 +325,7 @@ class ContentController extends BaseController
      */
     public function removeContent($content = null)
     {
-        $id = hashids_decode(Input::get('id'));
+        $id = hashids_decode(request('id'));
         $content = $content ?: Content::findOrFail($id);
 
         if ($content->created_at->diffInMinutes() > 60) {
@@ -355,11 +352,11 @@ class ContentController extends BaseController
      */
     public function softRemoveContent()
     {
-        $id = hashids_decode(Input::get('id'));
+        $id = hashids_decode(request('id'));
         $content = Content::findOrFail($id);
 
-        if ($content->canRemove(Auth::user())) {
-            $content->deletedBy()->associate(Auth::user());
+        if ($content->canRemove(user())) {
+            $content->deletedBy()->associate(user());
             $content->save();
 
             $content->delete();
@@ -368,17 +365,5 @@ class ContentController extends BaseController
         }
 
         return Response::json(['status' => 'error']);
-    }
-
-    /**
-     * @param Content $content
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function getEmbedCode($content)
-    {
-        $embedCode = $content->getEmbed();
-
-        return Response::json(['status' => 'ok', 'code' => $embedCode]);
     }
 }

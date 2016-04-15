@@ -110,7 +110,7 @@ Route::get('/g/{groupname}/new/rss', [
 Route::get('/c/{content}', ['as' => 'content_comments', 'uses' => 'ContentController@showComments']);
 
 Route::get('/c/{content}/frame', ['uses' => 'ContentController@showFrame']);
-Route::get('/ajax/content/{content}/embed', 'ContentController@getEmbedCode');
+Route::get('/ajax/content/{content}/embed', 'Content\EmbedController@getEmbedCode');
 
 Route::get('/c/{content}/thumbnail', ['middleware' => 'auth', 'uses' => 'Content\ThumbnailController@chooseThumbnail']);
 Route::post('/save_thumbnail', ['middleware' => 'auth', 'uses' => 'Content\ThumbnailController@saveThumbnail']);
