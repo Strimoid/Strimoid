@@ -1,7 +1,5 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use App;
-use Auth;
 use Cache;
 use Carbon;
 use Illuminate\Contracts\Auth\PasswordBroker;
@@ -9,7 +7,6 @@ use Illuminate\Http\Request;
 use Input;
 use Mail;
 use PDP;
-use Redirect;
 use Response;
 use Str;
 use Strimoid\Contracts\Repositories\UserRepository;
@@ -51,7 +48,7 @@ class UserController extends BaseController
             ];
         }
 
-        return Response::json($users);
+        return $users;
     }
 
     public function changePassword(Request $request)
@@ -61,10 +58,10 @@ class UserController extends BaseController
             'old_password' => 'required|user_password',
         ]);
 
-        Auth::user()->password = $request->get('password');
-        Auth::user()->save();
+        user()->password = $request->get('password');
+        user()->save();
 
-        return Redirect::action('SettingsController@showSettings')
+        return redirect()->action('SettingsController@showSettings')
             ->with('success_msg', 'Hasło zostało zmienione.');
     }
 
@@ -74,32 +71,32 @@ class UserController extends BaseController
             'email' => 'required|email|unique_email:users|real_email',
         ]);
 
-        $email = Str::lower(Input::get('email'));
+        $email = Str::lower(request('email'));
 
-        Auth::user()->new_email = $email;
-        Auth::user()->email_change_token = Str::random(16);
+        user()->new_email = $email;
+        user()->email_change_token = Str::random(16);
 
-        Auth::user()->save();
+        user()->save();
 
-        Mail::send('emails.auth.email_change', ['user' => Auth::user()], function ($message) use ($email) {
+        Mail::send('emails.auth.email_change', ['user' => user()], function ($message) use ($email) {
             $message->to($email, user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
-        return Redirect::action('SettingsController@showSettings')
+        return redirect()->action('SettingsController@showSettings')
             ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
     public function confirmEmailChange($token)
     {
-        if ($token !== Auth::user()->email_change_token) {
-            return Redirect::to('')->with('danger_msg', 'Błędny token.');
+        if ($token !== user()->email_change_token) {
+            return redirect()->to('')->with('danger_msg', 'Błędny token.');
         }
 
-        Auth::user()->email = Auth::user()->new_email;
-        Auth::user()->unset(['email_change_token', 'new_email']);
-        Auth::user()->save();
+        user()->email = user()->new_email;
+        user()->unset(['email_change_token', 'new_email']);
+        user()->save();
 
-        return Redirect::to('')->with('success_msg', 'Adres email został zmieniony.');
+        return redirect()->to('')->with('success_msg', 'Adres email został zmieniony.');
     }
 
     public function remindPassword(Request $request)
@@ -146,19 +143,20 @@ class UserController extends BaseController
         $response = $this->passwords->reset($credentials, function ($user, $password) {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token) {
-                $cacheKey = 'registration.'.md5($request->getClientIp());
+                $cacheKey = 'registration.'.md5(request()->getClientIp());
 
                 if (Cache::has($cacheKey)) {
-                    return App::abort(500);
+                    return abort(500);
                 }
 
                 $user->unset('activation_token');
                 $user->is_activated = true;
             }
 
-            $user->password = bcrypt($password);
+            $user->password = $password;
             $user->save();
-            $this->auth->login($user);
+
+            auth()->login($user);
         });
 
         switch ($response) {
@@ -187,14 +185,14 @@ class UserController extends BaseController
             'password' => 'required|confirmed|user_password',
         ]);
 
-        Auth::user()->removed_at = new Carbon();
-        Auth::user()->type = 'deleted';
+        user()->removed_at = new Carbon();
+        user()->type = 'deleted';
 
-        Auth::user()->save();
+        user()->save();
 
-        Auth::logout();
+        auth()->logout();
 
-        return Redirect::to('')->with('success_msg', 'Twoje konto zostało usunięte.');
+        return redirect()->to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
 
     /**
@@ -208,8 +206,10 @@ class UserController extends BaseController
     public function showProfile($user, $type = 'all')
     {
         if ($user->removed_at) {
-            App::abort(404, 'Użytkownik usunął konto.');
+            abort(404, 'Użytkownik usunął konto.');
         }
+
+        $data = [];
 
         if ($type == 'contents') {
             $data['contents'] = $user->contents()->orderBy('created_at', 'desc')->paginate(15);
@@ -243,43 +243,41 @@ class UserController extends BaseController
             'description' => 'max:250',
         ]);
 
-        $user = Auth::user();
+        $user = user();
 
-        $user->sex = Input::get('sex');
-        $user->age = (int) Input::get('age');
-        $user->location = Input::get('location');
-        $user->description = Input::get('description');
+        $data = request()->only(['sex', 'age', 'location', 'description']);
+        $user->fill($data);
 
-        if (Input::hasFile('avatar')) {
-            $user->setAvatar(Input::file('avatar')->getRealPath());
+        if (request()->hasFile('avatar')) {
+            $user->setAvatar(request()->file('avatar')->getRealPath());
         }
 
         $user->save();
 
-        return Redirect::route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
+        return redirect()->route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
     public function blockUser($user)
     {
-        Auth::user()->blockedUsers()->attach($user);
+        user()->blockedUsers()->attach($user);
         return Response::json(['status' => 'ok']);
     }
 
     public function unblockUser($user)
     {
-        Auth::user()->blockedUsers()->detach($user);
+        user()->blockedUsers()->detach($user);
         return Response::json(['status' => 'ok']);
     }
 
     public function observeUser($user)
     {
-        Auth::user()->followedUsers()->attach($user);
+        user()->followedUsers()->attach($user);
         return Response::json(['status' => 'ok']);
     }
 
     public function unobserveUser($user)
     {
-        Auth::user()->followedUsers()->detach($user);
+        user()->followedUsers()->detach($user);
         return Response::json(['status' => 'ok']);
     }
 
@@ -293,14 +291,14 @@ class UserController extends BaseController
             ]);
         }
 
-        Auth::user()->push('_blocked_domains', $domain, true);
+        user()->push('_blocked_domains', $domain, true);
 
         return Response::json(['status' => 'ok', 'domain' => $domain]);
     }
 
     public function unblockDomain($domain)
     {
-        Auth::user()->pull('_blocked_domains', $domain);
+        user()->pull('_blocked_domains', $domain);
 
         return Response::json(['status' => 'ok']);
     }
