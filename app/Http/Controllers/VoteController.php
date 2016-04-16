@@ -19,15 +19,15 @@ class VoteController extends BaseController
         $object = $this->getObject($request->get('id'), $request->get('type'));
 
         if (!$object) {
-            return Response::make('Object not found', 404);
+            return response()->make('Object not found', 404);
         }
 
         if ($this->getVoteElement($object, Auth::user())) {
-            return Response::make('Already voted', 400);
+            return response()->make('Already voted', 400);
         }
 
         if ($object->user->getKey() == Auth::id()) {
-            return Response::make('Do not cheat', 400);
+            return response()->make('Do not cheat', 400);
         }
 
         if ($object instanceof ContentRelated) {
@@ -36,17 +36,17 @@ class VoteController extends BaseController
             $group = $object->group;
         }
         if (Auth::user()->isBanned($group)) {
-            return Response::make('Banned', 400);
+            return response()->make('Banned', 400);
         }
 
         if (!apc_add('anti_vote_flood.user.'.Auth::id(), 1, 1)) {
-            return Response::make('Don\'t flood', 400);
+            return response()->make('Don\'t flood', 400);
         }
 
         $uv = $object->uv;
         $dv = $object->dv;
 
-        $up = Input::get('up') === 'true';
+        $up = request('up') === 'true';
 
         if ($up) {
             $object->increment('uv');
@@ -56,8 +56,9 @@ class VoteController extends BaseController
             $uv++;
 
             // small trigger, needed for pushing contents to front page
-            if ($object instanceof Content && $object->uv > 5
-                    && !$object->frontpage_at && $object->created_at->diffInDays() < 5) {
+            if ($object instanceof Content && !$object->frontpage_at
+                    &&  $object->uv > config('strimoid.homepage.threshold')
+                    && $object->created_at->diffInDays() < config('strimoid.homepage.time_limit')) {
                 $object->frontpage_at = new Carbon();
                 $object->save();
             }
@@ -73,16 +74,16 @@ class VoteController extends BaseController
             'up'            => $up,
         ]);
 
-        return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
+        return response()->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
 
     public function removeVote()
     {
-        $object = $this->getObject(Input::get('id'), Input::get('type'));
+        $object = $this->getObject(request('id'), request('type'));
         $vote = $this->getVoteElement($object, Auth::user());
 
         if (!$vote) {
-            return Response::make('Vote not found', 404);
+            return response()->make('Vote not found', 404);
         }
 
         $uv = $object->uv;
@@ -100,20 +101,20 @@ class VoteController extends BaseController
 
         $object->votes()->where(['user_id' => $vote->user_id])->delete();
 
-        return Response::json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
+        return response()->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
 
     public function getVoters()
     {
-        $object = $this->getObject(Input::get('id'), Input::get('type'));
+        $object = $this->getObject(request('id'), request('type'));
 
         if (!$object) {
-            return Response::make('Object not found', 404);
+            return response()->make('Object not found', 404);
         }
 
         $results = [];
 
-        $up = Input::get('filter') === 'up';
+        $up = request('filter') === 'up';
         $votes = $object->votes()->where('up', $up ? true : false)->get();
 
         foreach ($votes as $vote) {
@@ -127,11 +128,12 @@ class VoteController extends BaseController
 
         $results = array_reverse($results);
 
-        return Response::json(['status' => 'ok', 'voters' => $results]);
+        return response()->json(['status' => 'ok', 'voters' => $results]);
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Collection $object
+     * @return bool
      */
     private function getVoteElement($object, $user)
     {
