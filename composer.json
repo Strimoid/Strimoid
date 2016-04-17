@@ -68,7 +68,7 @@
               "app/utils.php"
           ],
             "psr-4": {
-              "Strimoid\\": "app/"
+              "Strimoid\\": ["src/", "app/"]
             }
       },
       "scripts": {
