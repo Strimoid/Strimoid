@@ -29,6 +29,7 @@ class CreateOauthClientEndpointsTable extends Migration
     {
         Schema::create('oauth_client_endpoints', function (Blueprint $table) {
             $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
 
             $table->increments('id');
             $table->string('client_id', 40);
