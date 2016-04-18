@@ -17,6 +17,11 @@ addons:
   hosts:
     - strimoid.dev
 
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
 before_install:
   - bash -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo yes | pecl install apcu-beta; fi;'
   - mysql -e "create database IF NOT EXISTS test;" -uroot

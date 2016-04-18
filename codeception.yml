@@ -19,5 +19,5 @@ modules:
             password: ''
             dump: tests/_data/dump.sql
         REST:
-            url: /api/v1/
+            url: /api/
             depends: Laravel5
