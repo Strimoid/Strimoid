@@ -8,7 +8,10 @@ matrix:
   allow_failures:
     - php: hhvm
 
-env: APP_ENV=testing
+env:
+  global:
+    - APP_ENV=testing
+    - EMAIL_DRIVER=log
 
 addons:
   hosts:
