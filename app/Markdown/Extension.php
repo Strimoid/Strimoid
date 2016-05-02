@@ -24,7 +24,8 @@ class Extension extends BaseExtension
     public function getInlineParsers()
     {
         return [
-            app(MentionParser::class),
+            app(GroupMentionParser::class),
+            app(UserMentionParser::class),
         ];
     }
 }

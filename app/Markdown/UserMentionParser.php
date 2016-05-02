@@ -5,7 +5,7 @@ use League\CommonMark\Inline\Parser\AbstractInlineParser;
 use League\CommonMark\InlineParserContext;
 use Strimoid\Models\User;
 
-class MentionParser extends AbstractInlineParser
+class UserMentionParser extends AbstractInlineParser
 {
     public function getCharacters()
     {
@@ -44,8 +44,8 @@ class MentionParser extends AbstractInlineParser
             return false;
         }
 
-        $profileUrl = route('user_profile', $user);
-        $inlineContext->getContainer()->appendChild(new Link($profileUrl, '@' . $handle));
+        $profileUrl = route('user_profile', $user, false);
+        $inlineContext->getContainer()->appendChild(new Link($profileUrl, '@'.$handle));
         return true;
     }
 }
