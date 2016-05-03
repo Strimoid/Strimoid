@@ -7429,7 +7429,8 @@ thead .glyphicon {
   .popular_contents_list small {
     font-size: 11px; }
   .popular_contents_list .media-body {
-    padding-left: 10px; }
+    padding-left: 10px;
+    word-break: break-all; }
 
 .popular_contents_list small .fa:first-of-type {
   margin-left: 0px; }
@@ -7438,9 +7439,6 @@ thead .glyphicon {
   color: lightgray;
   margin-right: 1px;
   margin-left: 8px; }
-
-.popular_entries_list .media-body {
-  word-break: break-all; }
 
 /* USER PROFILE */
 .user_info_widget h4 {
