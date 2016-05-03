@@ -1,0 +1,53 @@
+.notifications
+  border-radius: 0
+  padding: 0
+
+.notifications_dropdown .badge
+  position: absolute
+  top: 4px
+  left: 21px
+  font-size: 11px
+  opacity: 0.95
+  border-radius: 3px
+  color: #FFF
+  background-color: #60737E
+  padding: 1px 3px
+
+.notifications_icon_new
+  color: #FFC200
+  text-shadow: 0px 0px 5px #FFB800
+
+.notifications_scroll
+  height: 225px
+  overflow: hidden
+  position: relative
+
+.notifications_list
+  a
+    font-size: 12px
+    color: #3A5361
+    background: #FFF
+    display: block
+    width: 300px
+    padding: 8px 10px 4px
+    border-top: 1px solid #E6E6E6
+    small
+      color: #A5A5A5
+    &:first-child
+      border-top: none
+    &:nth-child(2n+2)
+      background-color: #FAFAFA
+    &.new
+      color: #000
+      background: #F6F8CB
+  img
+    height: 40px
+    width: 40px
+    margin-right: 8px
+
+.notifications_footer
+  padding: 10px 10px
+  background: #EBEBEB
+  color: #364B66
+  font-size: 12px
+  border-top: 1px solid #D5D5D5

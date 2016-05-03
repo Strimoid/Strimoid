@@ -1,0 +1,48 @@
+.navbar
+  float: left
+  width: 100%
+  min-height: 40px
+  height: 40px
+  margin: 0 0 30px 0
+  border-bottom: 1px solid #000
+  -webkit-box-shadow: 0 2px 3px 0 #a7a7a7
+  box-shadow: 0 2px 3px 0 #8c8c8c
+
+.navbar-inverse
+  background: #202329
+
+.navbar
+  &.navbar-fixed-top
+    position: fixed
+    top: 26px
+    z-index: 1010
+  .navbar-brand
+    color: #DDD
+    font-family: 'Monda', sans-serif
+    padding: 16px 15px
+    height: 40px
+    img
+      height: 40px
+      transform: translateY(-50%)
+      position: relative
+      top: -2px
+  .navbar-nav >
+  li > a
+    color: #DADADA
+    .active > a
+      color: #fff
+      background-color: #161719
+      &:hover, &:focus
+        color: #fff
+        background-color: #161719
+    .open > a
+      color: #fff
+      &:hover, &:focus
+        color: #fff
+  .open .login_menu
+    padding: 12px
+    width: 250px
+
+@media (min-width: 768px)
+  .navbar-nav > li > a
+    padding: 9px 15px

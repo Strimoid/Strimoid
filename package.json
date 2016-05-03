@@ -1,10 +1,10 @@
 {
   "private": true,
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-shell": "^0.4.3",
-    "laravel-elixir": "^3.2.8",
+    "gulp": "^3.9.1",
+    "gulp-shell": "^0.5.2",
+    "laravel-elixir": "^6.0.0-1",
     "laravel-elixir-riot": "^2.0.0",
-    "main-bower-files": "^2.9.0"
+    "main-bower-files": "^2.13.0"
   }
 }

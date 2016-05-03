@@ -1,3 +1,7 @@
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 /*
  * 	Character Count Plugin - jQuery plugin
  * 	Dynamic character count for text areas and input fields
@@ -12,8 +16,6 @@
  *	http://jquery.com
  *
  */
-
-'use strict';
 
 (function ($) {
 
@@ -90,20 +92,21 @@ new function (settings) {
                 match = /^([^[]+)(\[.*\])?$/.exec(path),
                 base = match[1],
                 tokens = [];
-            while (m = rx.exec(match[2])) tokens.push(m[1]);
-            return [base, tokens];
+            while (m = rx.exec(match[2])) {
+                tokens.push(m[1]);
+            }return [base, tokens];
         };
         var set = function set(target, tokens, value) {
             var o,
                 token = tokens.shift();
-            if (typeof target != 'object') target = null;
+            if ((typeof target === 'undefined' ? 'undefined' : _typeof(target)) != 'object') target = null;
             if (token === "") {
                 if (!target) target = [];
                 if (is(target, Array)) {
                     target.push(tokens.length == 0 ? value : set(null, tokens.slice(0), value));
                 } else if (is(target, Object)) {
                     var i = 0;
-                    while (target[i++] != null);
+                    while (target[i++] != null) {}
                     target[--i] = tokens.length == 0 ? value : set(target[i], tokens.slice(0), value);
                 } else {
                     target = [];
@@ -228,8 +231,8 @@ new function (settings) {
             },
             COMPACT: function COMPACT() {
                 function build(orig) {
-                    var obj = typeof orig == "object" ? is(orig, Array) ? [] : {} : orig;
-                    if (typeof orig == 'object') {
+                    var obj = (typeof orig === 'undefined' ? 'undefined' : _typeof(orig)) == "object" ? is(orig, Array) ? [] : {} : orig;
+                    if ((typeof orig === 'undefined' ? 'undefined' : _typeof(orig)) == 'object') {
                         (function () {
                             var add = function add(o, key, value) {
                                 if (is(o, Array)) o.push(value);else o[key] = value;
@@ -273,7 +276,7 @@ new function (settings) {
                         return !base || base == "" ? [key].join("") : [base, "[", key, "]"].join("");
                     };
                     jQuery.each(obj, function (key, value) {
-                        if (typeof value == 'object') build(value, newKey(key));else addFields(chunks, newKey(key), value);
+                        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') build(value, newKey(key));else addFields(chunks, newKey(key), value);
                     });
                 };
 
@@ -594,14 +597,14 @@ FoldersModule.prototype.publishFolder = function () {
     var id = $(this).parent().attr('data-id');
 
     if (button.hasClass('btn-success')) {
-        $.post('/ajax/folder/edit', { folder: id, 'public': 'false' }, function (data) {
+        $.post('/ajax/folder/edit', { folder: id, public: 'false' }, function (data) {
             if (data.status == 'ok') {
                 $(button).removeClass('btn-success');
                 $(button).addClass('btn-default');
             }
         });
     } else {
-        $.post('/ajax/folder/edit', { folder: id, 'public': 'true' }, function (data) {
+        $.post('/ajax/folder/edit', { folder: id, public: 'true' }, function (data) {
             if (data.status == 'ok') {
                 $(button).removeClass('btn-default');
                 $(button).addClass('btn-success');
@@ -670,7 +673,7 @@ GroupsModule.prototype.subscribeGroup = function () {
     var url = laroute.action('GroupController@subscribeGroup', { group: name });
 
     if (button.hasClass('btn-success')) {
-        $['delete'](url, function (data) {
+        $.delete(url, function (data) {
             if (data.status == 'ok') {
                 $(button).removeClass('btn-success');
                 $(button).addClass('btn-default');
@@ -692,7 +695,7 @@ GroupsModule.prototype.blockGroup = function () {
     var url = laroute.action('GroupController@blockGroup', { group: name });
 
     if (button.hasClass('btn-danger')) {
-        $['delete'](url, function (data) {
+        $.delete(url, function (data) {
             if (data.status == 'ok') {
                 $(button).removeClass('btn-danger');
                 $(button).addClass('btn-default');
@@ -897,7 +900,7 @@ UsersModule.prototype.observeUser = function () {
     var name = $(this).parent().attr('data-name');
 
     if (button.hasClass('btn-success')) {
-        $['delete']('/u/' + name + '/observe', function (data) {
+        $.delete('/u/' + name + '/observe', function (data) {
             if (data.status == 'ok') {
                 $(button).removeClass('btn-success');
                 $(button).addClass('btn-default');
@@ -922,7 +925,7 @@ UsersModule.prototype.blockUser = function () {
     var name = $(this).parent().attr('data-name');
 
     if (button.hasClass('btn-danger')) {
-        $['delete']('/u/' + name + '/block', function (data) {
+        $.delete('/u/' + name + '/block', function (data) {
             if (data.status == 'ok') {
                 $(button).removeClass('btn-danger');
                 $(button).addClass('btn-default');
@@ -1323,14 +1326,14 @@ $(document).ready(function () {
         var id = $(this).parent().attr('data-id');
 
         if (button.hasClass('btn-success')) {
-            $.post('/ajax/folder/edit', { folder: id, 'public': 'false' }, function (data) {
+            $.post('/ajax/folder/edit', { folder: id, public: 'false' }, function (data) {
                 if (data.status == 'ok') {
                     $(button).removeClass('btn-success');
                     $(button).addClass('btn-default');
                 }
             });
         } else {
-            $.post('/ajax/folder/edit', { folder: id, 'public': 'true' }, function (data) {
+            $.post('/ajax/folder/edit', { folder: id, public: 'true' }, function (data) {
                 if (data.status == 'ok') {
                     $(button).removeClass('btn-default');
                     $(button).addClass('btn-success');
