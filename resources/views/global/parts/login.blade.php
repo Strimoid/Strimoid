@@ -3,7 +3,7 @@
         {{ trans('auth.logging in') }} <b class="caret"></b>
     </a>
 </li>
-<li class="nav-item">
+<li class="nav-item hidden-md-down">
     <a href="{{ route('auth.register') }}">
         {{ trans('auth.registration') }}
     </a>

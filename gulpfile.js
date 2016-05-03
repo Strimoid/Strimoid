@@ -17,7 +17,7 @@ elixir(function(mix) {
     mix.laroute()
        .styles(bower('**/*.css'), 'public/assets/css/vendor.css', '/')
        .scripts(bower('**/*.js'), 'public/assets/js/vendor.js', '/')
-       .sass('**/*.+(sass|scss)', 'public/assets/css/all.css')
+       .sass('app.sass', 'public/assets/css/all.css')
        .riot('**/*.tag', 'public/assets/js/riot.js')
        .babel([
             'plugins/*.js',
