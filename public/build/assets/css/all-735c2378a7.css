@@ -7294,7 +7294,8 @@ body {
   background-color: #F5F5F5; }
 
 body > .container {
-  background: #FFF; }
+  background: #FFF;
+  padding-top: 20px; }
 
 @media (min-width: 992px) {
   .main_col {
