@@ -6985,7 +6985,9 @@ footer {
   color: #7E7E7E;
   /* temp fix */
   max-width: 1170px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem; }
 
 .btn-default {
   border-color: #E4E4E4; }
@@ -7342,7 +7344,7 @@ body.night {
   body.night .navbar {
     border-bottom: 1px solid #000;
     box-shadow: none; }
-  body.night .navbar, body.night .navbar .container {
+  body.night .navbar {
     background: #1c1c1c; }
   body.night .navbar .navbar-nav > .active > a,
   body.night .navbar .navbar-nav > .active > a:hover,

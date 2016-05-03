@@ -1,4 +1,4 @@
-<div class="groupbar groupbar-{!! $navbarClass !!}">
+<div class="groupbar groupbar-{{ navbarClass }}">
     <ul>
         <li><a href="/g/all" rel="nofollow">{{ trans('common.all') }}</a></li>
 
@@ -16,7 +16,7 @@
                     {% endfor %}
 
                     {% if subscriptions is empty %}∂
-                        <li><a href="{!! action('GroupController@showList') !!}">{{ trans('common.group list') }}</a></li>
+                        <li><a href="{{ action('GroupController@showList') }}">{{ trans('common.group list') }}</a></li>
                     {% endif %}
                 </ul>
             </li>
