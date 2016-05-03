@@ -10,7 +10,7 @@
         </a>
 
         <div class="collapse navbar-toggleable-sm pull-xs-left pull-md-none" id="collapsenav">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav pull-left">
                 @include('global.parts.tabs')
             </ul>
 
