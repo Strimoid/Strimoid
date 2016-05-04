@@ -721,8 +721,8 @@ GroupsModule.prototype.renderActionsWidget = function () {
 
     return template({
         groupname: groupname,
-        subscribe_class: _.contains(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-default',
-        block_class: _.contains(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-default'
+        subscribe_class: _.includes(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-default',
+        block_class: _.includes(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-default'
     });
 };
 
@@ -953,8 +953,8 @@ UsersModule.prototype.renderActionsWidget = function () {
 
     return template({
         username: username,
-        observe_class: _.contains(window.observed_users, username) ? 'btn-success' : 'btn-default',
-        block_class: _.contains(window.blocked_users, username) ? 'btn-danger' : 'btn-default'
+        observe_class: _.includes(window.observed_users, username) ? 'btn-success' : 'btn-default',
+        block_class: _.includes(window.blocked_users, username) ? 'btn-danger' : 'btn-default'
     });
 };
 
