@@ -2337,7 +2337,7 @@ body {
   font-size: 0.9rem;
   line-height: 1.5;
   color: #373a3c;
-  background-color: #F5F5F5; }
+  background-color: #fff; }
 
 [tabindex="-1"]:focus {
   outline: none !important; }
@@ -2617,7 +2617,7 @@ mark,
 .img-thumbnail {
   padding: 0.25rem;
   line-height: 1.5;
-  background-color: #F5F5F5;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 0.25rem;
   -webkit-transition: all .2s ease-in-out;
@@ -3324,7 +3324,7 @@ pre {
   .table tbody + tbody {
     border-top: 2px solid #eceeef; }
   .table .table {
-    background-color: #F5F5F5; }
+    background-color: #fff; }
 
 .table-sm th,
 .table-sm td {
@@ -4710,7 +4710,7 @@ input[type="button"].btn-block {
   .nav-tabs .nav-item.open .nav-link:focus,
   .nav-tabs .nav-item.open .nav-link:hover {
     color: #55595c;
-    background-color: #F5F5F5;
+    background-color: #fff;
     border-color: #ddd #ddd transparent; }
 
 .nav-pills::after {
@@ -6914,6 +6914,18 @@ ul.thumbnails.image_picker_selector {
   z-index: 1020;
   top: 0;
   left: 0; }
+
+footer ul {
+  list-style-type: none;
+  margin-bottom: 0; }
+
+footer .social-links {
+  float: right;
+  margin-top: -6px;
+  margin-left: 25px;
+  font-size: 22px; }
+  footer .social-links a {
+    margin-left: 5px; }
 
 .navbar {
   min-height: 54px; }

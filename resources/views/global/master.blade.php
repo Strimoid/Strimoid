@@ -25,9 +25,9 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
             @yield('content')
         </div>
 
-        <div class="@yield('sidebar_class', 'col-md-4') sidebar">
+        <aside class="@yield('sidebar_class', 'col-md-4') sidebar">
             @yield('sidebar')
-        </div>
+        </aside>
     </div>
 </div>
 

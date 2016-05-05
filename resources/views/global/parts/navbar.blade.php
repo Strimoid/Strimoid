@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-{{ $navbarClass }}">
+<nav class="navbar navbar-inverse navbar-{{ $navbarClass }}">
     <div class="container">
         <button class="navbar-toggler hidden-sm-up pull-xs-right" type="button"
                 data-toggle="collapse" data-target="#collapsenav">
@@ -29,4 +29,4 @@
             </ul>
         </div>
     </div>
-</div>
+</nav>
