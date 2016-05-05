@@ -1,8 +1,9 @@
 <?php namespace Strimoid\Http\Controllers\Content;
 
+use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Content;
 
-class ThumbnailController
+class ThumbnailController extends BaseController
 {
     /**
      * @param Content $content

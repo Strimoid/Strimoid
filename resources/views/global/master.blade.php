@@ -9,14 +9,14 @@
 <?php
 
 $currentRoute = Route::currentRouteName() ?: '';
-$navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' : 'static-top';
+$navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top' : 'static-top';
 
 ?>
 
 @include('global.parts.groupbar')
 @include('global.parts.navbar')
 
-<div class="container @if (@Auth::user()->settings['pin_navbar']) navbar-fixed-margin @endif">
+<div class="container @if (@user()->settings['pin_navbar']) navbar-fixed-margin @endif">
     <div class="row">
         <div class="main_col @yield('content_class', 'col-md-8')">
             @include('flash::message')
@@ -42,15 +42,15 @@ $navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' 
 <script src="{{ elixir('assets/js/laroute.js') }}"></script>
 <script src="{{ elixir('assets/js/all.js') }}"></script>
 
-@if (Auth::check())
+@if (auth()->check())
 <script>
     window.username = '{!! Auth::id()  !!}';
-    window.settings = {!! json_encode(Auth::User()->settings) !!};
-    window.observed_users = {!! json_encode((array) Auth::user()->followedUsers()->lists('name')) !!};
-    window.blocked_users = {!! json_encode(Auth::user()->blockedUsers()->lists('name')) !!};
-    window.blocked_groups = {!! json_encode(Auth::user()->blockedGroups()->lists('urlname')) !!};
-    window.subscribed_groups = {!! json_encode(Auth::user()->subscribedGroups()->lists('urlname')) !!};
-    window.moderated_groups = {!! json_encode(Auth::user()->moderatedGroups()->lists('urlname')) !!};
+    window.settings = {!! json_encode(user()->settings) !!};
+    window.observed_users = {!! json_encode((array) user()->followedUsers()->lists('name')) !!};
+    window.blocked_users = {!! json_encode(user()->blockedUsers()->lists('name')) !!};
+    window.blocked_groups = {!! json_encode(user()->blockedGroups()->lists('urlname')) !!};
+    window.subscribed_groups = {!! json_encode(user()->subscribedGroups()->lists('urlname')) !!};
+    window.moderated_groups = {!! json_encode(user()->moderatedGroups()->lists('urlname')) !!};
 
     @if (isset($groupURLName) && $groupURLName)
         window.group = '{{{ $groupURLName }}}';
@@ -61,22 +61,24 @@ $navbarClass = (Auth::check() && @user()->settings['pin_navbar']) ? 'fixed-top' 
 @yield('scripts')
 
 @if (!config('app.debug'))
-    <script type="text/javascript">
-        var _paq = _paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u="//piwik.strm.pl/";
-            _paq.push(['setTrackerUrl', u+'piwik.php']);
-            _paq.push(['setSiteId', 1]);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-        })();
-    </script>
-    <noscript><p><img src="//piwik.strm.pl/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    @if (config('services.piwik.host') && config('services.piwik.site_id'))
+        <script type="text/javascript">
+            var _paq = _paq || [];
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="{{ config('services.piwik.host') }}";
+                _paq.push(['setTrackerUrl', u+'piwik.php']);
+                _paq.push(['setSiteId', {{ (int) config('services.piwik.site_id') }}]);
+                var d=document,g=d.createElement('script'),s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript';g.async=true;g.defer=true;g.src=u+'piwik.js';s.parentNode.insertBefore(g,s)
+            })();
+        </script>
+        <noscript><p><img src="{{ config('services.piwik.host') }}piwik.php?idsite=1" style="border:0"></p></noscript>
+    @endif
 
     @if (config('services.raven.public_dsn'))
-        <script src="//cdn.ravenjs.com/2.2.0/console/raven.min.js"></script>
+        <script src="//cdn.ravenjs.com/2.3.0/console/raven.min.js"></script>
         <script>
             Raven.config('{{ config('services.raven.public_dsn') }}').install()
         </script>

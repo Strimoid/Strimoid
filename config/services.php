@@ -32,6 +32,11 @@ return [
         'secret'        => env('SPARKPOST_SECRET'),
     ],
 
+    'piwik' => [
+        'host'          => env('PIWIK_HOST'),
+        'site_id'       => env('PIWIK_ID'),
+    ],
+
     /**
     |--------------------------------------------------------------------------
     | Raven - used for reporting errors to Sentry
