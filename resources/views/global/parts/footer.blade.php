@@ -43,7 +43,7 @@
 
     <div class="social-links">
         <a href="//www.facebook.com/Strimoid">
-            <i class="fa fa-facebook-official"></i>
+            <i class="fa fa-facebook-square"></i>
         </a>
         <a href="//twitter.com/strimoid">
             <i class="fa fa-twitter-square"></i>

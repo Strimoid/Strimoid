@@ -6926,6 +6926,14 @@ footer .social-links {
   font-size: 22px; }
   footer .social-links a {
     margin-left: 5px; }
+  footer .social-links a:hover, footer .social-links a:active {
+    text-decoration: none; }
+  footer .social-links i.fa-facebook-square {
+    color: #3b5998; }
+  footer .social-links i.fa-twitter-square {
+    color: #1da1f2; }
+  footer .social-links i.fa-github-square {
+    color: #333; }
 
 .navbar {
   min-height: 54px; }
