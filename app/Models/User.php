@@ -19,6 +19,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     protected $avatarPath  = 'avatars/';
     protected $dates       = ['last_login'];
     protected $table       = 'users';
+    protected $fillable    = [
+        'age', 'description', 'location', 'sex',
+    ];
     protected $visible     = [
         'id', 'age', 'avatar', 'created_at',
         'description', 'location', 'sex', 'name',
