@@ -13,11 +13,10 @@ class OEmbed
         'video/' => 'embedVideo',
     ];
 
-    public function getThumbnail($url)
+    public function getThumbnail(string $url)
     {
         try {
-            $query = ['url' => $url];
-            $data = Guzzle::get($this->endpoint(), compact('query'))->json();
+            $data = $this->getData($url);
 
             $image = array_first($data['links'], function ($key, $value) {
                 return $this->isImage($value);
@@ -30,10 +29,9 @@ class OEmbed
         return null;
     }
 
-    public function getThumbnails($url)
+    public function getThumbnails(string $url)
     {
-        $query = ['url' => $url];
-        $data = Guzzle::get($this->endpoint(), compact('query'))->json();
+        $data = $this->getData($url);
 
         $data = array_where($data['links'], function ($key, $value) {
             return $this->isImage($value);
@@ -42,6 +40,12 @@ class OEmbed
         $data = array_pluck($data, 'href');
 
         return $data;
+    }
+
+    public function getData(string $url)
+    {
+        $query = ['url' => $url];
+        return Guzzle::get($this->endpoint(), compact('query'))->json();
     }
 
     protected function isImage($link)
@@ -77,7 +81,9 @@ class OEmbed
     }
 
     /**
+     * @param $url
      * @param boolean $autoPlay
+     * @return bool|string
      */
     protected function fetchJson($url, $autoPlay)
     {
@@ -151,7 +157,7 @@ class OEmbed
      */
     protected function endpoint()
     {
-        $host = Config::get('strimoid.oembed');
+        $host = config('strimoid.oembed');
 
         return $host.'/iframely';
     }

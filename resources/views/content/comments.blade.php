@@ -157,7 +157,7 @@
 {!! Form::close() !!}
 
 @if (!count($content->related))
-Brak powiązanych.
+    Brak powiązanych.
 @endif
 
 @foreach ($content->related as $related)
@@ -199,7 +199,7 @@ Brak powiązanych.
 </div>
 @endforeach
 
-<div class="comments">
+<div class="comments m-b-1">
 
     <div class="page-header clearfix">
         <h4 class="pull-left">@lang('common.comments')</h4>
