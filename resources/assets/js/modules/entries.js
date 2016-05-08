@@ -91,7 +91,7 @@ EntriesModule.prototype.editEntry = function(e) {
 
     $.post('/ajax/entry/source', { id: entry_id, type: type}, function(data){
         if (data.status == 'ok') {
-            $(entry).find('.entry_text').html('<form role="form" accept-charset="UTF-8" class="enter_send entry_edit"><input type="hidden" name="id" value="'+ entry_id +'"><input type="hidden" name="type" value="'+ type +'"><div class="form-group"><textarea name="text" class="form-control" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Zapisz</button><button type="button" class="btn btn-sm entry_edit_close">Anuluj</button></div><div class="clearfix"></div></form>');
+            $(entry).find('.entry_text').html('<form role="form" accept-charset="UTF-8" class="enter_send entry_edit"><input type="hidden" name="id" value="'+ entry_id +'"><input type="hidden" name="type" value="'+ type +'"><div class="form-group"><textarea name="text" class="form-control" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Zapisz</button><button type="button" class="btn btn-sm btn-secondary entry_edit_close">Anuluj</button></div><div class="clearfix"></div></form>');
             $(entry).find('textarea[name="text"]').val(data.source);
             $(entry).find('.entry_actions').hide();
 
