@@ -4,6 +4,7 @@
     "gulp": "^3.9.1",
     "gulp-shell": "^0.5.2",
     "laravel-elixir": "^6.0.0-1",
+    "laravel-elixir-lodash": "^2.0.0",
     "laravel-elixir-riot": "^2.0.0",
     "main-bower-files": "^2.13.0"
   }

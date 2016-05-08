@@ -6915,25 +6915,30 @@ ul.thumbnails.image_picker_selector {
   top: 0;
   left: 0; }
 
-footer ul {
-  list-style-type: none;
-  margin-bottom: 0; }
-
-footer .social-links {
-  float: right;
-  margin-top: -6px;
-  margin-left: 25px;
-  font-size: 22px; }
-  footer .social-links a {
-    margin-left: 5px; }
-  footer .social-links a:hover, footer .social-links a:active {
-    text-decoration: none; }
-  footer .social-links i.fa-facebook-square {
-    color: #3b5998; }
-  footer .social-links i.fa-twitter-square {
-    color: #1da1f2; }
-  footer .social-links i.fa-github-square {
-    color: #333; }
+footer {
+  color: #7E7E7E;
+  max-width: 1170px;
+  margin: 0 auto;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem; }
+  footer ul {
+    list-style-type: none;
+    margin-bottom: 0; }
+  footer .social-links {
+    float: right;
+    margin-top: -6px;
+    margin-left: 25px;
+    font-size: 22px; }
+    footer .social-links a {
+      margin-left: 5px; }
+    footer .social-links a:hover, footer .social-links a:active {
+      text-decoration: none; }
+    footer .social-links i.fa-facebook-square {
+      color: #3b5998; }
+    footer .social-links i.fa-twitter-square {
+      color: #1da1f2; }
+    footer .social-links i.fa-github-square {
+      color: #333; }
 
 .navbar {
   min-height: 54px; }
@@ -7327,14 +7332,6 @@ body > .container {
 
 .navbar-fixed-margin {
   padding-top: 109px; }
-
-footer {
-  color: #7E7E7E;
-  /* temp fix */
-  max-width: 1170px;
-  margin: 0 auto;
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem; }
 
 .btn-default {
   border-color: #E4E4E4; }

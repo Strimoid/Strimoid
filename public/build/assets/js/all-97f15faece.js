@@ -712,14 +712,11 @@ GroupsModule.prototype.blockGroup = function () {
 };
 
 GroupsModule.prototype.renderActionsWidget = function () {
-    var widget = $(this);
     var groupname = $(this).attr('data-group');
 
     groupname = groupname.replace(/^g\//, '');
 
-    var template = _.template('<div class="btn-group" data-name="<%= groupname %>"><button class="group_subscribe_btn btn btn-sm <%= subscribe_class %>"><span class="glyphicon glyphicon-eye-open"></span></button><button class="group_block_btn btn btn-sm <%= block_class %>"><span class="glyphicon glyphicon-ban-circle"></span></button></div>');
-
-    return template({
+    return _.tpl['groups-tooltip']({
         groupname: groupname,
         subscribe_class: _.includes(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-default',
         block_class: _.includes(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-default'
