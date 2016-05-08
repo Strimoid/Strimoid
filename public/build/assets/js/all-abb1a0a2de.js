@@ -1350,7 +1350,7 @@ $(document).ready(function () {
 
         var entry_id = $(parent).attr('data-id');
 
-        $(entry).after('<div class="entry entry_reply"><form role="form" action="/entry/' + entry_id + '/reply" method="POST" accept-charset="UTF-8" class="enter_send entry_add_reply"><input type="hidden" name="id" value="' + entry_id + '"><div class="form-group"><textarea name="text" class="form-control reply" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Wyślij</button><button type="button" class="btn btn-sm btn-danger entry_reply_close">Anuluj</button></div></form></div><div class="clearfix"></div>');
+        $(entry).after('<div class="entry entry_reply"><form role="form" action="/entry/' + entry_id + '/reply" method="POST" accept-charset="UTF-8" class="enter_send entry_add_reply"><input type="hidden" name="id" value="' + entry_id + '"><div class="form-group"><textarea name="text" class="form-control reply" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Wyślij</button><button type="button" class="btn btn-sm btn-secondary entry_reply_close">Anuluj</button></div></form></div><div class="clearfix"></div>');
 
         $(entry).next().find('textarea').focus().val('@' + author + ': ');
 
@@ -1472,7 +1472,7 @@ $(document).ready(function () {
 
         var comment_id = $(parent).attr('data-id');
 
-        $(comment).after('<div class="comment comment_reply"><form role="form" action="/comment/' + comment_id + '/reply" method="POST" accept-charset="UTF-8" class="enter_send comment_add_reply"><input type="hidden" name="id" value="' + comment_id + '"><div class="form-group"><textarea name="text" class="form-control reply" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Wyślij</button><button type="button" class="btn btn-sm btn-danger comment_reply_close">Anuluj</button></div></form></div><div class="clearfix"></div>');
+        $(comment).after('<div class="comment comment_reply"><form role="form" action="/comment/' + comment_id + '/reply" method="POST" accept-charset="UTF-8" class="enter_send comment_add_reply"><input type="hidden" name="id" value="' + comment_id + '"><div class="form-group"><textarea name="text" class="form-control reply" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Wyślij</button><button type="button" class="btn btn-sm btn-secondary comment_reply_close">Anuluj</button></div></form></div><div class="clearfix"></div>');
 
         $(comment).next().find('textarea').focus().val('@' + author + ': ');
 
