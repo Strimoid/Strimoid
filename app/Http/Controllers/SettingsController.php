@@ -8,11 +8,9 @@ use Redirect;
 
 class SettingsController extends BaseController
 {
-    // use ValidatesRequests;
-
     public function showSettings()
     {
-        $user = Auth::user();
+        $user = user();
 
         $subscribedGroups = $user->subscribedGroups();
         $blockedGroups    = $user->blockedGroups();
@@ -20,9 +18,13 @@ class SettingsController extends BaseController
         $blockedUsers     = $user->blockedUsers()->get();
         $bans             = $user->bannedGroups();
 
-        return view('user.settings',compact(
-            'user', 'subscribedGroups', 'blockedGroups',
-            'moderatedGroups', 'blockedUsers', 'bans'
+        return view('user.settings', compact(
+            'user',
+            'subscribedGroups',
+            'blockedGroups',
+            'moderatedGroups',
+            'blockedUsers',
+            'bans'
         ));
     }
 

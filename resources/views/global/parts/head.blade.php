@@ -16,7 +16,6 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-<link href="{{ elixir('assets/css/vendor.css') }}" rel="stylesheet">
 <link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
 
 <script src="{{ elixir('assets/js/vendor.js') }}"></script>

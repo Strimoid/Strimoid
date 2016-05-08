@@ -1778,6 +1778,8 @@ $(document).ready(function () {
         $('.conversation_messages').scrollTop($('.conversation_messages').prop('scrollHeight'));
     }
 
-    autosize(document.querySelectorAll('textarea'));
+    $(document).on('focus', 'textarea', function () {
+        autosize(document.querySelectorAll('textarea'));
+    });
 });
 //# sourceMappingURL=all.js.map

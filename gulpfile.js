@@ -17,7 +17,6 @@ elixir.extend('laroute', function() {
 
 elixir(function(mix) {
     mix.laroute()
-       .styles(bower('**/*.css'), 'public/assets/css/vendor.css', '/')
        .scripts(bower('**/*.js'), 'public/assets/js/vendor.js', '/')
        .sass('app.sass', 'public/assets/css/all.css')
        .riot('**/*.tag', 'public/assets/js/riot.js')
@@ -33,7 +32,6 @@ elixir(function(mix) {
        .copy('bower_components/font-awesome/fonts', 'public/build/assets/fonts')
        .version([
             'assets/css/all.css',
-            'assets/css/vendor.css',
             'assets/js/all.js',
             'assets/js/riot.js',
             'assets/js/vendor.js',
