@@ -21,37 +21,37 @@ if (Auth::check()) {
                 {{ $group->name }}
                 <small class="group_urlname">[g/{{ $group->urlname }}]</small>
             </h4>
+        </div>
+    </div>
 
-            @if (Auth::check())
-            <div class="btn-group group_buttons" data-name="{{ $group->urlname }}">
-                <button type="button" class="btn btn-sm group_subscribe_btn @if ($subscribed) btn-success @else btn-secondary @endif">
-                    Subskrybuj
-                </button>
-                <button type="button" class="btn btn-sm group_block_btn @if ($blocked) btn-danger @else btn-secondary @endif" title="@lang('common.block')">
-                    <i class="fa fa-ban"></i>
-                </button>
-                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" title="@lang('common.folders')">
-                    <span class="fa fa-folder-open"></span>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu folder-menu" role="menu" data-group="{{{ $group->getKey() }}}">
-                    @foreach (user()->folders as $folder)
+    @if (Auth::check())
+        <div class="btn-group btn-group-justified group_buttons" data-name="{{ $group->urlname }}">
+            <button type="button" class="btn btn-sm group_subscribe_btn @if ($subscribed) btn-success @else btn-secondary @endif">
+                Subskrybuj
+            </button>
+            <button type="button" class="btn btn-sm group_block_btn @if ($blocked) btn-danger @else btn-secondary @endif" title="@lang('common.block')">
+                <i class="fa fa-ban"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" title="@lang('common.folders')">
+                <span class="fa fa-folder-open"></span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu folder-menu" role="menu" data-group="{{{ $group->getKey() }}}">
+                @foreach (user()->folders as $folder)
                     <li>
                         <label>
                             <input type="checkbox" class="modify_folder" data-id="{!! $folder->_id !!}" {{ in_array($group->getKey(), $folder->groups) ? 'checked' : '' }}>
-                             {{{ $folder->name }}}
+                            {{{ $folder->name }}}
                         </label>
                     </li>
-                    @endforeach
-                    <li class="divider"></li>
-                    <li>
-                        <input type="text" class="form-control create_folder" placeholder="Nowy folder">
-                    </li>
-                </ul>
-            </div>
-            @endif
+                @endforeach
+                <li class="divider"></li>
+                <li>
+                    <input type="text" class="form-control create_folder" placeholder="Nowy folder">
+                </li>
+            </ul>
         </div>
-    </div>
+    @endif
 
     <p class="group_desc">{!! $group->sidebar !!}</p>
 </div>
