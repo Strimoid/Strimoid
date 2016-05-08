@@ -54,13 +54,11 @@ GroupsModule.prototype.blockGroup = function () {
 };
 
 GroupsModule.prototype.renderActionsWidget = function() {
-    var groupname = $(this).attr('data-group');
-
-    groupname = groupname.replace(/^g\//, '');
+    var groupname = $(this).attr('data-group').replace(/^g\//, '')
 
     return _.tpl['groups-tooltip']({
         groupname: groupname,
-        subscribe_class: _.includes(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-default',
-        block_class: _.includes(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-default'
+        subscribe_class: _.includes(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-secondary',
+        block_class: _.includes(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-secondary'
     });
 };

@@ -60,14 +60,11 @@ UsersModule.prototype.blockUser = function() {
 };
 
 UsersModule.prototype.renderActionsWidget = function() {
-    var widget = $(this);
-    var username = $(this).attr('data-user');
+    var username = $(this).attr('data-user')
 
-    var template = _.template('<div class="btn-group" data-name="<%= username %>"><a href="/conversations/new/<%= username %>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-envelope"></span></a><button class="user_observe_btn btn btn-sm <%= observe_class %>"><span class="glyphicon glyphicon-eye-open"></span></button><button class="user_block_btn btn btn-sm <%= block_class %>"><span class="glyphicon glyphicon-ban-circle"></span></button></div>');
-
-    return template({
+    return _.tpl['users-tooltip']({
         username: username,
-        observe_class: _.includes(window.observed_users, username) ? 'btn-success' : 'btn-default',
-        block_class:_.includes(window.blocked_users, username) ? 'btn-danger' : 'btn-default'
+        observe_class: _.includes(window.observed_users, username) ? 'btn-success' : 'btn-secondary',
+        block_class:_.includes(window.blocked_users, username) ? 'btn-danger' : 'btn-secondary'
     });
 };
