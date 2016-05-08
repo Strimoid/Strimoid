@@ -184,7 +184,7 @@ $blocked = user()->isBlockingUser($user);
         <li class="nav-item">
             <a class="nav-link {{ $type == 'comment_replies' ? 'active' : '' }}"
                href="{!! route('user_profile.type_filter', [$user->name, 'comment_replies']) !!}">
-                {!! Lang::choice('pluralization.comments', intval($user->commentReplies()->count())) !!} na komentarze</a>
+                {!! Lang::choice('pluralization.replies', intval($user->commentReplies()->count())) !!} na komentarze</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{ $type == 'entries' ? 'active' : '' }}"
