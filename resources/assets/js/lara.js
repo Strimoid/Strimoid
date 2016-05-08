@@ -736,4 +736,6 @@ $(document).ready(function() {
     if ($('.conversation_messages').length) {
         $('.conversation_messages').scrollTop($('.conversation_messages').prop('scrollHeight'));
     }
-});
+
+    autosize(document.querySelectorAll('textarea'))
+})

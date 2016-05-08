@@ -34,7 +34,8 @@
     "pusher": "~2.2.4",
     "riot": "~2.2.4",
     "tether": "~1.1.0",
-    "typeahead.js": "~0.10.5"
+    "typeahead.js": "~0.10.5",
+    "autosize": "^3.0.15"
   },
   "overrides": {
     "bootstrap": {
