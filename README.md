@@ -7,7 +7,7 @@ Source code of Strm.pl, brand-new social service.
 
 Requirements
 ========
-* PHP 7 with intl, mcrypt and pdo-mysql extensions
+* PHP 7 with intl, mbstring, mcrypt, pdo, pdo-mysql extensions
 * MySQL (MariaDB 10.1 recommended, but might even work with PostgreSQL)
 
 API
