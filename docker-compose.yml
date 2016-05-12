@@ -2,14 +2,23 @@ version: '2'
 services:
   web:
     image: strimoid/strimoid
+    environment:
+     - MYSQL_HOST=mariadb
+     - MYSQL_USERNAME=root
     ports:
      - "8000:8000"
     volumes:
      - .:/code
     depends_on:
+     - beanstalkd
      - mariadb
      - redis
   mariadb:
     image: mariadb
+    environment:
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+     - MYSQL_DATABASE=strimoid
   redis:
     image: redis
+  beanstalkd:
+    image: schickling/beanstalkd
