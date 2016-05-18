@@ -20,21 +20,21 @@ __e( user.name ) +
 __e( user.name ) +
 '" class="entry_author">' +
 ((__t = ( user.name )) == null ? '' : __t) +
-'</a>\n        <span class="pull-right">\n            <span class="glyphicon glyphicon-tag"></span>\n            <a href="/g/' +
+'</a>\n        <span class="pull-right">\n            <i class="fa fa-tag"></i>\n            <a href="/g/' +
 __e( group.urlname ) +
 '" class="entry_group" data-hover="group_widget" data-group="' +
 __e( group.urlname ) +
 '">g/' +
 __e( group.urlname ) +
-'</a>\n            <span class="glyphicon glyphicon-time"></span>\n            <a href="/e/' +
+'</a>\n            <i class="fa fa-clock-o"></i>\n            <a href="/e/' +
 __e( hashId ) +
 '">\n                <time pubdate title="' +
 __e( created_at ) +
 '">chwilę temu</time>\n            </a>\n            <span class="voting" data-id="' +
 __e( hashId ) +
-'" data-state="none" data-type="entry">\n                <button type="button" class="btn btn-default btn-xs vote-btn-up">\n                    <i class="fa fa-arrow-up vote-up"></i>\n                    <span class="count">0</span>\n                </button>\n                <button type="button" class="btn btn-default btn-xs vote-btn-down">\n                    <i class="fa fa-arrow-down vote-down"></i>\n                    <span class="count">0</span>\n                </button>\n            </span>\n        </span>\n    </div>\n    <div class="entry_text md">' +
+'" data-state="none" data-type="entry">\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-up">\n                    <i class="fa fa-arrow-up vote-up"></i>\n                    <span class="count">0</span>\n                </button>\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-down">\n                    <i class="fa fa-arrow-down vote-down"></i>\n                    <span class="count">0</span>\n                </button>\n            </span>\n        </span>\n    </div>\n    <div class="entry_text md">' +
 ((__t = ( text )) == null ? '' : __t) +
-'</div>\n    <div class="entry_actions pull-right">\n        <span class="glyphicon glyphicon-star-empty action_link save_entry" title="zapisz"></span>\n        <a class="entry_reply_link action_link">odpowiedz</a>\n        <a href="' +
+'</div>\n    <div class="entry_actions pull-right">\n        <i class="fa fa-star-o action_link save_entry" title="zapisz"></i>\n        <a class="entry_reply_link action_link">odpowiedz</a>\n        <a href="' +
 __e( entryUrl ) +
 '">#</a>\n    </div>\n</div>\n';
 
