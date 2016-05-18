@@ -7,6 +7,11 @@ $timezones = function () {
     })->flatten(1);
 };
 
+Setting::add('enter_send', 'checkbox', [
+    'default' => 'false',
+    'options' => [true, false],
+]);
+
 Setting::add('homepage_subscribed', 'checkbox', [
     'default' => false,
     'options' => [true, false],
