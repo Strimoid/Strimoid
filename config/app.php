@@ -174,6 +174,7 @@ return [
         Strimoid\Providers\RepositoriesServiceProvider::class,
         Strimoid\Providers\RouteServiceProvider::class,
         Strimoid\Providers\ValidatorServiceProvider::class,
+        Strimoid\Settings\SettingsServiceProvider::class,
 
         /*
          * Third party Service Providers...
@@ -258,12 +259,12 @@ return [
         'Hashids'    => Vinkla\Hashids\Facades\Hashids::class,
         'Image'      => Intervention\Image\Facades\Image::class,
         'Markdown'   => GrahamCampbell\Markdown\Facades\Markdown::class,
-        'Setting'    => Strimoid\Facades\Settings::class,
+        'Setting'    => Strimoid\Settings\Facades\Setting::class,
+        'Settings'   => Strimoid\Settings\Facades\Setting::class,
         'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
         'Throttle'   => GrahamCampbell\Throttle\Facades\Throttle::class,
         'Twig'       => TwigBridge\Facade\Twig::class,
 
-        'Settings'  => Strimoid\Facades\Settings::class,
         'PDP'       => Strimoid\Facades\PDP::class,
         'Guzzle'    => Strimoid\Facades\Guzzle::class,
         'OEmbed'    => Strimoid\Facades\OEmbed::class,

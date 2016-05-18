@@ -62,9 +62,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('oembed', function () {
             return new OEmbed();
         });
-
-        $this->app->bind('settings', function () {
-           return new Settings();
-        });
     }
 }

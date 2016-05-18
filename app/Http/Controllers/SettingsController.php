@@ -5,6 +5,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use Redirect;
+use Strimoid\Models\UserSetting;
 
 class SettingsController extends BaseController
 {
@@ -48,13 +49,14 @@ class SettingsController extends BaseController
         $settings['contents_per_page'] = (int) Input::get('contents_per_page');
         $settings['entries_per_page'] = (int) Input::get('entries_per_page');
         $settings['timezone'] = Input::get('timezone');
-        $settings['notifications']['auto_read'] = Input::get('notifications.auto_read') == 'on' ? true : false;
+        $settings['notifications.auto_read'] = Input::get('notifications.auto_read') == 'on' ? true : false;
 
-        // $user->settings = $settings;
-        // $user->save();
-        $user->settings->push($settings);
+        $settings = collect($settings)->map(function ($value, $key) {
+            return new UserSetting(['key' => $key, 'value' => $value]);
+        });
 
-        return Redirect::route('user_settings')
-            ->with('success_msg', 'Ustawienia zostały zapisane.');
+        $user->settings()->saveMany($settings);
+
+        return redirect()->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
     }
 }
