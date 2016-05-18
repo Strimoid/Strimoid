@@ -138,12 +138,12 @@
                 <div class="col-lg-6">
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('enter_send', 'on', @$user->settings['enter_send']) !!} Wysyłaj treści/komentarze enterem
+                            {!! Form::checkbox('enter_send', 'on', setting('enter_send')) !!} Wysyłaj treści/komentarze enterem
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('homepage_subscribed', 'on', @$user->settings['homepage_subscribed']) !!} Subskrybowane jako strona główna serwisu
+                            {!! Form::checkbox('homepage_subscribed', 'on', setting('homepage_subscribed')) !!} Subskrybowane jako strona główna serwisu
                         </label>
                     </div>
                 </div>
@@ -160,12 +160,12 @@
                     </div>
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('notifications_sound', 'on', @$user->settings['notifications_sound']) !!} Odtwarzaj dźwięk po otrzymaniu powiadomienia
+                            {!! Form::checkbox('notifications_sound', 'on', setting('notifications_sound')) !!} Odtwarzaj dźwięk po otrzymaniu powiadomienia
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('notifications[auto_read]', 'on', Setting::get('notifications.auto_read', false)) !!} Automatycznie oznaczaj powiadomienia jako przeczytane
+                            {!! Form::checkbox('notifications[auto_read]', 'on', setting('notifications.auto_read')) !!} Automatycznie oznaczaj powiadomienia jako przeczytane
                         </label>
                     </div>
                 </div>
@@ -177,23 +177,23 @@
                 <div class="col-lg-6">
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('pin_navbar', 'on', @$user->settings['pin_navbar'])  !!} Przypnij górny pasek
+                            {!! Form::checkbox('pin_navbar', 'on', setting('pin_navbar'))  !!} Przypnij górny pasek
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('disable_groupstyles', 'on', @$user->settings['disable_groupstyles'])  !!} Wyłącz style grup
+                            {!! Form::checkbox('disable_groupstyles', 'on', setting('disable_groupstyles'))  !!} Wyłącz style grup
                         </label>
                     </div>
                 </div>
             </div>
 
-            @include('global.form.input_select', ['name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => Setting::get('contents_per_page', 25), 'options' => app('settings')->getOptions('contents_per_page')])
-            @include('global.form.input_select', ['name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => Setting::get('entries_per_page', 25), 'options' => app('settings')->getOptions('entries_per_page')])
+            @include('global.form.input_select', ['name' => 'contents_per_page', 'label' => 'Ilość treści na stronę', 'value' => setting('contents_per_page'), 'options' => app('settings')->getOptions('contents_per_page')])
+            @include('global.form.input_select', ['name' => 'entries_per_page', 'label' => 'Ilość wpisów na stronę', 'value' => setting('entries_per_page'), 'options' => app('settings')->getOptions('entries_per_page')])
 
-            @include('global.form.input_select', ['name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => Setting::get('timezone', 'Europe/Warsaw'), 'options' => app('settings')->getOptions('timezone')])
+            @include('global.form.input_select', ['name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => setting('timezone'), 'options' => app('settings')->getOptions('timezone')])
 
-            @include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => @$user->settings['css_style'], 'placeholder' => 'http://link.do/stylu.css'])
+            @include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => setting('css_style'), 'placeholder' => 'http://link.do/stylu.css'])
 
             <div class="form-group">
                 <div class="col-lg-offset-3 col-lg-6">
