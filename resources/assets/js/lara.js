@@ -56,8 +56,8 @@ $(document).ready(function() {
     var entriesModule = new EntriesModule();
     var pollsModule = new PollsModule();
 
-    if (window.username && window.WebSocket) {
-        var pusher = new Pusher(data.config.pusher_key);
+    if (AppData.user && window.WebSocket) {
+        var pusher = new Pusher(AppData.config.pusher_key);
         pusher.subscribe('privateU' + window.username).bind('new-notification', function(data) {
             notificationsModule.onNotificationReceived(data);
         });
@@ -70,6 +70,27 @@ $(document).ready(function() {
                 thumbnail.remove();
                 $(parent).append('<img class="media-object img-thumbnail" src="'+ data.url +'">');
             });
+        }
+
+        if (window.document.location.pathname.endsWith('/entries')) {
+            $('.entry').each(function() {
+                if (!$(this).data('id')) return
+
+                var $this = $(this)
+
+                pusher.subscribe('entry.' + $(this).data('id')).bind('new-reply', function(data) {
+                    if (window.blocked_users.indexOf(data.author) != -1)
+                        return
+
+                    var lastReply = $this.nextUntil(':not(.entry_reply)').last()
+
+                    if (!lastReply || !lastReply.is('.entry_reply')) {
+                        lastReply = $this
+                    }
+
+                    $(_.tpl['entries-reply'](data)).hide().fadeIn(1000).insertAfter(lastReply)
+                })
+            })
         }
 
         if (window.document.location.pathname.endsWith('/entries') && $.query.get('page') <= 1) {

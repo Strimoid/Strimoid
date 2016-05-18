@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Handlers\Events;
 
 use Strimoid\Models\Entry;
+use Strimoid\Models\EntryReply;
 use Strimoid\Models\Notification;
 use Vinkla\Pusher\Facades\Pusher;
 
@@ -13,22 +14,33 @@ class PubSubHandler
      */
     public function subscribe($events)
     {
-        $events->listen('eloquent.created: '.Entry::class,
-            self::class.'@onNewEntry');
-        $events->listen('eloquent.created: '.Notification::class,
-            self::class.'@onNewNotification');
+        $events->listen('eloquent.created: '.Entry::class, self::class.'@onNewEntry');
+        $events->listen('eloquent.created: '.EntryReply::class, self::class.'@onNewEntryReply');
+        $events->listen('eloquent.created: '.Notification::class, self::class.'@onNewNotification');
     }
 
     public function onNewEntry(Entry $entry)
     {
         $arrayEntry = $entry->toArray();
-        $additioanlData = array(
+        $additionalData = array(
             'hashId' => $entry->hashId(),
             'avatarPath' => $entry->user->getAvatarPath(),
             'entryUrl' => $entry->getURL(),
         );
 
-        Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, $additioanlData));
+        Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, $additionalData));
+    }
+
+    public function onNewEntryReply(EntryReply $reply)
+    {
+        $arrayEntry = $reply->toArray();
+        $additionalData = array(
+            'hashId' => $reply->hashId(),
+            'avatarPath' => $reply->user->getAvatarPath(),
+            'entryUrl' => $reply->getURL(),
+        );
+
+        Pusher::trigger('entry.'.$reply->parent->hashId(), 'new-reply', array_merge($arrayEntry, $additionalData));
     }
 
     public function onNewNotification(Notification $notification)

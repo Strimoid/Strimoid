@@ -22,7 +22,10 @@ elixir(function(mix) {
        .riot('**/*.tag', 'public/assets/js/riot.js')
        .lodash('**/*.html', null, { namespace: '_.tpl', name: function(file) {
            return file.relative.replace('.html', '').replace('/', '-')
-       } })
+       }, templateSettings: {
+           interpolate: /{!!([\s\S]+?)!!}/g,
+           escape: /{{([\s\S]+?)}}/g
+       }})
        .babel([
             'plugins/*.js',
             'modules/*.js',
