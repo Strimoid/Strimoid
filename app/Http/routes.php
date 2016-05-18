@@ -257,3 +257,6 @@ Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);
 /* Ranking ========================================================================================================== */
 Route::get('/ranking', ['as' => 'ranking', 'uses' => 'RankingController@showRanking']);
 Route::get('/g/{group}/ranking', ['as' => 'group_ranking', 'uses' => 'RankingController@showRanking']);
+
+/* Other ============================================================================================================ */
+Route::get('/duck/{username}.svg', 'DuckController@drawDuck');
