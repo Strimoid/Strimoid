@@ -124,12 +124,12 @@ if (! function_exists('user')) {
 }
 
 if (! function_exists('setting')) {
-    function setting(string $key, $value = null)
+    function setting($key = null)
     {
-        if (!$value) {
-            return app('settings')->get($key);
+        if (!$key) {
+            return app('settings');
         }
 
-        return app('settings')->set($key, $value);
+        return app('settings')->get($key);
     }
 }

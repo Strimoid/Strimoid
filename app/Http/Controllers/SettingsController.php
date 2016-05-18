@@ -31,8 +31,6 @@ class SettingsController extends BaseController
 
     public function saveSettings(Request $request)
     {
-        $user = Auth::user();
-
         $this->validate($request, [
             'css_style'         => 'url|safe_url|max:250',
             'contents_per_page' => 'integer|min:1|max:100',
@@ -51,11 +49,9 @@ class SettingsController extends BaseController
         $settings['timezone'] = Input::get('timezone');
         $settings['notifications.auto_read'] = Input::get('notifications.auto_read') == 'on' ? true : false;
 
-        $settings = collect($settings)->map(function ($value, $key) {
-            return new UserSetting(['key' => $key, 'value' => $value]);
-        });
-
-        $user->settings()->saveMany($settings);
+        foreach ($settings as $key => $value) {
+            setting()->set($key, $value);
+        }
 
         return redirect()->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
     }

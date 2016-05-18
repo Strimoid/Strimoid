@@ -17,15 +17,12 @@ class SettingsService
         }
 
         $value = user()->settings()->where('key', $key)->first();
-        return $value->value ?: $this->settings[$key]['default'];
+        return $value ? $value->value : $this->settings[$key]['default'];
     }
 
     public function set(string $key, $value)
     {
-        user()->settings()->where('key', $key)->updateOrCreate([
-            'key'   => $key,
-            'value' => $value,
-        ]);
+        user()->settings()->updateOrCreate(compact('key'), compact('value'));
     }
 
     public function getOptions($key)
