@@ -27,6 +27,10 @@ class SettingsService
 
     public function getOptions($key)
     {
+        if ($this->settings[$key]['type'] == 'checkbox') {
+            return [true, false];
+        }
+
         $options = data_get($this->settings[$key], 'options', []);
         return value($options);
     }

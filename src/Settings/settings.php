@@ -9,12 +9,10 @@ $timezones = function () {
 
 Setting::add('enter_send', 'checkbox', [
     'default' => 'false',
-    'options' => [true, false],
 ]);
 
 Setting::add('homepage_subscribed', 'checkbox', [
     'default' => false,
-    'options' => [true, false],
 ]);
 
 Setting::add('contents_per_page', 'select', [
@@ -38,5 +36,20 @@ Setting::add('timezone', 'select', [
 
 Setting::add('notifications.auto_read', 'checkbox', [
     'default' => false,
-    'options' => [true, false],
+]);
+
+Setting::add('notifications_sound', 'checkbox', [
+    'default' => false,
+]);
+
+Setting::add('pin_navbar', 'checkbox', [
+    'default' => false,
+]);
+
+Setting::add('disable_groupstyles', 'checkbox', [
+    'default' => false,
+]);
+
+Setting::add('css_style', 'text', [
+    'default' => '',
 ]);
