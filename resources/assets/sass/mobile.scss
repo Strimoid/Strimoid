@@ -8,9 +8,6 @@
     right: 15px;
     background: #242424;
   }
-  .navbar-nav {
-    margin: 7px -15px 1px;
-  }
 
   .navbar-nav.navbar-right {
     background: #3C3C3C;
@@ -112,7 +109,7 @@
     margin-left: 36px;
   }
 
-  .entry_header time {
+  .entry_header .fa-clock-o, .entry_header time {
     display: none;
   }
 

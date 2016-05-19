@@ -35,7 +35,8 @@
     "riot": "~2.2.4",
     "tether": "~1.1.0",
     "typeahead.js": "~0.10.5",
-    "autosize": "^3.0.15"
+    "autosize": "^3.0.15",
+    "jquery-timeago": "^1.5.2"
   },
   "overrides": {
     "bootstrap": {

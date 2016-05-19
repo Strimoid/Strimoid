@@ -7079,9 +7079,9 @@ footer {
 
 @media (max-width: 767px) {
   .navbar-nav .nav-item + .nav-item {
-    margin-left: 0; }
-  .navbar-nav > .nav-item {
-    float: none; }
+    margin-left: 0.75rem; }
+  .navbar-nav.pull-right {
+    clear: both; }
   #collapsenav {
     clear: both; } }
 
@@ -7705,8 +7705,6 @@ thead .glyphicon {
     position: absolute;
     right: 15px;
     background: #242424; }
-  .navbar-nav {
-    margin: 7px -15px 1px; }
   .navbar-nav.navbar-right {
     background: #3C3C3C;
     border-top: 1px solid #686868; }
@@ -7762,7 +7760,7 @@ thead .glyphicon {
     width: 30px; }
   .entry_header {
     margin-left: 36px; }
-  .entry_header time {
+  .entry_header .fa-clock-o, .entry_header time {
     display: none; }
   .entry_header .pull-right {
     font-size: 90%; }
