@@ -260,12 +260,14 @@ class UserController extends BaseController
     public function blockUser($user)
     {
         user()->blockedUsers()->attach($user);
+        \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
         return Response::json(['status' => 'ok']);
     }
 
     public function unblockUser($user)
     {
         user()->blockedUsers()->detach($user);
+        \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
         return Response::json(['status' => 'ok']);
     }
 

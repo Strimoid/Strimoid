@@ -194,7 +194,10 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        return $this->moderatedGroups()->where('group_id', $group)->exists();
+        $cacheTags = ['users.moderated-groups', 'u.'.auth()->id()];
+        $moderatedGroupsIds = $this->moderatedGroups()->remember(60)->cacheTags($cacheTags)->pluck('groups.id');
+
+        return $moderatedGroupsIds->has($group);
     }
 
     public function isSubscriber($group)
@@ -203,7 +206,10 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        return $this->subscribedGroups()->where('group_id', $group)->exists();
+        $cacheTags = ['users.subscribed-groups', 'u.'.auth()->id()];
+        $subscribedGroupsIds = $this->subscribedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
+
+        return $subscribedGroupsIds->has($group);
     }
 
     public function isBlocking($group)
@@ -212,13 +218,15 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        return $this->blockedGroups()->where('group_id', $group)->exists();
+        $cacheTags = ['users.blocked-groups', 'u.'.auth()->id()];
+        $blockedGroupsIds = $this->blockedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
+
+        return $blockedGroupsIds->has($group);
     }
 
     public function isObservingUser($user)
     {
         return false;
-        //return $this->subscribedGroups()->where('group_id', $group)->exists();
     }
 
     public function isBlockingUser($user)
@@ -227,7 +235,10 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $user = $user->getKey();
         }
 
-        return $this->blockedUsers()->where('target_id', $user)->exists();
+        $cacheTags = ['users.blocked-users', 'u.'.auth()->id()];
+        $blockedUsersIds = $this->blockedUsers()->remember(60)->cacheTags($cacheTags)->pluck('id');
+
+        return $blockedUsersIds->has($user);
     }
 
     /**

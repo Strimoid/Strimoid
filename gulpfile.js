@@ -27,18 +27,14 @@ elixir(function(mix) {
            escape: /{{([\s\S]+?)}}/g
        }})
        .babel([
-            'plugins/*.js',
-            'modules/*.js',
-            'lara.js'
+           'plugins/*.js',
+           'modules/*.js',
+           'lara.js'
        ])
        .copy('bower_components/font-awesome/fonts', 'public/assets/fonts')
        .copy('bower_components/font-awesome/fonts', 'public/build/assets/fonts')
        .version([
-            'assets/css/all.css',
-            'assets/js/all.js',
-            'assets/js/riot.js',
-            'assets/js/vendor.js',
-            'assets/js/laroute.js',
-            'assets/js/lodash.js'
+           'assets/css/*.css',
+           'assets/js/*.js'
        ])
 })

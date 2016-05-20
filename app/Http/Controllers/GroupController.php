@@ -231,12 +231,14 @@ class GroupController extends BaseController
         }
 
         user()->subscribedGroups()->attach($group);
+        \Cache::tags(['user.subscribed-groups', 'u.'.auth()->id()])->flush();
         return Response::json(['status' => 'ok']);
     }
 
     public function unsubscribeGroup($group)
     {
         user()->subscribedGroups()->detach($group);
+        \Cache::tags(['user.subscribed-groups', 'u.'.auth()->id()])->flush();
         return Response::json(['status' => 'ok']);
     }
 
@@ -245,14 +247,14 @@ class GroupController extends BaseController
         $group->checkAccess();
 
         user()->blockedGroups()->attach($group);
-
+        \Cache::tags(['user.blocked-groups', 'u.'.auth()->id()])->flush();
         return Response::json(['status' => 'ok']);
     }
 
     public function unblockGroup($group)
     {
         user()->blockedGroups()->detach();
-
+        \Cache::tags(['user.blocked-groups', 'u.'.auth()->id()])->flush();
         return Response::json(['status' => 'ok']);
     }
 

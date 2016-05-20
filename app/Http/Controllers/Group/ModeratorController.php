@@ -68,6 +68,8 @@ class ModeratorController extends BaseController
         $action->group()->associate($group);
         $action->save();
 
+        \Cache::tags(['user.moderated-groups', 'u.'.$user->getKey()])->flush();
+
         return redirect()->route('group_moderators', $group->urlname);
     }
 
@@ -94,6 +96,8 @@ class ModeratorController extends BaseController
         $action->target()->associate($moderator);
         $action->group()->associate($group);
         $action->save();
+
+        \Cache::tags(['user.moderated-groups', 'u.'.$moderator->user_id])->flush();
 
         return response()->json(['status' => 'ok']);
     }

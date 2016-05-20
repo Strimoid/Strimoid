@@ -53,6 +53,8 @@ class SettingsController extends BaseController
             setting()->set($key, $value);
         }
 
+        \Cache::tags(['user.settings', 'u.'.auth()->id()])->flush();
+
         return redirect()->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
     }
 }
