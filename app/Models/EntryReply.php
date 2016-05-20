@@ -47,7 +47,7 @@ class EntryReply extends Entry
 
     public function getURL()
     {
-        return route('single_entry', $this->parent).'#'.$this->hashId();
+        return route('single_entry', $this->parent_id).'#'.$this->hashId();
     }
 
     public function canEdit()

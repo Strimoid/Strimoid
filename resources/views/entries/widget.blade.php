@@ -1,10 +1,4 @@
-<?php
-
-$isReply = isset($isReply) ? true : false;
-
-?>
-
-<div class="panel-default entry @if ($isReply) entry_reply @endif" data-id="{!! $entry->hashId() !!}" @if ($isReply) data-parent-id="{!! $entry->parent->hashId() !!}" @endif>
+<div class="panel-default entry @if ($isReply) entry_reply @endif" data-id="{!! $entry->hashId() !!}" @if ($isReply) data-parent-id="{!! $entry->parent_id !!}" @endif>
     <a name="{!! $entry->hashId() !!}"></a>
 
     <div class="entry_avatar">
@@ -13,7 +7,10 @@ $isReply = isset($isReply) ? true : false;
     </div>
 
     <div class="panel-heading entry_header">
-        <a href="{!! route('user_profile', $entry->user->name) !!}" class="entry_author" data-hover="user_widget" data-user="{!! $entry->user->name !!}">{!! $entry->user->getColoredName() !!}</a>
+        <a href="{!! route('user_profile', $entry->user->name) !!}" class="entry_author"
+           data-hover="user_widget" data-user="{!! $entry->user->name !!}">
+            {!! $entry->user->getColoredName() !!}
+        </a>
 
         <span class="pull-right">
             @if (!$isReply)
@@ -31,7 +28,8 @@ $isReply = isset($isReply) ? true : false;
                 </time>
             </a>
 
-            <span class="voting" data-id="{!! $entry->hashId() !!}" data-state="{!! $entry->getVoteState() !!}" @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
+            <span class="voting" data-id="{!! $entry->hashId() !!}" data-state="{!! $entry->getVoteState() !!}"
+                  @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
                 <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($entry->getVoteState() == 'uv') btn-success @endif">
                     <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $entry->uv !!}</span>
                 </button>

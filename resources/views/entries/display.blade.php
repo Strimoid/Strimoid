@@ -57,7 +57,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
 <div class="entries">
     @foreach ($entries as $entry)
-        @include('entries.widget', ['entry' => $entry])
+        @include('entries.widget', ['entry' => $entry, 'isReply' => false])
 
         @if ($entry->replies_count > 2 && !starts_with(Route::current()->getName(), 'single_entry'))
             <div class="entry entry_reply entry_expand_replies" data-id="{!! $entry->hashId() !!}">
