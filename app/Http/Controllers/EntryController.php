@@ -72,7 +72,7 @@ class EntryController extends BaseController
             ->with(['group', 'user', 'replies', 'replies.user']);
 
         if (Auth::check()) {
-            $builder->with('vote', 'usave');
+            $builder->with('vote', 'usave', 'replies.vote');
         }
 
         $perPage = Settings::get('entries_per_page');
