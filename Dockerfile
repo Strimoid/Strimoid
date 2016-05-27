@@ -17,11 +17,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install
 
 # Add PHP-PM
+RUN composer require react/http:dev-master
 RUN composer require php-pm/php-pm:dev-master
 RUN composer require php-pm/httpkernel-adapter:dev-master
 
 # Environment variables
 ENV MYSQL_HOST mariadb
 
-CMD php artisan serve
+CMD serve
 ENTRYPOINT php artisan
