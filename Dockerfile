@@ -16,11 +16,6 @@ RUN docker-php-ext-install intl openssl pdo pdo_mysql
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install
 
-# Add PHP-PM
-RUN composer require react/http:dev-master
-RUN composer require php-pm/php-pm:dev-master
-RUN composer require php-pm/httpkernel-adapter:dev-master
-
 # Environment variables
 ENV MYSQL_HOST mariadb
 
