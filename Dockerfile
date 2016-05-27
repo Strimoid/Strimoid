@@ -1,4 +1,4 @@
-FROM php:alpine
+FROM duxet/docker-php:latest
 
 COPY . /src
 WORKDIR /src
