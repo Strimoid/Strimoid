@@ -1323,7 +1323,7 @@ $(document).ready(function () {
     $('body').on('click', 'a.entry_reply_link', function () {
         var link = $(this);
         var entry = $(this).parent().parent();
-        var author = $(entry).find('.entry_author').text();
+        var author = $(entry).find('.entry_author').text().trim();
 
         if (entry.hasClass('entry_reply')) var parent = $(entry).prevAll(".entry:not(.entry_reply)").first();else var parent = $(entry);
 
