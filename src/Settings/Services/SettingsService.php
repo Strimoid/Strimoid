@@ -16,8 +16,7 @@ class SettingsService
             return data_get($this->settings[$key], 'default');
         }
 
-        $cacheTags = ['user.settings', 'u.'.auth()->id()];
-        $value = user()->settings()->remember(60)->cacheTags($cacheTags)->where('key', $key)->first();
+        $value = user()->settings()->userCache('settings')->where('key', $key)->first();
         return $value ? $value->value : $this->settings[$key]['default'];
     }
 

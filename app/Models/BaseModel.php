@@ -106,4 +106,10 @@ abstract class BaseModel extends Eloquent
             ->hour(0)->minute(0)->second(0);
         $query->where('created_at', '>', $fromTime->toDateTimeString());
     }
+
+    public function scopeUserCache($query, string $tag, int $minutes = 60)
+    {
+        $tags = ['user.'.$tag, 'u.'.auth()->id()];
+        $query->remember($minutes)->cacheTags($tags);
+    }
 }
