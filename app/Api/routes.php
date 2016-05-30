@@ -19,8 +19,8 @@ $api->post('contents', ['middleware' => 'auth', 'uses' => 'ContentController@sto
 $api->patch('contents/{content}', ['middleware' => 'auth', 'uses' => 'ContentController@edit']);
 $api->delete('contents/{content}', ['middleware' => 'auth', 'uses' => 'ContentController@removeContent']);
 
-$api->post('contents/{content}/related', ['middleware' => 'auth', 'uses' => 'RelatedController@store']);
-$api->delete('related/{related}', ['middleware' => 'auth', 'uses' => 'RelatedController@removeRelated']);
+$api->post('contents/{content}/related', ['middleware' => 'auth', 'uses' => 'Content\RelatedController@store']);
+$api->delete('related/{related}', ['middleware' => 'auth', 'uses' => 'Content\RelatedController@removeRelated']);
 
 // Comments
 $api->get('comments', ['uses' => 'CommentController@index']);
@@ -37,7 +37,7 @@ $api->post('entries/{entry}/replies', ['middleware' => 'auth', 'uses' => 'EntryC
 $api->delete('entries/{entry}', ['middleware' => 'auth', 'uses' => 'EntryController@remove']);
 
 // Groups
-$api->resource('groups', 'Api\GroupController', ['only' => ['index', 'show']]);
+$api->resource('groups', 'GroupController', ['only' => ['index', 'show']]);
 
 // Users
 $api->get('users/{id}', 'UserController@show');

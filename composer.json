@@ -49,19 +49,25 @@
           "anhskohbo/no-captcha": "^2.1",
           "dingo/api": "1.0.x@dev",
           "thomaswelton/laravel-gravatar": "^1.1",
-            "syholloway/mrcolor": "^0.0.1",
-            "php-pm/httpkernel-adapter": "dev-master"
+          "syholloway/mrcolor": "^0.0.1",
+          "php-pm/httpkernel-adapter": "dev-feature-laravel"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "~2.1",
-          "barryvdh/laravel-debugbar": "~2.0",
+          "barryvdh/laravel-debugbar": "~2.2",
           "doctrine/dbal": "~2.4",
           "codeception/codeception": "~2.1",
-          "fzaninotto/faker": "*",
+          "fzaninotto/faker": "~1.6",
           "laracasts/generators": "~1.1",
           "mockery/mockery": "~0.9",
           "vipsoft/code-coverage-extension": "~2.5"
       },
+      "repositories": [
+          {
+              "type": "vcs",
+              "url": "https://github.com/duxet/php-pm-httpkernel"
+          }
+      ],
       "autoload": {
           "classmap": [
               "database"
