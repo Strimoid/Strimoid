@@ -10,7 +10,8 @@ VOLUME /src/storage
 RUN apk update && apk add git icu-dev openssl-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install intl openssl pcntl pdo pdo_mysql
+RUN docker-php-ext-install apcu intl openssl pcntl pdo pdo_mysql
+RUN pecl install apcu
 
 # Install Composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
