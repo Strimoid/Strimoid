@@ -12,6 +12,7 @@ RUN apk update && apk add git icu-dev openssl-dev
 # Install PHP extensions
 RUN docker-php-ext-install intl openssl pcntl pdo pdo_mysql mbstring
 RUN pecl install apcu
+RUN docker-php-ext-enable apcu
 
 # Install Composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
