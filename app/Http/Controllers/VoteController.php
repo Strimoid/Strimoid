@@ -39,7 +39,7 @@ class VoteController extends BaseController
             return response()->make('Banned', 400);
         }
 
-        if (!apc_add('anti_vote_flood.user.'.Auth::id(), 1, 1)) {
+        if (!apcu_add('anti_vote_flood.user.'.Auth::id(), 1, 1)) {
             return response()->make('Don\'t flood', 400);
         }
 
