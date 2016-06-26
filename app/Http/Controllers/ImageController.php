@@ -14,6 +14,7 @@ class ImageController extends BaseController
         $this->server = $serverFactory->create([
             'source' => storage_path('uploads'),
             'cache'  => '/tmp/strimoid/glide/',
+            'driver' => config('image.driver'),
         ]);
 
         $this->server->setResponseFactory(
