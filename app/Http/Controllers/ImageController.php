@@ -23,6 +23,11 @@ class ImageController extends BaseController
         );
     }
 
+    public function showImage($folder, $filename)
+    {
+        return $this->resizeImage(200, 200, $folder, $filename);
+    }
+
     public function resizeImage($width = 200, $height = 200, $folder = '', $filename = '')
     {
         $sourcePath = $folder.DIRECTORY_SEPARATOR.$filename.'.png';
