@@ -12,7 +12,7 @@ RUN apk update && apk add autoconf git icu-dev imagemagick-dev openssl-dev
 # Install PHP extensions
 RUN docker-php-ext-install intl openssl pcntl pdo pdo_mysql
 
-RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS && \
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS libtool && \
     pecl install apcu && \
     pecl install imagick && \
     docker-php-ext-enable apcu imagick && \
