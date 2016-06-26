@@ -23,19 +23,23 @@ class ImageController extends BaseController
         );
     }
 
-    public function showImage($folder, $filename)
+    public function showImage($folder, $filename, $format)
     {
-        return $this->resizeImage(200, 200, $folder, $filename);
+        return $this->resizeImage(200, 200, $folder, $filename, $format);
     }
 
-    public function resizeImage($width = 200, $height = 200, $folder = '', $filename = '')
+    public function resizeImage($width, $height, $folder, $filename, $format)
     {
-        $sourcePath = $folder.DIRECTORY_SEPARATOR.$filename.'.png';
+        $sourcePath = $folder.DIRECTORY_SEPARATOR.$filename.'.'.$format;
+
+        if ($width > 1000 || $height > 1000) {
+            return response('invalid image size', 400);
+        }
 
         try {
             return $this->server->getImageResponse($sourcePath, [
-                'w' => $width,
-                'h' => $height
+                'w' => (int) $width,
+                'h' => (int) $height
             ]);
         } catch (FileNotFoundException $exception) {
             return response(null, 404);
