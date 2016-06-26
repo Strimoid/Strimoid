@@ -2,6 +2,7 @@
 
 namespace Strimoid\Http\Controllers;
 
+use League\Glide\Filesystem\FileNotFoundException;
 use League\Glide\Responses\SymfonyResponseFactory;
 use League\Glide\ServerFactory;
 
@@ -26,9 +27,13 @@ class ImageController extends BaseController
     {
         $sourcePath = $folder.DIRECTORY_SEPARATOR.$filename.'.png';
 
-        return $this->server->getImageResponse($sourcePath, [
-            'w' => $width,
-            'h' => $height
-        ]);
+        try {
+            return $this->server->getImageResponse($sourcePath, [
+                'w' => $width,
+                'h' => $height
+            ]);
+        } catch (FileNotFoundException $exception) {
+            return response(null, 404);
+        }
     }
 }
