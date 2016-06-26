@@ -259,6 +259,6 @@ Route::get('/ranking', ['as' => 'ranking', 'uses' => 'RankingController@showRank
 Route::get('/g/{group}/ranking', ['as' => 'group_ranking', 'uses' => 'RankingController@showRanking']);
 
 /* Media ============================================================================================================ */
+Route::get('/i/duck/{username}.svg', 'DuckController@drawDuck');
 Route::get('/i/{width}x{height}/{folder}/{filename}.png', 'ImageController@resizeImage');
-Route::get('/i/{folder}/{filename}.png', 'ImageController@resizeImage');
-Route::get('/duck/{username}.svg', 'DuckController@drawDuck');
+Route::get('/i/{folder}/{filename}.png', 'ImageController@showImage');
