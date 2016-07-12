@@ -65,7 +65,9 @@ class Content extends BaseModel
 
     public function getEmbed($autoPlay = true)
     {
-        if (! $this->url) return false;
+        if (!$this->url) {
+            return false;
+        }
 
         return OEmbed::getEmbedHtml($this->url, $autoPlay);
     }

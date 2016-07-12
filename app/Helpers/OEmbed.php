@@ -18,7 +18,7 @@ class OEmbed
         try {
             $data = $this->getData($url);
 
-            $image = array_first($data['links'], function ($key, $value) {
+            $image = array_first($data['links']['thumbnail'], function ($key, $value) {
                 return $this->isImage($value);
             });
 
@@ -33,7 +33,7 @@ class OEmbed
     {
         $data = $this->getData($url);
 
-        $data = array_where($data['links'], function ($key, $value) {
+        $data = array_where($data['links']['thumbnail'], function ($key, $value) {
             return $this->isImage($value);
         });
 
