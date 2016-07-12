@@ -20,23 +20,23 @@
     "bootstrap": "~4.0.0",
     "bootstrap-hover-dropdown": "~2.2",
     "bootstrap-tagsinput": "~0.5.0",
-    "font-awesome": "~4.5.0",
+    "font-awesome": "~4.6.3",
     "hogan": "~3.0.2",
     "image-picker": "~0.2.4",
-    "ionsound": "~3.0.0",
+    "ionsound": "~3.0.7",
     "jquery": "~2.2",
     "jquery-methodOverride": "*",
     "jquery-pjax": "latest",
     "jquery.cookie": "~1.4.1",
     "ladda": "~0.9.8",
     "lodash": "~4.3",
-    "perfect-scrollbar": "~0.6.5",
+    "perfect-scrollbar": "~0.6.12",
     "pusher": "~2.2.4",
     "riot": "~2.2.4",
     "tether": "~1.1.0",
     "typeahead.js": "~0.10.5",
     "autosize": "^3.0.15",
-    "jquery-timeago": "^1.5.2"
+    "jquery-timeago": "^1.5.3"
   },
   "overrides": {
     "bootstrap": {
