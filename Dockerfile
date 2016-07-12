@@ -1,8 +1,5 @@
 FROM php:fpm-alpine
 
-COPY . /src
-WORKDIR /src
-
 EXPOSE 8000
 VOLUME /src/storage
 
@@ -17,6 +14,10 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS libtool && \
     pecl install imagick && \
     docker-php-ext-enable apcu imagick && \
     apk del .phpize-deps
+
+# Copy source files
+COPY . /src
+WORKDIR /src
 
 # Install Composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
