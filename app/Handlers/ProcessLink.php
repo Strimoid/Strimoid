@@ -2,6 +2,9 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
+use Illuminate\Support\Facades\Config;
+use Strimoid\Facades\Guzzle;
+use Strimoid\Models\Content;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ProcessLink

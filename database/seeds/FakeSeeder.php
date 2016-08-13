@@ -1,12 +1,9 @@
 <?php
 
 use Strimoid\Models\Comment;
-use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
-use Strimoid\Models\EntryReply;
 use Strimoid\Models\Group;
-use Strimoid\Models\GroupSubscriber;
 use Strimoid\Models\User;
 
 class FakeSeeder extends BaseSeeder

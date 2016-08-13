@@ -1,6 +1,5 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use App;
 use Auth;
 use Illuminate\Http\Request;
 use Input;
@@ -8,7 +7,6 @@ use Queue;
 use Redirect;
 use Response;
 use Route;
-use Session;
 use Setting;
 use Strimoid\Contracts\Repositories\ContentRepository;
 use Strimoid\Contracts\Repositories\FolderRepository;
@@ -39,9 +37,11 @@ class ContentController extends BaseController
      * @param GroupRepository   $groups
      * @param FolderRepository  $folders
      */
-    public function __construct(ContentRepository $contents,
-        GroupRepository $groups, FolderRepository $folders)
-    {
+    public function __construct(
+        ContentRepository $contents,
+        GroupRepository $groups,
+        FolderRepository $folders
+    ) {
         $this->contents = $contents;
         $this->groups = $groups;
         $this->folders = $folders;

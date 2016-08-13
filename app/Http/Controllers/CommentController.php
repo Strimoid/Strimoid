@@ -2,7 +2,6 @@
 
 use App;
 use Auth;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use Response;
@@ -15,8 +14,6 @@ use Strimoid\Models\CommentReply;
 
 class CommentController extends BaseController
 {
-    // use ValidatesRequests;
-
     /**
      * @var FolderRepository
      */
@@ -27,10 +24,6 @@ class CommentController extends BaseController
      */
     protected $groups;
 
-    /**
-     * @param FolderRepository $folders
-     * @param GroupRepository  $groups
-     */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
         $this->groups = $groups;

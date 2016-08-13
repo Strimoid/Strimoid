@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 use Pdp\Parser;
 use Pdp\PublicSuffixListManager;
 use Strimoid\Helpers\OEmbed;
-use Strimoid\Services\Settings;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -5,17 +5,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\DomCrawler\Crawler;
 
-
 class Pjax
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         /** @var $response Response */
         $response = $next($request);

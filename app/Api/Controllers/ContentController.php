@@ -21,10 +21,6 @@ class ContentController extends BaseController
      */
     protected $groups;
 
-    /**
-     * @param FolderRepository $folders
-     * @param GroupRepository  $groups
-     */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
         $this->folders = $folders;

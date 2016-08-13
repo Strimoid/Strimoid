@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "65d71d4189cf7fcc7b786166febfd7aa",
-    "content-hash": "d4af3c7a20a7319e4cf12fbc9ebca717",
+    "hash": "a687789aa49ac3ac45b62fb603f9889b",
+    "content-hash": "2ab740c97b247435f0fa0cfc8ba5eaf2",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -2998,49 +2998,6 @@
                 "beanstalkd"
             ],
             "time": "2015-08-07 21:42:41"
-        },
-        {
-            "name": "phindmarsh/summon",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phindmarsh/summon.git",
-                "reference": "90ae4eaedb4e5a91e838a0ec3b60c45812393425"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phindmarsh/summon/zipball/90ae4eaedb4e5a91e838a0ec3b60c45812393425",
-                "reference": "90ae4eaedb4e5a91e838a0ec3b60c45812393425",
-                "shasum": ""
-            },
-            "require": {
-                "guzzle/guzzle": ">=3.5.0",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Summon": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Patrick Hindmarsh",
-                    "email": "patrick@hindmar.sh"
-                }
-            ],
-            "description": "A PHP library for fetching thumbnails from a URL",
-            "homepage": "http://github.com/phindmarsh/summon",
-            "keywords": [
-                "scrape",
-                "thumbnail",
-                "url"
-            ],
-            "time": "2015-06-12 03:16:51"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -7123,7 +7080,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.0"
+        "php": ">=7.0.8"
     },
     "platform-dev": []
 }

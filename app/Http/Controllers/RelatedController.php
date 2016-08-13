@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Http\Controllers;
 
 use Auth;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
 use OEmbed;
@@ -11,8 +10,6 @@ use Strimoid\Models\ContentRelated;
 
 class RelatedController extends BaseController
 {
-    // use ValidatesRequests;
-
     public function addRelated(Request $request, $content)
     {
         $this->validate($request, ContentRelated::rules());

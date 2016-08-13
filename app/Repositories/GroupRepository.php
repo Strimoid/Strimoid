@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\GroupRepository as GroupRepositoryContract;
-use Strimoid\Exceptions\EntityNotFoundException;
 use Strimoid\Models\Group;
 
 class GroupRepository extends Repository implements GroupRepositoryContract
@@ -11,9 +10,6 @@ class GroupRepository extends Repository implements GroupRepositoryContract
      */
     protected $group;
 
-    /**
-     * @param Group $group
-     */
     public function __construct(Group $group)
     {
         $this->group = $group;

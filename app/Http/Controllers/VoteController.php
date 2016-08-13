@@ -3,14 +3,13 @@
 use Auth;
 use Carbon;
 use Illuminate\Http\Request;
-use Input;
-use Response;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
+use Strimoid\Models\User;
 
 class VoteController extends BaseController
 {
@@ -131,11 +130,7 @@ class VoteController extends BaseController
         return response()->json(['status' => 'ok', 'voters' => $results]);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Collection $object
-     * @return bool
-     */
-    private function getVoteElement($object, $user)
+    private function getVoteElement($object, User $user)
     {
         if (!$object->votes()) return false;
 
@@ -147,11 +142,9 @@ class VoteController extends BaseController
     }
 
     /**
-     * @param  string  $id
-     * @param  string  $type
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
-    private function getObject($id, $type)
+    private function getObject(string $id, string $type)
     {
         $id = \Hashids::decode($id);
         $id = current($id);
