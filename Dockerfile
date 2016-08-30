@@ -26,5 +26,5 @@ RUN composer install
 # Environment variables
 ENV MYSQL_HOST mariadb
 
-CMD serve
-ENTRYPOINT php artisan
+ENTRYPOINT ["/src/artisan"]
+CMD ["serve", "--host", "0.0.0.0"]
