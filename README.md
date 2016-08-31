@@ -18,7 +18,7 @@ Documentation
 ========
 We are providing documentation generated automatically by Sami at https://sami.strm.pl
 
-How to use?
+How to use it?
 ========
 * run:
 
@@ -36,6 +36,13 @@ To run web app from console use:
 
 ```
 php artisan serve
+```
+
+How to use it with Docker?
+========
+```
+docker-compose up -d
+docker-compose run web migrate --force
 ```
 
 To do
