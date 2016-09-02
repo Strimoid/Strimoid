@@ -1,11 +1,7 @@
 <?php namespace Strimoid\Http\Controllers;
 
-use Auth;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Input;
-use Redirect;
-use Strimoid\Models\UserSetting;
 
 class SettingsController extends BaseController
 {

@@ -1,6 +1,9 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Strimoid\Models\DailyAction;
+use Strimoid\Models\User;
 
 class UpdateUserPoints extends Command
 {
@@ -17,16 +20,6 @@ class UpdateUserPoints extends Command
      * @var string
      */
     protected $description = 'Updates user points amount.';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
@@ -56,22 +49,12 @@ class UpdateUserPoints extends Command
         $this->info('All users processed');
     }
 
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
+    protected function getArguments() : array
     {
         return [];
     }
 
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
+    protected function getOptions() : array
     {
         return [];
     }

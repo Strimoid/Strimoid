@@ -1,6 +1,7 @@
 version: '2'
 services:
   web:
+    build: .
     image: strimoid/strimoid
     environment:
      - MYSQL_HOST=mariadb
@@ -8,8 +9,8 @@ services:
     ports:
      - "8000:8000"
     volumes:
-     - .:/code
-    depends_on:
+     - .:/src
+    links:
      - beanstalkd
      - mariadb
      - redis

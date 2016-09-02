@@ -1,7 +1,8 @@
 <?php namespace Strimoid\Handlers\Events;
 
 use Closure;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Events\Dispatcher;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\ConversationMessage;
@@ -18,10 +19,8 @@ class NotificationsHandler
 {
     /**
      * Register the listeners for the subscriber.
-     *
-     * @param \Illuminate\Events\Dispatcher $events
-     */
-    public function subscribe($events)
+    */
+    public function subscribe(Dispatcher $events)
     {
         $this->addHandlers(Comment::class, $events);
         $this->addHandlers(CommentReply::class, $events);
@@ -34,7 +33,7 @@ class NotificationsHandler
      * @param string $class
      * @param \Illuminate\Events\Dispatcher $events
      */
-    protected function addHandlers($class, $events)
+    protected function addHandlers(string $class, Dispatcher $events)
     {
         $baseName = class_basename($class);
 
@@ -45,10 +44,7 @@ class NotificationsHandler
         $events->listen($updated, self::class.'@on'.$baseName.'Edit');
     }
 
-    /**
-     * @param Comment $comment
-     */
-    public function onCommentCreate($comment)
+    public function onCommentCreate(Comment $comment)
     {
         $this->sendNotifications(
             $comment->text_source,
@@ -60,19 +56,13 @@ class NotificationsHandler
         );
     }
 
-    /**
-     * @param Comment $comment
-     */
-    public function onCommentEdit($comment)
+    public function onCommentEdit(Comment $comment)
     {
         $notification = $comment->notifications()->first();
         $this->updateNotificationTargets($notification, $comment->text_source);
     }
 
-    /**
-     * @param CommentReply $comment
-     */
-    public function onCommentReplyCreate($comment)
+    public function onCommentReplyCreate(CommentReply $comment)
     {
         $this->sendNotifications(
             $comment->text_source,
@@ -84,19 +74,13 @@ class NotificationsHandler
         );
     }
 
-    /**
-     * @param CommentReply $comment
-     */
-    public function onCommentReplyEdit($comment)
+    public function onCommentReplyEdit(CommentReply $comment)
     {
         $notification = $comment->notifications()->first();
         $this->updateNotificationTargets($notification, $comment->text_source);
     }
 
-    /**
-     * @param Entry $entry
-     */
-    public function onEntryCreate($entry)
+    public function onEntryCreate(Entry $entry)
     {
         $this->sendNotifications(
             $entry->text_source,
@@ -108,19 +92,13 @@ class NotificationsHandler
         );
     }
 
-    /**
-     * @param Entry $entry
-     */
-    public function onEntryEdit($entry)
+    public function onEntryEdit(Entry $entry)
     {
         $notification = $entry->notifications()->first();
         $this->updateNotificationTargets($notification, $entry->text_source);
     }
 
-    /**
-     * @param EntryReply $entry
-     */
-    public function onEntryReplyCreate($entry)
+    public function onEntryReplyCreate(EntryReply $entry)
     {
         $this->sendNotifications(
             $entry->text_source,
@@ -132,25 +110,16 @@ class NotificationsHandler
         );
     }
 
-    /**
-     * @param EntryReply $entry
-     */
-    public function onEntryReplyEdit($entry)
+    public function onEntryReplyEdit(EntryReply $entry)
     {
         $notification = $entry->notifications()->first();
         $this->updateNotificationTargets($notification, $entry->text_source);
     }
 
-    /**
-     * @param ConversationMessage $message
-     */
-    public function onConversationMessageCreate($message)
+    public function onConversationMessageCreate(ConversationMessage $message)
     {
         $conversation = $message->conversation;
         $targets = $conversation->users;
-
-        $targetIds = $targets->lists('id');
-        // $conversation->notifications()->whereIn('user_id', $targetIds)->delete();
 
         $this->sendNotifications(
             $targets->all(),
@@ -165,20 +134,17 @@ class NotificationsHandler
 
     /**
      * Find mention differences and update related notification targets.
-     *
-     * @param $notification Notification
-     * @param $newText string
      */
-    protected function updateNotificationTargets($notification, $newText)
+    protected function updateNotificationTargets(Notification $notification, string $newText)
     {
-        $oldUserIds = $notification->targets()->lists('user_id')->toArray();
+        $oldUserIds = $notification->targets()->pluck('user_id')->toArray();
         $newUsers = $this->findMentionedUsers($newText);
 
-        $newTargets = $newUsers->filter(function ($user) use ($oldUserIds) {
+        $newTargets = $newUsers->filter(function (User $user) use ($oldUserIds) {
             return ! in_array($user->getKey(), $oldUserIds);
         });
 
-        $removedTargets = array_diff($oldUserIds, $newUsers->lists('id')->toArray());
+        $removedTargets = array_diff($oldUserIds, $newUsers->pluck('id')->toArray());
 
         if (sizeof($removedTargets) > 0) {
             foreach ($removedTargets as $removedTarget) {
@@ -191,8 +157,6 @@ class NotificationsHandler
      * Send notifications to given users.
      *
      * @param array|string $targets
-     * @param Closure      $callback
-     * @param User         $sourceUser
      */
     protected function sendNotifications($targets, Closure $callback, User $sourceUser)
     {
@@ -205,16 +169,13 @@ class NotificationsHandler
         $callback($notification);
         $this->addPushTargets($notification, $users);
         $notification->save();
-        $this->addTargets($notification, $users);        
+        $this->addTargets($notification, $users);
     }
 
     /**
      * Add users as targets of push notification.
-     *
-     * @param Notification $notification Notification
-     * @param $users
      */
-    protected function addPushTargets($notification, $users)
+    protected function addPushTargets(Notification $notification, array $users)
     {
         $sourceUser = $notification->user;
         foreach ($users as $targetUser) {
@@ -226,11 +187,8 @@ class NotificationsHandler
 
     /**
      * Add users as targets of notification.
-     *
-     * @param Notification $notification Notification
-     * @param $users
      */
-    protected function addTargets($notification, $users)
+    protected function addTargets(Notification $notification, array $users)
     {
         $sourceUser = $notification->user;
         foreach ($users as $targetUser) {
@@ -243,25 +201,20 @@ class NotificationsHandler
 
     /**
      * Checks that user is not "myself" or is not blocked by notification target user
-     *
-     * @param $sourceUser User
-     * @param $targetUser User
      */
-    public function isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser) {
+    public function isNotMyselfOrBlockedByReceiver(User $sourceUser, User $targetUser)
+    {
         if ($targetUser->getKey() != $sourceUser->getKey() && ! $targetUser->isBlockingUser($sourceUser)) {
             return true;
-        } 
+        }
+
         return false;
     }
 
     /**
      * Get list of users mentioned in given text.
-     *
-     * @param string $text Source text
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
      */
-    protected function findMentionedUsers($text)
+    protected function findMentionedUsers(string $text) : Collection
     {
         preg_match_all('/@([a-z0-9_-]+)/i', $text, $matches, PREG_SET_ORDER);
         $nicknames = array_pluck($matches, 1);
