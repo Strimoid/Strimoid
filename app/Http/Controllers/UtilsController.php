@@ -22,10 +22,10 @@ class UtilsController extends BaseController
             ->toArray();
 
         return [
-            'status' => 'ok',
-            'title' => $title,
+            'status'      => 'ok',
+            'title'       => $title,
             'description' => $description,
-            'duplicates' => $duplicates,
+            'duplicates'  => $duplicates,
         ];
     }
 }

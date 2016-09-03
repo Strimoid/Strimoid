@@ -33,7 +33,7 @@ class Content extends BaseModel
         static::deleted(function (Content $content) {
             Notification::where('content_id', $this->getKey())->delete();
 
-            if (! $content->trashed()) {
+            if (!$content->trashed()) {
                 foreach ($this->comments() as $comment) {
                     $comment->delete();
                 }
@@ -148,6 +148,7 @@ class Content extends BaseModel
     public function scopeFrontpage($query, $exists = true)
     {
         $where = $exists ? 'whereNotNull' : 'whereNull';
+
         return $query->{ $where }('frontpage_at');
     }
 

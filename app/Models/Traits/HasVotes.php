@@ -6,7 +6,7 @@ use Strimoid\Models\Vote;
 trait HasVotes
 {
     /**
-     * @var  string  uv|dv|none
+     * @var string uv|dv|none
      */
     protected $vote_state;
 
@@ -37,7 +37,7 @@ trait HasVotes
      */
     public function getVoteState()
     {
-        if (Auth::guest() || ! $this->votes()) {
+        if (Auth::guest() || !$this->votes()) {
             return 'none';
         }
 

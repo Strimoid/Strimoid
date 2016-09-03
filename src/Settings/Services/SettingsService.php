@@ -17,6 +17,7 @@ class SettingsService
         }
 
         $value = user()->settings()->userCache('settings')->where('key', $key)->first();
+
         return $value ? $value->value : $this->settings[$key]['default'];
     }
 
@@ -32,6 +33,7 @@ class SettingsService
         }
 
         $options = data_get($this->settings[$key], 'options', []);
+
         return value($options);
     }
 

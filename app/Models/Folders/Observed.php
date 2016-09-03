@@ -11,10 +11,10 @@ class Observed extends FakeFolder
     {
         $builder = with(new $model())->newQuery();
 
-        $observedUsers = Auth::user()->followedUsers()->lists('id');
+        $observedUsers = Auth::user()->followedUsers()->pluck('id');
         $builder->whereIn('user_id', $observedUsers);
 
-        $blockedGroups = Auth::user()->blockedGroups()->lists('id');
+        $blockedGroups = Auth::user()->blockedGroups()->pluck('id');
         $builder->whereNotIn('group_id', (array) $blockedGroups);
 
         return $builder;

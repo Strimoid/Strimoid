@@ -40,6 +40,7 @@ class GroupMentionParser extends AbstractInlineParser
         if (empty($handle)) {
             // Regex failed to match; this isn't a valid username
             $cursor->restoreState($previousState);
+
             return false;
         }
 
@@ -47,11 +48,13 @@ class GroupMentionParser extends AbstractInlineParser
 
         if (!$group) {
             $cursor->restoreState($previousState);
+
             return false;
         }
 
         $groupUrl = route('group_contents', $group, false);
         $inlineContext->getContainer()->appendChild(new Link($groupUrl, 'g/'.$handle));
+
         return true;
     }
 }

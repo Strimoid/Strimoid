@@ -12,7 +12,7 @@ class DownloadThumbnail
 
         $job->delete();
 
-        Pusher::trigger('content-'. $content->getKey(), 'loaded-thumbnail', [
+        Pusher::trigger('content-'.$content->getKey(), 'loaded-thumbnail', [
             'url' => $content->getThumbnailPath(),
         ]);
     }

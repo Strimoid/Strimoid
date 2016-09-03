@@ -37,7 +37,7 @@ class EntryController extends BaseController
     public function showEntriesFromGroup($groupName = null)
     {
         // If user is on homepage, then use proper group
-        if (! Route::input('groupname')) {
+        if (!Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -84,7 +84,8 @@ class EntryController extends BaseController
     /**
      * Show entry view.
      *
-     * @param  Entry  $entry
+     * @param Entry $entry
+     *
      * @return \Illuminate\View\View
      */
     public function showEntry($entry)
@@ -141,20 +142,20 @@ class EntryController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function addReply(Request $request, $parent)
+    public function addReply(Request $request, $entry)
     {
         $this->validate($request, EntryReply::rules());
 
-        if (Auth::user()->isBanned($parent->group)) {
+        if (user()->isBanned($entry->group)) {
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
-        $entry = new EntryReply();
-        $entry->text = Input::get('text');
-        $entry->user()->associate(Auth::user());
-        $parent->replies()->save($entry);
+        $reply = new EntryReply();
+        $reply->text = Input::get('text');
+        $reply->user()->associate(Auth::user());
+        $entry->replies()->save($reply);
 
-        $replies = view('entries.replies', ['entry' => $parent, 'replies' => $parent->replies])
+        $replies = view('entries.replies', ['entry' => $entry, 'replies' => $entry->replies])
             ->render();
 
         return Response::json(['status' => 'ok', 'replies' => $replies]);
@@ -171,7 +172,7 @@ class EntryController extends BaseController
         if (!$entry->canEdit()) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Pojawiła się już odpowiedź na twój wpis.'
+                'error'  => 'Pojawiła się już odpowiedź na twój wpis.',
             ]);
         }
 

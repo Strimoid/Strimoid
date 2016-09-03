@@ -2,53 +2,53 @@
 
 return [
     // Header
-    'login' => 'login',
-    'logout' => 'logout',
-    'your profile' => 'your profile',
+    'login'         => 'login',
+    'logout'        => 'logout',
+    'your profile'  => 'your profile',
     'conversations' => 'conversations',
-    'settings' => 'settings',
-    'all' => 'All',
+    'settings'      => 'settings',
+    'all'           => 'All',
 
     'tabs' => [
-        'new' => 'new',
+        'new'      => 'new',
         'comments' => 'comments',
-        'entries' => 'entries',
+        'entries'  => 'entries',
     ],
 
     // Footer
-    'homepage' => 'Home page',
-    'group list' => 'List of groups',
-    'guide' => 'Guide',
-    'ranking' => 'Ranking',
-    'rules' => 'Rules',
-    'contact' => 'Contact',
-    'night mode' => 'night mode',
+    'homepage'     => 'Home page',
+    'group list'   => 'List of groups',
+    'guide'        => 'Guide',
+    'ranking'      => 'Ranking',
+    'rules'        => 'Rules',
+    'contact'      => 'Contact',
+    'night mode'   => 'night mode',
     'website uses' => 'Website uses',
     'cookie files' => 'cookies',
 
     // Sidebars
     'popular contents' => 'Popular contents',
     'popular comments' => 'Popular comments',
-    'stats' => 'Stats',
+    'stats'            => 'Stats',
 
     // Actions
-    'add' => 'Add',
+    'add'         => 'Add',
     'add comment' => 'Add comment',
-    'add link' => 'Add link',
+    'add link'    => 'Add link',
     'add content' => 'Add content',
-    'block' => 'Block',
-    'unblock' => 'Unblock',
+    'block'       => 'Block',
+    'unblock'     => 'Unblock',
 
     // Things
     'comments' => 'Comments',
-    'group' => 'Group',
-    'folders' => 'Folders',
+    'group'    => 'Group',
+    'folders'  => 'Folders',
 
     // Other
-    'description' => 'Description',
-    'title' => 'Title',
+    'description'      => 'Description',
+    'title'            => 'Title',
     'recently popular' => 'Recently popular',
-    'sort' => 'Sort',
-    'filter' => 'Filter',
-    'url address' => 'URL Address',
+    'sort'             => 'Sort',
+    'filter'           => 'Filter',
+    'url address'      => 'URL Address',
 ];

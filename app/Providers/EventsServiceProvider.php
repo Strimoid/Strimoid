@@ -42,7 +42,7 @@ class EventsServiceProvider extends ServiceProvider
             function (User $user) {
                 $url = Config::get('app.hubot_url');
 
-                if (! $url) {
+                if (!$url) {
                     return;
                 }
 
@@ -59,7 +59,7 @@ class EventsServiceProvider extends ServiceProvider
             function (Entry $entry) {
                 $url = Config::get('app.hubot_url');
 
-                if (! $url) {
+                if (!$url) {
                     return;
                 }
 

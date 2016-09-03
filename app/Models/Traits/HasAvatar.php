@@ -35,7 +35,7 @@ trait HasAvatar
      */
     public function deleteAvatar()
     {
-        if (! $this->avatar) {
+        if (!$this->avatar) {
             return;
         }
 

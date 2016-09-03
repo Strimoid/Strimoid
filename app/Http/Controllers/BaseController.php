@@ -12,10 +12,8 @@ abstract class BaseController extends Controller
 
     /**
      * Return homepage group name.
-     *
-     * @return string
      */
-    protected function homepageGroup()
+    protected function homepageGroup() : string
     {
         $groupName = 'all';
 

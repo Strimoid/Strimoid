@@ -42,6 +42,7 @@ class EntryReply extends Entry
         $lastId = $this->parent->replies()
             ->orderBy('created_at', 'desc')
             ->value('id');
+
         return $lastId == $this->getKey();
     }
 

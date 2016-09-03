@@ -37,7 +37,7 @@ class DeleteAvatar extends Command
     public function fire()
     {
         if (!$this->argument('username')) {
-            print 'no username given';
+            echo 'no username given';
         }
 
         $user = User::findOrFail($this->argument('username'));

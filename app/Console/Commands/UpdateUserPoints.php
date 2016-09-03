@@ -34,7 +34,9 @@ class UpdateUserPoints extends Command
         $conn->disableQueryLog();
 
         $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))
-            ->with(['user' => function ($q) { $q->select(['name', 'avatar']); }])
+            ->with(['user' => function ($q) {
+                $q->select(['name', 'avatar']);
+            }])
             ->groupBy('user_id')
             ->orderBy('points', 'desc')
             ->get();

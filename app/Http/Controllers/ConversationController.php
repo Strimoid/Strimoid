@@ -62,7 +62,7 @@ class ConversationController extends BaseController
         if (!$conversation) {
             $conversation = Conversation::create([]);
             $conversation->users()->attach([
-                auth()->id(), $target->getKey()
+                auth()->id(), $target->getKey(),
             ]);
         } else {
             $conversation->notifications()

@@ -19,7 +19,7 @@ class ContentRepository extends Repository implements ContentRepositoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContentsFrom($from, $sortBy = 'created_at', $perPage = null)
     {
@@ -34,7 +34,7 @@ class ContentRepository extends Repository implements ContentRepositoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPopularContentsFrom($from, $sortBy = 'created_at', $perPage = null)
     {
@@ -49,7 +49,7 @@ class ContentRepository extends Repository implements ContentRepositoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getNewContentsFrom($from, $sortBy = 'created_at', $perPage = null)
     {

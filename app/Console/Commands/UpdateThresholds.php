@@ -49,7 +49,7 @@ class UpdateThresholds extends Command
             if ($count < 10) {
                 $threshold = 2;
             } else {
-                $threshold = $this->median($builder->lists('uv'));
+                $threshold = $this->median($builder->pluck('uv'));
                 $threshold = round($threshold);
                 $threshold = max(2, $threshold);
             }
@@ -60,7 +60,7 @@ class UpdateThresholds extends Command
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function median($array)
     {

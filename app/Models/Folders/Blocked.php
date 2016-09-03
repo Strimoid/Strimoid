@@ -12,10 +12,10 @@ class Blocked extends FakeFolder
     {
         $builder = with(new $model())->newQuery();
 
-        $blockedGroups = Auth::user()->blockedGroups()->lists('id');
+        $blockedGroups = Auth::user()->blockedGroups()->pluck('id');
         $builder->whereIn('group_id', $blockedGroups);
 
-        $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+        $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
         $builder->orWhereIn('user_id', $blockedUsers);
 
         return $builder;

@@ -38,9 +38,9 @@ class GroupController extends BaseController
 
         foreach ($groups as $group) {
             $results[] = [
-                'value' => $group->urlname,
-                'name' => $group->name,
-                'avatar' => $group->getAvatarPath(),
+                'value'    => $group->urlname,
+                'name'     => $group->name,
+                'avatar'   => $group->getAvatarPath(),
                 'contents' => (int) $group->contents()->count(),
             ];
         }
@@ -50,7 +50,8 @@ class GroupController extends BaseController
 
     public function showSubscribed()
     {
-        $names = user()->subscribedGroups()->getQuery()->lists('urlname');
+        $names = user()->subscribedGroups()->getQuery()->pluck('urlname');
+
         return Response::json(['status' => 'ok', 'groups' => $names]);
     }
 
@@ -73,7 +74,8 @@ class GroupController extends BaseController
     }
 
     /**
-     * @param  Group  $group
+     * @param Group $group
+     *
      * @return \Illuminate\View\View
      */
     public function showSettings($group)
@@ -82,7 +84,7 @@ class GroupController extends BaseController
             abort(403, 'Access denied');
         }
 
-        $filename = $group->style ?: Str::lower($group->urlname) . '.css';
+        $filename = $group->style ?: Str::lower($group->urlname).'.css';
         $disk = Storage::disk('styles');
 
         $data['group'] = $group;
@@ -106,11 +108,11 @@ class GroupController extends BaseController
         }
 
         $this->validate($request, [
-            'avatar' => 'image|max:250',
-            'name' => 'required|min:3|max:50',
+            'avatar'      => 'image|max:250',
+            'name'        => 'required|min:3|max:50',
             'description' => 'max:255',
-            'sidebar' => 'max:5000',
-            'tags' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
+            'sidebar'     => 'max:5000',
+            'tags'        => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
         ]);
 
         $group->name = request('name');
@@ -196,13 +198,13 @@ class GroupController extends BaseController
             $minutes = Lang::choice('pluralization.minutes', $diff);
 
             return Redirect::action('GroupController@showCreateForm')
-                ->with('danger_msg', 'Kolejną grupę będziesz mógł utworzyć za ' . $minutes);
+                ->with('danger_msg', 'Kolejną grupę będziesz mógł utworzyć za '.$minutes);
         }
 
         $this->validate($request, [
-            'urlname' => 'required|min:3|max:32|unique:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
+            'urlname'   => 'required|min:3|max:32|unique:groups|reserved_groupnames|regex:/^[a-zA-Z0-9_żźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/i',
             'groupname' => 'required|min:3|max:50',
-            'desc' => 'max:255',
+            'desc'      => 'max:255',
         ]);
 
         $group = new Group();
@@ -219,7 +221,7 @@ class GroupController extends BaseController
         $moderator->save();
 
         return Redirect::route('group_contents', $group->urlname)
-            ->with('success_msg', 'Nowa grupa o nazwie ' . $group->name . ' została utworzona.');
+            ->with('success_msg', 'Nowa grupa o nazwie '.$group->name.' została utworzona.');
     }
 
     public function subscribeGroup($group)
@@ -232,6 +234,7 @@ class GroupController extends BaseController
 
         user()->subscribedGroups()->attach($group);
         \Cache::tags(['user.subscribed-groups', 'u.'.auth()->id()])->flush();
+
         return Response::json(['status' => 'ok']);
     }
 
@@ -239,6 +242,7 @@ class GroupController extends BaseController
     {
         user()->subscribedGroups()->detach($group);
         \Cache::tags(['user.subscribed-groups', 'u.'.auth()->id()])->flush();
+
         return Response::json(['status' => 'ok']);
     }
 
@@ -248,6 +252,7 @@ class GroupController extends BaseController
 
         user()->blockedGroups()->attach($group);
         \Cache::tags(['user.blocked-groups', 'u.'.auth()->id()])->flush();
+
         return Response::json(['status' => 'ok']);
     }
 
@@ -255,6 +260,7 @@ class GroupController extends BaseController
     {
         user()->blockedGroups()->detach();
         \Cache::tags(['user.blocked-groups', 'u.'.auth()->id()])->flush();
+
         return Response::json(['status' => 'ok']);
     }
 
@@ -263,7 +269,7 @@ class GroupController extends BaseController
         $popularTags = ['programowanie', 'muzyka', 'gry', 'obrazki', 'it',
             'internet', 'linux', 'humor', 'nauka', 'strimoid', 'zdjęcia',
             'jam', 'oldschool', 'technika', 'śmieszne', 'art', 'technologia',
-            'wpisy', 'sztuka', 'zainteresowania'];
+            'wpisy', 'sztuka', 'zainteresowania', ];
 
         if ($tag) {
             $groups = Group::where('tags', $tag)->orderBy('subscribers', 'desc')->paginate(25);
@@ -277,6 +283,7 @@ class GroupController extends BaseController
     public function getSidebar($group)
     {
         $sidebar = $group->sidebar;
+
         return Response::json(compact('sidebar'));
     }
 }

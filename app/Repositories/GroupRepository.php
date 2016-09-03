@@ -16,7 +16,7 @@ class GroupRepository extends Repository implements GroupRepositoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getByName($name)
     {

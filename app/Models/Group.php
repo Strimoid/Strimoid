@@ -27,7 +27,7 @@ class Group extends BaseModel
     protected $table = 'groups';
     protected $visible = [
         'id', 'avatar', 'created_at', 'creator',
-        'description', 'sidebar', 'subscribers', 'name', 'urlname'
+        'description', 'sidebar', 'subscribers', 'name', 'urlname',
     ];
 
     public function creator()
@@ -40,7 +40,7 @@ class Group extends BaseModel
         $relation = $this->hasMany(Entry::class);
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
         }
 
@@ -53,7 +53,7 @@ class Group extends BaseModel
         $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
         }
 
@@ -65,7 +65,7 @@ class Group extends BaseModel
         $relation = $this->hasMany(Content::class);
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
 
             $blockedDomains = Auth::user()->blockedDomains();

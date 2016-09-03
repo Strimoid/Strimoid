@@ -28,7 +28,7 @@ class JavascriptComposer
             'config' => [
                 'env'        => app()->environment(),
                 'pusher_key' => config('broadcasting.connections.pusher.key'),
-            ]
+            ],
         ]);
     }
 

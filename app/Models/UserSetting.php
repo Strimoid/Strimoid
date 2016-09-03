@@ -15,14 +15,15 @@ class UserSetting extends BaseModel
     /**
      * Set the keys for a save update query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function setKeysForSaveQuery(Builder $query)
     {
         foreach ($this->getKeyName() as $key) {
             if (!$this->$key) {
-                throw new \Exception(__METHOD__ . 'Missing part of the primary key: ' . $key);
+                throw new \Exception(__METHOD__.'Missing part of the primary key: '.$key);
             }
 
             $query->where($key, '=', $this->$key);

@@ -32,11 +32,11 @@ class Pjax
                     $title = '';
                     // If a title-attribute exists
                     if ($response_title->count() != 0) {
-                        $title = '<title>' . $response_title->html() . '</title>';
+                        $title = '<title>'.$response_title->html().'</title>';
                     }
 
                     // Set new content for the response
-                    $response->setContent($title . $response_container->html());
+                    $response->setContent($title.$response_container->html());
                 }
 
                 // Updating address bar with the last URL in case there were redirects

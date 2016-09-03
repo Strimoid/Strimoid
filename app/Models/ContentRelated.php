@@ -1,6 +1,5 @@
 <?php namespace Strimoid\Models;
 
-use Str;
 use Strimoid\Models\Traits\HasThumbnail;
 use Strimoid\Models\Traits\HasVotes;
 

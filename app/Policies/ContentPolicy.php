@@ -9,6 +9,5 @@ class ContentPolicy
 {
     public function update(User $user, Content $content)
     {
-
     }
 }

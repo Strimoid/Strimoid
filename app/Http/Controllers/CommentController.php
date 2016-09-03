@@ -11,6 +11,7 @@ use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
+use Strimoid\Models\Content;
 
 class CommentController extends BaseController
 {
@@ -30,10 +31,10 @@ class CommentController extends BaseController
         $this->folders = $folders;
     }
 
-    public function showCommentsFromGroup($groupName = 'all')
+    public function showCommentsFromGroup(string $groupName = 'all')
     {
         // If user is on homepage, then use proper group
-        if (! Route::input('groupname')) {
+        if (!Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -75,8 +76,7 @@ class CommentController extends BaseController
 
     public function getCommentSource()
     {
-        $class = Input::get('type') == 'comment'
-            ? Comment::class : CommentReply::class;
+        $class = Input::get('type') == 'comment' ? Comment::class : CommentReply::class;
 
         $id = hashids_decode(Input::get('id'));
         $comment = $class::findOrFail($id);
@@ -88,7 +88,7 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'source' => $comment->text_source]);
     }
 
-    public function addComment(Request $request, $content)
+    public function addComment(Request $request, Content $content)
     {
         $this->validate($request, Comment::rules());
 
@@ -116,12 +116,9 @@ class CommentController extends BaseController
     /**
      * Add new reply to given Comment object.
      *
-     * @param  Request  $request
-     * @param  Comment  $parent
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addReply(Request $request, $parent)
+    public function addReply(Request $request, Comment $parent)
     {
         $this->validate($request, CommentReply::rules());
 
@@ -153,7 +150,7 @@ class CommentController extends BaseController
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
 
-        if (! $comment->canEdit()) {
+        if (!$comment->canEdit()) {
             app()->abort(403, 'Access denied');
         }
 
@@ -172,6 +169,7 @@ class CommentController extends BaseController
 
         if ($comment->canRemove()) {
             $comment->delete();
+
             return Response::json(['status' => 'ok']);
         }
 

@@ -34,7 +34,7 @@ class NewActionHandler
      */
     protected function addHandler($class, $events)
     {
-        $name = 'eloquent.created: '. $class;
+        $name = 'eloquent.created: '.$class;
         $events->listen($name, self::class.'@onNewElement');
     }
 
@@ -44,7 +44,7 @@ class NewActionHandler
     public function onNewElement($element)
     {
         $action = new UserAction([
-            'user_id' => $element->user_id
+            'user_id' => $element->user_id,
         ]);
         $action->element()->associate($element);
         $action->save();

@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Handlers\Events;
 
 use Closure;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Events\Dispatcher;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
@@ -19,7 +18,7 @@ class NotificationsHandler
 {
     /**
      * Register the listeners for the subscriber.
-    */
+     */
     public function subscribe(Dispatcher $events)
     {
         $this->addHandlers(Comment::class, $events);
@@ -29,10 +28,6 @@ class NotificationsHandler
         $this->addHandlers(ConversationMessage::class, $events);
     }
 
-    /**
-     * @param string $class
-     * @param \Illuminate\Events\Dispatcher $events
-     */
     protected function addHandlers(string $class, Dispatcher $events)
     {
         $baseName = class_basename($class);
@@ -129,7 +124,6 @@ class NotificationsHandler
             },
             $message->user
         );
-
     }
 
     /**
@@ -141,12 +135,12 @@ class NotificationsHandler
         $newUsers = $this->findMentionedUsers($newText);
 
         $newTargets = $newUsers->filter(function (User $user) use ($oldUserIds) {
-            return ! in_array($user->getKey(), $oldUserIds);
+            return !in_array($user->getKey(), $oldUserIds);
         });
 
         $removedTargets = array_diff($oldUserIds, $newUsers->pluck('id')->toArray());
 
-        if (sizeof($removedTargets) > 0) {
+        if (count($removedTargets) > 0) {
             foreach ($removedTargets as $removedTarget) {
                 $notification->targets()->detach($removedTarget);
             }
@@ -175,9 +169,10 @@ class NotificationsHandler
     /**
      * Add users as targets of push notification.
      */
-    protected function addPushTargets(Notification $notification, array $users)
+    protected function addPushTargets(Notification $notification, $users)
     {
         $sourceUser = $notification->user;
+
         foreach ($users as $targetUser) {
             if ($this->isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser)) {
                 $notification->targets->add($targetUser);
@@ -195,16 +190,15 @@ class NotificationsHandler
             if ($this->isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser)) {
                 $notification->targets()->attach($targetUser);
             }
-
         }
     }
 
     /**
-     * Checks that user is not "myself" or is not blocked by notification target user
+     * Checks that user is not "myself" or is not blocked by notification target user.
      */
     public function isNotMyselfOrBlockedByReceiver(User $sourceUser, User $targetUser)
     {
-        if ($targetUser->getKey() != $sourceUser->getKey() && ! $targetUser->isBlockingUser($sourceUser)) {
+        if ($targetUser->getKey() != $sourceUser->getKey() && !$targetUser->isBlockingUser($sourceUser)) {
             return true;
         }
 
@@ -214,11 +208,11 @@ class NotificationsHandler
     /**
      * Get list of users mentioned in given text.
      */
-    protected function findMentionedUsers(string $text) : Collection
+    protected function findMentionedUsers(string $text) : array
     {
         preg_match_all('/@([a-z0-9_-]+)/i', $text, $matches, PREG_SET_ORDER);
         $nicknames = array_pluck($matches, 1);
 
-        return User::whereIn('name', $nicknames)->get();
+        return User::whereIn('name', $nicknames)->get()->all();
     }
 }

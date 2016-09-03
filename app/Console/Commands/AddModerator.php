@@ -33,7 +33,7 @@ class AddModerator extends Command
         $moderator = new GroupModerator();
         $moderator->group()->associate($group);
         $moderator->user()->associate($user);
-        $moderator->type  = $this->option('admin') ? 'admin' : 'moderator';
+        $moderator->type = $this->option('admin') ? 'admin' : 'moderator';
         $moderator->save();
 
         $this->info($user->name.' is now moderator of '.$group->urlname);

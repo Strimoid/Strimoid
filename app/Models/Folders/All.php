@@ -10,10 +10,10 @@ class All extends FakeFolder
         $builder = with(new $model())->newQuery();
 
         if (Auth::check()) {
-            $blockedGroups = Auth::user()->blockedGroups()->lists('id');
+            $blockedGroups = Auth::user()->blockedGroups()->pluck('id');
             $builder->whereNotIn('group_id', $blockedGroups);
 
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $builder->whereNotIn('user_id', $blockedUsers);
         }
 

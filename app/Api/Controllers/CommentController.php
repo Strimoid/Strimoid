@@ -114,7 +114,7 @@ class CommentController extends BaseController
     {
         $this->validate($request, $comment->rules());
 
-        if (! $comment->canEdit()) {
+        if (!$comment->canEdit()) {
             abort(403);
         }
 
@@ -132,7 +132,7 @@ class CommentController extends BaseController
      */
     public function remove($comment)
     {
-        if (! $comment->canRemove()) {
+        if (!$comment->canRemove()) {
             abort(403);
         }
 

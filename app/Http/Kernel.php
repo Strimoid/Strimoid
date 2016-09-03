@@ -10,17 +10,32 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
-        'Illuminate\Cookie\Middleware\EncryptCookies',
-        'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
-        'Illuminate\Session\Middleware\StartSession',
-        'Illuminate\View\Middleware\ShareErrorsFromSession',
-        'LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware',
-        'Strimoid\Http\Middleware\CheckForReadOnlyMode',
-        'Strimoid\Http\Middleware\VerifyCsrfToken',
-        'Strimoid\Http\Middleware\RateLimit',
-        'Strimoid\Http\Middleware\NotificationMarkRead',
-        'Strimoid\Http\Middleware\Pjax',
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
+        Middleware\CheckForReadOnlyMode::class,
+        Middleware\VerifyCsrfToken::class,
+        Middleware\RateLimit::class,
+        Middleware\NotificationMarkRead::class,
+        Middleware\Pjax::class,
+    ];
+
+    /**
+     * The application's route middleware groups.
+     *
+     * @var array
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            'bindings',
+        ],
+        'api' => [
+            'throttle:60,1',
+            'bindings',
+        ],
     ];
 
     /**
@@ -29,9 +44,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => 'Strimoid\Http\Middleware\Authenticate',
-        'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-        'guest'      => 'Strimoid\Http\Middleware\RedirectIfAuthenticated',
-        'oauth'      => 'Strimoid\Http\Middleware\OAuth',
+        'auth'       => Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings'   => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'can'        => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest'      => Middleware\RedirectIfAuthenticated::class,
+        'oauth'      => Middleware\OAuth::class,
     ];
 }

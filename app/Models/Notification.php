@@ -9,7 +9,7 @@ class Notification extends BaseModel
 {
     use HasUserRelationship;
 
-    protected $table   = 'notifications';
+    protected $table = 'notifications';
     protected $visible = ['id', 'created_at', 'user', 'read', 'title', 'type', 'url'];
 
     public function targets()

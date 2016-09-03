@@ -29,14 +29,14 @@ class Conversation extends BaseModel
 
     public function target()
     {
-        return $this->users->filter(function($value) {
-                return $value->getKey() != Auth::id();
-            })->first();
+        return $this->users->filter(function ($value) {
+            return $value->getKey() != Auth::id();
+        })->first();
     }
 
     public function scopeWithUser($query, $userName)
     {
-        $query->whereHas('users', function($q) use($userName) {
+        $query->whereHas('users', function ($q) use ($userName) {
             $q->where('user_id', $userName);
         });
     }

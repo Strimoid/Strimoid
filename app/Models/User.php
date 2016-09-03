@@ -5,24 +5,25 @@ use Config;
 use DB;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Notifications\Notifiable;
 use Str;
 use Strimoid\Models\Traits\HasAvatar;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, HasAvatar;
+    use Authenticatable, Authorizable, CanResetPassword, HasAvatar, Notifiable;
 
-    protected $avatarPath  = 'avatars/';
-    protected $dates       = ['last_login'];
-    protected $table       = 'users';
-    protected $fillable    = [
+    protected $avatarPath = 'avatars/';
+    protected $dates = ['last_login'];
+    protected $table = 'users';
+    protected $fillable = [
         'age', 'description', 'location', 'sex',
     ];
-    protected $visible     = [
+    protected $visible = [
         'id', 'age', 'avatar', 'created_at',
         'description', 'location', 'sex', 'name',
     ];
@@ -153,17 +154,17 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function blockedUsers()
     {
-        return $this->belongsToMany(User::class, 'user_blocked_users', 'source_id', 'target_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'user_blocked_users', 'source_id', 'target_id')->withTimestamps();
     }
 
     public function followedUsers()
     {
-        return $this->belongsToMany(User::class, 'user_followed_users', 'source_id', 'target_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'user_followed_users', 'source_id', 'target_id')->withTimestamps();
     }
 
     public function blockedDomains()
     {
-        return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->lists('domain');
+        return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->pluck('domain');
     }
 
     public function isBanned(Group $group)
@@ -231,7 +232,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function isBlockingUser($user)
     {
-        if ($user instanceof User) {
+        if ($user instanceof self) {
             $user = $user->getKey();
         }
 
