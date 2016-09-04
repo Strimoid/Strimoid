@@ -68,6 +68,8 @@ class Handler extends ExceptionHandler
             $handler->setEditor('sublime');
 
             $whoops = new \Whoops\Run;
+            $whoops->allowQuit(false);
+            $whoops->writeToOutput(false);
             $whoops->pushHandler($handler);
 
             return response(
