@@ -10,10 +10,10 @@ class SettingsController extends BaseController
         $user = user();
 
         $subscribedGroups = $user->subscribedGroups();
-        $blockedGroups    = $user->blockedGroups();
-        $moderatedGroups  = $user->moderatedGroups();
-        $blockedUsers     = $user->blockedUsers()->get();
-        $bans             = $user->bannedGroups();
+        $blockedGroups = $user->blockedGroups();
+        $moderatedGroups = $user->moderatedGroups();
+        $blockedUsers = $user->blockedUsers()->get();
+        $bans = $user->bannedGroups();
 
         return view('user.settings', compact(
             'user',

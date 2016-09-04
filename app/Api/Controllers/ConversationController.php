@@ -19,7 +19,7 @@ class ConversationController extends BaseController
 
     public function getMessages()
     {
-        $ids = Conversation::withUser(auth()->id())->lists('id');
+        $ids = Conversation::withUser(auth()->id())->pluck('id');
 
         $messages = ConversationMessage::with('conversation')->with('user')
             ->whereIn('conversation_id', $ids)

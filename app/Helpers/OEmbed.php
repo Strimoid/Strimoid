@@ -25,8 +25,6 @@ class OEmbed
             return data_get($image, 'href', null);
         } catch (RequestException $e) {
         }
-
-        return null;
     }
 
     public function getThumbnails(string $url)
@@ -45,6 +43,7 @@ class OEmbed
     public function getData(string $url)
     {
         $query = ['url' => $url];
+
         return Guzzle::get($this->endpoint(), compact('query'))->json();
     }
 
@@ -68,7 +67,7 @@ class OEmbed
     {
         $key = md5($url);
 
-        if (! $autoPlay) {
+        if (!$autoPlay) {
             $key .= '.no-ap';
         }
 
@@ -82,7 +81,8 @@ class OEmbed
 
     /**
      * @param $url
-     * @param boolean $autoPlay
+     * @param bool $autoPlay
+     *
      * @return bool|string
      */
     protected function fetchJson($url, $autoPlay)

@@ -2,7 +2,7 @@
 
 return [
 
-    'all' => 'All',
+    'all'          => 'All',
     'mark as read' => 'Mark as read',
 
     'types' => [
@@ -14,6 +14,6 @@ return [
         'EntryReply'          => 'Entry reply',
         'ConversationMessage' => 'Conversation',
         'Conversation'        => 'New message in conversation',
-    ]
+    ],
 
 ];

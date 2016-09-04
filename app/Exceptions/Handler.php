@@ -64,10 +64,10 @@ class Handler extends ExceptionHandler
         }
 
         if (config('app.debug')) {
-            $handler = new \Whoops\Handler\PrettyPageHandler;
+            $handler = new \Whoops\Handler\PrettyPageHandler();
             $handler->setEditor('sublime');
 
-            $whoops = new \Whoops\Run;
+            $whoops = new \Whoops\Run();
             $whoops->pushHandler($handler);
 
             return response(

@@ -33,6 +33,6 @@ return [
             'key' => env('ALGOLIA_KEY', 'your-api-key'),
         ],
 
-    ]
+    ],
 
 ];

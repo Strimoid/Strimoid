@@ -132,11 +132,15 @@ class VoteController extends BaseController
 
     private function getVoteElement($object, User $user)
     {
-        if (!$object->votes()) return false;
+        if (!$object->votes()) {
+            return false;
+        }
 
         $vote = $object->votes()->where('user_id', $user->getKey())->first();
 
-        if (!$vote) return false;
+        if (!$vote) {
+            return false;
+        }
 
         return $vote;
     }

@@ -4,7 +4,7 @@ use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
 
-if (! function_exists('shadow')) {
+if (!function_exists('shadow')) {
     function shadow($text)
     {
         $text = Str::ascii($text);
@@ -14,7 +14,7 @@ if (! function_exists('shadow')) {
     }
 }
 
-if (! function_exists('shadow_email')) {
+if (!function_exists('shadow_email')) {
     function shadow_email($email)
     {
         $shadow = Str::lower($email);
@@ -24,7 +24,7 @@ if (! function_exists('shadow_email')) {
     }
 }
 
-if (! function_exists('parse_usernames')) {
+if (!function_exists('parse_usernames')) {
 
     // Change "@username" and "g/groupname" into markdown links
     function parse_usernames($body)
@@ -42,8 +42,9 @@ if (! function_exists('parse_usernames')) {
         $body = preg_replace_callback('/(?<=^|\s)u\/([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = User::name($matches[1])->first();
 
-            if ($target)
+            if ($target) {
                 return '[u/'.str_replace('_', '\_', $target->name).'](/u/'.$target->name.')';
+            }
 
             return 'u/'.$matches[1];
         }, $body);
@@ -51,8 +52,9 @@ if (! function_exists('parse_usernames')) {
         $body = preg_replace_callback('/(?<=^|\s)@([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = User::name($matches[1])->first();
 
-            if ($target)
+            if ($target) {
                 return '[@'.str_replace('_', '\_', $target->name).'](/u/'.$target->name.')';
+            }
 
             return '@'.$matches[1];
         }, $body);
@@ -63,6 +65,7 @@ if (! function_exists('parse_usernames')) {
 
             if ($target || $fakeGroup) {
                 $urlname = $target ? $target->urlname : $matches[1];
+
                 return '[g/'.str_replace('_', '\_', $urlname).'](/g/'.$urlname.')';
             }
 
@@ -73,7 +76,7 @@ if (! function_exists('parse_usernames')) {
     }
 }
 
-if (! function_exists('toBool')) {
+if (!function_exists('toBool')) {
     // Convert to boolean
     function toBool($var)
     {
@@ -87,11 +90,11 @@ if (! function_exists('toBool')) {
     }
 }
 
-if (! function_exists('between')) {
+if (!function_exists('between')) {
 
     /**
-     * @param integer $min
-     * @param integer $max
+     * @param int $min
+     * @param int $max
      */
     function between($value, $min, $max)
     {
@@ -101,15 +104,16 @@ if (! function_exists('between')) {
     }
 }
 
-if (! function_exists('hashids_decode')) {
+if (!function_exists('hashids_decode')) {
     function hashids_decode($raw)
     {
         $ids = \Hashids::decode($raw);
+
         return current($ids);
     }
 }
 
-if (! function_exists('user')) {
+if (!function_exists('user')) {
     /**
      * @return User
      */
@@ -123,7 +127,7 @@ if (! function_exists('user')) {
     }
 }
 
-if (! function_exists('setting')) {
+if (!function_exists('setting')) {
     function setting($key = null)
     {
         if (!$key) {

@@ -36,7 +36,7 @@ class GenerateSitemap extends Command
     public function fire()
     {
         // Generate groups sitemap
-        $sitemap = App::make("sitemap");
+        $sitemap = App::make('sitemap');
         $x = 1;
 
         foreach (Group::all() as $group) {
@@ -57,7 +57,7 @@ class GenerateSitemap extends Command
         unset($sitemap);
 
         // Generate entries sitemap
-        $sitemap = App::make("sitemap");
+        $sitemap = App::make('sitemap');
         $x = 1;
 
         foreach (Content::all() as $content) {
@@ -78,7 +78,7 @@ class GenerateSitemap extends Command
         unset($sitemap);
 
         // Generate contents sitemap
-        $sitemap = App::make("sitemap");
+        $sitemap = App::make('sitemap');
         $x = 1;
 
         foreach (Entry::all() as $entry) {
@@ -99,7 +99,7 @@ class GenerateSitemap extends Command
         unset($sitemap);
 
         // Generate global sitemap
-        $sitemap = App::make("sitemap");
+        $sitemap = App::make('sitemap');
 
         $sitemap->addSitemap(URL::to('sitemap-groups.xml'));
         $sitemap->addSitemap(URL::to('sitemap-contents.xml'));

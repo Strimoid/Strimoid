@@ -27,14 +27,14 @@ class SearchController extends BaseController
                     $builder = Group::where('name', 'like', '%'.$keywords.'%')
                         ->orWhere('urlname', 'like', '%'.$keywords.'%')
                         // ->orWhere('tags', $keywords)
-                    ;
+;
                     break;
                 case 'c':
                 default:
                     $builder = Content::where(function ($query) use ($keywords) {
-                            $query->where('title', 'like', '%'.$keywords.'%')
+                        $query->where('title', 'like', '%'.$keywords.'%')
                                 ->orWhere('description', 'like', '%'.$keywords.'%');
-                        });
+                    });
                     break;
             }
 

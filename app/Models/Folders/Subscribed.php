@@ -11,10 +11,10 @@ class Subscribed extends FakeFolder
     {
         $builder = with(new $model())->newQuery();
 
-        $subscribedGroups = Auth::user()->subscribedGroups()->lists('id');
+        $subscribedGroups = Auth::user()->subscribedGroups()->pluck('id');
         $builder->whereIn('group_id', $subscribedGroups);
 
-        $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+        $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
         $builder->whereNotIn('user_id', $blockedUsers);
 
         return $builder;

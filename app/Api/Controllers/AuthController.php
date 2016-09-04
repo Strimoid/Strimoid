@@ -10,9 +10,10 @@ class AuthController extends BaseController
         $remember = $request->input('remember') == 'true' ? true : false;
 
         if (auth()->attempt(['name' => $request->input('username'),
-            'password' => $request->input('password'), 'is_activated' => true], $remember)) {
+            'password' => $request->input('password'), 'is_activated' => true, ], $remember)) {
             if (user()->removed_at || user()->blocked_at) {
                 auth()->logout();
+
                 return response()->json(['error' => 'Account blocked or removed'], 400);
             }
 
@@ -37,7 +38,9 @@ class AuthController extends BaseController
     private function getUserData()
     {
         $notifications = Notification::with([
-                'user' => function ($q) { $q->select('avatar'); }
+                'user' => function ($q) {
+                    $q->select('avatar');
+                },
             ])
             ->target(auth()->id())
             ->orderBy('created_at', 'desc')

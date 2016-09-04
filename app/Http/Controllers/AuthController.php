@@ -1,28 +1,18 @@
 <?php namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Vinkla\Pusher\PusherManager;
 
 class AuthController extends BaseController
 {
-    /**
-     * Show login form.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showLoginForm()
+    public function showLoginForm() : View
     {
         return view('user.login');
     }
 
-    /**
-     * Try to log in with credentials from request.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function login(Request $request)
+    public function login(Request $request) : RedirectResponse
     {
         $result = auth()->attempt([
             'name'         => $request->input('username'),
@@ -33,6 +23,7 @@ class AuthController extends BaseController
         if ($result) {
             if (auth()->user()->removed_at || auth()->user()->blocked_at) {
                 auth()->logout();
+
                 return redirect('/login')->with('warning_msg', trans('auth.invalid_credentials'));
             }
 
@@ -42,26 +33,17 @@ class AuthController extends BaseController
         return redirect('/login')->with('warning_msg', trans('auth.invalid_credentials'));
     }
 
-    /**
-     * Logout current user.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function logout()
+    public function logout() : RedirectResponse
     {
         auth()->logout();
+
         return redirect('')->with('success_msg', trans('auth.logged_out'));
     }
 
     /**
      * Generate Pusher authentication token for currently logged user.
-     *
-     * @param  Request $request
-     * @param  PusherManager $pusher
-     *
-     * @return string
      */
-    public function authenticatePusher(Request $request, PusherManager $pusher)
+    public function authenticatePusher(Request $request, PusherManager $pusher) : string
     {
         $channelName = 'privateU'.auth()->id();
         $socketId = $request->input('socket_id');

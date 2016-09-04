@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateNotificationTargetsTable extends Migration
 {
@@ -12,8 +12,7 @@ class CreateNotificationTargetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('notification_targets', function(Blueprint $table)
-        {
+        Schema::create('notification_targets', function (Blueprint $table) {
             $table->integer('notification_id')->unsigned();
             $table->foreign('notification_id')->references('id')->on('notifications')->onDelete('cascade');
 

@@ -4,7 +4,7 @@ use Auth;
 
 class Folder extends BaseModel
 {
-    protected $table   = 'folders';
+    protected $table = 'folders';
     protected $visible = ['id', 'name', 'groups'];
 
     protected $attributes = [

@@ -21,7 +21,7 @@ class DuckController extends BaseController
         // Background color
         ($color->hue > 180)
             ? $color->hue -= 180
-            : $color->hue += 180 ;
+            : $color->hue += 180;
 
         $color->lightness = 1 - $color->lightness;
         $color->saturation = 1 - $color->saturation;
@@ -34,6 +34,7 @@ class DuckController extends BaseController
     {
         $hash = md5($username.$this->salt++);
         $hex = substr($hash, -6);
+
         return Color::create(compact('hex'));
     }
 }

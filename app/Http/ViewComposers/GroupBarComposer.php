@@ -15,15 +15,15 @@ class GroupBarComposer
     {
         if (auth()->check()) {
             $subscriptions = user()->subscribedGroups()
-                ->lists('urlname')
+                ->pluck('urlname')
                 ->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE);
 
             $moderatedGroups = user()->moderatedGroups()
-                ->lists('urlname')
+                ->pluck('urlname')
                 ->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE);
 
             $observedUsers = user()->followedUsers()
-                ->lists('name')
+                ->pluck('name')
                 ->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE);
 
             $data = compact('subscriptions', 'moderatedGroups', 'observedUsers');

@@ -27,7 +27,7 @@
 
             if (isset($group)) $query->where('group_id', $group->getKey());
 
-            $results = $query->lists('points', 'day');
+            $results = $query->pluck('points', 'day');
 
             $chartData = [];
 

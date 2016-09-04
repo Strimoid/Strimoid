@@ -39,7 +39,7 @@ class ImageController extends BaseController
         try {
             return $this->server->getImageResponse($sourcePath, [
                 'w' => (int) $width,
-                'h' => (int) $height
+                'h' => (int) $height,
             ]);
         } catch (FileNotFoundException $exception) {
             return response(null, 404);

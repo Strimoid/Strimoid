@@ -198,8 +198,8 @@ class UserController extends BaseController
     /**
      * Show user profile view.
      *
-     * @param  User  $user
-     * @param  string $type
+     * @param User   $user
+     * @param string $type
      *
      * @return \Illuminate\View\View
      */
@@ -261,6 +261,7 @@ class UserController extends BaseController
     {
         user()->blockedUsers()->attach($user);
         \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
+
         return Response::json(['status' => 'ok']);
     }
 
@@ -268,18 +269,21 @@ class UserController extends BaseController
     {
         user()->blockedUsers()->detach($user);
         \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
+
         return Response::json(['status' => 'ok']);
     }
 
     public function observeUser($user)
     {
         user()->followedUsers()->attach($user);
+
         return Response::json(['status' => 'ok']);
     }
 
     public function unobserveUser($user)
     {
         user()->followedUsers()->detach($user);
+
         return Response::json(['status' => 'ok']);
     }
 
@@ -287,7 +291,7 @@ class UserController extends BaseController
     {
         $domain = PDP::parseUrl($domain)->host->registerableDomain;
 
-        if (! $domain) {
+        if (!$domain) {
             return Response::json([
                 'status' => 'error', 'error' => 'Nieprawidłowa domena',
             ]);

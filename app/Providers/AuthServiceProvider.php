@@ -21,14 +21,15 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Comment::class => CommentPolicy::class,
         Content::class => ContentPolicy::class,
-        Entry::class => EntryPolicy::class,
-        Group::class => GroupPolicy::class,
+        Entry::class   => EntryPolicy::class,
+        Group::class   => GroupPolicy::class,
     ];
 
     /**
      * Register any application authentication / authorization services.
      *
-     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
+     * @param \Illuminate\Contracts\Auth\Access\Gate $gate
+     *
      * @return void
      */
     public function boot(GateContract $gate)

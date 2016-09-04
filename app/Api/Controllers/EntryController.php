@@ -119,7 +119,7 @@ class EntryController extends BaseController
     {
         $this->validate($request, $entry->rules());
 
-        if (! $entry->canEdit()) {
+        if (!$entry->canEdit()) {
             abort(403, 'Access denied');
         }
 
@@ -135,7 +135,7 @@ class EntryController extends BaseController
      */
     public function remove($entry)
     {
-        if (! $entry->canRemove()) {
+        if (!$entry->canRemove()) {
             abort(403, 'Access denied');
         }
 

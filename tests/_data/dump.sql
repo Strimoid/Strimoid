@@ -1,16 +1,3 @@
-#
-# SQL Export
-# Created by Querious (996)
-# Created: 20 September 2015 at 00:14:45 GMT+2
-# Encoding: Unicode (UTF-8)
-#
-
-
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
-
-
-
-
 SET @PREVIOUS_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS;
 SET FOREIGN_KEY_CHECKS = 0;
 

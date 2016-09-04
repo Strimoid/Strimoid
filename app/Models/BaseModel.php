@@ -20,12 +20,14 @@ abstract class BaseModel extends Eloquent
     /**
      * Return a timestamp as DateTime object.
      *
-     * @param  mixed  $value
+     * @param mixed $value
+     *
      * @return \Jenssegers\Date\Date
      */
     protected function asDateTime($value)
     {
         $value = parent::asDateTime($value);
+
         return Date::instance($value);
     }
 

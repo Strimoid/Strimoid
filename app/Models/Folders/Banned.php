@@ -15,7 +15,7 @@ class Banned extends FakeFolder
 
         $builder = with(new $model())->newQuery();
 
-        $bannedGroups = Auth::user()->bannedGroups()->lists('id');
+        $bannedGroups = Auth::user()->bannedGroups()->pluck('id');
         $builder->whereIn('group_id', $bannedGroups);
 
         return $builder;

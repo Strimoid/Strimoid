@@ -30,10 +30,10 @@ class RegistrationController extends BaseController
         $email = $request->input('email');
 
         $user = new User();
-        $user->name     = $request->input('username');
+        $user->name = $request->input('username');
         $user->password = $request->input('password');
-        $user->email    = $email;
-        $user->last_ip  = $request->getClientIp();
+        $user->email = $email;
+        $user->last_ip = $request->getClientIp();
         $user->activation_token = str_random(16);
         $user->save();
 

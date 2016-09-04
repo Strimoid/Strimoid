@@ -19,11 +19,11 @@ abstract class Repository
         ]);
     }
 
-    public function requireByName(... $params)
+    public function requireByName(...$params)
     {
         $object = $this->getByName(...$params);
 
-        if (! $object) {
+        if (!$object) {
             throw new EntityNotFoundException();
         }
 

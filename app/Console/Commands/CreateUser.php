@@ -37,7 +37,7 @@ class CreateUser extends Command
     public function fire()
     {
         if (!$this->argument('username')) {
-            print 'no username given';
+            echo 'no username given';
         }
 
         $email = $this->argument('username').'@strimoid.dev';

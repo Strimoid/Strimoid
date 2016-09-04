@@ -39,7 +39,7 @@ class VerifyCsrfToken extends IlluminateCsrf
     protected function canSkipVerification($request)
     {
         return starts_with($request->getPathInfo(), [
-            '/oauth2/', '/api/', '/pusher/'
+            '/oauth2/', '/api/', '/pusher/',
         ]);
     }
 }

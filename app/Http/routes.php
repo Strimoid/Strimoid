@@ -245,11 +245,21 @@ Route::post('/ajax/entry/remove_save', ['middleware' => 'auth', 'uses' => 'SaveC
 Route::post('/ajax/utils/get_title', ['middleware' => 'auth', 'uses' => 'UtilsController@getURLTitle']);
 
 /* Static pages ===================================================================================================== */
-Route::get('/cookies', function () { return view('static.cookies'); });
-Route::get('/contact', function () { return view('static.contact'); });
-Route::get('/guide', function () { return view('static.guide'); });
-Route::get('/rules', function () { return view('static.rules'); });
-Route::get('/tag/{tag}', function ($tag) { return view('static.tag', ['tag' => $tag]); });
+Route::get('/cookies', function () {
+    return view('static.cookies');
+});
+Route::get('/contact', function () {
+    return view('static.contact');
+});
+Route::get('/guide', function () {
+    return view('static.guide');
+});
+Route::get('/rules', function () {
+    return view('static.rules');
+});
+Route::get('/tag/{tag}', function ($tag) {
+    return view('static.tag', ['tag' => $tag]);
+});
 
 /* Search =========================================================================================================== */
 Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);

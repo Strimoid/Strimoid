@@ -1,6 +1,5 @@
 <?php namespace Strimoid\Providers;
 
-use Hashids;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
@@ -15,6 +14,7 @@ use Strimoid\Models\Group;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Vinkla\Hashids\Facades\Hashids;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -27,15 +27,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'Strimoid\Http\Controllers';
 
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @param \Illuminate\Routing\Router $router
-     *
-     * @return void
-     */
-    public function boot(Router $router)
+    public function boot()
     {
+        parent::boot();
+
+        $router = $this->app->make(Router::class);
+
         $this->bindModel($router, 'content', Content::class);
         $this->bindModel($router, 'related', ContentRelated::class);
         $this->bindModel($router, 'notification', Notification::class);
@@ -46,25 +43,19 @@ class RouteServiceProvider extends ServiceProvider
         $this->bindModel($router, 'group', Group::class);
         $this->bindModel($router, 'user', User::class);
         $this->bindModel($router, 'conversation', Conversation::class);
-
-        parent::boot($router);
     }
 
     /**
      * Bind object resolve function for given model class.
-     *
-     * @param Router $router
-     * @param string $key
-     * @param $className
      */
-    public function bindModel(Router $router, $key, $className)
+    public function bindModel(Router $router, string $key, string $className)
     {
-        $router->bind($key, function($value, $route) use($className) {
+        $router->bind($key, function ($value) use ($className) {
             if (ends_with($className, ['Group', 'User'])) {
                 try {
                     return $className::name($value)->firstOrFail();
-                } catch (ModelNotFoundException $e ) {
-                    throw new NotFoundHttpException;
+                } catch (ModelNotFoundException $e) {
+                    throw new NotFoundHttpException();
                 }
             }
 
@@ -75,10 +66,9 @@ class RouteServiceProvider extends ServiceProvider
             }
             try {
                 return $className::findOrFail($ids[0]);
-            } catch (ModelNotFoundException $e ) {
-                throw new NotFoundHttpException;
+            } catch (ModelNotFoundException $e) {
+                throw new NotFoundHttpException();
             }
-           
         });
     }
 
@@ -89,6 +79,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->loadRoutesFrom(app_path('Http/routes.php'));
+        \Route::group([
+            'middleware' => 'web',
+            'namespace'  => $this->namespace,
+        ], function ($router) {
+            require app_path('Http/routes.php');
+        });
     }
 }

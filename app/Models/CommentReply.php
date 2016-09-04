@@ -43,12 +43,14 @@ class CommentReply extends Comment
         $lastId = $this->parent->replies()
             ->orderBy('created_at', 'desc')
             ->value('id');
+
         return $lastId == $this->getKey();
     }
 
     public function getURL()
     {
         $url = route('content_comments', $this->parent->content);
+
         return $url.'#'.$this->hashId();
     }
 

@@ -3,6 +3,7 @@
 $timezones = function () {
     return collect(\DateTimeZone::listIdentifiers())->map(function ($timezone) {
         $key = 'timezones.'.Str::lower($timezone);
+
         return [$timezone => trans($key)];
     })->flatten(1);
 };

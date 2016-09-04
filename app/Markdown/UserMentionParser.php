@@ -35,17 +35,20 @@ class UserMentionParser extends AbstractInlineParser
         if (empty($handle)) {
             // Regex failed to match; this isn't a valid username
             $cursor->restoreState($previousState);
+
             return false;
         }
 
         $user = User::name($handle)->first();
         if (!$user) {
             $cursor->restoreState($previousState);
+
             return false;
         }
 
         $profileUrl = route('user_profile', $user, false);
         $inlineContext->getContainer()->appendChild(new Link($profileUrl, '@'.$handle));
+
         return true;
     }
 }

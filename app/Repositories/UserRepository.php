@@ -20,7 +20,7 @@ class UserRepository implements UserRepositoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getByName($name)
     {
@@ -28,13 +28,13 @@ class UserRepository implements UserRepositoryContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function requireByName($name)
     {
         $user = $this->getByName($name);
 
-        if (! $user) {
+        if (!$user) {
             throw new EntityNotFoundException();
         }
 

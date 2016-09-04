@@ -22,11 +22,11 @@ class PubSubHandler
     public function onNewEntry(Entry $entry)
     {
         $arrayEntry = $entry->toArray();
-        $additionalData = array(
-            'hashId' => $entry->hashId(),
+        $additionalData = [
+            'hashId'     => $entry->hashId(),
             'avatarPath' => $entry->user->getAvatarPath(),
-            'entryUrl' => $entry->getURL(),
-        );
+            'entryUrl'   => $entry->getURL(),
+        ];
 
         Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, $additionalData));
     }
@@ -34,11 +34,11 @@ class PubSubHandler
     public function onNewEntryReply(EntryReply $reply)
     {
         $arrayEntry = $reply->toArray();
-        $additionalData = array(
-            'hashId' => $reply->hashId(),
+        $additionalData = [
+            'hashId'     => $reply->hashId(),
             'avatarPath' => $reply->user->getAvatarPath(),
-            'entryUrl' => $reply->getURL(),
-        );
+            'entryUrl'   => $reply->getURL(),
+        ];
 
         Pusher::trigger('entry.'.$reply->parent->hashId(), 'new-reply', array_merge($arrayEntry, $additionalData));
     }

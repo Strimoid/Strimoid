@@ -120,7 +120,7 @@ class ContentController extends BaseController
             ], 400);
         }
 
-        if ($group->type == 'announcements' && ! user()->isModerator($group)) {
+        if ($group->type == 'announcements' && !user()->isModerator($group)) {
             return response()->json([
                 'status' => 'error',
                 'error'  => 'Użytkownik nie może dodawać treści w tej grupie.',
@@ -165,7 +165,7 @@ class ContentController extends BaseController
      */
     public function edit(Request $request, $content)
     {
-        if (! $content->canEdit(user())) {
+        if (!$content->canEdit(user())) {
             return response()->json([
                 'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.',
             ], 400);

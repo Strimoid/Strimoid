@@ -2,6 +2,7 @@
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Input;
 use Queue;
 use Redirect;
@@ -32,11 +33,6 @@ class ContentController extends BaseController
      */
     protected $folders;
 
-    /**
-     * @param ContentRepository $contents
-     * @param GroupRepository   $groups
-     * @param FolderRepository  $folders
-     */
     public function __construct(
         ContentRepository $contents,
         GroupRepository $groups,
@@ -49,18 +45,16 @@ class ContentController extends BaseController
 
     /**
      * Display contents from given group.
-     *
-     * @param string $groupName
-     *
+
      * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
-    public function showContentsFromGroup($groupName = null)
+    public function showContentsFromGroup(string $groupName = null)
     {
         $routeName = Route::currentRouteName();
         $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
 
         // If user is on homepage, then use proper group
-        if (! Route::input('groupname')) {
+        if (!Route::input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
@@ -72,7 +66,7 @@ class ContentController extends BaseController
         $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
-        if (Auth::guest() && $group->isPrivate) {
+        if (auth()->guest() && $group->isPrivate) {
             return redirect()->guest('login');
         }
 
@@ -99,7 +93,7 @@ class ContentController extends BaseController
         $folder = $this->folders->requireByName($userName, $folderName);
         view()->share('folder', $folder);
 
-        if (! $folder->canBrowse()) {
+        if (!$folder->canBrowse()) {
             abort(404);
         }
 
@@ -136,7 +130,7 @@ class ContentController extends BaseController
 
     protected function filterByTime($builder, $days)
     {
-        if (! $days) {
+        if (!$days) {
             return;
         }
 
@@ -146,11 +140,9 @@ class ContentController extends BaseController
     /**
      * Generate RSS feed from given collection of contents.
      *
-     * @param $contents
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function generateRssFeed($contents)
+    protected function generateRssFeed(array $contents)
     {
         return response()
             ->view('content.rss', compact('contents'))
@@ -158,14 +150,7 @@ class ContentController extends BaseController
             ->setTtl(60);
     }
 
-    /**
-     * Show content comments.
-     *
-     * @param Content $content
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showComments($content)
+    public function showComments(Content $content) : View
     {
         $sortBy = request('sort');
 
@@ -185,12 +170,7 @@ class ContentController extends BaseController
         return view('content.frame', compact('content'));
     }
 
-    /**
-     * Show content add form.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showAddForm()
+    public function showAddForm() : View
     {
         return view('content.add');
     }
@@ -319,11 +299,9 @@ class ContentController extends BaseController
     }
 
     /**
-     * @param Content $content
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function removeContent($content = null)
+    public function removeContent(Content $content = null)
     {
         $id = hashids_decode(request('id'));
         $content = $content ?: Content::findOrFail($id);

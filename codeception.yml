@@ -11,11 +11,10 @@ settings:
 modules:
     config:
         Laravel5:
-            cleanup: true
             environment_file: .env.test
         Db:
-            dsn: ''
-            user: ''
+            dsn: 'mysql:host=mariadb;dbname=strimoid'
+            user: 'root'
             password: ''
             dump: tests/_data/dump.sql
         REST:

@@ -35,7 +35,7 @@ class FolderController extends BaseController
         $folder = Folder::findOrFail(Input::get('folder'));
 
         $this->validate($request, [
-            'name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
+            'name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u',
         ]);
 
         if (Input::has('public')) {
