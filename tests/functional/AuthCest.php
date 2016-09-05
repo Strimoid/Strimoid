@@ -1,7 +1,6 @@
 <?php namespace Strimoid\Tests\Functional;
 
 use FunctionalTester;
-use MailThief\Facades\MailThief;
 
 class AuthCest
 {
