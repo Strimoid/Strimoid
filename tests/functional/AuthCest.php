@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Tests\Functional;
 
 use FunctionalTester;
+use MailThief\Facades\MailThief;
 
 class AuthCest
 {
@@ -56,5 +57,16 @@ class AuthCest
             'email'    => 'new@user.com',
         ]);
         $I->seeRecord('users', ['name' => 'NewUser']);
+    }
+
+    public function sendPasswordReminder(FunctionalTester $I)
+    {
+        $I->dontSeeAuthentication();
+        $I->amOnPage('/remind');
+        $I->submitForm('.main_col form', [
+            'email' => 'nigel.trantow@hotmail.com',
+        ]);
+
+        // TODO: check if password reminder was sent
     }
 }
