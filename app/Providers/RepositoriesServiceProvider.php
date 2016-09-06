@@ -4,20 +4,11 @@ use Illuminate\Support\ServiceProvider;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
-    /**
-     * List of repositories to bind.
-     *
-     * @var array
-     */
+    /** @var array */
     protected $repositories = [
         'content', 'folder', 'group', 'user',
     ];
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function register()
     {
         foreach ($this->repositories as $repository) {

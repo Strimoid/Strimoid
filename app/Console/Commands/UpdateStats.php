@@ -12,25 +12,12 @@ use Strimoid\Models\UserAction;
 
 class UpdateStats extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name = 'lara:updatestats';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Updates stats.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function fire()
     {
         DB::connection()->disableQueryLog();
@@ -138,25 +125,5 @@ class UpdateStats extends Command
         $points = $actionPoints + $actionScore;
 
         return $points;
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

@@ -4,35 +4,12 @@ use Illuminate\Console\Command;
 
 class GroupActivity extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name = 'lara:groupactivity';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Update group activity meter.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function fire()
     {
         $x = 1;
@@ -68,25 +45,5 @@ class GroupActivity extends Command
         }
 
         $this->info('All groups processed');
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

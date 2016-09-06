@@ -9,11 +9,6 @@ use Validator;
 
 class ValidatorServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function boot()
     {
         Validator::extend('unique_email', function ($attribute, $value, $parameters) {
@@ -113,8 +108,6 @@ class ValidatorServiceProvider extends ServiceProvider
                 'freemail.ms', 'hideme.be', 'anonymbox.com', 'poczter.eu', 'ssoia.com', 'my10minutemail.com',
                 '10minutmail.pl', 'co.za', 'tryalert.com', 'tmpeml.info',
                 'mytrashmail.com', 'cbair.com', 'doiea.com',
-
-                'karpdami.linuxpl.info', 'cebuloid.pl', 'cebulion.pl', 'atingo.pl', 'reign77.pl', 'beltheze.edl.pl',
             ];
 
             $domain = explode('@', $value, 2);
@@ -150,11 +143,6 @@ class ValidatorServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function register()
     {
     }

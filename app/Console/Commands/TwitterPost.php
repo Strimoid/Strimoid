@@ -9,25 +9,12 @@ use Strimoid\Models\Content;
 
 class TwitterPost extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name = 'lara:twitterpost';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Posts most popular content to Twitter.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function fire()
     {
         $dayBefore = Carbon::now()->subDay();

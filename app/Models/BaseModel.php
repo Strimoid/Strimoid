@@ -13,7 +13,7 @@ abstract class BaseModel extends Eloquent
     use Rememberable;
 
     /**
-     * @var array Validation rules
+     * @var array Validation validationRules
      */
     protected static $rules = [];
 
@@ -31,22 +31,13 @@ abstract class BaseModel extends Eloquent
         return Date::instance($value);
     }
 
-    /**
-     * Get time ago from object creation.
-     *
-     * @return string
-     */
-    public function createdAgo()
+    public function createdAgo() : string
     {
         return $this->created_at->diffForHumans();
     }
 
-    /**
-     * Get formatted time, converted to current user timezone.
-     *
-     * @return mixed
-     */
-    public function getLocalTime()
+    /** Get formatted time, converted to current user timezone */
+    public function getLocalTime() : string
     {
         $timezone = Setting::get('timezone');
         $timezone = new DateTimeZone($timezone);
@@ -54,42 +45,22 @@ abstract class BaseModel extends Eloquent
         return $this->created_at->setTimeZone($timezone)->format('d/m/Y H:i:s');
     }
 
-    /**
-     * Get validation rules.
-     *
-     * @return array
-     */
-    public static function rules()
+    public static function validationRules() : array
     {
         return static::$rules;
     }
 
-    /**
-     * Get hashed object id.
-     *
-     * @return string
-     */
-    public function hashId()
+    public function hashId() : string
     {
         return Hashids::encode($this->getKey());
     }
 
-    /**
-     * Get hashed object id.
-     *
-     * @return string
-     */
-    public function getHashIdAttribute()
+    public function getHashIdAttribute() : string
     {
         return $this->hashId();
     }
 
-    /**
-     * Get the value of the model's route key.
-     *
-     * @return string
-     */
-    public function getRouteKey()
+    public function getRouteKey() : string
     {
         return $this->hashId();
     }

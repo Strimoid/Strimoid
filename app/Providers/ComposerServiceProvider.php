@@ -8,11 +8,6 @@ use Strimoid\Http\ViewComposers\MasterComposer;
 
 class ComposerServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @param ViewFactory $view
-     */
     public function boot(ViewFactory $view)
     {
         $view->composer('global.master', MasterComposer::class);
@@ -20,11 +15,6 @@ class ComposerServiceProvider extends ServiceProvider
         $view->composer('global.parts.groupbar', GroupBarComposer::class);
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function register()
     {
     }

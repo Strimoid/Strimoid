@@ -5,35 +5,12 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class CreateUser extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name = 'lara:createuser';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Creates user.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function fire()
     {
         if (!$this->argument('username')) {
@@ -53,24 +30,14 @@ class CreateUser extends Command
         $this->info('User created');
     }
 
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
+    protected function getArguments() : array
     {
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],
         ];
     }
 
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
+    protected function getOptions() : array
     {
         return [];
     }

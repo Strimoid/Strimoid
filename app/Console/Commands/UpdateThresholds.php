@@ -1,41 +1,20 @@
 <?php namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Strimoid\Models\Content;
+use Strimoid\Models\Group;
 
 class UpdateThresholds extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name = 'lara:updatethresholds';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Updates thresholds.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function fire()
     {
-        DB::connection()->disableQueryLog();
+        \DB::connection()->disableQueryLog();
 
         foreach (Group::all() as $group) {
             $builder = Content::where('group_id', $group->getKey())
@@ -59,10 +38,7 @@ class UpdateThresholds extends Command
         }
     }
 
-    /**
-     * @return float
-     */
-    public function median($array)
+    public function median($array) : float
     {
         // perhaps all non numeric values should filtered out of $array here?
         $iCount = count($array);
@@ -80,25 +56,5 @@ class UpdateThresholds extends Command
         }
 
         return $median;
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

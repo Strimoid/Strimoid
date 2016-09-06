@@ -15,13 +15,6 @@ use Strimoid\Models\User;
 
 class EventsServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @param Dispatcher $events
-     *
-     * @return void
-     */
     public function boot(Dispatcher $events)
     {
         $this->app->booted(function () {
@@ -82,11 +75,6 @@ class EventsServiceProvider extends ServiceProvider
         $events->subscribe(PubSubHandler::class);
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function register()
     {
     }

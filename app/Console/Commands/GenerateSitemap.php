@@ -4,35 +4,12 @@ use Illuminate\Console\Command;
 
 class GenerateSitemap extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name = 'lara:generatesitemap';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Generate sitemap.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function fire()
     {
         // Generate groups sitemap
@@ -106,25 +83,5 @@ class GenerateSitemap extends Command
         $sitemap->addSitemap(URL::to('sitemap-entries.xml'));
 
         $sitemap->store('sitemapindex', 'sitemap');
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

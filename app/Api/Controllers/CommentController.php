@@ -60,7 +60,7 @@ class CommentController extends BaseController
 
     public function store(Request $request, $content)
     {
-        $this->validate($request, Comment::rules());
+        $this->validate($request, Comment::validationRules());
 
         if (user()->isBanned($content->group)) {
             return response()->json([
@@ -82,7 +82,7 @@ class CommentController extends BaseController
 
     public function storeReply(Request $request, $comment)
     {
-        $this->validate($request, CommentReply::rules());
+        $this->validate($request, CommentReply::validationRules());
         $content = $comment->content;
 
         if (user()->isBanned($content->group)) {
@@ -112,7 +112,7 @@ class CommentController extends BaseController
      */
     public function edit(Request $request, $comment)
     {
-        $this->validate($request, $comment->rules());
+        $this->validate($request, $comment->validationRules());
 
         if (!$comment->canEdit()) {
             abort(403);

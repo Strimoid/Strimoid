@@ -16,7 +16,7 @@ class FolderController extends BaseController
 
     public function createFolder(Request $request)
     {
-        $this->validate($request, Folder::rules());
+        $this->validate($request, Folder::validationRules());
 
         $folder = Auth::user()->folders()->create([
             'name' => Input::get('name'),

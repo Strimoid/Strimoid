@@ -10,11 +10,6 @@ use Strimoid\Helpers\OEmbed;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function boot()
     {
         if ($this->app->environment('local')) {
@@ -25,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
         $dsn = config('services.raven.dsn');
 
         if (!empty($dsn)) {
-            $this->app->register('Jenssegers\Raven\RavenServiceProvider');
+            $this->app->register(\Jenssegers\Raven\RavenServiceProvider::class);
         }
 
         $locale = config('app.locale');
@@ -35,11 +30,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::$defaultSimpleView = 'pagination::simple-bootstrap-4';
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function register()
     {
         $this->app->bind('guzzle', function () {

@@ -12,7 +12,7 @@ class RelatedController extends BaseController
 {
     public function addRelated(Request $request, $content)
     {
-        $this->validate($request, ContentRelated::rules());
+        $this->validate($request, ContentRelated::validationRules());
 
         if (Auth::user()->isBanned($content->group)) {
             return Redirect::route('content_comments', $content->getKey())
@@ -60,7 +60,7 @@ class RelatedController extends BaseController
 
     public function store(Request $request, $content)
     {
-        $this->validate($request, ContentRelated::rules());
+        $this->validate($request, ContentRelated::validationRules());
 
         if (Auth::user()->isBanned($content->group)) {
             return Response::json([

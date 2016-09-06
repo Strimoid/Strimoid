@@ -7,30 +7,17 @@ use Strimoid\Models\User;
 
 class UpdateUserPoints extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name = 'lara:updateuserpoints';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Updates user points amount.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function fire()
     {
-        DB::connection()->disableQueryLog();
+        \DB::connection()->disableQueryLog();
 
-        $conn = DB::connection('stats');
+        $conn = \DB::connection('stats');
         $conn->disableQueryLog();
 
         $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))
@@ -49,15 +36,5 @@ class UpdateUserPoints extends Command
         }
 
         $this->info('All users processed');
-    }
-
-    protected function getArguments() : array
-    {
-        return [];
-    }
-
-    protected function getOptions() : array
-    {
-        return [];
     }
 }

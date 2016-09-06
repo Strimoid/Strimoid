@@ -120,7 +120,7 @@ class EntryController extends BaseController
 
     public function addEntry(Request $request)
     {
-        $this->validate($request, Entry::rules());
+        $this->validate($request, Entry::validationRules());
 
         $group = Group::name(Input::get('groupname'))->firstOrFail();
         $group->checkAccess();
@@ -144,7 +144,7 @@ class EntryController extends BaseController
 
     public function addReply(Request $request, $entry)
     {
-        $this->validate($request, EntryReply::rules());
+        $this->validate($request, EntryReply::validationRules());
 
         if (user()->isBanned($entry->group)) {
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
@@ -176,7 +176,7 @@ class EntryController extends BaseController
             ]);
         }
 
-        $this->validate($request, EntryReply::rules());
+        $this->validate($request, EntryReply::validationRules());
 
         $entry->text = Input::get('text');
         $entry->save();

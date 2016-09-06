@@ -62,7 +62,7 @@ class EntryController extends BaseController
             Input::merge(['groupname' => request('group')]);
         }
 
-        $this->validate($request, Entry::rules());
+        $this->validate($request, Entry::validationRules());
 
         $group = Group::name(request('group'))->firstOrFail();
         $group->checkAccess();
@@ -92,7 +92,7 @@ class EntryController extends BaseController
      */
     public function storeReply(Request $request, $entry)
     {
-        $this->validate($request, EntryReply::rules());
+        $this->validate($request, EntryReply::validationRules());
 
         if (user()->isBanned($entry->group)) {
             return response()->json([
@@ -117,7 +117,7 @@ class EntryController extends BaseController
      */
     public function edit(Request $request, $entry)
     {
-        $this->validate($request, $entry->rules());
+        $this->validate($request, $entry->validationRules());
 
         if (!$entry->canEdit()) {
             abort(403, 'Access denied');

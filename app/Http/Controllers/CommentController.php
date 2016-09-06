@@ -90,7 +90,7 @@ class CommentController extends BaseController
 
     public function addComment(Request $request, Content $content)
     {
-        $this->validate($request, Comment::rules());
+        $this->validate($request, Comment::validationRules());
 
         if (Auth::user()->isBanned($content->group)) {
             return Response::json([
@@ -120,7 +120,7 @@ class CommentController extends BaseController
      */
     public function addReply(Request $request, Comment $parent)
     {
-        $this->validate($request, CommentReply::rules());
+        $this->validate($request, CommentReply::validationRules());
 
         $content = $parent->content;
 
@@ -154,7 +154,7 @@ class CommentController extends BaseController
             app()->abort(403, 'Access denied');
         }
 
-        $this->validate($request, CommentReply::rules());
+        $this->validate($request, CommentReply::validationRules());
         $comment->update(Input::only('text'));
 
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
