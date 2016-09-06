@@ -1158,7 +1158,10 @@ $(document).ready(function () {
     var pollsModule = new PollsModule();
 
     if (AppData.user && window.WebSocket) {
-        var pusher = new Pusher(AppData.config.pusher_key);
+        var pusher = new Pusher(AppData.config.pusher_key, {
+            cluster: 'eu',
+            encrypted: true
+        });
         pusher.subscribe('privateU' + window.username).bind('new-notification', function (data) {
             notificationsModule.onNotificationReceived(data);
         });
