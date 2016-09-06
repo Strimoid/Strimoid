@@ -4,6 +4,7 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use League\OAuth2\Server\Exception\OAuthException;
@@ -50,7 +51,7 @@ class Handler extends ExceptionHandler
      * @param \Illuminate\Http\Request $request
      * @param \Exception               $e
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|JsonResponse
      */
     public function render($request, Exception $e)
     {
@@ -69,6 +70,8 @@ class Handler extends ExceptionHandler
 
             $whoops = new \Whoops\Run();
             $whoops->pushHandler($handler);
+            $whoops->allowQuit(false);
+            $whoops->writeToOutput(false);
 
             return response(
                 $whoops->handleException($e),
