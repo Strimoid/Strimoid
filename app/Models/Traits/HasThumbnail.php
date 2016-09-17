@@ -37,7 +37,7 @@ trait HasThumbnail
      */
     public function autoThumbnail()
     {
-        $url = OEmbed::getThumbnail($this->url);
+        $url = OEmbed::getThumbnail($this->getURL());
 
         if (!$url) {
             return false;
