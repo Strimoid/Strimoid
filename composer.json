@@ -49,7 +49,8 @@
           "dingo/api": "1.0.x@dev",
           "thomaswelton/laravel-gravatar": "^1.1",
           "syholloway/mrcolor": "^0.0.1",
-          "league/glide-laravel": "^1.0"
+          "league/glide-laravel": "^1.0",
+          "codegyre/robo": "^0.7.2"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "^2.2",
