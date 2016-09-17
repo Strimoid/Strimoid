@@ -27,7 +27,7 @@ if (Auth::check()) {
     @if (Auth::check())
         <div class="btn-group btn-group-justified group_buttons" data-name="{{ $group->urlname }}">
             <button type="button" class="btn btn-sm group_subscribe_btn @if ($subscribed) btn-success @else btn-secondary @endif">
-                Subskrybuj
+                @lang('common.subscribe')
             </button>
             <button type="button" class="btn btn-sm group_block_btn @if ($blocked) btn-danger @else btn-secondary @endif" title="@lang('common.block')">
                 <i class="fa fa-ban"></i>

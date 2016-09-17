@@ -41,7 +41,9 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
                 {!! Form::text('groupname', $suggestedGroup, ['class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...']) !!}
 
                 <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                    <button type="submit" class="btn btn-primary">
+                        @lang('common.add')
+                    </button>
                 </div>
             </div>
 
@@ -61,7 +63,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
         @if ($entry->replies_count > 2 && !starts_with(Route::current()->getName(), 'single_entry'))
             <div class="entry entry_reply entry_expand_replies" data-id="{!! $entry->hashId() !!}">
-                Pokaż pozostałe wpisy ({!! Lang::choice('pluralization.replies', ($entry->replies_count-2)) !!})
+                @lang('entries.show remaining entries') ({!! Lang::choice('pluralization.replies', ($entry->replies_count-2)) !!})
             </div>
         @endif
 

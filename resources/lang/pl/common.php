@@ -38,6 +38,10 @@ return [
     'add content' => 'Dodaj treść',
     'block'       => 'Zablokuj',
     'unblock'     => 'Odblokuj',
+    'subscribe'   => 'Subskrybuj',
+    'reply'       => 'odpowiedz',
+    'delete'      => 'usuń',
+    'edit'        => 'edytuj',
 
     // Things
     'comments' => 'Komentarze',

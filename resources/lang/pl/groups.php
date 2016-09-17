@@ -1,6 +1,7 @@
 <?php
 
 return [
+    // Group types
     'all'        => 'popularne',
     'subscribed' => 'subskrybowane',
     'moderated'  => 'moderowane',
@@ -12,4 +13,7 @@ return [
     'blocked'    => 'zablokowane',
     'banned'     => 'zbanowany',
     'popular'    => 'popularne',
+
+    // Actions
+    'create'     => 'Stwórz grupę',
 ];

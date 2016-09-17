@@ -59,13 +59,13 @@
                 <i class="fa fa-star-o action_link save_entry" title="zapisz"></i>
             @endif
 
-            <a class="entry_reply_link action_link">odpowiedz</a>
+            <a class="entry_reply_link action_link">@lang('common.reply')</a>
 
             @if ($entry->canRemove(user()))
-                <a class="entry_remove_link action_link">usuń</a>
+                <a class="entry_remove_link action_link">@lang('common.delete')</a>
             @endif
             @if ($entry->canEdit(user()))
-                <a class="entry_edit_link action_link">edytuj</a>
+                <a class="entry_edit_link action_link">@lang('common.edit')</a>
             @endif
         @endif
 
