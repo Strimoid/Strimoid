@@ -6,11 +6,10 @@ use OEmbed;
 use Storage;
 use Str;
 
-/**
- * Class HasThumbnail.
- */
 trait HasThumbnail
 {
+    public $thumbnail;
+
     /**
      * Get path to thumbnail in requested size.
      *
@@ -19,7 +18,7 @@ trait HasThumbnail
      *
      * @return string Path to thumbnail
      */
-    public function getThumbnailPath($width = null, $height = null)
+    public function getThumbnailPath(int $width = null, int $height = null)
     {
         $host = Config::get('app.cdn_host');
 
@@ -37,7 +36,11 @@ trait HasThumbnail
      */
     public function autoThumbnail()
     {
-        $url = OEmbed::getThumbnail($this->getURL());
+        if (!$this->url) {
+            return false;
+        }
+
+        $url = OEmbed::getThumbnail($this->url);
 
         if (!$url) {
             return false;
@@ -48,10 +51,8 @@ trait HasThumbnail
 
     /**
      * Download thumbnail from given url, save it to disk and assign to entity.
-     *
-     * @param $url URL to image
      */
-    public function setThumbnail($url)
+    public function setThumbnail(string $url)
     {
         $this->removeThumbnail();
 
