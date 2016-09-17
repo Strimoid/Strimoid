@@ -24,7 +24,7 @@ class ContentsCest
     {
         $I->amLoggedAs(User::first());
         $I->amOnPage('/');
-        $I->click('Dodaj link');
+        $I->click('Add content');
         $I->submitForm('.main_col form', [
             'groupname'   => 'weimann',
             'url'         => 'http://strimoid.dev',
