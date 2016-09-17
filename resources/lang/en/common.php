@@ -45,10 +45,14 @@ return [
     'folders'  => 'Folders',
 
     // Other
+    'options'          => 'Options',
     'description'      => 'Description',
     'title'            => 'Title',
+    'thumbnail'        => 'Thumbnail',
     'recently popular' => 'Recently popular',
     'sort'             => 'Sort',
     'filter'           => 'Filter',
     'url address'      => 'URL Address',
+    'nsfw'             => 'NSFW',
+    'text'             => 'Text',
 ];

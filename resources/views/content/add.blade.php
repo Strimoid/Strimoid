@@ -35,7 +35,7 @@
                 @include('global.form.input_value', ['type' => 'text', 'name' => 'url', 'label' => trans('common.url address'), 'value' => Input::get('url')])
             </div>
             <div class="tab-pane fade" id="content">
-                @include('global.form.input', ['type' => 'textarea', 'class' => 'md_editor', 'name' => 'text', 'label' => 'Twoja treść', 'rows' => 10])
+                @include('global.form.input', ['type' => 'textarea', 'class' => 'md_editor', 'name' => 'text', 'label' => trans('common.text'), 'rows' => 10])
             </div>
         </div>
     </div>
@@ -44,39 +44,33 @@
     @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => trans('common.description'), 'maxlength' => '255', 'value' => Input::get('description')])
 
     <div class="form-group">
-        <label class="col-lg-3 control-label">Dodatkowe opcje</label>
+        <label class="col-lg-3 control-label">@lang('common.options')</label>
 
         <div class="col-lg-4">
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('thumbnail', 'on', Input::get('thumbnail') == 'no' ? false : true) !!} Miniaturka
+                    {!! Form::checkbox('thumbnail', 'on', Input::get('thumbnail') == 'no' ? false : true) !!} @lang('common.thumbnail')
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('nsfw', 'on', Input::has('18')) !!} Treść +18
+                    {!! Form::checkbox('nsfw', 'on', Input::has('18')) !!} @lang('common.nsfw')
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('eng', 'on', Input::has('eng')) !!} Treść w języku angielskim
+                    {!! Form::checkbox('eng', 'on', Input::has('eng')) !!} @lang('content.foreign language')
                 </label>
             </div>
         </div>
 
         <div class="col-lg-2">
             <button type="submit" class="btn btn-primary pull-right">
-                Dodaj treść
+                @lang('content.add content')
             </button>
         </div>
     </div>
     {!! Form::close() !!}
-</div>
-@stop
-
-@section('sidebar')
-<div class="well">
-    <p></p>
 </div>
 @stop
 
