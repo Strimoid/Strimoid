@@ -59,4 +59,5 @@ return [
     'url address'      => 'URL Address',
     'nsfw'             => 'NSFW',
     'text'             => 'Text',
+    'search'           => 'search',
 ];
