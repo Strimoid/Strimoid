@@ -6,11 +6,6 @@ use Strimoid\Models\Vote;
 trait HasVotes
 {
     /**
-     * @var string uv|dv|none
-     */
-    protected $vote_state;
-
-    /**
      * Object votes relationship.
      *
      * @return mixed
@@ -32,10 +27,8 @@ trait HasVotes
 
     /**
      * Get vote state of current user.
-     *
-     * @return string none|uv|dv
      */
-    public function getVoteState()
+    public function getVoteState() : string
     {
         if (Auth::guest() || !$this->votes()) {
             return 'none';
@@ -55,7 +48,7 @@ trait HasVotes
      *
      * @return string
      */
-    public function getVoteStateAttribute()
+    public function getVoteStateAttribute() : string
     {
         return $this->getVoteState();
     }
