@@ -60,4 +60,5 @@ return [
     'nsfw'             => 'Treść +18',
     'text'             => 'Tekst',
     'search'           => 'szukaj',
+    'preview'          => 'podgląd',
 ];

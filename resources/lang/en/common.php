@@ -60,4 +60,5 @@ return [
     'nsfw'             => 'NSFW',
     'text'             => 'Text',
     'search'           => 'search',
+    'preview'          => 'preview',
 ];

@@ -7,7 +7,7 @@
             @lang('common.edit')
         </a>
         <a href="{!! action('Content\ThumbnailController@chooseThumbnail', $content) !!}" class="btn btn-sm btn-secondary">
-            Zmień miniaturkę
+            @lang('content.change thumbnail')
         </a>
         <a class="btn btn-sm btn-danger content_remove_btn" data-id="{!! $content->hashId() !!}">
             @lang('common.delete')

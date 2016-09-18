@@ -28,7 +28,7 @@
                     @if ($content->getEmbed())
                         <a class="content_preview_link">
                             <i class="fa fa-play"></i>
-                            podgląd
+                            @lang('common.preview')
                         </a>
                     @endif
 
