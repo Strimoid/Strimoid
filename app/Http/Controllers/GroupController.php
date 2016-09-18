@@ -73,12 +73,7 @@ class GroupController extends BaseController
         return view('group.create');
     }
 
-    /**
-     * @param Group $group
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showSettings($group)
+    public function showSettings(Group $group)
     {
         if (!user()->isAdmin($group)) {
             abort(403, 'Access denied');

@@ -1,6 +1,7 @@
 <?php namespace Strimoid\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Strimoid\Http\Middleware\NoSessionMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -10,6 +11,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        Middleware\NoSessionMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Cookie\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
