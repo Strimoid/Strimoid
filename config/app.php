@@ -187,6 +187,7 @@ return [
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
@@ -250,6 +251,7 @@ return [
         'Str'                => Illuminate\Support\Str::class,
         'BootstrapPresenter' => Illuminate\Pagination\BootstrapThreePresenter::class,
 
+        'Agent'      => Jenssegers\Agent\Facades\Agent::class,
         'Algolia'    => Vinkla\Algolia\Facades\Algolia::class,
         'Authorizer' => LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade::class,
         'Carbon'     => Carbon\Carbon::class,

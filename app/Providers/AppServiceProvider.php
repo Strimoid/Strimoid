@@ -23,7 +23,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Jenssegers\Raven\RavenServiceProvider::class);
         }
 
-        $locale = config('app.locale');
+        $locale = $this->detectLocale();
+        \App::setLocale($locale);
         Carbon::setLocale($locale);
 
         Paginator::$defaultView = 'pagination::bootstrap-4';
@@ -51,5 +52,18 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('oembed', function () {
             return new OEmbed();
         });
+    }
+
+    private function detectLocale()
+    {
+        $userLocales = \Agent::languages();
+
+        foreach (['pl', 'en'] as $locale) {
+            if (in_array($locale, $userLocales)) {
+                return $locale;
+            }
+        }
+
+        return config('app.locale');
     }
 }
