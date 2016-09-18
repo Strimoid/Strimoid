@@ -73,6 +73,7 @@ return [
     'unique_ci'        => 'Given username is already taken.',
     'unique_email'     => 'Given e-mail address was already registered.',
     'url'              => 'The :attribute format is invalid.',
+    'url_custom'       => 'The :attribute format is invalid.',
     'safe_url'         => ':attribute format is invalid.',
 
     /*

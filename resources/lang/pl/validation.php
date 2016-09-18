@@ -73,6 +73,7 @@ return [
     'unique_ci'        => 'Wybrana nazwa jest już zajęta.',
     'unique_email'     => 'Podany adres email został już wykorzystany do rejestracji.',
     'url'              => 'Format :attribute jest nieprawidłowy.',
+    'url_custom'       => 'Format :attribute jest nieprawidłowy.',
     'safe_url'         => 'Format :attribute jest nieprawidłowy.',
 
     /*
