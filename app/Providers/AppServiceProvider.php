@@ -28,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::$defaultView = 'pagination::bootstrap-4';
         Paginator::$defaultSimpleView = 'pagination::simple-bootstrap-4';
+
+        \Request::setTrustedProxies(['172.16.0.0/16']);
     }
 
     public function register()
