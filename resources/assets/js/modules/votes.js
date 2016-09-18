@@ -46,9 +46,9 @@ function VotesModule() {
                     content += '<div style="font-size: 11px">';
 
                     if (vote.up)
-                        content += '<span class="glyphicon glyphicon-arrow-up vote-up"></span>';
+                        content += '<span class="fa fa-arrow-up vote-up"></span>';
                     else
-                        content += '<span class="glyphicon glyphicon-arrow-down vote-down"></span>';
+                        content += '<span class="fa fa-arrow-down vote-down"></span>';
 
                     content += ' <a href="/u/'+ vote.username + '">'+ vote.username + '</a> ';
                     content += '<span style="color: #929292" title="'+ vote.time +'">('+ vote.time_ago +')</span></div>';
