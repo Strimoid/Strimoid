@@ -79,7 +79,7 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
     @endif
 
     @if (config('services.raven.public_dsn'))
-        <script src="//cdn.ravenjs.com/2.3.0/console/raven.min.js"></script>
+        <script src="//cdn.ravenjs.com/3.7.0/console/raven.min.js"></script>
         <script>
             Raven.config('{{ config('services.raven.public_dsn') }}').install()
         </script>
