@@ -17,18 +17,14 @@
 @if (isset($results))
 
 @if ($t == 'c')
-    @foreach ($results as $content)
-        @include('content.widget', ['content' => $content])
-    @endforeach
+    @each('content.widget', $results, 'content')
 @elseif ($t == 'e')
-    @foreach ($results as $entry)
-        @include('entries.widget', ['entry' => $entry])
+    @foreach ($results as $reply)
+        @include('entries.widget', ['entry' => $reply, 'isReply' => false])
     @endforeach
 @elseif ($t == 'g')
     <div class="group_list">
-    @foreach ($results as $group)
-        @include('group.widget', ['group' => $group])
-    @endforeach
+        @each('group.widget', $results, 'group')
     </div>
 
     <?php $group = null; ?>
