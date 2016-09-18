@@ -15,7 +15,7 @@ class NoSessionMiddleware
     {
         foreach ($this->urls as $except) {
             if ($request->is($except)) {
-                config()->set('session.driver', null);
+                config()->set('session.driver', 'array');
             }
         }
 
