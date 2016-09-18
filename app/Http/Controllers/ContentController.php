@@ -142,7 +142,7 @@ class ContentController extends BaseController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function generateRssFeed(array $contents)
+    protected function generateRssFeed($contents)
     {
         return response()
             ->view('content.rss', compact('contents'))
@@ -175,13 +175,6 @@ class ContentController extends BaseController
         return view('content.add');
     }
 
-    /**
-     * Show content edit form.
-     *
-     * @param Content $content
-     *
-     * @return \Illuminate\View\View
-     */
     public function showEditForm(Content $content)
     {
         if (!$content->canEdit(user())) {
@@ -192,11 +185,6 @@ class ContentController extends BaseController
         return view('content.edit', compact('content'));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return mixed
-     */
     public function addContent(Request $request)
     {
         $rules = [
@@ -253,12 +241,7 @@ class ContentController extends BaseController
         return Redirect::route('content_comments', $content);
     }
 
-    /**
-     * @param Content $content
-     *
-     * @return $this|\Illuminate\Http\RedirectResponse
-     */
-    public function editContent($content)
+    public function editContent(Content $content)
     {
         if (!$content->canEdit(user())) {
             return Redirect::route('content_comments', $content->getKey())
@@ -298,9 +281,6 @@ class ContentController extends BaseController
         return Redirect::route('content_comments', $content);
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function removeContent(Content $content = null)
     {
         $id = hashids_decode(request('id'));
@@ -325,9 +305,6 @@ class ContentController extends BaseController
         ]);
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function softRemoveContent()
     {
         $id = hashids_decode(request('id'));

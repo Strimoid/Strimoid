@@ -194,7 +194,7 @@ class UserController extends BaseController
 
         return redirect()->to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
-    
+
     public function showProfile(User $user, string $type = 'all')
     {
         if ($user->removed_at) {
