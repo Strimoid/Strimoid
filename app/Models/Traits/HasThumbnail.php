@@ -8,8 +8,6 @@ use Str;
 
 trait HasThumbnail
 {
-    public $thumbnail;
-
     /**
      * Get path to thumbnail in requested size.
      *
