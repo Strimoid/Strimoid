@@ -37,7 +37,7 @@ $isReply = isset($isReply) ? true : false;
                 </a>
             @endif
 
-            <span class="voting" data-id="{!! $comment->hashId() !!}" data-state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
+            <span class="voting" data-id="{!! $comment->hashId() !!}" state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
                 <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($comment->getVoteState() == 'uv') btn-success @endif">
                     <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $comment->uv !!}</span>
                 </button>

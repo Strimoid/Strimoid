@@ -28,7 +28,7 @@
                 </time>
             </a>
 
-            <span class="voting" data-id="{!! $entry->hashId() !!}" data-state="{!! $entry->getVoteState() !!}"
+            <span class="voting" data-id="{!! $entry->hashId() !!}" state="{!! $entry->getVoteState() !!}"
                   @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
                 <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($entry->getVoteState() == 'uv') btn-success @endif">
                     <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $entry->uv !!}</span>

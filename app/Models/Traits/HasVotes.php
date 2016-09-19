@@ -1,16 +1,15 @@
 <?php namespace Strimoid\Models\Traits;
 
 use Auth;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Strimoid\Models\Vote;
 
 trait HasVotes
 {
     /**
-     * Object votes relationship.
-     *
-     * @return mixed
+     * Votes relationship.
      */
-    public function votes()
+    public function votes() : MorphMany
     {
         return $this->morphMany(Vote::class, 'element');
     }
@@ -43,11 +42,6 @@ trait HasVotes
         return $vote->up ? 'uv' : 'dv';
     }
 
-    /**
-     * Attribute alias for vote state.
-     *
-     * @return string
-     */
     public function getVoteStateAttribute() : string
     {
         return $this->getVoteState();

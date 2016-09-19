@@ -3,7 +3,7 @@
                       uv="{!! $content->uv !!}"
                       dv="{!! $content->dv !!}"
                       data-id="{!! $content->hashId() !!}"
-                      data-state="{!! $content->getVoteState()  !!}"
+                      state="{!! $content->getVoteState()  !!}"
                       data-type="content"></vote-buttons>
 
         @if ($content->thumbnail && !$content->nsfw)

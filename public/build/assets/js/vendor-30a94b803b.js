@@ -37126,11 +37126,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-/* Riot v2.6.1, @license MIT */
+/* Riot v2.6.2, @license MIT */
 
 ;(function(window, undefined) {
   'use strict';
-var riot = { version: 'v2.6.1', settings: {} },
+var riot = { version: 'v2.6.2', settings: {} },
   // be aware, internal usage
   // ATTENTION: prefix the global dynamic variables with `__`
 
@@ -38695,6 +38695,8 @@ function Tag(impl, conf, innerHTML) {
         instance = new mix()
       } else instance = mix
 
+      var proto = Object.getPrototypeOf(instance)
+
       // build multilevel prototype inheritance chain property list
       do props = props.concat(Object.getOwnPropertyNames(obj || instance))
       while (obj = Object.getPrototypeOf(obj || instance))
@@ -38705,7 +38707,7 @@ function Tag(impl, conf, innerHTML) {
         // allow mixins to override other properties/parent mixins
         if (key != 'init') {
           // check for getters/setters
-          var descriptor = Object.getOwnPropertyDescriptor(instance, key)
+          var descriptor = Object.getOwnPropertyDescriptor(instance, key) || Object.getOwnPropertyDescriptor(proto, key)
           var hasGetterSetter = descriptor && (descriptor.get || descriptor.set)
 
           // apply method only if it does not already exist on the instance
@@ -38738,7 +38740,7 @@ function Tag(impl, conf, innerHTML) {
           self.mixin(globalMixin[i])
 
     // children in loop should inherit from true parent
-    if (self._parent) {
+    if (self._parent && self._parent.root.isLoop) {
       inheritFrom(self._parent)
     }
 
@@ -39459,9 +39461,7 @@ function $(selector, ctx) {
  * @returns { Object } child instance
  */
 function inherit(parent) {
-  function Child() {}
-  Child.prototype = parent
-  return new Child()
+  return Object.create(parent || null)
 }
 
 /**

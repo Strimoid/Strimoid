@@ -16,7 +16,7 @@
                       uv="{!! $content->uv !!}"
                       dv="{!! $content->dv !!}"
                       data-id="{!! $content->hashId() !!}"
-                      data-state="{!! $content->getVoteState()  !!}"
+                      state="{!! $content->getVoteState()  !!}"
                       data-type="content"></vote-buttons>
 
         @if ($content->thumbnail)
@@ -162,7 +162,7 @@
 
 @foreach ($content->related as $related)
 <div class="media related_link">
-    <div class="voting" data-id="{!! $related->hashId() !!}" data-state="{!! $related->getVoteState() !!}" data-type="related">
+    <div class="voting" data-id="{!! $related->hashId() !!}" state="{!! $related->getVoteState() !!}" data-type="related">
         <button type="button" class="btn btn-secondary btn-xs pull-left vote-btn-up @if ($related->getVoteState() == 'uv') btn-success @endif">
             <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $related->uv !!}</span>
         </button>

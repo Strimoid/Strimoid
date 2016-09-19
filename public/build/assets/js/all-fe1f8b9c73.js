@@ -781,14 +781,14 @@ function VotesModule() {
 VotesModule.prototype.addUpvote = function () {
     var content = $(this).parent();
     var cid = $(content).attr('data-id');
-    var state = $(content).attr('data-state');
+    var state = $(content).attr('state');
     var type = $(content).attr('data-type');
 
     if (state == 'uv') {
         $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
             if (data.status == 'ok') {
                 $(content).find('.vote-btn-up').removeClass('btn-success');
-                $(content).attr('data-state', 'none');
+                $(content).attr('state', 'none');
             }
 
             $(content).find('.vote-btn-up .count').text(data.uv);
@@ -798,12 +798,12 @@ VotesModule.prototype.addUpvote = function () {
         $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
             if (data.status == 'ok') {
                 $(content).find('.vote-btn-down').removeClass('btn-danger');
-                $(content).attr('data-state', 'none');
+                $(content).attr('state', 'none');
 
                 $.post('/ajax/vote/add', { id: cid, type: type, up: 'true' }, function (data) {
                     if (data.status == 'ok') {
                         $(content).find('.vote-btn-up').addClass('btn-success');
-                        $(content).attr('data-state', 'uv');
+                        $(content).attr('state', 'uv');
                     }
 
                     $(content).find('.vote-btn-up .count').text(data.uv);
@@ -815,7 +815,7 @@ VotesModule.prototype.addUpvote = function () {
         $.post('/ajax/vote/add', { id: cid, type: type, up: 'true' }, function (data) {
             if (data.status == 'ok') {
                 $(content).find('.vote-btn-up').addClass('btn-success');
-                $(content).attr('data-state', 'uv');
+                $(content).attr('state', 'uv');
             }
 
             $(content).find('.vote-btn-up .count').text(data.uv);
@@ -827,19 +827,19 @@ VotesModule.prototype.addUpvote = function () {
 VotesModule.prototype.addDownvote = function () {
     var content = $(this).parent();
     var cid = $(content).attr('data-id');
-    var state = $(content).attr('data-state');
+    var state = $(content).attr('state');
     var type = $(content).attr('data-type');
 
     if (state == 'uv') {
         $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
             if (data.status == 'ok') {
                 $(content).find('.vote-btn-up').removeClass('btn-success');
-                $(content).attr('data-state', 'none');
+                $(content).attr('state', 'none');
 
                 $.post('/ajax/vote/add', { id: cid, type: type, up: 'false' }, function (data) {
                     if (data.status == 'ok') {
                         $(content).find('.vote-btn-down').addClass('btn-danger');
-                        $(content).attr('data-state', 'dv');
+                        $(content).attr('state', 'dv');
                     }
 
                     $(content).find('.vote-btn-up .count').text(data.uv);
@@ -851,7 +851,7 @@ VotesModule.prototype.addDownvote = function () {
         $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
             if (data.status == 'ok') {
                 $(content).find('.vote-btn-down').removeClass('btn-danger');
-                $(content).attr('data-state', 'none');
+                $(content).attr('state', 'none');
             }
 
             $(content).find('.vote-btn-up .count').text(data.uv);
@@ -861,7 +861,7 @@ VotesModule.prototype.addDownvote = function () {
         $.post('/ajax/vote/add', { id: cid, type: type, up: 'false' }, function (data) {
             if (data.status == 'ok') {
                 $(content).find('.vote-btn-down').addClass('btn-danger');
-                $(content).attr('data-state', 'dv');
+                $(content).attr('state', 'dv');
             }
 
             $(content).find('.vote-btn-up .count').text(data.uv);

@@ -26,7 +26,7 @@ __e( hashId ) +
 __e( created_at ) +
 '">chwilę temu</time>\n            </a>\n            <span class="voting" data-id="' +
 __e( hashId ) +
-'" data-state="none" data-type="entry-reply">\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-up">\n                    <i class="fa fa-arrow-up vote-up"></i>\n                    <span class="count">0</span>\n                </button>\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-down">\n                    <i class="fa fa-arrow-down vote-down"></i>\n                    <span class="count">0</span>\n                </button>\n            </span>\n        </span>\n    </div>\n    <div class="entry_text md">' +
+'" state="none" data-type="entry-reply">\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-up">\n                    <i class="fa fa-arrow-up vote-up"></i>\n                    <span class="count">0</span>\n                </button>\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-down">\n                    <i class="fa fa-arrow-down vote-down"></i>\n                    <span class="count">0</span>\n                </button>\n            </span>\n        </span>\n    </div>\n    <div class="entry_text md">' +
 ((__t = ( text )) == null ? '' : __t) +
 '</div>\n    <div class="entry_actions pull-right">\n        <i class="fa fa-star-o action_link save_entry" title="zapisz"></i>\n        <a class="entry_reply_link action_link">odpowiedz</a>\n        <a href="' +
 __e( entryUrl ) +
@@ -69,7 +69,7 @@ __e( hashId ) +
 __e( created_at ) +
 '">chwilę temu</time>\n            </a>\n            <span class="voting" data-id="' +
 __e( hashId ) +
-'" data-state="none" data-type="entry">\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-up">\n                    <i class="fa fa-arrow-up vote-up"></i>\n                    <span class="count">0</span>\n                </button>\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-down">\n                    <i class="fa fa-arrow-down vote-down"></i>\n                    <span class="count">0</span>\n                </button>\n            </span>\n        </span>\n    </div>\n    <div class="entry_text md">' +
+'" state="none" data-type="entry">\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-up">\n                    <i class="fa fa-arrow-up vote-up"></i>\n                    <span class="count">0</span>\n                </button>\n                <button type="button" class="btn btn-secondary btn-xs vote-btn-down">\n                    <i class="fa fa-arrow-down vote-down"></i>\n                    <span class="count">0</span>\n                </button>\n            </span>\n        </span>\n    </div>\n    <div class="entry_text md">' +
 ((__t = ( text )) == null ? '' : __t) +
 '</div>\n    <div class="entry_actions pull-right">\n        <i class="fa fa-star-o action_link save_entry" title="zapisz"></i>\n        <a class="entry_reply_link action_link">odpowiedz</a>\n        <a href="' +
 __e( entryUrl ) +

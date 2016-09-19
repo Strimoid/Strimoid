@@ -11,7 +11,7 @@
 
     <script>
         this.size = opts["data-size"] || 'sm';
-        this.state = opts["data-state"] || '';
+        this.state = opts.state || 'none';
 
         this.uvClass = '';
         this.dvClass = '';
