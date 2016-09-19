@@ -165,7 +165,7 @@ class Group extends BaseModel
 
     public function getAvatarPathAttribute()
     {
-        $host = Config::get('app.cdn_host');
+        $host = config('app.cdn_host');
 
         if ($this->avatar) {
             return $host.'/groups/'.$this->avatar;

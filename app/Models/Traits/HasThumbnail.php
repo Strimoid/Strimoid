@@ -10,15 +10,10 @@ trait HasThumbnail
 {
     /**
      * Get path to thumbnail in requested size.
-     *
-     * @param null $width  Width in pixels
-     * @param null $height Height in pixels
-     *
-     * @return string Path to thumbnail
      */
-    public function getThumbnailPath(int $width = null, int $height = null)
+    public function getThumbnailPath(int $width = null, int $height = null) : string
     {
-        $host = Config::get('app.cdn_host');
+        $host = config('app.cdn_host');
 
         if ($this->thumbnail && $width && $height) {
             return $host.'/'.$width.'x'.$height.'/thumbnails/'.$this->thumbnail;

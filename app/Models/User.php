@@ -40,7 +40,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function getAvatarPath($width = null, $height = null)
     {
-        $host = Config::get('app.cdn_host');
+        $host = config('app.cdn_host');
 
         // Show default avatar if user is blocked
         if (Auth::check() && Auth::user()->isBlockingUser($this)) {
@@ -58,7 +58,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function getDefaultAvatarPath()
     {
-        $host = Config::get('app.cdn_host');
+        $host = config('app.cdn_host');
 
         return $host.'/duck/'.$this->name.'.svg';
     }

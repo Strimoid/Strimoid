@@ -33,7 +33,7 @@ class EventsServiceProvider extends ServiceProvider
 
         $events->listen('eloquent.created: Strimoid\\Models\\User',
             function (User $user) {
-                $url = Config::get('app.hubot_url');
+                $url = config('app.hubot_url');
 
                 if (!$url) {
                     return;
@@ -50,7 +50,7 @@ class EventsServiceProvider extends ServiceProvider
 
         $events->listen('eloquent.created: Strimoid\\Models\\Entry',
             function (Entry $entry) {
-                $url = Config::get('app.hubot_url');
+                $url = config('app.hubot_url');
 
                 if (!$url) {
                     return;
