@@ -11,18 +11,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        Middleware\NoSessionMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \Illuminate\Cookie\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
-        Middleware\CheckForReadOnlyMode::class,
-        Middleware\VerifyCsrfToken::class,
         Middleware\RateLimit::class,
-        Middleware\NotificationMarkRead::class,
-        Middleware\Pjax::class,
     ];
 
     /**
@@ -33,6 +24,13 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'web' => [
             'bindings',
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            Middleware\VerifyCsrfToken::class,
+            Middleware\NotificationMarkRead::class,
+            Middleware\Pjax::class,
         ],
         'api' => [
             'throttle:60,1',

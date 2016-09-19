@@ -267,10 +267,3 @@ Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);
 /* Ranking ========================================================================================================== */
 Route::get('/ranking', ['as' => 'ranking', 'uses' => 'RankingController@showRanking']);
 Route::get('/g/{group}/ranking', ['as' => 'group_ranking', 'uses' => 'RankingController@showRanking']);
-
-/* Media ============================================================================================================ */
-Route::get('/i/duck/{username}', 'DuckController@drawDuck');
-Route::get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
-    ->where(['format' => '\w{3}']);
-Route::get('/i/{folder}/{filename}.{format}', 'ImageController@showImage')
-    ->where(['format' => '\w{3}']);
