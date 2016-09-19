@@ -7,9 +7,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Pjax
 {
-    /**
-     * Handle an incoming request.
-     */
     public function handle(Request $request, Closure $next)
     {
         /** @var $response Response */

@@ -8,20 +8,6 @@ use Strimoid\Models\Group;
 
 class MasterComposer
 {
-    /**
-     * Create a new profile composer.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Bind data to the view.
-     *
-     * @param View $view
-     *
-     * @return void
-     */
     public function compose(View $view)
     {
         $data = $view->getData();
