@@ -10,6 +10,8 @@
             {{ trans('common.your profile') }}
         </a>
 
+        <div class="dropdown-divider"></div>
+
         <a class="dropdown-item" href="/conversations">
             <i class="fa fa-envelope"></i>
             {{ trans('common.conversations') }}
