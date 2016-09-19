@@ -24,6 +24,7 @@ ratings:
   - "**.py"
   - "**.rb"
 exclude_paths:
+- app/Helpers/MarkdownParser.php
 - config/
 - tests/
 - resources/lang/
