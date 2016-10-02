@@ -21,7 +21,7 @@
     "bootstrap-tagsinput": "~0.8.0",
     "font-awesome": "~4.6.3",
     "hogan": "~3.0.2",
-    "image-picker": "~0.2.4",
+    "image-picker": "~0.3.0",
     "ionsound": "~3.0.7",
     "jquery": "~2.2",
     "jquery-methodOverride": "*",

@@ -82,6 +82,25 @@ return __p
 window["_"] = window["_"] || {};
 window["_"]["tpl"] = window["_"]["tpl"] || {};
 
+window["_"]["tpl"]["groups-tooltip"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div class="btn-group" data-name="' +
+__e( groupname ) +
+'">\n    <button class="group_subscribe_btn btn btn-sm ' +
+__e( subscribe_class ) +
+'">\n        <i class="fa fa-eye"></i>\n    </button>\n    <button class="group_block_btn btn btn-sm ' +
+__e( block_class ) +
+'">\n        <i class="fa fa-ban"></i>\n    </button>\n</div>\n';
+
+}
+return __p
+}})();
+(function() {
+window["_"] = window["_"] || {};
+window["_"]["tpl"] = window["_"]["tpl"] || {};
+
 window["_"]["tpl"]["users-tooltip"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -93,25 +112,6 @@ __e( username ) +
 '" class="btn btn-sm btn-default">\n        <i class="fa fa-envelope"></i></a>\n    <button class="user_observe_btn btn btn-sm ' +
 __e( observe_class ) +
 '">\n        <i class="fa fa-eye"></i>\n    </button>\n    <button class="user_block_btn btn btn-sm ' +
-__e( block_class ) +
-'">\n        <i class="fa fa-ban"></i>\n    </button>\n</div>\n';
-
-}
-return __p
-}})();
-(function() {
-window["_"] = window["_"] || {};
-window["_"]["tpl"] = window["_"]["tpl"] || {};
-
-window["_"]["tpl"]["groups-tooltip"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="btn-group" data-name="' +
-__e( groupname ) +
-'">\n    <button class="group_subscribe_btn btn btn-sm ' +
-__e( subscribe_class ) +
-'">\n        <i class="fa fa-eye"></i>\n    </button>\n    <button class="group_block_btn btn btn-sm ' +
 __e( block_class ) +
 '">\n        <i class="fa fa-ban"></i>\n    </button>\n</div>\n';
 
