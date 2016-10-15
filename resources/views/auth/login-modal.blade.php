@@ -9,7 +9,7 @@
                 --}}
 
                 {!! Form::open(['action' => 'AuthController@login', 'class' => 'navbar-form']) !!}
-                <input type="text" name="username" placeholder="Login" class="form-control" style="margin-bottom: 10px">
+                <input type="text" name="username" placeholder="Login" class="form-control" style="margin-bottom: 10px" autofocus>
                 <input type="password" name="password" placeholder="Hasło" class="form-control" style="margin-bottom: 10px">
 
                 <div class="m-b-1">

@@ -249,11 +249,9 @@ return [
         'Form'               => Collective\Html\FormFacade::class,
         'Html'               => Collective\Html\HtmlFacade::class,
         'Str'                => Illuminate\Support\Str::class,
-        'BootstrapPresenter' => Illuminate\Pagination\BootstrapThreePresenter::class,
 
         'Agent'      => Jenssegers\Agent\Facades\Agent::class,
         'Algolia'    => Vinkla\Algolia\Facades\Algolia::class,
-        'Authorizer' => LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade::class,
         'Carbon'     => Carbon\Carbon::class,
         'Date'       => Carbon\Carbon::class,
         'Debugbar'   => Barryvdh\Debugbar\Facade::class,

@@ -10,9 +10,8 @@
 
     <p id="currentTab"></p>
 
-    <div>
         <div class="row" style="margin-bottom: 20px">
-            <ul class="nav nav-tabs col-lg-offset-3 col-lg-6">
+            <ul class="nav nav-tabs col-lg-6 offset-lg-3">
                 <li class="nav-item">
                     <a class="nav-link active" href="#link" data-toggle="tab">
                         <i class="fa fa-link"></i>
@@ -38,7 +37,6 @@
                 @include('global.form.input', ['type' => 'textarea', 'class' => 'md_editor', 'name' => 'text', 'label' => trans('common.text'), 'rows' => 10])
             </div>
         </div>
-    </div>
 
     @include('global.form.input_value', ['type' => 'text', 'name' => 'title', 'label' => trans('common.title'), 'maxlength' => '128', 'value' => Input::get('title')])
     @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => trans('common.description'), 'maxlength' => '255', 'value' => Input::get('description')])

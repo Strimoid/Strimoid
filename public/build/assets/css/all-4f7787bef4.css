@@ -7990,12 +7990,20 @@ body.night {
   body.night .navbar .navbar-nav .active a:focus {
     color: #fff;
     background-color: #131313; }
+  body.night .card {
+    background-color: #444; }
+  body.night .card-header,
+  body.night .card-footer {
+    background-color: #3b3b3b; }
   body.night .dropdown-menu {
+    color: #b7babc;
     background-color: #424242; }
-  body.night .dropdown-menu > li > a {
+  body.night .dropdown-menu > a {
     color: #A0A0A0; }
-  body.night .dropdown-menu .divider {
+  body.night .dropdown-divider {
     background-color: #5F5F5F; }
+  body.night .dropdown-item:hover {
+    background-color: #4f4f4f; }
   body.night .notifications_list a {
     color: #8FBFDA;
     background-color: #424242;
