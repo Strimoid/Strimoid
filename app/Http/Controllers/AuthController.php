@@ -78,7 +78,7 @@ class AuthController extends BaseController
             return redirect('auth/'.$social);
         }
 
-        $authUser = $this->findOrCreateUser($user,$social);
+        $authUser = $this->findOrCreateUser($user, $social);
 
         Auth::login($authUser, true);
 
@@ -93,11 +93,11 @@ class AuthController extends BaseController
      * @param $facebookUser
      * @return User
      */
-    private function findOrCreateUser($User,$social)
+    private function findOrCreateUser($User, $social)
     {
         $authUser = User::where('emai', $User->email)->first();
 
-        if ($authUser){
+        if ($authUser) {
             return $authUser;
         }
 
