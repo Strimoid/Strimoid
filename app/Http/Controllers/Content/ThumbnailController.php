@@ -19,7 +19,8 @@ class ThumbnailController extends BaseController
 
         try {
             $thumbnails = \OEmbed::getThumbnails($content->url);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
+            logger()->error($exception);
             $thumbnails = [];
         }
 
