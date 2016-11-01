@@ -30,11 +30,7 @@ class OEmbed
     public function getThumbnails(string $url)
     {
         $data = $this->getData($url);
-
-        $data = array_where($data['links']['thumbnail'], function ($key, $value) {
-            return $this->isImage($value);
-        });
-
+        $data = $data['links']['thumbnail'];
         $data = array_pluck($data, 'href');
 
         return $data;
