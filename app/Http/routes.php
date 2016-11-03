@@ -5,6 +5,8 @@ Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => '
 Route::post('/login', ['middleware' => 'guest', 'uses' => 'AuthController@login']);
 Route::post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
 Route::post('/pusher/auth', ['middleware' => 'auth', 'uses' => 'AuthController@authenticatePusher']);
+Route::get('auth/{auth}', ['middleware' =>  'auth' ,'uses' =>   'AuthController@redirectToProvider']);
+Route::get('auth/{auth}/callback', ['middleware'    =>  'atuh', 'uses'  => 'AuthController@handleProviderCallback']);
 
 /* OAuth2 =========================================================================================================== */
 Route::post('/oauth2/token', 'OAuthController@getAccessToken');
