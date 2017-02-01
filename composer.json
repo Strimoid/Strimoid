@@ -50,7 +50,7 @@
           "thomaswelton/laravel-gravatar": "^1.1",
           "syholloway/mrcolor": "^0.0.1",
           "league/glide-laravel": "^1.0",
-          "codegyre/robo": "^0.7.2"
+          "consolidation/robo": "^1.0"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "^2.2",
