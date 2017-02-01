@@ -1,22 +1,16 @@
-FROM php:fpm-alpine
+FROM php:7.1-fpm
 
 EXPOSE 8000
 VOLUME /src/storage
 
-# Install Alpine Linux packages
-RUN apk update && apk add autoconf git icu-dev imagemagick-dev openssl-dev
+RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++
 
 # Install PHP extensions
-RUN docker-php-ext-install exif intl openssl pcntl pdo pdo_mysql
-
-RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS libtool && \
-    pecl install apcu && \
-    pecl install imagick && \
-    docker-php-ext-enable apcu imagick && \
-    apk del .phpize-deps
+RUN docker-php-ext-install exif intl pcntl pdo pdo_mysql
+RUN pecl install apcu imagick
 
 # Install Dockerize
-ENV DOCKERIZE_VERSION v0.2.0
+ENV DOCKERIZE_VERSION v0.3.0
 RUN curl -SL https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     | tar xzC /usr/local/bin
 

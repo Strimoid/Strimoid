@@ -15,11 +15,11 @@ services:
      - mariadb
      - redis
   mariadb:
-    image: mariadb
+    image: mariadb:10.1
     environment:
      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
      - MYSQL_DATABASE=strimoid
   redis:
-    image: redis
+    image: redis:3.2-alpine
   beanstalkd:
     image: schickling/beanstalkd
