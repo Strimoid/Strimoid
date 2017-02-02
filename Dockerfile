@@ -6,7 +6,7 @@ VOLUME /src/storage
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++
 
 # Install PHP extensions
-RUN docker-php-ext-install exif intl pcntl pdo pdo_mysql
+RUN docker-php-ext-install exif intl pcntl pdo pdo_mysql zip
 RUN pecl install apcu imagick
 
 # Install Dockerize
