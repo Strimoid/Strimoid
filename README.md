@@ -3,48 +3,34 @@ Strimoid
 
 [![Join the chat at https://gitter.im/Strimoid/Strimoid](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Strimoid/Strimoid) [![Build Status](https://semaphoreci.com/api/v1/strimoid/strimoid/branches/develop/shields_badge.svg)](https://semaphoreci.com/strimoid/strimoid) [![Test Coverage](https://codeclimate.com/github/Strimoid/Strimoid/badges/coverage.svg)](https://codeclimate.com/github/Strimoid/Strimoid) [![Code Climate](https://codeclimate.com/github/Strimoid/Strimoid/badges/gpa.svg)](https://codeclimate.com/github/Strimoid/Strimoid) [![Docker Repository on Quay](https://quay.io/repository/strimoid/strimoid/status "Docker Repository on Quay")](https://quay.io/repository/strimoid/strimoid)
 
-Source code of Strm.pl, brand-new social service.
+Source code of [Strm.pl](https://strm.pl), brand-new social service.
 
-Requirements
+API documentation
 ========
-* PHP 7 with intl, mbstring, openssl, pdo, pdo-mysql extensions
-* MySQL (MariaDB 10.1 recommended, but might even work with PostgreSQL)
+You can find API documentation at [https://developers.strm.pl](https://developers.strm.pl)
 
-API
+How to start?
 ========
-You can find API documentation at https://developers.strm.pl
+You'll need to get [Docker](https://www.docker.com/products/overview) and docker-compose, if you don't have them already installed.
 
-Documentation
-========
-We are providing documentation generated automatically by Sami at https://sami.strm.pl
-
-How to use?
-========
-* run:
-
-```
-composer create-project strimoid/strimoid --stability=dev
+```bash
+docker-compose up -d --build
+docker-compose exec web artisan migrate
 ```
 
-* edit .env file and then run:
-
-```
-php artisan migrate
-```
-
-To run web app from console use:
-
-```
-php artisan serve
-```
+Then go to [http://localhost:8000](http://localhost:8000) and enjoy.
 
 To do
 ========
 * [ ] Tests, tests, tests!
-* [ ] Better frontend.
-* [ ] Improve API: change routing, add more documentation, add ETags support.
+* [ ] Better frontend, with support for i18n
+* [ ] Improve API
 * [ ] Many many other things...
 
-Questions?
+Any questions?
 ========
-Just join #strimoid @ Freenode and feel free to ask.
+Just join any of following channels and please feel free to ask, we will try to answer as soon as possible.
+
+* Telegram: [@strimoid](tg://resolve?domain=strimoid)
+* IRC: [#strimoid @ Freenode](irc://chat.freenode.net/#strimoid)
+

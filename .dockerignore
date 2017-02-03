@@ -3,6 +3,8 @@ _ide_helper_models.php
 .bowery
 .env
 .env.test
+docker-compose.yml
+*.md
 node_modules/
 bower_components/
 vendor/

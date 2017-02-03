@@ -4,7 +4,6 @@ services:
     build: .
     image: strimoid/strimoid
     environment:
-     - MYSQL_HOST=mariadb
      - MYSQL_USERNAME=root
     ports:
      - "8000:8000"
