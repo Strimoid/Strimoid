@@ -4,3 +4,5 @@ services:
     environment:
      - APP_ENV=local
      - APP_DEBUG=true
+    volumes:
+     - .:/src

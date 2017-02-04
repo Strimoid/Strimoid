@@ -2,13 +2,11 @@ version: '2'
 services:
   web:
     build: .
-    image: strimoid/strimoid
+    image: quay.io/strimoid/strimoid
     environment:
      - MYSQL_USERNAME=root
     ports:
      - "8000:8000"
-    volumes:
-     - .:/src
     links:
      - beanstalkd
      - mariadb
