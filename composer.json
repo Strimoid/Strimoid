@@ -50,7 +50,8 @@
           "thomaswelton/laravel-gravatar": "^1.1",
           "syholloway/mrcolor": "^0.0.1",
           "league/glide-laravel": "^1.0",
-          "consolidation/robo": "^1.0"
+          "consolidation/robo": "^1.0",
+            "talyssonoc/react-laravel": "dev-master"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "^2.2",

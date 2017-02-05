@@ -19,6 +19,8 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 <div class="container @if (@user()->settings['pin_navbar']) navbar-fixed-margin @endif">
     <div class="row">
         <div class="main_col @yield('content_class', 'col-md-8')">
+            @react_component('Test', ['name' => 'World'])
+            
             @include('flash::message')
             @include('global.parts.alerts')
 

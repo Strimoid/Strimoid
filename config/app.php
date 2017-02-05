@@ -195,6 +195,7 @@ return [
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
         Msurguy\Honeypot\HoneypotServiceProvider::class,
+        React\ReactServiceProvider::class,
         Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
         TwigBridge\ServiceProvider::class,
         Vinkla\Algolia\AlgoliaServiceProvider::class,
