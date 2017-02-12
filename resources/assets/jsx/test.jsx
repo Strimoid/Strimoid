@@ -1,5 +1,7 @@
-class Test extends React.Component {
+import React from 'react'
+
+export default class Test extends React.Component {
     render() {
-        return React.createElement('div', null, `Hello ${this.props.name}`);
+        return <h1>Hello, {this.props.name}</h1>;
     }
 }

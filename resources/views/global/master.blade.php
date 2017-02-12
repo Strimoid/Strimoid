@@ -44,6 +44,8 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 <script src="{{ elixir('assets/js/laroute.js') }}"></script>
 <script src="{{ elixir('assets/js/lodash.js') }}"></script>
 <script src="{{ elixir('assets/js/all.js') }}"></script>
+<script src="/js/client.bundle.js"></script>
+<script src="{{ asset('vendor/react-laravel/react_ujs.js') }}"></script>
 
 @if (auth()->check())
 <script>

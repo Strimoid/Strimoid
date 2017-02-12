@@ -1,8 +1,8 @@
 <?php
 
 return [
-  'source'     => public_path('vendor/react-laravel/react.js'),
-  'dom-source' => public_path('vendor/react-laravel/react-dom.js'),
-  'dom-server-source' => public_path('vendor/react-laravel/react-dom-server.js'),
-  'components' => resource_path('assets/jsx/test.jsx'),
+  'source'     => public_path('js/server.bundle.js'),
+  'dom-source' => resource_path('assets/js/null.js'),
+  'dom-server-source' => resource_path('assets/js/null.js'),
+  'components' => resource_path('assets/js/null.js'),
 ];
