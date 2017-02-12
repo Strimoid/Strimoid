@@ -1,5 +1,5 @@
 require('imports-loader?Tether=tether!bootstrap')
-require('imports-loader?jQuery=jquery!timeago')
+require('timeago')
 const Cookies = require('js-cookie')
 const Pusher = require('pusher-js')
 
@@ -485,10 +485,10 @@ $(document).ready(function() {
 
     $('.toggle_night_mode').click(function() {
         if ($('body').hasClass('night')) {
-            $.removeCookie('night_mode', { path: '/' });
+            Cookies.remove('night_mode', { path: '/' });
             $('body').removeClass('night');
         } else {
-            $.cookie('night_mode', 'on', { expires: 365, path: '/' });
+            Cookies.set('night_mode', 'on', { expires: 365, path: '/' });
             $('body').addClass('night');
         }
     });

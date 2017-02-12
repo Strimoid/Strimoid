@@ -19,8 +19,6 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 <div class="container @if (@user()->settings['pin_navbar']) navbar-fixed-margin @endif">
     <div class="row">
         <div class="main_col @yield('content_class', 'col-md-8')">
-            @react_component('Test', ['name' => 'World'])
-            
             @include('flash::message')
             @include('global.parts.alerts')
 
@@ -90,12 +88,10 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 @endif
 
 <script>
-    $(document).pjax('body > .container a', 'body > .container')
-    $(document).on('pjax:end', function() {
-        riot.mount('*')
+    new Pjax({
+        elements: 'body > .container a[href]',
+        selectors: ['body > .container a', 'body > .container']
     })
-
-    riot.mount('*')
 </script>
 
 </body>

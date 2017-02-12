@@ -30,6 +30,7 @@ module.exports = {
     devServer: {
         hot: true,
         contentBase: resolve(__dirname, 'public/js/dev'),
+        public: 'localhost:8080',
         publicPath: '/js/',
     },
     module: {
@@ -58,7 +59,8 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
+            React: 'react',
         }),
         new ExtractTextPlugin("[name].bundle.css"),
     ],

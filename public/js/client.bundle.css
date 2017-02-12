@@ -8675,14 +8675,9 @@ footer {
 
 .navbar {
   min-height: 54px; }
-  .navbar .navbar-logo {
-    margin-right: 25px; }
-    .navbar .navbar-logo img {
-      height: 40px;
-      margin-top: -3px;
-      margin-bottom: -10px; }
-  .navbar .navbar-nav {
-    padding-top: 7px; }
+  .navbar .navbar-brand {
+    margin-right: 25px;
+    padding: 0; }
   .navbar.navbar-fixed-top {
     position: fixed;
     top: 26px;
@@ -9338,7 +9333,6 @@ thead .glyphicon {
   .navbar-collapse {
     width: 300px;
     max-height: 360px;
-    position: absolute;
     right: 15px;
     background: #242424; }
   .navbar-nav.navbar-right {
