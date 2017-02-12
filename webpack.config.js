@@ -10,18 +10,17 @@ module.exports = {
             'webpack/hot/only-dev-server',
             './sass/app.sass',
             './js/client.js',
-            './js/index.js'
+            './js/index.js',
         ],
         server: [
             './js/server.js',
-            './js/index.js'
+            './js/index.js',
         ]
     },
     output: {
         filename: '[name].bundle.js',
         path: resolve(__dirname, 'public/js'),
-        publicPath: '/js/'
-        // necessary for HMR to know where to load the hot update chunks
+        publicPath: '/js/',
     },
     resolve: {
         extensions: ['.js', '.jsx'],
@@ -31,8 +30,7 @@ module.exports = {
     devServer: {
         hot: true,
         contentBase: resolve(__dirname, 'public/js/dev'),
-        publicPath: '/js/'
-        // match the output `publicPath`
+        publicPath: '/js/',
     },
     module: {
         rules: [
@@ -58,6 +56,10 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        }),
         new ExtractTextPlugin("[name].bundle.css"),
     ],
 }

@@ -1,3 +1,8 @@
+require('imports-loader?Tether=tether!bootstrap')
+require('imports-loader?jQuery=jquery!timeago')
+const Cookies = require('js-cookie')
+const Pusher = require('pusher-js')
+
 if (typeof String.prototype.endsWith !== 'function') {
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
@@ -43,18 +48,18 @@ $.fn.popover.Constructor.prototype._leave = function(event, context){
 
 $(document).ready(function() {
     $.ajaxSetup({
-        headers: { 'X-XSRF-TOKEN': $.cookie('XSRF-TOKEN') }
+        headers: { 'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN') }
     });
 
-    var notificationsModule = new NotificationsModule();
-    var votesModule = new VotesModule();
-    var foldersModule = new FoldersModule();
-    var usersModule = new UsersModule();
-    var groupsModule = new GroupsModule();
-    var contentsModule = new ContentsModule();
-    var commentsModule = new CommentsModule();
-    var entriesModule = new EntriesModule();
-    var pollsModule = new PollsModule();
+    const notificationsModule = require('./modules/notifications');
+    const votesModule = require('./modules/votes');
+    const foldersModule = require('./modules/folders');
+    const usersModule = require('./modules/users');
+    const groupsModule = require('./modules/groups');
+    const contentsModule = require('./modules/contents');
+    const commentsModule = require('./modules/comments');
+    const entriesModule = require('./modules/entries');
+    const pollsModule = require('./modules/polls');
 
     if (AppData.user && window.WebSocket) {
         var pusher = new Pusher(AppData.config.pusher_key, {
@@ -490,16 +495,16 @@ $(document).ready(function() {
 
     $('.content_sort a').click(function() {
         if ($(this).attr('data-sort'))
-            window.location.search = jQuery.query.set('sort', $(this).attr('data-sort'));
+            window.location.search = $.query.set('sort', $(this).attr('data-sort'));
         else
-            window.location.search = jQuery.query.remove('sort');
+            window.location.search = $.query.remove('sort');
     });
 
     $('.content_filter a').click(function() {
         if ($(this).attr('data-time'))
-            window.location.search = jQuery.query.set('time', $(this).attr('data-time'));
+            window.location.search = $.query.set('time', $(this).attr('data-time'));
         else
-            window.location.search = jQuery.query.remove('time');
+            window.location.search = $.query.remove('time');
     });
 
     $('body').on('mouseup', '.entry_text', function() {
@@ -680,9 +685,9 @@ $(document).ready(function() {
     });
 
     $('.has_tooltip').tooltip()
-    $('select.image-picker').imagepicker()
-    $('input.tags').tagsinput()
-    bootbox.setDefaults({ locale: "pl" })
+    // $('select.image-picker').imagepicker()
+    // $('input.tags').tagsinput()
+    // bootbox.setDefaults({ locale: "pl" })
 
     if ($('textarea.md_editor').length) {
         var textarea = $('textarea.md_editor')[0];
@@ -724,7 +729,7 @@ $(document).ready(function() {
             }
         }
 
-        jQuery.timeago.settings.strings = {
+        $.timeago.settings.strings = {
             prefixAgo: null,
             prefixFromNow: "za",
             suffixAgo: "temu",

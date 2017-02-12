@@ -18,7 +18,6 @@
 
 <link href="/js/client.bundle.css" rel="stylesheet">
 
-<script src="{{ elixir('assets/js/vendor.js') }}"></script>
 <script src="{{ elixir('assets/js/riot.js') }}"></script>
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
