@@ -30,6 +30,7 @@
     "pusher-js": "^4.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-player": "^0.14.1",
     "tether": "^1.4.0",
     "timeago": "^1.5.4"
   }
