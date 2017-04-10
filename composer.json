@@ -40,7 +40,7 @@
           "predis/predis": "^1.1",
           "rcrowe/twigbridge": "^0.9",
           "lord/laroute" : "~2.3",
-          "barryvdh/laravel-cors": "^0.8",
+          "barryvdh/laravel-cors": "^0.9",
           "jenssegers/raven": "^1.8",
           "laravel/socialite": "^2.0",
           "symfony/dom-crawler": "^3.1",
