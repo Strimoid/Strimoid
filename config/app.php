@@ -180,7 +180,6 @@ return [
         /*
          * Third party Service Providers...
          */
-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
