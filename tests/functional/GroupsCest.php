@@ -17,8 +17,8 @@ class GroupsCest
     public function showListOfGroups(FunctionalTester $I)
     {
         $I->amOnPage('/groups/list');
-        $I->canSee('Tedville', '.card-title');
-        $I->canSee('Commodi pariatur numquam', '.card-block');
+        $I->canSeeElement('.card-title');
+        $I->canSeeElement('.card-block');
     }
 
     public function createNewGroup(FunctionalTester $I)
@@ -31,5 +31,6 @@ class GroupsCest
             'groupname'   => 'New group',
             'description' => 'Example description',
         ]);
+        $I->seeRecord('groups', ['urlname' => 'NewGroup']);
     }
 }

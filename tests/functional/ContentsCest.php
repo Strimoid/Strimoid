@@ -17,7 +17,7 @@ class ContentsCest
     public function showListOfNewContents(FunctionalTester $I)
     {
         $I->amOnPage('/g/all/new');
-        $I->canSee('Deserunt voluptas aut', '.media-heading');
+        $I->canSeeElement('.media-heading');
     }
 
     public function addLink(FunctionalTester $I)
@@ -26,7 +26,7 @@ class ContentsCest
         $I->amOnPage('/');
         $I->click('Add content');
         $I->submitForm('.main_col form', [
-            'groupname'   => 'weimann',
+            'groupname'   => 'moore',
             'url'         => 'http://strimoid.dev',
             'title'       => 'New content',
             'description' => 'Example description'

@@ -6,3 +6,6 @@ services:
      - APP_DEBUG=true
     volumes:
      - .:/src
+  mariadb:
+    ports:
+      - "3306:3306"
