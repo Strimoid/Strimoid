@@ -33,8 +33,8 @@ class Kernel extends HttpKernel
             Middleware\Pjax::class,
         ],
         'api' => [
-            'throttle:60,1',
             'bindings',
+            'throttle:60,1',
         ],
     ];
 

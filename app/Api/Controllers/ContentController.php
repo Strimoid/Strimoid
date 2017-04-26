@@ -27,9 +27,6 @@ class ContentController extends BaseController
         $this->groups = $groups;
     }
 
-    /**
-     * @return mixed
-     */
     public function index()
     {
         if (Input::has('folder')) {
@@ -73,12 +70,7 @@ class ContentController extends BaseController
         return $builder->paginate($perPage);
     }
 
-    /**
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function show(Content $content)
+    public function show(Content $content): Content
     {
         $content->load([
             'related', 'comments', 'comments.user', 'comments.replies', 'group', 'user',
@@ -87,13 +79,6 @@ class ContentController extends BaseController
         return $content;
     }
 
-    /**
-     * Add new content.
-     *
-     * @param Request $request
-     *
-     * @return mixed
-     */
     public function store(Request $request)
     {
         $rules = [

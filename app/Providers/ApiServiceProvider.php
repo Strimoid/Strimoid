@@ -25,7 +25,7 @@ class ApiServiceProvider extends ServiceProvider
     {
         $path = app_path('Api/routes.php');
 
-        $api->version('v1', ['namespace' => $this->namespace], function ($api) use ($path) {
+        $api->version('v1', ['namespace' => $this->namespace, 'middleware' => 'bindings'], function ($api) use ($path) {
             require $path;
         });
     }

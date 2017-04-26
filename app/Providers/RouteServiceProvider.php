@@ -50,26 +50,25 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function bindModel(Router $router, string $key, string $className)
     {
-        $router->bind($key, function ($value) use ($className) {
-            if (ends_with($className, ['Group', 'User'])) {
-                try {
-                    return $className::name($value)->firstOrFail();
-                } catch (ModelNotFoundException $e) {
-                    throw new NotFoundHttpException();
-                }
-            }
-
-            $ids = Hashids::decode($value);
-
-            if (!count($ids)) {
-                abort(404);
-            }
+        $binding = function ($value) use ($className) {
             try {
+                if (ends_with($className, ['Group', 'User'])) {
+                    return $className::name($value)->firstOrFail();
+                }
+
+                $ids = Hashids::decode($value);
+
+                if (!count($ids)) {
+                    abort(404);
+                }
+
                 return $className::findOrFail($ids[0]);
             } catch (ModelNotFoundException $e) {
                 throw new NotFoundHttpException();
             }
-        });
+        };
+
+        $router->bind($key, $binding);
     }
 
     public function map()
