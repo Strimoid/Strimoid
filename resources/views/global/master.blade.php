@@ -41,7 +41,7 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 
 <script src="{{ elixir('assets/js/laroute.js') }}"></script>
 <script src="{{ elixir('assets/js/lodash.js') }}"></script>
-<script src="{{ elixir('assets/js/all.js') }}"></script>
+<script src="/assets/client.bundle.js"></script>
 
 @if (auth()->check())
 <script>
@@ -87,12 +87,10 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 @endif
 
 <script>
-    $(document).pjax('body > .container a', 'body > .container')
-    $(document).on('pjax:end', function() {
-        riot.mount('*')
+    new Pjax({
+        elements: 'body > .container a[href]',
+        selectors: ['body > .container a', 'body > .container']
     })
-
-    riot.mount('*')
 </script>
 
 </body>
