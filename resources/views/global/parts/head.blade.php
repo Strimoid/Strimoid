@@ -16,9 +16,7 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-<link href="{{ elixir('assets/css/all.css') }}" rel="stylesheet">
-
-<script src="{{ elixir('assets/js/vendor.js') }}"></script>
+<link href="/assets/client.bundle.css" rel="stylesheet">
 <script src="{{ elixir('assets/js/riot.js') }}"></script>
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group

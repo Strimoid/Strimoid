@@ -1,12 +1,17 @@
+require('imports-loader?Tether=tether!bootstrap')
+require('timeago')
+const Cookies = require('js-cookie')
+const Pusher = require('pusher-js')
+
 if (typeof String.prototype.endsWith !== 'function') {
     String.prototype.endsWith = function(suffix) {
-        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+        return this.indexOf(suffix, this.length - suffix.length) !== -1
     };
 }
 
 if (typeof String.prototype.contains !== 'function') {
     String.prototype.contains = function(it) {
-        return this.indexOf(it) != -1;
+        return this.indexOf(it) !== -1
     };
 }
 
@@ -43,18 +48,18 @@ $.fn.popover.Constructor.prototype._leave = function(event, context){
 
 $(document).ready(function() {
     $.ajaxSetup({
-        headers: { 'X-XSRF-TOKEN': $.cookie('XSRF-TOKEN') }
-    });
+        headers: { 'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN') }
+    })
 
-    var notificationsModule = new NotificationsModule();
-    var votesModule = new VotesModule();
-    var foldersModule = new FoldersModule();
-    var usersModule = new UsersModule();
-    var groupsModule = new GroupsModule();
-    var contentsModule = new ContentsModule();
-    var commentsModule = new CommentsModule();
-    var entriesModule = new EntriesModule();
-    var pollsModule = new PollsModule();
+    const notificationsModule = require('./modules/notifications')
+    const votesModule = require('./modules/votes')
+    const foldersModule = require('./modules/folders')
+    const usersModule = require('./modules/users')
+    const groupsModule = require('./modules/groups')
+    const contentsModule = require('./modules/contents')
+    const commentsModule = require('./modules/comments')
+    const entriesModule = require('./modules/entries')
+    const pollsModule = require('./modules/polls')
 
     if (AppData.user && window.WebSocket) {
         var pusher = new Pusher(AppData.config.pusher_key, {
@@ -64,7 +69,7 @@ $(document).ready(function() {
         pusher.subscribe('privateU' + window.username).bind('new-notification', function(data) {
             notificationsModule.onNotificationReceived(data);
         })
-        
+
         var thumbnail = $('.img-thumbnail.refreshing');
 
         if (window.content_id && thumbnail.length) {
@@ -480,26 +485,26 @@ $(document).ready(function() {
 
     $('.toggle_night_mode').click(function() {
         if ($('body').hasClass('night')) {
-            $.removeCookie('night_mode', { path: '/' });
+            Cookies.remove('night_mode', { path: '/' });
             $('body').removeClass('night');
         } else {
-            $.cookie('night_mode', 'on', { expires: 365, path: '/' });
+            Cookies.set('night_mode', 'on', { expires: 365, path: '/' });
             $('body').addClass('night');
         }
     });
 
     $('.content_sort a').click(function() {
         if ($(this).attr('data-sort'))
-            window.location.search = jQuery.query.set('sort', $(this).attr('data-sort'));
+            window.location.search = $.query.set('sort', $(this).attr('data-sort'));
         else
-            window.location.search = jQuery.query.remove('sort');
+            window.location.search = $.query.remove('sort');
     });
 
     $('.content_filter a').click(function() {
         if ($(this).attr('data-time'))
-            window.location.search = jQuery.query.set('time', $(this).attr('data-time'));
+            window.location.search = $.query.set('time', $(this).attr('data-time'));
         else
-            window.location.search = jQuery.query.remove('time');
+            window.location.search = $.query.remove('time');
     });
 
     $('body').on('mouseup', '.entry_text', function() {
@@ -661,12 +666,12 @@ $(document).ready(function() {
     });
 
     if ($('link[data-id="group_style"]').length)
-    $(document).keypress(function (e) {
-        if (e.which === 83 && e.shiftKey && !$(e.target).is('input, textarea')) {
-            e.preventDefault();
-            $('link[data-id="group_style"]').remove();
-        }
-    });
+        $(document).keypress(function (e) {
+            if (e.which === 83 && e.shiftKey && !$(e.target).is('input, textarea')) {
+                e.preventDefault();
+                $('link[data-id="group_style"]').remove();
+            }
+        });
 
     $('body').on('keypress', 'form.enter_send', function (e) {
         if (e.which === 13 && !e.shiftKey && window.settings && window.settings.enter_send) {
@@ -680,9 +685,9 @@ $(document).ready(function() {
     });
 
     $('.has_tooltip').tooltip()
-    $('select.image-picker').imagepicker()
-    $('input.tags').tagsinput()
-    bootbox.setDefaults({ locale: "pl" })
+    // $('select.image-picker').imagepicker()
+    // $('input.tags').tagsinput()
+    // bootbox.setDefaults({ locale: "pl" })
 
     if ($('textarea.md_editor').length) {
         var textarea = $('textarea.md_editor')[0];
@@ -707,7 +712,7 @@ $(document).ready(function() {
     if ($('.conversation_messages').length) {
         $('.conversation_messages').scrollTop($('.conversation_messages').prop('scrollHeight'))
     }
-    
+
     $(document).on('focus', 'textarea', function(){
         autosize(document.querySelectorAll('textarea'))
     });
@@ -724,7 +729,7 @@ $(document).ready(function() {
             }
         }
 
-        jQuery.timeago.settings.strings = {
+        $.timeago.settings.strings = {
             prefixAgo: null,
             prefixFromNow: "za",
             suffixAgo: "temu",

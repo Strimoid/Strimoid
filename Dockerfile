@@ -8,7 +8,7 @@ COPY . /src
 WORKDIR /src
 
 # Install Composer dependencies
-RUN composer install
+RUN composer install -n
 
 # Environment variables
 ENV PATH $PATH:/src:/src/vendor/bin
