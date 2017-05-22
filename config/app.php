@@ -189,17 +189,15 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
-        LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
-        LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
         Msurguy\Honeypot\HoneypotServiceProvider::class,
         Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
         TwigBridge\ServiceProvider::class,
         Vinkla\Algolia\AlgoliaServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Vinkla\Pusher\PusherServiceProvider::class,
-
     ],
 
     /*
