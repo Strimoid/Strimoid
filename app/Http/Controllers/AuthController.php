@@ -52,4 +52,59 @@ class AuthController extends BaseController
 
         return $pusher->socket_auth($channelName, $socketId);
     }
+
+
+    /**
+     * Redirect the user to the SOCIAL authentication page.
+     *
+     * @param $social
+     * @return Response
+     */
+    public function redirectToProvider($social)
+    {
+        return Socialite::driver($social)->redirect();
+    }
+
+    /**
+     * Obtain the user information from FACEBOOK.
+     *
+     * @return Response
+     */
+    public function handleProviderCallback($social)
+    {
+        try {
+            $user = Socialite::driver($social)->user();
+        } catch (Exception $e) {
+            return redirect('auth/'.$social);
+        }
+
+        $authUser = $this->findOrCreateUser($user,$social);
+
+        Auth::login($authUser, true);
+
+        return redirect()->intended('');
+    }
+
+
+
+    /**
+     * Return user if exists; create and return if doesn't
+     *
+     * @param $facebookUser
+     * @return User
+     */
+    private function findOrCreateUser($User,$social)
+    {
+        $authUser = User::where('emai', $User->email)->first();
+
+        if ($authUser){
+            return $authUser;
+        }
+
+        return User::create([
+            'name' => $User->name,
+            'email' => $User->email,
+            'avatar' => $User->avatar
+        ]);
+    }
 }
