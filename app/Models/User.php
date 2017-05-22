@@ -10,12 +10,13 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Str;
 use Strimoid\Models\Traits\HasAvatar;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, HasAvatar, Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, HasApiTokens, HasAvatar, Notifiable;
 
     protected $avatarPath = 'avatars/';
     protected $dates = ['last_login'];
@@ -242,12 +243,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $blockedUsersIds->has($user);
     }
 
-    /**
-     * Get the value of the model's route key.
-     *
-     * @return string
-     */
-    public function getRouteKey()
+    public function getRouteKey(): string
     {
         return $this->name;
     }

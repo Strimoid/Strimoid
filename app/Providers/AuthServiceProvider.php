@@ -2,6 +2,7 @@
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Passport\Passport;
 use Strimoid\Models\Comment;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
@@ -25,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         parent::registerPolicies();
+
+        Passport::routes();
 
         $gate->before(function (User $user, $ability) {
             if ($user->isSuperAdmin()) {

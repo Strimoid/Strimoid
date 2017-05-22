@@ -22,8 +22,8 @@
           "intervention/image": "^2.3",
           "roumen/sitemap": "^2.6",
           "jeremykendall/php-domain-parser": "^3.0",
-          "guzzlehttp/guzzle": "^5.3",
-          "guzzlehttp/oauth-subscriber": "^0.2",
+          "guzzlehttp/guzzle": "^6.2",
+          "guzzlehttp/oauth-subscriber": "^0.3",
           "graham-campbell/markdown": "^7.1",
           "graham-campbell/throttle": "^5.2",
           "jenssegers/agent": "^2.3",
@@ -35,7 +35,6 @@
           "vinkla/hashids": "^3.1",
           "filp/whoops": "^2.1",
           "msurguy/honeypot": "^1.0",
-          "lucadegasperi/oauth2-server-laravel": "^5.2",
           "pda/pheanstalk": "^3.1",
           "predis/predis": "^1.1",
           "rcrowe/twigbridge": "^0.9",
@@ -49,7 +48,8 @@
           "thomaswelton/laravel-gravatar": "^1.1",
           "syholloway/mrcolor": "^0.0.1",
           "league/glide-laravel": "^1.0",
-          "consolidation/robo": "^1.0"
+          "consolidation/robo": "^1.0",
+          "laravel/passport": "^2.0"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "^2.2",

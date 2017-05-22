@@ -8,3 +8,5 @@ bower_components/
 vendor/
 public/assets/
 tests/_output/*
+storage/oauth-private.key
+storage/oauth-public.key
