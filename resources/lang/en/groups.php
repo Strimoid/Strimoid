@@ -13,7 +13,8 @@ return [
     'blocked'    => 'blocked',
     'banned'     => 'banned',
     'popular'    => 'popular',
+    'new'        => 'new',
 
     // Actions
-    'create'     => 'Create group',
+    'create group' => 'create group',
 ];

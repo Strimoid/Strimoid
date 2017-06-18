@@ -18,7 +18,7 @@
         <input type="hidden" name="t" value="g">
 
         <div class="input-group-btn">
-            <button type="submit" class="btn btn-primary">Szukaj</button>
+            <button type="submit" class="btn btn-primary">{{ Str::ucfirst(trans('common.search')) }}</button>
         </div>
     </div>
     {!! Form::close() !!}
@@ -29,11 +29,11 @@
         <div class="btn-group col-lg-12">
             <a href="{!! action('GroupController@showList') !!}"
                class="col-lg-6 btn {{ Input::get('sort') == '' ? 'btn-primary' : 'btn-secondary' }}">
-                Popularne
+                {{ Str::ucfirst(trans('groups.popular')) }}
             </a>
             <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}"
                class="col-lg-6 btn {{ Input::get('sort') == 'newest' ? 'btn-primary' : 'btn-secondary' }}">
-                Nowe
+                {{ Str::ucfirst(trans('groups.new')) }}
             </a>
         </div>
     </div>
@@ -43,7 +43,7 @@
     <a href="{!! action('GroupController@showCreateForm') !!}">
         <button type="button" class="btn btn-secondary group_subscribe_btn">
             <i class="fa fa-plus"></i>
-            Załóż nową grupę
+            {{ Str::ucfirst(trans('groups.create group')) }}
         </button>
     </a>
 </div>
