@@ -2,38 +2,29 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(['action' => 'AuthController@login', 'class' => 'form-horizontal']) !!}
+    {!! Form::open(['action' => 'AuthController@login', 'class' => 'form-horizontal w-100']) !!}
 
-    @include('global.form.input', ['type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'])
-    @include('global.form.input', ['type' => 'password', 'name' => 'password', 'label' => 'Hasło'])
+    @include('global.form.input_icon', [
+        'type' => 'text', 'name' => 'username', 'label' => trans('auth.username'), 'icon' => 'user'
+    ])
+    @include('global.form.input_icon', [
+        'type' => 'password', 'name' => 'password', 'label' => trans('auth.password'), 'icon' => 'lock'
+    ])
 
     <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-6">
-            <div class="checkbox">
-                <label>
-                    {!! Form::checkbox('remember', 'true') !!} Zapamiętaj mnie
-                </label>
-            </div>
+        <div class="col-lg-6 offset-md-3">
+            @include('global.form.input_checkbox', ['name' => 'remember', 'label' => trans('auth.remember')])
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-3">
-            <button type="submit" class="btn btn-primary">Zaloguj</button>
+    <div class="form-group row">
+        <div class="col-lg-3 offset-md-3">
+            <button type="submit" class="btn btn-primary">{{ trans('auth.sign in') }}</button>
         </div>
         <div class="col-lg-3">
-            <a href="/remind">Nie pamiętasz hasła?</a>
+            <a class="btn btn-info" href="/remind">{{ trans('auth.forgot password?') }}</a>
         </div>
     </div>
     {!! Form::close() !!}
-</div>
-@stop
-
-@section('sidebar')
-<div class="well">
-    <h4>Dlaczego warto się zarejestrować?</h4>
-    <p>Dołączenie do społeczności {!! config('app.site_name') !!} pozwoli Ci na pełny udział w życiu serwisu
-        oraz możliwość dostosowania go do własnych upodobań.</p>
-    <p>Zapraszamy!</p>
 </div>
 @stop

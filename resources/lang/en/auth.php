@@ -10,4 +10,6 @@ return [
     'register'            => 'sign up',
     'registration'        => 'sign up',
     'logging in'          => 'log in',
+    'sign in'             => 'sign in',
+    'forgot password?'    => 'forgot password?',
 ];

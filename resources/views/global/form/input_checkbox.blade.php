@@ -1,5 +1,5 @@
 <div class="checkbox">
     <label>
-        {!! Form::checkbox($name, $value) !!} {!! $label !!}
+        {!! Form::checkbox($name, $value ?? 'true') !!} {!! $label !!}
     </label>
 </div>

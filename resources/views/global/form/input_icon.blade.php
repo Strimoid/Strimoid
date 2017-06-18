@@ -19,9 +19,11 @@ $options = [
 
     <div class="col-lg-6">
         <div class="input-group">
+            @if ($icon ?? null)
             <span class="input-group-addon">
                 <span class="fa fa-fw fa-{!! $icon !!}"></span>
             </span>
+            @endif
 
             @if ($type == 'text')
                 {!! Form::text($name, null, $options) !!}
