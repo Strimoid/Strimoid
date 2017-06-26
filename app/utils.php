@@ -137,3 +137,18 @@ if (!function_exists('setting')) {
         return app('settings')->get($key);
     }
 }
+
+if (!function_exists('s')) {
+    function s($str, string $encoding = null): \Stringy\Stringy
+    {
+        return new \Stringy\Stringy($str, $encoding);
+    }
+}
+
+if (!function_exists('strans')) {
+    function strans($id = null, $replace = [], $locale = null, string $encoding = null): \Stringy\Stringy
+    {
+        $str = app('translator')->trans($id, $replace, $locale);
+        return new \Stringy\Stringy($str, $encoding);
+    }
+}

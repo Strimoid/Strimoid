@@ -6,21 +6,21 @@
         <li class="nav-item">
             <a class="nav-link active" href="#profile" data-toggle="tab">
                 <span class="fa fa-user"></span>
-                Profil
+                {{ strans('common.profile')->upperCaseFirst() }}
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="#settings" data-toggle="tab">
                 <i class="fa fa-wrench"></i>
-                Ustawienia
+                {{ strans('common.settings')->upperCaseFirst() }}
             </a>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="fa fa-lock"></i>
-                Konto
+                {{ strans('common.account')->upperCaseFirst() }}
                 <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
@@ -31,7 +31,7 @@
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                Domeny <span class="caret"></span>
+                {{ strans('common.domains')->upperCaseFirst() }} <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#domains" data-toggle="tab">Zablokowane</a>
@@ -40,19 +40,27 @@
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                Grupy <span class="caret"></span>
+                {{ strans('common.groups')->upperCaseFirst() }} <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#subscribed" data-toggle="tab">Subskrybowane</a>
-                <a class="dropdown-item" href="#moderated" data-toggle="tab">Moderowane</a>
-                <a class="dropdown-item" href="#blocked" data-toggle="tab">Zablokowane</a>
-                <a class="dropdown-item" href="#bans" data-toggle="tab">Twoje bany</a>
+                <a class="dropdown-item" href="#subscribed" data-toggle="tab">
+                    {{ strans('groups.subscribed')->upperCaseFirst() }}
+                </a>
+                <a class="dropdown-item" href="#moderated" data-toggle="tab">
+                    {{ strans('groups.moderated')->upperCaseFirst() }}
+                </a>
+                <a class="dropdown-item" href="#blocked" data-toggle="tab">
+                    {{ strans('groups.blocked')->upperCaseFirst() }}
+                </a>
+                <a class="dropdown-item" href="#bans" data-toggle="tab">
+                    {{ strans('groups.banned')->upperCaseFirst() }}
+                </a>
             </div>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                Użytkownicy <span class="caret"></span>
+                {{ strans('common.users')->upperCaseFirst() }} <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#blockedusers" data-toggle="tab">Zablokowani użytownicy</a>
@@ -62,18 +70,28 @@
 
     <div class="tab-content">
         <div class="tab-pane fade in active" id="profile">
-            {!! Form::open(['action' => 'UserController@saveProfile', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true]) !!}
+            {!! Form::open([
+                'action' => 'UserController@saveProfile',
+                'class' => 'form-horizontal',
+                'style' => 'margin-top: 20px',
+                'files' => true
+            ]) !!}
 
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Nazwa użytkownika</label>
+            <div class="form-group row">
+                <label class="col-lg-3 control-label">{{ s(trans('auth.username'))->upperCaseFirst() }}</label>
                 <div class="col-lg-6">
-                    <p class="form-control-static">{!! $user->name !!}</p>
+                    <p class="form-control-static">{{ $user->name }}</p>
                 </div>
             </div>
 
-            @include('global.form.input_select', ['name' => 'sex', 'label' => 'Płeć', 'value' => $user->sex, 'options' => ['' => '', 'male' => 'Mężczyzna', 'female' => 'Kobieta']])
+            @include('global.form.input_select', [
+                'name' => 'sex',
+                'label' => strans('common.sex')->upperCaseFirst(),
+                'value' => $user->sex,
+                'options' => ['' => '', 'male' => 'Mężczyzna', 'female' => 'Kobieta']
+            ])
 
-            <div class="form-group @if ($errors->has('avatar')) has-error @endif">
+            <div class="form-group row @if ($errors->has('avatar')) has-error @endif">
                 <label class="col-lg-3 control-label">Avatar</label>
                 <div class="col-lg-6">
                     {!! Form::file('avatar') !!}

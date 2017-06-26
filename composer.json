@@ -49,7 +49,8 @@
           "syholloway/mrcolor": "^0.0.1",
           "league/glide-laravel": "^1.0",
           "consolidation/robo": "^1.0",
-          "laravel/passport": "^2.0"
+          "laravel/passport": "^2.0",
+            "danielstjules/stringy": "^3.1"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "^2.2",

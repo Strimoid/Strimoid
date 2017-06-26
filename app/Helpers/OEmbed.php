@@ -90,7 +90,8 @@ class OEmbed
                 $query['autoplay'] = 'true';
             }
 
-            $data = Guzzle::get($this->endpoint(), compact('query'))->json();
+            $data = (string) Guzzle::get($this->endpoint(), compact('query'))->getBody();
+            $data = \GuzzleHttp\json_decode($data, true);
 
             return $this->processData($data);
         } catch (RequestException $e) {

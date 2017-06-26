@@ -45,10 +45,14 @@ return [
 
     // Things
     'comments' => 'Comments',
+    'domains'  => 'Domains',
     'group'    => 'Group',
+    'groups'   => 'Groups',
     'folders'  => 'Folders',
+    'users'    => 'Users',
 
     // Other
+    'account'          => 'Account',
     'options'          => 'Options',
     'description'      => 'Description',
     'title'            => 'Title',
@@ -61,4 +65,6 @@ return [
     'text'             => 'Text',
     'search'           => 'search',
     'preview'          => 'preview',
+    'profile'          => 'profile',
+    'sex'              => 'sex',
 ];
