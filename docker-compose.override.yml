@@ -4,8 +4,14 @@ services:
     environment:
      - APP_ENV=local
      - APP_DEBUG=true
+     - DB_HOST=postgres
+     - DB_PORT=5432
+     - DB_USERNAME=strimoid
+     - DB_PASSWORD=strimoid
+     - REDIS_HOST=redis
+     - REDIS_PORT=6379
     volumes:
      - .:/src
-  mariadb:
+  postgres:
     ports:
-      - "3306:3306"
+      - "5432:5432"

@@ -3,20 +3,18 @@ services:
   web:
     build: .
     image: quay.io/strimoid/strimoid
-    environment:
-     - MYSQL_USERNAME=root
     ports:
      - "8000:8000"
     links:
      - beanstalkd
-     - mariadb
+     - postgres
      - redis
-  mariadb:
-    image: mariadb:10.1
-    environment:
-     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-     - MYSQL_DATABASE=strimoid
-  redis:
-    image: redis:3.2-alpine
   beanstalkd:
     image: schickling/beanstalkd
+  postgres:
+    image: postgres:10-alpine
+    environment:
+     - POSTGRES_USER=strimoid
+     - POSTGRES_PASSWORD=strimoid
+  redis:
+    image: redis:4.0-alpine

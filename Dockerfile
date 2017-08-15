@@ -12,7 +12,8 @@ RUN composer install -n
 
 # Environment variables
 ENV PATH $PATH:/src:/src/vendor/bin
-ENV MYSQL_HOST mariadb
 
-ENTRYPOINT ["dockerize", "-wait", "tcp://mariadb:3306", "-timeout", "1m", "--"]
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["docker-entrypoint.sh"]
+
 CMD ["artisan", "serve", "--host", "0.0.0.0"]
