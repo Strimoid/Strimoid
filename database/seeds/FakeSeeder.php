@@ -30,6 +30,7 @@ class FakeSeeder extends BaseSeeder
             'email'        => $this->faker->email,
             'password'     => 'qwe123',
             'is_activated' => true,
+            'last_ip'      => '127.0.0.1',
         ]);
 
         $this->users[] = $user;

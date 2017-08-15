@@ -7,7 +7,11 @@ class UserAction extends BaseModel
 {
     use HasUserRelationship, NoUpdatedAt;
 
+    public $incrementing = false;
+
     protected $table = 'user_actions';
+    protected $primaryKey = null;
+
     protected static $unguarded = true;
 
     public function element()

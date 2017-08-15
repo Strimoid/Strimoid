@@ -48,7 +48,7 @@ class CreateContentsTable extends Migration
             $table->timestamp('frontpage_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->integer('deleted_by')->unsigned();
+            $table->integer('deleted_by')->unsigned()->nullable();
         });
     }
 

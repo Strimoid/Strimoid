@@ -22,15 +22,15 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
 
             // Some internal info
-            $table->enum('type', ['user', 'banned', 'admin']);
+            $table->enum('type', ['user', 'banned', 'admin'])->default('user');
             $table->string('last_ip', 45);
             $table->boolean('is_activated')->default(false);
-            $table->string('activation_token', 16);
+            $table->string('activation_token', 16)->nullable();
             $table->integer('total_points')->default(0);
 
             // User profile
             $table->string('avatar', 16)->nullable();
-            $table->smallInteger('age')->unsigned();
+            $table->smallInteger('age')->nullable()->unsigned();
             $table->enum('sex', ['unknown', 'male', 'female'])->default('unknown');
             $table->string('location')->nullable();
             $table->text('description', 255)->nullable();
@@ -38,7 +38,7 @@ class CreateUsersTable extends Migration
             // Dates
             $table->timestamps();
             $table->softDeletes();
-            $table->timestamp('last_login');
+            $table->timestamp('last_login')->nullable();
         });
     }
 
