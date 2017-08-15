@@ -1,15 +1,14 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse navbar-{{ $navbarClass }}">
+<nav class="navbar navbar-expand-lg navbar-inverse navbar-{{ $navbarClass }}">
     <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button"
-                data-toggle="collapse" data-target="#collapsenav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
         <a class="navbar-brand" href="/">
             <img src="/static/img/logo64.png" width="40" height="40" alt="Strm">
         </a>
 
-        <div class="collapse navbar-collapse navbar-toggleable-sm" id="collapsenav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsenav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapsenav">
             <ul class="nav navbar-nav mr-auto">
                 @include('global.parts.tabs')
             </ul>

@@ -1,4 +1,4 @@
-require('imports-loader?Tether=tether!bootstrap')
+require('imports-loader?Tether=tether,Popper=popper.js!bootstrap')
 require('timeago')
 const Cookies = require('js-cookie')
 const Pusher = require('pusher-js')
