@@ -34,5 +34,8 @@
         "react-player": "^0.20",
         "tether": "^1.4",
         "timeago": "^1.6"
+    },
+    "scripts": {
+        "build": "webpack"
     }
 }
