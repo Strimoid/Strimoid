@@ -86,8 +86,6 @@ class UserController extends BaseController
             ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
-
-
     public function confirmEmailChange($token)
     {
         if ($token !== user()->email_change_token) {
