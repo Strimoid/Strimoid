@@ -54,7 +54,8 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             return $host.'/avatars/'.$this->avatar;
         }
 
-        return $this->getDefaultAvatarPath();
+        config(['gravatar.default' => config('app.url') . $this->getDefaultAvatarPath()]);
+        return \Gravatar::src($this->attributes['email'], 20);
     }
 
     public function getDefaultAvatarPath()
