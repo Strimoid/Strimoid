@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ecf095694867aef0e399100946d333e0",
+    "content-hash": "2cd55755c790903757e59b23af3a9f13",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -5737,16 +5737,16 @@
         },
         {
             "name": "vinkla/pusher",
-            "version": "3.1.0",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vinkla/laravel-pusher.git",
-                "reference": "d81eff9aeb9b64c27f1486e641bad3cca3b8d559"
+                "url": "https://github.com/pusher/pusher-http-laravel.git",
+                "reference": "a4c8951de3e591919aa9be5704ff8b717aab3ee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vinkla/laravel-pusher/zipball/d81eff9aeb9b64c27f1486e641bad3cca3b8d559",
-                "reference": "d81eff9aeb9b64c27f1486e641bad3cca3b8d559",
+                "url": "https://api.github.com/repos/pusher/pusher-http-laravel/zipball/a4c8951de3e591919aa9be5704ff8b717aab3ee9",
+                "reference": "a4c8951de3e591919aa9be5704ff8b717aab3ee9",
                 "shasum": ""
             },
             "require": {
@@ -5759,27 +5759,27 @@
             "require-dev": {
                 "graham-campbell/analyzer": "^1.1",
                 "graham-campbell/testbench": "^4.0",
-                "mockery/mockery": "dev-master#c90a17247147543081e4d00f46911e422b49e583",
+                "mockery/mockery": "^1.0",
                 "orchestra/testbench": "^3.5",
                 "phpunit/phpunit": "^6.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "4.0-dev"
                 },
                 "laravel": {
                     "providers": [
-                        "Vinkla\\Pusher\\PusherServiceProvider"
+                        "Pusher\\Laravel\\PusherServiceProvider"
                     ],
                     "aliases": {
-                        "Pusher": "Vinkla\\Pusher\\Facades\\Pusher"
+                        "Pusher": "Pusher\\Laravel\\Facades\\Pusher"
                     }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Vinkla\\Pusher\\": "src/"
+                    "Pusher\\Laravel\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5806,7 +5806,8 @@
                 "rest",
                 "trigger"
             ],
-            "time": "2017-09-02T21:55:12+00:00"
+            "abandoned": "pusher/pusher-http-laravel",
+            "time": "2017-10-23T13:28:29+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

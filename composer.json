@@ -30,7 +30,7 @@
           "laracasts/flash": "^3.0",
           "laracasts/utilities": "^3.0",
           "watson/rememberable": "^2.0",
-          "vinkla/pusher": "^3.1",
+          "vinkla/pusher": "^4.0",
           "vinkla/algolia": "^2.7",
           "vinkla/hashids": "^3.1",
           "filp/whoops": "^2.1",
