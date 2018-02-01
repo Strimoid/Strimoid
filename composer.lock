@@ -2282,16 +2282,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v3.0.7",
+            "version": "v3.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "d79174513dbf14359b53e44394cf71373ae03433"
+                "reference": "fc1c8d415699e502f3e61cbc61e3250d5bd942eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/d79174513dbf14359b53e44394cf71373ae03433",
-                "reference": "d79174513dbf14359b53e44394cf71373ae03433",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/fc1c8d415699e502f3e61cbc61e3250d5bd942eb",
+                "reference": "fc1c8d415699e502f3e61cbc61e3250d5bd942eb",
                 "shasum": ""
             },
             "require": {
@@ -2340,7 +2340,7 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2017-07-22T14:44:37+00:00"
+            "time": "2017-11-06T16:02:48+00:00"
         },
         {
             "name": "laravelcollective/html",
