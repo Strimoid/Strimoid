@@ -3078,24 +3078,24 @@
         },
         {
             "name": "lord/laroute",
-            "version": "2.4.6",
+            "version": "2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aaronlord/laroute.git",
-                "reference": "d40272a99b8996d7a09476fdff3c7a1c88dbebbc"
+                "reference": "915501506ee5dfd07b9f9716537a16e1c66d4125"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aaronlord/laroute/zipball/d40272a99b8996d7a09476fdff3c7a1c88dbebbc",
-                "reference": "d40272a99b8996d7a09476fdff3c7a1c88dbebbc",
+                "url": "https://api.github.com/repos/aaronlord/laroute/zipball/915501506ee5dfd07b9f9716537a16e1c66d4125",
+                "reference": "915501506ee5dfd07b9f9716537a16e1c66d4125",
                 "shasum": ""
             },
             "require": {
-                "illuminate/config": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "illuminate/console": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "illuminate/filesystem": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "illuminate/routing": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
+                "illuminate/config": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+                "illuminate/console": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+                "illuminate/filesystem": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+                "illuminate/routing": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
                 "php": ">=5.4.0"
             },
             "require-dev": {
@@ -3125,7 +3125,7 @@
                 "routes",
                 "routing"
             ],
-            "time": "2017-09-04T02:25:29+00:00"
+            "time": "2018-02-10T01:17:07+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
