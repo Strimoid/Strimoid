@@ -4119,21 +4119,21 @@
         },
         {
             "name": "rcrowe/twigbridge",
-            "version": "v0.9.5",
+            "version": "v0.9.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rcrowe/TwigBridge.git",
-                "reference": "0a0784c6fb4d383bceebd7ee4f8a2dcac15df5cf"
+                "reference": "c3579440a3ca47ca45bfb0ed854bc0ff9b086bf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rcrowe/TwigBridge/zipball/0a0784c6fb4d383bceebd7ee4f8a2dcac15df5cf",
-                "reference": "0a0784c6fb4d383bceebd7ee4f8a2dcac15df5cf",
+                "url": "https://api.github.com/repos/rcrowe/TwigBridge/zipball/c3579440a3ca47ca45bfb0ed854bc0ff9b086bf5",
+                "reference": "c3579440a3ca47ca45bfb0ed854bc0ff9b086bf5",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "illuminate/view": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
+                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+                "illuminate/view": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
                 "php": ">=5.4.0",
                 "twig/twig": "~1.30"
             },
@@ -4152,6 +4152,14 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "0.10-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "TwigBridge\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Twig": "TwigBridge\\Facade\\Twig"
+                    }
                 }
             },
             "autoload": {
@@ -4179,7 +4187,7 @@
                 "laravel",
                 "twig"
             ],
-            "time": "2017-08-28T11:57:12+00:00"
+            "time": "2018-02-08T15:59:23+00:00"
         },
         {
             "name": "roumen/sitemap",
