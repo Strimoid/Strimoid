@@ -25,7 +25,7 @@
           "guzzlehttp/guzzle": "^6.2",
           "guzzlehttp/oauth-subscriber": "^0.3",
           "graham-campbell/markdown": "^8.0",
-          "graham-campbell/throttle": "^6.0",
+          "graham-campbell/throttle": "^7.0",
           "jenssegers/agent": "^2.3",
           "laracasts/flash": "^3.0",
           "laracasts/utilities": "^3.0",
