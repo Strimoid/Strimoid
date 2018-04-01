@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4eba519dcaf176f9560f8288269de49f",
+    "content-hash": "546772e2873c336f6968e1df72820e7e",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -5747,49 +5747,49 @@
         },
         {
             "name": "vinkla/pusher",
-            "version": "3.1.0",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pusher/pusher-http-laravel.git",
-                "reference": "d81eff9aeb9b64c27f1486e641bad3cca3b8d559"
+                "reference": "fb267e647f6ed245a918dd32fe68443ed5f8d75b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pusher/pusher-http-laravel/zipball/d81eff9aeb9b64c27f1486e641bad3cca3b8d559",
-                "reference": "d81eff9aeb9b64c27f1486e641bad3cca3b8d559",
+                "url": "https://api.github.com/repos/pusher/pusher-http-laravel/zipball/fb267e647f6ed245a918dd32fe68443ed5f8d75b",
+                "reference": "fb267e647f6ed245a918dd32fe68443ed5f8d75b",
                 "shasum": ""
             },
             "require": {
-                "graham-campbell/manager": "^3.0",
-                "illuminate/contracts": "5.5.*",
-                "illuminate/support": "5.5.*",
+                "graham-campbell/manager": "^3.0|^4.0",
+                "illuminate/contracts": "5.5.*|5.6.*",
+                "illuminate/support": "5.5.*|5.6.*",
                 "php": "^7.0",
                 "pusher/pusher-php-server": "^3.0"
             },
             "require-dev": {
                 "graham-campbell/analyzer": "^1.1",
-                "graham-campbell/testbench": "^4.0",
-                "mockery/mockery": "dev-master#c90a17247147543081e4d00f46911e422b49e583",
-                "orchestra/testbench": "^3.5",
-                "phpunit/phpunit": "^6.3"
+                "graham-campbell/testbench": "^4.0|^5.0",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "3.5.*|3.6.*",
+                "phpunit/phpunit": "^6.5|^7.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "4.0-dev"
                 },
                 "laravel": {
                     "providers": [
-                        "Vinkla\\Pusher\\PusherServiceProvider"
+                        "Pusher\\Laravel\\PusherServiceProvider"
                     ],
                     "aliases": {
-                        "Pusher": "Vinkla\\Pusher\\Facades\\Pusher"
+                        "Pusher": "Pusher\\Laravel\\Facades\\Pusher"
                     }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Vinkla\\Pusher\\": "src/"
+                    "Pusher\\Laravel\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5817,7 +5817,7 @@
                 "trigger"
             ],
             "abandoned": "pusher/pusher-http-laravel",
-            "time": "2017-09-02T21:55:12+00:00"
+            "time": "2018-02-27T16:42:55+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
