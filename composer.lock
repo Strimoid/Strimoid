@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "546772e2873c336f6968e1df72820e7e",
@@ -2459,7 +2459,7 @@
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
@@ -5873,16 +5873,16 @@
         },
         {
             "name": "watson/rememberable",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dwightwatson/rememberable.git",
-                "reference": "3e07db60fe86bc471a11589fb06b60bd0e59de71"
+                "reference": "8718614835370f67f58d86387a26bfc315fa9a8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dwightwatson/rememberable/zipball/3e07db60fe86bc471a11589fb06b60bd0e59de71",
-                "reference": "3e07db60fe86bc471a11589fb06b60bd0e59de71",
+                "url": "https://api.github.com/repos/dwightwatson/rememberable/zipball/8718614835370f67f58d86387a26bfc315fa9a8b",
+                "reference": "8718614835370f67f58d86387a26bfc315fa9a8b",
                 "shasum": ""
             },
             "require": {
@@ -5917,7 +5917,7 @@
                 "laravel",
                 "remember"
             ],
-            "time": "2017-08-24T12:27:32+00:00"
+            "time": "2017-12-21T01:09:18+00:00"
         },
         {
             "name": "webmozart/assert",
