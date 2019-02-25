@@ -3,7 +3,7 @@
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Vinkla\Pusher\PusherManager;
+use Pusher\Laravel\PusherManager;
 
 class AuthController extends BaseController
 {

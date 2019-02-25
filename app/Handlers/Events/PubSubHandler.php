@@ -3,7 +3,7 @@
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Notification;
-use Vinkla\Pusher\Facades\Pusher;
+use Pusher\Laravel\Facades\Pusher;
 
 class PubSubHandler
 {

@@ -3,7 +3,7 @@
       "description": "Strimoid.pl source code",
       "type": "project",
       "keywords": ["strimoid"],
-      "homepage": "https://strimoid.pl",
+      "homepage": "https://strm.pl",
       "license": "MIT",
       "authors": [
           {
@@ -30,7 +30,6 @@
           "laracasts/flash": "^3.0",
           "laracasts/utilities": "^3.0",
           "watson/rememberable": "^2.0",
-          "vinkla/pusher": "^4.1",
           "vinkla/algolia": "^2.7",
           "vinkla/hashids": "^3.1",
           "filp/whoops": "^2.1",
@@ -50,7 +49,8 @@
           "league/glide-laravel": "^1.0",
           "consolidation/robo": "^1.0",
           "laravel/passport": "^4.0",
-          "danielstjules/stringy": "^3.1"
+          "danielstjules/stringy": "^3.1",
+            "pusher/pusher-http-laravel": "^4.2"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "^2.2",

@@ -1,7 +1,7 @@
 <?php namespace Strimoid\Handlers;
 
 use Strimoid\Models\Content;
-use Vinkla\Pusher\Facades\Pusher;
+use Pusher\Laravel\Facades\Pusher;
 
 class DownloadThumbnail
 {

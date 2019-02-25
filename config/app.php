@@ -197,7 +197,7 @@ return [
         TwigBridge\ServiceProvider::class,
         Vinkla\Algolia\AlgoliaServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
-        Vinkla\Pusher\PusherServiceProvider::class,
+        Pusher\Laravel\PusherServiceProvider::class,
     ],
 
     /*
