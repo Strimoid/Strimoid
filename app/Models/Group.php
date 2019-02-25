@@ -185,7 +185,7 @@ class Group extends BaseModel
      *
      * @return string
      */
-    public function getRouteKey()
+    public function getRouteKey(): string
     {
         return $this->urlname;
     }

@@ -4,7 +4,7 @@ services:
     build: .
     image: quay.io/strimoid/strimoid
     ports:
-     - "8000:8000"
+     - "8000:80"
     links:
      - beanstalkd
      - postgres
