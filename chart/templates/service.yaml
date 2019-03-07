@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "strimoid.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    helm.sh/chart: {{ include "strimoid.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

@@ -1,0 +1,12 @@
+dependencies:
+- name: beanstalkd
+  repository: https://davidtannock.github.io/helm-charts/
+  version: 1.0.0
+- name: postgresql
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 3.11.7
+- name: redis
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 6.1.4
+digest: sha256:6e6a7147c931441981b6fc17d6822f4a15807fee8656e4fdac7716fc46ad8f39
+generated: 2019-03-07T18:28:23.9578667+01:00

@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "strimoid.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    helm.sh/chart: {{ include "strimoid.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "strimoid.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "strimoid.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- if .Values.beanstalkd.enabled }}
+            - name: QUEUE_DRIVER
+              value: beanstalkd
+            - name: BEANSTALKD_HOST
+              value: {{ template "strimoid.beanstalkd.fullname" . }}
+            {{- end }}
+            {{- if .Values.postgresql.enabled }}
+            - name: DB_HOST
+              value: {{ template "strimoid.postgresql.fullname" . }}
+            - name: DB_DATABASE
+              value: {{ .Values.postgresql.postgresDatabase | quote }}
+            - name: DB_PORT
+              value: {{ .Values.postgresql.service.port | quote }}
+            {{- end }}
+            {{- if .Values.redis.enabled }}
+            - name: CACHE_DRIVER
+              value: redis
+            - name: REDIS_HOST
+              value: {{ template "strimoid.redis.fullname" . }}
+            - name: REDIS_PORT
+              value: {{ .Values.redis.master.port | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key | quote }}
+              value: {{ $value | quote  }}
+            {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ template "strimoid.fullname" . }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /src/storage/framework/cache
+              name: cache
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: cache
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
