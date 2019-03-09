@@ -1,5 +1,7 @@
 <?php // @codingStandardsIgnoreFile
 
+Route::get('/health', ['uses' => 'HealthController@health']);
+
 /* Auth ============================================================================================================= */
 Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => 'AuthController@showLoginForm']);
 Route::post('/login', ['middleware' => 'guest', 'uses' => 'AuthController@login']);
