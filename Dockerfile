@@ -26,7 +26,6 @@ COPY config/docker/apache.conf $APACHE_CONFDIR/sites-available/000-default.conf
 
 WORKDIR /src
 COPY . /src
-
 COPY --from=assets /src/public/assets /src
 
 RUN composer install -n

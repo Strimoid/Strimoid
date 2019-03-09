@@ -57,9 +57,6 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          volumeMounts:
-            - mountPath: /src/storage/framework/cache
-              name: cache
           livenessProbe:
             httpGet:
               path: /
@@ -70,9 +67,6 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      volumes:
-        - name: cache
-          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

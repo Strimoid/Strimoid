@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
+chown -R www-data:www-data /src/storage
+
 exec dockerize \
-    -wait "tcp://$DB_HOST:$DB_PORT" \
     -timeout 3m \
     "$@"
