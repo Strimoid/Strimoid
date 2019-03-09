@@ -17,28 +17,28 @@
       },
       "require": {
           "php": ">=7.1.0",
-          "laravel/framework": "^5.5",
-          "laravelcollective/html": "^5.4",
+          "laravel/framework": "^5.6",
+          "laravelcollective/html": "^5.6",
           "intervention/image": "^2.3",
           "roumen/sitemap": "^2.6",
           "jeremykendall/php-domain-parser": "^3.0",
           "guzzlehttp/guzzle": "^6.2",
           "guzzlehttp/oauth-subscriber": "^0.3",
-          "graham-campbell/markdown": "^8.0",
+          "graham-campbell/markdown": "^10.0",
           "graham-campbell/throttle": "^7.0",
           "jenssegers/agent": "^2.3",
           "laracasts/flash": "^3.0",
           "laracasts/utilities": "^3.0",
           "watson/rememberable": "^2.0",
-          "vinkla/algolia": "^2.7",
-          "vinkla/hashids": "^3.1",
+          "vinkla/algolia": "^3.0",
+          "vinkla/hashids": "^4.0",
           "filp/whoops": "^2.1",
           "msurguy/honeypot": "^1.0",
           "pda/pheanstalk": "^3.1",
           "predis/predis": "^1.1",
           "rcrowe/twigbridge": "^0.9",
           "lord/laroute" : "~2.3",
-          "barryvdh/laravel-cors": "^0.9",
+          "barryvdh/laravel-cors": "^0.11",
           "jenssegers/raven": "^1.8",
           "laravel/socialite": "^3.0",
           "symfony/dom-crawler": "^3.1",
@@ -74,13 +74,11 @@
       },
       "scripts": {
           "post-install-cmd": [
-              "php artisan clear-compiled",
-              "php artisan optimize"
+              "php artisan clear-compiled"
           ],
           "post-update-cmd": [
               "php artisan clear-compiled",
-              "php artisan ide-helper:generate -M",
-              "php artisan optimize"
+              "php artisan ide-helper:generate -M"
           ],
           "post-root-package-install": [
               "php -r \"copy('.env.sample', '.env');\""
