@@ -15,3 +15,11 @@ services:
   postgres:
     ports:
       - "5432:5432"
+  pgweb:
+    image: sosedoff/pgweb
+    environment:
+      - DATABASE_URL=postgres://strimoid:strimoid@postgres:5432/strimoid?sslmode=disable
+    ports:
+      - "5433:8081"
+    links:
+      - postgres
