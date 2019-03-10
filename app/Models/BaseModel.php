@@ -17,6 +17,8 @@ abstract class BaseModel extends Eloquent
      */
     protected static $rules = [];
 
+    protected $dateFormat = 'Y-m-d H:i:sO';
+
     /**
      * Return a timestamp as DateTime object.
      *
