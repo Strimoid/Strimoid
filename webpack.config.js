@@ -5,9 +5,6 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 module.exports = {
     entry: {
         client: [
-            'react-hot-loader/patch',
-            'webpack-dev-server/client?http://localhost:8080',
-            'webpack/hot/only-dev-server',
             './sass/app.sass',
             './js/client.js',
         ],
@@ -21,15 +18,6 @@ module.exports = {
         extensions: ['.js', '.jsx'],
     },
     context: resolve(__dirname, 'resources/assets'),
-    devtool: 'inline-source-map',
-    devServer: {
-        hot: true,
-        contentBase: false,
-        publicPath: '/assets/',
-        proxy: {
-            "/": "http://localhost:8000"
-        }
-    },
     module: {
         rules: [
             {
