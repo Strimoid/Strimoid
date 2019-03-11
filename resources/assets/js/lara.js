@@ -47,6 +47,8 @@ $.fn.popover.Constructor.prototype._leave = function(event, context){
 };
 
 $(document).ready(function() {
+    const query = new URLSearchParams(window.location.search);
+
     $.ajaxSetup({
         headers: { 'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN') }
     })
@@ -61,8 +63,8 @@ $(document).ready(function() {
     const entriesModule = require('./modules/entries')
     const pollsModule = require('./modules/polls')
 
-    if (AppData.user && window.WebSocket) {
-        var pusher = new Pusher(AppData.config.pusher_key, {
+    if (AppData.user && window.WebSocket && AppData.config.pusher_key) {
+        const pusher = new Pusher(AppData.config.pusher_key, {
             cluster: 'eu',
             encrypted: true
         })
@@ -103,7 +105,7 @@ $(document).ready(function() {
             })
         }
 
-        if (window.document.location.pathname.endsWith('/entries') && $.query.get('page') <= 1) {
+        if (window.document.location.pathname.endsWith('/entries') && query.get('page') <= 1) {
             pusher.subscribe('entries').bind('new-entry', function(data) {
                 if (window.blocked_users.indexOf(data.author) != -1 || window.blocked_groups.indexOf(data.group) != -1)
                     return;
@@ -495,16 +497,16 @@ $(document).ready(function() {
 
     $('.content_sort a').click(function() {
         if ($(this).attr('data-sort'))
-            window.location.search = $.query.set('sort', $(this).attr('data-sort'));
+            window.location.search = query.set('sort', $(this).attr('data-sort'));
         else
-            window.location.search = $.query.remove('sort');
+            window.location.search = query.remove('sort');
     });
 
     $('.content_filter a').click(function() {
         if ($(this).attr('data-time'))
-            window.location.search = $.query.set('time', $(this).attr('data-time'));
+            window.location.search = query.set('time', $(this).attr('data-time'));
         else
-            window.location.search = $.query.remove('time');
+            window.location.search = query.remove('time');
     });
 
     $('body').on('mouseup', '.entry_text', function() {
@@ -606,7 +608,8 @@ $(document).ready(function() {
     if (window.Notification && Notification.permission === "granted")
         $('input[name="browser_notifications"]').prop('checked', true );
 
-    if (window.username) {
+    // TODO: Import Bloodhound
+    if (window.username && false) {
         var groups = new Bloodhound({
             datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.value); },
             queryTokenizer: Bloodhound.tokenizers.whitespace,

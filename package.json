@@ -23,6 +23,7 @@
     "dependencies": {
         "axios": "^0.16",
         "bootstrap": "^4.0",
+        "corejs-typeahead": "^1.2.1",
         "font-awesome": "^4.7",
         "js-cookie": "^2.1",
         "lodash": "^4.17",

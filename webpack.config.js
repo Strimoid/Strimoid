@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
+    devtool: 'source-map',
     entry: {
         client: [
             './sass/app.sass',
@@ -40,7 +41,6 @@ module.exports = {
         ],
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',

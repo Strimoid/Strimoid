@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const common = require('./webpack.config.js')
 
@@ -19,4 +20,7 @@ module.exports = merge(common, {
             "/": "http://localhost:8000"
         }
     },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+    ].concat(common.plugins)
 })
