@@ -17,7 +17,6 @@
 <title>@yield('title', e($pageTitle))</title>
 
 <link href="/assets/client.bundle.css" rel="stylesheet">
-<script src="{{ elixir('assets/js/riot.js') }}"></script>
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
         && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
