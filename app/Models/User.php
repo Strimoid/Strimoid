@@ -170,7 +170,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function isBanned(Group $group)
     {
-        return $this->bannedGroups()->where('group_id', $group)->exists();
+        return $this->bannedGroups()->where('group_id', $group->id)->exists();
     }
 
     public function isSuperAdmin()
