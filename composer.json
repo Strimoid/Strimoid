@@ -50,7 +50,8 @@
           "consolidation/robo": "^1.0",
           "laravel/passport": "^4.0",
           "danielstjules/stringy": "^3.1",
-            "pusher/pusher-http-laravel": "^4.2"
+            "pusher/pusher-http-laravel": "^4.2",
+            "bugsnag/bugsnag-laravel": "^2.0"
       },
       "require-dev": {
           "barryvdh/laravel-ide-helper": "^2.2",

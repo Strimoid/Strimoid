@@ -166,6 +166,7 @@ return [
          * Third party Service Providers...
          */
         Barryvdh\Cors\ServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
