@@ -170,3 +170,5 @@ VotesModule.prototype.addDownvote = function() {
         });
     }
 };
+
+export default VotesModule

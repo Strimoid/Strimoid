@@ -46,6 +46,16 @@ $.fn.popover.Constructor.prototype._leave = function(event, context){
     }
 };
 
+import NotificationsModule from './modules/notifications'
+import VotesModule from './modules/votes'
+import FoldersModule from './modules/folders'
+import UsersModule from './modules/users'
+import GroupsModule from './modules/groups'
+import ContentsModule from './modules/contents'
+import CommentsModule from './modules/comments'
+import EntriesModule from './modules/entries'
+import PollsModule from './modules/polls'
+
 $(document).ready(function() {
     const query = new URLSearchParams(window.location.search);
 
@@ -53,15 +63,15 @@ $(document).ready(function() {
         headers: { 'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN') }
     })
 
-    const notificationsModule = require('./modules/notifications')
-    const votesModule = require('./modules/votes')
-    const foldersModule = require('./modules/folders')
-    const usersModule = require('./modules/users')
-    const groupsModule = require('./modules/groups')
-    const contentsModule = require('./modules/contents')
-    const commentsModule = require('./modules/comments')
-    const entriesModule = require('./modules/entries')
-    const pollsModule = require('./modules/polls')
+    const notificationsModule = new NotificationsModule()
+    const votesModule = new VotesModule()
+    const foldersModule = new FoldersModule()
+    const usersModule = new UsersModule()
+    const groupsModule = new GroupsModule()
+    const contentsModule = new ContentsModule()
+    const commentsModule = new CommentsModule()
+    const entriesModule = new EntriesModule()
+    const pollsModule = new PollsModule()
 
     if (AppData.user && window.WebSocket && AppData.config.pusher_key) {
         const pusher = new Pusher(AppData.config.pusher_key, {

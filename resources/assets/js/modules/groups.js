@@ -62,3 +62,5 @@ GroupsModule.prototype.renderActionsWidget = function() {
         block_class: _.includes(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-secondary'
     });
 };
+
+export default GroupsModule

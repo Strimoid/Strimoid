@@ -74,3 +74,5 @@ ContentsModule.prototype.showSidebar = function() {
         });
     }, 500));
 };
+
+export default ContentsModule

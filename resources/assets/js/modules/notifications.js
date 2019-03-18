@@ -141,3 +141,5 @@ NotificationsModule.prototype.decrementUnreadCount = function()
 {
     this.changeUnreadCount(this.unreadNotifications - 1);
 };
+
+export default NotificationsModule

@@ -23,3 +23,5 @@ PollsModule.prototype.updateOptions = function(e) {
     }
 
 };
+
+export default PollsModule

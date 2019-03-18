@@ -68,3 +68,5 @@ UsersModule.prototype.renderActionsWidget = function() {
         block_class:_.includes(window.blocked_users, username) ? 'btn-danger' : 'btn-secondary'
     });
 };
+
+export default UsersModule

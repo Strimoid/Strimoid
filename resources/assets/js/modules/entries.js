@@ -3,7 +3,7 @@ function EntriesModule() {
     if (window.username) {
         // $('span.save_entry').click(this.saveEntry);
         $('body').delegate('span.save_entry', 'click', this.saveEntry);
-        
+
         $('body').on('submit', 'form.entry_add', this.addEntry);
         $('body').on('submit', 'form.entry_add_reply', this.addReply);
         $('body').on('click', '.entry_edit_link', this.editEntry);
@@ -119,3 +119,5 @@ EntriesModule.prototype.editEntry = function(e) {
         }
     });
 };
+
+export default EntriesModule

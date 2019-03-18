@@ -63,3 +63,5 @@ CommentsModule.prototype.addReply = function(e) {
 
     e.preventDefault();
 };
+
+export default CommentsModule

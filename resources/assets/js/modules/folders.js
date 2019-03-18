@@ -119,3 +119,5 @@ FoldersModule.prototype.removeGroup = function() {
             $(row).remove();
     });
 };
+
+export default FoldersModule
