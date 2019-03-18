@@ -3,6 +3,7 @@
 use Auth;
 use Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
@@ -47,31 +48,35 @@ class VoteController extends BaseController
 
         $up = request('up') === 'true';
 
-        if ($up) {
-            $object->increment('uv');
-            $object->increment('score');
+        DB::transaction(function () use ($up, $object) {
+            if ($up) {
+                $object->increment('uv');
+                $object->increment('score');
 
-            // small hack, as increment function doesn't update object :(
-            $uv++;
-
-            // small trigger, needed for pushing contents to front page
-            if ($object instanceof Content && !$object->frontpage_at
-                    &&  $object->uv > config('strimoid.homepage.threshold')
+                // small trigger, needed for pushing contents to front page
+                if ($object instanceof Content && !$object->frontpage_at
+                    && $object->uv > config('strimoid.homepage.threshold')
                     && $object->created_at->diffInDays() < config('strimoid.homepage.time_limit')) {
-                $object->frontpage_at = new Carbon();
-                $object->save();
+                    $object->frontpage_at = new Carbon();
+                    $object->save();
+                }
+            } else {
+                $object->increment('dv');
+                $object->decrement('score');
             }
+
+            $object->votes()->create([
+                'created_at' => new Carbon(),
+                'user_id' => Auth::id(),
+                'up' => $up,
+            ]);
+        });
+
+        if ($up) {
+            $uv++;
         } else {
-            $object->increment('dv');
-            $object->decrement('score');
             $dv++;
         }
-
-        $object->votes()->create([
-            'created_at'    => new Carbon(),
-            'user_id'       => Auth::id(),
-            'up'            => $up,
-        ]);
 
         return response()->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
@@ -88,17 +93,23 @@ class VoteController extends BaseController
         $uv = $object->uv;
         $dv = $object->dv;
 
+        DB::transaction(function () use ($vote, $object) {
+            if ($vote['up']) {
+                $object->decrement('uv');
+                $object->decrement('score');
+            } else {
+                $object->decrement('dv');
+                $object->increment('score');
+            }
+
+            $object->votes()->where(['user_id' => $vote->user_id])->delete();
+        });
+
         if ($vote['up']) {
-            $object->decrement('uv');
-            $object->decrement('score');
             $uv--;
         } else {
-            $object->decrement('dv');
-            $object->increment('score');
             $dv--;
         }
-
-        $object->votes()->where(['user_id' => $vote->user_id])->delete();
 
         return response()->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
