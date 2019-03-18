@@ -27,7 +27,7 @@
         "font-awesome": "^4.7",
         "js-cookie": "^2.1",
         "lodash": "^4.17",
-        "perfect-scrollbar": "^0.7",
+        "perfect-scrollbar": "^1.4",
         "pjax": "^0.2",
         "popper.js": "^1.11.1",
         "pusher-js": "^4.1",

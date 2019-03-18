@@ -1,3 +1,5 @@
+import PerfectScrollbar from 'perfect-scrollbar'
+
 function NotificationsModule() {
     var nm = this;
 
@@ -28,7 +30,7 @@ function NotificationsModule() {
     });
 
     $('.notifications_scroll').each(function() {
-        Ps.initialize(this);
+        new PerfectScrollbar(this);
     });
 
     if (this.unreadNotifications > 0) {
