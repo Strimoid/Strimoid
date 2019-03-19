@@ -32,7 +32,6 @@ return [
     */
 
     'connections' => [
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -60,13 +59,6 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-
-        'stats' => [
-            'driver'   => 'sqlite',
-            'database' => storage_path().'/stats.sqlite',
-            'prefix'   => '',
-        ],
-
     ],
 
     /*

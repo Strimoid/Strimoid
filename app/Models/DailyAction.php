@@ -3,7 +3,6 @@
 class DailyAction extends BaseModel
 {
     protected $table = 'daily_actions';
-    protected $connection = 'stats';
 
     public function user()
     {
