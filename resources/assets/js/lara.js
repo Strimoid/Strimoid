@@ -56,6 +56,9 @@ import CommentsModule from './modules/comments'
 import EntriesModule from './modules/entries'
 import PollsModule from './modules/polls'
 
+import autosize from 'autosize'
+import bootbox from 'bootbox'
+
 $(document).ready(function() {
     const query = new URLSearchParams(window.location.search);
 

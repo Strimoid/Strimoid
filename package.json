@@ -21,7 +21,9 @@
         "webpack-merge": "^4.2.1"
     },
     "dependencies": {
+        "autosize": "^4.0.2",
         "axios": "^0.16",
+        "bootbox": "^5.0.1",
         "bootstrap": "^4.0",
         "corejs-typeahead": "^1.2.1",
         "font-awesome": "^4.7",
