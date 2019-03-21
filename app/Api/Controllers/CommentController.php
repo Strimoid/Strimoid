@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Input;
@@ -65,7 +67,7 @@ class CommentController extends BaseController
         if (user()->isBanned($content->group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
@@ -88,7 +90,7 @@ class CommentController extends BaseController
         if (user()->isBanned($content->group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 

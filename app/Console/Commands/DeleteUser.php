@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Strimoid\Models\User;
@@ -16,7 +18,7 @@ class DeleteUser extends Command
     {
         $user = User::findOrFail($this->argument('username'));
 
-        if ($this->confirm('Do you really want to remove user: '.$user->name.'? [yes|no]')) {
+        if ($this->confirm('Do you really want to remove user: ' . $user->name . '? [yes|no]')) {
             $user->removed_at = new MongoDate();
             $user->type = 'deleted';
             $user->unset(['age', 'description', 'email', 'last_login', 'last_ip',
@@ -51,7 +53,7 @@ class DeleteUser extends Command
         */
     }
 
-    protected function getArguments() : array
+    protected function getArguments(): array
     {
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],

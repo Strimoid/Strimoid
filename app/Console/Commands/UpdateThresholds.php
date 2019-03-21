@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Strimoid\Models\Content;
@@ -38,7 +40,7 @@ class UpdateThresholds extends Command
         }
     }
 
-    public function median($array) : float
+    public function median($array): float
     {
         // perhaps all non numeric values should filtered out of $array here?
         $iCount = count($array);

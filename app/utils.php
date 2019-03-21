@@ -33,9 +33,9 @@ if (!function_exists('parse_usernames')) {
             $content = Content::find($matches[1]);
 
             if ($content) {
-                return '['.str_replace('_', '\_', $content->title).']('.$content->getSlug().')';
+                return '[' . str_replace('_', '\_', $content->title) . '](' . $content->getSlug() . ')';
             } else {
-                return 'c/'.$matches[1];
+                return 'c/' . $matches[1];
             }
         }, $body);
 
@@ -43,33 +43,33 @@ if (!function_exists('parse_usernames')) {
             $target = User::name($matches[1])->first();
 
             if ($target) {
-                return '[u/'.str_replace('_', '\_', $target->name).'](/u/'.$target->name.')';
+                return '[u/' . str_replace('_', '\_', $target->name) . '](/u/' . $target->name . ')';
             }
 
-            return 'u/'.$matches[1];
+            return 'u/' . $matches[1];
         }, $body);
 
         $body = preg_replace_callback('/(?<=^|\s)@([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = User::name($matches[1])->first();
 
             if ($target) {
-                return '[@'.str_replace('_', '\_', $target->name).'](/u/'.$target->name.')';
+                return '[@' . str_replace('_', '\_', $target->name) . '](/u/' . $target->name . ')';
             }
 
-            return '@'.$matches[1];
+            return '@' . $matches[1];
         }, $body);
 
         $body = preg_replace_callback('/(?<=^|\s)(?<=\s|^)g\/([a-z0-9_-żźćńółęąśŻŹĆĄŚĘŁÓŃ]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = Group::name($matches[1])->first();
-            $fakeGroup = class_exists('Folders\\'.studly_case($matches[1]));
+            $fakeGroup = class_exists('Folders\\' . studly_case($matches[1]));
 
             if ($target || $fakeGroup) {
                 $urlname = $target ? $target->urlname : $matches[1];
 
-                return '[g/'.str_replace('_', '\_', $urlname).'](/g/'.$urlname.')';
+                return '[g/' . str_replace('_', '\_', $urlname) . '](/g/' . $urlname . ')';
             }
 
-            return 'g/'.$matches[1];
+            return 'g/' . $matches[1];
         }, $body);
 
         return $body;

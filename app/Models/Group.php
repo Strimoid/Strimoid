@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use App;
 use Auth;
@@ -114,7 +116,7 @@ class Group extends BaseModel
         $host = config('app.cdn_host');
 
         if ($this->avatar) {
-            return $host.'/groups/'.$this->avatar;
+            return $host . '/groups/' . $this->avatar;
         }
 
         return '/static/img/default_avatar.png';
@@ -125,7 +127,7 @@ class Group extends BaseModel
         $disk = Storage::disk('styles');
 
         // Compatibility with old saving method
-        $filename = Str::lower($this->urlname).'.css';
+        $filename = Str::lower($this->urlname) . '.css';
         if ($disk->exists($filename)) {
             $disk->delete($filename);
         }
@@ -133,7 +135,7 @@ class Group extends BaseModel
         $this->deleteStyle();
 
         if ($css) {
-            $this->style = $this->urlname.'.'.Str::random(8).'.css';
+            $this->style = $this->urlname . '.' . Str::random(8) . '.css';
 
             $disk->put($this->style, $css);
         }
@@ -168,10 +170,10 @@ class Group extends BaseModel
         $host = config('app.cdn_host');
 
         if ($this->avatar) {
-            return $host.'/groups/'.$this->avatar;
+            return $host . '/groups/' . $this->avatar;
         }
 
-        return $host.'/static/img/default_avatar.png';
+        return $host . '/static/img/default_avatar.png';
     }
 
     public function setSidebarAttribute($text)

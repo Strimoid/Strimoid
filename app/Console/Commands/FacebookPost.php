@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Carbon;
 use Guzzle;
@@ -22,9 +24,9 @@ class FacebookPost extends Command
 
         $params = [
             'access_token' => config('social.facebook.page_token'),
-            'name'         => $content->title,
-            'link'         => route('content_comments', $content->getKey()),
-            'description'  => $content->description,
+            'name' => $content->title,
+            'link' => route('content_comments', $content->getKey()),
+            'description' => $content->description,
         ];
 
         if ($content->thumbnail) {

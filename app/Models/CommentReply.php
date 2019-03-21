@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Auth;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
@@ -51,7 +53,7 @@ class CommentReply extends Comment
     {
         $url = route('content_comments', $this->parent->content);
 
-        return $url.'#'.$this->hashId();
+        return $url . '#' . $this->hashId();
     }
 
     public function canEdit()

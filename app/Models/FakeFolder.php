@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Str;
 
@@ -27,7 +29,7 @@ abstract class FakeFolder
         $urlname = class_basename($urlname);
 
         $this->urlname = Str::lower($urlname);
-        $this->name = trans('groups.'.$this->urlname);
+        $this->name = trans('groups.' . $this->urlname);
     }
 
     /**

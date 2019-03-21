@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http;
+<?php
+
+namespace Strimoid\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Strimoid\Http\Middleware\NoSessionMiddleware;
@@ -43,10 +45,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => Middleware\Authenticate::class,
+        'auth' => Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings'   => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'can'        => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest'      => Middleware\RedirectIfAuthenticated::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => Middleware\RedirectIfAuthenticated::class,
     ];
 }

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Handlers\Events;
+<?php
+
+namespace Strimoid\Handlers\Events;
 
 use Closure;
 use Illuminate\Events\Dispatcher;
@@ -32,11 +34,11 @@ class NotificationsHandler
     {
         $baseName = class_basename($class);
 
-        $created = 'eloquent.created: '.$class;
-        $events->listen($created, self::class.'@on'.$baseName.'Create');
+        $created = 'eloquent.created: ' . $class;
+        $events->listen($created, self::class . '@on' . $baseName . 'Create');
 
-        $updated = 'eloquent.updated: '.$class;
-        $events->listen($updated, self::class.'@on'.$baseName.'Edit');
+        $updated = 'eloquent.updated: ' . $class;
+        $events->listen($updated, self::class . '@on' . $baseName . 'Edit');
     }
 
     public function onCommentCreate(Comment $comment)
@@ -208,7 +210,7 @@ class NotificationsHandler
     /**
      * Get list of users mentioned in given text.
      */
-    protected function findMentionedUsers(string $text) : array
+    protected function findMentionedUsers(string $text): array
     {
         preg_match_all('/@([a-z0-9_-]+)/i', $text, $matches, PREG_SET_ORDER);
         $nicknames = array_pluck($matches, 1);

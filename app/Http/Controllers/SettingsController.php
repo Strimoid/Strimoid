@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Input;
@@ -28,10 +30,10 @@ class SettingsController extends BaseController
     public function saveSettings(Request $request)
     {
         $this->validate($request, [
-            'css_style'         => 'url|safe_url|max:250',
+            'css_style' => 'url|safe_url|max:250',
             'contents_per_page' => 'integer|min:1|max:100',
-            'entries_per_page'  => 'integer|min:1|max:100',
-            'timezone'          => 'timezone',
+            'entries_per_page' => 'integer|min:1|max:100',
+            'timezone' => 'timezone',
         ]);
 
         $settings['enter_send'] = Input::get('enter_send') == 'on' ? true : false;
@@ -49,7 +51,7 @@ class SettingsController extends BaseController
             setting()->set($key, $value);
         }
 
-        \Cache::tags(['user.settings', 'u.'.auth()->id()])->flush();
+        \Cache::tags(['user.settings', 'u.' . auth()->id()])->flush();
 
         return redirect()->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
     }

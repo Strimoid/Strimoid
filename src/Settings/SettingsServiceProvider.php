@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Settings;
+<?php
+
+namespace Strimoid\Settings;
 
 use Illuminate\Support\ServiceProvider;
 use Strimoid\Settings\Services\SettingsService;

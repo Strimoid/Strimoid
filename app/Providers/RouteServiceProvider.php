@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -75,14 +77,14 @@ class RouteServiceProvider extends ServiceProvider
     {
         \Route::group([
             'middleware' => 'web',
-            'namespace'  => $this->namespace,
+            'namespace' => $this->namespace,
         ], function ($router) {
             require app_path('Http/routes.php');
         });
 
         \Route::group([
-            'namespace'  => $this->namespace,
-        ], function($router) {
+            'namespace' => $this->namespace,
+        ], function ($router) {
             \Route::get('/i/duck/{username}', 'DuckController@drawDuck');
             \Route::get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
                 ->where(['format' => '\w{3}']);

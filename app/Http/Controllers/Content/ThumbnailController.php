@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers\Content;
+<?php
+
+namespace Strimoid\Http\Controllers\Content;
 
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Content;
@@ -24,7 +26,7 @@ class ThumbnailController extends BaseController
             $thumbnails = [];
         }
 
-        $thumbnails[] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=200&url='.urlencode($content->url);
+        $thumbnails[] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=200&url=' . urlencode($content->url);
 
         session(compact('thumbnails'));
 

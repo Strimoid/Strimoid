@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Illuminate\Support\Facades\Auth;
 

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Contracts\Repositories;
+<?php
+
+namespace Strimoid\Contracts\Repositories;
 
 interface ContentRepository
 {

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models\Folders;
+<?php
+
+namespace Strimoid\Models\Folders;
 
 use Auth;
 use Strimoid\Models\Content;

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Markdown;
+<?php
+
+namespace Strimoid\Markdown;
 
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Parser\AbstractInlineParser;
@@ -47,7 +49,7 @@ class UserMentionParser extends AbstractInlineParser
         }
 
         $profileUrl = route('user_profile', $user, false);
-        $inlineContext->getContainer()->appendChild(new Link($profileUrl, '@'.$handle));
+        $inlineContext->getContainer()->appendChild(new Link($profileUrl, '@' . $handle));
 
         return true;
     }

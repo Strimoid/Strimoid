@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 use Input;
 use Strimoid\Models\Content;
@@ -14,7 +16,7 @@ class GroupController extends BaseController
         $builder = Group::where('type', '!=', 'private');
 
         if (Input::has('name')) {
-            $builder->where('name', 'like', '%'.Input::get('name').'%');
+            $builder->where('name', 'like', '%' . Input::get('name') . '%');
         }
 
         if (in_array(Input::get('sort'), ['created_at', 'subscribers_count'])) {
@@ -34,12 +36,12 @@ class GroupController extends BaseController
         $group->checkAccess();
 
         $stats = [
-            'contents'    => intval(Content::where('group_id', $group->getKey())->count()),
-            'comments'    => intval(Content::where('group_id', $group->getKey())->sum('comments')),
-            'entries'     => intval(Entry::where('group_id', $group->getKey())->count()),
-            'banned'      => intval(GroupBan::where('group_id', $group->getKey())->count()),
+            'contents' => intval(Content::where('group_id', $group->getKey())->count()),
+            'comments' => intval(Content::where('group_id', $group->getKey())->sum('comments')),
+            'entries' => intval(Entry::where('group_id', $group->getKey())->count()),
+            'banned' => intval(GroupBan::where('group_id', $group->getKey())->count()),
             'subscribers' => $group->subscribers,
-            'moderators'  => intval(GroupModerator::where('group_id', $group->getKey())->count()),
+            'moderators' => intval(GroupModerator::where('group_id', $group->getKey())->count()),
         ];
 
         return array_merge(

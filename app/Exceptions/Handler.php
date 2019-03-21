@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Exceptions;
+<?php
+
+namespace Strimoid\Exceptions;
 
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -51,8 +53,8 @@ class Handler extends ExceptionHandler
             return $this->renderHttpException($e);
         } elseif ($e instanceof OAuthException) {
             return Response::json([
-                'error'     => $e->errorType,
-                'message'   => $e->getMessage(),
+                'error' => $e->errorType,
+                'message' => $e->getMessage(),
             ], $e->httpStatusCode);
         }
 

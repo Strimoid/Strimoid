@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Strimoid\Models\Traits\HasThumbnail;
 use Strimoid\Models\Traits\HasVotes;
@@ -9,7 +11,7 @@ class ContentRelated extends BaseModel
 
     protected static $rules = [
         'title' => 'required|min:1|max:128',
-        'url'   => 'required|url_custom',
+        'url' => 'required|url_custom',
     ];
 
     protected $table = 'content_related';

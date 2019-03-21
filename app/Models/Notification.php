@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Auth;
 use Hashids;
@@ -47,7 +49,7 @@ class Notification extends BaseModel
 
         // Add parameter to mark notification as read
         if (!$this->read) {
-            $params .= '?ntf_read='.$this->hashId();
+            $params .= '?ntf_read=' . $this->hashId();
         }
 
         try {
@@ -59,15 +61,15 @@ class Notification extends BaseModel
                     break;
                 case EntryReply::class:
                     $url = route('single_entry', Hashids::encode($this->element->parent_id));
-                    $params .= '#'.$this->element->hashId();
+                    $params .= '#' . $this->element->hashId();
                     break;
                 case Comment::class:
                     $url = route('content_comments', Hashids::encode($this->element->content_id));
-                    $params .= '#'.$this->element->hashId();
+                    $params .= '#' . $this->element->hashId();
                     break;
                 case CommentReply::class:
                     $url = route('content_comments', Hashids::encode($this->element->parent->content_id));
-                    $params .= '#'.$this->element->hashId();
+                    $params .= '#' . $this->element->hashId();
                     break;
                 case Conversation::class:
                     $url = route('conversation', $this->element);
@@ -80,7 +82,7 @@ class Notification extends BaseModel
             // Triggered when element was removed, but notification still exists
         }
 
-        return $url.$params;
+        return $url . $params;
     }
 
     public function getTypeDescription()
@@ -88,7 +90,7 @@ class Notification extends BaseModel
         $class = get_class($this->element);
         $class = class_basename($class);
 
-        return trans('notifications.types.'.$class);
+        return trans('notifications.types.' . $class);
     }
 
     public function getThumbnailPath()

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Repositories;
+<?php
+
+namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\ContentRepository as ContentRepositoryContract;
 use Strimoid\Models\Content;

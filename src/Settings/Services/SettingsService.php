@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Settings\Services;
+<?php
+
+namespace Strimoid\Settings\Services;
 
 class SettingsService
 {

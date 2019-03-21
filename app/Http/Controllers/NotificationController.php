@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Response;
@@ -21,13 +23,13 @@ class NotificationController extends BaseController
 
         foreach ($notifications as $notification) {
             $list[] = [
-                'id'       => $notification->hashId(),
-                'title'    => $notification->title,
-                'time'     => $notification->getLocalTime(),
+                'id' => $notification->hashId(),
+                'title' => $notification->title,
+                'time' => $notification->getLocalTime(),
                 'time_ago' => $notification->created_at->diffForHumans(),
-                'type'     => $notification->getTypeDescription(),
-                'url'      => $notification->getURL(),
-                'img'      => $notification->getThumbnailPath(),
+                'type' => $notification->getTypeDescription(),
+                'url' => $notification->getURL(),
+                'img' => $notification->getThumbnailPath(),
             ];
         }
 

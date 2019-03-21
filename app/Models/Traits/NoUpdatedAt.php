@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models\Traits;
+<?php
+
+namespace Strimoid\Models\Traits;
 
 trait NoUpdatedAt
 {

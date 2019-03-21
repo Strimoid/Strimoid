@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Auth;
 use Strimoid\Helpers\MarkdownParser;
@@ -73,7 +75,7 @@ class Comment extends BaseModel
 
     public function getURL()
     {
-        return route('content_comments', $this->content).'#'.$this->hashId();
+        return route('content_comments', $this->content) . '#' . $this->hashId();
     }
 
     public function canEdit()

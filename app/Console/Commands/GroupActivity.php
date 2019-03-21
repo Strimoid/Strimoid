@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -38,7 +40,7 @@ class GroupActivity extends Command
             $group->save();
 
             if (!($x % 100)) {
-                $this->info($x.' groups processed');
+                $this->info($x . ' groups processed');
             }
 
             $x++;

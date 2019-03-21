@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Auth;
 use DB;
@@ -113,7 +115,7 @@ class ValidatorServiceProvider extends ServiceProvider
             $domain = explode('@', $value, 2);
             $parts = explode('.', Str::lower($domain[1]));
 
-            return !in_array($parts[count($parts) - 2].'.'.$parts[count($parts) - 1], $blockedDomains);
+            return !in_array($parts[count($parts) - 2] . '.' . $parts[count($parts) - 1], $blockedDomains);
         });
 
         Validator::extend('strong_password', function ($attribute, $value, $parameters) {

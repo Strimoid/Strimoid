@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -22,7 +24,7 @@ class GenerateSitemap extends Command
             $sitemap->add(URL::to(route('group_entries', $group->getKey())), null, '1.0', 'daily');
 
             if (!($x % 100)) {
-                $this->info($x.' groups processed');
+                $this->info($x . ' groups processed');
             }
 
             $x++;
@@ -43,7 +45,7 @@ class GenerateSitemap extends Command
             $sitemap->add(URL::to($route), $content->modified_at, '1.0', 'daily');
 
             if (!($x % 100)) {
-                $this->info($x.' contents processed');
+                $this->info($x . ' contents processed');
             }
 
             $x++;
@@ -64,7 +66,7 @@ class GenerateSitemap extends Command
             $sitemap->add(URL::to($route), $entry->modified_at, '1.0', 'daily');
 
             if (!($x % 100)) {
-                $this->info($x.' entries processed');
+                $this->info($x . ' entries processed');
             }
 
             $x++;

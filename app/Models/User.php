@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Auth;
 use Config;
@@ -36,7 +38,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         $type = $this->type ?: 'normal';
 
-        return '<span class="user_'.$type.'">'.$this->name.'</span>';
+        return '<span class="user_' . $type . '">' . $this->name . '</span>';
     }
 
     public function getAvatarPath($width = null, $height = null)
@@ -49,9 +51,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
 
         if ($this->avatar && $width && $height) {
-            return $host.'/'.$width.'x'.$height.'/avatars/'.$this->avatar;
+            return $host . '/' . $width . 'x' . $height . '/avatars/' . $this->avatar;
         } elseif ($this->avatar) {
-            return $host.'/avatars/'.$this->avatar;
+            return $host . '/avatars/' . $this->avatar;
         }
 
         return $this->getDefaultAvatarPath();
@@ -61,7 +63,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         $host = config('app.cdn_host');
 
-        return $host.'/duck/'.$this->name.'.svg';
+        return $host . '/duck/' . $this->name . '.svg';
     }
 
     public function getSexClass()
@@ -196,7 +198,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.moderated-groups', 'u.'.auth()->id()];
+        $cacheTags = ['users.moderated-groups', 'u.' . auth()->id()];
         $moderatedGroupsIds = $this->moderatedGroups()->remember(60)->cacheTags($cacheTags)->pluck('groups.id');
 
         return $moderatedGroupsIds->has($group);
@@ -208,7 +210,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.subscribed-groups', 'u.'.auth()->id()];
+        $cacheTags = ['users.subscribed-groups', 'u.' . auth()->id()];
         $subscribedGroupsIds = $this->subscribedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
         return $subscribedGroupsIds->has($group);
@@ -220,7 +222,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.blocked-groups', 'u.'.auth()->id()];
+        $cacheTags = ['users.blocked-groups', 'u.' . auth()->id()];
         $blockedGroupsIds = $this->blockedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
         return $blockedGroupsIds->has($group);
@@ -237,7 +239,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $user = $user->getKey();
         }
 
-        $cacheTags = ['users.blocked-users', 'u.'.auth()->id()];
+        $cacheTags = ['users.blocked-users', 'u.' . auth()->id()];
         $blockedUsersIds = $this->blockedUsers()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
         return $blockedUsersIds->has($user);

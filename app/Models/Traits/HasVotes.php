@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models\Traits;
+<?php
+
+namespace Strimoid\Models\Traits;
 
 use Auth;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -9,7 +11,7 @@ trait HasVotes
     /**
      * Votes relationship.
      */
-    public function votes() : MorphMany
+    public function votes(): MorphMany
     {
         return $this->morphMany(Vote::class, 'element');
     }
@@ -27,7 +29,7 @@ trait HasVotes
     /**
      * Get vote state of current user.
      */
-    public function getVoteState() : string
+    public function getVoteState(): string
     {
         if (Auth::guest() || !$this->votes()) {
             return 'none';
@@ -42,7 +44,7 @@ trait HasVotes
         return $vote->up ? 'uv' : 'dv';
     }
 
-    public function getVoteStateAttribute() : string
+    public function getVoteStateAttribute(): string
     {
         return $this->getVoteState();
     }

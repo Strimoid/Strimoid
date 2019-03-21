@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Handlers;
+<?php
+
+namespace Strimoid\Handlers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
@@ -13,7 +15,7 @@ class ProcessLink
     {
         $content = Content::findOrFail($data['id']);
 
-        $url = config('app.iframely_host').'/oembed';
+        $url = config('app.iframely_host') . '/oembed';
         $response = Guzzle::get($url, [
             'query' => ['url' => $content->url],
         ])->json();
@@ -28,8 +30,8 @@ class ProcessLink
         $content->autoThumbnail();
 
         WS::send(json_encode([
-            'topic' => 'content.'.$content->getKey().'.thumbnail',
-            'url'   => $content->getThumbnailPath(100, 75),
+            'topic' => 'content.' . $content->getKey() . '.thumbnail',
+            'url' => $content->getThumbnailPath(100, 75),
         ]));
 
         $content->unset('thumbnail_loading');

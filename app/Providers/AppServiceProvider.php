@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -41,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('guzzle', function () {
             return new Client([
                 'connect_timeout' => 3,
-                'timeout'         => 10,
+                'timeout' => 10,
             ]);
         });
 

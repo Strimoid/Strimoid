@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Repositories;
+<?php
+
+namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\FolderRepository as FolderRepositoryContract;
 use Strimoid\Contracts\Repositories\UserRepository as UserRepositoryContract;

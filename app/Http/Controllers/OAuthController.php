@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -32,8 +34,8 @@ class OAuthController extends BaseController
             return Response::json($response);
         } catch (OAuthException $e) {
             return Response::json([
-                'error'     => $e->errorType,
-                'message'   => $e->getMessage(),
+                'error' => $e->errorType,
+                'message' => $e->getMessage(),
             ], $e->httpStatusCode);
         }
     }
@@ -63,15 +65,15 @@ class OAuthController extends BaseController
     public function addApp(Request $request)
     {
         $this->validate($request, [
-            'name'         => 'required|min:5|max:40',
+            'name' => 'required|min:5|max:40',
             'redirect_url' => 'required|url|max:255',
         ]);
 
         Client::create([
-            'name'          => Input::get('name'),
-            'secret'        => Str::random(40),
-            'redirect_uri'  => Input::get('redirect_url'),
-            'user_id'       => Auth::id(),
+            'name' => Input::get('name'),
+            'secret' => Str::random(40),
+            'redirect_uri' => Input::get('redirect_url'),
+            'user_id' => Auth::id(),
         ]);
 
         return Redirect::action('OAuthController@listApps');

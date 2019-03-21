@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -65,7 +67,7 @@ class RelatedController extends BaseController
         if (Auth::user()->isBanned($content->group)) {
             return Response::json([
                 'status' => 'error',
-                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
+                'error' => 'Użytkownik został zbanowany w wybranej grupie.',
             ]);
         }
 
@@ -86,8 +88,8 @@ class RelatedController extends BaseController
         $related->save();
 
         return Response::json([
-            'status'  => 'ok',
-            '_id'     => $related->hashId(),
+            'status' => 'ok',
+            '_id' => $related->hashId(),
             'related' => $related,
         ]);
     }

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -7,16 +9,16 @@ use Pusher\Laravel\PusherManager;
 
 class AuthController extends BaseController
 {
-    public function showLoginForm() : View
+    public function showLoginForm(): View
     {
         return view('user.login');
     }
 
-    public function login(Request $request) : RedirectResponse
+    public function login(Request $request): RedirectResponse
     {
         $result = auth()->attempt([
-            'name'         => $request->input('username'),
-            'password'     => $request->input('password'),
+            'name' => $request->input('username'),
+            'password' => $request->input('password'),
             'is_activated' => true,
         ], $request->input('remember') == 'true');
 
@@ -33,7 +35,7 @@ class AuthController extends BaseController
         return redirect('/login')->with('warning_msg', trans('auth.invalid_credentials'));
     }
 
-    public function logout() : RedirectResponse
+    public function logout(): RedirectResponse
     {
         auth()->logout();
 
@@ -43,9 +45,9 @@ class AuthController extends BaseController
     /**
      * Generate Pusher authentication token for currently logged user.
      */
-    public function authenticatePusher(Request $request, PusherManager $pusher) : string
+    public function authenticatePusher(Request $request, PusherManager $pusher): string
     {
-        $channelName = 'privateU'.auth()->id();
+        $channelName = 'privateU' . auth()->id();
         $socketId = $request->input('socket_id');
 
         $pusher->connection();

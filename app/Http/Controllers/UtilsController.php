@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use OEmbed;
 use Strimoid\Models\Content;
@@ -22,10 +24,10 @@ class UtilsController extends BaseController
             ->toArray();
 
         return [
-            'status'      => 'ok',
-            'title'       => $title,
+            'status' => 'ok',
+            'title' => $title,
             'description' => $description,
-            'duplicates'  => $duplicates,
+            'duplicates' => $duplicates,
         ];
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Carbon\Carbon;
 use Date;
@@ -33,13 +35,13 @@ abstract class BaseModel extends Eloquent
         return Date::instance($value);
     }
 
-    public function createdAgo() : string
+    public function createdAgo(): string
     {
         return $this->created_at->diffForHumans();
     }
 
     /** Get formatted time, converted to current user timezone */
-    public function getLocalTime() : string
+    public function getLocalTime(): string
     {
         $timezone = Setting::get('timezone');
         $timezone = new DateTimeZone($timezone);
@@ -47,22 +49,22 @@ abstract class BaseModel extends Eloquent
         return $this->created_at->setTimeZone($timezone)->format('d/m/Y H:i:s');
     }
 
-    public static function validationRules() : array
+    public static function validationRules(): array
     {
         return static::$rules;
     }
 
-    public function hashId() : string
+    public function hashId(): string
     {
         return Hashids::encode($this->getKey());
     }
 
-    public function getHashIdAttribute() : string
+    public function getHashIdAttribute(): string
     {
         return $this->hashId();
     }
 
-    public function getRouteKey() : string
+    public function getRouteKey(): string
     {
         return $this->hashId();
     }
@@ -84,7 +86,7 @@ abstract class BaseModel extends Eloquent
 
     public function scopeUserCache($query, string $tag, int $minutes = 60)
     {
-        $tags = ['user.'.$tag, 'u.'.auth()->id()];
+        $tags = ['user.' . $tag, 'u.' . auth()->id()];
         $query->remember($minutes)->cacheTags($tags);
     }
 }

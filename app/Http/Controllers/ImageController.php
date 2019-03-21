@@ -14,7 +14,7 @@ class ImageController extends BaseController
     {
         $this->server = $serverFactory->create([
             'source' => storage_path('uploads'),
-            'cache'  => '/tmp/strimoid/glide/',
+            'cache' => '/tmp/strimoid/glide/',
             'driver' => config('image.driver'),
         ]);
 
@@ -30,7 +30,7 @@ class ImageController extends BaseController
 
     public function resizeImage($width, $height, $folder, $filename, $format)
     {
-        $sourcePath = $folder.DIRECTORY_SEPARATOR.$filename.'.'.$format;
+        $sourcePath = $folder . DIRECTORY_SEPARATOR . $filename . '.' . $format;
 
         if ($width > 1000 || $height > 1000) {
             return response('invalid image size', 400);

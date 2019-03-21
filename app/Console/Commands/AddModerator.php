@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Strimoid\Models\Group;
@@ -25,10 +27,10 @@ class AddModerator extends Command
         $moderator->type = $this->option('admin') ? 'admin' : 'moderator';
         $moderator->save();
 
-        $this->info($user->name.' is now moderator of '.$group->urlname);
+        $this->info($user->name . ' is now moderator of ' . $group->urlname);
     }
 
-    protected function getArguments() : array
+    protected function getArguments(): array
     {
         return [
             ['group', InputArgument::REQUIRED, 'Group.'],
@@ -36,7 +38,7 @@ class AddModerator extends Command
         ];
     }
 
-    protected function getOptions() : array
+    protected function getOptions(): array
     {
         return [
             ['admin', null, InputOption::VALUE_NONE, 'Makes user admin instead of moderator.', null],

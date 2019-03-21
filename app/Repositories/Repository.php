@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Repositories;
+<?php
+
+namespace Strimoid\Repositories;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;

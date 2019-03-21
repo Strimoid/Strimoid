@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 class PollController extends BaseController
 {
@@ -24,7 +26,7 @@ class PollController extends BaseController
         $rules = [];
 
         foreach ($poll['questions'] as $questionId => $question) {
-            $rules[$questionId] = ['array', 'min:'.$question['min_selections'], 'max:'.$question['max_selections']];
+            $rules[$questionId] = ['array', 'min:' . $question['min_selections'], 'max:' . $question['max_selections']];
 
             if ($question['min_selections']) {
                 $rules[$questionId][] = 'required';
@@ -34,8 +36,8 @@ class PollController extends BaseController
         // Now validate replies
         $validator = Validator::make(Input::all(), $rules, [
             'required' => 'Odpowiedź na to pytanie jest wymagana',
-            'min'      => 'Zaznaczyłeś zbyt małą liczbę odpowiedzi',
-            'max'      => 'Zaznaczyłeś zbyt dużą liczbę odpowiedzi',
+            'min' => 'Zaznaczyłeś zbyt małą liczbę odpowiedzi',
+            'max' => 'Zaznaczyłeś zbyt dużą liczbę odpowiedzi',
         ]);
 
         if ($validator->fails()) {
@@ -68,8 +70,8 @@ class PollController extends BaseController
 
             foreach ($optionIds as $optionId) {
                 Content::where('_id', $content->getKey())
-                    ->where('poll.questions.'.$questionId.'.options', 'elemmatch', ['_id' => $optionId])
-                    ->increment('poll.questions.'.$questionId.'.options.$.votes', 1);
+                    ->where('poll.questions.' . $questionId . '.options', 'elemmatch', ['_id' => $optionId])
+                    ->increment('poll.questions.' . $questionId . '.options.$.votes', 1);
             }
         }
 

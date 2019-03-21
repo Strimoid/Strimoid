@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models\Traits;
+<?php
+
+namespace Strimoid\Models\Traits;
 
 use Config;
 use Image;
@@ -11,14 +13,14 @@ trait HasThumbnail
     /**
      * Get path to thumbnail in requested size.
      */
-    public function getThumbnailPath(int $width = null, int $height = null) : string
+    public function getThumbnailPath(int $width = null, int $height = null): string
     {
         $host = config('app.cdn_host');
 
         if ($this->thumbnail && $width && $height) {
-            return $host.'/'.$width.'x'.$height.'/thumbnails/'.$this->thumbnail;
+            return $host . '/' . $width . 'x' . $height . '/thumbnails/' . $this->thumbnail;
         } elseif ($this->thumbnail) {
-            return $host.'/thumbnails/'.$this->thumbnail;
+            return $host . '/thumbnails/' . $this->thumbnail;
         }
 
         return '';
@@ -50,11 +52,11 @@ trait HasThumbnail
         $this->removeThumbnail();
 
         if (starts_with($url, '//')) {
-            $url = 'http:'.$url;
+            $url = 'http:' . $url;
         }
 
         $data = file_get_contents($url);
-        $filename = Str::random(9).'.png';
+        $filename = Str::random(9) . '.png';
 
         $img = Image::make($data);
         $img->fit(640, 480);
@@ -75,7 +77,7 @@ trait HasThumbnail
             return;
         }
 
-        Storage::disk('uploads')->delete('thumbnails/'.$this->thumbnail);
+        Storage::disk('uploads')->delete('thumbnails/' . $this->thumbnail);
         $this->thumbnail = null;
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Helpers;
+<?php
+
+namespace Strimoid\Helpers;
 
 use Cache;
 use Config;
@@ -134,17 +136,17 @@ class OEmbed
 
     protected function embedAudio($href)
     {
-        return '<audio src="'.$href.'"controls autoplay></audio>';
+        return '<audio src="' . $href . '"controls autoplay></audio>';
     }
 
     protected function embedImage($href)
     {
-        return '<img src="'.$href.'">';
+        return '<img src="' . $href . '">';
     }
 
     protected function embedVideo($href)
     {
-        return '<video src="'.$href.'"controls autoplay></audio>';
+        return '<video src="' . $href . '"controls autoplay></audio>';
     }
 
     /**
@@ -156,6 +158,6 @@ class OEmbed
     {
         $host = config('strimoid.oembed');
 
-        return $host.'/iframely';
+        return $host . '/iframely';
     }
 }

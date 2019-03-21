@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Cache;
 use Carbon;
@@ -43,7 +45,7 @@ class UserController extends BaseController
 
         foreach (User::all() as $user) {
             $users[] = [
-                'value'  => $user->name,
+                'value' => $user->name,
                 'avatar' => $user->getAvatarPath(),
             ];
         }
@@ -54,7 +56,7 @@ class UserController extends BaseController
     public function changePassword(Request $request)
     {
         $this->validate($request, [
-            'password'     => 'required|confirmed|min:6',
+            'password' => 'required|confirmed|min:6',
             'old_password' => 'required|user_password',
         ]);
 
@@ -131,19 +133,22 @@ class UserController extends BaseController
     public function resetPassword(Request $request)
     {
         $this->validate($request, [
-            'token'    => 'required',
-            'email'    => 'required|email',
+            'token' => 'required',
+            'email' => 'required|email',
             'password' => 'required|confirmed',
         ]);
 
         $credentials = $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email',
+            'password',
+            'password_confirmation',
+            'token'
         );
 
         $response = $this->passwords->reset($credentials, function ($user, $password) {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token) {
-                $cacheKey = 'registration.'.md5(request()->getClientIp());
+                $cacheKey = 'registration.' . md5(request()->getClientIp());
 
                 if (Cache::has($cacheKey)) {
                     return abort(500);
@@ -228,10 +233,10 @@ class UserController extends BaseController
     public function saveProfile(Request $request)
     {
         $this->validate($request, [
-            'sex'         => 'in:male,female',
-            'avatar'      => 'image|max:1024',
-            'age'         => 'integer|min:1900|max:2010',
-            'location'    => 'max:32',
+            'sex' => 'in:male,female',
+            'avatar' => 'image|max:1024',
+            'age' => 'integer|min:1900|max:2010',
+            'location' => 'max:32',
             'description' => 'max:250',
         ]);
 
@@ -252,7 +257,7 @@ class UserController extends BaseController
     public function blockUser($user)
     {
         user()->blockedUsers()->attach($user);
-        \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
+        \Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }
@@ -260,7 +265,7 @@ class UserController extends BaseController
     public function unblockUser($user)
     {
         user()->blockedUsers()->detach($user);
-        \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
+        \Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }

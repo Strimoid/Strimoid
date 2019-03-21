@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -15,9 +17,9 @@ class EntryController extends BaseController
         $folderName = request('folder');
         $groupName = Input::has('group') ? shadow(request('group')) : 'all';
 
-        $className = 'Strimoid\\Models\\Folders\\'.studly_case($folderName ?: $groupName);
+        $className = 'Strimoid\\Models\\Folders\\' . studly_case($folderName ?: $groupName);
 
-        if (Input::has('folder') && !class_exists('Folders\\'.studly_case($folderName))) {
+        if (Input::has('folder') && !class_exists('Folders\\' . studly_case($folderName))) {
             $user = Input::has('user') ? User::findOrFail(request('user')) : user();
             $folder = Folder::findUserFolderOrFail($user->getKey(), request('folder'));
 
@@ -97,7 +99,7 @@ class EntryController extends BaseController
         if (user()->isBanned($entry->group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
+                'error' => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 

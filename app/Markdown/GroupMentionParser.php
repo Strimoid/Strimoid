@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Markdown;
+<?php
+
+namespace Strimoid\Markdown;
 
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Parser\AbstractInlineParser;
@@ -53,7 +55,7 @@ class GroupMentionParser extends AbstractInlineParser
         }
 
         $groupUrl = route('group_contents', $group, false);
-        $inlineContext->getContainer()->appendChild(new Link($groupUrl, 'g/'.$handle));
+        $inlineContext->getContainer()->appendChild(new Link($groupUrl, 'g/' . $handle));
 
         return true;
     }

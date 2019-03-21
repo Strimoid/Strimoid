@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Strimoid\Models\User;
@@ -21,14 +23,14 @@ class BlockUser extends Command
         $this->info('User blocked');
     }
 
-    protected function getArguments() : array
+    protected function getArguments(): array
     {
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],
         ];
     }
 
-    protected function getOptions() : array
+    protected function getOptions(): array
     {
         return [];
     }

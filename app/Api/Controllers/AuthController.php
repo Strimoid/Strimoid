@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Strimoid\Models\Notification;
@@ -48,10 +50,10 @@ class AuthController extends BaseController
 
         $data = array_merge(user()->toArray(), [
             'subscribed_groups' => user()->subscribedGroups(),
-            'blocked_groups'    => user()->blockedGroups(),
-            'moderated_groups'  => user()->moderatedGroups(),
-            'folders'           => user()->folders(),
-            'notifications'     => $notifications,
+            'blocked_groups' => user()->blockedGroups(),
+            'moderated_groups' => user()->moderatedGroups(),
+            'folders' => user()->folders(),
+            'notifications' => $notifications,
         ]);
 
         return ['user' => $data];

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -13,7 +15,7 @@ abstract class BaseController extends Controller
     /**
      * Return homepage group name.
      */
-    protected function homepageGroup() : string
+    protected function homepageGroup(): string
     {
         $groupName = 'all';
 

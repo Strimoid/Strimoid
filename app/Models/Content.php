@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OEmbed;
@@ -17,9 +19,9 @@ class Content extends BaseModel
     use HasSaves, HasVotes;
 
     protected static $rules = [
-        'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
+        'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
         'description' => 'max:255',
-        'groupname'   => 'required|exists:groups,urlname',
+        'groupname' => 'required|exists:groups,urlname',
     ];
 
     protected $table = 'contents';

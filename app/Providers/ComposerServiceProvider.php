@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\ServiceProvider;

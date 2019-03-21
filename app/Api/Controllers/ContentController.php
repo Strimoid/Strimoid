@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Input;
@@ -82,9 +84,9 @@ class ContentController extends BaseController
     public function store(Request $request)
     {
         $rules = [
-            'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
+            'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
-            'group'       => 'required|exists:groups,urlname',
+            'group' => 'required|exists:groups,urlname',
         ];
 
         if (request('text')) {
@@ -101,14 +103,14 @@ class ContentController extends BaseController
         if (user()->isBanned($group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
+                'error' => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 
         if ($group->type == 'announcements' && !user()->isModerator($group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Użytkownik nie może dodawać treści w tej grupie.',
+                'error' => 'Użytkownik nie może dodawać treści w tej grupie.',
             ], 400);
         }
 
@@ -157,7 +159,7 @@ class ContentController extends BaseController
         }
 
         $rules = [
-            'title'       => 'min:1|max:128|not_in:edit,thumbnail',
+            'title' => 'min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
         ];
 

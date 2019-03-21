@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use App;
 use Auth;
@@ -95,7 +97,7 @@ class CommentController extends BaseController
         if (Auth::user()->isBanned($content->group)) {
             return Response::json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
@@ -127,7 +129,7 @@ class CommentController extends BaseController
         if (Auth::user()->isBanned($content->group)) {
             return Response::json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 

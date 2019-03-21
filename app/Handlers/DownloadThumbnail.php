@@ -1,7 +1,9 @@
-<?php namespace Strimoid\Handlers;
+<?php
 
-use Strimoid\Models\Content;
+namespace Strimoid\Handlers;
+
 use Pusher\Laravel\Facades\Pusher;
+use Strimoid\Models\Content;
 
 class DownloadThumbnail
 {
@@ -12,7 +14,7 @@ class DownloadThumbnail
 
         $job->delete();
 
-        Pusher::trigger('content-'.$content->getKey(), 'loaded-thumbnail', [
+        Pusher::trigger('content-' . $content->getKey(), 'loaded-thumbnail', [
             'url' => $content->getThumbnailPath(),
         ]);
     }

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -150,7 +152,7 @@ class ContentController extends BaseController
             ->setTtl(60);
     }
 
-    public function showComments(Content $content) : View
+    public function showComments(Content $content): View
     {
         $sortBy = request('sort');
 
@@ -170,7 +172,7 @@ class ContentController extends BaseController
         return view('content.frame', compact('content'));
     }
 
-    public function showAddForm() : View
+    public function showAddForm(): View
     {
         return view('content.add');
     }
@@ -188,9 +190,9 @@ class ContentController extends BaseController
     public function addContent(Request $request)
     {
         $rules = [
-            'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
+            'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
-            'groupname'   => 'required|exists:groups,urlname',
+            'groupname' => 'required|exists:groups,urlname',
         ];
 
         if (request('type') == 'link') {
@@ -249,7 +251,7 @@ class ContentController extends BaseController
         }
 
         $rules = [
-            'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
+            'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
         ];
 
@@ -289,7 +291,7 @@ class ContentController extends BaseController
         if ($content->created_at->diffInMinutes() > 60) {
             return Response::json([
                 'status' => 'error',
-                'error'  => 'Minął dozwolony czas na usunięcie treści.',
+                'error' => 'Minął dozwolony czas na usunięcie treści.',
             ]);
         }
 
@@ -301,7 +303,7 @@ class ContentController extends BaseController
 
         return Response::json([
             'status' => 'error',
-            'error'  => 'Nie masz uprawnień do usunięcia tej treści.',
+            'error' => 'Nie masz uprawnień do usunięcia tej treści.',
         ]);
     }
 

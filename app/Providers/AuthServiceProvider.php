@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -19,8 +21,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Comment::class => CommentPolicy::class,
         Content::class => ContentPolicy::class,
-        Entry::class   => EntryPolicy::class,
-        Group::class   => GroupPolicy::class,
+        Entry::class => EntryPolicy::class,
+        Group::class => GroupPolicy::class,
     ];
 
     public function boot(GateContract $gate)

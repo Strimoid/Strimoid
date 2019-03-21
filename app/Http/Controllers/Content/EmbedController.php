@@ -1,10 +1,12 @@
-<?php namespace Strimoid\Http\Controllers\Content;
+<?php
+
+namespace Strimoid\Http\Controllers\Content;
 
 use Strimoid\Http\Controllers\BaseController;
 
 class EmbedController extends BaseController
 {
-    public function getEmbedCode($content) : array
+    public function getEmbedCode($content): array
     {
         $embedCode = $content->getEmbed();
 

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 use Strimoid\Models\Conversation;
 use Strimoid\Models\ConversationMessage;

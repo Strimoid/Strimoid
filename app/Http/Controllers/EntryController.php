@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -172,7 +174,7 @@ class EntryController extends BaseController
         if (!$entry->canEdit()) {
             return Response::json([
                 'status' => 'error',
-                'error'  => 'Pojawiła się już odpowiedź na twój wpis.',
+                'error' => 'Pojawiła się już odpowiedź na twój wpis.',
             ]);
         }
 

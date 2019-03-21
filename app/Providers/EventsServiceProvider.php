@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Auth;
 use Carbon;
@@ -31,7 +33,8 @@ class EventsServiceProvider extends ServiceProvider
 
         /* IRC Notification */
 
-        $events->listen('eloquent.created: Strimoid\\Models\\User',
+        $events->listen(
+            'eloquent.created: Strimoid\\Models\\User',
             function (User $user) {
                 $url = config('app.hubot_url');
 
@@ -42,13 +45,15 @@ class EventsServiceProvider extends ServiceProvider
                 try {
                     Guzzle::post($url, ['json' => [
                         'room' => '#strimoid',
-                        'text' => 'Mamy nowego użytkownika '.$user->name.'!',
+                        'text' => 'Mamy nowego użytkownika ' . $user->name . '!',
                     ]]);
                 } catch (Exception $e) {
                 }
-            });
+            }
+        );
 
-        $events->listen('eloquent.created: Strimoid\\Models\\Entry',
+        $events->listen(
+            'eloquent.created: Strimoid\\Models\\Entry',
             function (Entry $entry) {
                 $url = config('app.hubot_url');
 
@@ -63,12 +68,13 @@ class EventsServiceProvider extends ServiceProvider
 
                     Guzzle::post($url, ['json' => [
                         'room' => '#strimoid-entries',
-                        'text' => '['.$entry->group->name.'] '
-                            .$entry->user->name.': '.$text,
+                        'text' => '[' . $entry->group->name . '] '
+                            . $entry->user->name . ': ' . $text,
                     ]]);
                 } catch (Exception $e) {
                 }
-            });
+            }
+        );
 
         $events->subscribe(NewActionHandler::class);
         $events->subscribe(NotificationsHandler::class);

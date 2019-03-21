@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\ViewComposers;
+<?php
+
+namespace Strimoid\Http\ViewComposers;
 
 use Illuminate\View\View;
 

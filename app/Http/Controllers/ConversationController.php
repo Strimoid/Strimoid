@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -72,7 +74,7 @@ class ConversationController extends BaseController
 
         $conversation->messages()->create([
             'user_id' => Auth::id(),
-            'text'    => $request->input('text'),
+            'text' => $request->input('text'),
         ]);
 
         return redirect()->to('/conversations');
@@ -100,7 +102,7 @@ class ConversationController extends BaseController
 
         $conversation->messages()->create([
             'user_id' => Auth::id(),
-            'text'    => $request->input('text'),
+            'text' => $request->input('text'),
         ]);
 
         return redirect()->route('conversation', $conversation);

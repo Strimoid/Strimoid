@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Repositories;
+<?php
+
+namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\GroupRepository as GroupRepositoryContract;
 use Strimoid\Models\Group;
@@ -20,7 +22,7 @@ class GroupRepository extends Repository implements GroupRepositoryContract
      */
     public function getByName($name)
     {
-        $className = 'Strimoid\\Models\\Folders\\'.studly_case($name);
+        $className = 'Strimoid\\Models\\Folders\\' . studly_case($name);
 
         if (class_exists($className)) {
             return new $className();

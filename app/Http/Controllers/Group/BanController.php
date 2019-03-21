@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers\Group;
+<?php
+
+namespace Strimoid\Http\Controllers\Group;
 
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Group;

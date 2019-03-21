@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Markdown;
+<?php
+
+namespace Strimoid\Markdown;
 
 use League\CommonMark\Block\Parser\BlockParserInterface;
 use League\CommonMark\Extension\Extension as BaseExtension;

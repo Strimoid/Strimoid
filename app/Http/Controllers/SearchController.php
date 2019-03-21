@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use Carbon;
 use DateInterval;
@@ -16,24 +18,26 @@ class SearchController extends BaseController
     {
         if (Input::has('q')) {
             $keywords = preg_replace(
-                '/((\w+):(\w+\pL.))+\s?/i', '', Input::get('q')
+                '/((\w+):(\w+\pL.))+\s?/i',
+                '',
+                Input::get('q')
             );
 
             switch (Input::get('t')) {
                 case 'e':
-                    $builder = Entry::where('text', 'like', '%'.$keywords.'%');
+                    $builder = Entry::where('text', 'like', '%' . $keywords . '%');
                     break;
                 case 'g':
-                    $builder = Group::where('name', 'like', '%'.$keywords.'%')
-                        ->orWhere('urlname', 'like', '%'.$keywords.'%')
+                    $builder = Group::where('name', 'like', '%' . $keywords . '%')
+                        ->orWhere('urlname', 'like', '%' . $keywords . '%')
                         // ->orWhere('tags', $keywords)
 ;
                     break;
                 case 'c':
                 default:
                     $builder = Content::where(function ($query) use ($keywords) {
-                        $query->where('title', 'like', '%'.$keywords.'%')
-                                ->orWhere('description', 'like', '%'.$keywords.'%');
+                        $query->where('title', 'like', '%' . $keywords . '%')
+                                ->orWhere('description', 'like', '%' . $keywords . '%');
                     });
                     break;
             }
@@ -107,7 +111,7 @@ class SearchController extends BaseController
     protected function filterTime($value)
     {
         try {
-            $value = 'PT'.Str::upper($value);
+            $value = 'PT' . Str::upper($value);
             $time = Carbon::now()->sub(new DateInterval($value));
 
             $this->builder->where('created_at', '>', carbon_to_md($time));

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\ViewComposers;
+<?php
+
+namespace Strimoid\Http\ViewComposers;
 
 use Auth;
 use Illuminate\View\View;
@@ -26,7 +28,7 @@ class JavascriptComposer
 
         JavaScript::put([
             'config' => [
-                'env'        => app()->environment(),
+                'env' => app()->environment(),
                 'pusher_key' => config('broadcasting.connections.pusher.key'),
             ],
         ]);
@@ -35,7 +37,7 @@ class JavascriptComposer
     protected function putUserInfo()
     {
         JavaScript::put([
-            'user'     => user(),
+            'user' => user(),
             'settings' => user()->settings,
         ]);
     }

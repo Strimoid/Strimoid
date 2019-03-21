@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
+
+namespace Strimoid\Http\Controllers;
 
 use SyHolloway\MrColor\Color;
 
@@ -32,7 +34,7 @@ class DuckController extends BaseController
 
     protected function getRandomColor($username)
     {
-        $hash = md5($username.$this->salt++);
+        $hash = md5($username . $this->salt++);
         $hex = substr($hash, -6);
 
         return Color::create(compact('hex'));

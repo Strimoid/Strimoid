@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Http\Controllers\Group;
+<?php
+
+namespace Strimoid\Http\Controllers\Group;
 
 use Auth;
 use Strimoid\Http\Controllers\BaseController;
@@ -68,7 +70,7 @@ class ModeratorController extends BaseController
         $action->group()->associate($group);
         $action->save();
 
-        \Cache::tags(['user.moderated-groups', 'u.'.$user->getKey()])->flush();
+        \Cache::tags(['user.moderated-groups', 'u.' . $user->getKey()])->flush();
 
         return redirect()->route('group_moderators', $group->urlname);
     }
@@ -97,7 +99,7 @@ class ModeratorController extends BaseController
         $action->group()->associate($group);
         $action->save();
 
-        \Cache::tags(['user.moderated-groups', 'u.'.$moderator->user_id])->flush();
+        \Cache::tags(['user.moderated-groups', 'u.' . $moderator->user_id])->flush();
 
         return response()->json(['status' => 'ok']);
     }

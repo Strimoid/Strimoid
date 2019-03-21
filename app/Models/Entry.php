@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Auth;
 use Strimoid\Helpers\MarkdownParser;
@@ -14,7 +16,7 @@ class Entry extends BaseModel
     use HasSaves, HasVotes;
 
     protected static $rules = [
-        'text'      => 'required|min:1|max:2500',
+        'text' => 'required|min:1|max:2500',
         'groupname' => 'required|exists:groups,urlname',
     ];
 

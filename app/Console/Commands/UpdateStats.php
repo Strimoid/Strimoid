@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Carbon;
 use DB;
@@ -69,15 +71,15 @@ class UpdateStats extends Command
                 }
             } else {
                 $data = [
-                    'day'      => $day,
-                    'user_id'  => $action->user_id,
+                    'day' => $day,
+                    'user_id' => $action->user_id,
                     'group_id' => $object->group_id,
-                    'uv'       => $object->uv,
-                    'dv'       => $object->dv,
+                    'uv' => $object->uv,
+                    'dv' => $object->dv,
                     'contents' => 0,
                     'comments' => 0,
-                    'entries'  => 0,
-                    'points'   => $points,
+                    'entries' => 0,
+                    'points' => $points,
                 ];
 
                 $data[$fieldName] = 1;
@@ -87,7 +89,7 @@ class UpdateStats extends Command
 
             // Show progress
             if (!($x++ % 100)) {
-                $this->info($x.' actions processed');
+                $this->info($x . ' actions processed');
             }
         }
 

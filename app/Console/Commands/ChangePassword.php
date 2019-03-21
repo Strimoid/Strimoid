@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Strimoid\Contracts\Repositories\UserRepository;
@@ -32,7 +34,7 @@ class ChangePassword extends Command
         $this->info('Password changed');
     }
 
-    protected function getArguments() : array
+    protected function getArguments(): array
     {
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],

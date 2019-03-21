@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 
@@ -48,7 +50,7 @@ class EntryReply extends Entry
 
     public function getURL()
     {
-        return route('single_entry', $this->parent_id).'#'.$this->hashId();
+        return route('single_entry', $this->parent_id) . '#' . $this->hashId();
     }
 
     public function canEdit()

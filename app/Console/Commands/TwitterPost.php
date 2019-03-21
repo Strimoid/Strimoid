@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -28,16 +30,16 @@ class TwitterPost extends Command
         ]);
 
         $oauth = new Oauth1([
-            'consumer_key'    => config('social.twitter.consumer_key'),
+            'consumer_key' => config('social.twitter.consumer_key'),
             'consumer_secret' => config('social.twitter.consumer_secret'),
-            'token'           => config('social.twitter.token'),
-            'token_secret'    => config('social.twitter.token_secret'),
+            'token' => config('social.twitter.token'),
+            'token_secret' => config('social.twitter.token_secret'),
         ]);
 
         $client->getEmitter()->attach($oauth);
 
         $params = [
-            'status' => Str::limit($content->title, 100).' https://strm.pl/c/'.$content->hashId(),
+            'status' => Str::limit($content->title, 100) . ' https://strm.pl/c/' . $content->hashId(),
         ];
 
         $client->post('statuses/update.json', [

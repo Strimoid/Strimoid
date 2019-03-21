@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Handlers\Events;
+<?php
+
+namespace Strimoid\Handlers\Events;
 
 use Strimoid\Models\BaseModel;
 use Strimoid\Models\Comment;
@@ -34,8 +36,8 @@ class NewActionHandler
      */
     protected function addHandler($class, $events)
     {
-        $name = 'eloquent.created: '.$class;
-        $events->listen($name, self::class.'@onNewElement');
+        $name = 'eloquent.created: ' . $class;
+        $events->listen($name, self::class . '@onNewElement');
     }
 
     /**
