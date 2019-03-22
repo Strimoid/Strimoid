@@ -35,7 +35,7 @@ class SearchController extends BaseController
                     break;
                 case 'c':
                 default:
-                    $builder = Content::where(function ($query) use ($keywords) {
+                    $builder = Content::where(function ($query) use ($keywords): void {
                         $query->where('title', 'like', '%' . $keywords . '%')
                                 ->orWhere('description', 'like', '%' . $keywords . '%');
                     });
@@ -65,7 +65,7 @@ class SearchController extends BaseController
         return $arguments;
     }
 
-    protected function setupFilters($text)
+    protected function setupFilters($text): void
     {
         $arguments = $this->getArguments($text);
 
@@ -90,7 +90,7 @@ class SearchController extends BaseController
         }
     }
 
-    protected function filterGroup($value)
+    protected function filterGroup($value): void
     {
         $group = Group::name($value)->first();
 
@@ -99,7 +99,7 @@ class SearchController extends BaseController
         }
     }
 
-    protected function filterUser($value)
+    protected function filterUser($value): void
     {
         $user = User::name($value)->first();
 
@@ -108,7 +108,7 @@ class SearchController extends BaseController
         }
     }
 
-    protected function filterTime($value)
+    protected function filterTime($value): void
     {
         try {
             $value = 'PT' . Str::upper($value);
@@ -119,7 +119,7 @@ class SearchController extends BaseController
         }
     }
 
-    protected function filterNSFW($value)
+    protected function filterNSFW($value): void
     {
         if ($value == 'yes') {
             $this->builder->where('nsfw', true);
@@ -128,7 +128,7 @@ class SearchController extends BaseController
         }
     }
 
-    protected function filterDomain($value)
+    protected function filterDomain($value): void
     {
         $this->builder->where('domain', $value);
     }

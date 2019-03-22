@@ -13,9 +13,6 @@ class UserRepository implements UserRepositoryContract
      */
     protected $users;
 
-    /**
-     * @param User $user
-     */
     public function __construct(User $user)
     {
         $this->users = $user;

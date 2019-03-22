@@ -6,7 +6,7 @@ use Illuminate\View\View;
 
 class GroupBarComposer
 {
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         if (auth()->check()) {
             $subscriptions = user()->subscribedGroups()

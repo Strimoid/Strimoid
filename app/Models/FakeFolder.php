@@ -19,9 +19,8 @@ abstract class FakeFolder
     /**
      * @param  $model  Class name of requested model
      *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    abstract protected function getBuilder($model);
+    abstract protected function getBuilder($model): \Illuminate\Database\Eloquent\Builder;
 
     public function __construct()
     {
@@ -32,12 +31,7 @@ abstract class FakeFolder
         $this->name = trans('groups.' . $this->urlname);
     }
 
-    /**
-     * @param string $sortBy
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function comments($sortBy = null)
+    public function comments(string $sortBy = null): \Illuminate\Database\Eloquent\Builder
     {
         $builder = static::getBuilder(Comment::class);
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
@@ -49,9 +43,8 @@ abstract class FakeFolder
      * @param null $tab
      * @param null $sortBy
      *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function contents($tab = null, $sortBy = null)
+    public function contents($tab = null, $sortBy = null): \Illuminate\Database\Eloquent\Builder
     {
         $builder = static::getBuilder(Content::class);
 
@@ -63,10 +56,7 @@ abstract class FakeFolder
         return $builder;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function entries()
+    public function entries(): \Illuminate\Database\Eloquent\Builder
     {
         $builder = static::getBuilder(Entry::class);
 

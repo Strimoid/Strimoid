@@ -9,7 +9,6 @@ trait HasGroupRelationship
     /**
      * Group relationship.
      *
-     * @return mixed
      */
     public function group()
     {

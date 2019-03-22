@@ -12,16 +12,15 @@ class PubSubHandler
     /**
      * Register the listeners for the subscriber.
      *
-     * @param \Illuminate\Events\Dispatcher $events
      */
-    public function subscribe($events)
+    public function subscribe(\Illuminate\Events\Dispatcher $events): void
     {
         $events->listen('eloquent.created: ' . Entry::class, self::class . '@onNewEntry');
         $events->listen('eloquent.created: ' . EntryReply::class, self::class . '@onNewEntryReply');
         $events->listen('eloquent.created: ' . Notification::class, self::class . '@onNewNotification');
     }
 
-    public function onNewEntry(Entry $entry)
+    public function onNewEntry(Entry $entry): void
     {
         $arrayEntry = $entry->toArray();
         $additionalData = [
@@ -33,7 +32,7 @@ class PubSubHandler
         Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, $additionalData));
     }
 
-    public function onNewEntryReply(EntryReply $reply)
+    public function onNewEntryReply(EntryReply $reply): void
     {
         $arrayEntry = $reply->toArray();
         $additionalData = [
@@ -45,7 +44,7 @@ class PubSubHandler
         Pusher::trigger('entry.' . $reply->parent->hashId(), 'new-reply', array_merge($arrayEntry, $additionalData));
     }
 
-    public function onNewNotification(Notification $notification)
+    public function onNewNotification(Notification $notification): void
     {
         foreach ($notification->targets as $target) {
             $channelName = 'privateU' . $target->id;

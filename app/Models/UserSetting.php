@@ -17,11 +17,9 @@ class UserSetting extends BaseModel
     /**
      * Set the keys for a save update query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
      *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function setKeysForSaveQuery(Builder $query)
+    protected function setKeysForSaveQuery(Builder $query): \Illuminate\Database\Eloquent\Builder
     {
         foreach ($this->getKeyName() as $key) {
             if (!$this->$key) {

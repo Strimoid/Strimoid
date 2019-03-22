@@ -12,7 +12,7 @@ class GenerateSitemap extends Command
     /** @var string */
     protected $description = 'Generate sitemap.';
 
-    public function fire()
+    public function fire(): void
     {
         // Generate groups sitemap
         $sitemap = App::make('sitemap');

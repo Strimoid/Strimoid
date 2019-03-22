@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'Strimoid\Http\Controllers';
 
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Bind object resolve function for given model class.
      */
-    public function bindModel(Router $router, string $key, string $className)
+    public function bindModel(Router $router, string $key, string $className): void
     {
         $binding = function ($value) use ($className) {
             try {
@@ -73,18 +73,18 @@ class RouteServiceProvider extends ServiceProvider
         $router->bind($key, $binding);
     }
 
-    public function map()
+    public function map(): void
     {
         \Route::group([
             'middleware' => 'web',
             'namespace' => $this->namespace,
-        ], function ($router) {
+        ], function ($router): void {
             require app_path('Http/routes.php');
         });
 
         \Route::group([
             'namespace' => $this->namespace,
-        ], function ($router) {
+        ], function ($router): void {
             \Route::get('/i/duck/{username}', 'DuckController@drawDuck');
             \Route::get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
                 ->where(['format' => '\w{3}']);

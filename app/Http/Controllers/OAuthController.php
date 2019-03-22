@@ -13,9 +13,6 @@ class OAuthController extends BaseController
 {
     use ValidatesRequests;
 
-    /**
-     * @param AuthorizationServer $server
-     */
     public function __construct(AuthorizationServer $server)
     {
         $this->server = $server;
@@ -24,9 +21,8 @@ class OAuthController extends BaseController
     /**
      * Issue a new token.
      *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function getAccessToken()
+    public function getAccessToken(): \Illuminate\Http\JsonResponse
     {
         try {
             $response = $this->server->issueAccessToken();
@@ -40,12 +36,12 @@ class OAuthController extends BaseController
         }
     }
 
-    public function authorizationForm()
+    public function authorizationForm(): void
     {
         //
     }
 
-    public function authorize()
+    public function authorize(): void
     {
         //
     }

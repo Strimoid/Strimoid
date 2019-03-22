@@ -91,12 +91,7 @@ if (!function_exists('toBool')) {
 }
 
 if (!function_exists('between')) {
-
-    /**
-     * @param int $min
-     * @param int $max
-     */
-    function between($value, $min, $max)
+    function between($value, int $min, int $max)
     {
         $value = (int) $value;
 
@@ -114,10 +109,7 @@ if (!function_exists('hashids_decode')) {
 }
 
 if (!function_exists('user')) {
-    /**
-     * @return User
-     */
-    function user()
+    function user(): User
     {
         if (auth()->guest()) {
             return (object) [];

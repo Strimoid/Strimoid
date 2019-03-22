@@ -10,7 +10,7 @@ use Strimoid\Models\Group;
 
 class JavascriptComposer
 {
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $data = $view->getData();
 
@@ -34,7 +34,7 @@ class JavascriptComposer
         ]);
     }
 
-    protected function putUserInfo()
+    protected function putUserInfo(): void
     {
         JavaScript::put([
             'user' => user(),

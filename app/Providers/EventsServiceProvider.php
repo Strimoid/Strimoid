@@ -17,7 +17,7 @@ use Strimoid\Models\User;
 
 class EventsServiceProvider extends ServiceProvider
 {
-    public function boot(Dispatcher $events)
+    public function boot(Dispatcher $events): void
     {
         $this->app->booted(function () {
             if (Request::getUser() && Request::getPassword()) {
@@ -25,7 +25,7 @@ class EventsServiceProvider extends ServiceProvider
             }
         });
 
-        $events->listen('auth.login', function ($user) {
+        $events->listen('auth.login', function ($user): void {
             $user->last_login = new Carbon();
             $user->last_ip = Request::getClientIp();
             $user->save();
@@ -35,7 +35,7 @@ class EventsServiceProvider extends ServiceProvider
 
         $events->listen(
             'eloquent.created: Strimoid\\Models\\User',
-            function (User $user) {
+            function (User $user): void {
                 $url = config('app.hubot_url');
 
                 if (!$url) {
@@ -54,7 +54,7 @@ class EventsServiceProvider extends ServiceProvider
 
         $events->listen(
             'eloquent.created: Strimoid\\Models\\Entry',
-            function (Entry $entry) {
+            function (Entry $entry): void {
                 $url = config('app.hubot_url');
 
                 if (!$url) {
@@ -81,7 +81,7 @@ class EventsServiceProvider extends ServiceProvider
         $events->subscribe(PubSubHandler::class);
     }
 
-    public function register()
+    public function register(): void
     {
     }
 }

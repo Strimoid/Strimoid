@@ -9,7 +9,6 @@ trait HasNotificationsRelationship
     /**
      * Notifications relationship.
      *
-     * @return mixed
      */
     public function notifications()
     {

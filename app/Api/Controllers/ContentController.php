@@ -144,13 +144,7 @@ class ContentController extends BaseController
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @param Content $content
-     *
-     * @return mixed
-     */
-    public function edit(Request $request, $content)
+    public function edit(Request $request, Content $content)
     {
         if (!$content->canEdit(user())) {
             return response()->json([

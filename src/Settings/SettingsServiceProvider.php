@@ -10,7 +10,7 @@ class SettingsServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
         $settingsPath = base_path('src/Settings/settings.php');
         $this->loadSettingsFrom($settingsPath);
@@ -19,7 +19,7 @@ class SettingsServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton('settings', function () {
             return new SettingsService();

@@ -27,7 +27,7 @@ class AuthController extends BaseController
         return response()->json(['error' => 'Invalid login or password'], 400);
     }
 
-    public function logout()
+    public function logout(): void
     {
         auth()->logout();
     }
@@ -40,7 +40,7 @@ class AuthController extends BaseController
     private function getUserData()
     {
         $notifications = Notification::with([
-                'user' => function ($q) {
+                'user' => function ($q): void {
                     $q->select('avatar');
                 },
             ])

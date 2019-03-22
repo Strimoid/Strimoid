@@ -29,10 +29,6 @@ class UserController extends BaseController
      */
     protected $passwords;
 
-    /**
-     * @param UserRepository $users
-     * @param PasswordBroker $passwords
-     */
     public function __construct(UserRepository $users, PasswordBroker $passwords)
     {
         $this->users = $users;
@@ -80,7 +76,7 @@ class UserController extends BaseController
 
         user()->save();
 
-        Mail::send('emails.auth.email_change', ['user' => user()], function ($message) use ($email) {
+        Mail::send('emails.auth.email_change', ['user' => user()], function ($message) use ($email): void {
             $message->to($email, user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
@@ -106,7 +102,7 @@ class UserController extends BaseController
         if (Input::has('email')) {
             $this->validate($request, ['email' => 'required|email']);
 
-            $response = $this->passwords->sendResetLink($request->only('email'), function ($m) {
+            $response = $this->passwords->sendResetLink($request->only('email'), function ($m): void {
                 $m->subject('Zmiana hasła w serwisie Strimoid.pl');
             });
 

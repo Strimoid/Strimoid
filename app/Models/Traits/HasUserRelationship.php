@@ -9,7 +9,6 @@ trait HasUserRelationship
     /**
      * User relationship.
      *
-     * @return mixed
      */
     public function user()
     {

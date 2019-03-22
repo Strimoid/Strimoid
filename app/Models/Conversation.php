@@ -36,9 +36,9 @@ class Conversation extends BaseModel
         })->first();
     }
 
-    public function scopeWithUser($query, $userName)
+    public function scopeWithUser($query, $userName): void
     {
-        $query->whereHas('users', function ($q) use ($userName) {
+        $query->whereHas('users', function ($q) use ($userName): void {
             $q->where('user_id', $userName);
         });
     }

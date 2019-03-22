@@ -12,7 +12,7 @@ class GroupActivity extends Command
     /** @var string */
     protected $description = 'Update group activity meter.';
 
-    public function fire()
+    public function fire(): void
     {
         $x = 1;
 

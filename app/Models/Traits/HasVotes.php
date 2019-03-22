@@ -19,7 +19,6 @@ trait HasVotes
     /**
      * Currently authenticated user vote.
      *
-     * @return mixed
      */
     public function vote()
     {

@@ -10,7 +10,6 @@ trait HasSaves
     /**
      * Object saves relationship.
      *
-     * @return mixed
      */
     public function saves()
     {
@@ -20,7 +19,6 @@ trait HasSaves
     /**
      * Currently authenticated user save.
      *
-     * @return mixed
      */
     public function usave()
     {
@@ -30,9 +28,8 @@ trait HasSaves
     /**
      * Check if object is saved by authenticated user.
 
-     * @return bool
      */
-    public function isSaved()
+    public function isSaved(): bool
     {
         if (Auth::guest()) {
             return false;

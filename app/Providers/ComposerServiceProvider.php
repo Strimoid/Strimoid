@@ -10,14 +10,14 @@ use Strimoid\Http\ViewComposers\MasterComposer;
 
 class ComposerServiceProvider extends ServiceProvider
 {
-    public function boot(ViewFactory $view)
+    public function boot(ViewFactory $view): void
     {
         $view->composer('global.master', MasterComposer::class);
         $view->composer('global.master', JavascriptComposer::class);
         $view->composer('global.parts.groupbar', GroupBarComposer::class);
     }
 
-    public function register()
+    public function register(): void
     {
     }
 }

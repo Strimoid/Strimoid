@@ -10,17 +10,13 @@ interface FolderRepository
      * @param  $ownerName   string  Name of folder owner
      * @param  $folderName  string  Folder name
      *
-     * @return \Strimoid\Models\Folder
      */
-    public function getByName($ownerName, $folderName);
+    public function getByName($ownerName, $folderName): \Strimoid\Models\Folder;
 
     /**
      * Get folder with given name and throw exception if not found.
      *
-     * @param  $ownerName   string  Name of folder owner
-     * @param  $folderName  string  Folder name
      *
-     * @return \Strimoid\Models\Folder
      */
-    public function requireByName(...$params);
+    public function requireByName(...$params): \Strimoid\Models\Folder;
 }

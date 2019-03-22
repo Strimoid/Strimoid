@@ -26,10 +26,6 @@ class EntryController extends BaseController
      */
     protected $groups;
 
-    /**
-     * @param FolderRepository $folders
-     * @param GroupRepository  $groups
-     */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
         $this->groups = $groups;
@@ -86,11 +82,9 @@ class EntryController extends BaseController
     /**
      * Show entry view.
      *
-     * @param Entry $entry
      *
-     * @return \Illuminate\View\View
      */
-    public function showEntry($entry)
+    public function showEntry(Entry $entry): \Illuminate\View\View
     {
         $entries = [$entry];
         view()->share('group', $entry->group);

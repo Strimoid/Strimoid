@@ -21,10 +21,6 @@ class CommentController extends BaseController
      */
     protected $groups;
 
-    /**
-     * @param FolderRepository $folders
-     * @param GroupRepository  $groups
-     */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
         $this->groups = $groups;
@@ -110,9 +106,8 @@ class CommentController extends BaseController
      * @param Request $request Request instance
      * @param Comment $comment Comment instance
      *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request, $comment)
+    public function edit(Request $request, Comment $comment): \Symfony\Component\HttpFoundation\Response
     {
         $this->validate($request, $comment->validationRules());
 
@@ -130,9 +125,8 @@ class CommentController extends BaseController
      *
      * @param Comment $comment Comment instance
      *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function remove($comment)
+    public function remove(Comment $comment): \Symfony\Component\HttpFoundation\Response
     {
         if (!$comment->canRemove()) {
             abort(403);

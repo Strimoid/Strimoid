@@ -16,7 +16,7 @@ trait HasAvatar
      *
      * @param $file
      */
-    public function setAvatar($file)
+    public function setAvatar($file): void
     {
         $this->deleteAvatar();
 
@@ -35,7 +35,7 @@ trait HasAvatar
     /**
      * Delete entity avatar.
      */
-    public function deleteAvatar()
+    public function deleteAvatar(): void
     {
         if (!$this->avatar) {
             return;

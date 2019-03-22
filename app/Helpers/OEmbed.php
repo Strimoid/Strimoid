@@ -79,11 +79,10 @@ class OEmbed
 
     /**
      * @param $url
-     * @param bool $autoPlay
      *
      * @return bool|string
      */
-    protected function fetchJson($url, $autoPlay)
+    protected function fetchJson($url, bool $autoPlay)
     {
         try {
             $query = ['ssl' => 'true', 'url' => $url];
@@ -152,9 +151,8 @@ class OEmbed
     /**
      * Return OEmbed API endpoint URL.
      *
-     * @return string
      */
-    protected function endpoint()
+    protected function endpoint(): string
     {
         $host = config('strimoid.oembed');
 

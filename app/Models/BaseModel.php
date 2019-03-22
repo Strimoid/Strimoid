@@ -24,11 +24,9 @@ abstract class BaseModel extends Eloquent
     /**
      * Return a timestamp as DateTime object.
      *
-     * @param mixed $value
      *
-     * @return \Jenssegers\Date\Date
      */
-    protected function asDateTime($value)
+    protected function asDateTime($value): \Jenssegers\Date\Date
     {
         $value = parent::asDateTime($value);
 
@@ -77,14 +75,14 @@ abstract class BaseModel extends Eloquent
      * @param $query
      * @param $days
      */
-    public function scopeFromDaysAgo($query, $days)
+    public function scopeFromDaysAgo($query, $days): void
     {
         $fromTime = Carbon::now()->subDays($days)
             ->hour(0)->minute(0)->second(0);
         $query->where('created_at', '>', $fromTime->toDateTimeString());
     }
 
-    public function scopeUserCache($query, string $tag, int $minutes = 60)
+    public function scopeUserCache($query, string $tag, int $minutes = 60): void
     {
         $tags = ['user.' . $tag, 'u.' . auth()->id()];
         $query->remember($minutes)->cacheTags($tags);

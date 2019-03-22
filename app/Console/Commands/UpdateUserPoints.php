@@ -15,7 +15,7 @@ class UpdateUserPoints extends Command
     /** @var string */
     protected $description = 'Updates user points amount.';
 
-    public function fire()
+    public function fire(): void
     {
         \DB::connection()->disableQueryLog();
 
@@ -23,7 +23,7 @@ class UpdateUserPoints extends Command
         $conn->disableQueryLog();
 
         $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))
-            ->with(['user' => function ($q) {
+            ->with(['user' => function ($q): void {
                 $q->select(['name', 'avatar']);
             }])
             ->groupBy('user_id')

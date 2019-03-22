@@ -53,7 +53,7 @@ class MarkdownParser
         'headers' => false,
     ];
 
-    public function config($attr, $value)
+    public function config($attr, $value): void
     {
         $this->config[$attr] = $value;
     }
@@ -281,7 +281,7 @@ class MarkdownParser
     //
     // Atx
 
-    protected function identifyAtx($Line)
+    protected function identifyAtx($Line): void
     {
         if (!$this->config['headers']) {
             return;
@@ -379,7 +379,7 @@ class MarkdownParser
         }
     }
 
-    protected function addToComment($Line, array $Block)
+    protected function addToComment($Line, array $Block): void
     {
         if (isset($Block['closed'])) {
             return;
@@ -426,7 +426,7 @@ class MarkdownParser
         }
     }
 
-    protected function addToFencedCode($Line, $Block)
+    protected function addToFencedCode($Line, $Block): void
     {
         if (isset($Block['complete'])) {
             return;
@@ -596,7 +596,7 @@ class MarkdownParser
     //
     // Setext
 
-    protected function identifySetext($Line, array $Block = null)
+    protected function identifySetext($Line, array $Block = null): void
     {
         if (!isset($Block) or isset($Block['type']) or isset($Block['interrupted'])) {
             return;
@@ -616,7 +616,7 @@ class MarkdownParser
     //
     // Markup
 
-    protected function identifyMarkup($Line)
+    protected function identifyMarkup($Line): void
     {
         if (preg_match('/^<(\w[\w\d]*)(?:[ ][^>\/]*)?(\/?)[ ]*>/', $Line['text'], $matches)) {
             if (in_array($matches[1], $this->textLevelElements)) {
@@ -638,7 +638,7 @@ class MarkdownParser
         }
     }
 
-    protected function addToMarkup($Line, array $Block)
+    protected function addToMarkup($Line, array $Block): void
     {
         if (isset($Block['closed'])) {
             return;
@@ -668,7 +668,7 @@ class MarkdownParser
     //
     // Table
 
-    protected function identifyTable($Line, array $Block = null)
+    protected function identifyTable($Line, array $Block = null): void
     {
         if (!isset($Block) or isset($Block['type']) or isset($Block['interrupted'])) {
             return;
@@ -947,10 +947,7 @@ class MarkdownParser
     // ~
     //
 
-    /**
-     * @param string $text
-     */
-    public function line($text)
+    public function line(string $text)
     {
         $markup = '';
 
@@ -990,7 +987,7 @@ class MarkdownParser
 
                 $markup .= $this->readPlainText($plainText);
 
-                $markup .= isset($Span['markup']) ? $Span['markup'] : $this->element($Span['element']);
+                $markup .= $Span['markup'] ?? $this->element($Span['element']);
 
                 $text = substr($text, $Span['position'] + $Span['extent']);
 
@@ -1015,7 +1012,7 @@ class MarkdownParser
     // ~
     //
 
-    protected function identifyUrl($Excerpt)
+    protected function identifyUrl($Excerpt): void
     {
         if (!isset($Excerpt['text'][1]) or $Excerpt['text'][1] !== '/') {
             return;
@@ -1058,7 +1055,7 @@ class MarkdownParser
         }
     }
 
-    protected function identifyStrikethrough($Excerpt)
+    protected function identifyStrikethrough($Excerpt): void
     {
         if (!isset($Excerpt['text'][1])) {
             return;
@@ -1156,7 +1153,7 @@ class MarkdownParser
         }
     }
 
-    protected function identifyLink($Excerpt)
+    protected function identifyLink($Excerpt): void
     {
         $extent = $Excerpt['text'][0] === '!' ? 1 : 0;
 
@@ -1237,7 +1234,7 @@ class MarkdownParser
         ];
     }
 
-    protected function identifyEmphasis($Excerpt)
+    protected function identifyEmphasis($Excerpt): void
     {
         if (!isset($Excerpt['text'][1])) {
             return;
@@ -1320,9 +1317,6 @@ class MarkdownParser
     // Deprecated Methods
     //
 
-    /**
-     * @deprecated in favor of "text"
-     */
     public function parse($text)
     {
         $markup = $this->text($text);

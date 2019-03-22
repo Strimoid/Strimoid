@@ -9,19 +9,16 @@ interface GroupRepository
      *
      * @param  $name  string  Group name
      *
-     * @return \Strimoid\Models\Group
      */
-    public function getByName($name);
+    public function getByName($name): \Strimoid\Models\Group;
 
     /**
      * Get group with given name and throw
      * exception if not found.
      *
-     * @param  $name  string  Group name
      *
      * @throws \Strimoid\Exceptions\EntityNotFoundException
      *
-     * @return \Strimoid\Models\Group
      */
-    public function requireByName(...$params);
+    public function requireByName(...$params): \Strimoid\Models\Group;
 }

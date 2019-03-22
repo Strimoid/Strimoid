@@ -86,13 +86,7 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', '_id' => $entry->getKey(), 'entry' => $entry]);
     }
 
-    /**
-     * @param Request $request
-     * @param Entry   $entry
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function storeReply(Request $request, $entry)
+    public function storeReply(Request $request, Entry $entry): \Symfony\Component\HttpFoundation\Response
     {
         $this->validate($request, EntryReply::validationRules());
 
@@ -111,13 +105,7 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', '_id' => $reply->getKey(), 'reply' => $reply]);
     }
 
-    /**
-     * @param Request $request
-     * @param Entry   $entry
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function edit(Request $request, $entry)
+    public function edit(Request $request, Entry $entry): \Symfony\Component\HttpFoundation\Response
     {
         $this->validate($request, $entry->validationRules());
 
@@ -130,12 +118,7 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', 'parsed' => $entry->text]);
     }
 
-    /**
-     * @param Entry $entry
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function remove($entry)
+    public function remove(Entry $entry): \Symfony\Component\HttpFoundation\Response
     {
         if (!$entry->canRemove()) {
             abort(403, 'Access denied');

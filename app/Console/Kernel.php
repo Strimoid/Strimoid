@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
         UpdateStats::class,
     ];
 
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->command('lara:updatestats')->dailyAt('03:33');
         $schedule->command('lara:fbpost')->dailyAt('20:00');

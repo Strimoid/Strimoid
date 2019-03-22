@@ -24,7 +24,7 @@ class Notification extends BaseModel
         return $this->morphTo();
     }
 
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $clean = preg_replace('/<span class="spoiler">(.*?)<\/span>/s', '', $title);
         $clean = strip_tags($clean);
@@ -98,9 +98,9 @@ class Notification extends BaseModel
         return $this->user->getAvatarPath();
     }
 
-    public function scopeTarget($query, $param)
+    public function scopeTarget($query, $param): void
     {
-        $query->whereHas('targets', function ($q) use ($param) {
+        $query->whereHas('targets', function ($q) use ($param): void {
             $q->where('user_id', $param);
         });
     }

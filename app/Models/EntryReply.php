@@ -17,17 +17,17 @@ class EntryReply extends Entry
     protected $hidden = ['entry_id', 'updated_at'];
     protected $table = 'entry_replies';
 
-    public static function boot()
+    public static function boot(): void
     {
-        static::creating(function ($reply) {
+        static::creating(function ($reply): void {
             $reply->group_id = $reply->parent->group_id;
         });
 
-        static::created(function ($reply) {
+        static::created(function ($reply): void {
             $reply->parent->increment('replies_count');
         });
 
-        static::deleted(function ($reply) {
+        static::deleted(function ($reply): void {
             $reply->parent->decrement('replies_count');
         });
 

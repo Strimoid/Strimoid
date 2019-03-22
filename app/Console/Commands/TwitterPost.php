@@ -17,7 +17,7 @@ class TwitterPost extends Command
     /** @var string */
     protected $description = 'Posts most popular content to Twitter.';
 
-    public function fire()
+    public function fire(): void
     {
         $dayBefore = Carbon::now()->subDay();
         $content = Content::where('created_at', '>', $dayBefore)

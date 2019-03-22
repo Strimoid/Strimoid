@@ -30,7 +30,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      */
-    public function report(Exception $e)
+    public function report(Exception $e): void
     {
         if ($this->shouldReport($e)) {
             Log::error($e);
@@ -42,12 +42,10 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Exception               $e
      *
      * @return \Illuminate\Http\Response|JsonResponse
      */
-    public function render($request, Exception $e)
+    public function render(\Illuminate\Http\Request $request, Exception $e)
     {
         if ($this->isHttpException($e)) {
             return $this->renderHttpException($e);

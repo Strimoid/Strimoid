@@ -20,7 +20,7 @@ class UpdateStats extends Command
     /** @var string */
     protected $description = 'Updates stats.';
 
-    public function fire()
+    public function fire(): void
     {
         DB::connection()->disableQueryLog();
 

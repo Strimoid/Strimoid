@@ -11,7 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ProcessLink
 {
-    public function fire($job, $data)
+    public function fire($job, $data): void
     {
         $content = Content::findOrFail($data['id']);
 

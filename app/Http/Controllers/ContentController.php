@@ -130,7 +130,7 @@ class ContentController extends BaseController
         return view('content.display', compact('contents'));
     }
 
-    protected function filterByTime($builder, $days)
+    protected function filterByTime($builder, $days): void
     {
         if (!$days) {
             return;
@@ -142,9 +142,8 @@ class ContentController extends BaseController
     /**
      * Generate RSS feed from given collection of contents.
      *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function generateRssFeed($contents)
+    protected function generateRssFeed($contents): \Symfony\Component\HttpFoundation\Response
     {
         return response()
             ->view('content.rss', compact('contents'))

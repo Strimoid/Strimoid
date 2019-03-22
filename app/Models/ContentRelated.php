@@ -18,13 +18,13 @@ class ContentRelated extends BaseModel
     protected $hidden = ['content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
 
-    public static function boot()
+    public static function boot(): void
     {
-        static::creating(function ($related) {
+        static::creating(function ($related): void {
             $related->group_id = $related->content->group_id;
         });
 
-        static::created(function ($related) {
+        static::created(function ($related): void {
             $related->content->increment('related_count');
         });
 
@@ -53,12 +53,12 @@ class ContentRelated extends BaseModel
         return $this->url ?: route('content_comments', $this->getKey());
     }
 
-    public function setNsfwAttribute($value)
+    public function setNsfwAttribute($value): void
     {
         $this->attributes['nsfw'] = toBool($value);
     }
 
-    public function setEngAttribute($value)
+    public function setEngAttribute($value): void
     {
         $this->attributes['eng'] = toBool($value);
     }

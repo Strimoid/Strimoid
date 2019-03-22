@@ -18,10 +18,6 @@ class FolderRepository extends Repository implements FolderRepositoryContract
      */
     protected $users;
 
-    /**
-     * @param Folder                 $folder
-     * @param UserRepositoryContract $users
-     */
     public function __construct(Folder $folder, UserRepositoryContract $users)
     {
         $this->folder = $folder;

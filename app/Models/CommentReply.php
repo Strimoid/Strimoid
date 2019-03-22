@@ -18,17 +18,17 @@ class CommentReply extends Comment
     protected $fillable = ['text'];
     protected $table = 'comment_replies';
 
-    public static function boot()
+    public static function boot(): void
     {
-        static::creating(function ($comment) {
+        static::creating(function ($comment): void {
             $comment->group_id = $comment->parent->group_id;
         });
 
-        static::created(function ($reply) {
+        static::created(function ($reply): void {
             $reply->parent->content->increment('comments_count');
         });
 
-        static::deleted(function ($reply) {
+        static::deleted(function ($reply): void {
             $reply->parent->content->decrement('comments_count');
         });
 

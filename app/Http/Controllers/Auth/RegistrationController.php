@@ -39,7 +39,7 @@ class RegistrationController extends BaseController
         $user->activation_token = str_random(16);
         $user->save();
 
-        Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email) {
+        Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email): void {
             $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
         });
 

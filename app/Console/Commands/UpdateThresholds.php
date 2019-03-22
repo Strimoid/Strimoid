@@ -14,7 +14,7 @@ class UpdateThresholds extends Command
     /** @var string */
     protected $description = 'Updates thresholds.';
 
-    public function fire()
+    public function fire(): void
     {
         \DB::connection()->disableQueryLog();
 

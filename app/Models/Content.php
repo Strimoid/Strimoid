@@ -32,7 +32,7 @@ class Content extends BaseModel
 
     public function __construct($attributes = [])
     {
-        static::deleted(function (Content $content) {
+        static::deleted(function (Content $content): void {
             Notification::where('content_id', $this->getKey())->delete();
 
             if (!$content->trashed()) {
@@ -86,24 +86,24 @@ class Content extends BaseModel
         return route('content_comments_slug', $params);
     }
 
-    public function setNsfwAttribute($value)
+    public function setNsfwAttribute($value): void
     {
         $this->attributes['nsfw'] = toBool($value);
     }
 
-    public function setEngAttribute($value)
+    public function setEngAttribute($value): void
     {
         $this->attributes['eng'] = toBool($value);
     }
 
-    public function setUrlAttribute($url)
+    public function setUrlAttribute($url): void
     {
         $domain = PDP::parseUrl($url)->host->registerableDomain;
         $this->attributes['url'] = $url;
         $this->attributes['domain'] = $domain;
     }
 
-    public function setTextAttribute($text)
+    public function setTextAttribute($text): void
     {
         $parser = MarkdownParser::instance();
         $parser->config('inline_images', true);

@@ -47,7 +47,7 @@ trait HasThumbnail
     /**
      * Download thumbnail from given url, save it to disk and assign to entity.
      */
-    public function setThumbnail(string $url)
+    public function setThumbnail(string $url): void
     {
         $this->removeThumbnail();
 
@@ -71,7 +71,7 @@ trait HasThumbnail
     /**
      * Remove thumbnail from disk and unset thumbnail attribute.
      */
-    public function removeThumbnail()
+    public function removeThumbnail(): void
     {
         if (!$this->thumbnail) {
             return;

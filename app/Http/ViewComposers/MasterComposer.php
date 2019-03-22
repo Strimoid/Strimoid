@@ -10,7 +10,7 @@ use Strimoid\Models\Group;
 
 class MasterComposer
 {
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $data = $view->getData();
 

@@ -118,9 +118,8 @@ class CommentController extends BaseController
     /**
      * Add new reply to given Comment object.
      *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addReply(Request $request, Comment $parent)
+    public function addReply(Request $request, Comment $parent): \Symfony\Component\HttpFoundation\Response
     {
         $this->validate($request, CommentReply::validationRules());
 

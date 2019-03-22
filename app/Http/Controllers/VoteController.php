@@ -50,7 +50,7 @@ class VoteController extends BaseController
 
         $up = request('up') === 'true';
 
-        DB::transaction(function () use ($up, $object) {
+        DB::transaction(function () use ($up, $object): void {
             if ($up) {
                 $object->increment('uv');
                 $object->increment('score');
@@ -95,7 +95,7 @@ class VoteController extends BaseController
         $uv = $object->uv;
         $dv = $object->dv;
 
-        DB::transaction(function () use ($vote, $object) {
+        DB::transaction(function () use ($vote, $object): void {
             if ($vote['up']) {
                 $object->decrement('uv');
                 $object->decrement('score');

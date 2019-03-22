@@ -12,9 +12,6 @@ class ContentRepository extends Repository implements ContentRepositoryContract
      */
     protected $content;
 
-    /**
-     * @param Content $content
-     */
     public function __construct(Content $content)
     {
         $this->content = $content;

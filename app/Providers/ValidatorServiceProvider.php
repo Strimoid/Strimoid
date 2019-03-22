@@ -11,7 +11,7 @@ use Validator;
 
 class ValidatorServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         Validator::extend('unique_email', function ($attribute, $value, $parameters) {
             if (isset($parameters[1])) {
@@ -145,7 +145,7 @@ class ValidatorServiceProvider extends ServiceProvider
         });
     }
 
-    public function register()
+    public function register(): void
     {
     }
 }

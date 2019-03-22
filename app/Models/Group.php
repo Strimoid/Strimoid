@@ -94,7 +94,7 @@ class Group extends BaseModel
         return $this->belongsToMany(User::class, 'group_moderators');
     }
 
-    public function checkAccess()
+    public function checkAccess(): void
     {
         if ($this->type == 'private') {
             if (!Auth::check() || !Auth::user()->isModerator($this)) {
@@ -122,7 +122,7 @@ class Group extends BaseModel
         return '/static/img/default_avatar.png';
     }
 
-    public function setStyle($css)
+    public function setStyle($css): void
     {
         $disk = Storage::disk('styles');
 
@@ -141,7 +141,7 @@ class Group extends BaseModel
         }
     }
 
-    public function deleteStyle()
+    public function deleteStyle(): void
     {
         if ($this->style) {
             Storage::disk('styles')->delete($this->style);
@@ -176,7 +176,7 @@ class Group extends BaseModel
         return $host . '/static/img/default_avatar.png';
     }
 
-    public function setSidebarAttribute($text)
+    public function setSidebarAttribute($text): void
     {
         $this->attributes['sidebar'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['sidebar_source'] = $text;
@@ -185,14 +185,13 @@ class Group extends BaseModel
     /**
      * Get the value of the model's route key.
      *
-     * @return string
      */
     public function getRouteKey(): string
     {
         return $this->urlname;
     }
 
-    public function scopeName($query, $name)
+    public function scopeName($query, $name): void
     {
         $query->where('urlname', $name);
     }

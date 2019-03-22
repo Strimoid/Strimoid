@@ -250,7 +250,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->name;
     }
 
-    public function scopeName($query, $value)
+    public function scopeName($query, $value): void
     {
         $query->where('name', $value);
     }

@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         Group::class => GroupPolicy::class,
     ];
 
-    public function boot(GateContract $gate)
+    public function boot(GateContract $gate): void
     {
         parent::registerPolicies();
 

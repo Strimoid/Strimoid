@@ -12,7 +12,7 @@ use Strimoid\Models\Group;
 
 class FolderController extends BaseController
 {
-    public function displayFolder()
+    public function displayFolder(): void
     {
     }
 

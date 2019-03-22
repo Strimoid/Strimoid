@@ -7,12 +7,7 @@ use Strimoid\Models\Content;
 
 class ThumbnailController extends BaseController
 {
-    /**
-     * @param Content $content
-     *
-     * @return \Illuminate\View\View
-     */
-    public function chooseThumbnail($content)
+    public function chooseThumbnail(Content $content): \Illuminate\View\View
     {
         if (!$content->canEdit(user())) {
             return redirect()->route('content_comments', $content->getKey())
@@ -33,9 +28,6 @@ class ThumbnailController extends BaseController
         return view('content.thumbnails', compact('content', 'thumbnails'));
     }
 
-    /**
-     * @return mixed
-     */
     public function saveThumbnail()
     {
         $id = hashids_decode(request('id'));

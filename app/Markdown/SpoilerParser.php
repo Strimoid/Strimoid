@@ -9,8 +9,6 @@ use League\CommonMark\Cursor;
 class SpoilerParser extends AbstractBlockParser
 {
     /**
-     * @param ContextInterface $context
-     * @param Cursor           $cursor
      *
      * @return bool
      */

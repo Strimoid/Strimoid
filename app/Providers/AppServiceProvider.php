@@ -12,7 +12,7 @@ use Strimoid\Helpers\OEmbed;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->environment('local')) {
             $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 
-    public function register()
+    public function register(): void
     {
         $this->app->bind('guzzle', function () {
             return new Client([

@@ -16,7 +16,7 @@ class AddModerator extends Command
     /** @var string */
     protected $description = 'Adds new moderator.';
 
-    public function fire()
+    public function fire(): void
     {
         $user = User::findOrFail($this->argument('username'));
         $group = Group::findOrFail($this->argument('group'));

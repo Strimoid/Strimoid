@@ -9,9 +9,8 @@ interface UserRepository
      *
      * @param  $name  string  User name
      *
-     * @return \Strimoid\Models\User
      */
-    public function getByName($name);
+    public function getByName($name): \Strimoid\Models\User;
 
     /**
      * Get user with given name and throw
@@ -21,7 +20,6 @@ interface UserRepository
      *
      * @throws \Strimoid\Exceptions\EntityNotFoundException
      *
-     * @return mixed
      */
-    public function requireByName($name);
+    public function requireByName($name): void;
 }

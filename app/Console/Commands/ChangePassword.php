@@ -25,7 +25,7 @@ class ChangePassword extends Command
         $this->users = $users;
     }
 
-    public function fire()
+    public function fire(): void
     {
         $user = $this->users->requireByName($this->argument('username'));
         $user->password = $this->argument('password');

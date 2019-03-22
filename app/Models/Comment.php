@@ -24,13 +24,13 @@ class Comment extends BaseModel
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
 
-    public static function boot()
+    public static function boot(): void
     {
-        static::creating(function ($comment) {
+        static::creating(function ($comment): void {
             $comment->group_id = $comment->content->group_id;
         });
 
-        static::created(function ($comment) {
+        static::created(function ($comment): void {
             $comment->content->increment('comments_count');
         });
 
@@ -58,7 +58,7 @@ class Comment extends BaseModel
         return parent::delete();
     }
 
-    public function setTextAttribute($text)
+    public function setTextAttribute($text): void
     {
         $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
         $this->attributes['text_source'] = $text;

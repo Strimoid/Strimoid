@@ -11,7 +11,7 @@ class RepositoriesServiceProvider extends ServiceProvider
         'content', 'folder', 'group', 'user',
     ];
 
-    public function register()
+    public function register(): void
     {
         foreach ($this->repositories as $repository) {
             $studly = studly_case($repository);

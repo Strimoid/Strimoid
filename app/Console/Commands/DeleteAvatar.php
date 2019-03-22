@@ -14,7 +14,7 @@ class DeleteAvatar extends Command
     /** @var string */
     protected $description = 'Deletes user avatar.';
 
-    public function fire()
+    public function fire(): void
     {
         if (!$this->argument('username')) {
             echo 'no username given';
