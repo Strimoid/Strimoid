@@ -34,7 +34,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'settings' => 'array',
     ];
 
-    public function getColoredName()
+    public function getColoredName(): string
     {
         $type = $this->type ?: 'normal';
 
@@ -59,14 +59,14 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->getDefaultAvatarPath();
     }
 
-    public function getDefaultAvatarPath()
+    public function getDefaultAvatarPath(): string
     {
         $host = config('app.cdn_host');
 
         return $host . '/duck/' . $this->name . '.svg';
     }
 
-    public function getSexClass()
+    public function getSexClass(): string
     {
         if ($this->sex && in_array($this->sex, ['male', 'female'])) {
             return $this->sex;
@@ -75,7 +75,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return 'nosex';
     }
 
-    public function setEmailAttribute($value)
+    public function setEmailAttribute($value): void
     {
         $lowercase = Str::lower($value);
         $this->attributes['email'] = $lowercase;
@@ -85,7 +85,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         //$this->attributes['shadow_email'] = $shadow;
     }
 
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = bcrypt($value);
     }
@@ -165,22 +165,22 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->belongsToMany(self::class, 'user_followed_users', 'source_id', 'target_id')->withTimestamps();
     }
 
-    public function blockedDomains()
+    public function blockedDomains(): array
     {
         return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->pluck('domain');
     }
 
-    public function isBanned(Group $group)
+    public function isBanned(Group $group): bool
     {
         return $this->bannedGroups()->where('group_id', $group->id)->exists();
     }
 
-    public function isSuperAdmin()
+    public function isSuperAdmin(): bool
     {
         return $this->type === 'admin';
     }
 
-    public function isAdmin($group)
+    public function isAdmin($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
@@ -192,7 +192,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             ->exists();
     }
 
-    public function isModerator($group)
+    public function isModerator($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
@@ -204,7 +204,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $moderatedGroupsIds->has($group);
     }
 
-    public function isSubscriber($group)
+    public function isSubscriber($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
@@ -216,7 +216,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $subscribedGroupsIds->has($group);
     }
 
-    public function isBlocking($group)
+    public function isBlocking($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
@@ -228,12 +228,12 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $blockedGroupsIds->has($group);
     }
 
-    public function isObservingUser($user)
+    public function isObservingUser($user): bool
     {
         return false;
     }
 
-    public function isBlockingUser($user)
+    public function isBlockingUser($user): bool
     {
         if ($user instanceof self) {
             $user = $user->getKey();

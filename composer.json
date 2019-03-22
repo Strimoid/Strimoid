@@ -1,99 +1,104 @@
 {
-      "name": "strimoid/strimoid",
-      "description": "Strimoid.pl source code",
-      "type": "project",
-      "keywords": ["strimoid"],
-      "homepage": "https://strm.pl",
-      "license": "MIT",
-      "authors": [
-          {
-              "name": "duxet",
-              "email": "duxetlg@gmail.com",
-              "role": "Developer"
-          }
-      ],
-      "support": {
-          "irc": "irc://irc.freenode.org/strimoid"
-      },
-      "require": {
-          "php": ">=7.1.0",
-          "laravel/framework": "^5.6",
-          "laravelcollective/html": "^5.6",
-          "intervention/image": "^2.3",
-          "roumen/sitemap": "^2.6",
-          "jeremykendall/php-domain-parser": "^3.0",
-          "guzzlehttp/guzzle": "^6.2",
-          "guzzlehttp/oauth-subscriber": "^0.3",
-          "graham-campbell/markdown": "^10.0",
-          "graham-campbell/throttle": "^7.0",
-          "jenssegers/agent": "^2.3",
-          "laracasts/flash": "^3.0",
-          "laracasts/utilities": "^3.0",
-          "watson/rememberable": "^2.0",
-          "vinkla/algolia": "^3.0",
-          "vinkla/hashids": "^4.0",
-          "filp/whoops": "^2.1",
-          "msurguy/honeypot": "^1.0",
-          "pda/pheanstalk": "^3.1",
-          "predis/predis": "^1.1",
-          "rcrowe/twigbridge": "^0.9",
-          "lord/laroute" : "~2.3",
-          "barryvdh/laravel-cors": "^0.11",
-          "jenssegers/raven": "^1.8",
-          "laravel/socialite": "^3.0",
-          "symfony/dom-crawler": "^3.1",
-          "symfony/css-selector": "^3.1",
-          "dingo/api": "1.0.x@dev",
-          "thomaswelton/laravel-gravatar": "^1.1",
-          "syholloway/mrcolor": "^0.0.1",
-          "league/glide-laravel": "^1.0",
-          "consolidation/robo": "^1.0",
-          "laravel/passport": "^4.0",
-          "danielstjules/stringy": "^3.1",
-            "pusher/pusher-http-laravel": "^4.2",
-            "bugsnag/bugsnag-laravel": "^2.0"
-      },
-      "require-dev": {
-          "barryvdh/laravel-ide-helper": "^2.2",
-          "barryvdh/laravel-debugbar": "^3.1",
-          "doctrine/dbal": "^2.5",
-          "codeception/codeception": "^2.2",
-          "fzaninotto/faker": "^1.6",
-          "laracasts/generators": "^1.1",
-          "mockery/mockery": "^1.0",
-            "symplify/easy-coding-standard": "^5.4"
-      },
-      "autoload": {
-          "classmap": [
-              "database"
-          ],
-          "files": [
-              "app/utils.php"
-          ],
-            "psr-4": {
-              "Strimoid\\": ["src/", "app/"]
-            }
-      },
-      "scripts": {
-          "post-install-cmd": [
-              "php artisan clear-compiled"
-          ],
-          "post-update-cmd": [
-              "php artisan clear-compiled",
-              "php artisan ide-helper:generate -M"
-          ],
-          "post-root-package-install": [
-              "php -r \"copy('.env.sample', '.env');\""
-          ],
-          "post-create-project-cmd": [
-              "php -r \"copy('.env.sample', '.env');\"",
-              "php artisan key:generate"
-          ],
-          "test": "vendor/bin/codecept run"
-      },
-      "config": {
-          "preferred-install": "dist"
-      },
-      "minimum-stability": "dev",
-      "prefer-stable": true
-  }
+    "name": "strimoid/strimoid",
+    "description": "Strimoid.pl source code",
+    "type": "project",
+    "keywords": [
+        "strimoid"
+    ],
+    "homepage": "https://strm.pl",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "duxet",
+            "email": "duxetlg@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "irc": "irc://irc.freenode.org/strimoid"
+    },
+    "require": {
+        "php": ">=7.3.0",
+        "laravel/framework": "^5.8",
+        "laravelcollective/html": "^5.8",
+        "intervention/image": "^2.3",
+        "roumen/sitemap": "^2.6",
+        "jeremykendall/php-domain-parser": "^3.0",
+        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/oauth-subscriber": "^0.3",
+        "graham-campbell/markdown": "^10.0",
+        "graham-campbell/throttle": "^7.0",
+        "jenssegers/agent": "^2.3",
+        "laracasts/flash": "^3.0",
+        "laracasts/utilities": "^3.0",
+        "watson/rememberable": "^2.0",
+        "vinkla/algolia": "^4.1",
+        "vinkla/hashids": "^5.2",
+        "filp/whoops": "^2.1",
+        "msurguy/honeypot": "^1.0",
+        "pda/pheanstalk": "^3.1",
+        "predis/predis": "^1.1",
+        "rcrowe/twigbridge": "^0.9",
+        "barryvdh/laravel-cors": "^0.11",
+        "jenssegers/raven": "^1.8",
+        "laravel/socialite": "^3.0",
+        "symfony/dom-crawler": "^3.1",
+        "symfony/css-selector": "^3.1",
+        "dingo/api": "^2.2",
+        "thomaswelton/laravel-gravatar": "^1.1",
+        "syholloway/mrcolor": "^0.0.1",
+        "league/glide-laravel": "^1.0",
+        "consolidation/robo": "^1.0",
+        "laravel/passport": "^7.0",
+        "danielstjules/stringy": "^3.1",
+        "pusher/pusher-http-laravel": "^4.2",
+        "bugsnag/bugsnag-laravel": "^2.0",
+        "tightenco/ziggy": "^0.6.9"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.2",
+        "barryvdh/laravel-debugbar": "^3.2",
+        "doctrine/dbal": "^2.5",
+        "codeception/codeception": "^2.2",
+        "fzaninotto/faker": "^1.6",
+        "laracasts/generators": "^1.1",
+        "mockery/mockery": "^1.0",
+        "symplify/easy-coding-standard": "^5.4"
+    },
+    "autoload": {
+        "classmap": [
+            "database"
+        ],
+        "files": [
+            "app/utils.php"
+        ],
+        "psr-4": {
+            "Strimoid\\": [
+                "src/",
+                "app/"
+            ]
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan clear-compiled"
+        ],
+        "post-update-cmd": [
+            "php artisan clear-compiled",
+            "php artisan ide-helper:generate -M"
+        ],
+        "post-root-package-install": [
+            "php -r \"copy('.env.sample', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php -r \"copy('.env.sample', '.env');\"",
+            "php artisan key:generate"
+        ],
+        "test": "vendor/bin/codecept run"
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

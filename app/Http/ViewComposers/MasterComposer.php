@@ -50,7 +50,7 @@ class MasterComposer
         $view->with('pageTitle', $pageTitle);
 
         // Needed by top bar with groups
-        $popularGroups = Cache::remember('popularGroups', 60, function () {
+        $popularGroups = Cache::remember('popularGroups', now()->addHour(), function () {
             return Group::orderBy('subscribers_count', 'desc', true)
                 ->take(30)->get(['id', 'name', 'urlname']);
         });

@@ -23,7 +23,7 @@ $folder->user->getKey(), $folder->getKey()
 ?>
 
 <li class="nav-item" @if (ends_with($currentRoute, '_contents')) class="active" @endif>
-    <a href="{!! route($routeData['name'] .'_contents', $routeData['params']) !!}">{{ $currentGroup->name or 'Strimoid' }}</a>
+    <a href="{!! route($routeData['name'] .'_contents', $routeData['params']) !!}">{{ $currentGroup->name ?? 'Strimoid' }}</a>
 </li>
 <li class="nav-item" @if (ends_with($currentRoute, '_contents_new')) class="active" @endif>
     <a href="{!! route($routeData['name'] .'_contents_new', $routeData['params']) !!}">{{ trans('common.tabs.new') }}</a>

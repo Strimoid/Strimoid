@@ -64,7 +64,7 @@ class RegistrationController extends BaseController
 
         auth()->login($user);
 
-        Cache::put('registration.' . $ipHash, 'true', 60 * 24 * 7);
+        Cache::put('registration.' . $ipHash, 'true', now()->addWeek());
 
         return redirect()->to('/kreator')->with(
             'success_msg',
