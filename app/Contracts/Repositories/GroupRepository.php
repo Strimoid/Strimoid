@@ -2,23 +2,12 @@
 
 namespace Strimoid\Contracts\Repositories;
 
+use Strimoid\Models\Group as Group;
+
 interface GroupRepository
 {
-    /**
-     * Get group with given name.
-     *
-     * @param  $name  string  Group name
-     *
-     */
-    public function getByName($name): \Strimoid\Models\Group;
+    public function getByName(string $name);
 
-    /**
-     * Get group with given name and throw
-     * exception if not found.
-     *
-     *
-     * @throws \Strimoid\Exceptions\EntityNotFoundException
-     *
-     */
-    public function requireByName(...$params): \Strimoid\Models\Group;
+    /** @throws \Strimoid\Exceptions\EntityNotFoundException */
+    public function requireByName(...$params);
 }

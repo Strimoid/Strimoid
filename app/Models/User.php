@@ -165,7 +165,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return $this->belongsToMany(self::class, 'user_followed_users', 'source_id', 'target_id')->withTimestamps();
     }
 
-    public function blockedDomains(): array
+    public function blockedDomains(): object
     {
         return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->pluck('domain');
     }

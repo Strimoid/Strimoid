@@ -3,6 +3,7 @@
 namespace Strimoid\Models;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Date;
 use DateTimeZone;
 use Eloquent;
@@ -26,7 +27,7 @@ abstract class BaseModel extends Eloquent
      *
      *
      */
-    protected function asDateTime($value): \Jenssegers\Date\Date
+    protected function asDateTime($value): CarbonInterface
     {
         $value = parent::asDateTime($value);
 

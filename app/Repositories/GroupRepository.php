@@ -17,10 +17,7 @@ class GroupRepository extends Repository implements GroupRepositoryContract
         $this->group = $group;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getByName($name)
+    public function getByName(string $name)
     {
         $className = 'Strimoid\\Models\\Folders\\' . studly_case($name);
 

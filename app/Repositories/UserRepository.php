@@ -18,18 +18,12 @@ class UserRepository implements UserRepositoryContract
         $this->users = $user;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getByName($name)
+    public function getByName(string $name): ?User
     {
         return $this->users->name($name)->first();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function requireByName($name)
+    public function requireByName(string $name): User
     {
         $user = $this->getByName($name);
 

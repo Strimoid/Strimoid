@@ -2,11 +2,12 @@
 
 namespace Strimoid\Models\Folders;
 
+use Illuminate\Database\Eloquent\Builder;
 use Strimoid\Models\FakeFolder;
 
 class Popular extends FakeFolder
 {
-    protected function getBuilder($model)
+    protected function getBuilder(string $model): Builder
     {
         $builder = with(new $model())->newQuery();
 

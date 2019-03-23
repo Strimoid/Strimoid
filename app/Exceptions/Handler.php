@@ -30,13 +30,13 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      */
-    public function report(Exception $e): void
+    public function report(Exception $exception): void
     {
-        if ($this->shouldReport($e)) {
-            Log::error($e);
+        if ($this->shouldReport($exception)) {
+            Log::error($exception);
         }
 
-        parent::report($e);
+        parent::report($exception);
     }
 
     /**
@@ -45,15 +45,15 @@ class Handler extends ExceptionHandler
      *
      * @return \Illuminate\Http\Response|JsonResponse
      */
-    public function render(\Illuminate\Http\Request $request, Exception $e)
+    public function render($request, Exception $exception)
     {
-        if ($this->isHttpException($e)) {
-            return $this->renderHttpException($e);
-        } elseif ($e instanceof OAuthException) {
+        if ($this->isHttpException($exception)) {
+            return $this->renderHttpException($exception);
+        } elseif ($exception instanceof OAuthException) {
             return Response::json([
-                'error' => $e->errorType,
-                'message' => $e->getMessage(),
-            ], $e->httpStatusCode);
+                'error' => $exception->errorType,
+                'message' => $exception->getMessage(),
+            ], $exception->httpStatusCode);
         }
 
         if (config('app.debug')) {
@@ -66,10 +66,10 @@ class Handler extends ExceptionHandler
             $whoops->writeToOutput(false);
 
             return response(
-                $whoops->handleException($e)
+                $whoops->handleException($exception)
             );
         }
 
-        return parent::render($request, $e);
+        return parent::render($request, $exception);
     }
 }

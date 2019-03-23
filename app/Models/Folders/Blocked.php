@@ -3,6 +3,7 @@
 namespace Strimoid\Models\Folders;
 
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Strimoid\Models\Content;
 use Strimoid\Models\FakeFolder;
 
@@ -10,7 +11,7 @@ class Blocked extends FakeFolder
 {
     public $isPrivate = true;
 
-    protected function getBuilder($model)
+    protected function getBuilder(string $model): Builder
     {
         $builder = with(new $model())->newQuery();
 
@@ -23,7 +24,7 @@ class Blocked extends FakeFolder
         return $builder;
     }
 
-    public function contents($tab = null, $sortBy = null)
+    public function contents($tab = null, $sortBy = null): Builder
     {
         $builder = static::getBuilder(Content::class);
 

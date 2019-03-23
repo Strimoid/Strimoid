@@ -3,11 +3,12 @@
 namespace Strimoid\Models\Folders;
 
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Strimoid\Models\FakeFolder;
 
 class All extends FakeFolder
 {
-    protected function getBuilder($model)
+    protected function getBuilder(string $model): Builder
     {
         $builder = with(new $model())->newQuery();
 
@@ -22,7 +23,7 @@ class All extends FakeFolder
         return $builder;
     }
 
-    public function contents($tab = null, $sortBy = null)
+    public function contents($tab = null, $sortBy = null): Builder
     {
         $builder = static::getBuilder('Strimoid\Models\Content');
 

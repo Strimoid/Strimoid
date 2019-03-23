@@ -2,25 +2,18 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Str;
 
 abstract class FakeFolder
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $urlname;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $isPrivate = false;
 
-    /**
-     * @param  $model  Class name of requested model
-     *
-     */
-    abstract protected function getBuilder($model): \Illuminate\Database\Eloquent\Builder;
+    abstract protected function getBuilder(string $model): Builder;
 
     public function __construct()
     {
@@ -31,7 +24,7 @@ abstract class FakeFolder
         $this->name = trans('groups.' . $this->urlname);
     }
 
-    public function comments(string $sortBy = null): \Illuminate\Database\Eloquent\Builder
+    public function comments(string $sortBy = null): Builder
     {
         $builder = static::getBuilder(Comment::class);
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
@@ -44,7 +37,7 @@ abstract class FakeFolder
      * @param null $sortBy
      *
      */
-    public function contents($tab = null, $sortBy = null): \Illuminate\Database\Eloquent\Builder
+    public function contents($tab = null, $sortBy = null): Builder
     {
         $builder = static::getBuilder(Content::class);
 
@@ -56,7 +49,7 @@ abstract class FakeFolder
         return $builder;
     }
 
-    public function entries(): \Illuminate\Database\Eloquent\Builder
+    public function entries(): Builder
     {
         $builder = static::getBuilder(Entry::class);
 
