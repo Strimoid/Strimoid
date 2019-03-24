@@ -9,6 +9,9 @@ class Vote extends BaseModel
 {
     use HasUserRelationship, NoUpdatedAt;
 
+    public $incrementing = false;
+    protected $primaryKey = null;
+
     protected static $unguarded = true;
 
     public function element()
