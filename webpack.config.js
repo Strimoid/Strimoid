@@ -11,7 +11,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: '[nanpmme].bundle.js',
+        filename: '[name].bundle.js',
         path: resolve(__dirname, 'public/assets'),
         publicPath: '/assets/',
     },

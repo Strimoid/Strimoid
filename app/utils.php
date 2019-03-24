@@ -109,7 +109,7 @@ if (!function_exists('hashids_decode')) {
 }
 
 if (!function_exists('user')) {
-    function user(): User
+    function user(): object
     {
         if (auth()->guest()) {
             return (object) [];
