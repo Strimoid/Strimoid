@@ -111,7 +111,7 @@ class Popular extends FakeFolder
         return $builder;
     }
 
-    public function contents($tab = null, $sortBy = null)
+    public function contents($tab = null, $sortBy = null): Builder
     {
         $builder = static::getBuilder('Strimoid\Models\Content');
 

@@ -63,7 +63,8 @@
         "fzaninotto/faker": "^1.6",
         "laracasts/generators": "^1.1",
         "mockery/mockery": "^1.0",
-        "symplify/easy-coding-standard": "^5.4"
+        "symplify/easy-coding-standard": "^5.4",
+        "nunomaduro/larastan": "^0.3.15"
     },
     "autoload": {
         "classmap": [

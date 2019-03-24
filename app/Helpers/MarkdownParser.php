@@ -281,7 +281,7 @@ class MarkdownParser
     //
     // Atx
 
-    protected function identifyAtx($Line): void
+    protected function identifyAtx($Line)
     {
         if (!$this->config['headers']) {
             return;
@@ -379,7 +379,7 @@ class MarkdownParser
         }
     }
 
-    protected function addToComment($Line, array $Block): void
+    protected function addToComment($Line, array $Block)
     {
         if (isset($Block['closed'])) {
             return;
@@ -426,7 +426,7 @@ class MarkdownParser
         }
     }
 
-    protected function addToFencedCode($Line, $Block): void
+    protected function addToFencedCode($Line, $Block)
     {
         if (isset($Block['complete'])) {
             return;
@@ -596,7 +596,7 @@ class MarkdownParser
     //
     // Setext
 
-    protected function identifySetext($Line, array $Block = null): void
+    protected function identifySetext($Line, array $Block = null)
     {
         if (!isset($Block) or isset($Block['type']) or isset($Block['interrupted'])) {
             return;
@@ -616,7 +616,7 @@ class MarkdownParser
     //
     // Markup
 
-    protected function identifyMarkup($Line): void
+    protected function identifyMarkup($Line)
     {
         if (preg_match('/^<(\w[\w\d]*)(?:[ ][^>\/]*)?(\/?)[ ]*>/', $Line['text'], $matches)) {
             if (in_array($matches[1], $this->textLevelElements)) {
@@ -638,7 +638,7 @@ class MarkdownParser
         }
     }
 
-    protected function addToMarkup($Line, array $Block): void
+    protected function addToMarkup($Line, array $Block)
     {
         if (isset($Block['closed'])) {
             return;
@@ -668,7 +668,7 @@ class MarkdownParser
     //
     // Table
 
-    protected function identifyTable($Line, array $Block = null): void
+    protected function identifyTable($Line, array $Block = null)
     {
         if (!isset($Block) or isset($Block['type']) or isset($Block['interrupted'])) {
             return;
@@ -1012,7 +1012,7 @@ class MarkdownParser
     // ~
     //
 
-    protected function identifyUrl($Excerpt): void
+    protected function identifyUrl($Excerpt)
     {
         if (!isset($Excerpt['text'][1]) or $Excerpt['text'][1] !== '/') {
             return;
@@ -1055,7 +1055,7 @@ class MarkdownParser
         }
     }
 
-    protected function identifyStrikethrough($Excerpt): void
+    protected function identifyStrikethrough($Excerpt)
     {
         if (!isset($Excerpt['text'][1])) {
             return;
@@ -1153,7 +1153,7 @@ class MarkdownParser
         }
     }
 
-    protected function identifyLink($Excerpt): void
+    protected function identifyLink($Excerpt)
     {
         $extent = $Excerpt['text'][0] === '!' ? 1 : 0;
 
@@ -1234,7 +1234,7 @@ class MarkdownParser
         ];
     }
 
-    protected function identifyEmphasis($Excerpt): void
+    protected function identifyEmphasis($Excerpt)
     {
         if (!isset($Excerpt['text'][1])) {
             return;
