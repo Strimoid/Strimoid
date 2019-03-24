@@ -1,6 +1,6 @@
 const { resolve } = require('path')
 const webpack = require('webpack')
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     devtool: 'source-map',
@@ -11,7 +11,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: '[name].bundle.js',
+        filename: '[nanpmme].bundle.js',
         path: resolve(__dirname, 'public/assets'),
         publicPath: '/assets/',
     },
@@ -28,11 +28,11 @@ module.exports = {
             },
             {
                 test: /\.(sass|scss)$/,
-                use: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader?modules', 'postcss-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader?modules', 'postcss-loader'],
             },
             {
                 test: /\.(ico|jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
@@ -47,6 +47,9 @@ module.exports = {
             jQuery: 'jquery',
             React: 'react',
         }),
-        new ExtractTextPlugin("[name].bundle.css"),
+        new MiniCssExtractPlugin({
+            filename: '[name].bundle.css',
+            chunkFilename: '[id].bundle.css'
+        })
     ],
 }
