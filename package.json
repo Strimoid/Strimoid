@@ -33,8 +33,8 @@
         "pjax": "^0.2.8",
         "popper.js": "^1.14.7",
         "pusher-js": "^4.4.0",
-        "react": "^15.6.2",
-        "react-dom": "^15.6.2",
+        "react": "^16.8.5",
+        "react-dom": "^16.8.5",
         "react-player": "^0.25.3",
         "tether": "^1.4.5",
         "timeago": "^1.6.5"
