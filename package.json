@@ -31,7 +31,7 @@
         "lodash": "^4.17.11",
         "perfect-scrollbar": "^1.4.0",
         "pjax": "^0.2.8",
-        "popper.js": "^1.14.7",
+        "popper.js": "^1.15.0",
         "pusher-js": "^4.4.0",
         "react": "^15.6.2",
         "react-dom": "^15.6.2",
