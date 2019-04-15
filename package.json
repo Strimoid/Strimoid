@@ -23,7 +23,7 @@
     "dependencies": {
         "autosize": "^4.0.2",
         "axios": "^0.18.0",
-        "bootbox": "^5.0.1",
+        "bootbox": "^5.1.1",
         "bootstrap": "^4.0.0",
         "corejs-typeahead": "^1.2.1",
         "font-awesome": "^4.7.0",
