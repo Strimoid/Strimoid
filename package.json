@@ -37,7 +37,7 @@
         "react-dom": "^15.6.2",
         "react-player": "^0.25.3",
         "tether": "^1.4.5",
-        "timeago": "^1.6.5"
+        "timeago": "^1.6.7"
     },
     "scripts": {
         "build": "webpack --mode production"
