@@ -28,7 +28,7 @@ class Entry extends BaseModel
 
     public function replies()
     {
-        return $this->hasMany(EntryReply::class, 'parent_id');
+        return $this->hasMany(EntryReply::class, 'parent_id')->orderBy('created_at');
     }
 
     public function delete()
