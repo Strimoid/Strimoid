@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Pdp\Cache;
+use Pdp\CurlHttpClient;
+use Pdp\Manager;
 use Pdp\Parser;
 use Pdp\PublicSuffixListManager;
 use Strimoid\Helpers\OEmbed;
@@ -48,10 +51,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('pdp', function () {
-            $pslManager = new PublicSuffixListManager();
-            $parser = new Parser($pslManager->getList());
-
-            return $parser;
+            return (new Manager(
+                new Cache(),
+                new CurlHttpClient()
+            ))->getRules();
         });
 
         $this->app->bind('oembed', function () {

@@ -2,6 +2,7 @@
 
 namespace Strimoid\Models;
 
+use GuzzleHttp\Psr7\Uri;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OEmbed;
 use PDP;
@@ -98,7 +99,9 @@ class Content extends BaseModel
 
     public function setUrlAttribute($url): void
     {
-        $domain = PDP::parseUrl($url)->host->registerableDomain;
+        $domain = (new Uri($url))->getHost();
+        $domain = PDP::resolve($domain)->getRegistrableDomain();
+
         $this->attributes['url'] = $url;
         $this->attributes['domain'] = $domain;
     }

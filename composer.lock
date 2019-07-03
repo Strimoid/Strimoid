@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7477a11207c41651b5faa4695bcc53c6",
+    "content-hash": "2cb8dc49c9cd47185a2436dea478d869",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1757,16 +1757,16 @@
         },
         {
             "name": "graham-campbell/manager",
-            "version": "v4.2.1",
+            "version": "v4.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Manager.git",
-                "reference": "ba3e236392665425723b2b967196aeeabc7f929f"
+                "reference": "b2e003d5b2064d013888ca8594f31a7991a4cc7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Manager/zipball/ba3e236392665425723b2b967196aeeabc7f929f",
-                "reference": "ba3e236392665425723b2b967196aeeabc7f929f",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Manager/zipball/b2e003d5b2064d013888ca8594f31a7991a4cc7a",
+                "reference": "b2e003d5b2064d013888ca8594f31a7991a4cc7a",
                 "shasum": ""
             },
             "require": {
@@ -1813,20 +1813,20 @@
                 "laravel",
                 "manager"
             ],
-            "time": "2019-02-16T14:23:38+00:00"
+            "time": "2019-06-30T12:22:27+00:00"
         },
         {
             "name": "graham-campbell/markdown",
-            "version": "v10.3.0",
+            "version": "v10.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
-                "reference": "e076ed4bc8e98f0444b996acdd6042f6f45fe7c2"
+                "reference": "c9978137be1e6896d9a2ca39aa3d2c62d0700ca1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/e076ed4bc8e98f0444b996acdd6042f6f45fe7c2",
-                "reference": "e076ed4bc8e98f0444b996acdd6042f6f45fe7c2",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/c9978137be1e6896d9a2ca39aa3d2c62d0700ca1",
+                "reference": "c9978137be1e6896d9a2ca39aa3d2c62d0700ca1",
                 "shasum": ""
             },
             "require": {
@@ -1881,20 +1881,20 @@
                 "laravel",
                 "markdown"
             ],
-            "time": "2019-02-17T19:48:19+00:00"
+            "time": "2019-06-30T22:39:31+00:00"
         },
         {
             "name": "graham-campbell/throttle",
-            "version": "v7.3.0",
+            "version": "v7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Throttle.git",
-                "reference": "8c285a3d0fdbb5695ae2785c1dd7074d27282e91"
+                "reference": "534dd3ec0fc2ea7f2e8322de8f22f8ca5b2247bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Throttle/zipball/8c285a3d0fdbb5695ae2785c1dd7074d27282e91",
-                "reference": "8c285a3d0fdbb5695ae2785c1dd7074d27282e91",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Throttle/zipball/534dd3ec0fc2ea7f2e8322de8f22f8ca5b2247bc",
+                "reference": "534dd3ec0fc2ea7f2e8322de8f22f8ca5b2247bc",
                 "shasum": ""
             },
             "require": {
@@ -1948,7 +1948,7 @@
                 "throttle",
                 "throttling"
             ],
-            "time": "2019-06-16T12:24:13+00:00"
+            "time": "2019-06-30T22:14:29+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -2214,33 +2214,37 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.5.2",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115"
+                "reference": "239400de7a173fe9901b9ac7c06497751f00727a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/9f83dded91781a01c63574e387eaa769be769115",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/239400de7a173fe9901b9ac7c06497751f00727a",
+                "reference": "239400de7a173fe9901b9ac7c06497751f00727a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
                 "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5"
+                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
             },
             "provide": {
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
+                "ext-zlib": "*",
                 "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+            },
+            "suggest": {
+                "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "1.6-dev"
                 }
             },
             "autoload": {
@@ -2277,19 +2281,19 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-12-04T20:46:45+00:00"
+            "time": "2019-07-01T23:21:34+00:00"
         },
         {
             "name": "hashids/hashids",
             "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ivanakimov/hashids.php.git",
+                "url": "https://github.com/vinkla/hashids.git",
                 "reference": "b6c61142bfe36d43740a5419d11c351dddac0458"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivanakimov/hashids.php/zipball/b6c61142bfe36d43740a5419d11c351dddac0458",
+                "url": "https://api.github.com/repos/vinkla/hashids/zipball/b6c61142bfe36d43740a5419d11c351dddac0458",
                 "reference": "b6c61142bfe36d43740a5419d11c351dddac0458",
                 "shasum": ""
             },
@@ -2589,41 +2593,50 @@
         },
         {
             "name": "jeremykendall/php-domain-parser",
-            "version": "3.0.0",
+            "version": "5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremykendall/php-domain-parser.git",
-                "reference": "896e7e70f02bd4fd77190052799bc61e4d779672"
+                "reference": "93efea6362ee769d41754336abfb29aead38cfe2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/896e7e70f02bd4fd77190052799bc61e4d779672",
-                "reference": "896e7e70f02bd4fd77190052799bc61e4d779672",
+                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/93efea6362ee769d41754336abfb29aead38cfe2",
+                "reference": "93efea6362ee769d41754336abfb29aead38cfe2",
                 "shasum": ""
             },
             "require": {
-                "ext-curl": "*",
                 "ext-intl": "*",
-                "ext-mbstring": "*",
-                "php": ">=5.3.0"
+                "php": ">=7.0",
+                "psr/simple-cache": "^1.0.1"
             },
             "require-dev": {
-                "jeremykendall/debug-die": "0.0.1.*",
-                "mikey179/vfsstream": "~1.4",
-                "phpunit/phpunit": "~4.4"
+                "composer/composer": "^1.6",
+                "friendsofphp/php-cs-fixer": "^2.7",
+                "mikey179/vfsstream": "^1.6",
+                "phpstan/phpstan": "^0.9.2",
+                "phpstan/phpstan-phpunit": "^0.9.4",
+                "phpstan/phpstan-strict-rules": "^0.9.0",
+                "phpunit/phpunit": "^6.3"
+            },
+            "suggest": {
+                "ext-curl": "To use the package http client",
+                "league/uri-parser": "To parse URL and validate host",
+                "psr/simple-cache-implementation": "To enable using other cache providers"
             },
             "bin": [
-                "bin/parse",
                 "bin/update-psl"
             ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Pdp\\": "src/"
-                },
-                "files": [
-                    "src/pdp-parse-url.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2638,16 +2651,23 @@
                 {
                     "name": "Contributors",
                     "homepage": "https://github.com/jeremykendall/php-domain-parser/graphs/contributors"
+                },
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "homepage": "http://nyamsprod.com",
+                    "role": "Developer"
                 }
             ],
             "description": "Public Suffix List based URL parsing implemented in PHP.",
             "homepage": "https://github.com/jeremykendall/php-domain-parser",
             "keywords": [
+                "PSL",
                 "Public Suffix List",
                 "domain parsing",
-                "url parsing"
+                "icann",
+                "idn"
             ],
-            "time": "2015-03-30T12:49:45+00:00"
+            "time": "2019-04-14T07:14:35+00:00"
         },
         {
             "name": "laracasts/flash",
@@ -2762,16 +2782,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.26",
+            "version": "v5.8.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "1d8ec9afdedc79314c18715056b8143d7e1fac31"
+                "reference": "f1dccffb96f614895393e27e4667105a05407af5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/1d8ec9afdedc79314c18715056b8143d7e1fac31",
-                "reference": "1d8ec9afdedc79314c18715056b8143d7e1fac31",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f1dccffb96f614895393e27e4667105a05407af5",
+                "reference": "f1dccffb96f614895393e27e4667105a05407af5",
                 "shasum": ""
             },
             "require": {
@@ -2905,20 +2925,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-06-25T16:20:51+00:00"
+            "time": "2019-07-02T13:43:47+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "v7.3.0",
+            "version": "v7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "758e143052f0a353df8dff9349f84601579e457d"
+                "reference": "89c81aa8ced151f8e67f47972e1dab71d60e90b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/758e143052f0a353df8dff9349f84601579e457d",
-                "reference": "758e143052f0a353df8dff9349f84601579e457d",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/89c81aa8ced151f8e67f47972e1dab71d60e90b4",
+                "reference": "89c81aa8ced151f8e67f47972e1dab71d60e90b4",
                 "shasum": ""
             },
             "require": {
@@ -2975,7 +2995,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2019-05-28T16:06:20+00:00"
+            "time": "2019-07-02T15:36:59+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -4984,24 +5004,24 @@
         },
         {
             "name": "ralouphie/getallheaders",
-            "version": "2.0.5",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ralouphie/getallheaders.git",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+                "reference": "120b605dfeb996808c31b6477290a714d356e822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7.0",
-                "satooshi/php-coveralls": ">=1.0"
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5 || ^6.5"
             },
             "type": "library",
             "autoload": {
@@ -5020,7 +5040,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2016-02-11T07:05:27+00:00"
+            "time": "2019-03-08T08:55:37+00:00"
         },
         {
             "name": "ramsey/uuid",

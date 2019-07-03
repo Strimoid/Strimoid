@@ -4,6 +4,7 @@ namespace Strimoid\Http\Controllers;
 
 use Cache;
 use Carbon;
+use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\Request;
 use Input;
@@ -282,7 +283,8 @@ class UserController extends BaseController
 
     public function blockDomain($domain)
     {
-        $domain = PDP::parseUrl($domain)->host->registerableDomain;
+        $domain = (new Uri($domain))->getHost();
+        $domain = PDP::resolve($domain)->getRegistrableDomain();
 
         if (!$domain) {
             return Response::json([
