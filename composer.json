@@ -38,7 +38,7 @@
         "msurguy/honeypot": "^1.0",
         "pda/pheanstalk": "^3.1",
         "predis/predis": "^1.1",
-        "rcrowe/twigbridge": "^0.9",
+        "rcrowe/twigbridge": "^0.11",
         "barryvdh/laravel-cors": "^0.11",
         "jenssegers/raven": "^1.8",
         "laravel/socialite": "^3.0",

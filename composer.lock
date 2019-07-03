@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2cb8dc49c9cd47185a2436dea478d869",
+    "content-hash": "c003750f7f5576127b762c24a2c275d8",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -5126,23 +5126,23 @@
         },
         {
             "name": "rcrowe/twigbridge",
-            "version": "v0.9.12",
+            "version": "v0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rcrowe/TwigBridge.git",
-                "reference": "5c4e94cb3ff8f3c2f5c331c5a2314de1e7eaf4ad"
+                "reference": "b49db9f423170015b84993af09ab3e59bb677e0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rcrowe/TwigBridge/zipball/5c4e94cb3ff8f3c2f5c331c5a2314de1e7eaf4ad",
-                "reference": "5c4e94cb3ff8f3c2f5c331c5a2314de1e7eaf4ad",
+                "url": "https://api.github.com/repos/rcrowe/TwigBridge/zipball/b49db9f423170015b84993af09ab3e59bb677e0c",
+                "reference": "b49db9f423170015b84993af09ab3e59bb677e0c",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*",
-                "illuminate/view": "5.5.*|5.6.*|5.7.*|5.8.*",
-                "php": ">=7",
-                "twig/twig": "~1.30"
+                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.x",
+                "illuminate/view": "5.5.*|5.6.*|5.7.*|5.8.x",
+                "php": ">=7.1",
+                "twig/twig": "~2.0"
             },
             "require-dev": {
                 "laravel/framework": "5.0.*",
@@ -5158,7 +5158,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.10-dev"
+                    "dev-master": "0.11-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -5194,7 +5194,7 @@
                 "laravel",
                 "twig"
             ],
-            "time": "2019-02-27T16:14:57+00:00"
+            "time": "2019-02-26T20:10:04+00:00"
         },
         {
             "name": "roumen/sitemap",
@@ -7175,21 +7175,22 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.42.2",
+            "version": "v2.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "21707d6ebd05476854805e4f91b836531941bcd4"
+                "reference": "699ed2342557c88789a15402de5eb834dedd6792"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/21707d6ebd05476854805e4f91b836531941bcd4",
-                "reference": "21707d6ebd05476854805e4f91b836531941bcd4",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/699ed2342557c88789a15402de5eb834dedd6792",
+                "reference": "699ed2342557c88789a15402de5eb834dedd6792",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
-                "symfony/polyfill-ctype": "^1.8"
+                "php": "^7.0",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.3"
             },
             "require-dev": {
                 "psr/container": "^1.0",
@@ -7199,7 +7200,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.42-dev"
+                    "dev-master": "2.11-dev"
                 }
             },
             "autoload": {
@@ -7237,7 +7238,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-06-18T15:35:16+00:00"
+            "time": "2019-06-18T15:37:11+00:00"
         },
         {
             "name": "vinkla/algolia",
@@ -9329,7 +9330,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🔍 Nette Finder: find files and directories with an intuitive API.",
+            "description": "? Nette Finder: find files and directories with an intuitive API.",
             "homepage": "https://nette.org",
             "keywords": [
                 "filesystem",
@@ -9513,7 +9514,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🍀 Nette RobotLoader: high performance and comfortable autoloader that will search and autoload classes within your application.",
+            "description": "? Nette RobotLoader: high performance and comfortable autoloader that will search and autoload classes within your application.",
             "homepage": "https://nette.org",
             "keywords": [
                 "autoload",
@@ -9586,7 +9587,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🛠 Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "description": "? Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
             "homepage": "https://nette.org",
             "keywords": [
                 "array",
