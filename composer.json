@@ -43,7 +43,7 @@
         "jenssegers/raven": "^1.8",
         "laravel/socialite": "^3.0",
         "symfony/dom-crawler": "^3.1",
-        "symfony/css-selector": "^3.1",
+        "symfony/css-selector": "^4.3",
         "dingo/api": "^2.2",
         "thomaswelton/laravel-gravatar": "^1.1",
         "syholloway/mrcolor": "^0.0.1",
