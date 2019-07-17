@@ -36,7 +36,7 @@
         "react": "^15.6.2",
         "react-dom": "^15.6.2",
         "react-player": "^0.25.3",
-        "tether": "^1.4.5",
+        "tether": "^1.4.7",
         "timeago": "^1.6.5"
     },
     "scripts": {
