@@ -12,7 +12,7 @@
         "mini-css-extract-plugin": "^0.7.0",
         "node-sass": "^4.11.0",
         "postcss-loader": "^3.0.0",
-        "react-hot-loader": "^4.8.2",
+        "react-hot-loader": "^4.12.10",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
         "webpack": "^4.29.6",
