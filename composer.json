@@ -22,7 +22,7 @@
         "laravel/framework": "^5.8",
         "laravelcollective/html": "^5.8",
         "intervention/image": "^2.3",
-        "roumen/sitemap": "^2.6",
+        "laravelium/sitemap": "^3.1",
         "jeremykendall/php-domain-parser": "^5.3",
         "guzzlehttp/guzzle": "^6.2",
         "guzzlehttp/oauth-subscriber": "^0.3",
@@ -36,14 +36,14 @@
         "vinkla/hashids": "^5.2",
         "filp/whoops": "^2.1",
         "msurguy/honeypot": "^1.0",
-        "pda/pheanstalk": "^3.1",
+        "pda/pheanstalk": "^4.0",
         "predis/predis": "^1.1",
-        "rcrowe/twigbridge": "^0.9",
+        "rcrowe/twigbridge": "^0.11",
         "barryvdh/laravel-cors": "^0.11",
         "jenssegers/raven": "^1.8",
         "laravel/socialite": "^3.0",
-        "symfony/dom-crawler": "^3.1",
-        "symfony/css-selector": "^3.1",
+        "symfony/dom-crawler": "^4.3",
+        "symfony/css-selector": "^4.3",
         "dingo/api": "^2.2",
         "thomaswelton/laravel-gravatar": "^1.1",
         "syholloway/mrcolor": "^0.0.1",
@@ -53,7 +53,7 @@
         "danielstjules/stringy": "^3.1",
         "pusher/pusher-http-laravel": "^4.2",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "tightenco/ziggy": "^0.6"
+        "tightenco/ziggy": "^0.7"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.2",
@@ -63,7 +63,7 @@
         "fzaninotto/faker": "^1.6",
         "laracasts/generators": "^1.1",
         "mockery/mockery": "^1.0",
-        "symplify/easy-coding-standard": "^5.4",
+        "symplify/easy-coding-standard": "^6.0",
         "nunomaduro/larastan": "^0.3"
     },
     "autoload": {
