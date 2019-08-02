@@ -26,7 +26,7 @@
         "jeremykendall/php-domain-parser": "^5.3",
         "guzzlehttp/guzzle": "^6.2",
         "guzzlehttp/oauth-subscriber": "^0.3",
-        "graham-campbell/markdown": "^10.0",
+        "graham-campbell/markdown": "^11.0",
         "graham-campbell/throttle": "^7.0",
         "jenssegers/agent": "^2.3",
         "laracasts/flash": "^3.0",
