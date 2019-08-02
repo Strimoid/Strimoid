@@ -41,7 +41,7 @@
         "rcrowe/twigbridge": "^0.11",
         "barryvdh/laravel-cors": "^0.11",
         "jenssegers/raven": "^1.8",
-        "laravel/socialite": "^3.0",
+        "laravel/socialite": "^4.1",
         "symfony/dom-crawler": "^4.3",
         "symfony/css-selector": "^4.3",
         "dingo/api": "^2.2",
