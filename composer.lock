@@ -192,22 +192,23 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.17.0",
+            "version": "v3.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "2073d449559b0d533f2cfdfb7ceabbeef8187ac0"
+                "reference": "afa18b25d10d89d7674a94ca7800b4959519cdd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/2073d449559b0d533f2cfdfb7ceabbeef8187ac0",
-                "reference": "2073d449559b0d533f2cfdfb7ceabbeef8187ac0",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/afa18b25d10d89d7674a94ca7800b4959519cdd4",
+                "reference": "afa18b25d10d89d7674a94ca7800b4959519cdd4",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.0",
                 "guzzlehttp/guzzle": "^5.0|^6.0",
-                "php": ">=5.5"
+                "php": ">=5.5",
+                "vlucas/phpdotenv": "^3.0"
             },
             "require-dev": {
                 "graham-campbell/testbench-core": "^1.1",
@@ -247,27 +248,27 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2019-05-28T11:00:07+00:00"
+            "time": "2019-08-28T15:16:36+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v2.16.0",
+            "version": "v2.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "a9922063076eabb0ad8be73fc2999f4105b71d7a"
+                "reference": "761e9f9b5565c18fe1261c470beca2efa955e80d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/a9922063076eabb0ad8be73fc2999f4105b71d7a",
-                "reference": "a9922063076eabb0ad8be73fc2999f4105b71d7a",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/761e9f9b5565c18fe1261c470beca2efa955e80d",
+                "reference": "761e9f9b5565c18fe1261c470beca2efa955e80d",
                 "shasum": ""
             },
             "require": {
                 "bugsnag/bugsnag": "^3.17.0",
                 "bugsnag/bugsnag-psr-logger": "^1.4",
-                "illuminate/contracts": "^5.0",
-                "illuminate/support": "^5.0",
+                "illuminate/contracts": "^5.0|^6.0",
+                "illuminate/support": "^5.0|^6.0",
                 "monolog/monolog": "^1.12",
                 "php": ">=5.5"
             },
@@ -307,20 +308,20 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2019-06-14T15:07:24+00:00"
+            "time": "2019-08-29T13:38:16+00:00"
         },
         {
             "name": "bugsnag/bugsnag-psr-logger",
-            "version": "v1.4.1",
+            "version": "v1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-psr-logger.git",
-                "reference": "a9bed75b830cd1a702c888fdbb1e8b2b46af1ac0"
+                "reference": "aa05bc93a0a7164e4d36012a050f701ba7a9a9fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-psr-logger/zipball/a9bed75b830cd1a702c888fdbb1e8b2b46af1ac0",
-                "reference": "a9bed75b830cd1a702c888fdbb1e8b2b46af1ac0",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-psr-logger/zipball/aa05bc93a0a7164e4d36012a050f701ba7a9a9fe",
+                "reference": "aa05bc93a0a7164e4d36012a050f701ba7a9a9fe",
                 "shasum": ""
             },
             "require": {
@@ -336,7 +337,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "autoload": {
@@ -365,20 +366,20 @@
                 "psr",
                 "tracking"
             ],
-            "time": "2018-02-16T16:51:45+00:00"
+            "time": "2019-08-28T14:42:10+00:00"
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "f26a67e397be0e5c00d7c52ec7b5010098e15ce5"
+                "reference": "10bb96592168a0f8e8f6dcde3532d9fa50b0b527"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/f26a67e397be0e5c00d7c52ec7b5010098e15ce5",
-                "reference": "f26a67e397be0e5c00d7c52ec7b5010098e15ce5",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/10bb96592168a0f8e8f6dcde3532d9fa50b0b527",
+                "reference": "10bb96592168a0f8e8f6dcde3532d9fa50b0b527",
                 "shasum": ""
             },
             "require": {
@@ -421,7 +422,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2019-08-02T09:05:43+00:00"
+            "time": "2019-08-30T08:44:50+00:00"
         },
         {
             "name": "consolidation/annotated-command",
@@ -1696,8 +1697,8 @@
             "authors": [
                 {
                     "name": "Filipe Dobreira",
-                    "homepage": "https://github.com/filp",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://github.com/filp"
                 }
             ],
             "description": "php error handling for cool kids",
@@ -2456,8 +2457,8 @@
             "authors": [
                 {
                     "name": "Mark Beech",
-                    "email": "m@rkbee.ch",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "m@rkbee.ch"
                 }
             ],
             "description": "CrawlerDetect is a PHP class for detecting bots/crawlers/spiders via the user agent",
@@ -2648,8 +2649,8 @@
             "authors": [
                 {
                     "name": "Jeremy Kendall",
-                    "homepage": "http://about.me/jeremykendall",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://about.me/jeremykendall"
                 },
                 {
                     "name": "Contributors",
@@ -2657,8 +2658,8 @@
                 },
                 {
                     "name": "Ignace Nyamagana Butera",
-                    "homepage": "http://nyamsprod.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://nyamsprod.com"
                 }
             ],
             "description": "Public Suffix List based URL parsing implemented in PHP.",
@@ -3237,8 +3238,8 @@
             "authors": [
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
-                    "email": "lcobucci@gmail.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "lcobucci@gmail.com"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
@@ -3303,9 +3304,9 @@
             "authors": [
                 {
                     "name": "Colin O'Dell",
+                    "role": "Lead Developer",
                     "email": "colinodell@gmail.com",
-                    "homepage": "https://www.colinodell.com",
-                    "role": "Lead Developer"
+                    "homepage": "https://www.colinodell.com"
                 }
             ],
             "description": "PHP Markdown parser based on the CommonMark spec",
@@ -3767,9 +3768,9 @@
             "authors": [
                 {
                     "name": "Ben Corlett",
+                    "role": "Developer",
                     "email": "bencorlett@me.com",
-                    "homepage": "http://www.webcomm.com.au",
-                    "role": "Developer"
+                    "homepage": "http://www.webcomm.com.au"
                 }
             ],
             "description": "OAuth 1.0 Client Library",
@@ -3902,9 +3903,9 @@
             "authors": [
                 {
                     "name": "Serban Ghita",
+                    "role": "Developer",
                     "email": "serbanghita@gmail.com",
-                    "homepage": "http://mobiledetect.net",
-                    "role": "Developer"
+                    "homepage": "http://mobiledetect.net"
                 }
             ],
             "description": "Mobile_Detect is a lightweight PHP class for detecting mobile devices. It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.",
@@ -4343,14 +4344,14 @@
             "authors": [
                 {
                     "name": "Paul Annesley",
+                    "role": "Developer",
                     "email": "paul@annesley.cc",
-                    "homepage": "http://paul.annesley.cc/",
-                    "role": "Developer"
+                    "homepage": "http://paul.annesley.cc/"
                 },
                 {
                     "name": "Sam Mousa",
-                    "email": "sam@mousa.nl",
-                    "role": "Maintainer"
+                    "role": "Maintainer",
+                    "email": "sam@mousa.nl"
                 }
             ],
             "description": "PHP client for beanstalkd queue",
@@ -7027,9 +7028,9 @@
                 },
                 {
                     "name": "Thomas Welton",
+                    "role": "Developer",
                     "email": "thomaswelton@me.com",
-                    "homepage": "https://github.com/thomaswelton",
-                    "role": "Developer"
+                    "homepage": "https://github.com/thomaswelton"
                 }
             ],
             "description": "A lightweight PHP 5.3 OOP library providing easy gravatar integration.",
@@ -7087,13 +7088,13 @@
             "authors": [
                 {
                     "name": "ThomasWelton",
-                    "email": "thomaswelton@me.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "thomaswelton@me.com"
                 },
                 {
                     "name": "Antoine Augusti",
-                    "email": "antoine.augusti@gmail.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "antoine.augusti@gmail.com"
                 }
             ],
             "description": "Laravel 5 Gravatar helper",
@@ -7195,8 +7196,8 @@
             "authors": [
                 {
                     "name": "Tijs Verkoyen",
-                    "email": "css_to_inline_styles@verkoyen.eu",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "css_to_inline_styles@verkoyen.eu"
                 }
             ],
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
@@ -9361,7 +9362,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🔍 Nette Finder: find files and directories with an intuitive API.",
+            "description": "? Nette Finder: find files and directories with an intuitive API.",
             "homepage": "https://nette.org",
             "keywords": [
                 "filesystem",
@@ -10008,18 +10009,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "email": "sebastian@phpeople.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpeople.de"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
@@ -10409,8 +10410,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
@@ -10451,8 +10452,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Simple template engine.",
@@ -10500,8 +10501,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Utility class for timing",
@@ -11248,8 +11249,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
@@ -12001,12 +12002,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Symplify/CodingStandard.git",
-                "reference": "0b54e62481f3edc843e1cd5b6d36a6f3b3742c5e"
+                "reference": "d16273e5e71960f49e448300fbe44d6f5292aeee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Symplify/CodingStandard/zipball/0b54e62481f3edc843e1cd5b6d36a6f3b3742c5e",
-                "reference": "0b54e62481f3edc843e1cd5b6d36a6f3b3742c5e",
+                "url": "https://api.github.com/repos/Symplify/CodingStandard/zipball/d16273e5e71960f49e448300fbe44d6f5292aeee",
+                "reference": "d16273e5e71960f49e448300fbe44d6f5292aeee",
                 "shasum": ""
             },
             "require": {
@@ -12049,12 +12050,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Symplify/EasyCodingStandard.git",
-                "reference": "d4d9c0f4a7bda18b97c98588fbdc9c4715b07981"
+                "reference": "5893608bde2bf5bd5f48d977481582e3d2f90daa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Symplify/EasyCodingStandard/zipball/d4d9c0f4a7bda18b97c98588fbdc9c4715b07981",
-                "reference": "d4d9c0f4a7bda18b97c98588fbdc9c4715b07981",
+                "url": "https://api.github.com/repos/Symplify/EasyCodingStandard/zipball/5893608bde2bf5bd5f48d977481582e3d2f90daa",
+                "reference": "5893608bde2bf5bd5f48d977481582e3d2f90daa",
                 "shasum": ""
             },
             "require": {
@@ -12113,12 +12114,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Symplify/PackageBuilder.git",
-                "reference": "bd961b17c8e5467940c47836666d921bce17d1dd"
+                "reference": "f531e03f87c89b26605f1cc1022160e398108ba1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Symplify/PackageBuilder/zipball/bd961b17c8e5467940c47836666d921bce17d1dd",
-                "reference": "bd961b17c8e5467940c47836666d921bce17d1dd",
+                "url": "https://api.github.com/repos/Symplify/PackageBuilder/zipball/f531e03f87c89b26605f1cc1022160e398108ba1",
+                "reference": "f531e03f87c89b26605f1cc1022160e398108ba1",
                 "shasum": ""
             },
             "require": {
@@ -12187,8 +12188,8 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
