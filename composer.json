@@ -31,7 +31,7 @@
         "jenssegers/agent": "^2.3",
         "laracasts/flash": "^3.0",
         "laracasts/utilities": "^3.0",
-        "watson/rememberable": "^2.0",
+        "watson/rememberable": "^3.2",
         "vinkla/algolia": "^4.1",
         "vinkla/hashids": "^5.2",
         "filp/whoops": "^2.1",
