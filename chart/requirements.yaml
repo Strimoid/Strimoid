@@ -1,7 +1,7 @@
 dependencies:
 - name: beanstalkd
   version: 1.0.0
-  repository: https://davidtannock.github.io/helm-charts/
+  repository: https://strimoid.github.io/helm-charts/
   condition: beanstalkd.enabled
 - name: postgresql
   version: 3.11.7
