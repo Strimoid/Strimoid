@@ -38,7 +38,7 @@ jobs:
           command: |
             helm upgrade strimoid ./chart \
               --values <(helm get values strimoid) \
-             --install --timeout 600 --wait
+              --install --wait
 
 workflows:
   version: 2
