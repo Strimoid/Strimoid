@@ -15,7 +15,7 @@
         "react-hot-loader": "^4.12.10",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
-        "webpack": "^4.39.0",
+        "webpack": "^4.41.3",
         "webpack-cli": "^3.3.6",
         "webpack-dev-server": "^3.2.1",
         "webpack-merge": "^4.2.1"
