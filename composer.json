@@ -53,7 +53,7 @@
         "danielstjules/stringy": "^3.1",
         "pusher/pusher-http-laravel": "^4.2",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "tightenco/ziggy": "^0.7"
+        "tightenco/ziggy": "^0.8"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.2",
