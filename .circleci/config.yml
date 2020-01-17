@@ -11,12 +11,12 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 18.06.0-ce
+      - run: docker login -u="$DOCKER_USER" -p="$DOCKER_PASS" quay.io
       - run:
           command: docker-compose up -d
           environment:
-            COMPOSE_FILE: docker-compose.yml
-      - run: docker login -u="$DOCKER_USER" -p="$DOCKER_PASS" quay.io
-      - run: docker push quay.io/strimoid/strimoid
+            COMPOSE_FILE: docker-compose.yml:docker-compose.ci.yml
+      - run: docker push quay.io/strimoid/strimoid:$CIRCLE_WORKFLOW_WORKSPACE_ID
       - run: helm dependency build ./chart
       - persist_to_workspace:
           root: chart
@@ -36,9 +36,9 @@ jobs:
             kubectl config use-context default
       - run:
           command: |
-            helm upgrade strimoid ./chart \
-              --values <(helm get values strimoid) \
-              --install --wait
+            helm upgrade strimoid ./chart --wait \
+              --set image.tag=$CIRCLE_WORKFLOW_WORKSPACE_ID \
+              --values <(helm get values strimoid)
 
 workflows:
   version: 2

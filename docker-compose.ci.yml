@@ -1,0 +1,7 @@
+version: '2'
+services:
+  web:
+    build:
+      args:
+        - CIRCLE_WORKFLOW_WORKSPACE_ID
+    image: quay.io/strimoid/strimoid:${CIRCLE_WORKFLOW_WORKSPACE_ID}
