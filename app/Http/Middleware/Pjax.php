@@ -14,34 +14,27 @@ class Pjax
         /** @var $response Response */
         $response = $next($request);
 
-        // Only handle non-redirections
-        if (!$response->isRedirection()) {
-            // Must be a pjax-request
-            if ($request->server->get('HTTP_X_PJAX')) {
-                $crawler = new Crawler($response->getContent());
-
-                // Filter to title (in order to update the browser title bar)
-                $response_title = $crawler->filter('head > title');
-
-                // Filter to given container
-                $response_container = $crawler->filter($request->server->get('HTTP_X_PJAX_CONTAINER'));
-
-                // Container must exist
-                if ($response_container->count() != 0) {
-                    $title = '';
-                    // If a title-attribute exists
-                    if ($response_title->count() != 0) {
-                        $title = '<title>' . $response_title->html() . '</title>';
-                    }
-
-                    // Set new content for the response
-                    $response->setContent($title . $response_container->html());
-                }
-
-                // Updating address bar with the last URL in case there were redirects
-                $response->header('X-PJAX-URL', $request->getRequestUri());
-            }
+        if ($response->isRedirection() || !$request->hasHeader('X-PJAX')) {
+            return $response;
         }
+
+        $crawler = new Crawler($response->getContent());
+        $selector = $request->header('X-PJAX-Container');
+
+        $responseTitle = $crawler->filter('head > title');
+        $responseContainer = $crawler->filter($selector);
+
+        if ($responseContainer->count() != 0) {
+            $title = '';
+
+            if ($responseTitle->count() != 0) {
+                $title = '<title>' . $responseTitle->html() . '</title>';
+            }
+
+            $response->setContent($title . $responseContainer->html());
+        }
+
+        $response->header('X-PJAX-URL', $request->getRequestUri());
 
         return $response;
     }
