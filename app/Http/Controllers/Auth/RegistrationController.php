@@ -4,6 +4,7 @@ namespace Strimoid\Http\Controllers\Auth;
 
 use Cache;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
 use Mail;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\User;
@@ -29,18 +30,16 @@ class RegistrationController extends BaseController
             abort(500);
         }
 
-        $email = $request->input('email');
-
         $user = new User();
         $user->name = $request->input('username');
         $user->password = $request->input('password');
-        $user->email = $email;
+        $user->email = $request->input('email');
         $user->last_ip = $request->getClientIp();
         $user->activation_token = str_random(16);
         $user->save();
 
-        Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email): void {
-            $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
+        Mail::send('emails.auth.activate', compact('user'), function (Message $message) use ($user): void {
+            $message->to($user->email, $user->name)->subject('Witaj na Strimoid.pl!');
         });
 
         return redirect()->to('')->with(

@@ -79,10 +79,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     {
         $lowercase = Str::lower($value);
         $this->attributes['email'] = $lowercase;
-
-        $shadow = shadow_email($value);
-        // TODO:
-        //$this->attributes['shadow_email'] = $shadow;
     }
 
     public function setPasswordAttribute($value): void

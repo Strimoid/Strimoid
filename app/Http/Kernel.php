@@ -31,7 +31,9 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             Middleware\VerifyCsrfToken::class,
             Middleware\NotificationMarkRead::class,
-            Middleware\Pjax::class,
+
+            // TODO: needs to be updated for new version of Pjax
+            // Middleware\Pjax::class,
         ],
         'api' => [
             'bindings',

@@ -33,7 +33,7 @@ class CommentController extends BaseController
         $this->folders = $folders;
     }
 
-    public function showCommentsFromGroup(string $groupName = 'all')
+    public function showCommentsFromGroup(string $groupName = null)
     {
         // If user is on homepage, then use proper group
         if (!Route::input('groupname')) {
