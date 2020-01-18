@@ -2,17 +2,13 @@
 
 namespace Strimoid\Markdown;
 
-use League\CommonMark\Block\Parser\AbstractBlockParser;
+use League\CommonMark\Block\Parser\BlockParserInterface;
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
 
-class SpoilerParser extends AbstractBlockParser
+class SpoilerParser implements BlockParserInterface
 {
-    /**
-     *
-     * @return bool
-     */
-    public function parse(ContextInterface $context, Cursor $cursor)
+    public function parse(ContextInterface $context, Cursor $cursor): bool
     {
         // TODO: Implement parse() method.
     }
