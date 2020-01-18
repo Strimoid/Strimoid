@@ -11,10 +11,8 @@ class ApiServiceProvider extends ServiceProvider
      * This namespace is applied to the controller routes in your routes file.
      *
      * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
      */
-    protected $namespace = 'Strimoid\Api\Controllers';
+    protected string $namespace = 'Strimoid\Api\Controllers';
 
     /**
      * Bootstrap any application services.

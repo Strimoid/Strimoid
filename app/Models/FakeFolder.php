@@ -7,11 +7,9 @@ use Str;
 
 abstract class FakeFolder
 {
-    /** @var string */
-    public $urlname;
+    public string $urlname;
 
-    /** @var bool */
-    public $isPrivate = false;
+    public bool $isPrivate = false;
 
     abstract protected function getBuilder(string $model): Builder;
 

@@ -19,17 +19,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
-    /**
-     * @var UserRepository
-     */
-    protected $users;
+    protected UserRepository $users;
 
-    /**
-     * The password broker implementation.
-     *
-     * @var PasswordBroker
-     */
-    protected $passwords;
+    protected PasswordBroker $passwords;
 
     public function __construct(UserRepository $users, PasswordBroker $passwords)
     {
@@ -119,7 +111,7 @@ class UserController extends BaseController
 
     public function showPasswordResetForm($token = null)
     {
-        if (is_null($token)) {
+        if (!$token) {
             throw new NotFoundHttpException();
         }
 

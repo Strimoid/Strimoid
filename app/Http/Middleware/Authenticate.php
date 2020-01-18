@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 
 class Authenticate
 {
-    /** @var Guard */
-    protected $auth;
+    protected Guard $auth;
 
     public function __construct(Guard $auth)
     {

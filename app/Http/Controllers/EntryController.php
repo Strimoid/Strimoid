@@ -4,6 +4,7 @@ namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Input;
 use Response;
 use Route;
@@ -16,15 +17,9 @@ use Strimoid\Models\Group;
 
 class EntryController extends BaseController
 {
-    /**
-     * @var FolderRepository
-     */
-    protected $folders;
+    protected FolderRepository $folders;
 
-    /**
-     * @var GroupRepository
-     */
-    protected $groups;
+    protected GroupRepository $groups;
 
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
@@ -84,7 +79,7 @@ class EntryController extends BaseController
      *
      *
      */
-    public function showEntry(Entry $entry): \Illuminate\View\View
+    public function showEntry(Entry $entry): View
     {
         $entries = [$entry];
         view()->share('group', $entry->group);

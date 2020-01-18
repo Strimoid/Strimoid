@@ -14,10 +14,8 @@ use Strimoid\Models\UserAction;
 
 class UpdateStats extends Command
 {
-    /** @var string */
     protected $name = 'lara:updatestats';
 
-    /** @var string */
     protected $description = 'Updates stats.';
 
     public function fire(): void

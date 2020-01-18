@@ -8,7 +8,7 @@ class EntryReply extends Entry
 {
     use HasNotificationsRelationship;
 
-    protected static $rules = [
+    protected static array $rules = [
         'text' => 'required|min:1|max:2500',
     ];
 

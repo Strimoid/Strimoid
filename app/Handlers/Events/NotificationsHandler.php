@@ -136,9 +136,7 @@ class NotificationsHandler
         $oldUserIds = $notification->targets()->pluck('user_id')->toArray();
         $newUsers = $this->findMentionedUsers($newText);
 
-        $newTargets = $newUsers->filter(function (User $user) use ($oldUserIds) {
-            return !in_array($user->getKey(), $oldUserIds);
-        });
+        $newTargets = $newUsers->filter(fn(User $user) => !in_array($user->getKey(), $oldUserIds));
 
         $removedTargets = array_diff($oldUserIds, $newUsers->pluck('id')->toArray());
 

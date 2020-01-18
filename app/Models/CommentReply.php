@@ -9,7 +9,7 @@ class CommentReply extends Comment
 {
     use HasNotificationsRelationship;
 
-    protected static $rules = [
+    protected static array $rules = [
         'text' => 'required|min:1|max:5000',
     ];
 

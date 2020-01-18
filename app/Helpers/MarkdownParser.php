@@ -48,7 +48,7 @@ class MarkdownParser
     // how lines start to identify blocks. It looks for special characters to
     // identify inline elements.
 
-    private $config = [
+    private array $config = [
         'inline_images' => false,
         'headers' => false,
     ];
@@ -95,7 +95,7 @@ class MarkdownParser
     // Setters
     //
 
-    private $breaksEnabled = true;
+    private bool $breaksEnabled = true;
 
     public function setBreaksEnabled($breaksEnabled)
     {
@@ -108,7 +108,7 @@ class MarkdownParser
     // Lines
     //
 
-    protected $BlockTypes = [
+    protected array $BlockTypes = [
         '#' => ['Atx'],
         '*' => ['Rule', 'List'],
         '+' => ['List'],
@@ -136,13 +136,13 @@ class MarkdownParser
 
     // ~
 
-    protected $DefinitionTypes = [
+    protected array $DefinitionTypes = [
         //'[' => array('Reference'),
     ];
 
     // ~
 
-    protected $unmarkedBlockTypes = [
+    protected array $unmarkedBlockTypes = [
         'CodeBlock',
     ];
 
@@ -467,7 +467,7 @@ class MarkdownParser
 
     protected function identifyList($Line)
     {
-        list($name, $pattern) = $Line['text'][0] <= '-' ? ['ul', '[*+-]'] : ['ol', '[0-9]+[.]'];
+        [$name, $pattern] = $Line['text'][0] <= '-' ? ['ul', '[*+-]'] : ['ol', '[0-9]+[.]'];
 
         if (preg_match('/^(' . $pattern . '[ ]+)(.*)/', $Line['text'], $matches)) {
             $Block = [
@@ -925,7 +925,7 @@ class MarkdownParser
     // Spans
     //
 
-    protected $SpanTypes = [
+    protected array $SpanTypes = [
         '!' => ['Link'], // ?
         //'&' => array('Ampersand'),
         '*' => ['Emphasis'],
@@ -941,7 +941,7 @@ class MarkdownParser
     // ~
 
     //protected $spanMarkerList = '*_!&[</`~\\';
-    protected $spanMarkerList = '*_![/`~\\';
+    protected string $spanMarkerList = '*_![/`~\\';
 
     //
     // ~
@@ -1311,7 +1311,7 @@ class MarkdownParser
         return $instance;
     }
 
-    private static $instances = [];
+    private static array $instances = [];
 
     //
     // Deprecated Methods
@@ -1328,26 +1328,26 @@ class MarkdownParser
     // Fields
     //
 
-    protected $Definitions;
+    protected array $Definitions;
 
     //
     // Read-only
 
-    protected $specialCharacters = [
+    protected array $specialCharacters = [
         '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!',
     ];
 
-    protected $StrongRegex = [
+    protected array $StrongRegex = [
         '*' => '/^[*]{2}((?:[^*]|[*][^*]*[*])+?)[*]{2}(?![*])/s',
         '_' => '/^__((?:[^_]|_[^_]*_)+?)__(?!_)/us',
     ];
 
-    protected $EmRegex = [
+    protected array $EmRegex = [
         '*' => '/^[*]((?:[^*]|[*][*][^*]+?[*][*])+?)[*](?![*])/s',
         '_' => '/^_((?:[^_]|__[^_]*__)+?)_(?!_)\b/us',
     ];
 
-    protected $textLevelElements = [
+    protected array $textLevelElements = [
         'a', 'br', 'bdo', 'abbr', 'blink', 'nextid', 'acronym', 'basefont',
         'b', 'em', 'big', 'cite', 'small', 'spacer', 'listing',
         'i', 'rp', 'del', 'code',          'strike', 'marquee',

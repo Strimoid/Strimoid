@@ -9,8 +9,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 class RateLimit
 {
-    /** @var \GrahamCampbell\Throttle\Throttle */
-    protected $throttle;
+    protected Throttle $throttle;
 
     public function __construct(Throttle $throttle)
     {

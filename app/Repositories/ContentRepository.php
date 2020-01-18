@@ -7,10 +7,7 @@ use Strimoid\Models\Content;
 
 class ContentRepository extends Repository implements ContentRepositoryContract
 {
-    /**
-     * @var Content
-     */
-    protected $content;
+    protected Content $content;
 
     public function __construct(Content $content)
     {

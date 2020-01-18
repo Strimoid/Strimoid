@@ -32,7 +32,7 @@ class ProcessLink
         WS::send(json_encode([
             'topic' => 'content.' . $content->getKey() . '.thumbnail',
             'url' => $content->getThumbnailPath(100, 75),
-        ]));
+        ], JSON_THROW_ON_ERROR));
 
         $content->unset('thumbnail_loading');
 

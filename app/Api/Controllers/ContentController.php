@@ -13,15 +13,9 @@ use Strimoid\Models\User;
 
 class ContentController extends BaseController
 {
-    /**
-     * @var FolderRepository
-     */
-    protected $folders;
+    protected FolderRepository $folders;
 
-    /**
-     * @var GroupRepository
-     */
-    protected $groups;
+    protected GroupRepository $groups;
 
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {

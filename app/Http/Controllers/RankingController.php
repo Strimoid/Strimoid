@@ -21,6 +21,7 @@ class RankingController extends BaseController
             ->orderBy('points', 'desc');
 
         if ($group) {
+            $group = Group::name($group)->firstOrFail();
             $query->where('group_id', $group->getKey());
             $data['group'] = $group;
         }

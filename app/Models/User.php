@@ -20,7 +20,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 {
     use Authenticatable, Authorizable, CanResetPassword, HasApiTokens, HasAvatar, Notifiable;
 
-    protected $avatarPath = 'avatars/';
+    protected string $avatarPath = 'avatars/';
     protected $dates = ['last_login'];
     protected $table = 'users';
     protected $fillable = [

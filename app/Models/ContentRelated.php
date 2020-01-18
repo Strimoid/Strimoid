@@ -9,7 +9,7 @@ class ContentRelated extends BaseModel
 {
     use HasThumbnail, HasVotes;
 
-    protected static $rules = [
+    protected static array $rules = [
         'title' => 'required|min:1|max:128',
         'url' => 'required|url_custom',
     ];

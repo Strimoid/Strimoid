@@ -3,6 +3,7 @@
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
+use Stringy\Stringy;
 
 if (!function_exists('shadow')) {
     function shadow($text)
@@ -131,16 +132,16 @@ if (!function_exists('setting')) {
 }
 
 if (!function_exists('s')) {
-    function s($str, string $encoding = null): \Stringy\Stringy
+    function s($str, string $encoding = null): Stringy
     {
-        return new \Stringy\Stringy($str, $encoding);
+        return new Stringy($str, $encoding);
     }
 }
 
 if (!function_exists('strans')) {
-    function strans($id = null, $replace = [], $locale = null, string $encoding = null): \Stringy\Stringy
+    function strans($id = null, $replace = [], $locale = null, string $encoding = null): Stringy
     {
-        $str = app('translator')->trans($id, $replace, $locale);
-        return new \Stringy\Stringy($str, $encoding);
+        $str = app('translator')->get($id, $replace, $locale);
+        return new Stringy($str, $encoding);
     }
 }

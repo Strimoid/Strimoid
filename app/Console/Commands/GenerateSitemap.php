@@ -7,16 +7,10 @@ use Illuminate\Routing\UrlGenerator;
 
 class GenerateSitemap extends Command
 {
-    /** @var string */
     protected $name = 'lara:generatesitemap';
-
-    /** @var string */
     protected $description = 'Generate sitemap.';
 
-    /**
-     * @var UrlGenerator
-     */
-    private $urlGenerator;
+    private UrlGenerator $urlGenerator;
 
     public function __construct(UrlGenerator $urlGenerator)
     {

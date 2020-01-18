@@ -6,8 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
-    /** @var array */
-    protected $repositories = [
+    protected array $repositories = [
         'content', 'folder', 'group', 'user',
     ];
 

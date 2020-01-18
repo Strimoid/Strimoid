@@ -8,16 +8,11 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ChangePassword extends Command
 {
-    /** @var string */
     protected $name = 'lara:chpasswd';
 
-    /** @var string */
     protected $description = 'Change user password.';
 
-    /**
-     * @var UserRepository
-     */
-    protected $users;
+    protected UserRepository $users;
 
     public function __construct(UserRepository $users)
     {

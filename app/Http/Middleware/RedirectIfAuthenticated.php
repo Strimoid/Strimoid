@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 
 class RedirectIfAuthenticated
 {
-    /** @var Guard */
-    protected $auth;
+    protected Guard $auth;
 
     public function __construct(Guard $auth)
     {

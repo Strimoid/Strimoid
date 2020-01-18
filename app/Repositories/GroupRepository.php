@@ -7,10 +7,7 @@ use Strimoid\Models\Group;
 
 class GroupRepository extends Repository implements GroupRepositoryContract
 {
-    /**
-     * @var Group
-     */
-    protected $group;
+    protected Group $group;
 
     public function __construct(Group $group)
     {

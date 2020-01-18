@@ -9,8 +9,7 @@ use Strimoid\Models\NotificationTarget;
 
 class NotificationMarkRead
 {
-    /** @var Guard */
-    protected $auth;
+    protected Guard $auth;
 
     public function __construct(Guard $auth)
     {

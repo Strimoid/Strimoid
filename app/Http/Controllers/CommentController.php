@@ -5,7 +5,6 @@ namespace Strimoid\Http\Controllers;
 use App;
 use Auth;
 use Illuminate\Http\Request;
-use Input;
 use Response;
 use Route;
 use Setting;
@@ -17,15 +16,9 @@ use Strimoid\Models\Content;
 
 class CommentController extends BaseController
 {
-    /**
-     * @var FolderRepository
-     */
-    protected $folders;
+    protected FolderRepository $folders;
 
-    /**
-     * @var GroupRepository
-     */
-    protected $groups;
+    protected GroupRepository $groups;
 
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {

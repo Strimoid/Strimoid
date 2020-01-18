@@ -8,7 +8,7 @@ use Strimoid\Models\FakeFolder;
 
 class Upvoted extends FakeFolder
 {
-    public $isPrivate = true;
+    public bool $isPrivate = true;
 
     protected function getBuilder(string $model): Builder
     {

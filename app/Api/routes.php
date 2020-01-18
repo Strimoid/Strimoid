@@ -4,9 +4,7 @@
 
 /* @var $api Dingo\Api\Routing\Router */
 
-$api->get('/', function () {
-    return '<a href="https://developers.strm.pl">API Documentation</a>';
-});
+$api->get('/', fn() => '<a href="https://developers.strm.pl">API Documentation</a>');
 
 $api->get('me', ['middleware' => 'auth', 'uses' => 'UserController@showCurrentUser']);
 

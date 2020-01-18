@@ -15,7 +15,7 @@ class Comment extends BaseModel
     use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
     use HasSaves, HasVotes;
 
-    protected static $rules = [
+    protected static array $rules = [
         'text' => 'required|min:1|max:5000',
     ];
 

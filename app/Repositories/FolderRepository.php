@@ -8,15 +8,9 @@ use Strimoid\Models\Folder;
 
 class FolderRepository extends Repository implements FolderRepositoryContract
 {
-    /**
-     * @var Folder
-     */
-    protected $folder;
+    protected Folder $folder;
 
-    /**
-     * @var UserRepository
-     */
-    protected $users;
+    protected UserRepositoryContract $users;
 
     public function __construct(Folder $folder, UserRepositoryContract $users)
     {

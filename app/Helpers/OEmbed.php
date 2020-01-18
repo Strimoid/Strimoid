@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class OEmbed
 {
-    protected $mimetypes = [
+    protected array $mimetypes = [
         'audio/' => 'embedAudio',
         'image/' => 'embedImage',
         'video/' => 'embedVideo',
@@ -20,9 +20,7 @@ class OEmbed
         try {
             $data = $this->getData($url);
 
-            $image = array_first($data['links']['thumbnail'], function ($key, $value) {
-                return $this->isImage($value);
-            });
+            $image = array_first($data['links']['thumbnail'], fn($key, $value) => $this->isImage($value));
 
             return data_get($image, 'href', null);
         } catch (RequestException $e) {
@@ -70,9 +68,7 @@ class OEmbed
         }
 
         $html = Cache::driver('oembed')
-            ->rememberForever($key, function () use ($url, $autoPlay) {
-                return $this->fetchJson($url, $autoPlay);
-            });
+            ->rememberForever($key, fn() => $this->fetchJson($url, $autoPlay));
 
         return $html;
     }

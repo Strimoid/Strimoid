@@ -6,19 +6,19 @@ use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Date;
 use DateTimeZone;
-use Eloquent;
 use Hashids;
+use Illuminate\Database\Eloquent\Model;
 use Setting;
 use Watson\Rememberable\Rememberable;
 
-abstract class BaseModel extends Eloquent
+abstract class BaseModel extends Model
 {
     use Rememberable;
 
     /**
      * @var array Validation validationRules
      */
-    protected static $rules = [];
+    protected static array $rules = [];
 
     /**
      * Return a timestamp as DateTime object.

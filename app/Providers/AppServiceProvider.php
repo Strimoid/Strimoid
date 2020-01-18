@@ -43,23 +43,17 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->bind('guzzle', function () {
-            return new Client([
-                'connect_timeout' => 3,
-                'timeout' => 10,
-            ]);
-        });
+        $this->app->bind('guzzle', fn() => new Client([
+            'connect_timeout' => 3,
+            'timeout' => 10,
+        ]));
 
-        $this->app->bind('pdp', function () {
-            return (new Manager(
-                new Cache(),
-                new CurlHttpClient()
-            ))->getRules();
-        });
+        $this->app->bind('pdp', fn() => (new Manager(
+            new Cache(),
+            new CurlHttpClient()
+        ))->getRules());
 
-        $this->app->bind('oembed', function () {
-            return new OEmbed();
-        });
+        $this->app->bind('oembed', fn() => new OEmbed());
     }
 
     private function detectLocale()

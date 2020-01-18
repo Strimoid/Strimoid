@@ -9,7 +9,7 @@ use Strimoid\Models\FakeFolder;
 
 class Blocked extends FakeFolder
 {
-    public $isPrivate = true;
+    public bool $isPrivate = true;
 
     protected function getBuilder(string $model): Builder
     {

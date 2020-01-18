@@ -14,7 +14,7 @@ class Folder extends BaseModel
         'public' => false,
     ];
 
-    protected static $rules = [
+    protected static array $rules = [
         'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u',
     ];
 

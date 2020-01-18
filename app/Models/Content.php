@@ -19,7 +19,7 @@ class Content extends BaseModel
     use HasGroupRelationship, HasThumbnail, HasUserRelationship, SoftDeletes;
     use HasSaves, HasVotes;
 
-    protected static $rules = [
+    protected static array $rules = [
         'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
         'description' => 'max:255',
         'groupname' => 'required|exists:groups,urlname',
@@ -120,13 +120,9 @@ class Content extends BaseModel
     {
         $validator = Validator::make($input, static::$rules);
 
-        $validator->sometimes('text', 'required|min:1|max:50000', function ($input) {
-            return $input->text;
-        });
+        $validator->sometimes('text', 'required|min:1|max:50000', fn($input) => $input->text);
 
-        $validator->sometimes('url', 'required|url|safe_url|max:2048', function ($input) {
-            return !$input->text;
-        });
+        $validator->sometimes('url', 'required|url|safe_url|max:2048', fn($input) => !$input->text);
 
         return $validator;
     }

@@ -6,7 +6,7 @@ use SyHolloway\MrColor\Color;
 
 class DuckController extends BaseController
 {
-    protected $salt = 0;
+    protected int $salt = 0;
 
     public function drawDuck($username)
     {

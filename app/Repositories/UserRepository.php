@@ -8,10 +8,7 @@ use Strimoid\Models\User;
 
 class UserRepository implements UserRepositoryContract
 {
-    /**
-     * @var User
-     */
-    protected $users;
+    protected User $users;
 
     public function __construct(User $user)
     {

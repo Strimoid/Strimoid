@@ -4,11 +4,12 @@ namespace Strimoid\Http\Controllers;
 
 use League\Glide\Filesystem\FileNotFoundException;
 use League\Glide\Responses\SymfonyResponseFactory;
+use League\Glide\Server;
 use League\Glide\ServerFactory;
 
 class ImageController extends BaseController
 {
-    private $server;
+    private Server $server;
 
     public function __construct(ServerFactory $serverFactory)
     {
@@ -32,7 +33,7 @@ class ImageController extends BaseController
     {
         $sourcePath = $folder . DIRECTORY_SEPARATOR . $filename . '.' . $format;
 
-        if ($width > 1000 || $height > 1000) {
+        if ($width > 1_000 || $height > 1_000) {
             return response('invalid image size', 400);
         }
 

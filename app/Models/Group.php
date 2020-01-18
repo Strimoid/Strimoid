@@ -12,16 +12,11 @@ class Group extends BaseModel
 {
     use HasAvatar;
 
-    protected $avatarPath = 'groups/';
+    protected string $avatarPath = 'groups/';
     protected $attributes = [
         'type' => 'public',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'subscribers_count' => 'integer',
     ];

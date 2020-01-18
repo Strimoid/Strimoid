@@ -5,7 +5,6 @@ namespace Strimoid\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Input;
 use Queue;
 use Redirect;
 use Response;
@@ -20,20 +19,11 @@ use Validator;
 
 class ContentController extends BaseController
 {
-    /**
-     * @var ContentRepository
-     */
-    protected $contents;
+    protected ContentRepository $contents;
 
-    /**
-     * @var GroupRepository
-     */
-    protected $groups;
+    protected GroupRepository $groups;
 
-    /**
-     * @var FolderRepository
-     */
-    protected $folders;
+    protected FolderRepository $folders;
 
     public function __construct(
         ContentRepository $contents,
@@ -156,9 +146,7 @@ class ContentController extends BaseController
         $sortBy = request('sort');
 
         if (in_array($sortBy, ['uv', 'replies'])) {
-            $content->comments = $content->comments->sortBy(function ($comment) use ($sortBy) {
-                return ($sortBy == 'uv') ? $comment->uv : $comment->replies->count();
-            })->reverse();
+            $content->comments = $content->comments->sortBy(fn($comment) => ($sortBy == 'uv') ? $comment->uv : $comment->replies->count())->reverse();
         }
 
         view()->share('group', $content->group);
