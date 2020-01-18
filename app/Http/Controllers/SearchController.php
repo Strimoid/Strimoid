@@ -4,6 +4,7 @@ namespace Strimoid\Http\Controllers;
 
 use Carbon;
 use DateInterval;
+use Illuminate\Http\Request;
 use Input;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
@@ -14,16 +15,20 @@ class SearchController extends BaseController
 {
     protected $builder;
 
-    public function search()
+    public function search(Request $request)
     {
-        if (Input::has('q')) {
+        $results = null;
+
+        if ($request->has('q')) {
+            $query = $request->get('q');
+
             $keywords = preg_replace(
                 '/((\w+):(\w+\pL.))+\s?/i',
                 '',
-                Input::get('q')
+                $query
             );
 
-            switch (Input::get('t')) {
+            switch ($request->get('t')) {
                 case 'e':
                     $builder = Entry::where('text', 'like', '%' . $keywords . '%');
                     break;
@@ -43,7 +48,7 @@ class SearchController extends BaseController
             }
 
             $this->builder = $builder;
-            $this->setupFilters(Input::get('q'));
+            $this->setupFilters($query);
 
             $results = $this->builder->paginate(25);
         }
@@ -51,7 +56,7 @@ class SearchController extends BaseController
         return view('search.main', compact('results'));
     }
 
-    protected function getArguments($text)
+    protected function getArguments(string $text): array
     {
         $arguments = [];
 
@@ -65,7 +70,7 @@ class SearchController extends BaseController
         return $arguments;
     }
 
-    protected function setupFilters($text): void
+    protected function setupFilters(string $text): void
     {
         $arguments = $this->getArguments($text);
 
