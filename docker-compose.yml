@@ -12,7 +12,7 @@ services:
   beanstalkd:
     image: schickling/beanstalkd
   postgres:
-    image: postgres:11-alpine
+    image: postgres:12-alpine
     environment:
      - POSTGRES_USER=strimoid
      - POSTGRES_PASSWORD=strimoid

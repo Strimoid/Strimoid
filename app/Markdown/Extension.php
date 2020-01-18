@@ -3,19 +3,19 @@
 namespace Strimoid\Markdown;
 
 use League\CommonMark\Block\Parser\BlockParserInterface;
-use League\CommonMark\Extension\Extension as BaseExtension;
+use League\CommonMark\ConfigurableEnvironmentInterface;
+use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Inline\Parser\InlineParserInterface;
 
-class Extension extends BaseExtension
+final class Extension implements ExtensionInterface
 {
-    /**
-     * @return BlockParserInterface[]
-     */
-    public function getBlockParsers()
+    public function register(ConfigurableEnvironmentInterface $environment): void
     {
-        return [
-            app(SpoilerParser::class),
-        ];
+        $environment
+            ->addBlockParser(new SpoilerParser())
+            ->addInlineParser(new GroupMentionParser())
+            ->addInlineParser(new UserMentionParser())
+        ;
     }
 
     /**

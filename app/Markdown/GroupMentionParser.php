@@ -3,18 +3,18 @@
 namespace Strimoid\Markdown;
 
 use League\CommonMark\Inline\Element\Link;
-use League\CommonMark\Inline\Parser\AbstractInlineParser;
+use League\CommonMark\Inline\Parser\InlineParserInterface;
 use League\CommonMark\InlineParserContext;
 use Strimoid\Models\Group;
 
-class GroupMentionParser extends AbstractInlineParser
+class GroupMentionParser implements InlineParserInterface
 {
-    public function getCharacters()
+    public function getCharacters(): array
     {
         return ['g'];
     }
 
-    public function parse(InlineParserContext $inlineContext)
+    public function parse(InlineParserContext $inlineContext): bool
     {
         $cursor = $inlineContext->getCursor();
 
