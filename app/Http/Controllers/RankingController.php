@@ -25,12 +25,8 @@ class RankingController extends BaseController
             $data['group'] = $group;
         }
 
-        if ($request->has('user')) {
-            $user = User::name($request->get('user'))->firstOrFail();
-        }
-
         // Time filter
-        $time = intval($request->get('time')) ?: 90;
+        $time = (int) $request->get('time') ?: 90;
         $fromDay = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1)) - $time;
         $query->where('day', '>', $fromDay);
 
