@@ -36,16 +36,16 @@ class SettingsController extends BaseController
             'timezone' => 'timezone',
         ]);
 
-        $settings['enter_send'] = Input::get('enter_send') == 'on' ? true : false;
-        $settings['pin_navbar'] = Input::get('pin_navbar') == 'on' ? true : false;
-        $settings['notifications_sound'] = Input::get('notifications_sound') == 'on' ? true : false;
-        $settings['homepage_subscribed'] = Input::get('homepage_subscribed') == 'on' ? true : false;
-        $settings['disable_groupstyles'] = Input::get('disable_groupstyles') == 'on' ? true : false;
-        $settings['css_style'] = Input::get('css_style');
-        $settings['contents_per_page'] = (int) Input::get('contents_per_page');
-        $settings['entries_per_page'] = (int) Input::get('entries_per_page');
-        $settings['timezone'] = Input::get('timezone');
-        $settings['notifications.auto_read'] = Input::get('notifications.auto_read') == 'on' ? true : false;
+        $settings['enter_send'] = $request->get('enter_send') == 'on' ? true : false;
+        $settings['pin_navbar'] = $request->get('pin_navbar') == 'on' ? true : false;
+        $settings['notifications_sound'] = $request->get('notifications_sound') == 'on' ? true : false;
+        $settings['homepage_subscribed'] = $request->get('homepage_subscribed') == 'on' ? true : false;
+        $settings['disable_groupstyles'] = $request->get('disable_groupstyles') == 'on' ? true : false;
+        $settings['css_style'] = $request->get('css_style');
+        $settings['contents_per_page'] = (int) $request->get('contents_per_page');
+        $settings['entries_per_page'] = (int) $request->get('entries_per_page');
+        $settings['timezone'] = $request->get('timezone');
+        $settings['notifications.auto_read'] = $request->get('notifications.auto_read') == 'on' ? true : false;
 
         foreach ($settings as $key => $value) {
             setting()->set($key, $value);

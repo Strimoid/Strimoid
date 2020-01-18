@@ -29,9 +29,9 @@ class ContentController extends BaseController
         $this->groups = $groups;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if (Input::has('folder')) {
+        if ($request->has('folder')) {
             $username = request('user', auth()->id());
             $entity = $this->folders->getByName($username, request('folder'));
         } else {
@@ -60,12 +60,12 @@ class ContentController extends BaseController
         }
 
         // User filter
-        if (Input::has('user')) {
+        if ($request->has('user')) {
             $user = User::name(request('user'))->firstOrFail();
             $builder->where('user_id', $user->getKey());
         }
 
-        $perPage = Input::has('per_page')
+        $perPage = $request->has('per_page')
             ? between(request('per_page'), 1, 100)
             : 20;
 
@@ -168,6 +168,6 @@ class ContentController extends BaseController
         $fields = ['title', 'description', 'nsfw', 'eng'];
         $fields[] = ($content->text) ? 'text' : 'url';
 
-        $content->update(Input::only($fields));
+        $content->update($request->only($fields));
     }
 }

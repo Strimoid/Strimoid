@@ -118,7 +118,7 @@ class EntryController extends BaseController
     {
         $this->validate($request, Entry::validationRules());
 
-        $group = Group::name(Input::get('groupname'))->firstOrFail();
+        $group = Group::name($request->get('groupname'))->firstOrFail();
         $group->checkAccess();
 
         if (Auth::user()->isBanned($group)) {
@@ -130,7 +130,7 @@ class EntryController extends BaseController
         }
 
         $entry = new Entry();
-        $entry->text = Input::get('text');
+        $entry->text = $request->get('text');
         $entry->user()->associate(Auth::user());
         $entry->group()->associate($group);
         $entry->save();
@@ -147,7 +147,7 @@ class EntryController extends BaseController
         }
 
         $reply = new EntryReply();
-        $reply->text = Input::get('text');
+        $reply->text = $request->get('text');
         $reply->user()->associate(Auth::user());
         $entry->replies()->save($reply);
 
@@ -174,7 +174,7 @@ class EntryController extends BaseController
 
         $this->validate($request, EntryReply::validationRules());
 
-        $entry->text = Input::get('text');
+        $entry->text = $request->get('text');
         $entry->save();
 
         return Response::json(['status' => 'ok', 'parsed' => $entry->text]);
@@ -182,7 +182,7 @@ class EntryController extends BaseController
 
     public function removeEntry(Request $request, $id = null)
     {
-        $id = hashids_decode($id ? $id : Input::get('id'));
+        $id = hashids_decode($id ? $id : $request->get('id'));
         $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
 
         $entry = $class::findOrFail($id);

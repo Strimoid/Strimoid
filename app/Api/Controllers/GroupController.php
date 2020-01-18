@@ -2,6 +2,7 @@
 
 namespace Strimoid\Api\Controllers;
 
+use Illuminate\Http\Request;
 use Input;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
@@ -11,16 +12,16 @@ use Strimoid\Models\GroupModerator;
 
 class GroupController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
         $builder = Group::where('type', '!=', 'private');
 
-        if (Input::has('name')) {
-            $builder->where('name', 'like', '%' . Input::get('name') . '%');
+        if ($request->has('name')) {
+            $builder->where('name', 'like', '%' . $request->get('name') . '%');
         }
 
-        if (in_array(Input::get('sort'), ['created_at', 'subscribers_count'])) {
-            $builder->orderBy(Input::get('sort'), 'desc');
+        if (in_array($request->get('sort'), ['created_at', 'subscribers_count'])) {
+            $builder->orderBy($request->get('sort'), 'desc');
         } else {
             $builder->orderBy('created_at', 'desc');
         }
@@ -36,12 +37,12 @@ class GroupController extends BaseController
         $group->checkAccess();
 
         $stats = [
-            'contents' => intval(Content::where('group_id', $group->getKey())->count()),
-            'comments' => intval(Content::where('group_id', $group->getKey())->sum('comments')),
-            'entries' => intval(Entry::where('group_id', $group->getKey())->count()),
-            'banned' => intval(GroupBan::where('group_id', $group->getKey())->count()),
+            'contents' => (int) Content::where('group_id', $group->getKey())->count(),
+            'comments' => (int) Content::where('group_id', $group->getKey())->sum('comments'),
+            'entries' => (int) Entry::where('group_id', $group->getKey())->count(),
+            'banned' => (int) GroupBan::where('group_id', $group->getKey())->count(),
             'subscribers' => $group->subscribers,
-            'moderators' => intval(GroupModerator::where('group_id', $group->getKey())->count()),
+            'moderators' => (int) GroupModerator::where('group_id', $group->getKey())->count(),
         ];
 
         return array_merge(

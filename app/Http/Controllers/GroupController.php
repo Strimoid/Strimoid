@@ -115,8 +115,8 @@ class GroupController extends BaseController
 
         $group->sidebar = request('sidebar');
 
-        if (Input::hasFile('avatar')) {
-            $group->setAvatar(Input::file('avatar')->getRealPath());
+        if ($request->hasFile('avatar')) {
+            $group->setAvatar($request->file('avatar')->getRealPath());
         }
 
         if (request('nsfw') == 'on') {
@@ -191,7 +191,7 @@ class GroupController extends BaseController
             ->first();
 
         if ($group && $group->created_at->diffInMinutes() < 30) {
-            Input::flash();
+            $request->flash();
 
             $diff = 30 - $group->created_at->diffInMinutes();
             $minutes = Lang::choice('pluralization.minutes', $diff);

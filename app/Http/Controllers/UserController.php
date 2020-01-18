@@ -7,6 +7,7 @@ use Carbon;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
 use Input;
 use Mail;
 use PDP;
@@ -100,10 +101,10 @@ class UserController extends BaseController
 
     public function remindPassword(Request $request)
     {
-        if (Input::has('email')) {
+        if ($request->has('email')) {
             $this->validate($request, ['email' => 'required|email']);
 
-            $response = $this->passwords->sendResetLink($request->only('email'), function ($m): void {
+            $response = $this->passwords->sendResetLink($request->only('email'), function (Message $m): void {
                 $m->subject('Zmiana hasła w serwisie Strimoid.pl');
             });
 

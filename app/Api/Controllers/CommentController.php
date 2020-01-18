@@ -8,6 +8,7 @@ use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends BaseController
 {
@@ -27,9 +28,9 @@ class CommentController extends BaseController
         $this->folders = $folders;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if (Input::has('folder')) {
+        if ($request->has('folder')) {
             $username = request('user', auth()->id());
             $entity = $this->folders->getByName($username, request('folder'));
         } else {
@@ -45,11 +46,11 @@ class CommentController extends BaseController
         ]);
 
         // Time filter
-        if (Input::has('time')) {
+        if ($request->has('time')) {
             $builder->fromDaysAgo(request('time'));
         }
 
-        $perPage = Input::has('per_page')
+        $perPage = $request->has('per_page')
             ? between(request('per_page'), 1, 100)
             : 20;
 
@@ -100,14 +101,7 @@ class CommentController extends BaseController
         ]);
     }
 
-    /**
-     * Edit comment text.
-     *
-     * @param Request $request Request instance
-     * @param Comment $comment Comment instance
-     *
-     */
-    public function edit(Request $request, Comment $comment): \Symfony\Component\HttpFoundation\Response
+    public function edit(Request $request, Comment $comment): Response
     {
         $this->validate($request, $comment->validationRules());
 
@@ -115,18 +109,12 @@ class CommentController extends BaseController
             abort(403);
         }
 
-        $comment->update(Input::only('text'));
+        $comment->update($request->only('text'));
 
         return response()->json(['status' => 'ok', 'comment' => $comment]);
     }
 
-    /**
-     * Remove comment.
-     *
-     * @param Comment $comment Comment instance
-     *
-     */
-    public function remove(Comment $comment): \Symfony\Component\HttpFoundation\Response
+    public function remove(Comment $comment): Response
     {
         if (!$comment->canRemove()) {
             abort(403);
