@@ -4,7 +4,6 @@ namespace Strimoid\Api\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Input;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Folder;
@@ -12,15 +11,15 @@ use Strimoid\Models\Group;
 
 class EntryController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
         $folderName = request('folder');
-        $groupName = Input::has('group') ? shadow(request('group')) : 'all';
+        $groupName = $request->has('group') ? shadow(request('group')) : 'all';
 
         $className = 'Strimoid\\Models\\Folders\\' . studly_case($folderName ?: $groupName);
 
-        if (Input::has('folder') && !class_exists('Folders\\' . studly_case($folderName))) {
-            $user = Input::has('user') ? User::findOrFail(request('user')) : user();
+        if ($request->has('folder') && !class_exists('Folders\\' . studly_case($folderName))) {
+            $user = $request->has('user') ? User::findOrFail(request('user')) : user();
             $folder = Folder::findUserFolderOrFail($user->getKey(), request('folder'));
 
             if (!$folder->public && (auth()->guest() || $user->getKey() != auth()->id())) {
@@ -41,7 +40,7 @@ class EntryController extends BaseController
         $builder->with(['user', 'group', 'replies', 'replies.user'])
             ->orderBy('created_at', 'desc');
 
-        $perPage = Input::has('per_page')
+        $perPage = $request->has('per_page')
             ? between(request('per_page'), 1, 100)
             : 20;
 
@@ -60,8 +59,8 @@ class EntryController extends BaseController
 
     public function store(Request $request)
     {
-        if (Input::has('group')) {
-            Input::merge(['groupname' => request('group')]);
+        if ($request->has('group')) {
+            $request->merge(['groupname' => request('group')]);
         }
 
         $this->validate($request, Entry::validationRules());
@@ -113,7 +112,7 @@ class EntryController extends BaseController
             abort(403, 'Access denied');
         }
 
-        $entry->update(Input::only('text'));
+        $entry->update($request->only('text'));
 
         return response()->json(['status' => 'ok', 'parsed' => $entry->text]);
     }

@@ -35,7 +35,7 @@ class UserController
             'contents' => (int) $user->contents->count(),
             'comments' => (int) $user->comments->count(),
             'entries' => (int) $user->entries->count(),
-            'moderated_groups' => intval(GroupModerator::where('user_id', $user->getKey())->count()),
+            'moderated_groups' => (int) GroupModerator::where('user_id', $user->getKey())->count(),
         ];
 
         return [

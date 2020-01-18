@@ -11,33 +11,33 @@ class DailyAction extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public function getPointsAttribute($value)
+    public function getPointsAttribute($value): int
     {
-        return intval($value);
+        return (int) $value;
     }
 
-    public function getContentsAttribute($value)
+    public function getContentsAttribute($value): int
     {
-        return intval($value);
+        return (int) $value;
     }
 
-    public function getCommentsAttribute($value)
+    public function getCommentsAttribute($value): int
     {
-        return intval($value);
+        return (int) $value;
     }
 
-    public function getEntriesAttribute($value)
+    public function getEntriesAttribute($value): int
     {
-        return intval($value);
+        return (int) $value;
     }
 
-    public function getUvAttribute($value)
+    public function getUvAttribute($value): int
     {
-        return intval($value);
+        return (int) $value;
     }
 
-    public function getDvAttribute($value)
+    public function getDvAttribute($value): int
     {
-        return intval($value);
+        return (int) $value;
     }
 }

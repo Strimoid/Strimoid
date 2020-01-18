@@ -160,7 +160,7 @@ class Group extends BaseModel
         $ban->group()->associate($this);
         $ban->user()->associate($user);
         $ban->moderator()->associate(Auth::user());
-        $ban->reason = Input::get('reason');
+        $ban->reason = $reason;
 
         $ban->save();
     }

@@ -2,9 +2,13 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Strimoid\Models\Content;
+
 class PollController extends BaseController
 {
-    public function addVote(Content $content)
+    public function addVote(Request $request, Content $content)
     {
         $poll = $content->poll;
 
@@ -34,7 +38,7 @@ class PollController extends BaseController
         }
 
         // Now validate replies
-        $validator = Validator::make(Input::all(), $rules, [
+        $validator = Validator::make($request->all(), $rules, [
             'required' => 'Odpowiedź na to pytanie jest wymagana',
             'min' => 'Zaznaczyłeś zbyt małą liczbę odpowiedzi',
             'max' => 'Zaznaczyłeś zbyt dużą liczbę odpowiedzi',
@@ -50,7 +54,7 @@ class PollController extends BaseController
         $replies = [];
 
         foreach ($poll['questions'] as $questionId => $question) {
-            $optionIds = (array) Input::get($questionId);
+            $optionIds = (array) $request->get($questionId);
 
             foreach ($optionIds as $optionId) {
                 if (!in_array($optionId, array_column($question['options'], '_id'))) {

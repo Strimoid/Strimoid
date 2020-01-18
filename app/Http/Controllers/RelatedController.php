@@ -29,12 +29,12 @@ class RelatedController extends BaseController
                 ->with('danger_msg', 'Nie możesz dodawać powiązanych w tej grupie');
         }
 
-        $related = new ContentRelated(Input::only([
+        $related = new ContentRelated($request->only([
             'title', 'url', 'nsfw', 'eng',
         ]));
         $related->user()->associate(Auth::user());
         $related->content()->associate($content);
-        if (Input::get('thumbnail') == 'on') {
+        if ($request->get('thumbnail') == 'on') {
             $url = OEmbed::getThumbnail($related->url);
             if ($url) {
                 $related->setThumbnail($url);
@@ -46,10 +46,10 @@ class RelatedController extends BaseController
         return Redirect::route('content_comments', $content->hashid);
     }
 
-    public function removeRelated($related = null)
+    public function removeRelated(Request $request, $related = null)
     {
         $related = ($related instanceof ContentRelated)
-            ?: ContentRelated::findOrFail(hashids_decode(Input::get('id')));
+            ?: ContentRelated::findOrFail(hashids_decode($request->get('id')));
 
         if (Auth::id() == $related->user->getKey()) {
             $related->delete();
@@ -71,11 +71,11 @@ class RelatedController extends BaseController
             ]);
         }
 
-        $related = new ContentRelated(Input::only([
+        $related = new ContentRelated($request->only([
             'title', 'url', 'nsfw', 'eng',
         ]));
 
-        if (Input::get('thumbnail') != 'false' && Input::get('thumbnail') != 'off') {
+        if ($request->get('thumbnail') != 'false' && $request->get('thumbnail') != 'off') {
             $url = OEmbed::getThumbnail($this->url);
             if ($url) {
                 $related->setThumbnail($url);

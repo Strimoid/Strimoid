@@ -76,11 +76,11 @@ class CommentController extends BaseController
         return view('comments.list', compact('comments'));
     }
 
-    public function getCommentSource()
+    public function getCommentSource(Request $request)
     {
-        $class = Input::get('type') == 'comment' ? Comment::class : CommentReply::class;
+        $class = $request->get('type') == 'comment' ? Comment::class : CommentReply::class;
 
-        $id = hashids_decode(Input::get('id'));
+        $id = hashids_decode($request->get('id'));
         $comment = $class::findOrFail($id);
 
         if (Auth::id() !== $comment->user_id) {
@@ -102,7 +102,7 @@ class CommentController extends BaseController
         }
 
         $comment = new Comment([
-            'text' => Input::get('text'),
+            'text' => $request->get('text'),
         ]);
 
         $comment->user()->associate(Auth::user());
@@ -133,7 +133,7 @@ class CommentController extends BaseController
         }
 
         $comment = new CommentReply([
-            'text' => Input::get('text'),
+            'text' => $request->get('text'),
         ]);
         $comment->user()->associate(Auth::user());
 
@@ -146,7 +146,7 @@ class CommentController extends BaseController
 
     public function editComment(Request $request)
     {
-        $class = (Input::get('type') == 'comment')
+        $class = ($request->get('type') == 'comment')
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
@@ -156,14 +156,14 @@ class CommentController extends BaseController
         }
 
         $this->validate($request, CommentReply::validationRules());
-        $comment->update(Input::only('text'));
+        $comment->update($request->only('text'));
 
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
     }
 
     public function removeComment(Request $request)
     {
-        $class = (Input::get('type') == 'comment')
+        $class = ($request->get('type') == 'comment')
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);

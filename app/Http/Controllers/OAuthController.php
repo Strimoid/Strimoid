@@ -66,9 +66,9 @@ class OAuthController extends BaseController
         ]);
 
         Client::create([
-            'name' => Input::get('name'),
+            'name' => $request->get('name'),
             'secret' => Str::random(40),
-            'redirect_uri' => Input::get('redirect_url'),
+            'redirect_uri' => $request->get('redirect_url'),
             'user_id' => Auth::id(),
         ]);
 

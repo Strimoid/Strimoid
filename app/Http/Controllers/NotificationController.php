@@ -3,6 +3,7 @@
 namespace Strimoid\Http\Controllers;
 
 use Auth;
+use Illuminate\Http\Request;
 use Response;
 use Strimoid\Models\Notification;
 use Strimoid\Models\NotificationTarget;
@@ -40,7 +41,7 @@ class NotificationController extends BaseController
     {
         $newNotificationsCount = Notification::target(['user_id' => Auth::id(), 'read' => false]);
 
-        $results['new'] = intval($newNotificationsCount);
+        $results['new'] = (int) $newNotificationsCount;
 
         return Response::json($results);
     }
@@ -62,15 +63,15 @@ class NotificationController extends BaseController
         return Response::json(['status' => 'ok']);
     }
 
-    public function registerGCM()
+    public function registerGCM(Request $request)
     {
-        $validator = Validator::make(Input::all(), ['gcm_regid' => 'required|max:200']);
+        $validator = Validator::make($request->all(), ['gcm_regid' => 'required|max:200']);
 
         if ($validator->fails()) {
             return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
         }
 
-        Auth::user()->update(Input::only('gcm_regid'));
+        Auth::user()->update($request->only('gcm_regid'));
 
         return Response::json(['status' => 'ok']);
     }
@@ -85,14 +86,14 @@ class NotificationController extends BaseController
         return $notifications;
     }
 
-    public function edit(Notification $notification)
+    public function edit(Request $request, Notification $notification)
     {
         if (!in_array(Auth::id(), array_column($notification->_targets, 'user_id'))) {
             App::abort(403, 'Access denied');
         }
 
         $notification->target(['user_id' => Auth::id()])
-            ->update(Input::only('read'));
+            ->update($request->only('read'));
 
         return Response::json(['status' => 'ok']);
     }

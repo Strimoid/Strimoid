@@ -50,7 +50,7 @@ class ContentController extends BaseController
 
      * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
-    public function showContentsFromGroup(string $groupName = null)
+    public function showContentsFromGroup(Request $request, string $groupName = null)
     {
         $routeName = Route::currentRouteName();
         $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
@@ -77,7 +77,7 @@ class ContentController extends BaseController
 
         $builder = $group->contents($tab, $orderBy);
 
-        return $this->showContents($builder);
+        return $this->showContents($request, $builder);
     }
 
     /**
@@ -85,7 +85,7 @@ class ContentController extends BaseController
      *
      * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
-    public function showContentsFromFolder()
+    public function showContentsFromFolder(Request $request)
     {
         $tab = str_contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
 
@@ -104,10 +104,10 @@ class ContentController extends BaseController
 
         $builder = $folder->contents($tab, $orderBy);
 
-        return $this->showContents($builder);
+        return $this->showContents($request, $builder);
     }
 
-    protected function showContents($builder)
+    protected function showContents(Request $request, $builder)
     {
         $builder->with('group', 'user');
 
@@ -120,7 +120,7 @@ class ContentController extends BaseController
         // Paginate and attach parameters to paginator links
         $perPage = Setting::get('entries_per_page', 25);
         $contents = $builder->paginate($perPage);
-        $contents->appends(Input::only(['sort', 'time', 'all']));
+        $contents->appends($request->only(['sort', 'time', 'all']));
 
         // Return RSS feed for some of routes
         if (ends_with(Route::currentRouteName(), '_rss')) {
@@ -218,7 +218,7 @@ class ContentController extends BaseController
                 ->with('danger_msg', 'Nie możesz dodawać treści do wybranej grupy');
         }
 
-        $content = new Content(Input::only([
+        $content = new Content($request->only([
             'title', 'description', 'nsfw', 'eng',
         ]));
 
@@ -242,7 +242,7 @@ class ContentController extends BaseController
         return Redirect::route('content_comments', $content);
     }
 
-    public function editContent(Content $content)
+    public function editContent(Request $request, Content $content)
     {
         if (!$content->canEdit(user())) {
             return Redirect::route('content_comments', $content->getKey())
@@ -260,7 +260,7 @@ class ContentController extends BaseController
             $rules['url'] = 'required|url_custom|max:2048';
         }
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return Redirect::action('ContentController@showEditForm', $content->getKey())
