@@ -9,7 +9,7 @@ API documentation
 ========
 You can find API documentation at [https://developers.strm.pl](https://developers.strm.pl)
 
-How to start?
+How to start
 ========
 You'll need to get [Docker](https://www.docker.com/products/overview) and docker-compose, if you don't have them already installed.
 

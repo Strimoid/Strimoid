@@ -104,9 +104,7 @@ class UserController extends BaseController
         if ($request->has('email')) {
             $this->validate($request, ['email' => 'required|email']);
 
-            $response = $this->passwords->sendResetLink($request->only('email'), function (Message $m): void {
-                $m->subject('Zmiana hasła w serwisie Strimoid.pl');
-            });
+            $response = $this->passwords->sendResetLink($request->only('email'));
 
             switch ($response) {
                 case PasswordBroker::RESET_LINK_SENT:
