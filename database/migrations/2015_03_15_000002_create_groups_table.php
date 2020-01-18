@@ -18,7 +18,7 @@ class CreateGroupsTable extends Migration
             // Basic data
             $table->string('avatar', 16)->nullable();
             $table->string('description', 255)->nullable();
-            $table->string('name')->unique()->collation = 'utf8_unicode_ci';
+            $table->string('name')->unique();
             $table->string('style')->nullable();
             $table->string('urlname');
             $table->enum('type', ['public', 'private']);
