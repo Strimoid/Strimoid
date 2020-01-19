@@ -239,9 +239,9 @@
                 <?php $x++; ?>
                 <tr>
                     <td>{!! $x !!}</td>
-                    <td><a href="{!! route('group_contents', $subscribedGroup->group->urlname) !!}">{!! $subscribedGroup->group->name !!}</a></td>
+                    <td><a href="{!! route('group_contents', $subscribedGroup->urlname) !!}">{!! $subscribedGroup->name !!}</a></td>
                     <td>{!! $subscribedGroup->created_at->diffForHumans() !!}</td>
-                    <td><button type="button" data-name="{!! $subscribedGroup->group->urlname !!}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
+                    <td><button type="button" data-name="{!! $subscribedGroup->urlname !!}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
                 </tr>
                 @endforeach
 
@@ -266,9 +266,9 @@
                 <?php $x++; ?>
                 <tr>
                     <td>{!! $x !!}</td>
-                    <td><a href="{!! route('group_contents', $moderatedGroup->group->urlname) !!}">{!! $moderatedGroup->group->name !!}</a></td>
+                    <td><a href="{!! route('group_contents', $moderatedGroup->urlname) !!}">{!! $moderatedGroup->name !!}</a></td>
                     <td>{!! $moderatedGroup->created_at->diffForHumans() !!}</td>
-                    <td data-name="{!! $moderatedGroup->group->urlname !!}"><button type="button" data-name="{!! $moderatedGroup->group->urlname !!}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
+                    <td data-name="{!! $moderatedGroup->urlname !!}"><button type="button" data-name="{!! $moderatedGroup->urlname !!}" class="btn btn-xs group_subscribe_btn btn-success">Subskrybuj</button></td>
                 </tr>
                 @endforeach
 
@@ -293,9 +293,9 @@
                 <?php $x++; ?>
                 <tr>
                     <td>{!! $x !!}</td>
-                    <td><a href="{!! route('group_contents', $blockedGroup->group->urlname) !!}">{!! $blockedGroup->group->name !!}</a></td>
+                    <td><a href="{!! route('group_contents', $blockedGroup->urlname) !!}">{!! $blockedGroup->name !!}</a></td>
                     <td>{!! $blockedGroup->created_at->diffForHumans() !!}</td>
-                    <td data-name="{!! $blockedGroup->group->urlname !!}"><button type="button" data-name="{!! $blockedGroup->group->urlname !!}" class="btn btn-xs group_block_btn btn-danger">Blokuj</button></td>
+                    <td data-name="{!! $blockedGroup->urlname !!}"><button type="button" data-name="{!! $blockedGroup->urlname !!}" class="btn btn-xs group_block_btn btn-danger">Blokuj</button></td>
                 </tr>
                 @endforeach
 
@@ -320,7 +320,7 @@
                 <?php $x++; ?>
                 <tr>
                     <td>{!! $x !!}</td>
-                    <td><a href="{!! route('group_contents', $ban->group->urlname) !!}">{!! $ban->group->name !!}</a></td>
+                    <td><a href="{!! route('group_contents', $ban->urlname) !!}">{!! $ban->name !!}</a></td>
                     <td>{!! $ban->created_at->diffForHumans() !!}</td>
                     <td>{{{ $ban->reason }}}</td>
                 </tr>
