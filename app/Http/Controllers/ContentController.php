@@ -146,7 +146,7 @@ class ContentController extends BaseController
         $sortBy = request('sort');
 
         if (in_array($sortBy, ['uv', 'replies'])) {
-            $content->comments = $content->comments->sortBy(fn($comment) => ($sortBy == 'uv') ? $comment->uv : $comment->replies->count())->reverse();
+            $content->comments = $content->comments->sortBy(fn ($comment) => $sortBy == 'uv' ? $comment->uv : $comment->replies->count())->reverse();
         }
 
         view()->share('group', $content->group);

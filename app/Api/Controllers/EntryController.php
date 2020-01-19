@@ -52,9 +52,7 @@ class EntryController extends BaseController
         $entry->load(['user', 'group']);
 
         // loading of embedded relations is broken atm :(
-        $entry = array_merge($entry->toArray(), ['replies' => $entry->replies->toArray()]);
-
-        return $entry;
+        return array_merge($entry->toArray(), ['replies' => $entry->replies->toArray()]);
     }
 
     public function store(Request $request)

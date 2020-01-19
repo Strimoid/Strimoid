@@ -11,7 +11,7 @@ class Pjax
 {
     public function handle(Request $request, Closure $next)
     {
-        /** @var $response Response */
+        /** @var Response $response */
         $response = $next($request);
 
         if ($response->isRedirection() || !$request->hasHeader('X-PJAX')) {

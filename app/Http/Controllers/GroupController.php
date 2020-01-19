@@ -4,7 +4,6 @@ namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Input;
 use Lang;
 use Redirect;
 use Response;

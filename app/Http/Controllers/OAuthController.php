@@ -3,6 +3,7 @@
 namespace Strimoid\Http\Controllers;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthException;
@@ -13,6 +14,8 @@ class OAuthController extends BaseController
 {
     use ValidatesRequests;
 
+    private AuthorizationServer $server;
+
     public function __construct(AuthorizationServer $server)
     {
         $this->server = $server;
@@ -22,7 +25,7 @@ class OAuthController extends BaseController
      * Issue a new token.
      *
      */
-    public function getAccessToken(): \Illuminate\Http\JsonResponse
+    public function getAccessToken(): JsonResponse
     {
         try {
             $response = $this->server->issueAccessToken();

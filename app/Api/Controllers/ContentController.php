@@ -3,7 +3,6 @@
 namespace Strimoid\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Input;
 use Queue;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
@@ -160,7 +159,7 @@ class ContentController extends BaseController
         $this->validate($request, $rules);
 
         $fields = ['title', 'description', 'nsfw', 'eng'];
-        $fields[] = ($content->text) ? 'text' : 'url';
+        $fields[] = $content->text ? 'text' : 'url';
 
         $content->update($request->only($fields));
     }

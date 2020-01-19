@@ -86,9 +86,7 @@ class MarkdownParser
         $markup = $this->lines($lines);
 
         // trim line breaks
-        $markup = trim($markup, "\n");
-
-        return $markup;
+        return trim($markup, "\n");
     }
 
     //
@@ -271,11 +269,7 @@ class MarkdownParser
 
         // ~
 
-        $markup = $this->elements($Elements);
-
-        // ~
-
-        return $markup;
+        return $this->elements($Elements);
     }
 
     //
@@ -296,15 +290,13 @@ class MarkdownParser
 
             $text = trim($Line['text'], '# ');
 
-            $Block = [
+            return [
                 'element' => [
                     'name' => 'h' . $level,
                     'text' => $text,
                     'handler' => 'line',
                 ],
             ];
-
-            return $Block;
         }
     }
 
@@ -316,7 +308,7 @@ class MarkdownParser
         if ($Line['indent'] >= 4) {
             $text = substr($Line['body'], 4);
 
-            $Block = [
+            return [
                 'element' => [
                     'name' => 'pre',
                     'handler' => 'element',
@@ -326,8 +318,6 @@ class MarkdownParser
                     ],
                 ],
             ];
-
-            return $Block;
         }
     }
 
@@ -413,7 +403,7 @@ class MarkdownParser
                 ];
             }
 
-            $Block = [
+            return [
                 'char' => $Line['text'][0],
                 'element' => [
                     'name' => 'pre',
@@ -421,8 +411,6 @@ class MarkdownParser
                     'text' => $Element,
                 ],
             ];
-
-            return $Block;
         }
     }
 
@@ -544,15 +532,13 @@ class MarkdownParser
     protected function identifyQuote($Line)
     {
         if (preg_match('/^&gt;[ ]?(.*)/', $Line['text'], $matches)) {
-            $Block = [
+            return [
                 'element' => [
                     'name' => 'blockquote',
                     'handler' => 'lines',
                     'text' => (array) $matches[1],
                 ],
             ];
-
-            return $Block;
         }
     }
 
@@ -583,13 +569,11 @@ class MarkdownParser
     protected function identifyRule($Line)
     {
         if (preg_match('/^([' . $Line['text'][0] . '])([ ]{0,2}\1){2,}[ ]*$/', $Line['text'])) {
-            $Block = [
+            return [
                 'element' => [
                     'name' => 'hr',
                 ],
             ];
-
-            return $Block;
         }
     }
 
@@ -852,15 +836,13 @@ class MarkdownParser
 
     protected function buildParagraph($Line)
     {
-        $Block = [
+        return [
             'element' => [
                 'name' => 'p',
                 'text' => $Line['text'],
                 'handler' => 'line',
             ],
         ];
-
-        return $Block;
     }
 
     //
@@ -1267,9 +1249,7 @@ class MarkdownParser
     {
         $breakMarker = $this->breaksEnabled ? "\n" : "  \n";
 
-        $text = str_replace($breakMarker, "<br>\n", $text);
-
-        return $text;
+        return str_replace($breakMarker, "<br>\n", $text);
     }
 
     //
@@ -1319,9 +1299,7 @@ class MarkdownParser
 
     public function parse($text)
     {
-        $markup = $this->text($text);
-
-        return $markup;
+        return $this->text($text);
     }
 
     //

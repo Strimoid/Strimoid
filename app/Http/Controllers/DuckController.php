@@ -21,7 +21,7 @@ class DuckController extends BaseController
         $duck = str_replace('#CCBBAA', $color, $duck);
 
         // Background color
-        ($color->hue > 180)
+        $color->hue > 180
             ? $color->hue -= 180
             : $color->hue += 180;
 

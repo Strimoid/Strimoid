@@ -2,7 +2,6 @@
 
 namespace Strimoid\Markdown;
 
-use League\CommonMark\Block\Parser\BlockParserInterface;
 use League\CommonMark\ConfigurableEnvironmentInterface;
 use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Inline\Parser\InlineParserInterface;

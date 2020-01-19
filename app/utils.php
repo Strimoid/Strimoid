@@ -9,9 +9,7 @@ if (!function_exists('shadow')) {
     function shadow($text)
     {
         $text = Str::ascii($text);
-        $text = Str::lower($text);
-
-        return $text;
+        return Str::lower($text);
     }
 }
 
@@ -87,7 +85,7 @@ if (!function_exists('toBool')) {
             $result = true;
         }
 
-        return (isset($result) && $result) ?: false;
+        return isset($result) && $result ?: false;
     }
 }
 

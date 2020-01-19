@@ -4,7 +4,6 @@ namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Input;
 use OEmbed;
 use Redirect;
 use Response;
@@ -48,7 +47,7 @@ class RelatedController extends BaseController
 
     public function removeRelated(Request $request, $related = null)
     {
-        $related = ($related instanceof ContentRelated)
+        $related = $related instanceof ContentRelated
             ?: ContentRelated::findOrFail(hashids_decode($request->get('id')));
 
         if (Auth::id() == $related->user->getKey()) {
