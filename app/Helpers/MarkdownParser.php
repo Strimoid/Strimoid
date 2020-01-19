@@ -249,7 +249,7 @@ class MarkdownParser
             if (isset($CurrentBlock) and !isset($CurrentBlock['type']) and !isset($CurrentBlock['interrupted'])) {
                 $CurrentBlock['element']['text'] .= "\n" . $text;
             } else {
-                $Elements [] = $CurrentBlock['element'];
+                $Elements [] = is_array($CurrentBlock) ? $CurrentBlock['element'] : null;
 
                 $CurrentBlock = $this->buildParagraph($Line);
 
