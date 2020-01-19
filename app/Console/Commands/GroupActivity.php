@@ -39,7 +39,7 @@ class GroupActivity extends Command
 
             $group->save();
 
-            if (!($x % 100)) {
+            if (!$x % 100) {
                 $this->info($x . ' groups processed');
             }
 

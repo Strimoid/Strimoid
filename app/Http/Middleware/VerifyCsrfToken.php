@@ -6,6 +6,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as IlluminateVerifyCsr
 
 class VerifyCsrfToken extends IlluminateVerifyCsrfToken
 {
-    /* @var array */
+    /** @var array */
     protected $except = ['oauth2/', 'api/', 'pusher/'];
 }

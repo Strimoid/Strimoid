@@ -3,7 +3,6 @@
 namespace Strimoid\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Input;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Group;
@@ -26,9 +25,7 @@ class GroupController extends BaseController
             $builder->orderBy('created_at', 'desc');
         }
 
-        $groups = $builder->paginate(100);
-
-        return $groups;
+        return $builder->paginate(100);
     }
 
     public function show($groupName)

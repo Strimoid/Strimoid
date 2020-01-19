@@ -5,7 +5,6 @@ namespace Strimoid\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Input;
 use Response;
 use Route;
 use Settings;
@@ -177,7 +176,7 @@ class EntryController extends BaseController
 
     public function removeEntry(Request $request, $id = null)
     {
-        $id = hashids_decode($id ? $id : $request->get('id'));
+        $id = hashids_decode($id ?: $request->get('id'));
         $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
 
         $entry = $class::findOrFail($id);

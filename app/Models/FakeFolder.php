@@ -49,8 +49,6 @@ abstract class FakeFolder
 
     public function entries(): Builder
     {
-        $builder = static::getBuilder(Entry::class);
-
-        return $builder;
+        return static::getBuilder(Entry::class);
     }
 }

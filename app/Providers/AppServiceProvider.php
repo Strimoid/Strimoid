@@ -9,8 +9,6 @@ use Illuminate\Support\ServiceProvider;
 use Pdp\Cache;
 use Pdp\CurlHttpClient;
 use Pdp\Manager;
-use Pdp\Parser;
-use Pdp\PublicSuffixListManager;
 use Strimoid\Helpers\OEmbed;
 
 class AppServiceProvider extends ServiceProvider
@@ -43,17 +41,17 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->bind('guzzle', fn() => new Client([
+        $this->app->bind('guzzle', fn () => new Client([
             'connect_timeout' => 3,
             'timeout' => 10,
         ]));
 
-        $this->app->bind('pdp', fn() => (new Manager(
+        $this->app->bind('pdp', fn () => (new Manager(
             new Cache(),
             new CurlHttpClient()
         ))->getRules());
 
-        $this->app->bind('oembed', fn() => new OEmbed());
+        $this->app->bind('oembed', fn () => new OEmbed());
     }
 
     private function detectLocale()

@@ -20,7 +20,7 @@ class OEmbed
         try {
             $data = $this->getData($url);
 
-            $image = array_first($data['links']['thumbnail'], fn($key, $value) => $this->isImage($value));
+            $image = array_first($data['links']['thumbnail'], fn ($key, $value) => $this->isImage($value));
 
             return data_get($image, 'href', null);
         } catch (RequestException $e) {
@@ -31,9 +31,7 @@ class OEmbed
     {
         $data = $this->getData($url);
         $data = $data['links']['thumbnail'];
-        $data = array_pluck($data, 'href');
-
-        return $data;
+        return array_pluck($data, 'href');
     }
 
     public function getData(string $url)
@@ -67,10 +65,8 @@ class OEmbed
             $key .= '.no-ap';
         }
 
-        $html = Cache::driver('oembed')
-            ->rememberForever($key, fn() => $this->fetchJson($url, $autoPlay));
-
-        return $html;
+        return Cache::driver('oembed')
+            ->rememberForever($key, fn () => $this->fetchJson($url, $autoPlay));
     }
 
     /**

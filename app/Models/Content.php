@@ -120,9 +120,9 @@ class Content extends BaseModel
     {
         $validator = Validator::make($input, static::$rules);
 
-        $validator->sometimes('text', 'required|min:1|max:50000', fn($input) => $input->text);
+        $validator->sometimes('text', 'required|min:1|max:50000', fn ($input) => $input->text);
 
-        $validator->sometimes('url', 'required|url|safe_url|max:2048', fn($input) => !$input->text);
+        $validator->sometimes('url', 'required|url|safe_url|max:2048', fn ($input) => !$input->text);
 
         return $validator;
     }

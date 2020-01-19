@@ -249,11 +249,11 @@ Route::post('/ajax/entry/remove_save', ['middleware' => 'auth', 'uses' => 'SaveC
 Route::post('/ajax/utils/get_title', ['middleware' => 'auth', 'uses' => 'UtilsController@getURLTitle']);
 
 /* Static pages ===================================================================================================== */
-Route::get('/cookies', fn() => view('static.cookies'));
-Route::get('/contact', fn() => view('static.contact'));
-Route::get('/guide', fn() => view('static.guide'));
-Route::get('/rules', fn() => view('static.rules'));
-Route::get('/tag/{tag}', fn($tag) => view('static.tag', ['tag' => $tag]));
+Route::get('/cookies', fn () => view('static.cookies'));
+Route::get('/contact', fn () => view('static.contact'));
+Route::get('/guide', fn () => view('static.guide'));
+Route::get('/rules', fn () => view('static.rules'));
+Route::get('/tag/{tag}', fn ($tag) => view('static.tag', ['tag' => $tag]));
 
 /* Search =========================================================================================================== */
 Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);

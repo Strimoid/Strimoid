@@ -4,7 +4,6 @@ namespace Strimoid\Models;
 
 use App;
 use Auth;
-use Input;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasAvatar;
 

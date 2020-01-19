@@ -113,6 +113,6 @@ class ConversationController extends BaseController
         return Conversation::with('lastMessage')
             ->withUser(Auth::id())
             ->get()
-            ->sortBy(fn($conversation) => $conversation->lastMessage->created_at)->reverse();
+            ->sortBy(fn ($conversation) => $conversation->lastMessage->created_at)->reverse();
     }
 }

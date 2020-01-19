@@ -3,7 +3,6 @@
 namespace Strimoid\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Input;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;

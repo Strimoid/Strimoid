@@ -31,7 +31,7 @@ class Conversation extends BaseModel
 
     public function target()
     {
-        return $this->users->filter(fn($value) => $value->getKey() != Auth::id())->first();
+        return $this->users->filter(fn ($value) => $value->getKey() != Auth::id())->first();
     }
 
     public function scopeWithUser($query, $userName): void

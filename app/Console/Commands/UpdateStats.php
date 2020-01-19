@@ -86,7 +86,7 @@ class UpdateStats extends Command
             }
 
             // Show progress
-            if (!($x++ % 100)) {
+            if (!$x++ % 100) {
                 $this->info($x . ' actions processed');
             }
         }
@@ -122,8 +122,6 @@ class UpdateStats extends Command
         $actionScoreModifier = 0.5;
         $actionScore = round($actionScoreBase * $actionScoreModifier);
 
-        $points = $actionPoints + $actionScore;
-
-        return $points;
+        return $actionPoints + $actionScore;
     }
 }

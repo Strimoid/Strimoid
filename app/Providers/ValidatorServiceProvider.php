@@ -28,9 +28,9 @@ class ValidatorServiceProvider extends ServiceProvider
             return $count == 0;
         });
 
-        Validator::extend('safe_url', fn($attribute, $value, $parameters) => starts_with($value, 'http'));
+        Validator::extend('safe_url', fn ($attribute, $value, $parameters) => starts_with($value, 'http'));
 
-        Validator::extend('url_custom', fn($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value));
+        Validator::extend('url_custom', fn ($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value));
 
         Validator::extend('real_email', function ($attribute, $value, $parameters) {
             $blockedDomains = [
@@ -140,7 +140,7 @@ class ValidatorServiceProvider extends ServiceProvider
             return !in_array($value, $names);
         });
 
-        Validator::extend('user_password', fn($attribute, $value, $parameters) => Hash::check($value, Auth::user()->password));
+        Validator::extend('user_password', fn ($attribute, $value, $parameters) => Hash::check($value, Auth::user()->password));
     }
 
     public function register(): void

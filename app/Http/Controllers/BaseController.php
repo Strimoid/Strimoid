@@ -24,8 +24,6 @@ abstract class BaseController extends Controller
 
         // Maybe user is having subscribed set as his homepage?
         $subscribedEnabled = Settings::get('homepage_subscribed');
-        $groupName = $subscribedEnabled ? 'subscribed' : $groupName;
-
-        return $groupName;
+        return $subscribedEnabled ? 'subscribed' : $groupName;
     }
 }

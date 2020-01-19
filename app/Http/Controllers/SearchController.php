@@ -5,7 +5,6 @@ namespace Strimoid\Http\Controllers;
 use Carbon;
 use DateInterval;
 use Illuminate\Http\Request;
-use Input;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Group;

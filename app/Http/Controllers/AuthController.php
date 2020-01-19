@@ -42,9 +42,6 @@ class AuthController extends BaseController
         return redirect('')->with('success_msg', trans('auth.logged_out'));
     }
 
-    /**
-     * Generate Pusher authentication token for currently logged user.
-     */
     public function authenticatePusher(Request $request, PusherManager $pusher): string
     {
         $channelName = 'privateU' . auth()->id();

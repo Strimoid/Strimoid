@@ -29,7 +29,7 @@ class GenerateSitemap extends Command
             $sitemap->add(URL::to($this->urlGenerator->route('group_contents_new', $group->getKey())), null, '1.0', 'daily');
             $sitemap->add(URL::to($this->urlGenerator->route('group_entries', $group->getKey())), null, '1.0', 'daily');
 
-            if (!($x % 100)) {
+            if (!$x % 100) {
                 $this->info($x . ' groups processed');
             }
 
@@ -50,7 +50,7 @@ class GenerateSitemap extends Command
 
             $sitemap->add(URL::to($route), $content->modified_at, '1.0', 'daily');
 
-            if (!($x % 100)) {
+            if (!$x % 100) {
                 $this->info($x . ' contents processed');
             }
 
@@ -71,7 +71,7 @@ class GenerateSitemap extends Command
 
             $sitemap->add(URL::to($route), $entry->modified_at, '1.0', 'daily');
 
-            if (!($x % 100)) {
+            if (!$x % 100) {
                 $this->info($x . ' entries processed');
             }
 

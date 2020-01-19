@@ -139,7 +139,7 @@ class CommentController extends BaseController
 
     public function editComment(Request $request)
     {
-        $class = ($request->get('type') == 'comment')
+        $class = $request->get('type') == 'comment'
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
@@ -156,7 +156,7 @@ class CommentController extends BaseController
 
     public function removeComment(Request $request)
     {
-        $class = ($request->get('type') == 'comment')
+        $class = $request->get('type') == 'comment'
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);

@@ -3,7 +3,6 @@
 namespace Strimoid\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Strimoid\Http\Middleware\NoSessionMiddleware;
 
 class Kernel extends HttpKernel
 {

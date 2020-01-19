@@ -3,7 +3,6 @@
 namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Input;
 
 class SettingsController extends BaseController
 {

@@ -7,8 +7,6 @@ use Carbon;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Message;
-use Input;
 use Mail;
 use PDP;
 use Response;
