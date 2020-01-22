@@ -85,19 +85,18 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "php artisan clear-compiled"
-        ],
-        "post-update-cmd": [
-            "php artisan clear-compiled",
-            "php artisan ide-helper:generate -M"
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "Pdp\\Installer::updateLocalCache",
+            "@php artisan ide-helper:generate -M",
+            "@php artisan package:discover --ansi"
         ],
         "post-root-package-install": [
-            "php -r \"copy('.env.sample', '.env');\""
+            "@php -r \"copy('.env.sample', '.env');\""
         ],
         "post-create-project-cmd": [
-            "php -r \"copy('.env.sample', '.env');\"",
-            "php artisan key:generate"
+            "@php -r \"copy('.env.sample', '.env');\"",
+            "@php artisan key:generate"
         ],
         "test": "vendor/bin/codecept run"
     },
