@@ -44,19 +44,20 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 <script src="/assets/client.bundle.js"></script>
 
 @if (auth()->check())
-<script>
-    window.username = '{!! Auth::id()  !!}';
-    window.settings = {!! json_encode(user()->settings) !!};
-    window.observed_users = {!! json_encode((array) user()->followedUsers()->pluck('name')) !!};
-    window.blocked_users = {!! json_encode(user()->blockedUsers()->pluck('name')) !!};
-    window.blocked_groups = {!! json_encode(user()->blockedGroups()->pluck('urlname')) !!};
-    window.subscribed_groups = {!! json_encode(user()->subscribedGroups()->pluck('urlname')) !!};
-    window.moderated_groups = {!! json_encode(user()->moderatedGroups()->pluck('urlname')) !!};
+    <script>
+        window.username = '{!! Auth::id()  !!}';
+        window.settings = {!! json_encode(user()->settings) !!};
+        window.observed_users = {!! json_encode((array) user()->followedUsers()->pluck('name')) !!};
+        window.blocked_users = {!! json_encode(user()->blockedUsers()->pluck('name')) !!};
+        window.blocked_groups = {!! json_encode(user()->blockedGroups()->pluck('urlname')) !!};
+        window.subscribed_groups = {!! json_encode(user()->subscribedGroups()->pluck('urlname')) !!};
+        window.moderated_groups = {!! json_encode(user()->moderatedGroups()->pluck('urlname')) !!};
+        window.bugsnag_key = '{!! config('bugsnag.public_api_key') !!}';
 
-    @if (isset($groupURLName) && $groupURLName)
-        window.group = '{{{ $groupURLName }}}';
-    @endif
-</script>
+        @if (isset($groupURLName) && $groupURLName)
+            window.group = '{{{ $groupURLName }}}';
+        @endif
+    </script>
 @endif
 
 @yield('scripts')
