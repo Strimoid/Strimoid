@@ -29,7 +29,7 @@ class CreateGroupsModeratorsTable extends Migration
                 ->references('id')->on('users')
                 ->onDelete('cascade');
 
-            $table->boolean('accepted');
+            $table->boolean('accepted')->default(false);
             $table->enum('type', ['moderator', 'admin']);
 
             $table->timestamps();

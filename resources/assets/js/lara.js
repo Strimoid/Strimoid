@@ -63,7 +63,7 @@ import bootbox from 'bootbox'
 
 $(document).ready(function() {
     if (window.bugsnag_key) {
-        const bugsnag = bugsnag('a3bfa50249ed28f3be8cb1ac9d0f4666')
+        const bugsnagClient = bugsnag('a3bfa50249ed28f3be8cb1ac9d0f4666')
     }
 
     const query = new URLSearchParams(window.location.search);
