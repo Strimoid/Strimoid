@@ -4172,16 +4172,16 @@
         },
         {
             "name": "pda/pheanstalk",
-            "version": "v4.0.0",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pheanstalk/pheanstalk.git",
-                "reference": "328708b2cb843c214579a9ac3d1730c074038d6a"
+                "reference": "41212671020de91086ace9e6181e69829466f087"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pheanstalk/pheanstalk/zipball/328708b2cb843c214579a9ac3d1730c074038d6a",
-                "reference": "328708b2cb843c214579a9ac3d1730c074038d6a",
+                "url": "https://api.github.com/repos/pheanstalk/pheanstalk/zipball/41212671020de91086ace9e6181e69829466f087",
+                "reference": "41212671020de91086ace9e6181e69829466f087",
                 "shasum": ""
             },
             "require": {
@@ -4221,7 +4221,7 @@
             "keywords": [
                 "beanstalkd"
             ],
-            "time": "2019-01-19T15:11:35+00:00"
+            "time": "2020-01-24T11:16:41+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
