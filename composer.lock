@@ -8077,21 +8077,22 @@
         },
         {
             "name": "codeception/module-rest",
-            "version": "1.0.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-rest.git",
-                "reference": "a34a92b3fb04adc35da0da0a3b5f7d4155963fbc"
+                "reference": "c86417af517bb1fb5b88550455d823a7c9fc167e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-rest/zipball/a34a92b3fb04adc35da0da0a3b5f7d4155963fbc",
-                "reference": "a34a92b3fb04adc35da0da0a3b5f7d4155963fbc",
+                "url": "https://api.github.com/repos/Codeception/module-rest/zipball/c86417af517bb1fb5b88550455d823a7c9fc167e",
+                "reference": "c86417af517bb1fb5b88550455d823a7c9fc167e",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "^4.0",
                 "flow/jsonpath": "^0.5",
+                "justinrainbow/json-schema": "^5.2.9",
                 "php": ">=5.6.0 <8.0"
             },
             "require-dev": {
@@ -8123,7 +8124,7 @@
                 "codeception",
                 "rest"
             ],
-            "time": "2020-01-06T08:01:38+00:00"
+            "time": "2020-02-01T19:23:56+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
