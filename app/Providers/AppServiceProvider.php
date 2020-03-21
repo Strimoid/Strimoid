@@ -6,9 +6,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
-use Pdp\Cache;
-use Pdp\CurlHttpClient;
-use Pdp\Manager;
+use Pdp\Rules;
 use Strimoid\Helpers\OEmbed;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
         if (!empty($dsn)) {
             $this->app->register(\Jenssegers\Raven\RavenServiceProvider::class);
         }
-
         $locale = $this->detectLocale();
         \App::setLocale($locale);
         Carbon::setLocale($locale);
@@ -46,10 +43,14 @@ class AppServiceProvider extends ServiceProvider
             'timeout' => 10,
         ]));
 
-        $this->app->bind('pdp', fn () => (new Manager(
-            new Cache(),
-            new CurlHttpClient()
-        ))->getRules());
+        $this->app->bind('pdp', function() {
+            $path = base_path('vendor/jeremykendall/php-domain-parser/data/pdp-PSL_FULL_5a3cc7f81795bb2e48e848af42d287b4.cache');
+            $serialized = file_get_contents($path);
+            $unserialized = unserialize($serialized);
+            $data = json_decode($unserialized, true);
+
+            return new Rules($data, IDNA_DEFAULT, IDNA_DEFAULT);
+        });
 
         $this->app->bind('oembed', fn () => new OEmbed());
     }
