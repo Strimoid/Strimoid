@@ -36,7 +36,10 @@ class OEmbed
 
     public function getData(string $url)
     {
-        $query = ['url' => $url];
+        $query = array_filter([
+            'url' => $url,
+            'api_key' => config('strimoid.oembed.api_key'),
+        ]);
 
         return Guzzle::get($this->endpoint(), compact('query'))->json();
     }
@@ -77,7 +80,11 @@ class OEmbed
     protected function fetchJson($url, bool $autoPlay)
     {
         try {
-            $query = ['ssl' => 'true', 'url' => $url];
+            $query = array_filter([
+                'ssl' => 'true',
+                'url' => $url,
+                'api_key' => config('strimoid.oembed.api_key'),
+            ]);
 
             if ($autoPlay) {
                 $query['autoplay'] = 'true';
@@ -146,8 +153,8 @@ class OEmbed
      */
     protected function endpoint(): string
     {
-        $host = config('strimoid.oembed');
+        $baseUrl = config('strimoid.oembed.url');
 
-        return $host . '/iframely';
+        return $baseUrl . '/iframely';
     }
 }

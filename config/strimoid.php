@@ -6,6 +6,9 @@ return [
         'threshold'  => 2,
         'time_limit' => 7,
     ],
-    'oembed' => env('OEMBED_URL', 'https://embed.strm.pl'),
+    'oembed' => [
+        'url' => env('OEMBED_URL', 'https://embed.strm.pl'),
+        'api_key' => env('OEMBED_API_KEY', null),
+    ],
 
 ];
