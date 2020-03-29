@@ -6,6 +6,7 @@ use Cache;
 use Config;
 use Guzzle;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Response;
 
 class OEmbed
 {
@@ -41,7 +42,10 @@ class OEmbed
             'api_key' => config('strimoid.oembed.api_key'),
         ]);
 
-        return Guzzle::get($this->endpoint(), compact('query'))->json();
+        /** @var Response $response */
+        $response = Guzzle::get($this->endpoint(), compact('query'));
+
+        return json_decode($response->getBody(), true);
     }
 
     protected function isImage($link)
