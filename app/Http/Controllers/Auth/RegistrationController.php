@@ -2,10 +2,11 @@
 
 namespace Strimoid\Http\Controllers\Auth;
 
-use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
-use Mail;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\User;
 
@@ -35,7 +36,7 @@ class RegistrationController extends BaseController
         $user->password = $request->input('password');
         $user->email = $request->input('email');
         $user->last_ip = $request->getClientIp();
-        $user->activation_token = str_random(16);
+        $user->activation_token = Str::random(16);
         $user->save();
 
         Mail::send('emails.auth.activate', compact('user'), function (Message $message) use ($user): void {
@@ -68,7 +69,7 @@ class RegistrationController extends BaseController
         return redirect()->to('/kreator')->with(
             'success_msg',
             'Witaj w gronie użytkowników serwisu ' . config('app.site_name') . '! ;) ' .
-            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.'
+            'Zacznij od zasubskrybowania grup pasujących do twoich zainteresowań.'
         );
     }
 }

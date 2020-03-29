@@ -4,6 +4,7 @@ namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Queue;
 use Redirect;
@@ -43,7 +44,7 @@ class ContentController extends BaseController
     public function showContentsFromGroup(Request $request, string $groupName = null)
     {
         $routeName = Route::currentRouteName();
-        $tab = str_contains($routeName, 'new') ? 'new' : 'popular';
+        $tab = Str::contains($routeName, 'new') ? 'new' : 'popular';
 
         // If user is on homepage, then use proper group
         if (!Route::input('groupname')) {
@@ -77,7 +78,7 @@ class ContentController extends BaseController
      */
     public function showContentsFromFolder(Request $request)
     {
-        $tab = str_contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
+        $tab = Str::contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
 
         $userName = Route::input('user') ?: Auth::id();
         $folderName = Route::input('folder');
@@ -113,7 +114,7 @@ class ContentController extends BaseController
         $contents->appends($request->only(['sort', 'time', 'all']));
 
         // Return RSS feed for some of routes
-        if (ends_with(Route::currentRouteName(), '_rss')) {
+        if (Str::endsWith(Route::currentRouteName(), '_rss')) {
             return $this->generateRssFeed($contents);
         }
 

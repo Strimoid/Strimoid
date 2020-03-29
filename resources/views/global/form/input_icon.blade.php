@@ -28,7 +28,7 @@ $options = [
             @if ($type == 'text')
                 {!! Form::text($name, null, $options) !!}
             @elseif ($type == 'textarea')
-                {!! Form::textarea($name, null, array_add($options, 'rows', $rows)) !!}
+                {!! Form::textarea($name, null, Arr::add($options, 'rows', $rows)) !!}
             @elseif ($type == 'email')
                 {!! Form::email($name, null, $options) !!}
             @elseif ($type == 'password')

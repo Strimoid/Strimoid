@@ -6,7 +6,7 @@ use Auth;
 use DB;
 use Hash;
 use Illuminate\Support\ServiceProvider;
-use Str;
+use Illuminate\Support\Str;
 use Validator;
 
 class ValidatorServiceProvider extends ServiceProvider
@@ -28,7 +28,7 @@ class ValidatorServiceProvider extends ServiceProvider
             return $count == 0;
         });
 
-        Validator::extend('safe_url', fn ($attribute, $value, $parameters) => starts_with($value, 'http'));
+        Validator::extend('safe_url', fn ($attribute, $value, $parameters) => Str::startsWith($value, 'http'));
 
         Validator::extend('url_custom', fn ($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value));
 

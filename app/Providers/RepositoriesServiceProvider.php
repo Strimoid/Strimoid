@@ -3,6 +3,7 @@
 namespace Strimoid\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,7 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function register(): void
     {
         foreach ($this->repositories as $repository) {
-            $studly = studly_case($repository);
+            $studly = Str::studly($repository);
             $contract = 'Strimoid\\Contracts\\Repositories\\' . $studly . 'Repository';
             $repo = 'Strimoid\\Repositories\\' . $studly . 'Repository';
 

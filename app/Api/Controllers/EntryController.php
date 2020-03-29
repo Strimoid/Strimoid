@@ -4,6 +4,7 @@ namespace Strimoid\Api\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Folder;
@@ -16,9 +17,9 @@ class EntryController extends BaseController
         $folderName = request('folder');
         $groupName = $request->has('group') ? shadow(request('group')) : 'all';
 
-        $className = 'Strimoid\\Models\\Folders\\' . studly_case($folderName ?: $groupName);
+        $className = 'Strimoid\\Models\\Folders\\' . Str::studly($folderName ?: $groupName);
 
-        if ($request->has('folder') && !class_exists('Folders\\' . studly_case($folderName))) {
+        if ($request->has('folder') && !class_exists('Folders\\' . Str::studly($folderName))) {
             $user = $request->has('user') ? User::findOrFail(request('user')) : user();
             $folder = Folder::findUserFolderOrFail($user->getKey(), request('folder'));
 

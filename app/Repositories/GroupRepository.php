@@ -2,6 +2,7 @@
 
 namespace Strimoid\Repositories;
 
+use Illuminate\Support\Str;
 use Strimoid\Contracts\Repositories\GroupRepository as GroupRepositoryContract;
 use Strimoid\Models\Group;
 
@@ -16,7 +17,7 @@ class GroupRepository extends Repository implements GroupRepositoryContract
 
     public function getByName(string $name)
     {
-        $className = 'Strimoid\\Models\\Folders\\' . studly_case($name);
+        $className = 'Strimoid\\Models\\Folders\\' . Str::studly($name);
 
         if (class_exists($className)) {
             return new $className();

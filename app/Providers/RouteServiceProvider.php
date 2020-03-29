@@ -5,6 +5,7 @@ namespace Strimoid\Providers;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Str;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
@@ -54,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $binding = function ($value) use ($className) {
             try {
-                if (ends_with($className, ['Group', 'User'])) {
+                if (Str::endsWith($className, ['Group', 'User'])) {
                     return $className::name($value)->firstOrFail();
                 }
 

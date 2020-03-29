@@ -22,15 +22,15 @@ $folder->user->getKey(), $folder->getKey()
 
 ?>
 
-<li class="nav-item" @if (ends_with($currentRoute, '_contents')) class="active" @endif>
+<li class="nav-item" @if (Str::endsWith($currentRoute, '_contents')) class="active" @endif>
     <a href="{!! route($routeData['name'] .'_contents', $routeData['params']) !!}">{{ $currentGroup->name ?? 'Strimoid' }}</a>
 </li>
-<li class="nav-item" @if (ends_with($currentRoute, '_contents_new')) class="active" @endif>
+<li class="nav-item" @if (Str::endsWith($currentRoute, '_contents_new')) class="active" @endif>
     <a href="{!! route($routeData['name'] .'_contents_new', $routeData['params']) !!}">{{ trans('common.tabs.new') }}</a>
 </li>
-<li class="nav-item" @if (ends_with($currentRoute, '_comments')) class="active" @endif>
+<li class="nav-item" @if (Str::endsWith($currentRoute, '_comments')) class="active" @endif>
     <a href="{!! route($routeData['name'] .'_comments', $routeData['params']) !!}">{{ trans('common.tabs.comments') }}</a>
 </li>
-<li class="nav-item" @if (ends_with($currentRoute, '_entries')) class="active" @endif>
+<li class="nav-item" @if (Str::endsWith($currentRoute, '_entries')) class="active" @endif>
     <a href="{!! route($routeData['name'] .'_entries', $routeData['params']) !!}">{{ trans('common.tabs.entries') }}</a>
 </li>

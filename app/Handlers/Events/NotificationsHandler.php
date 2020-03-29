@@ -4,6 +4,7 @@ namespace Strimoid\Handlers\Events;
 
 use Closure;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Arr;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\ConversationMessage;
@@ -211,7 +212,7 @@ class NotificationsHandler
     protected function findMentionedUsers(string $text): array
     {
         preg_match_all('/@([a-z0-9_-]+)/i', $text, $matches, PREG_SET_ORDER);
-        $nicknames = array_pluck($matches, 1);
+        $nicknames = Arr::pluck($matches, 1);
 
         return User::whereIn('name', $nicknames)->get()->all();
     }

@@ -60,7 +60,7 @@ if (!function_exists('parse_usernames')) {
 
         $body = preg_replace_callback('/(?<=^|\s)(?<=\s|^)g\/([a-z0-9_-żźćńółęąśŻŹĆĄŚĘŁÓŃ]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = Group::name($matches[1])->first();
-            $fakeGroup = class_exists('Folders\\' . studly_case($matches[1]));
+            $fakeGroup = class_exists('Folders\\' . Str::studly($matches[1]));
 
             if ($target || $fakeGroup) {
                 $urlname = $target ? $target->urlname : $matches[1];

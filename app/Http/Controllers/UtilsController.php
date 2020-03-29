@@ -2,7 +2,8 @@
 
 namespace Strimoid\Http\Controllers;
 
-use OEmbed;
+use Illuminate\Support\Str;
+use Strimoid\Facades\OEmbed;
 use Strimoid\Models\Content;
 
 class UtilsController extends BaseController
@@ -13,10 +14,10 @@ class UtilsController extends BaseController
         $data = OEmbed::getData($url);
 
         $title = data_get($data, 'meta.title', '');
-        $title = str_limit($title, 128);
+        $title = Str::limit($title, 128);
 
         $description = data_get($data, 'meta.description', '');
-        $description = str_limit($description, 255);
+        $description = Str::limit($description, 255);
 
         // Find duplicates
         $duplicates = Content::where('url', $url)

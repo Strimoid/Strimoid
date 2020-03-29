@@ -3,10 +3,10 @@
 namespace Strimoid\Models\Traits;
 
 use Config;
+use Illuminate\Support\Str;
 use Image;
 use OEmbed;
 use Storage;
-use Str;
 
 trait HasThumbnail
 {
@@ -51,7 +51,7 @@ trait HasThumbnail
     {
         $this->removeThumbnail();
 
-        if (starts_with($url, '//')) {
+        if (Str::startsWith($url, '//')) {
             $url = 'http:' . $url;
         }
 

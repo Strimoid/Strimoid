@@ -5,6 +5,7 @@ namespace Strimoid\Http\ViewComposers;
 use Auth;
 use Cache;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Setting;
 use Strimoid\Models\Group;
 
@@ -28,7 +29,7 @@ class MasterComposer
         }
 
         // Get object from which we can extract name to use as page title
-        $currentGroup = head(array_only($data, ['group', 'folder', 'fakeGroup']));
+        $currentGroup = head(Arr::only($data, ['group', 'folder', 'fakeGroup']));
 
         $view->with('currentGroup', $currentGroup);
 

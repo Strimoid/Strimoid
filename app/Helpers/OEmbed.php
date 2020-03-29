@@ -2,11 +2,12 @@
 
 namespace Strimoid\Helpers;
 
-use Cache;
-use Config;
-use Guzzle;
+use Illuminate\Support\Facades\Cache;
+use Strimoid\Facades\Guzzle;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class OEmbed
 {
@@ -21,7 +22,7 @@ class OEmbed
         try {
             $data = $this->getData($url);
 
-            $image = array_first($data['links']['thumbnail'], fn ($key, $value) => $this->isImage($value));
+            $image = Arr::first($data['links']['thumbnail'], fn ($key, $value) => $this->isImage($value));
 
             return data_get($image, 'href', null);
         } catch (RequestException $e) {
@@ -32,7 +33,8 @@ class OEmbed
     {
         $data = $this->getData($url);
         $data = $data['links']['thumbnail'];
-        return array_pluck($data, 'href');
+
+        return Arr::pluck($data, 'href');
     }
 
     public function getData(string $url)
@@ -57,7 +59,7 @@ class OEmbed
             return true;
         }
 
-        if (in_array('file', $rel) && starts_with($type, 'image')) {
+        if (in_array('file', $rel) && Str::startsWith($type, 'image')) {
             return true;
         }
 
@@ -128,7 +130,7 @@ class OEmbed
     protected function embedMedia($link)
     {
         foreach ($this->mimetypes as $mimetype => $function) {
-            if (starts_with($link['type'], $mimetype)) {
+            if (Str::startsWith($link['type'], $mimetype)) {
                 return $this->{$function}($link['href']);
             }
         }

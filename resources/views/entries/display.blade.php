@@ -61,14 +61,14 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
     @foreach ($entries as $entry)
         @include('entries.widget', ['entry' => $entry, 'isReply' => false])
 
-        @if ($entry->replies_count > 2 && !starts_with(Route::current()->getName(), 'single_entry'))
+        @if ($entry->replies_count > 2 && !Str::startsWith(Route::current()->getName(), 'single_entry'))
             <div class="entry entry_reply entry_expand_replies" data-id="{!! $entry->hashId() !!}">
                 @lang('entries.show remaining entries') ({!! Lang::choice('pluralization.replies', ($entry->replies_count-2)) !!})
             </div>
         @endif
 
         <?php
-        $replies = (starts_with(Route::current()->getName(), 'single_entry'))
+        $replies = (Str::startsWith(Route::current()->getName(), 'single_entry'))
             ? $entry->replies : $entry->replies->slice(-2, 2);
         ?>
 
