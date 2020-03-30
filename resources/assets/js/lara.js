@@ -1,4 +1,6 @@
 import bugsnag from '@bugsnag/js'
+import Bloodhound from 'corejs-typeahead'
+import loadjQueryPlugin from 'corejs-typeahead'
 
 require('imports-loader?Tether=tether,Popper=popper.js!bootstrap')
 require('timeago')
@@ -628,8 +630,7 @@ $(document).ready(function() {
     if (window.Notification && Notification.permission === "granted")
         $('input[name="browser_notifications"]').prop('checked', true );
 
-    // TODO: Import Bloodhound
-    if (window.username && false) {
+    if (window.username) {
         var groups = new Bloodhound({
             datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.value); },
             queryTokenizer: Bloodhound.tokenizers.whitespace,
