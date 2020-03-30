@@ -2,6 +2,7 @@
 
 namespace Strimoid\Handlers\Events;
 
+use Illuminate\Events\Dispatcher;
 use Pusher\Laravel\Facades\Pusher;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
@@ -9,11 +10,7 @@ use Strimoid\Models\Notification;
 
 class PubSubHandler
 {
-    /**
-     * Register the listeners for the subscriber.
-     *
-     */
-    public function subscribe(\Illuminate\Events\Dispatcher $events): void
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen('eloquent.created: ' . Entry::class, self::class . '@onNewEntry');
         $events->listen('eloquent.created: ' . EntryReply::class, self::class . '@onNewEntryReply');

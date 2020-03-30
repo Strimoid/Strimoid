@@ -33,7 +33,8 @@ return [
             'secret'   => env('PUSHER_SECRET'),
             'app_id'   => env('PUSHER_ID'),
             'options'  => [
-                'encrypted' => true,
+                'cluster' => env('PUSHER_CLUSTER', 'eu'),
+                'useTLS'  => true,
             ],
             'host'     => null,
             'port'     => null,
