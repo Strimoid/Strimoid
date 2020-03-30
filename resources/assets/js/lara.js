@@ -2,6 +2,7 @@ import bugsnag from '@bugsnag/js'
 
 require('imports-loader?Tether=tether,Popper=popper.js!bootstrap')
 require('timeago')
+require('image-picker')
 const Cookies = require('js-cookie')
 const Pusher = require('pusher-js')
 
@@ -707,7 +708,7 @@ $(document).ready(function() {
     });
 
     $('.has_tooltip').tooltip()
-    // $('select.image-picker').imagepicker()
+    $('select.image-picker').imagepicker()
     // $('input.tags').tagsinput()
     // bootbox.setDefaults({ locale: "pl" })
 
