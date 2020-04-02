@@ -12,12 +12,7 @@
 @section('content')
 <div class="content" data-id="{{ $content->hashId() }}">
     <div class="media">
-        <vote-buttons class="voting"
-                      uv="{!! $content->uv !!}"
-                      dv="{!! $content->dv !!}"
-                      data-id="{!! $content->hashId() !!}"
-                      state="{!! $content->getVoteState()  !!}"
-                      data-type="content"></vote-buttons>
+        @include('content.components.vote')
 
         @if ($content->thumbnail)
             <a class="pull-left" href="{{ $content->getURL() }}" rel="nofollow" target="_blank">
