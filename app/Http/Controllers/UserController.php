@@ -2,15 +2,14 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Cache;
-use Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\Request;
-use Mail;
-use PDP;
-use Response;
-use Str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Str;
 use Strimoid\Contracts\Repositories\UserRepository;
 use Strimoid\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -27,7 +26,7 @@ class UserController extends BaseController
         $this->passwords = $passwords;
     }
 
-    public function showJSONList()
+    public function showJSONList(): JsonResponse
     {
         $users = [];
 
@@ -38,7 +37,9 @@ class UserController extends BaseController
             ];
         }
 
-        return $users;
+        return Response::json($users)
+            ->setPublic()
+            ->setMaxAge(3600);
     }
 
     public function changePassword(Request $request)

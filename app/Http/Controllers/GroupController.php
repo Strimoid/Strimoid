@@ -2,13 +2,14 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Lang;
-use Redirect;
-use Response;
-use Storage;
-use Str;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBan;
 use Strimoid\Models\GroupModerator;
@@ -30,7 +31,7 @@ class GroupController extends BaseController
         return view('group.list', $data);
     }
 
-    public function showJSONList()
+    public function showJSONList(): JsonResponse
     {
         $results = [];
         $groups = Group::where('type', '!=', 'private')->get();
@@ -44,7 +45,9 @@ class GroupController extends BaseController
             ];
         }
 
-        return Response::json($results);
+        return Response::json($results)
+            ->setPublic()
+            ->setMaxAge(3600);
     }
 
     public function showSubscribed()
