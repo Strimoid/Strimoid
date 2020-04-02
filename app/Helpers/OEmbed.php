@@ -74,8 +74,7 @@ class OEmbed
             $key .= '.no-ap';
         }
 
-        return Cache::driver('oembed')
-            ->rememberForever($key, fn () => $this->fetchJson($url, $autoPlay));
+        return Cache::rememberForever($key, fn () => $this->fetchJson($url, $autoPlay));
     }
 
     /**
