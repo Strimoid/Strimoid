@@ -653,8 +653,9 @@ $(document).ready(function() {
         $('input.group_typeahead, .entry_add_form input[name="groupname"], .content_add_form input[name="groupname"]').typeahead(null, {
             name: 'groups',
             source: groups.ttAdapter(),
+            display: 'value',
             templates: {
-                suggestion: _.template('<img src="<%= avatar %>" class="avatar"><p><%= value %><span class="count">[<%= contents %>]</span></p>')
+                suggestion: _.template('<div><img src="<%= avatar %>" class="avatar"><p><%= value %><span class="count">[<%= contents %>]</span></p></div>')
             }
         });
 
