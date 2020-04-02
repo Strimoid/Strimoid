@@ -2,8 +2,8 @@
 
 namespace Strimoid\Models;
 
-use App;
-use Auth;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasAvatar;
 
@@ -176,10 +176,6 @@ class Group extends BaseModel
         $this->attributes['sidebar_source'] = $text;
     }
 
-    /**
-     * Get the value of the model's route key.
-     *
-     */
     public function getRouteKey(): string
     {
         return $this->urlname;
@@ -187,6 +183,6 @@ class Group extends BaseModel
 
     public function scopeName($query, $name): void
     {
-        $query->where('urlname', $name);
+        $query->where('urlname', 'ILIKE', $name);
     }
 }

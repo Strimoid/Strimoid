@@ -2,9 +2,8 @@
 
 namespace Strimoid\Models;
 
-use Auth;
-use Config;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -13,7 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Str;
+use Illuminate\Support\Str;
 use Strimoid\Models\Traits\HasAvatar;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
@@ -248,6 +247,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function scopeName($query, $value): void
     {
-        $query->where('name', $value);
+        $query->where('name', 'ILIKE', $value);
     }
 }
