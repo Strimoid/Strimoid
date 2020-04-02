@@ -30,7 +30,7 @@
         @include('global.form.input_value', ['type' => 'text', 'class' => 'group_typeahead', 'name' => 'groupname', 'label' => trans('common.group'), 'value' => Input::get('group')])
 
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade in active" id="link">
+            <div class="tab-pane fade in active show" id="link">
                 @include('global.form.input_value', ['type' => 'text', 'name' => 'url', 'label' => trans('common.url address'), 'value' => Input::get('url')])
             </div>
             <div class="tab-pane fade" id="content">
