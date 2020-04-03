@@ -2,8 +2,8 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Carbon;
-use DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Strimoid\Models\DailyAction;
 use Strimoid\Models\Group;

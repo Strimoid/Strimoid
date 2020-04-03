@@ -22,6 +22,7 @@
             $day = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1));
 
             $query = \Strimoid\Models\DailyAction::where('user_id', $user->user_id)
+                ->select(DB::raw('SUM(points) as points, day'))
                 ->groupBy('day')
                 ->orderBy('day', 'asc');
 

@@ -2,8 +2,8 @@
 
 namespace Strimoid\Console\Commands;
 
-use Carbon;
-use DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
@@ -18,13 +18,12 @@ class UpdateStats extends Command
 
     protected $description = 'Updates stats.';
 
-    public function fire(): void
+    public function handle(): void
     {
         DB::connection()->disableQueryLog();
 
-        $conn = DB::connection('stats');
+        $conn = DB::connection();
         $conn->disableQueryLog();
-        $conn->statement('pragma synchronous = off;');
 
         $firstDay = Carbon::create(2013, 1, 1);
 
