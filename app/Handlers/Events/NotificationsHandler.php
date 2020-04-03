@@ -209,7 +209,7 @@ class NotificationsHandler
     /**
      * Get list of users mentioned in given text.
      */
-    protected function findMentionedUsers(string $text): array
+    protected function findMentionedUsers(string $text)
     {
         preg_match_all('/@([a-z0-9_-]+)/i', $text, $matches, PREG_SET_ORDER);
         $nicknames = Arr::pluck($matches, 1);
