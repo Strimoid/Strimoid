@@ -29,7 +29,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
     <div class="entry_text">
         <div class="form-group @if ($errors->has('text')) has-error @endif col-lg-12">
-            {!! Form::textarea('text', null, ['class' => 'form-control', 'placeholder' => 'Treść wpisu...', 'rows' => 2, 'autocomplete' => 'off']) !!}
+            {!! Form::textarea('text', null, ['class' => 'form-control', 'placeholder' => 'Treść wpisu...', 'rows' => 2]) !!}
 
             @if($errors->has('text'))
             <p class="help-block">{!! $errors->first('text') !!}</p>
@@ -38,7 +38,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
         <div class="form-group col-lg-12 pull-right @if ($errors->has('groupname')) has-error @endif">
             <div class="input-group input-group-appended">
-                {!! Form::text('groupname', $suggestedGroup, ['class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...']) !!}
+                {!! Form::text('groupname', $suggestedGroup, ['class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...', 'autocomplete' => 'off']) !!}
 
                 <div class="input-group-btn">
                     <button type="submit" class="btn btn-primary">
