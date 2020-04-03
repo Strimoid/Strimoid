@@ -229,6 +229,11 @@ thead .glyphicon {
 .group_list .card {
   display: inline-block;
   width: 100%;
+  margin-bottom: 20px;
+}
+
+.group_list .card-block {
+  padding: 10px;
 }
 
 .group_list .media-object {
@@ -311,6 +316,6 @@ thead .glyphicon {
   text-align: right;
 }
 
-.main_col > .pagination {
+.main_col > nav > .pagination {
   width: 100%;
 }
