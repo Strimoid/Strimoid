@@ -29,7 +29,13 @@ if (!function_exists('parse_usernames')) {
     function parse_usernames($body)
     {
         $body = preg_replace_callback('/(?<=^|\s)c\/([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
-            $content = Content::find($matches[1]);
+            $contentId = Hashids::decode($matches[1]);
+
+            if (!$contentId) {
+                return 'c/' . $matches[1];
+            }
+
+            $content = Content::find($contentId[0]);
 
             if ($content) {
                 return '[' . str_replace('_', '\_', $content->title) . '](' . $content->getSlug() . ')';
