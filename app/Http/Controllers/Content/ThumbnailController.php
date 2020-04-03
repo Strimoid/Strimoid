@@ -21,7 +21,7 @@ class ThumbnailController extends BaseController
             $thumbnails = [];
         }
 
-        $thumbnails[] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=200&url=' . urlencode($content->url);
+        $thumbnails[] = 'https://img.bitpixels.com/getthumbnail?code=74491&size=200&url=' . urlencode($content->url);
 
         session(compact('thumbnails'));
 

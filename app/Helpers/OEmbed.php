@@ -17,27 +17,29 @@ class OEmbed
         'video/' => 'embedVideo',
     ];
 
-    public function getThumbnail(string $url)
+    public function getThumbnail(string $url): ?string
     {
         try {
             $data = $this->getData($url);
 
-            $image = Arr::first($data['links']['thumbnail'], fn ($key, $value) => $this->isImage($value));
+            $images = $this->extractImages($data['links']);
+            $thumbnail = Arr::first($images);
 
-            return data_get($image, 'href', null);
+            return data_get($thumbnail, 'href');
         } catch (RequestException $e) {
+            return null;
         }
     }
 
-    public function getThumbnails(string $url)
+    public function getThumbnails(string $url): array
     {
         $data = $this->getData($url);
-        $data = $data['links']['thumbnail'];
+        $images = $this->extractImages($data['links']);
 
-        return Arr::pluck($data, 'href');
+        return Arr::pluck($images, 'href');
     }
 
-    public function getData(string $url)
+    public function getData(string $url): array
     {
         $query = array_filter([
             'url' => $url,
@@ -50,7 +52,17 @@ class OEmbed
         return json_decode($response->getBody(), true);
     }
 
-    protected function isImage($link)
+    protected function extractImages(array $links): array
+    {
+        $thumbnails = $links['thumbnail'] ?? [];
+        $files = $links['file'] ?? [];
+
+        $sources = array_merge($thumbnails, $files);
+
+        return array_filter($sources, fn ($value) => $this->isImage($value));
+    }
+
+    protected function isImage(array $link)
     {
         $rel = data_get($link, 'rel', []);
         $type = data_get($link, 'type');
@@ -66,7 +78,7 @@ class OEmbed
         return false;
     }
 
-    public function getEmbedHtml($url, $autoPlay = true)
+    public function getEmbedHtml(string $url, bool $autoPlay = true)
     {
         $key = md5($url);
 
@@ -77,12 +89,7 @@ class OEmbed
         return Cache::rememberForever($key, fn () => $this->fetchJson($url, $autoPlay));
     }
 
-    /**
-     * @param $url
-     *
-     * @return bool|string
-     */
-    protected function fetchJson($url, bool $autoPlay)
+    protected function fetchJson(string $url, bool $autoPlay): ?string
     {
         try {
             $query = array_filter([
@@ -100,12 +107,11 @@ class OEmbed
 
             return $this->processData($data);
         } catch (RequestException $e) {
+            return null;
         }
-
-        return false;
     }
 
-    protected function processData($data)
+    protected function processData($data): ?string
     {
         if (array_key_exists('html', $data)) {
             return $data['html'];
@@ -123,7 +129,7 @@ class OEmbed
             }
         }
 
-        return false;
+        return null;
     }
 
     protected function embedMedia($link)
@@ -152,10 +158,6 @@ class OEmbed
         return '<video src="' . $href . '"controls autoplay></audio>';
     }
 
-    /**
-     * Return OEmbed API endpoint URL.
-     *
-     */
     protected function endpoint(): string
     {
         $baseUrl = config('strimoid.oembed.url');
