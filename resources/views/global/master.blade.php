@@ -87,12 +87,14 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
     @endif
 @endif
 
+{{--
 <script>
     new Pjax({
         elements: 'body > .container a[href]',
         selectors: ['body > .container a', 'body > .container']
     })
 </script>
+--}}
 
 </body>
 </html>
