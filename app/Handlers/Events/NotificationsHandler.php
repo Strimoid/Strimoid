@@ -5,6 +5,7 @@ namespace Strimoid\Handlers\Events;
 use Closure;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\ConversationMessage;
@@ -139,6 +140,8 @@ class NotificationsHandler
 
         $newTargets = $newUsers->filter(fn (User $user) => !in_array($user->getKey(), $oldUserIds));
 
+        $this->addTargets($notification, $newTargets);
+
         $removedTargets = array_diff($oldUserIds, $newUsers->pluck('id')->toArray());
 
         if (count($removedTargets) > 0) {
@@ -162,58 +165,35 @@ class NotificationsHandler
         $notification = new Notification();
         $notification->user()->associate($sourceUser);
         $callback($notification);
-        $this->addPushTargets($notification, $users);
-        $notification->save();
         $this->addTargets($notification, $users);
+        $notification->save();
     }
 
-    /**
-     * Add users as targets of push notification.
-     */
-    protected function addPushTargets(Notification $notification, $users): void
+    protected function addTargets(Notification $notification, Collection $users): void
     {
         $sourceUser = $notification->user;
 
         foreach ($users as $targetUser) {
-            if ($this->isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser)) {
-                $notification->targets->add($targetUser);
-            }
-        }
-    }
-
-    /**
-     * Add users as targets of notification.
-     */
-    protected function addTargets(Notification $notification, array $users): void
-    {
-        $sourceUser = $notification->user;
-        foreach ($users as $targetUser) {
-            if ($this->isNotMyselfOrBlockedByReceiver($sourceUser, $targetUser)) {
+            if ($this->isNotHimselfOrBlockedByReceiver($sourceUser, $targetUser)) {
                 $notification->targets()->attach($targetUser);
             }
         }
     }
 
-    /**
-     * Checks that user is not "myself" or is not blocked by notification target user.
-     */
-    public function isNotMyselfOrBlockedByReceiver(User $sourceUser, User $targetUser)
+    public function isNotHimselfOrBlockedByReceiver(User $source, User $target): bool
     {
-        if ($targetUser->getKey() != $sourceUser->getKey() && !$targetUser->isBlockingUser($sourceUser)) {
+        if ($target->getKey() != $source->getKey() && !$target->isBlockingUser($source)) {
             return true;
         }
 
         return false;
     }
 
-    /**
-     * Get list of users mentioned in given text.
-     */
-    protected function findMentionedUsers(string $text)
+    protected function findMentionedUsers(string $text): Collection
     {
         preg_match_all('/@([a-z0-9_-]+)/i', $text, $matches, PREG_SET_ORDER);
         $nicknames = Arr::pluck($matches, 1);
 
-        return User::whereIn('name', $nicknames)->get()->all();
+        return User::whereIn('name', $nicknames)->get();
     }
 }
