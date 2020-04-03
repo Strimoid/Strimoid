@@ -189,6 +189,6 @@ class Group extends BaseModel
 
     public function scopeName($query, $name): void
     {
-        $query->where('urlname', 'ILIKE', $name);
+        $query->where('urlname', $name);
     }
 }

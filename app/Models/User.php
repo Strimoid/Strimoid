@@ -247,6 +247,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function scopeName($query, $value): void
     {
-        $query->where('name', 'ILIKE', $value);
+        $query->where('name', $value);
     }
 }
