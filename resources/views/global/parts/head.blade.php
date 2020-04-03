@@ -4,10 +4,6 @@
 <meta property="og:title" content="@yield('title', 'Strimoid')">
 <meta name="description" content="@yield('description', 'Strimoid')">
 
-@if (Request::getHttpHost() == 'strimsy.pl')
-    <meta name="robots" content="noindex">
-@endif
-
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
 <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
@@ -16,7 +12,7 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-<link href="/assets/client.bundle.css" rel="stylesheet">
+<link href="{{ elixir('client.css', 'assets') }}" rel="stylesheet">
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
         && $group->style  && !@Auth::user()->settings['disable_groupstyles'])
