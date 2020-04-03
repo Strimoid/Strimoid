@@ -67,8 +67,7 @@ Route::get('/conversation/{conversation}', [
     'uses' => 'ConversationController@showConversation',
 ]);
 
-Route::get('/conversations/new', ['middleware' => 'auth', 'uses' => 'ConversationController@showCreateForm']);
-Route::get('/conversations/new/{user}', [
+Route::get('/conversations/new/{user?}', [
     'as' => 'conversation.new_user',
     'middleware' => 'auth',
     'uses' => 'ConversationController@showCreateForm',
