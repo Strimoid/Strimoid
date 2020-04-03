@@ -35,24 +35,24 @@
   border-bottom-right-radius: 0!important;
 }
 
-.tt-dropdown-menu {
+.tt-menu {
   min-width: 250px;
   margin-top: 2px;
   padding: 5px 0;
   background-color: #fff;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, .2);
-*border-right-width: 2px;
-*border-bottom-width: 2px;
--webkit-border-radius: 6px;
--moz-border-radius: 6px;
-border-radius: 6px;
--webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
--moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
--webkit-background-clip: padding-box;
--moz-background-clip: padding;
-background-clip: padding-box;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
 }
 
 .tt-suggestion {

@@ -2,17 +2,13 @@
 
 namespace Strimoid\Models\Traits;
 
-use Config;
 use Illuminate\Support\Str;
 use Image;
-use OEmbed;
-use Storage;
+use Strimoid\Facades\OEmbed;
+use Illuminate\Support\Facades\Storage;
 
 trait HasThumbnail
 {
-    /**
-     * Get path to thumbnail in requested size.
-     */
     public function getThumbnailPath(int $width = null, int $height = null): string
     {
         $host = config('app.cdn_host');

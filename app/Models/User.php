@@ -40,7 +40,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return '<span class="user_' . $type . '">' . $this->name . '</span>';
     }
 
-    public function getAvatarPath($width = null, $height = null)
+    public function getAvatarPath(int $width = null, int $height = null)
     {
         $host = config('app.cdn_host');
 

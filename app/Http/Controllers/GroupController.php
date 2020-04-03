@@ -40,7 +40,7 @@ class GroupController extends BaseController
             $results[] = [
                 'value' => $group->urlname,
                 'name' => $group->name,
-                'avatar' => $group->getAvatarPath(),
+                'avatar' => $group->getAvatarPath(20, 20),
                 'contents' => (int) $group->contents()->count(),
             ];
         }

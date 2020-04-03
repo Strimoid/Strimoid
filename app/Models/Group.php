@@ -4,6 +4,8 @@ namespace Strimoid\Models;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Strimoid\Helpers\MarkdownParser;
 use Strimoid\Models\Traits\HasAvatar;
 
@@ -105,9 +107,13 @@ class Group extends BaseModel
         return parent::delete();
     }
 
-    public function getAvatarPath()
+    public function getAvatarPath(int $width = null, int $height = null)
     {
         $host = config('app.cdn_host');
+
+        if ($this->avatar && $width && $height) {
+            return $host . '/' . $width . 'x' . $height . '/groups/' . $this->avatar;
+        }
 
         if ($this->avatar) {
             return $host . '/groups/' . $this->avatar;

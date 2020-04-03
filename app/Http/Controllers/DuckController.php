@@ -29,7 +29,10 @@ class DuckController extends BaseController
         $color->saturation = 1 - $color->saturation;
         $duck = str_replace('#AABBCC', $color, $duck);
 
-        return response($duck)->header('Content-Type', 'image/svg+xml');
+        return response($duck)
+            ->header('Content-Type', 'image/svg+xml')
+            ->setPublic()
+            ->setMaxAge(86400);
     }
 
     protected function getRandomColor($username)
