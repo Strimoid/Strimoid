@@ -165,8 +165,9 @@ class NotificationsHandler
         $notification = new Notification();
         $notification->user()->associate($sourceUser);
         $callback($notification);
-        $this->addTargets($notification, $users);
         $notification->save();
+
+        $this->addTargets($notification, $users);
     }
 
     protected function addTargets(Notification $notification, Collection $users): void
