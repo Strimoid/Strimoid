@@ -55,7 +55,7 @@ trait HasThumbnail
         $filename = Str::random(9) . '.png';
 
         $img = Image::make($data);
-        $img->fit(640, 480);
+        $img->fit(1024, 768);
         $img->encode('png');
 
         Storage::disk('thumbnails')->put($filename, (string) $img);

@@ -158,7 +158,6 @@ class EntryController extends BaseController
 
         $entry = $class::findOrFail($id);
 
-
         if (!$entry->canEdit()) {
             return Response::json([
                 'status' => 'error',
