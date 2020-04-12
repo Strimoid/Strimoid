@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-inverse navbar-{{ $navbarClass }}">
+<nav class="navbar navbar-dark navbar-expand-lg navbar-inverse navbar-{{ $navbarClass }}">
     <div class="container">
         <a class="navbar-brand" href="/">
             <img src="/static/img/logo64.png" width="40" height="40" alt="Strm">
