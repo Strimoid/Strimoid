@@ -29,10 +29,10 @@ class SearchController extends BaseController
 
             switch ($request->get('t')) {
                 case 'e':
-                    $builder = Entry::where('text', 'like', '%' . $keywords . '%');
+                    $builder = Entry::where('text', 'ilike', '%' . $keywords . '%');
                     break;
                 case 'g':
-                    $builder = Group::where('name', 'like', '%' . $keywords . '%')
+                    $builder = Group::where('name', 'ilike', '%' . $keywords . '%')
                         ->orWhere('urlname', 'like', '%' . $keywords . '%')
                         // ->orWhere('tags', $keywords)
 ;
@@ -40,8 +40,8 @@ class SearchController extends BaseController
                 case 'c':
                 default:
                     $builder = Content::where(function ($query) use ($keywords): void {
-                        $query->where('title', 'like', '%' . $keywords . '%')
-                                ->orWhere('description', 'like', '%' . $keywords . '%');
+                        $query->where('title', 'ilike', '%' . $keywords . '%')
+                                ->orWhere('description', 'ilike', '%' . $keywords . '%');
                     });
                     break;
             }
