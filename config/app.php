@@ -181,7 +181,6 @@ return [
         Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
         Tightenco\Ziggy\ZiggyServiceProvider::class,
         TwigBridge\ServiceProvider::class,
-        Vinkla\Algolia\AlgoliaServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Pusher\Laravel\PusherServiceProvider::class,
     ],
@@ -235,7 +234,6 @@ return [
         'Str'                => Illuminate\Support\Str::class,
 
         'Agent'      => Jenssegers\Agent\Facades\Agent::class,
-        'Algolia'    => Vinkla\Algolia\Facades\Algolia::class,
         'Carbon'     => Carbon\Carbon::class,
         'Date'       => Carbon\Carbon::class,
         'Debugbar'   => Barryvdh\Debugbar\Facade::class,

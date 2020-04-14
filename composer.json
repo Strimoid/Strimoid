@@ -32,7 +32,6 @@
         "laracasts/flash": "^3.0",
         "laracasts/utilities": "^3.0",
         "watson/rememberable": "^3.2",
-        "vinkla/algolia": "^5.0",
         "vinkla/hashids": "^7.0",
         "filp/whoops": "^2.1",
         "msurguy/honeypot": "^1.0",
@@ -52,7 +51,7 @@
         "danielstjules/stringy": "^3.1",
         "pusher/pusher-http-laravel": "^4.2",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "tightenco/ziggy": "^0.8"
+        "tightenco/ziggy": "^0.9"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.2",
@@ -64,11 +63,11 @@
         "mockery/mockery": "^1.0",
         "symplify/easy-coding-standard": "^7.2",
         "nunomaduro/larastan": "^0.5",
-        "codeception/module-laravel5": "^1.0.0",
-        "codeception/module-rest": "^1.0.0",
-        "codeception/module-asserts": "^1.0.0",
-        "codeception/module-filesystem": "^1.0.0",
-        "rector/rector": "^0.6.11"
+        "codeception/module-laravel5": "^1.0",
+        "codeception/module-rest": "^1.0",
+        "codeception/module-asserts": "^1.0",
+        "codeception/module-filesystem": "^1.0",
+        "rector/rector": "^0.7"
     },
     "autoload": {
         "classmap": [
