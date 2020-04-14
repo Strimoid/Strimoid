@@ -167,7 +167,6 @@ return [
         /*
          * Third party Service Providers...
          */
-
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
@@ -183,7 +182,6 @@ return [
         Tightenco\Ziggy\ZiggyServiceProvider::class,
         TwigBridge\ServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
-        Pusher\Laravel\PusherServiceProvider::class,
     ],
 
     /*

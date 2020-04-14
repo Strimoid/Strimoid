@@ -154,7 +154,7 @@ return [
     */
 
     'middleware' => [
-        Fruitcake\Cors\HandleCors::class,
+        \Fruitcake\Cors\HandleCors::class,
     ],
 
     /*
