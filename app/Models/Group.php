@@ -145,7 +145,7 @@ class Group extends BaseModel
     {
         if ($this->style) {
             Storage::disk('styles')->delete($this->style);
-            $this->unset('style');
+            $this->style = null;
         }
     }
 

@@ -159,7 +159,7 @@ class NotificationsHandler
     protected function sendNotifications($targets, Closure $callback, User $sourceUser): void
     {
         $users = is_array($targets)
-            ? $targets
+            ? collect($targets)
             : $this->findMentionedUsers($targets);
 
         $notification = new Notification();
