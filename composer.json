@@ -47,7 +47,7 @@
         "syholloway/mrcolor": "^0.0.1",
         "league/glide-laravel": "^1.0",
         "consolidation/robo": "^2.0",
-        "laravel/passport": "^7.0",
+        "laravel/passport": "^8.4",
         "danielstjules/stringy": "^3.1",
         "pusher/pusher-http-laravel": "^4.2",
         "bugsnag/bugsnag-laravel": "^2.0",
