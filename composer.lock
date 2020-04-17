@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62a2d74df3762611ce1a81a4ae639f3c",
+    "content-hash": "92ecf89e90e0bbb264edf0cc6c10d7e0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,45 +60,47 @@
         },
         {
             "name": "barryvdh/laravel-cors",
-            "version": "v0.11.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruitcake/laravel-cors.git",
-                "reference": "03492f1a3bc74a05de23f93b94ac7cc5c173eec9"
+                "reference": "0e0500133dbb6325266133dd72f040617c9cdbd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/03492f1a3bc74a05de23f93b94ac7cc5c173eec9",
-                "reference": "03492f1a3bc74a05de23f93b94ac7cc5c173eec9",
+                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/0e0500133dbb6325266133dd72f040617c9cdbd0",
+                "reference": "0e0500133dbb6325266133dd72f040617c9cdbd0",
                 "shasum": ""
             },
             "require": {
-                "asm89/stack-cors": "^1.2",
-                "illuminate/support": "^5.5|^6",
+                "asm89/stack-cors": "^1.3",
+                "illuminate/contracts": "^5.5|^6.0|^7.0|^8.0",
+                "illuminate/support": "^5.5|^6.0|^7.0|^8.0",
                 "php": ">=7",
-                "symfony/http-foundation": "^3.1|^4",
-                "symfony/http-kernel": "^3.1|^4"
+                "symfony/http-foundation": "^3.3|^4.0|^5.0",
+                "symfony/http-kernel": "^3.3|^4.0|^5.0"
             },
             "require-dev": {
-                "laravel/framework": "^5.5",
-                "orchestra/testbench": "3.3.x|3.4.x|3.5.x|3.6.x|3.7.x",
-                "phpunit/phpunit": "^4.8|^5.2|^7.0",
-                "squizlabs/php_codesniffer": "^2.3"
+                "laravel/framework": "^5.5|^6.0|^7.0|^8.0",
+                "orchestra/testbench": "^3.5|^4.0|^5.0|^6.0",
+                "phpro/grumphp": "^0.16|^0.17",
+                "phpunit/phpunit": "^6.0|^7.0|^8.0",
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.11-dev"
+                    "dev-master": "1.0-dev"
                 },
                 "laravel": {
                     "providers": [
-                        "Barryvdh\\Cors\\ServiceProvider"
+                        "Fruitcake\\Cors\\CorsServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Barryvdh\\Cors\\": "src/"
+                    "Fruitcake\\Cors\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -106,6 +108,10 @@
                 "MIT"
             ],
             "authors": [
+                {
+                    "name": "Fruitcake",
+                    "homepage": "https://fruitcake.nl"
+                },
                 {
                     "name": "Barry vd. Heuvel",
                     "email": "barryvdh@gmail.com"
@@ -118,7 +124,7 @@
                 "crossdomain",
                 "laravel"
             ],
-            "time": "2019-08-28T11:27:11+00:00"
+            "time": "2020-03-11T21:05:07+00:00"
         },
         {
             "name": "bugsnag/bugsnag",
@@ -12265,12 +12271,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/auto-bind-parameter.git",
-                "reference": "ccfc92a30a6adcce0127ed4a8b1adb114e98b236"
+                "reference": "1fc53553b045c74be5dce4d3f60d4739da6bf007"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/ccfc92a30a6adcce0127ed4a8b1adb114e98b236",
-                "reference": "ccfc92a30a6adcce0127ed4a8b1adb114e98b236",
+                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/1fc53553b045c74be5dce4d3f60d4739da6bf007",
+                "reference": "1fc53553b045c74be5dce4d3f60d4739da6bf007",
                 "shasum": ""
             },
             "require": {
@@ -12307,12 +12313,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/autowire-array-parameter.git",
-                "reference": "f63211638bf67fdb4e35fc9da225a5dc63230157"
+                "reference": "e909cf2924ede00b57a2c67134b563fc399af6b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/f63211638bf67fdb4e35fc9da225a5dc63230157",
-                "reference": "f63211638bf67fdb4e35fc9da225a5dc63230157",
+                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/e909cf2924ede00b57a2c67134b563fc399af6b0",
+                "reference": "e909cf2924ede00b57a2c67134b563fc399af6b0",
                 "shasum": ""
             },
             "require": {
@@ -12349,12 +12355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/coding-standard.git",
-                "reference": "ab9b6dd1e7c8ac977bad4c990ab7dfb95ca2fddd"
+                "reference": "17a039ee0e9eaf57c31470d2b3c7dd29b3a2e7e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/coding-standard/zipball/ab9b6dd1e7c8ac977bad4c990ab7dfb95ca2fddd",
-                "reference": "ab9b6dd1e7c8ac977bad4c990ab7dfb95ca2fddd",
+                "url": "https://api.github.com/repos/symplify/coding-standard/zipball/17a039ee0e9eaf57c31470d2b3c7dd29b3a2e7e5",
+                "reference": "17a039ee0e9eaf57c31470d2b3c7dd29b3a2e7e5",
                 "shasum": ""
             },
             "require": {
@@ -12399,12 +12405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "0a5d309496c79b342e3cc549193f9c1c56c96b9e"
+                "reference": "85859fae199ea813ef5dd47e6744da1690b6d015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/0a5d309496c79b342e3cc549193f9c1c56c96b9e",
-                "reference": "0a5d309496c79b342e3cc549193f9c1c56c96b9e",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/85859fae199ea813ef5dd47e6744da1690b6d015",
+                "reference": "85859fae199ea813ef5dd47e6744da1690b6d015",
                 "shasum": ""
             },
             "require": {
@@ -12470,12 +12476,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/package-builder.git",
-                "reference": "9eacafc4bfc0f5b1ce785ff5662bc3309786c6dd"
+                "reference": "db648ac63d832bcac4c152735eb383f0296901e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/package-builder/zipball/9eacafc4bfc0f5b1ce785ff5662bc3309786c6dd",
-                "reference": "9eacafc4bfc0f5b1ce785ff5662bc3309786c6dd",
+                "url": "https://api.github.com/repos/symplify/package-builder/zipball/db648ac63d832bcac4c152735eb383f0296901e3",
+                "reference": "db648ac63d832bcac4c152735eb383f0296901e3",
                 "shasum": ""
             },
             "require": {
@@ -12516,12 +12522,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/set-config-resolver.git",
-                "reference": "8dd7c016552a876d0a69ecb3f2519f9153a769f3"
+                "reference": "e227fe2c996370a92817438d4b1e98e16e063b36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/8dd7c016552a876d0a69ecb3f2519f9153a769f3",
-                "reference": "8dd7c016552a876d0a69ecb3f2519f9153a769f3",
+                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/e227fe2c996370a92817438d4b1e98e16e063b36",
+                "reference": "e227fe2c996370a92817438d4b1e98e16e063b36",
                 "shasum": ""
             },
             "require": {
@@ -12559,12 +12565,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/smart-file-system.git",
-                "reference": "30f2f0b776642e23ed747516b8d7f1710f37295e"
+                "reference": "6cdd233c6ec1ef0932a338cccba79dc0fd74c73d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/30f2f0b776642e23ed747516b8d7f1710f37295e",
-                "reference": "30f2f0b776642e23ed747516b8d7f1710f37295e",
+                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/6cdd233c6ec1ef0932a338cccba79dc0fd74c73d",
+                "reference": "6cdd233c6ec1ef0932a338cccba79dc0fd74c73d",
                 "shasum": ""
             },
             "require": {
