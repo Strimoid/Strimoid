@@ -40,7 +40,6 @@ class SearchIndex extends Command
 
     private function indexContents(): void
     {
-
         $index = $this->client->createIndex('contents');
 
         Content::chunk(100, function ($contents) use ($index) {
@@ -56,7 +55,6 @@ class SearchIndex extends Command
 
     private function indexEntries(): void
     {
-
         $index = $this->client->createIndex('entries');
 
         Entry::chunk(100, function($entries) use ($index) {

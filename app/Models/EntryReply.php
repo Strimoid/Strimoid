@@ -3,6 +3,7 @@
 namespace Strimoid\Models;
 
 use Strimoid\Models\Traits\HasNotificationsRelationship;
+use Vinkla\Hashids\Facades\Hashids;
 
 class EntryReply extends Entry
 {
@@ -50,7 +51,9 @@ class EntryReply extends Entry
 
     public function getURL()
     {
-        return route('single_entry', $this->parent_id) . '#' . $this->hashId();
+        $parentHashId = Hashids::encode($this->parent_id);
+
+        return route('single_entry', $parentHashId) . '#' . $this->hashId();
     }
 
     public function canEdit()
