@@ -200,7 +200,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $cacheTags = ['users.moderated-groups', 'u.' . auth()->id()];
         $moderatedGroupsIds = $this->moderatedGroups()->remember(60)->cacheTags($cacheTags)->pluck('groups.id');
 
-        return $moderatedGroupsIds->has($group);
+        return $moderatedGroupsIds->contains($group);
     }
 
     public function isSubscriber($group): bool
@@ -212,7 +212,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $cacheTags = ['users.subscribed-groups', 'u.' . auth()->id()];
         $subscribedGroupsIds = $this->subscribedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
-        return $subscribedGroupsIds->has($group);
+        return $subscribedGroupsIds->contains($group);
     }
 
     public function isBlocking($group): bool
@@ -224,7 +224,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $cacheTags = ['users.blocked-groups', 'u.' . auth()->id()];
         $blockedGroupsIds = $this->blockedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
-        return $blockedGroupsIds->has($group);
+        return $blockedGroupsIds->contains($group);
     }
 
     public function isObservingUser($user): bool
@@ -241,7 +241,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         $cacheTags = ['users.blocked-users', 'u.' . auth()->id()];
         $blockedUsersIds = $this->blockedUsers()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
-        return $blockedUsersIds->has($user);
+        return $blockedUsersIds->contains($user);
     }
 
     public function getRouteKey(): string
