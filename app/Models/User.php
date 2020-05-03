@@ -60,9 +60,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function getDefaultAvatarPath(): string
     {
-        $host = config('app.cdn_host');
-
-        return $host . '/duck/' . $this->name . '.svg';
+        return '/duck/' . $this->name . '.svg';
     }
 
     public function getSexClass(): string
