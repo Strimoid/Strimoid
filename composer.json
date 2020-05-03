@@ -52,7 +52,8 @@
         "pusher/pusher-http-laravel": "^4.2",
         "bugsnag/bugsnag-laravel": "^2.0",
         "tightenco/ziggy": "^0.9",
-        "meilisearch/meilisearch-php": "^0.9.0"
+        "meilisearch/meilisearch-php": "^0.9.0",
+        "gliterd/laravel-backblaze-b2": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.2",
