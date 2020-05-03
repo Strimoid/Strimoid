@@ -17,4 +17,4 @@ services:
      - POSTGRES_USER=strimoid
      - POSTGRES_PASSWORD=strimoid
   redis:
-    image: redis:5.0-alpine
+    image: redis:6.0-alpine
