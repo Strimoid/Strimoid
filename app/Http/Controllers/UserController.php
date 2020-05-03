@@ -220,7 +220,7 @@ class UserController extends BaseController
     public function saveProfile(Request $request)
     {
         $this->validate($request, [
-            'sex' => 'in:male,female',
+            'sex' => 'in:male,female,unknown',
             'avatar' => 'image|max:1024',
             'age' => 'integer|min:1900|max:2010',
             'location' => 'max:32',

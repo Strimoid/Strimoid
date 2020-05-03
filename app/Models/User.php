@@ -30,6 +30,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'description', 'location', 'sex', 'name',
     ];
     protected $casts = [
+        'age' => 'integer',
         'settings' => 'array',
     ];
 
@@ -70,6 +71,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
 
         return 'nosex';
+    }
+
+    public function setAgeAttribute($value): void
+    {
+        $this->attributes['age'] = $value ?: null;
     }
 
     public function setEmailAttribute($value): void
