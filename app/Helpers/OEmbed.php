@@ -117,7 +117,9 @@ class OEmbed
             return $data['html'];
         }
 
-        foreach ($data['links'] as $link) {
+        $links = $data['links'] ?? [];
+
+        foreach ($links as $link) {
             $rel = data_get($link, 'rel', []);
 
             if (in_array('file', $rel)) {
