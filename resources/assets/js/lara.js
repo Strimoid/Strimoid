@@ -1,4 +1,4 @@
-import bugsnag from '@bugsnag/js'
+import Bugsnag from '@bugsnag/js'
 import Bloodhound from 'corejs-typeahead'
 import loadjQueryPlugin from 'corejs-typeahead'
 
@@ -66,7 +66,7 @@ import bootbox from 'bootbox'
 
 $(document).ready(function() {
     if (window.bugsnag_key) {
-        const bugsnagClient = bugsnag('a3bfa50249ed28f3be8cb1ac9d0f4666')
+        const bugsnagClient = Bugsnag.start('a3bfa50249ed28f3be8cb1ac9d0f4666')
     }
 
     const query = new URLSearchParams(window.location.search);
