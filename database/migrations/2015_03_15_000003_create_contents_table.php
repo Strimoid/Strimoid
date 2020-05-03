@@ -17,7 +17,7 @@ class CreateContentsTable extends Migration
 
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('domain');
+            $table->string('domain')->nullable();
             $table->string('thumbnail')->nullable();
 
             $table->text('url')->nullable();
