@@ -44,7 +44,9 @@ class Comment extends BaseModel
 
     public function replies()
     {
-        return $this->hasMany(CommentReply::class, 'parent_id')->with('user');
+        return $this->hasMany(CommentReply::class, 'parent_id')
+            ->orderBy('created_at')
+            ->with('user');
     }
 
     public function delete()
