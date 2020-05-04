@@ -55,7 +55,7 @@
 
             {% for folder in auth_user().folders %}
                 <li class="dropdown folder_dropdown">
-                    <a href="{{ route('user_folder_contents', [folder.user_id, folder.id]) }}"
+                    <a href="{{ route('user_folder_contents', [auth_user().name, folder.name]) }}"
                        class="dropdown-toggle" data-hover="dropdown">{{ folder.name }}</a><b class="caret"></b>
 
                     <ul class="dropdown-menu">

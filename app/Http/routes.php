@@ -34,7 +34,7 @@ Route::get('/account/activate/{token}', 'Auth\RegistrationController@activateAcc
 Route::get('/remind', ['as' => 'auth.remind', 'uses' => 'UserController@remindPassword']);
 Route::post('/remind', 'UserController@remindPassword');
 
-Route::get('/password/reset/{token}', 'UserController@showPasswordResetForm');
+Route::get('/password/reset/{token}', ['as' => 'password.reset', 'uses' => 'UserController@showPasswordResetForm']);
 Route::post('/password/reset/{token}', 'UserController@resetPassword');
 
 Route::get('/account/remove', 'UserController@showRemoveAccountForm');

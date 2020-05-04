@@ -29,6 +29,9 @@ class FolderRepository extends Repository implements FolderRepositoryContract
             return null;
         }
 
-        return $this->folder->findUserFolder($user->getKey(), $folderName);
+        return $user->folders()
+            ->with('user')
+            ->where('name', $folderName)
+            ->first();
     }
 }

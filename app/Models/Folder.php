@@ -3,20 +3,26 @@
 namespace Strimoid\Models;
 
 use Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Folder extends BaseModel
 {
     protected $table = 'folders';
+    protected $fillable = ['name'];
     protected $visible = ['id', 'name', 'groups'];
 
     protected $attributes = [
-        'groups' => [],
         'public' => false,
     ];
 
     protected static array $rules = [
         'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function groups()
     {
@@ -28,8 +34,8 @@ class Folder extends BaseModel
         $builder = with(new Comment())->newQuery();
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
-        $groups = $this->groups;
-        $builder->whereIn('group_id', $groups);
+        $groupIds = $this->groups->pluck('id');
+        $builder->whereIn('group_id', $groupIds);
 
         return $builder;
     }
@@ -38,8 +44,8 @@ class Folder extends BaseModel
     {
         $builder = with(new Content())->newQuery();
 
-        $groups = $this->groups;
-        $builder->whereIn('group_id', $groups);
+        $groupIds = $this->groups->pluck('id');
+        $builder->whereIn('group_id', $groupIds);
 
         if ($tab == 'popular') {
             $builder->popular();
@@ -53,8 +59,8 @@ class Folder extends BaseModel
     {
         $builder = with(new Entry())->newQuery();
 
-        $groups = $this->groups;
-        $builder->whereIn('group_id', $groups);
+        $groupIds = $this->groups->pluck('id');
+        $builder->whereIn('group_id', $groupIds);
 
         return $builder;
     }

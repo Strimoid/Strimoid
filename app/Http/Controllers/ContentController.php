@@ -80,10 +80,10 @@ class ContentController extends BaseController
     {
         $tab = Str::contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
 
-        $userName = Route::input('user') ?: Auth::id();
+        $user = Route::input('user') ?: user();
         $folderName = Route::input('folder');
 
-        $folder = $this->folders->requireByName($userName, $folderName);
+        $folder = $this->folders->requireByName($user->name, $folderName);
         view()->share('folder', $folder);
 
         if (!$folder->canBrowse()) {

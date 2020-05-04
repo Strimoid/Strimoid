@@ -45,9 +45,9 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 
 @if (auth()->check())
     <script>
-        window.username = '{!! Auth::id()  !!}';
+        window.username = '{!! user()->name  !!}';
         window.settings = {!! json_encode(user()->settings) !!};
-        window.observed_users = {!! json_encode((array) user()->followedUsers()->pluck('name')) !!};
+        window.observed_users = {!! json_encode(user()->followedUsers()->pluck('name')) !!};
         window.blocked_users = {!! json_encode(user()->blockedUsers()->pluck('name')) !!};
         window.blocked_groups = {!! json_encode(user()->blockedGroups()->pluck('urlname')) !!};
         window.subscribed_groups = {!! json_encode(user()->subscribedGroups()->pluck('urlname')) !!};

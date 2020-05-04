@@ -50,7 +50,7 @@
 
         <div class="tab-pane fade" id="settings">
             {{--
-            {!! Form::open(['action' => ['GroupController@saveSettings', $group->_id], 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
+            {!! Form::open(['action' => ['GroupController@saveSettings', $group->urlname], 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
 
             <div class="form-group">
                 <label class="col-lg-3 control-label">Etykiety</label>

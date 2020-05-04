@@ -56,7 +56,12 @@ import bootbox from 'bootbox'
 
 $(document).ready(function () {
   if (window.bugsnag_key) {
-    const bugsnagClient = Bugsnag.start('a3bfa50249ed28f3be8cb1ac9d0f4666')
+    const bugsnagClient = Bugsnag.start({
+      apiKey: 'a3bfa50249ed28f3be8cb1ac9d0f4666',
+      user: {
+        name: window.username
+      }
+    })
   }
 
   const query = new URLSearchParams(window.location.search)

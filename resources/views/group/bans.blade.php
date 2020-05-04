@@ -3,7 +3,7 @@
 @section('content')
 
 @if (Auth::check() && Auth::user()->isModerator($group))
-{!! Form::open(['action' => 'GroupController@addBan', 'class' => 'form-horizontal']) !!}
+{!! Form::open(['action' => 'Group\BanController@addBan', 'class' => 'form-horizontal']) !!}
 
 <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
 
