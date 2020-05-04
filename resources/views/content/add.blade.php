@@ -27,7 +27,7 @@
             </ul>
         </div>
 
-        @include('global.form.input_value', ['type' => 'text', 'class' => 'group_typeahead', 'name' => 'groupname', 'label' => trans('common.group'), 'value' => Input::get('group')])
+        @include('global.form.input_value', ['type' => 'text', 'class' => 'group_typeahead', 'name' => 'groupname', 'label' => trans('common.group'), 'value' => Input::get('group'), 'autocomplete' => 'off'])
 
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade in active show" id="link">

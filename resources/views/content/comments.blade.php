@@ -169,7 +169,9 @@
 
     @if ($related->thumbnail && !$related->nsfw)
     <a class="pull-left">
-        <img class="media-object" src="{!! $related->getThumbnailPath() !!}" alt="{{{ $related->title }}}">
+        <img class="media-object img-thumbnail" alt="{{{ $related->title }}}"
+             src="{!! $related->getThumbnailPath(100, 75) !!}"
+             srcset="{!! $related->getThumbnailPath(200, 150) !!} 2x">
     </a>
     @endif
 
