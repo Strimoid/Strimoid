@@ -22,7 +22,7 @@ class OEmbed
         try {
             $data = $this->getData($url);
 
-            $images = $this->extractImages($data['links']);
+            $images = $this->extractImages($data['links'] ?? []);
             $thumbnail = Arr::first($images);
 
             return data_get($thumbnail, 'href');
@@ -34,7 +34,7 @@ class OEmbed
     public function getThumbnails(string $url): array
     {
         $data = $this->getData($url);
-        $images = $this->extractImages($data['links']);
+        $images = $this->extractImages($data['links'] ?? []);
 
         return Arr::pluck($images, 'href');
     }
