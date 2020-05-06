@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "666222e13c0f40f79cee8fb897791d6e",
+    "content-hash": "33093e1ee46adb40dcdbe1a946ae2f5d",
     "packages": [
         {
             "name": "brick/math",
@@ -1849,6 +1849,145 @@
             "time": "2019-12-29T06:43:19+00:00"
         },
         {
+            "name": "laminas/laminas-diactoros",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-diactoros.git",
+                "reference": "5ab185dba63ec655a2380c97711b09adc7061f89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/5ab185dba63ec655a2380c97711b09adc7061f89",
+                "reference": "5ab185dba63ec655a2380c97711b09adc7061f89",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^7.1",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0"
+            },
+            "conflict": {
+                "phpspec/prophecy": "<1.9.0"
+            },
+            "provide": {
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "replace": {
+                "zendframework/zend-diactoros": "^2.2.1"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "http-interop/http-factory-tests": "^0.5.0",
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "php-http/psr7-integration-tests": "^1.0",
+                "phpunit/phpunit": "^7.5.18"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3.x-dev",
+                    "dev-develop": "2.4.x-dev"
+                },
+                "laminas": {
+                    "config-provider": "Laminas\\Diactoros\\ConfigProvider",
+                    "module": "Laminas\\Diactoros"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions/create_uploaded_file.php",
+                    "src/functions/marshal_headers_from_sapi.php",
+                    "src/functions/marshal_method_from_sapi.php",
+                    "src/functions/marshal_protocol_version_from_sapi.php",
+                    "src/functions/marshal_uri_from_sapi.php",
+                    "src/functions/normalize_server.php",
+                    "src/functions/normalize_uploaded_files.php",
+                    "src/functions/parse_cookie_header.php",
+                    "src/functions/create_uploaded_file.legacy.php",
+                    "src/functions/marshal_headers_from_sapi.legacy.php",
+                    "src/functions/marshal_method_from_sapi.legacy.php",
+                    "src/functions/marshal_protocol_version_from_sapi.legacy.php",
+                    "src/functions/marshal_uri_from_sapi.legacy.php",
+                    "src/functions/normalize_server.legacy.php",
+                    "src/functions/normalize_uploaded_files.legacy.php",
+                    "src/functions/parse_cookie_header.legacy.php"
+                ],
+                "psr-4": {
+                    "Laminas\\Diactoros\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "PSR HTTP Message implementations",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "http",
+                "laminas",
+                "psr",
+                "psr-7"
+            ],
+            "time": "2020-04-27T17:07:01+00:00"
+        },
+        {
+            "name": "laminas/laminas-zendframework-bridge",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
+                "reference": "bfbbdb6c998d50dbf69d2187cb78a5f1fa36e1e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/bfbbdb6c998d50dbf69d2187cb78a5f1fa36e1e9",
+                "reference": "bfbbdb6c998d50dbf69d2187cb78a5f1fa36e1e9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "module": "Laminas\\ZendFrameworkBridge"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Laminas\\ZendFrameworkBridge\\": "src//"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Alias legacy ZF class names to Laminas Project equivalents.",
+            "keywords": [
+                "ZendFramework",
+                "autoloading",
+                "laminas",
+                "zf"
+            ],
+            "time": "2020-04-03T16:01:00+00:00"
+        },
+        {
             "name": "laracasts/flash",
             "version": "3.1",
             "source": {
@@ -3632,6 +3771,88 @@
             "time": "2018-07-02T15:55:56+00:00"
         },
         {
+            "name": "paragonie/sodium_compat",
+            "version": "v1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/sodium_compat.git",
+                "reference": "bbade402cbe84c69b718120911506a3aa2bae653"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/bbade402cbe84c69b718120911506a3aa2bae653",
+                "reference": "bbade402cbe84c69b718120911506a3aa2bae653",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": ">=1",
+                "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^3|^4|^5|^6|^7"
+            },
+            "suggest": {
+                "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
+                "ext-sodium": "PHP >= 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com"
+                },
+                {
+                    "name": "Frank Denis",
+                    "email": "jedisct1@pureftpd.org"
+                }
+            ],
+            "description": "Pure PHP implementation of libsodium; uses the PHP extension if it exists",
+            "keywords": [
+                "Authentication",
+                "BLAKE2b",
+                "ChaCha20",
+                "ChaCha20-Poly1305",
+                "Chapoly",
+                "Curve25519",
+                "Ed25519",
+                "EdDSA",
+                "Edwards-curve Digital Signature Algorithm",
+                "Elliptic Curve Diffie-Hellman",
+                "Poly1305",
+                "Pure-PHP cryptography",
+                "RFC 7748",
+                "RFC 8032",
+                "Salpoly",
+                "Salsa20",
+                "X25519",
+                "XChaCha20-Poly1305",
+                "XSalsa20-Poly1305",
+                "Xchacha20",
+                "Xsalsa20",
+                "aead",
+                "cryptography",
+                "ecdh",
+                "elliptic curve",
+                "elliptic curve cryptography",
+                "encryption",
+                "libsodium",
+                "php",
+                "public-key cryptography",
+                "secret-key cryptography",
+                "side-channel resistant"
+            ],
+            "time": "2020-03-20T21:48:09+00:00"
+        },
+        {
             "name": "pda/pheanstalk",
             "version": "v4.0.1",
             "source": {
@@ -4270,6 +4491,60 @@
                 "simple-cache"
             ],
             "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "pusher/pusher-php-server",
+            "version": "v4.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pusher/pusher-http-php.git",
+                "reference": "e75e5715e3b651ec20dee5844095aadefab81acb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/e75e5715e3b651ec20dee5844095aadefab81acb",
+                "reference": "e75e5715e3b651ec20dee5844095aadefab81acb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "paragonie/sodium_compat": "^1.6",
+                "php": "^7.1",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pusher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for interacting with the Pusher REST API",
+            "keywords": [
+                "events",
+                "messaging",
+                "php-pusher-server",
+                "publish",
+                "push",
+                "pusher",
+                "real time",
+                "real-time",
+                "realtime",
+                "rest",
+                "trigger"
+            ],
+            "time": "2020-04-14T15:20:04+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6627,74 +6902,6 @@
                 "validate"
             ],
             "time": "2020-04-18T12:12:48+00:00"
-        },
-        {
-            "name": "zendframework/zend-diactoros",
-            "version": "2.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "de5847b068362a88684a55b0dbb40d85986cfa52"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/de5847b068362a88684a55b0dbb40d85986cfa52",
-                "reference": "de5847b068362a88684a55b0dbb40d85986cfa52",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0"
-            },
-            "provide": {
-                "psr/http-factory-implementation": "1.0",
-                "psr/http-message-implementation": "1.0"
-            },
-            "require-dev": {
-                "ext-curl": "*",
-                "ext-dom": "*",
-                "ext-libxml": "*",
-                "http-interop/http-factory-tests": "^0.5.0",
-                "php-http/psr7-integration-tests": "dev-master",
-                "phpunit/phpunit": "^7.0.2",
-                "zendframework/zend-coding-standard": "~1.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev",
-                    "dev-develop": "2.2.x-dev",
-                    "dev-release-1.8": "1.8.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/functions/create_uploaded_file.php",
-                    "src/functions/marshal_headers_from_sapi.php",
-                    "src/functions/marshal_method_from_sapi.php",
-                    "src/functions/marshal_protocol_version_from_sapi.php",
-                    "src/functions/marshal_uri_from_sapi.php",
-                    "src/functions/normalize_server.php",
-                    "src/functions/normalize_uploaded_files.php",
-                    "src/functions/parse_cookie_header.php"
-                ],
-                "psr-4": {
-                    "Zend\\Diactoros\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "PSR HTTP Message implementations",
-            "keywords": [
-                "http",
-                "psr",
-                "psr-7"
-            ],
-            "abandoned": "laminas/laminas-diactoros",
-            "time": "2019-11-13T19:16:13+00:00"
         }
     ],
     "packages-dev": [
@@ -11585,12 +11792,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/auto-bind-parameter.git",
-                "reference": "cb48d93687a02a1b3f1a80994d963f5bde14dbaf"
+                "reference": "8511b7888a20b576b85a8b0396a5d170dd4a3429"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/cb48d93687a02a1b3f1a80994d963f5bde14dbaf",
-                "reference": "cb48d93687a02a1b3f1a80994d963f5bde14dbaf",
+                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/8511b7888a20b576b85a8b0396a5d170dd4a3429",
+                "reference": "8511b7888a20b576b85a8b0396a5d170dd4a3429",
                 "shasum": ""
             },
             "require": {
@@ -11627,12 +11834,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/autowire-array-parameter.git",
-                "reference": "fabc0fb3797257b0399c1496bd1e74de4ded0398"
+                "reference": "3bcc9a32606eec1fed5c5a24e56350206ef24e48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/fabc0fb3797257b0399c1496bd1e74de4ded0398",
-                "reference": "fabc0fb3797257b0399c1496bd1e74de4ded0398",
+                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/3bcc9a32606eec1fed5c5a24e56350206ef24e48",
+                "reference": "3bcc9a32606eec1fed5c5a24e56350206ef24e48",
                 "shasum": ""
             },
             "require": {
@@ -11668,12 +11875,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/coding-standard.git",
-                "reference": "ef6387320b568f5c32e5059f53c6e6112e9cca82"
+                "reference": "75f246919481ce0a0ae1e95d3774078dec57d92a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/coding-standard/zipball/ef6387320b568f5c32e5059f53c6e6112e9cca82",
-                "reference": "ef6387320b568f5c32e5059f53c6e6112e9cca82",
+                "url": "https://api.github.com/repos/symplify/coding-standard/zipball/75f246919481ce0a0ae1e95d3774078dec57d92a",
+                "reference": "75f246919481ce0a0ae1e95d3774078dec57d92a",
                 "shasum": ""
             },
             "require": {
@@ -11768,12 +11975,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "e91cbb8c0d0f4b8d32e37ff2c2c888e90730d34f"
+                "reference": "442668dff02f563790aec2f7818481a382c15700"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/e91cbb8c0d0f4b8d32e37ff2c2c888e90730d34f",
-                "reference": "e91cbb8c0d0f4b8d32e37ff2c2c888e90730d34f",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/442668dff02f563790aec2f7818481a382c15700",
+                "reference": "442668dff02f563790aec2f7818481a382c15700",
                 "shasum": ""
             },
             "require": {
@@ -11837,12 +12044,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/package-builder.git",
-                "reference": "5d06e6b923161ce4d1fb556fbea88e6a942ce89a"
+                "reference": "9e08aecca49e2ce0bc19456b60b1041ea404db0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/package-builder/zipball/5d06e6b923161ce4d1fb556fbea88e6a942ce89a",
-                "reference": "5d06e6b923161ce4d1fb556fbea88e6a942ce89a",
+                "url": "https://api.github.com/repos/symplify/package-builder/zipball/9e08aecca49e2ce0bc19456b60b1041ea404db0c",
+                "reference": "9e08aecca49e2ce0bc19456b60b1041ea404db0c",
                 "shasum": ""
             },
             "require": {
@@ -11883,12 +12090,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/phpstan-extensions.git",
-                "reference": "c2cc908a2a33661c534bfbd3dae59679231a8812"
+                "reference": "2fd52ac30c8fa88fd20cdfeba639b0245869541c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/phpstan-extensions/zipball/c2cc908a2a33661c534bfbd3dae59679231a8812",
-                "reference": "c2cc908a2a33661c534bfbd3dae59679231a8812",
+                "url": "https://api.github.com/repos/symplify/phpstan-extensions/zipball/2fd52ac30c8fa88fd20cdfeba639b0245869541c",
+                "reference": "2fd52ac30c8fa88fd20cdfeba639b0245869541c",
                 "shasum": ""
             },
             "require": {
@@ -11927,12 +12134,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/set-config-resolver.git",
-                "reference": "7213c227fe016ff8c8d163af974fb63713d0c05b"
+                "reference": "87dda0250771ba7290e773e6a78565ebfdf8dcd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/7213c227fe016ff8c8d163af974fb63713d0c05b",
-                "reference": "7213c227fe016ff8c8d163af974fb63713d0c05b",
+                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/87dda0250771ba7290e773e6a78565ebfdf8dcd5",
+                "reference": "87dda0250771ba7290e773e6a78565ebfdf8dcd5",
                 "shasum": ""
             },
             "require": {
@@ -11970,12 +12177,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/smart-file-system.git",
-                "reference": "d1edb4801a271eb54ee2de6996a24fc40d3c2158"
+                "reference": "418b0abb201c2bcb3b3a1e7c9eb5327f3cfba70e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/d1edb4801a271eb54ee2de6996a24fc40d3c2158",
-                "reference": "d1edb4801a271eb54ee2de6996a24fc40d3c2158",
+                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/418b0abb201c2bcb3b3a1e7c9eb5327f3cfba70e",
+                "reference": "418b0abb201c2bcb3b3a1e7c9eb5327f3cfba70e",
                 "shasum": ""
             },
             "require": {
@@ -12005,7 +12212,7 @@
                 "MIT"
             ],
             "description": "Sanitized FileInfo with safe getRealPath() and other handy methods",
-            "time": "2020-05-02T01:47:18+00:00"
+            "time": "2020-05-02T08:52:53+00:00"
         },
         {
             "name": "theseer/tokenizer",

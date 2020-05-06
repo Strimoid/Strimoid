@@ -54,4 +54,17 @@ return [
         'level'         => env('RAVEN_LEVEL', 'error'),
     ],
 
+    /** Social services */
+
+    'facebook' => [
+        'page_token'      => env('FACEBOOK_PAGE_TOKEN'),
+    ],
+
+    'twitter' => [
+        'consumer_key'    => env('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
+        'token'           => env('TWITTER_TOKEN'),
+        'token_secret'    => env('TWITTER_TOKEN_SECRET'),
+    ],
+
 ];
