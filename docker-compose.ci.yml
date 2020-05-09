@@ -3,5 +3,5 @@ services:
   web:
     build:
       args:
-        - CIRCLE_WORKFLOW_WORKSPACE_ID
-    image: quay.io/strimoid/strimoid:${CIRCLE_WORKFLOW_WORKSPACE_ID}
+        - IMAGE_TAG
+    image: quay.io/strimoid/strimoid:${IMAGE_TAG}
