@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasAvatar;
 
 class Group extends BaseModel
@@ -178,7 +178,7 @@ class Group extends BaseModel
 
     public function setSidebarAttribute($text): void
     {
-        $this->attributes['sidebar'] = MarkdownParser::instance()->text(parse_usernames($text));
+        $this->attributes['sidebar'] = Markdown::convertToHtml(parse_usernames($text));
         $this->attributes['sidebar_source'] = $text;
     }
 

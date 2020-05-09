@@ -3,7 +3,7 @@
 namespace Strimoid\Models;
 
 use Auth;
-use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 use Strimoid\Models\Traits\HasSaves;
@@ -62,7 +62,7 @@ class Comment extends BaseModel
 
     public function setTextAttribute($text): void
     {
-        $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
+        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 

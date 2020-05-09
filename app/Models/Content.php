@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OEmbed;
 use PDP;
 use Str;
-use Strimoid\Helpers\MarkdownParser;
+use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasThumbnail;
@@ -108,11 +108,12 @@ class Content extends BaseModel
 
     public function setTextAttribute($text): void
     {
-        $parser = MarkdownParser::instance();
+        /* TODO: Configure new CommonMark parser
         $parser->config('inline_images', true);
         $parser->config('headers', true);
+        */
 
-        $this->attributes['text'] = $parser->text(parse_usernames($text));
+        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 
