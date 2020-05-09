@@ -1,10 +1,16 @@
 version: '2'
 services:
-  web:
+  nginx:
+    image: nginx:1.18-alpine
+    ports:
+      - "8000:80"
+    links:
+      - php
+    volumes:
+      - ./config/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  php:
     build: .
     image: quay.io/strimoid/strimoid
-    ports:
-     - "8000:80"
     links:
      - beanstalkd
      - postgres

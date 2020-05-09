@@ -1,6 +1,6 @@
 version: '2'
 services:
-  web:
+  php:
     build:
       args:
         - IMAGE_TAG

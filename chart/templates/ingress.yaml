@@ -9,10 +9,13 @@ metadata:
     helm.sh/chart: {{ include "strimoid.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    nginx.ingress.kubernetes.io/backend-protocol: FCGI
+    nginx.ingress.kubernetes.io/fastcgi-index: index.php
+    nginx.ingress.kubernetes.io/fastcgi-params-configmap: {{ include "strimoid.fullname" . }}-fastcgi
+    {{- if .Values.ingress.annotations }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- end }}
 spec:
 {{- if .Values.ingress.tls }}
   tls:
@@ -33,7 +36,7 @@ spec:
           - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: http
+              servicePort: fastcgi
         {{- end }}
   {{- end }}
 {{- end }}

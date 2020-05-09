@@ -1,6 +1,6 @@
 version: '2'
 services:
-  web:
+  php:
     environment:
      - APP_ENV=local
      - APP_DEBUG=true
@@ -12,6 +12,8 @@ services:
      - REDIS_PORT=6379
     volumes:
      - .:/src
+     - ./config/docker/php/dev.ini:/usr/local/etc/php/conf.d/custom.ini
+     - ./config/docker/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
   postgres:
     ports:
       - "5432:5432"
