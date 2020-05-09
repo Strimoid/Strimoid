@@ -1,6 +1,6 @@
 <?php
 
-namespace Strimoid\Markdown;
+namespace Strimoid\Markdown\Inline\Parser;
 
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Parser\InlineParserInterface;
@@ -17,32 +17,21 @@ class GroupMentionParser implements InlineParserInterface
     public function parse(InlineParserContext $inlineContext): bool
     {
         $cursor = $inlineContext->getCursor();
-
-        // The 'g/' prefix must not have any other characters immediately prior
         $previousChar = $cursor->peek(-1);
         $nextChar = $cursor->peek(1);
 
-        if ($previousChar !== null && $previousChar !== ' ') {
+        if ($previousChar !== null && $previousChar !== ' ' && $nextChar !== '/') {
             // peek() doesn't modify the cursor, so no need to restore state first
             return false;
         }
 
-        if ($nextChar !== '/') {
-            return false;
-        }
-
-        // Save the cursor state in case we need to rewind and bail
         $previousState = $cursor->saveState();
-
-        // Advance past the 'g/' prefix to keep parsing simpler
         $cursor->advanceBy(2);
 
-        // Parse the handle
         $handle = $cursor->match('/^[A-Za-z0-9_]{1,32}(?!\w)/');
-        if (empty($handle)) {
-            // Regex failed to match; this isn't a valid username
-            $cursor->restoreState($previousState);
 
+        if (empty($handle)) {
+            $cursor->restoreState($previousState);
             return false;
         }
 

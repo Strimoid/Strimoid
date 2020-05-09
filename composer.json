@@ -18,7 +18,7 @@
         "irc": "irc://irc.freenode.org/strimoid"
     },
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.4",
         "laravel/framework": "^6.0",
         "laravelcollective/html": "^6.0",
         "intervention/image": "^2.3",
@@ -26,7 +26,6 @@
         "jeremykendall/php-domain-parser": "^5.3",
         "guzzlehttp/guzzle": "^6.2",
         "guzzlehttp/oauth-subscriber": "^0.3",
-        "graham-campbell/markdown": "^11.1",
         "graham-campbell/throttle": "^7.0",
         "jenssegers/agent": "^2.3",
         "laracasts/flash": "^3.0",

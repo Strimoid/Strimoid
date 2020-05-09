@@ -39,4 +39,4 @@ jobs:
         run: |
           helm upgrade strimoid-qa ./chart \
             --wait --set image.tag=${{ github.sha }} \
-            --values <(helm get values strimoid)
+            --values <(helm get values strimoid-qa)
