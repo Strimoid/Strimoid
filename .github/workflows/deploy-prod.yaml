@@ -1,9 +1,8 @@
-name: Build & deploy
+name: Build & deploy - production
 
 on:
   push:
     branches:
-      - develop
       - master
 
 jobs:
