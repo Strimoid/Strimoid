@@ -36,7 +36,7 @@
         "msurguy/honeypot": "^1.0",
         "pda/pheanstalk": "^4.0",
         "rcrowe/twigbridge": "^0.11",
-        "barryvdh/laravel-cors": "^0.11",
+        "barryvdh/laravel-cors": "^2.0",
         "laravel/socialite": "^4.3",
         "symfony/dom-crawler": "^5.0",
         "symfony/css-selector": "^5.0",
