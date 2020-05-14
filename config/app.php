@@ -166,7 +166,7 @@ return [
         /*
          * Third party Service Providers...
          */
-        Barryvdh\Cors\ServiceProvider::class,
+
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
@@ -236,7 +236,6 @@ return [
         'Agent'      => Jenssegers\Agent\Facades\Agent::class,
         'Carbon'     => Carbon\Carbon::class,
         'Date'       => Carbon\Carbon::class,
-        'Debugbar'   => Barryvdh\Debugbar\Facade::class,
         'Flash'      => Laracasts\Flash\Flash::class,
         'Gravatar'   => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
         'Hashids'    => Vinkla\Hashids\Facades\Hashids::class,
