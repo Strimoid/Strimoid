@@ -5,7 +5,10 @@ namespace Strimoid\Providers;
 use Illuminate\Support\ServiceProvider;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use Strimoid\Markdown\CoreExtension;
+use Strimoid\Markdown\ImageLinkExtension;
 use Strimoid\Markdown\MentionExtension;
 use Strimoid\Markdown\SpoilerExtension;
 
@@ -26,6 +29,13 @@ class MarkdownServiceProvider extends ServiceProvider
 
             $environment = new Environment($config);
             $environment->addExtension(new CoreExtension());
+
+            // Official CommonMark extension
+            $environment->addExtension(new AutolinkExtension());
+            $environment->addExtension(new ExternalLinkExtension());
+
+            // Strm CommonMark Extensions
+            $environment->addExtension(new ImageLinkExtension());
             $environment->addExtension(new MentionExtension());
             $environment->addExtension(new SpoilerExtension());
 

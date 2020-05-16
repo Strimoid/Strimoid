@@ -14,7 +14,7 @@ use League\CommonMark\Inline\Renderer as InlineRenderer;
 
 class CoreExtension implements ExtensionInterface
 {
-    public function register(ConfigurableEnvironmentInterface $environment)
+    public function register(ConfigurableEnvironmentInterface $environment): void
     {
         $environment
             ->addBlockParser(new BlockParser\BlockQuoteParser(),      70)
@@ -56,7 +56,5 @@ class CoreExtension implements ExtensionInterface
             ->addDelimiterProcessor(new EmphasisDelimiterProcessor('*'))
             ->addDelimiterProcessor(new EmphasisDelimiterProcessor('_'))
         ;
-
-        // $environment->addEventListener(DocumentParsedEvent::class, new ExternalLinkProcessor($environment));
     }
 }
