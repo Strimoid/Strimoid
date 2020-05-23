@@ -158,6 +158,8 @@ thead .glyphicon {
 /* POPULAR CONTENTS WIDGET */
 .popular_contents_list {
   margin-top: 20px;
+  margin-bottom: 0;
+  padding: 0;
 
   h6 {
     font-size: 12px;
@@ -165,6 +167,10 @@ thead .glyphicon {
 
   small {
     font-size: 11px;
+  }
+
+  .media:not(:last-child) {
+    margin-bottom: 16px;
   }
 
   .media-body {
