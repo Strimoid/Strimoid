@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>{{{ $content->title }}} - Strimoid.pl</title>
+    <title>{{{ $content->title }}} - {{ config('app.name') }}</title>
 
     <link rel="stylesheet" href="/static/css/frame.css">
 </head>

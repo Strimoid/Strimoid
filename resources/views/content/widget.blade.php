@@ -5,7 +5,8 @@
     <a class="pull-left" href="{{ $content->getURL() }}" rel="nofollow" target="_blank">
         <img class="media-object img-thumbnail"
              src="{!! $content->getThumbnailPath(100, 75) !!}"
-             srcset="{!! $content->getThumbnailPath(200, 150) !!} 2x">
+             srcset="{!! $content->getThumbnailPath(200, 150) !!} 2x"
+             alt="{{ Str::limit($content->title, 20) }}">
     </a>
     @endif
 

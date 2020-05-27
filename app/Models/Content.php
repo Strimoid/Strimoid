@@ -63,7 +63,7 @@ class Content extends BaseModel
 
     public function getDomain()
     {
-        return $this->domain ?: 'strimoid.pl';
+        return $this->domain ?: config('app.domain');
     }
 
     public function getEmbed($autoPlay = true)

@@ -40,7 +40,7 @@ class RegistrationController extends BaseController
         $user->save();
 
         Mail::send('emails.auth.activate', compact('user'), function (Message $message) use ($user): void {
-            $message->to($user->email, $user->name)->subject('Witaj na Strimoid.pl!');
+            $message->to($user->email, $user->name)->subject('Witaj na Strm.pl!');
         });
 
         return redirect()->to('')->with(
@@ -68,7 +68,7 @@ class RegistrationController extends BaseController
 
         return redirect()->to('/kreator')->with(
             'success_msg',
-            'Witaj w gronie użytkowników serwisu ' . config('app.site_name') . '! ;) ' .
+            'Witaj w gronie użytkowników serwisu ' . config('app.name') . '! ;) ' .
             'Zacznij od zasubskrybowania grup pasujących do twoich zainteresowań.'
         );
     }

@@ -87,6 +87,19 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
     @endif
 @endif
 
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://strm.pl/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://strm.pl/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+</script>
+
 {{--
 <script>
     new Pjax({

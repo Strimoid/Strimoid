@@ -11,6 +11,8 @@ use Strimoid\Models\Group;
 
 class MasterComposer
 {
+    private const DEFAULT_TITLE = 'Strm';
+
     public function compose(View $view): void
     {
         $data = $view->getData();
@@ -36,16 +38,15 @@ class MasterComposer
         if (isset($currentGroup) && isset($currentGroup->name)) {
             $pageTitle = $currentGroup->name;
 
-            // Homepage title shall always be Strimoid.pl
             if ($currentGroup->urlname == 'all' && !Setting::get('homepage_subscribed', false)) {
-                $pageTitle = 'Strimoid';
+                $pageTitle = self::DEFAULT_TITLE;
             }
 
             if ($currentGroup->urlname == 'subscribed' && Setting::get('homepage_subscribed', false)) {
-                $pageTitle = 'Strimoid';
+                $pageTitle = self::DEFAULT_TITLE;
             }
         } else {
-            $pageTitle = 'Strimoid';
+            $pageTitle = self::DEFAULT_TITLE;
         }
 
         $view->with('pageTitle', $pageTitle);

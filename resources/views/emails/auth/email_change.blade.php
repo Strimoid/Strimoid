@@ -15,7 +15,7 @@
 </div>
 
 <div itemscope itemtype="http://schema.org/EmailMessage">
-    <meta itemprop="description" content="Zmiana adresu email w serwisie Strimoid.pl"/>
+    <meta itemprop="description" content="Zmiana adresu email w serwisie {{ config('app.name') }}"/>
     <div itemprop="action" itemscope itemtype="http://schema.org/ViewAction">
         <link itemprop="url" href="{!! URL::to('account/change_email', [$user->email_change_token]) !!}"/>
         <meta itemprop="name" content="Zmień email"/>

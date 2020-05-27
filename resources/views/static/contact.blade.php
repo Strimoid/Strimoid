@@ -2,7 +2,7 @@
 
 @section('content')
     <h1 style="margin-top: 0">Kontakt</h1>
-    <p>Adres email: <a href="mailto:kontakt@strimoid.pl">kontakt@strimoid.pl</a></p>
+    <p>Adres email: <a href="mailto:kontakt@strm.pl">kontakt@strm.pl</a></p>
 
     <h1>Uwagi i propozycje</h1>
     <p>Jeśli masz jakieś sugestie dotyczące naszego serwisu, możesz zgłosić swój pomysł w grupie <a href="/g/sugestie">g/sugestie</a>.</p>
@@ -13,6 +13,5 @@
         <h4>Znajdziesz nas na</h4>
         <a href="//facebook.com/strimoid"><img src="static/img/social/facebook.png" style="width: 32px"></a>
         <a href="//twitter.com/strimoid"><img src="static/img/social/twitter.png" style="width: 32px"></a>
-        <a href="//plus.google.com/u/0/112174696496737949549"><img src="static/img/social/google.png" style="width: 32px"></a>
     </div>
 @stop
