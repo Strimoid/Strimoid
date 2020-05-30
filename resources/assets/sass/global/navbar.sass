@@ -1,28 +1,25 @@
 .navbar
   min-height: 54px
-
-  .navbar-logo
-    margin-right: 25px
-    img
-      height: 40px
-      margin-top: -3px
-      margin-bottom: -10px
-
-  .navbar-nav
-    padding-top: 7px
+  background: #202329
 
   &.navbar-fixed-top
     position: fixed
     top: 26px
     z-index: 1010
 
-.navbar-inverse
-  background: #202329
+.navbar-tabs
+  flex: 1
+
+.navbar-right
+  order: 2
+
+.navbar-toggler
+  order: 3
 
 .navbar
-  .navbar-nav >
-  li > a
+  .navbar-nav > li > a
     color: #DADADA
+    padding: 9px 15px
     .active > a
       color: #fff
       background-color: #161719
@@ -37,14 +34,12 @@
     padding: 12px
     width: 250px
 
-@media (min-width: 768px)
-  .navbar-nav > li > a
-    padding: 9px 15px
+.navbar-nav
+  flex-direction: row
 
-@include media-breakpoint-down(sm)
-  .navbar-nav .nav-item + .nav-item
-    margin-left: 0.75rem
-  .navbar-nav.pull-right
-    clear: both
-  #collapsenav
-    clear: both
+.navbar-nav .dropdown-menu
+  position: absolute
+
+@include media-breakpoint-up(md)
+  .navbar img
+    margin-right: 20px

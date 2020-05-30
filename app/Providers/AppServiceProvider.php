@@ -27,9 +27,6 @@ class AppServiceProvider extends ServiceProvider
         \App::setLocale($locale);
         Carbon::setLocale($locale);
 
-        Paginator::$defaultView = 'pagination::bootstrap-4';
-        Paginator::$defaultSimpleView = 'pagination::simple-bootstrap-4';
-
         \Request::setTrustedProxies(
             ['10.0.0.0/8', '172.16.0.0/12', 'fd00::/8'],
             \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL

@@ -1,9 +1,9 @@
 {
     "private": true,
     "devDependencies": {
-        "@babel/core": "^7.9.6",
-        "@babel/preset-env": "^7.9.6",
-        "@babel/preset-react": "^7.9.4",
+        "@babel/core": "^7.10.1",
+        "@babel/preset-env": "^7.10.1",
+        "@babel/preset-react": "^7.10.1",
         "babel-loader": "^8.1.0",
         "css-loader": "^3.5.3",
         "expose-loader": "^0.7.5",
@@ -23,7 +23,7 @@
         "webpack-merge": "^4.2.2"
     },
     "dependencies": {
-        "@bugsnag/js": "^7.1.0",
+        "@bugsnag/js": "^7.1.1",
         "autosize": "^4.0.2",
         "axios": "^0.19.2",
         "bootbox": "^5.2.0",
@@ -39,7 +39,7 @@
         "pusher-js": "^5.1.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "react-player": "^2.0.1",
+        "react-player": "^2.1.0",
         "tether": "^1.4.7",
         "timeago": "^1.6.7"
     },

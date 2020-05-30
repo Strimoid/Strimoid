@@ -1,10 +1,10 @@
 <li class="nav-item dropdown notifications_dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <span class="fa fa-globe notifications_icon @if ($newNotificationsCount > 0) notifications_icon_new @endif"></span> <b class="caret"></b>
-        <span class="badge @if (!$newNotificationsCount) hide @endif">{!! $newNotificationsCount !!}</span>
+    <a href="#" data-toggle="dropdown">
+        <span class="fa fa-globe notifications_icon @if ($newNotificationsCount > 0) notifications_icon_new @endif"></span>
+        <span class="badge @if (!$newNotificationsCount) hide @endif">{{ $newNotificationsCount }}</span>
     </a>
 
-    <div class="dropdown-menu notifications" data-new-notifications="{!! intval($newNotificationsCount) !!}">
+    <div class="dropdown-menu notifications" data-new-notifications="{{ (int) $newNotificationsCount }}">
         <div class="notifications_scroll">
             <div class="notifications_list">
                 @foreach ($notifications as $notification)

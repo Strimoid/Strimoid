@@ -1,7 +1,7 @@
 <li class="nav-item dropdown user_dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <img src="{!! user()->getAvatarPath(50, 50) !!}">
-        {{ user()->name }} <b class="caret"></b>
+    <a href="#" data-toggle="dropdown">
+        <img src="{!! user()->getAvatarPath(50, 50) !!}" alt="{{ user()->name }}">
+        <span class="username">{{ user()->name }}</span>
     </a>
 
     <div class="dropdown-menu user_menu">

@@ -46,7 +46,7 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
     </div>
 
     @if (is_object($entries))
-        {!! $entries->links() !!}
+        {!! $entries->onEachSide(2)->links() !!}
     @endif
 @stop
 

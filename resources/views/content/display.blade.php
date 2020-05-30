@@ -13,7 +13,7 @@
         @include('content.widget', ['content' => $content])
     @endforeach
 
-    {!! $contents->links() !!}
+    {!! $contents->onEachSide(2)->links() !!}
 @stop
 
 @section('sidebar')
