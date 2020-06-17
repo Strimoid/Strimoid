@@ -3,7 +3,7 @@
         <a href="/">
             <img class="logo" src="/static/img/logo64.png" width="40" height="40" alt="Strm">
         </a>
-        
+
         <ul class="nav navbar-nav navbar-tabs">
             @include('global.parts.tabs')
         </ul>
