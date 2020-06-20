@@ -10,8 +10,7 @@
 @stop
 
 @section('content')
-<div class="content" data-id="{{ $content->hashId() }}">
-    <div class="media">
+    <div class="content media" data-id="{{ $content->hashId() }}">
         @include('content.components.vote')
 
         @if ($content->thumbnail)
@@ -84,7 +83,6 @@
         </div>
         @endif
     </div>
-</div>
 
 @if ($content->text)
 <div class="page-header">
