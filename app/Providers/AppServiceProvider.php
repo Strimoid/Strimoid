@@ -23,9 +23,6 @@ class AppServiceProvider extends ServiceProvider
         if (!empty($dsn)) {
             $this->app->register(\Jenssegers\Raven\RavenServiceProvider::class);
         }
-        $locale = $this->detectLocale();
-        \App::setLocale($locale);
-        Carbon::setLocale($locale);
 
         \Request::setTrustedProxies(
             ['10.0.0.0/8', '172.16.0.0/12', 'fd00::/8'],
@@ -50,18 +47,5 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('oembed', fn () => new OEmbed());
-    }
-
-    private function detectLocale()
-    {
-        $userLocales = \Agent::languages();
-
-        foreach (['pl', 'en'] as $locale) {
-            if (in_array($locale, $userLocales)) {
-                return $locale;
-            }
-        }
-
-        return config('app.locale');
     }
 }

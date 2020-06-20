@@ -30,6 +30,15 @@ Setting::add('entries_per_page', 'select', [
     ],
 ]);
 
+Setting::add('language', 'select', [
+    'default' => 'auto',
+    'options' => [
+        'auto' => 'Wykryj automatycznie',
+        'pl' => 'Polski',
+        'en' => 'English',
+    ]
+]);
+
 Setting::add('timezone', 'select', [
     'default' => 'Europe/Warsaw',
     'options' => $timezones,

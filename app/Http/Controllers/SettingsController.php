@@ -32,6 +32,7 @@ class SettingsController extends BaseController
             'css_style' => 'nullable|url|safe_url|max:250',
             'contents_per_page' => 'integer|min:1|max:100',
             'entries_per_page' => 'integer|min:1|max:100',
+            'language' => 'in:auto,en,pl',
             'timezone' => 'timezone',
         ]);
 
@@ -43,6 +44,7 @@ class SettingsController extends BaseController
         $settings['css_style'] = $request->get('css_style');
         $settings['contents_per_page'] = (int) $request->get('contents_per_page');
         $settings['entries_per_page'] = (int) $request->get('entries_per_page');
+        $settings['language'] = $request->get('language');
         $settings['timezone'] = $request->get('timezone');
         $settings['notifications.auto_read'] = $request->get('notifications.auto_read') == 'on' ? true : false;
 
