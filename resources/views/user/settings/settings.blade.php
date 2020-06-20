@@ -1,6 +1,6 @@
 {!! Form::open(['action' => 'SettingsController@saveSettings', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
 
-<div class="form-group">
+<div class="form-group row">
     <label class="col-lg-3 control-label">Opcje</label>
 
     <div class="col-lg-6">
@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group row">
     <label class="col-lg-3 control-label">Powiadomienia</label>
 
     <div class="col-lg-6">
@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group row">
     <label class="col-lg-3 control-label">Wygląd</label>
 
     <div class="col-lg-6">

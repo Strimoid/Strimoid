@@ -29,7 +29,7 @@ class SettingsController extends BaseController
     public function saveSettings(Request $request)
     {
         $this->validate($request, [
-            'css_style' => 'url|safe_url|max:250',
+            'css_style' => 'nullable|url|safe_url|max:250',
             'contents_per_page' => 'integer|min:1|max:100',
             'entries_per_page' => 'integer|min:1|max:100',
             'timezone' => 'timezone',

@@ -69,43 +69,43 @@
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="profile">
+        <div class="tab-pane active" id="profile">
             @include('user.settings.profile')
         </div>
 
-        <div class="tab-pane fade" id="password">
+        <div class="tab-pane" id="password">
             @include('user.settings.change_password')
         </div>
 
-        <div class="tab-pane fade" id="email">
+        <div class="tab-pane" id="email">
             @include('user.settings.change_email')
         </div>
 
-        <div class="tab-pane fade" id="settings">
+        <div class="tab-pane" id="settings">
             @include('user.settings.settings')
         </div>
 
-        <div class="tab-pane fade" id="subscribed">
+        <div class="tab-pane" id="subscribed">
             @include('user.settings.subscribed_groups')
         </div>
 
-        <div class="tab-pane fade" id="moderated">
+        <div class="tab-pane" id="moderated">
             @include('user.settings.moderated_groups')
         </div>
 
-        <div class="tab-pane fade" id="blocked">
+        <div class="tab-pane" id="blocked">
             @include('user.settings.blocked_groups')
         </div>
 
-        <div class="tab-pane fade" id="bans">
+        <div class="tab-pane" id="bans">
             @include('user.settings.bans')
         </div>
 
-        <div class="tab-pane fade" id="blockedusers">
+        <div class="tab-pane" id="blockedusers">
             @include('user.settings.blocked_users')
         </div>
 
-        <div class="tab-pane fade" id="domains">
+        <div class="tab-pane" id="domains">
             @include('user.settings.blocked_domains')
         </div>
     </div>

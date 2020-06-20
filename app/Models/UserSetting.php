@@ -10,18 +10,13 @@ class UserSetting extends BaseModel
     public $incrementing = false;
 
     protected $table = 'user_settings';
-    protected $primaryKey = ['key', 'user_id'];
+    protected array $primaryKeys = ['key', 'user_id'];
 
     protected static $unguarded = true;
 
-    /**
-     * Set the keys for a save update query.
-     *
-     *
-     */
-    protected function setKeysForSaveQuery(Builder $query): \Illuminate\Database\Eloquent\Builder
+    protected function setKeysForSaveQuery(Builder $query): Builder
     {
-        foreach ($this->getKeyName() as $key) {
+        foreach ($this->primaryKeys as $key) {
             if (!$this->$key) {
                 throw new \Exception(__METHOD__ . 'Missing part of the primary key: ' . $key);
             }
