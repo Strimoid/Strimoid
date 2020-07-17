@@ -52,34 +52,34 @@ class Notification extends BaseModel
             $params .= '?ntf_read=' . $this->hashId();
         }
 
-        try {
-            $class = get_class($this->element);
+        if (!$this->element) {
+            return null;
+        }
 
-            switch ($class) {
-                case Entry::class:
-                    $url = route('single_entry', $this->element);
-                    break;
-                case EntryReply::class:
-                    $url = route('single_entry', Hashids::encode($this->element->parent_id));
-                    $params .= '#' . $this->element->hashId();
-                    break;
-                case Comment::class:
-                    $url = route('content_comments', Hashids::encode($this->element->content_id));
-                    $params .= '#' . $this->element->hashId();
-                    break;
-                case CommentReply::class:
-                    $url = route('content_comments', Hashids::encode($this->element->parent->content_id));
-                    $params .= '#' . $this->element->hashId();
-                    break;
-                case Conversation::class:
-                    $url = route('conversation', $this->element);
-                    break;
-                case 'moderator':
-                    $url = route('group_contents', $this->element);
-                    break;
-            }
-        } catch (Exception $e) {
-            // Triggered when element was removed, but notification still exists
+        $class = get_class($this->element);
+
+        switch ($class) {
+            case Entry::class:
+                $url = route('single_entry', $this->element);
+                break;
+            case EntryReply::class:
+                $url = route('single_entry', Hashids::encode($this->element->parent_id));
+                $params .= '#' . $this->element->hashId();
+                break;
+            case Comment::class:
+                $url = route('content_comments', Hashids::encode($this->element->content_id));
+                $params .= '#' . $this->element->hashId();
+                break;
+            case CommentReply::class:
+                $url = route('content_comments', Hashids::encode($this->element->parent->content_id));
+                $params .= '#' . $this->element->hashId();
+                break;
+            case Conversation::class:
+                $url = route('conversation', $this->element);
+                break;
+            case 'moderator':
+                $url = route('group_contents', $this->element);
+                break;
         }
 
         return $url . $params;
@@ -87,6 +87,10 @@ class Notification extends BaseModel
 
     public function getTypeDescription()
     {
+        if (!$this->element) {
+            return null;
+        }
+
         $class = get_class($this->element);
         $class = class_basename($class);
 
