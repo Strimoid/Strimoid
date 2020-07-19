@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call('FakeSeeder');
+        // $this->call(FakeSeeder::class);
+
+        $this->call(MockSeeder::class);
     }
 }

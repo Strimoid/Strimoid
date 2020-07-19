@@ -1,16 +1,23 @@
 <?php
 
+use Faker\Generator;
 use Strimoid\Models\Comment;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
 
-class FakeSeeder extends BaseSeeder
+class FakeSeeder
 {
-    private $users = [];
+    private const SEED = 12345;
 
-    const SEED = 12345;
+    private array $users = [];
+    private Generator $faker;
+
+    public function __construct()
+    {
+        $this->faker = Faker\Factory::create();
+    }
 
     public function run()
     {
