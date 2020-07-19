@@ -1,6 +1,8 @@
 import Bugsnag from '@bugsnag/js'
 import Bloodhound from 'corejs-typeahead'
 import loadjQueryPlugin from 'corejs-typeahead'
+import Pusher from 'pusher-js'
+import Echo from 'laravel-echo'
 
 require('imports-loader?Tether=tether,Popper=popper.js!bootstrap')
 require('timeago')
@@ -8,7 +10,6 @@ require('image-picker')
 
 const axios = require('axios').default
 const Cookies = require('js-cookie')
-const Pusher = require('pusher-js')
 
 var originalLeave = $.fn.popover.Constructor.prototype._leave
 $.fn.popover.Constructor.prototype._leave = function (event, context) {
@@ -82,18 +83,23 @@ $(document).ready(function () {
   const pollsModule = new PollsModule()
 
   if (AppData.user && window.WebSocket && AppData.config.pusher_key) {
-    const pusher = new Pusher(AppData.config.pusher_key, {
+    const echo = new Echo({
+      broadcaster: 'pusher',
+      key: AppData.config.pusher_key,
       cluster: 'eu',
-      encrypted: true
+      forceTLS: true
     })
-    pusher.subscribe('privateU' + window.username).bind('new-notification', function (data) {
+
+    /*
+    echo.private('.privateU' + window.username).listen('notification.created', function (data) {
       notificationsModule.onNotificationReceived(data)
     })
+    */
 
     var thumbnail = $('.img-thumbnail.refreshing')
 
     if (window.content_id && thumbnail.length) {
-      pusher.subscribe('content-' + window.content_id).bind('loaded-thumbnail', function (data) {
+      echo.channel('content-' + window.content_id).listen('.content.thumbnail-fetched', function (data) {
         var parent = thumbnail.first().parent()
         thumbnail.remove()
         $(parent).append('<img class="media-object img-thumbnail" src="' + data.url + '">')
@@ -101,17 +107,20 @@ $(document).ready(function () {
     }
 
     var subscribeToEntryReply = function ($this) {
-      pusher.subscribe('entry.' + $this.data('id')).bind('new-reply', function (data) {
-        if (window.blocked_users.indexOf(data.author) != -1)
+      echo.channel('entry.' + $this.data('id')).listen('.entryReply.created', (e) => {
+        console.debug('new entry reply event received!', e)
+
+        if (window.blocked_users.includes(e.user.name))
           return
 
-        var lastReply = $this.nextUntil(':not(.entry_reply)').last()
+        let lastReply = $this.nextUntil(':not(.entry_reply)').last()
 
         if (!lastReply || !lastReply.is('.entry_reply')) {
           lastReply = $this
         }
 
-        $(_.tpl['entries-reply'](data)).hide().fadeIn(1000).insertAfter(lastReply)
+        const template = require('./templates/entries/reply.html')
+        $(template(e.entryReply)).hide().fadeIn(1000).insertAfter(lastReply)
       })
     }
 
@@ -124,18 +133,21 @@ $(document).ready(function () {
     }
 
     if (window.document.location.pathname.endsWith('/entries') && query.get('page') <= 1) {
-      pusher.subscribe('entries').bind('new-entry', function (data) {
-        if (window.blocked_users.indexOf(data.author) != -1 || window.blocked_groups.indexOf(data.group) != -1)
+      echo.channel('entries').listen('.entry.created', (e) => {
+        console.debug('new entry event received!', e)
+
+        if (window.blocked_users.includes(e.entry.user.name) || window.blocked_groups.includes(e.entry.group.urlname))
           return
-        if (window.group && window.group != 'all') {
-          if (window.group == 'subscribed' && window.subscribed_groups.indexOf(data.group) == -1)
+        if (window.group && window.group !== 'all') {
+          if (window.group === 'subscribed' && !window.subscribed_groups.includes(e.entry.group.urlname))
             return
-          else if (window.group == 'moderated' && window.moderated_groups.indexOf(data.group) == -1)
+          else if (window.group === 'moderated' && !window.moderated_groups.includes(e.entry.group.urlname))
             return
-          else if (window.group != data.group)
+          else if (window.group !== e.entry.group.urlname)
             return
         }
-        $(_.tpl['entries-widget'](data)).hide().fadeIn(1000).insertBefore($('.entry').eq(1))
+        const template = require('./templates/entries/widget.html')
+        $(template(e.entry)).hide().fadeIn(1000).insertBefore($('.entry').eq(1))
       })
     }
   }

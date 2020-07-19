@@ -25,30 +25,6 @@ class PubSubHandler
         // $events->listen('eloquent.created: ' . Notification::class, self::class . '@onNewNotification');
     }
 
-    public function onNewEntry(Entry $entry): void
-    {
-        $arrayEntry = $entry->toArray();
-        $additionalData = [
-            'hashId' => $entry->hashId(),
-            'avatarPath' => $entry->user->getAvatarPath(),
-            'entryUrl' => $entry->getURL(),
-        ];
-
-        // Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, $additionalData));
-    }
-
-    public function onNewEntryReply(EntryReply $reply): void
-    {
-        $arrayEntry = $reply->toArray();
-        $additionalData = [
-            'hashId' => $reply->hashId(),
-            'avatarPath' => $reply->user->getAvatarPath(),
-            'entryUrl' => $reply->getURL(),
-        ];
-
-        // Pusher::trigger('entry.' . $reply->parent->hashId(), 'new-reply', array_merge($arrayEntry, $additionalData));
-    }
-
     public function onNewNotification(Notification $notification): void
     {
         foreach ($notification->targets as $target) {

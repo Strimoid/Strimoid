@@ -37,6 +37,10 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader?modules', 'postcss-loader'],
             },
             {
+                test: /\.html$/,
+                loader: 'handlebars-loader',
+            },
+            {
                 test: /\.(ico|jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
                 loader: 'file-loader?name=[name].[sha512:hash:base64:8].[ext]'
             },

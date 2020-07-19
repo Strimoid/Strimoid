@@ -15,12 +15,12 @@ class EntryCreated implements ShouldBroadcast
         $this->entry = $entry;
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'entry.created';
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): Channel
     {
         return new Channel('entries');
     }

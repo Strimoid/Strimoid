@@ -66,6 +66,17 @@ abstract class BaseModel extends Model
         return $this->hashId();
     }
 
+    public function toArray(): array
+    {
+        $serialized = parent::toArray();
+
+        if (array_key_exists('id', $serialized)) {
+            $serialized['id'] = $this->hashId();
+        }
+
+        return $serialized;
+    }
+
     /* Scopes */
 
     /**
