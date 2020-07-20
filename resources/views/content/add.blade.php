@@ -4,7 +4,7 @@
 <div class="row">
     {!! Form::open([
         'action' => 'ContentController@addContent',
-        'class' => 'form-horizontal content_add_form'
+        'class' => 'col-lg-12 content_add_form'
     ]) !!}
     <input type="hidden" name="type" value="link">
 
@@ -12,13 +12,13 @@
 
         <div class="row" style="margin-bottom: 20px">
             <ul class="nav nav-tabs col-lg-6 offset-lg-3">
-                <li class="nav-item">
+                <li class="nav-item w-50">
                     <a class="nav-link active" href="#link" data-toggle="tab">
                         <i class="fa fa-link"></i>
                         @lang('common.add link')
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item w-50">
                     <a class="nav-link" href="#content" data-toggle="tab">
                         <i class="fa fa-pencil"></i>
                         @lang('common.add content')
@@ -41,7 +41,7 @@
     @include('global.form.input_value', ['type' => 'text', 'name' => 'title', 'label' => trans('common.title'), 'maxlength' => '128', 'value' => Input::get('title')])
     @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => trans('common.description'), 'maxlength' => '255', 'value' => Input::get('description')])
 
-    <div class="form-group">
+    <div class="form-group row">
         <label class="col-lg-3 control-label">@lang('common.options')</label>
 
         <div class="col-lg-4">

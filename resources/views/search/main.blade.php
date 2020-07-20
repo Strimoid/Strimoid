@@ -8,7 +8,7 @@
     {!! Form::text('q', Input::get('q'), ['class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...']) !!}
     <input type="hidden" name="t" value="{{{ Input::get('t') }}}">
 
-    <div class="input-group-btn">
+    <div class="input-group-append">
         <button type="submit" class="btn btn-secondary btn-primary">Szukaj</button>
     </div>
 </div>

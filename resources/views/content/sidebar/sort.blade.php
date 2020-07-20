@@ -26,7 +26,9 @@
                 <span class="caret"></span>
             </button>
             <div class="dropdown-menu content_filter">
-                <a class="dropdown-item action_link @if (!Input::has('time')) selected @endif" data-time="">Wszystkie</a>
+                <a class="dropdown-item action_link @if (!Input::has('time')) selected @endif" data-time="">
+                    Wszystkie
+                </a>
 
                 <a class="dropdown-item action_link @if (Input::get('time') == '1d') selected @endif" data-time="1d">
                     Z ostatnich 24 godzin

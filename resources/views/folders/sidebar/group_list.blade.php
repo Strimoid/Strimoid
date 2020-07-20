@@ -22,7 +22,7 @@
 
                     <input type="text" class="form-control" name="name" placeholder="Nazwa folderu...">
 
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                         <button class="btn btn-primary" type="submit">Skopiuj</button>
                     </span>
                 </div>
@@ -55,7 +55,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control group_typeahead" name="group" placeholder="Dodaj grupę...">
 
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                         <button class="btn btn-primary" type="submit">Dodaj</button>
                     </span>
                 </div>
