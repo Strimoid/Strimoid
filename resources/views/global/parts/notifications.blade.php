@@ -4,7 +4,7 @@
         <span class="badge @if (!$newNotificationsCount) hide @endif">{{ $newNotificationsCount }}</span>
     </a>
 
-    <div class="dropdown-menu notifications" data-new-notifications="{{ (int) $newNotificationsCount }}">
+    <div class="dropdown-menu dropdown-menu-right notifications" data-new-notifications="{{ (int) $newNotificationsCount }}">
         <div class="notifications_scroll">
             <div class="notifications_list">
                 @foreach ($notifications as $notification)
