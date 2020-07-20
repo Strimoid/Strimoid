@@ -4,7 +4,7 @@ import loadjQueryPlugin from 'corejs-typeahead'
 import Pusher from 'pusher-js'
 import Echo from 'laravel-echo'
 
-require('imports-loader?Tether=tether,Popper=popper.js!bootstrap')
+require('bootstrap')
 require('timeago')
 require('image-picker')
 

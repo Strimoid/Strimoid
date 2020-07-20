@@ -17,7 +17,7 @@
             <div class="input-group input-group-appended">
                 {!! Form::text('groupname', $suggestedGroup, ['class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...', 'autocomplete' => 'off']) !!}
 
-                <div class="input-group-btn">
+                <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">
                         @lang('common.add')
                     </button>
