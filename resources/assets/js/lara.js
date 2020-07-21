@@ -525,16 +525,20 @@ $(document).ready(function () {
 
   $('.content_sort a').click(function () {
     if ($(this).attr('data-sort'))
-      window.location.search = query.set('sort', $(this).attr('data-sort'))
+      query.set('sort', $(this).attr('data-sort'))
     else
-      window.location.search = query.remove('sort')
+      query.remove('sort')
+
+    window.location.search = query.toString()
   })
 
   $('.content_filter a').click(function () {
     if ($(this).attr('data-time'))
-      window.location.search = query.set('time', $(this).attr('data-time'))
+      query.set('time', $(this).attr('data-time'))
     else
-      window.location.search = query.remove('time')
+      query.remove('time')
+
+    window.location.search = query.toString()
   })
 
   $('body').on('mouseup', '.entry_text', function () {

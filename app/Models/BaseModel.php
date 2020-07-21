@@ -79,14 +79,10 @@ abstract class BaseModel extends Model
 
     /* Scopes */
 
-    /**
-     * Filter by created time ago.
-     *
-     * @param $query
-     * @param $days
-     */
     public function scopeFromDaysAgo($query, $days): void
     {
+        $days = (int) $days;
+
         $fromTime = Carbon::now()->subDays($days)
             ->hour(0)->minute(0)->second(0);
         $query->where('created_at', '>', $fromTime->toDateTimeString());
