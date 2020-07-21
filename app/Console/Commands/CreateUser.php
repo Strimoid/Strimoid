@@ -13,7 +13,7 @@ class CreateUser extends Command
     /** @var string */
     protected $description = 'Creates user.';
 
-    public function fire(): void
+    public function handle(): void
     {
         if (!$this->argument('username')) {
             $this->error('no username given');

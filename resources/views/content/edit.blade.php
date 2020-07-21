@@ -29,11 +29,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-6">
-            <button type="submit" class="btn btn-secondary btn-primary pull-right">Zapisz zmiany</button>
-        </div>
-    </div>
+    @include('global.form.submit', ['label' => 'Zapisz zmiany'])
+
     {!! Form::close() !!}
 </div>
 @stop

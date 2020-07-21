@@ -15,13 +15,14 @@ class GenerateSitemap extends Command
     public function __construct(UrlGenerator $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;
+
         parent::__construct();
     }
 
-    public function fire(): void
+    public function handle(): void
     {
         // Generate groups sitemap
-        $sitemap = App::make('sitemap');
+        $sitemap = app('sitemap');
         $x = 1;
 
         foreach (Group::all() as $group) {

@@ -50,14 +50,8 @@
         </div>
     </div>--}}
 
+    @include('global.form.submit', ['label' => trans('groups.create')])
 
-    <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-6">
-            <button type="submit" class="btn btn-secondary">
-                @lang('groups.create')
-            </button>
-        </div>
-    </div>
     {!! Form::close() !!}
 </div>
 @stop

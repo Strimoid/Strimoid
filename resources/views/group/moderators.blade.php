@@ -10,7 +10,7 @@
 @include('global.form.input', ['type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'])
 
 <div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
+    <div class="col-lg-6 offset-lg-3">
         <div class="checkbox">
             <label>
                 {!! Form::checkbox('admin') !!} <span class="has_tooltip" data-toggle="tooltip" title="Pozwala edytować ustawienia i listę moderatorów">Admin</span>
@@ -19,11 +19,8 @@
     </div>
 </div>
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-primary pull-right">Dodaj moderatora</button>
-    </div>
-</div>
+@include('global.form.submit', ['label' => 'Dodaj moderatora'])
+
 
 {!! Form::close() !!}
 @endif

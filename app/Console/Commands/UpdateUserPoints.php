@@ -15,7 +15,7 @@ class UpdateUserPoints extends Command
     /** @var string */
     protected $description = 'Updates user points amount.';
 
-    public function fire(): void
+    public function handle(): void
     {
         \DB::connection()->disableQueryLog();
 

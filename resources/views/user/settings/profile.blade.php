@@ -35,10 +35,6 @@
 @include('global.form.input_value', ['type' => 'text', 'name' => 'age', 'label' => 'Rok urodzenia', 'value' => $user->age ?: ''])
 @include('global.form.input_value', ['type' => 'text', 'name' => 'location', 'label' => 'Miejscowość', 'value' => $user->location])
 @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => 'O sobie', 'value' => $user->description])
+@include('global.form.submit')
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-primary">Zapisz</button>
-    </div>
-</div>
 {!! Form::close() !!}

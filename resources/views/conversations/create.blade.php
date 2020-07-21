@@ -7,7 +7,7 @@
 @include('global.form.input', ['type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'])
 
 <div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
+    <div class="col-lg-6 offset-lg-3">
         <button type="submit" class="btn btn-primary">Wyślij</button>
     </div>
 </div>

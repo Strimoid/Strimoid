@@ -4,12 +4,8 @@
 {!! Form::open(['action' => 'UserController@remindPassword', 'class' => 'form-horizontal']) !!}
 
 @include('global.form.input', ['type' => 'email', 'name' => 'email', 'label' => 'Adres email'])
+@include('global.form.submit', ['label' => 'Dalej'])
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-primary">Dalej</button>
-    </div>
-</div>
 {!! Form::close() !!}
 @stop
 

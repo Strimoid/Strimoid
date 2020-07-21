@@ -15,7 +15,7 @@ class FacebookPost extends Command
     /** @var string */
     protected $description = 'Posts most popular content to FB fanpage.';
 
-    public function fire(): void
+    public function handle(): void
     {
         $dayBefore = Carbon::now()->subDay();
         $content = Content::where('created_at', '>', $dayBefore)

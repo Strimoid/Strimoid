@@ -18,12 +18,8 @@ Proces usuwania konta jest nieodwracalny!
 
     @include('global.form.input_icon', ['type' => 'password', 'name' => 'password', 'label' => 'Hasło', 'icon' => 'lock'])
     @include('global.form.input_icon', ['type' => 'password', 'name' => 'password_confirmation', 'label' => 'Hasło - powtórzenie', 'icon' => 'lock'])
+    @include('global.form.submit', ['label' => 'Usuń konto'])
 
-    <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-6">
-            <button type="submit" class="btn btn-primary">Usuń konto</button>
-        </div>
-    </div>
     {!! Form::close() !!}
 </div>
 @stop

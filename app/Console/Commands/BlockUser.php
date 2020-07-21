@@ -14,7 +14,7 @@ class BlockUser extends Command
     /** @var string */
     protected $description = 'Blocks user.';
 
-    public function fire(): void
+    public function handle(): void
     {
         $user = User::findOrFail($this->argument('username'));
         $user->blocked_at = \Carbon::now();

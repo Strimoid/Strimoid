@@ -64,10 +64,6 @@
 
 @include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => setting('css_style'), 'placeholder' => 'http://link.do/stylu.css'])
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-primary">Zapisz</button>
-    </div>
-</div>
+@include('global.form.submit')
 
 {!! Form::close() !!}

@@ -117,36 +117,33 @@
 
 {!! Form::open(['action' => ['RelatedController@addRelated', $content], 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) !!}
 
-@include('global.form.input', ['type' => 'text', 'name' => 'title', 'label' => 'Tytuł linku'])
-@include('global.form.input', ['type' => 'text', 'name' => 'url', 'label' => 'Adres URL'])
+    @include('global.form.input', ['type' => 'text', 'name' => 'title', 'label' => 'Tytuł linku'])
+    @include('global.form.input', ['type' => 'text', 'name' => 'url', 'label' => 'Adres URL'])
 
-<div class="form-group">
-    <label class="col-lg-3 control-label">Dodatkowe opcje</label>
+    <div class="form-group">
+        <label class="col-lg-3 control-label">Dodatkowe opcje</label>
 
-    <div class="col-lg-6">
-        <div class="checkbox">
-            <label>
-                {!! Form::checkbox('thumbnail', 'on', true) !!} Miniaturka
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                {!! Form::checkbox('nsfw', 'on') !!} Treść +18
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                {!! Form::checkbox('eng', 'on') !!} Treść w języku angielskim
-            </label>
+        <div class="col-lg-6">
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('thumbnail', 'on', true) !!} Miniaturka
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('nsfw', 'on') !!} Treść +18
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('eng', 'on') !!} Treść w języku angielskim
+                </label>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-primary pull-right">Dodaj powiązany link</button>
-    </div>
-</div>
+    @include('global.form.submit', ['label' => 'Dodaj powiązany link'])
+
 {!! Form::close() !!}
 
 @if (!count($content->related))

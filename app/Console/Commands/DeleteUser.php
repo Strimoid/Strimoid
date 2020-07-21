@@ -14,7 +14,7 @@ class DeleteUser extends Command
     /** @var string */
     protected $description = 'Deletes user.';
 
-    public function fire(): void
+    public function handle(): void
     {
         $user = User::findOrFail($this->argument('username'));
 

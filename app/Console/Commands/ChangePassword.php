@@ -20,7 +20,7 @@ class ChangePassword extends Command
         $this->users = $users;
     }
 
-    public function fire(): void
+    public function handle(): void
     {
         $user = $this->users->requireByName($this->argument('username'));
         $user->password = $this->argument('password');

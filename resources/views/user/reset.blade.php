@@ -15,11 +15,8 @@
 @include('global.form.input', ['type' => 'password', 'name' => 'password', 'label' => 'Nowe hasło'])
 @include('global.form.input', ['type' => 'password', 'name' => 'password_confirmation', 'label' => 'Potwierdzenie hasła'])
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-secondary">Zapisz</button>
-    </div>
-</div>
+@include('global.form.submit')
+
 {!! Form::close() !!}
 @stop
 

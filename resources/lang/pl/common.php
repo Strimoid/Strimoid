@@ -42,6 +42,7 @@ return [
     'reply'       => 'odpowiedz',
     'delete'      => 'usuń',
     'edit'        => 'edytuj',
+    'save'        => 'Zapisz',
 
     // Things
     'comments' => 'Komentarze',

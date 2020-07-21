@@ -41,7 +41,7 @@
             @include('global.form.input_tags', ['type' => 'text', 'name' => 'tags', 'label' => 'Tagi', 'tags' => $group->tags])
 
             <div class="form-group">
-                <div class="col-lg-offset-3 col-lg-6">
+                <div class="col-lg-6 offset-lg-3">
                     <button type="submit" class="btn btn-primary">Zapisz</button>
                 </div>
             </div>
@@ -65,12 +65,7 @@
             </div>
 
             @include('global.form.input_tags', ['type' => 'text', 'name' => 'labels', 'label' => 'Lista etykiet', 'noun' => 'Etykiety', 'tags' => $group->labels])
-
-            <div class="form-group">
-                <div class="col-lg-offset-3 col-lg-6">
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
-                </div>
-            </div>
+            @include('global.form.submit')
 
             {!! Form::close() !!}
             --}}
