@@ -16,5 +16,5 @@ return [
     'new'        => 'new',
 
     // Actions
-    'create group' => 'create group',
+    'create' => 'Create group',
 ];

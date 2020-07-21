@@ -18,7 +18,9 @@
         <input type="hidden" name="t" value="g">
 
         <div class="input-group-append">
-            <button type="submit" class="btn btn-primary">{{ Str::ucfirst(trans('common.search')) }}</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i>
+            </button>
         </div>
     </div>
     {!! Form::close() !!}
@@ -28,11 +30,11 @@
     <div class="row">
         <div class="btn-group col-lg-12">
             <a href="{!! action('GroupController@showList') !!}"
-               class="col-lg-6 btn {{ Input::get('sort') == '' ? 'btn-primary' : 'btn-secondary' }}">
+               class="col-lg-6 btn {{ Input::get('sort') == '' ? 'btn-secondary' : 'btn-light' }}">
                 {{ Str::ucfirst(trans('groups.popular')) }}
             </a>
             <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}"
-               class="col-lg-6 btn {{ Input::get('sort') == 'newest' ? 'btn-primary' : 'btn-secondary' }}">
+               class="col-lg-6 btn {{ Input::get('sort') == 'newest' ? 'btn-secondary' : 'btn-light' }}">
                 {{ Str::ucfirst(trans('groups.new')) }}
             </a>
         </div>
@@ -41,8 +43,8 @@
 
 <div class="well">
     <a href="{!! action('GroupController@showCreateForm') !!}">
-        <button type="button" class="btn btn-secondary group_subscribe_btn">
-            <i class="fa fa-plus"></i>
+        <button type="button" class="btn btn-primary w-100 group_subscribe_btn">
+            <i class="fa fa-plus mr-1"></i>
             {{ Str::ucfirst(trans('groups.create group')) }}
         </button>
     </a>
