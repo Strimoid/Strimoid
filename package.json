@@ -5,7 +5,7 @@
         "@babel/preset-env": "^7.10.4",
         "@babel/preset-react": "^7.10.4",
         "babel-loader": "^8.1.0",
-        "css-loader": "^3.6.0",
+        "css-loader": "^4.2.1",
         "expose-loader": "^1.0.0",
         "file-loader": "^6.0.0",
         "handlebars": "^4.7.6",
