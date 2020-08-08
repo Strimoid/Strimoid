@@ -1,7 +1,7 @@
 version: '2'
 services:
   nginx:
-    image: nginx:1.18-alpine
+    image: nginx:1.19-alpine
     ports:
       - "8000:80"
     links:
