@@ -3,6 +3,7 @@
 namespace Strimoid\Helpers;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Strimoid\Facades\Guzzle;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
@@ -86,29 +87,32 @@ class OEmbed
             $key .= '.no-ap';
         }
 
-        return Cache::rememberForever($key, fn () => $this->fetchJson($url, $autoPlay));
+        return Cache::rememberForever($key, function () use ($url, $autoPlay) {
+            try {
+                return $this->fetchEmbedCode($url, $autoPlay);
+            } catch (\Throwable $throwable) {
+                Log::warning('Failed to fetch embed code: ' . $throwable->getMessage());
+                return null;
+            }
+        });
     }
 
-    protected function fetchJson(string $url, bool $autoPlay): ?string
+    protected function fetchEmbedCode(string $url, bool $autoPlay): string
     {
-        try {
-            $query = array_filter([
-                'ssl' => 'true',
-                'url' => $url,
-                'api_key' => config('strimoid.oembed.api_key'),
-            ]);
+        $query = array_filter([
+            'ssl' => 'true',
+            'url' => $url,
+            'api_key' => config('strimoid.oembed.api_key'),
+        ]);
 
-            if ($autoPlay) {
-                $query['autoplay'] = 'true';
-            }
-
-            $data = (string) Guzzle::get($this->endpoint(), compact('query'))->getBody();
-            $data = \GuzzleHttp\json_decode($data, true);
-
-            return $this->processData($data);
-        } catch (RequestException $e) {
-            return null;
+        if ($autoPlay) {
+            $query['autoplay'] = 'true';
         }
+
+        $data = (string) Guzzle::get($this->endpoint(), compact('query'))->getBody();
+        $data = \GuzzleHttp\json_decode($data, true);
+
+        return $this->processData($data);
     }
 
     protected function processData($data): ?string
@@ -131,7 +135,7 @@ class OEmbed
             }
         }
 
-        return null;
+        return '';
     }
 
     protected function embedMedia($link)
