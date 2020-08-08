@@ -261,4 +261,4 @@ Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);
 Route::get('/ranking', ['as' => 'ranking', 'uses' => 'RankingController@showRanking']);
 Route::get('/g/{group}/ranking', ['as' => 'group_ranking', 'uses' => 'RankingController@showRanking']);
 
-Route::fallback('StaticFileController@getStaticFile');
+Route::fallback('StaticFileController@getStaticFile')->withoutMiddleware(['web']);

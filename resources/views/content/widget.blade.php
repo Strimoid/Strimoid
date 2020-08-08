@@ -2,7 +2,7 @@
     @include('content.components.vote')
 
     @if ($content->thumbnail && !$content->nsfw)
-    <a class="pull-left" href="{{ $content->getURL() }}" rel="nofollow" target="_blank">
+    <a class="pull-left" href="{{ $content->getURL() }}" rel="nofollow noopener" target="_blank">
         <img class="media-object img-thumbnail"
              src="{!! $content->getThumbnailPath(100, 75) !!}"
              srcset="{!! $content->getThumbnailPath(200, 150) !!} 2x"
@@ -12,7 +12,7 @@
 
     <div class="media-body content_desc">
         <h2 class="media-heading content_head">
-            <a href="{{ $content->getURL() }}" rel="nofollow" target="_blank">{{ $content->title }}</a>
+            <a href="{{ $content->getURL() }}" rel="nofollow noopener" target="_blank">{{ $content->title }}</a>
             @if ($content->eng) <span class="eng">[ENG]</span> @endif
             @if ($content->nsfw) <span class="nsfw">[+18]</span> @endif
         </h2>

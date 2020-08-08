@@ -22,7 +22,7 @@ $popularContents = $builder->remember(60)->orderBy('uv', 'desc')->take(5)->get()
             @if ($content->thumbnail && !$content->nsfw)
             <a class="pull-left" href="{!! route('content_comments_slug', [$content, Str::slug($content->title)]) !!}"
                rel="nofollow" target="_blank">
-                <img src="{!! $content->getThumbnailPath(40, 40) !!}" style="height: 40px; width: 40px; border-radius: 3px;">
+                <img src="{!! $content->getThumbnailPath(40, 40) !!}" style="height: 40px; width: 40px; border-radius: 3px;" alt="">
             </a>
             @endif
             <div class="media-body">
