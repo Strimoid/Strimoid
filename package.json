@@ -42,7 +42,7 @@
         "pusher-js": "^6.0.3",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "react-player": "^2.6.0",
+        "react-player": "^2.6.2",
         "tether": "^1.4.7",
         "timeago": "^1.6.7"
     },
