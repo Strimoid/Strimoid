@@ -15,7 +15,7 @@ You'll need to get [Docker](https://www.docker.com/products/overview) and docker
 
 ```bash
 docker-compose up -d --build
-docker-compose exec web artisan migrate:fresh --seed
+docker-compose exec php artisan migrate:fresh --seed
 ```
 
 Then go to [http://localhost:8000](http://localhost:8000) and enjoy.
