@@ -37,7 +37,7 @@
         "msurguy/honeypot": "^1.0",
         "pda/pheanstalk": "^4.0",
         "rcrowe/twigbridge": "^0.12",
-        "laravel/socialite": "^4.3",
+        "laravel/socialite": "^5.0",
         "symfony/dom-crawler": "^5.0",
         "symfony/css-selector": "^5.0",
         "dingo/api": "^3.0",
