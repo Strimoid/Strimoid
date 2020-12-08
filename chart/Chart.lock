@@ -3,10 +3,10 @@ dependencies:
   repository: https://strimoid.github.io/helm-charts/
   version: 1.0.0
 - name: postgresql
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 3.11.7
 - name: redis
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 6.1.4
-digest: sha256:b6a24cee79c0c8937264a682ad420472034c21f56e933510eb55823705668213
-generated: "2019-12-14T14:21:37.9076272+01:00"
+digest: sha256:e8a27b0b94930d4bf7968060675e56dcdc74393721abd847c9b02f8fae60579d
+generated: "2020-12-22T20:25:16.2738079+01:00"
