@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Docker configuration
-        run: mkdir $HOME/.docker; echo $DOCKER_CONFIG | base64 -d > $HOME/.docker/config.json
+        run: mkdir -p $HOME/.docker; echo $DOCKER_CONFIG | base64 -d > $HOME/.docker/config.json
         env:
           DOCKER_CONFIG: ${{ secrets.DOCKER_CONFIG }}
       - name: Build the Docker image
@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Kubernetes credentials
-        run: mkdir $HOME/.kube; echo $K8S_CONFIG | base64 -d > $HOME/.kube/config
+        run: mkdir -p $HOME/.kube; echo $K8S_CONFIG | base64 -d > $HOME/.kube/config
         env:
           K8S_CONFIG: ${{ secrets.K8S_CONFIG }}
       - name: Build Helm chart dependencies
