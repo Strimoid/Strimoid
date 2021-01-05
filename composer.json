@@ -47,7 +47,7 @@
         "laravel/passport": "^9.0",
         "danielstjules/stringy": "^3.1",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "tightenco/ziggy": "^0.9",
+        "tightenco/ziggy": "^1.0",
         "gliterd/laravel-backblaze-b2": "^1.2",
         "meilisearch/meilisearch-laravel-scout": "^0.12.0",
         "pusher/pusher-php-server": "~4.0"
