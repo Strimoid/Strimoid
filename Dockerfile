@@ -13,7 +13,7 @@ RUN npm run build
 ### ---------------------
 ### final stage
 ### ---------------------
-FROM quay.io/strimoid/php:7.4
+FROM quay.io/strimoid/php:8.0
 
 EXPOSE 80
 
@@ -26,7 +26,8 @@ COPY config/docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY . /src
 COPY --from=assets /src/public/assets /src/public/assets
 
-RUN composer install --no-interaction --no-progress
+# TODO: remove --ignore-platform-reqs after dingo/api upgrade
+RUN composer install --ignore-platform-reqs --no-interaction --no-progress
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]
