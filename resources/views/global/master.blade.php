@@ -39,7 +39,6 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
     @include('auth.login-modal')
 @endif
 
-<script src="/assets/js/laroute.js"></script>
 <script src="{{ mix('client.js', 'assets') }}"></script>
 
 @if (auth()->check())

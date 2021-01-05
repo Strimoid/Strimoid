@@ -15,7 +15,7 @@ function GroupsModule () {
 GroupsModule.prototype.subscribeGroup = function () {
   const button = $(this)
   const name = $(this).parent().attr('data-name')
-  const url = laroute.action('GroupController@subscribeGroup', { group: name })
+  const url = `/g/${name}/subscription`
 
   if (button.hasClass('btn-success')) {
     axios.delete(url).then(() => {
@@ -35,7 +35,7 @@ GroupsModule.prototype.subscribeGroup = function () {
 GroupsModule.prototype.blockGroup = function () {
   const button = $(this)
   const name = $(this).parent().attr('data-name')
-  const url = laroute.action('GroupController@blockGroup', { group: name })
+  const url = `/g/${name}/block`
 
   if (button.hasClass('btn-danger')) {
     axios.delete(url).then(() => {
