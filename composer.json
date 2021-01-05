@@ -23,7 +23,7 @@
         "laravelcollective/html": "^6.0",
         "intervention/image": "^2.3",
         "laravelium/sitemap": "^8.0",
-        "jeremykendall/php-domain-parser": "^5.3",
+        "jeremykendall/php-domain-parser": "^6.0",
         "guzzlehttp/guzzle": "^6.5",
         "guzzlehttp/oauth-subscriber": "^0.4",
         "graham-campbell/markdown": "^13.0",

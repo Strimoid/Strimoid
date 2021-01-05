@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86d9212dbe2bf7e21822fb04338749c6",
+    "content-hash": "c9274e997d7e75a7dbd18d448ceecc1b",
     "packages": [
         {
             "name": "brick/math",
@@ -2171,46 +2171,47 @@
         },
         {
             "name": "jeremykendall/php-domain-parser",
-            "version": "5.7.2",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremykendall/php-domain-parser.git",
-                "reference": "a2f61eb1fa1ebe0ea67a64b5d631495c304a189b"
+                "reference": "ef61cc3b8ea38a8e14a7ef400386240e6370afc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/a2f61eb1fa1ebe0ea67a64b5d631495c304a189b",
-                "reference": "a2f61eb1fa1ebe0ea67a64b5d631495c304a189b",
+                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/ef61cc3b8ea38a8e14a7ef400386240e6370afc8",
+                "reference": "ef61cc3b8ea38a8e14a7ef400386240e6370afc8",
                 "shasum": ""
             },
             "require": {
                 "ext-intl": "*",
                 "ext-json": "*",
-                "php": "^7.2.5 || ^8.0",
-                "psr/log": "^1.1",
-                "psr/simple-cache": "^1.0.1"
+                "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "composer/composer": "^1.6 || ^2.0",
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "mikey179/vfsstream": "^1.6.7",
+                "guzzlehttp/guzzle": "^7.0",
+                "guzzlehttp/psr7": "^1.6",
                 "phpstan/phpstan": "^0.12",
                 "phpstan/phpstan-phpunit": "^0.12",
                 "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/phpunit": "^8.0 || ^9.3"
+                "phpunit/phpunit": "^9.3",
+                "psalm/plugin-phpunit": "^0.15.0",
+                "psr/http-factory": "^1.0",
+                "psr/simple-cache": "^1.0",
+                "symfony/cache": "^v5.0",
+                "vimeo/psalm": "^4.3"
             },
             "suggest": {
-                "ext-curl": "To use the package http client",
                 "league/uri": "To parse URL and validate host",
-                "psr/simple-cache-implementation": "To enable using other cache providers"
+                "psr/http-client-implementation": "To use the storage functionnality which depends on PSR-18",
+                "psr/http-factory-implementation": "To use the storage functionnality which depends on PSR-17",
+                "psr/simple-cache-implementation": "To use the storage functionnality which depends on PSR-16"
             },
-            "bin": [
-                "bin/update-psl"
-            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.x-dev"
+                    "dev-master": "6.x-dev"
                 }
             },
             "autoload": {
@@ -2238,7 +2239,7 @@
                     "homepage": "https://github.com/jeremykendall/php-domain-parser/graphs/contributors"
                 }
             ],
-            "description": "Public Suffix List based URL parsing implemented in PHP.",
+            "description": "Public Suffix List and IANA Root Zone Database based Domain parsing implemented in PHP.",
             "homepage": "https://github.com/jeremykendall/php-domain-parser",
             "keywords": [
                 "PSL",
@@ -2260,7 +2261,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-26T06:41:32+00:00"
+            "time": "2020-12-13T21:09:03+00:00"
         },
         {
             "name": "laracasts/flash",
