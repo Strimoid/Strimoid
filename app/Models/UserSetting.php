@@ -2,8 +2,6 @@
 
 namespace Strimoid\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-
 class UserSetting extends BaseModel
 {
     public $timestamps = false;
@@ -14,7 +12,7 @@ class UserSetting extends BaseModel
 
     protected static $unguarded = true;
 
-    protected function setKeysForSaveQuery(Builder $query): Builder
+    protected function setKeysForSaveQuery($query): Builder
     {
         foreach ($this->primaryKeys as $key) {
             if (!$this->$key) {

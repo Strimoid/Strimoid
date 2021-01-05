@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Str;
-use Strimoid\Casts\HashId;
 use Strimoid\Models\Traits\HasAvatar;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
@@ -31,7 +30,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'description', 'location', 'sex', 'name',
     ];
     protected $casts = [
-        'id' => HashId::class,
         'age' => 'integer',
         'settings' => 'array',
     ];

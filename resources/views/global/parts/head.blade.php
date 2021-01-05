@@ -14,7 +14,7 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-<link href="{{ elixir('client.css', 'assets') }}" rel="stylesheet">
+<link href="{{ mix('client.css', 'assets') }}" rel="stylesheet">
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
         && $group->style  && !@Auth::user()->settings['disable_groupstyles'])

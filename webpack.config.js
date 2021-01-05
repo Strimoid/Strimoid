@@ -2,6 +2,7 @@ const { resolve } = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackAssetsManifest = require('webpack-assets-manifest')
+const { values } = require('lodash')
 
 module.exports = {
     devtool: 'source-map',
@@ -42,12 +43,14 @@ module.exports = {
             },
             {
                 test: /\.(ico|jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-                loader: 'file-loader?name=[name].[sha512:hash:base64:8].[ext]'
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[sha512:hash:base64:8].[ext]'
+                }
             },
         ],
     },
     plugins: [
-        new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
@@ -58,7 +61,8 @@ module.exports = {
             chunkFilename: '[id].[chunkhash:8].css'
         }),
         new WebpackAssetsManifest({
-            output: 'rev-manifest.json'
+            output: 'mix-manifest.json',
+            customize: ({key, value}) =>  { return { key: `/${key}`, value: `/${value}` } }
         })
-    ],
+    ]
 }
