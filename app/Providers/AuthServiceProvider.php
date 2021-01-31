@@ -8,6 +8,7 @@ use Laravel\Passport\Passport;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
+use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Group;
@@ -15,6 +16,7 @@ use Strimoid\Models\User;
 use Strimoid\Policies\CommentPolicy;
 use Strimoid\Policies\CommentReplyPolicy;
 use Strimoid\Policies\ContentPolicy;
+use Strimoid\Policies\ContentRelatedPolicy;
 use Strimoid\Policies\EntryPolicy;
 use Strimoid\Policies\EntryReplyPolicy;
 use Strimoid\Policies\GroupPolicy;
@@ -25,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         Comment::class => CommentPolicy::class,
         CommentReply::class => CommentReplyPolicy::class,
         Content::class => ContentPolicy::class,
+        ContentRelated::class => ContentRelatedPolicy::class,
         Entry::class => EntryPolicy::class,
         EntryReply::class => EntryReplyPolicy::class,
         Group::class => GroupPolicy::class,
@@ -32,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
 
     public function boot(GateContract $gate): void
     {
-        parent::registerPolicies();
+        $this->registerPolicies();
 
         Passport::routes();
 

@@ -3,14 +3,12 @@
 namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Strimoid\Models\User;
 use Symfony\Component\Console\Input\InputArgument;
 
 class CreateUser extends Command
 {
-    /** @var string */
     protected $name = 'lara:createuser';
-
-    /** @var string */
     protected $description = 'Creates user.';
 
     public function handle(): void
@@ -38,10 +36,5 @@ class CreateUser extends Command
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],
         ];
-    }
-
-    protected function getOptions(): array
-    {
-        return [];
     }
 }

@@ -1,4 +1,4 @@
-<table class="table" ng-init='blockedDomains = {!! json_encode(Auth::user()->_blocked_domains); !!}'>
+<table class="table" ng-init='blockedDomains = {!! json_encode(Auth::user()->_blocked_domains) !!}'>
     <thead>
     <tr>
         <th>#</th>

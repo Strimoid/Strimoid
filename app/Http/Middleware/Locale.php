@@ -6,9 +6,13 @@ use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Jenssegers\Agent\Facades\Agent;
 
 class Locale
 {
+    private Guard $auth;
+
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
@@ -22,7 +26,7 @@ class Locale
             $locale = $this->detectLocale();
         }
 
-        \App::setLocale($locale);
+        App::setLocale($locale);
         Carbon::setLocale($locale);
 
         return $next($request);
@@ -30,7 +34,7 @@ class Locale
 
     private function detectLocale()
     {
-        $userLocales = \Agent::languages();
+        $userLocales = Agent::languages();
 
         foreach (['pl', 'en'] as $locale) {
             if (in_array($locale, $userLocales)) {

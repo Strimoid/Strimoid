@@ -2,7 +2,9 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SettingsController extends BaseController
 {
@@ -26,7 +28,7 @@ class SettingsController extends BaseController
         ));
     }
 
-    public function saveSettings(Request $request)
+    public function saveSettings(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'css_style' => 'nullable|url|safe_url|max:250',
@@ -36,23 +38,23 @@ class SettingsController extends BaseController
             'timezone' => 'timezone',
         ]);
 
-        $settings['enter_send'] = $request->get('enter_send') == 'on' ? true : false;
-        $settings['pin_navbar'] = $request->get('pin_navbar') == 'on' ? true : false;
-        $settings['notifications_sound'] = $request->get('notifications_sound') == 'on' ? true : false;
-        $settings['homepage_subscribed'] = $request->get('homepage_subscribed') == 'on' ? true : false;
-        $settings['disable_groupstyles'] = $request->get('disable_groupstyles') == 'on' ? true : false;
+        $settings['enter_send'] = $request->get('enter_send') === 'on';
+        $settings['pin_navbar'] = $request->get('pin_navbar') === 'on';
+        $settings['notifications_sound'] = $request->get('notifications_sound') === 'on';
+        $settings['homepage_subscribed'] = $request->get('homepage_subscribed') === 'on';
+        $settings['disable_groupstyles'] = $request->get('disable_groupstyles') === 'on';
         $settings['css_style'] = $request->get('css_style');
         $settings['contents_per_page'] = (int) $request->get('contents_per_page');
         $settings['entries_per_page'] = (int) $request->get('entries_per_page');
         $settings['language'] = $request->get('language');
         $settings['timezone'] = $request->get('timezone');
-        $settings['notifications.auto_read'] = $request->get('notifications.auto_read') == 'on' ? true : false;
+        $settings['notifications.auto_read'] = $request->get('notifications.auto_read') === 'on';
 
         foreach ($settings as $key => $value) {
             setting()->set($key, $value);
         }
 
-        \Cache::tags(['user.settings', 'u.' . auth()->id()])->flush();
+        Cache::tags(['user.settings', 'u.' . auth()->id()])->flush();
 
         return redirect()->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
     }

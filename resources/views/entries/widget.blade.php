@@ -52,7 +52,7 @@
     @endif
 
     <div class="entry_actions pull-right">
-        @if (Auth::check())
+        @auth
             @if(!$isReply && $entry->isSaved())
                 <i class="fa fa-star action_link save_entry" title="zapisz"></i>
             @elseif (!$isReply)
@@ -60,7 +60,7 @@
             @endif
 
             <a class="entry_reply_link action_link">@lang('common.reply')</a>
-        @endif
+        @endauth
 
         @can('remove', $entry)
             <a class="entry_remove_link action_link">@lang('common.delete')</a>

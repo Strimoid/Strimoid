@@ -20,9 +20,9 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
 
 @section('content')
     <div class="clearfix"></div>
-    @if (Auth::check())
+    @auth
         @include('entries.form')
-    @endif
+    @endauth
 
     <div class="entries">
         @foreach ($entries as $entry)

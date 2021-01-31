@@ -2,6 +2,8 @@
 
 namespace Strimoid\Http\Controllers\Group;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBan;
@@ -19,14 +21,14 @@ class BanController extends BaseController
         return view('group.bans', compact('group', 'bans'));
     }
 
-    public function addBan()
+    public function addBan(): RedirectResponse
     {
         $user = User::name(request('username'))->firstOrFail();
         $group = Group::name(request('groupname'))->firstOrFail();
 
         $this->validate(request(), ['reason' => 'max:255']);
 
-        if (request('everywhere') == '1') {
+        if (request('everywhere') === '1') {
             foreach (user()->moderatedGroups as $group) {
                 $ban = GroupBan::where('group_id', $group->id)->where('user_id', $user->id)->first();
                 if (!$ban) {
@@ -46,7 +48,7 @@ class BanController extends BaseController
         return redirect()->route('group_banned', $group);
     }
 
-    public function removeBan()
+    public function removeBan(): JsonResponse
     {
         $ban = GroupBan::findOrFail(request('id'));
 

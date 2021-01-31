@@ -2,6 +2,8 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class UserSetting extends BaseModel
 {
     public $timestamps = false;
@@ -16,7 +18,7 @@ class UserSetting extends BaseModel
     {
         foreach ($this->primaryKeys as $key) {
             if (!$this->$key) {
-                throw new \Exception(__METHOD__ . 'Missing part of the primary key: ' . $key);
+                throw new \RuntimeException(__METHOD__ . 'Missing part of the primary key: ' . $key);
             }
 
             $query->where($key, '=', $this->$key);

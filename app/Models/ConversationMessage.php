@@ -2,6 +2,7 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Strimoid\Facades\Markdown;
 
 class ConversationMessage extends BaseModel
@@ -13,12 +14,12 @@ class ConversationMessage extends BaseModel
 
     protected static $unguarded = true;
 
-    public function conversation()
+    public function conversation(): BelongsTo
     {
         return $this->belongsTo(Conversation::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

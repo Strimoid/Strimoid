@@ -5,7 +5,6 @@ namespace Strimoid\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Pusher\Laravel\PusherManager;
 
 class AuthController extends BaseController
 {
@@ -20,7 +19,7 @@ class AuthController extends BaseController
             'name' => $request->input('username'),
             'password' => $request->input('password'),
             'is_activated' => true,
-        ], $request->input('remember') == 'true');
+        ], $request->input('remember') === 'true');
 
         if ($result) {
             if (auth()->user()->removed_at || auth()->user()->blocked_at) {
@@ -42,6 +41,7 @@ class AuthController extends BaseController
         return redirect('')->with('success_msg', trans('auth.logged_out'));
     }
 
+    /*
     public function authenticatePusher(Request $request, PusherManager $pusher): string
     {
         $channelName = 'privateU' . auth()->id();
@@ -51,4 +51,5 @@ class AuthController extends BaseController
 
         return $pusher->socket_auth($channelName, $socketId);
     }
+    */
 }

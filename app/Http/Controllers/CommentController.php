@@ -2,6 +2,7 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class CommentController extends BaseController
         $group = $this->groups->getByName($groupName);
         view()->share('group', $group);
 
-        if (Auth::guest() && $group->isPrivate) {
+        if ($group->isPrivate && Auth::guest()) {
             return redirect()->guest('login');
         }
 
@@ -63,15 +64,15 @@ class CommentController extends BaseController
         $builder->orderBy('created_at', 'desc')
                 ->with(['user', 'vote']);
 
-        $perPage = Setting::get('entries_per_page', 25);
+        $perPage = Setting::get('entries_per_page');
         $comments = $builder->paginate($perPage);
 
         return view('comments.list', compact('comments'));
     }
 
-    public function getCommentSource(Request $request)
+    public function getCommentSource(Request $request): JsonResponse
     {
-        $class = $request->get('type') == 'comment' ? Comment::class : CommentReply::class;
+        $class = $request->get('type') === 'comment' ? Comment::class : CommentReply::class;
 
         $id = hashids_decode($request->get('id'));
         $comment = $class::findOrFail($id);
@@ -83,7 +84,7 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'source' => $comment->text_source]);
     }
 
-    public function addComment(Request $request, Content $content)
+    public function addComment(Request $request, Content $content): JsonResponse
     {
         $this->validate($request, Comment::validationRules());
 
@@ -133,7 +134,7 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'replies' => $replies]);
     }
 
-    public function editComment(Request $request)
+    public function editComment(Request $request): JsonResponse
     {
         $class = $request->get('type') === 'comment'
             ? Comment::class : CommentReply::class;
@@ -148,7 +149,7 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
     }
 
-    public function removeComment(Request $request)
+    public function removeComment(Request $request): JsonResponse
     {
         $class = $request->get('type') === 'comment'
             ? Comment::class : CommentReply::class;

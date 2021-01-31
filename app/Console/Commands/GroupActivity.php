@@ -3,13 +3,13 @@
 namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Strimoid\Models\Content;
+use Strimoid\Models\Entry;
+use Strimoid\Models\Group;
 
 class GroupActivity extends Command
 {
-    /** @var string */
     protected $name = 'lara:groupactivity';
-
-    /** @var string */
     protected $description = 'Update group activity meter.';
 
     public function handle(): void
@@ -25,7 +25,7 @@ class GroupActivity extends Command
             $group->activity = 2;
 
             // Low activity, when nothing was added last week
-            if ($total == 0) {
+            if ($total === 0) {
                 $group->activity = 1;
             }
 

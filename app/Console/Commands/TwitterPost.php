@@ -11,10 +11,7 @@ use Strimoid\Models\Content;
 
 class TwitterPost extends Command
 {
-    /** @var string */
     protected $name = 'lara:twitterpost';
-
-    /** @var string */
     protected $description = 'Posts most popular content to Twitter.';
 
     public function handle(): void

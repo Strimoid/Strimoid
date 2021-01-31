@@ -2,20 +2,25 @@
 
 namespace Strimoid\Http\Controllers\Content;
 
+use Illuminate\Support\Facades\Gate;
+use Strimoid\Facades\OEmbed;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Content;
 
 class ThumbnailController extends BaseController
 {
-    public function chooseThumbnail(Content $content): \Illuminate\View\View
+    public function chooseThumbnail(Content $content)
     {
-        if (!$content->canEdit(user())) {
-            return redirect()->route('content_comments', $content->getKey())
-                ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
+        $policyDecision = Gate::inspect('edit', $content);
+
+        if ($policyDecision->denied()) {
+            return redirect()
+                ->route('content_comments', $content->getKey())
+                ->with('danger_msg', $policyDecision->message());
         }
 
         try {
-            $thumbnails = \OEmbed::getThumbnails($content->url);
+            $thumbnails = OEmbed::getThumbnails($content->url);
         } catch (\Exception $exception) {
             logger()->error($exception);
             $thumbnails = [];
@@ -33,12 +38,15 @@ class ThumbnailController extends BaseController
         $id = hashids_decode(request('id'));
         $content = Content::findOrFail($id);
 
-        $thumbnails = session('thumbnails', []);
+        $policyDecision = Gate::inspect('edit', $content);
 
-        if (!$content->canEdit(user())) {
-            return redirect()->route('content_comments', $content->getKey())
-                ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
+        if ($policyDecision->denied()) {
+            return redirect()
+                ->route('content_comments', $content->getKey())
+                ->with('danger_msg', $policyDecision->message());
         }
+
+        $thumbnails = session('thumbnails', []);
 
         $index = (int) request('thumbnail');
 

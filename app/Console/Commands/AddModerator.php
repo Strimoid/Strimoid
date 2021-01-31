@@ -4,16 +4,14 @@ namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Strimoid\Models\Group;
+use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class AddModerator extends Command
 {
-    /** @var string */
     protected $name = 'lara:addmod';
-
-    /** @var string */
     protected $description = 'Adds new moderator.';
 
     public function handle(): void

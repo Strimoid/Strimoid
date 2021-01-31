@@ -15,7 +15,6 @@ use Strimoid\Models\UserAction;
 class UpdateStats extends Command
 {
     protected $name = 'lara:updatestats';
-
     protected $description = 'Updates stats.';
 
     public function handle(): void
@@ -93,7 +92,7 @@ class UpdateStats extends Command
         $this->info('All actions processed');
     }
 
-    protected function getFieldName($action)
+    protected function getFieldName($action): ?string
     {
         $className = get_class($action->element);
 
@@ -109,6 +108,8 @@ class UpdateStats extends Command
             case EntryReply::class:
                 return 'entries';
         }
+
+        return null;
     }
 
     protected function calculatePoints($action, $object)

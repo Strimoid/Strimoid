@@ -33,7 +33,7 @@
             $chartData = [];
 
             for ($i = $day; $i >= ($day - 30); $i--) {
-                $chartData[$i] = isset($results[$i]) ? $results[$i] : 0;
+                $chartData[$i] = $results[$i] ?? 0;
             }
 
         ?>

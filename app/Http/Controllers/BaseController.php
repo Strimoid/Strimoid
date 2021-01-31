@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
-use Settings;
+use Strimoid\Settings\Facades\Setting;
 
 abstract class BaseController extends Controller
 {
@@ -23,7 +23,7 @@ abstract class BaseController extends Controller
         // $groupName = Auth::guest() ? 'popular' : $groupName;
 
         // Maybe user is having subscribed set as his homepage?
-        $subscribedEnabled = Settings::get('homepage_subscribed');
+        $subscribedEnabled = Setting::get('homepage_subscribed');
         return $subscribedEnabled ? 'subscribed' : $groupName;
     }
 }

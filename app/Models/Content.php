@@ -3,10 +3,14 @@
 namespace Strimoid\Models;
 
 use GuzzleHttp\Psr7\Uri;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
 use Strimoid\Facades\OEmbed;
 use Illuminate\Support\Str;
 use Strimoid\Facades\Markdown;
+use Strimoid\Facades\PDP;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasSaves;
 use Strimoid\Models\Traits\HasThumbnail;
@@ -45,22 +49,22 @@ class Content extends BaseModel
         parent::__construct($attributes);
     }
 
-    public function deletedBy()
+    public function deletedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
-    public function related()
+    public function related(): HasMany
     {
         return $this->hasMany(ContentRelated::class);
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class)->orderBy('created_at', 'asc');
     }
 
-    public function getDomain()
+    public function getDomain(): string
     {
         return $this->domain ?: config('app.domain');
     }
@@ -79,7 +83,7 @@ class Content extends BaseModel
         return $this->url ?: $this->getSlug();
     }
 
-    public function getSlug()
+    public function getSlug(): string
     {
         $params = [$this, Str::slug($this->title)];
 
@@ -125,23 +129,6 @@ class Content extends BaseModel
         $validator->sometimes('url', 'required|url|safe_url|max:2048', fn ($input) => !$input->text);
 
         return $validator;
-    }
-
-    /* Permissions */
-
-    public function canEdit(User $user = null)
-    {
-        $isAuthor = $user->getKey() == $this->user_id;
-        $hasTime = $this->created_at->diffInMinutes() < 30;
-
-        $isAdmin = $user->type == 'admin';
-
-        return ($isAuthor && $hasTime) || $isAdmin;
-    }
-
-    public function canRemove(User $user = null)
-    {
-        return $user->isModerator($this->group);
     }
 
     /* Scopes */

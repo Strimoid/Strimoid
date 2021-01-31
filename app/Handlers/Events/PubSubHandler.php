@@ -34,7 +34,7 @@ class PubSubHandler
                 'type' => $notification->getTypeDescription(),
                 'title' => $notification->title,
                 'img' => $notification->getThumbnailPath(),
-                'url' => $notification->getURL(true),
+                'url' => $notification->getURL(),
             ];
 
             // Pusher::trigger($channelName, 'new-notification', $notificationData);

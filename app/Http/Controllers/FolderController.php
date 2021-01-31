@@ -2,10 +2,13 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
-use Str;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Strimoid\Models\Folder;
 use Strimoid\Models\Group;
 
@@ -40,7 +43,7 @@ class FolderController extends BaseController
         ]);
 
         if ($request->has('public')) {
-            $folder->public = $request->get('public') == 'true';
+            $folder->public = $request->get('public') === 'true';
         }
 
         $folder->save();
@@ -52,7 +55,7 @@ class FolderController extends BaseController
     {
         $folder = Folder::findUserFolderOrFail($request->get('user'), $request->get('folder'));
 
-        if (!$folder->public && $folder->user->getKey() != Auth::id()) {
+        if (!$folder->public && $folder->user->getKey() !== Auth::id()) {
             App::abort(404);
         }
 

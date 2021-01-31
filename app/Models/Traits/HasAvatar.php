@@ -3,20 +3,15 @@
 namespace Strimoid\Models\Traits;
 
 use Image;
-use Storage;
-use Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * Class HasAvatar.
  */
 trait HasAvatar
 {
-    /**
-     * Set entity avatar to image from given path.
-     *
-     * @param $file
-     */
-    public function setAvatar($file): void
+    public function setAvatar(string $file): void
     {
         $this->deleteAvatar();
 
@@ -32,9 +27,6 @@ trait HasAvatar
         $this->avatar = $filename;
     }
 
-    /**
-     * Delete entity avatar.
-     */
     public function deleteAvatar(): void
     {
         if (!$this->avatar) {

@@ -24,7 +24,7 @@ class EntryController extends BaseController
             $user = $request->has('user') ? User::findOrFail(request('user')) : user();
             $folder = Folder::findUserFolderOrFail($user->getKey(), request('folder'));
 
-            if (!$folder->public && (auth()->guest() || $user->getKey() != auth()->id())) {
+            if (!$folder->public && (auth()->guest() || $user->getKey() !== auth()->id())) {
                 abort(404);
             }
 
@@ -72,7 +72,7 @@ class EntryController extends BaseController
             return response()->json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'], 400);
         }
 
-        if ($group->type == 'announcements' && !user()->isModerator($group)) {
+        if ($group->type === 'announcements' && !user()->isModerator($group)) {
             return response()->json(['status' => 'error', 'error' => 'Użytkownik nie może dodawać wpisów w tej grupie.'], 400);
         }
 

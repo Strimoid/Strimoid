@@ -26,7 +26,7 @@ class SaveController extends BaseController
         $id = hashids_decode($request->get('content'));
         $content = Content::findOrFail($id);
 
-        $content->usave()->delete();
+        $content->userSave()->delete();
 
         return Response::json(['status' => 'ok']);
     }
@@ -48,7 +48,7 @@ class SaveController extends BaseController
         $id = hashids_decode($request->get('entry'));
         $entry = Entry::findOrFail($id);
 
-        $entry->usave()->delete();
+        $entry->userSave()->delete();
 
         return Response::json(['status' => 'ok']);
     }

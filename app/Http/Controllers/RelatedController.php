@@ -21,7 +21,7 @@ class RelatedController extends BaseController
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
-        if ($content->group->type == 'announcements'
+        if ($content->group->type === 'announcements'
             && !Auth::user()->isModerator($content->group)) {
             return Redirect::route('content_comments', $content->getKey())
                 ->withInput()
@@ -33,7 +33,7 @@ class RelatedController extends BaseController
         ]));
         $related->user()->associate(Auth::user());
         $related->content()->associate($content);
-        if ($request->get('thumbnail') == 'on') {
+        if ($request->get('thumbnail') === 'on') {
             $url = OEmbed::getThumbnail($related->url);
             if ($url) {
                 $related->setThumbnail($url);
@@ -75,7 +75,7 @@ class RelatedController extends BaseController
         ]));
 
         if ($request->get('thumbnail') !== 'false' && $request->get('thumbnail') !== 'off') {
-            $url = OEmbed::getThumbnail($this->url);
+            $url = OEmbed::getThumbnail($related->url);
             if ($url) {
                 $related->setThumbnail($url);
             }

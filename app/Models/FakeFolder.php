@@ -3,7 +3,7 @@
 namespace Strimoid\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Str;
+use Illuminate\Support\Str;
 
 abstract class FakeFolder
 {
@@ -26,20 +26,14 @@ abstract class FakeFolder
     {
         $builder = static::getBuilder(Comment::class);
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
-
         return $builder;
     }
 
-    /**
-     * @param null $tab
-     * @param null $sortBy
-     *
-     */
-    public function contents($tab = null, $sortBy = null): Builder
+    public function contents(string $tab = null, string $sortBy = null): Builder
     {
         $builder = static::getBuilder(Content::class);
 
-        if ($tab == 'popular') {
+        if ($tab === 'popular') {
             $builder->popular();
         }
         $builder->orderBy($sortBy ?: 'created_at', 'desc');

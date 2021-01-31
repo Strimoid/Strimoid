@@ -82,7 +82,7 @@ class PollController extends BaseController
             }
         }
 
-        $vote = ['created_at' => new MongoDate(), 'user_id' => Auth::id(), 'replies' => $replies];
+        $vote = ['created_at' => Carbon::now(), 'user_id' => Auth::id(), 'replies' => $replies];
 
         $content->push('poll.votes', $vote);
 

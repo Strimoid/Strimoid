@@ -2,7 +2,6 @@
 
 namespace Strimoid\Exceptions;
 
-use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -12,6 +11,8 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class Handler extends ExceptionHandler
 {
@@ -48,10 +49,10 @@ class Handler extends ExceptionHandler
         */
 
         if (config('app.debug')) {
-            $handler = new \Whoops\Handler\PrettyPageHandler();
+            $handler = new PrettyPageHandler();
             $handler->setEditor('sublime');
 
-            $whoops = new \Whoops\Run();
+            $whoops = new Run();
             $whoops->pushHandler($handler);
             $whoops->allowQuit(false);
             $whoops->writeToOutput(false);

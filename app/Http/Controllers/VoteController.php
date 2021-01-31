@@ -2,6 +2,7 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,7 @@ use Strimoid\Models\Content;
 use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
+use Strimoid\Models\Traits\HasVotes;
 use Strimoid\Models\User;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -28,7 +30,7 @@ class VoteController extends BaseController
             return response()->make('Already voted', 400);
         }
 
-        if ($object->user->getKey() == Auth::id()) {
+        if ($object->user->getKey() === Auth::id()) {
             return response()->make('Do not cheat', 400);
         }
 
@@ -59,7 +61,7 @@ class VoteController extends BaseController
                 if ($object instanceof Content && !$object->frontpage_at
                     && $object->uv > config('strimoid.homepage.threshold')
                     && $object->created_at->diffInDays() < config('strimoid.homepage.time_limit')) {
-                    $object->frontpage_at = new Carbon();
+                    $object->frontpage_at = Carbon::now();
                     $object->save();
                 }
             } else {
@@ -68,7 +70,7 @@ class VoteController extends BaseController
             }
 
             $object->votes()->create([
-                'created_at' => new Carbon(),
+                'created_at' => Carbon::now(),
                 'user_id' => Auth::id(),
                 'up' => $up,
             ]);
@@ -158,9 +160,6 @@ class VoteController extends BaseController
         return $vote;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
-     */
     private function getObject(string $id, string $type)
     {
         $id = Hashids::decode($id);
@@ -180,5 +179,7 @@ class VoteController extends BaseController
             case 'comment_reply':
                 return CommentReply::findOrFail($id);
         }
+
+        return null;
     }
 }

@@ -3,9 +3,9 @@
 namespace Strimoid\Http\ViewComposers;
 
 use Illuminate\Support\Facades\Auth;
-use Cache;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Strimoid\Settings\Facades\Setting;
 use Strimoid\Models\Group;
 
@@ -35,14 +35,14 @@ class MasterComposer
 
         $view->with('currentGroup', $currentGroup);
 
-        if (isset($currentGroup) && isset($currentGroup->name)) {
+        if (isset($currentGroup, $currentGroup->name)) {
             $pageTitle = $currentGroup->name;
 
-            if ($currentGroup->urlname == 'all' && !Setting::get('homepage_subscribed', false)) {
+            if ($currentGroup->urlname === 'all' && !Setting::get('homepage_subscribed')) {
                 $pageTitle = self::DEFAULT_TITLE;
             }
 
-            if ($currentGroup->urlname == 'subscribed' && Setting::get('homepage_subscribed', false)) {
+            if ($currentGroup->urlname === 'subscribed' && Setting::get('homepage_subscribed')) {
                 $pageTitle = self::DEFAULT_TITLE;
             }
         } else {
@@ -52,7 +52,7 @@ class MasterComposer
         $view->with('pageTitle', $pageTitle);
 
         // Needed by top bar with groups
-        $popularGroups = Cache::remember('popularGroups', now()->addHour(), fn () => Group::orderBy('subscribers_count', 'desc', true)
+        $popularGroups = Cache::remember('popularGroups', now()->addHour(), fn () => Group::orderBy('subscribers_count', 'desc')
             ->take(30)->get(['id', 'name', 'urlname']));
         $view->with('popularGroups', $popularGroups);
     }

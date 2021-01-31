@@ -2,7 +2,6 @@
 
 namespace Strimoid\Handlers;
 
-use Illuminate\Support\Facades\Config;
 use Strimoid\Facades\Guzzle;
 use Strimoid\Models\Content;
 

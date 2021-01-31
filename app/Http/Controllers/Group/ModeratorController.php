@@ -3,6 +3,7 @@
 namespace Strimoid\Http\Controllers\Group;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupModerator;
@@ -43,7 +44,7 @@ class ModeratorController extends BaseController
         $moderator->group()->associate($group);
         $moderator->user()->associate($user);
 
-        $type = request('admin') == 'on' ? 'admin' : 'moderator';
+        $type = request('admin') === 'on' ? 'admin' : 'moderator';
         $moderator->type = $type;
 
         $moderator->save();
@@ -64,13 +65,13 @@ class ModeratorController extends BaseController
         // Log this action
         $action = new ModeratorAction();
         $action->type = ModeratorAction::TYPE_MODERATOR_ADDED;
-        $action->is_admin = $moderator->type == 'admin' ? true : false;
+        $action->is_admin = $moderator->type === 'admin';
         $action->moderator()->associate(user());
         $action->target()->associate($user);
         $action->group()->associate($group);
         $action->save();
 
-        \Cache::tags(['user.moderated-groups', 'u.' . $user->getKey()])->flush();
+        Cache::tags(['user.moderated-groups', 'u.' . $user->getKey()])->flush();
 
         return redirect()->route('group_moderators', $group->urlname);
     }
@@ -84,7 +85,7 @@ class ModeratorController extends BaseController
             abort(403, 'Access denied');
         }
 
-        if ($moderator->user_id == $group->creator_id && Auth::id() != $group->creator_id) {
+        if ($moderator->user_id === $group->creator_id && Auth::id() !== $group->creator_id) {
             return response()->json(['status' => 'error']);
         }
 
@@ -93,13 +94,13 @@ class ModeratorController extends BaseController
         // Log this action
         $action = new ModeratorAction();
         $action->type = ModeratorAction::TYPE_MODERATOR_REMOVED;
-        $action->is_admin = $moderator->type == 'admin' ? true : false;
+        $action->is_admin = $moderator->type === 'admin';
         $action->moderator()->associate(user());
         $action->target()->associate($moderator);
         $action->group()->associate($group);
         $action->save();
 
-        \Cache::tags(['user.moderated-groups', 'u.' . $moderator->user_id])->flush();
+        Cache::tags(['user.moderated-groups', 'u.' . $moderator->user_id])->flush();
 
         return response()->json(['status' => 'ok']);
     }

@@ -183,11 +183,7 @@ class NotificationsHandler
 
     public function isNotHimselfOrBlockedByReceiver(User $source, User $target): bool
     {
-        if ($target->getKey() != $source->getKey() && !$target->isBlockingUser($source)) {
-            return true;
-        }
-
-        return false;
+        return $target->getKey() !== $source->getKey() && !$target->isBlockingUser($source);
     }
 
     protected function findMentionedUsers(string $text): Collection

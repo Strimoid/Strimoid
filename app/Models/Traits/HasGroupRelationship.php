@@ -2,15 +2,12 @@
 
 namespace Strimoid\Models\Traits;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Strimoid\Models\Group;
 
 trait HasGroupRelationship
 {
-    /**
-     * Group relationship.
-     *
-     */
-    public function group()
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
     }

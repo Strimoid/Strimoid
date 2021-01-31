@@ -2,11 +2,13 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class DailyAction extends BaseModel
 {
     protected $table = 'daily_actions';
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

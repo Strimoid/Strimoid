@@ -62,7 +62,7 @@ class GroupController extends BaseController
     {
         $builder = Group::where('type', '!=', 'private');
 
-        $sortBy = request('sort') == 'popularity'
+        $sortBy = request('sort') === 'popularity'
         ? 'subscribers_count' : 'created_at';
         $builder->orderBy($sortBy, 'desc');
 
@@ -122,19 +122,22 @@ class GroupController extends BaseController
             $group->setAvatar($request->file('avatar')->getRealPath());
         }
 
-        if (request('nsfw') == 'on') {
+        if (request('nsfw') === 'on') {
             $group->nsfw = true;
         } elseif ($group->nsfw) {
             $group->nsfw = false;
         }
 
+        /*
         $tags = Str::lower(request('tags'));
         $tags = explode(',', $tags);
         $tags = array_map('trim', $tags);
 
+
         if (count($tags)) {
-            //$group->tags = $tags;
+            $group->tags = $tags;
         }
+        */
 
         $group->save();
 
@@ -152,7 +155,7 @@ class GroupController extends BaseController
             'labels' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
         ]);
 
-        $settings['enable_labels'] = request('enable_labels') === 'on' ? true : false;
+        $settings['enable_labels'] = request('enable_labels') === 'on';
 
         $group->settings = $settings;
 

@@ -3,7 +3,7 @@
 namespace Strimoid\Models\Traits;
 
 use Illuminate\Support\Str;
-use Image;
+use Intervention\Image\Facades\Image;
 use Strimoid\Facades\OEmbed;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +15,9 @@ trait HasThumbnail
 
         if ($this->thumbnail && $width && $height) {
             return $host . '/' . $width . 'x' . $height . '/thumbnails/' . $this->thumbnail;
-        } elseif ($this->thumbnail) {
+        }
+
+        if ($this->thumbnail) {
             return $host . '/thumbnails/' . $this->thumbnail;
         }
 
@@ -25,16 +27,16 @@ trait HasThumbnail
     /**
      * Find thumbnail automatically for url.
      */
-    public function autoThumbnail()
+    public function autoThumbnail(): void
     {
         if (!$this->url) {
-            return false;
+            return;
         }
 
         $url = OEmbed::getThumbnail($this->url);
 
         if (!$url) {
-            return false;
+            return;
         }
 
         $this->setThumbnail($url);

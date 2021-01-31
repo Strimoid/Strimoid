@@ -52,7 +52,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
         if ($this->avatar && $width && $height) {
             return $host . '/' . $width . 'x' . $height . '/avatars/' . $this->avatar;
-        } elseif ($this->avatar) {
+        }
+
+        if ($this->avatar) {
             return $host . '/avatars/' . $this->avatar;
         }
 

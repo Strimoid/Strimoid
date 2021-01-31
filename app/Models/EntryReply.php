@@ -2,6 +2,7 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -35,33 +36,33 @@ class EntryReply extends Entry
         parent::boot();
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Entry::class);
     }
 
-    public function isLast()
+    public function isLast(): bool
     {
         $lastId = $this->parent->replies()
             ->orderBy('created_at', 'desc')
             ->value('id');
 
-        return $lastId == $this->getKey();
+        return $lastId === $this->getKey();
     }
 
-    public function getURL()
+    public function getURL(): string
     {
         $parentHashId = Hashids::encode($this->parent_id);
 
         return route('single_entry', $parentHashId) . '#' . $this->hashId();
     }
 
-    public function canEdit()
+    public function canEdit(): bool
     {
         return auth()->id() === $this->user_id && $this->isLast();
     }
 
-    public function canRemove()
+    public function canRemove(): bool
     {
         return auth()->id() === $this->user_id || user()->isModerator($this->group_id);
     }

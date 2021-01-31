@@ -8,12 +8,12 @@ parameters:
         - src
 
     # The level 8 is the highest level
-    level: 1
+    level: 4
 
     ignoreErrors:
         - '#Unsafe usage of new static#'
 
-    excludes_analyse:
+    excludePaths:
         - ./app/Api/**/*.php
 
     checkMissingIterableValueType: false

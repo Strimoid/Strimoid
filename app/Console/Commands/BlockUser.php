@@ -2,22 +2,20 @@
 
 namespace Strimoid\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Strimoid\Models\User;
 use Symfony\Component\Console\Input\InputArgument;
 
 class BlockUser extends Command
 {
-    /** @var string */
     protected $name = 'lara:blockuser';
-
-    /** @var string */
     protected $description = 'Blocks user.';
 
     public function handle(): void
     {
         $user = User::findOrFail($this->argument('username'));
-        $user->blocked_at = \Carbon::now();
+        $user->blocked_at = Carbon::now();
         $user->save();
 
         $this->info('User blocked');
@@ -28,10 +26,5 @@ class BlockUser extends Command
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],
         ];
-    }
-
-    protected function getOptions(): array
-    {
-        return [];
     }
 }

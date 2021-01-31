@@ -2,6 +2,7 @@
 
 namespace Strimoid\Handlers\Events;
 
+use Illuminate\Events\Dispatcher;
 use Strimoid\Models\BaseModel;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
@@ -15,11 +16,7 @@ use Strimoid\Models\UserAction;
  */
 class NewActionHandler
 {
-    /**
-     * Register the listeners for the subscriber.
-     *
-     */
-    public function subscribe(\Illuminate\Events\Dispatcher $events): void
+    public function subscribe(Dispatcher $events): void
     {
         $this->addHandler(Content::class, $events);
         $this->addHandler(Comment::class, $events);
@@ -28,11 +25,7 @@ class NewActionHandler
         $this->addHandler(EntryReply::class, $events);
     }
 
-    /**
-     * Bind given model listener to events handler.
-     *
-     */
-    protected function addHandler($class, \Illuminate\Events\Dispatcher $events): void
+    protected function addHandler($class, Dispatcher $events): void
     {
         $name = 'eloquent.created: ' . $class;
         $events->listen($name, self::class . '@onNewElement');

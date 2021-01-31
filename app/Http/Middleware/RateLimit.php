@@ -33,7 +33,7 @@ class RateLimit
     protected function isEnabledFor(Request $request): bool
     {
         // Limit only POST requests
-        if ($request->getMethod() != 'POST') {
+        if ($request->getMethod() !== 'POST') {
             return false;
         }
 

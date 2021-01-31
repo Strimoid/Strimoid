@@ -2,6 +2,7 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
@@ -26,7 +27,7 @@ class Entry extends BaseModel
     protected $visible = ['id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies', ];
 
-    public function replies()
+    public function replies(): HasMany
     {
         return $this->hasMany(EntryReply::class, 'parent_id')->orderBy('created_at');
     }
@@ -59,7 +60,7 @@ class Entry extends BaseModel
 
     public function isLast()
     {
-        return $this->replies_count == 0;
+        return $this->replies_count === 0;
     }
 
     public function getURL()
@@ -76,6 +77,6 @@ class Entry extends BaseModel
 
     public function canEdit()
     {
-        return $this->isAuthor() && $this->replies_count == 0;
+        return $this->isAuthor() && $this->replies_count === 0;
     }
 }

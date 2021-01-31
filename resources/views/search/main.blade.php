@@ -1,6 +1,6 @@
 @extends('global.master')
 
-<?php $q = Input::get('q'); $t = Input::get('t') ? Input::get('t'): 'c'; ?>
+<?php $q = Input::get('q'); $t = Input::get('t') ?: 'c'; ?>
 
 @section('content')
 {!! Form::open(['method' => 'GET', 'style' => 'margin-bottom: 20px']) !!}

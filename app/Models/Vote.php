@@ -3,11 +3,12 @@
 namespace Strimoid\Models;
 
 use Strimoid\Models\Traits\HasUserRelationship;
-use Strimoid\Models\Traits\NoUpdatedAt;
 
 class Vote extends BaseModel
 {
-    use HasUserRelationship, NoUpdatedAt;
+    use HasUserRelationship;
+
+    public const UPDATED_AT = null;
 
     public $incrementing = false;
     protected $primaryKey = null;

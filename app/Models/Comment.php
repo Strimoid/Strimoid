@@ -2,6 +2,8 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
@@ -37,12 +39,12 @@ class Comment extends BaseModel
         static::bootTraits();
     }
 
-    public function content()
+    public function content(): BelongsTo
     {
         return $this->belongsTo(Content::class)->withTrashed();
     }
 
-    public function replies()
+    public function replies(): HasMany
     {
         return $this->hasMany(CommentReply::class, 'parent_id')
             ->orderBy('created_at')
@@ -66,7 +68,7 @@ class Comment extends BaseModel
         $this->attributes['text_source'] = $text;
     }
 
-    public function isHidden()
+    public function isHidden(): bool
     {
         if (Auth::guest()) {
             return false;
@@ -75,7 +77,7 @@ class Comment extends BaseModel
         return Auth::user()->isBlockingUser($this->user);
     }
 
-    public function getURL()
+    public function getURL(): string
     {
         return route('content_comments', $this->content) . '#' . $this->hashId();
     }

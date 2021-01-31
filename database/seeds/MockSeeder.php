@@ -6,7 +6,7 @@ use Strimoid\Models\User;
 
 class MockSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $admin = User::create([
             'name'         => 'admin',

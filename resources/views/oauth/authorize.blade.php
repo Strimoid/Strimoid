@@ -17,13 +17,13 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                {!! Form::open(['action' => array('OAuthController@authorize',
-                'response_type' => Input::get('response_type'],
+                {!! Form::open(['action' => ['OAuthController@authorize',
+                'response_type' => Input::get('response_type'),
                 'client_id' => Input::get('client_id'),
                 'redirect_uri' => Input::get('redirect_uri'),
                 'scope' => Input::get('scope'),
                 'state' => Input::get('state')
-                ))) !!}
+                ]) !!}
 
                 <input type="hidden" name="authorize" value="1" />
                 <button type="submit" class="btn btn-primary pull-right">Autoryzuj</button>

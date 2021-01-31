@@ -8,16 +8,16 @@ class GroupBan extends BaseModel
 
     public function group()
     {
-        return $this->belongsTo('Strimoid\Models\Group');
+        return $this->belongsTo(Group::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function moderator()
     {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-$isReply = isset($isReply) ? true : false;
+$isReply = isset($isReply);
 
 ?>
 

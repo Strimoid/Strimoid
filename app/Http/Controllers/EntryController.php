@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
-use Settings;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Group;
+use Strimoid\Settings\Facades\Setting;
 
 class EntryController extends BaseController
 {
@@ -37,7 +37,7 @@ class EntryController extends BaseController
         $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
-        if (Auth::guest() && $group->isPrivate) {
+        if ($group->isPrivate && Auth::guest()) {
             return redirect()->guest('login');
         }
 
@@ -65,20 +65,15 @@ class EntryController extends BaseController
             ->with(['group', 'user', 'replies', 'replies.user']);
 
         if (Auth::check()) {
-            $builder->with('vote', 'usave', 'replies.vote');
+            $builder->with('vote', 'userSave', 'replies.vote');
         }
 
-        $perPage = Settings::get('entries_per_page');
+        $perPage = Setting::get('entries_per_page');
         $entries = $builder->paginate($perPage);
 
         return view('entries.display', compact('entries'));
     }
 
-    /**
-     * Show entry view.
-     *
-     *
-     */
     public function showEntry(Entry $entry): View
     {
         $entries = [$entry];
@@ -97,7 +92,7 @@ class EntryController extends BaseController
     public function getEntrySource(Request $request)
     {
         $id = hashids_decode($request->get('id'));
-        $class = $request->get('type') == 'entry'
+        $class = $request->get('type') === 'entry'
             ? Entry::class : EntryReply::class;
 
         $entry = $class::findOrFail($id);
@@ -120,7 +115,7 @@ class EntryController extends BaseController
             return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
-        if ($group->type == 'announcements' && !Auth::user()->isModerator($group)) {
+        if ($group->type === 'announcements' && !Auth::user()->isModerator($group)) {
             return Response::json(['status' => 'error', 'error' => 'Nie możesz dodawać wpisów do wybranej grupy']);
         }
 

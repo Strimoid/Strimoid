@@ -4,11 +4,11 @@ namespace Strimoid\Models;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
-use Date;
 use DateTimeZone;
-use Hashids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Date;
 use Strimoid\Settings\Facades\Setting;
+use Vinkla\Hashids\Facades\Hashids;
 use Watson\Rememberable\Rememberable;
 
 abstract class BaseModel extends Model
@@ -22,8 +22,6 @@ abstract class BaseModel extends Model
 
     /**
      * Return a timestamp as DateTime object.
-     *
-     *
      */
     protected function asDateTime($value): CarbonInterface
     {

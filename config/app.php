@@ -195,6 +195,20 @@ return [
     |
     */
 
-    'aliases' => [],
+    'aliases' => [
+        'Arr'                => Illuminate\Support\Arr::class,
+        'Auth'               => Illuminate\Support\Facades\Auth::class,
+        'Input'              => Illuminate\Support\Facades\Request::class,
+        'Lang'               => Illuminate\Support\Facades\Lang::class,
+        'Request'            => Illuminate\Support\Facades\Request::class,
+        'Response'           => Illuminate\Support\Facades\Response::class,
+        'Route'              => Illuminate\Support\Facades\Route::class,
+        'Session'            => Illuminate\Support\Facades\Session::class,
+        'Storage'            => Illuminate\Support\Facades\Storage::class,
+        'URL'                => Illuminate\Support\Facades\URL::class,
+        'Form'               => Collective\Html\FormFacade::class,
+        'Html'               => Collective\Html\HtmlFacade::class,
+        'Str'                => Illuminate\Support\Str::class,
+    ],
 
 ];

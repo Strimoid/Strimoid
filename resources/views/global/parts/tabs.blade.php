@@ -2,8 +2,8 @@
 
 if (isset($group))
     $groupURLName = $group->urlname;
-elseif (isset($group_name) && $group_name == 'all' && (Auth::guest() || !@Auth::user()->settings['homepage_subscribed']))
-$groupURLName = null;
+elseif (isset($group_name) && $group_name === 'all' && !Setting::get('homepage_subscribed'))
+    $groupURLName = null;
 
 $routeData = ['name' => 'global', 'params' => null];
 

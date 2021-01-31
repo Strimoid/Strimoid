@@ -36,7 +36,7 @@
 <div class="well">
     <h4>Dokumentacja</h4>
 
-    <p><a href="http://developers.strm.pl">developers.strm.pl</a></p>
+    <p><a href="https://developers.strm.pl">developers.strm.pl</a></p>
 </div>
 
 @stop

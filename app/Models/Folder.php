@@ -2,11 +2,15 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Strimoid\Models\Traits\HasUserRelationship;
 
 class Folder extends BaseModel
 {
+    use HasUserRelationship;
+
     protected $table = 'folders';
     protected $fillable = ['name'];
     protected $visible = ['id', 'name', 'groups'];
@@ -19,12 +23,7 @@ class Folder extends BaseModel
         'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function groups()
+    public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'folder_groups');
     }
@@ -47,7 +46,7 @@ class Folder extends BaseModel
         $groupIds = $this->groups->pluck('id');
         $builder->whereIn('group_id', $groupIds);
 
-        if ($tab == 'popular') {
+        if ($tab === 'popular') {
             $builder->popular();
         }
         $builder->orderBy($sortBy ?: 'created_at', 'desc');

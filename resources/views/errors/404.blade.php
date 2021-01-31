@@ -8,6 +8,6 @@
 @section('sidebar')
 <div class="well">
     <h4>Uwagi i propozycje</h4>
-    <p>Jeśli masz jakieś sugestie dotyczące naszego serwisu, możesz zgłosić swój pomysł na stronie <a href="http://lara.uservoice.com">lara.uservoice.com</a></p>
+    <p>Jeśli masz jakieś sugestie dotyczące naszego serwisu, możesz zgłosić swój pomysł na stronie <a href="https://lara.uservoice.com">lara.uservoice.com</a></p>
 </div>
 @stop

@@ -2,6 +2,7 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 
@@ -35,7 +36,7 @@ class CommentReply extends Comment
         static::bootTraits();
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
     }
@@ -49,7 +50,7 @@ class CommentReply extends Comment
         return $lastId === $this->getKey();
     }
 
-    public function getURL()
+    public function getURL(): string
     {
         $url = route('content_comments', $this->parent->content);
 

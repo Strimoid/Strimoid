@@ -8,10 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class DeleteAvatar extends Command
 {
-    /** @var string */
     protected $name = 'lara:delavatar';
-
-    /** @var string */
     protected $description = 'Deletes user avatar.';
 
     public function handle(): void

@@ -4,6 +4,12 @@ namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Strimoid\Models\Content;
+use Strimoid\Models\Entry;
+use Strimoid\Models\Group;
 
 class GenerateSitemap extends Command
 {

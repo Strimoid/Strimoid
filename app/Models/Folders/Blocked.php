@@ -24,14 +24,14 @@ class Blocked extends FakeFolder
         return $builder;
     }
 
-    public function contents($tab = null, $sortBy = null): Builder
+    public function contents(string $tab = null, string $sortBy = null): Builder
     {
-        $builder = static::getBuilder(Content::class);
+        $builder = $this->getBuilder(Content::class);
 
         $blockedDomains = Auth::user()->blockedDomains();
         $builder->orWhereIn('domain', $blockedDomains);
 
-        if ($tab == 'popular') {
+        if ($tab === 'popular') {
             $builder->popular();
         }
         $builder->orderBy($sortBy ?: 'created_at', 'desc');

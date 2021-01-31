@@ -2,13 +2,16 @@
 
 namespace Strimoid\Api\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
+use Strimoid\Handlers\DownloadThumbnail;
 
 class ContentController extends BaseController
 {
@@ -74,7 +77,7 @@ class ContentController extends BaseController
         return $content;
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $rules = [
             'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -100,7 +103,7 @@ class ContentController extends BaseController
             ], 400);
         }
 
-        if ($group->type == 'announcements' && !user()->isModerator($group)) {
+        if ($group->type === 'announcements' && !user()->isModerator($group)) {
             return response()->json([
                 'status' => 'error',
                 'error' => 'Użytkownik nie może dodawać treści w tej grupie.',
@@ -125,9 +128,9 @@ class ContentController extends BaseController
         // Download thumbnail in background to don't waste user time
         $thumbnail = $request->get('thumbnail');
 
-        if ($thumbnail != 'false' && $thumbnail != 'off') {
+        if ($thumbnail !== 'false' && $thumbnail !== 'off') {
             $content->thumbnail_loading = true;
-            Queue::push('Strimoid\Handlers\DownloadThumbnail', [
+            Queue::push(DownloadThumbnail::class, [
                 'id' => $content->getKey(),
             ]);
         }
@@ -137,11 +140,13 @@ class ContentController extends BaseController
         ]);
     }
 
-    public function edit(Request $request, Content $content)
+    public function edit(Request $request, Content $content): JsonResponse
     {
-        if (!$content->canEdit(user())) {
+        $policyDecision = Gate::inspect('edit', $content);
+
+        if ($policyDecision->denied()) {
             return response()->json([
-                'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.',
+                'status' => 'error', 'error' => $policyDecision->message(),
             ], 400);
         }
 
@@ -162,5 +167,7 @@ class ContentController extends BaseController
         $fields[] = $content->text ? 'text' : 'url';
 
         $content->update($request->only($fields));
+
+        return response()->json(['status' => 'ok']);
     }
 }

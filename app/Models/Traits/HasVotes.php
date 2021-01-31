@@ -2,6 +2,7 @@
 
 namespace Strimoid\Models\Traits;
 
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Strimoid\Models\Vote;
@@ -20,7 +21,7 @@ trait HasVotes
      * Currently authenticated user vote.
      *
      */
-    public function vote()
+    public function vote(): MorphOne
     {
         return $this->morphOne(Vote::class, 'element')->where('user_id', Auth::id());
     }

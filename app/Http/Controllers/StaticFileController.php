@@ -4,18 +4,19 @@ namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Mime\MimeTypes;
 
 class StaticFileController extends BaseController
 {
     private const CACHEABLE_EXTENSIONS = ['css', 'eot', 'js', 'png', 'svg', 'ttf', 'woff', 'woff2'];
 
-    public function getStaticFile(Request $request)
+    public function getStaticFile(Request $request): BinaryFileResponse
     {
         $path = public_path($request->path());
 
         if (!is_readable($path)) {
-            return abort(404);
+            abort(404);
         }
 
         $guesser = new MimeTypes();

@@ -7,7 +7,7 @@ use Strimoid\Models\User;
 
 class CommentPolicy
 {
-    public function edit(User $user, Comment $comment)
+    public function edit(User $user, Comment $comment): bool
     {
         return $user->id === $comment->user->id && $comment->replies()->count() === 0;
     }

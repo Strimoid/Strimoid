@@ -3,7 +3,7 @@
 $subscribed = false;
 $blocked = false;
 
-if (Auth::check()) {
+if (auth()->check()) {
     $subscribed = user()->isSubscriber($group);
     $blocked = user()->isBlocking($group);
 }
@@ -24,7 +24,7 @@ if (Auth::check()) {
         </div>
     </div>
 
-    @if (Auth::check())
+    @auth
         <div class="btn-group btn-group-justified group_buttons" data-name="{{ $group->urlname }}">
             <button type="button" class="btn btn-sm group_subscribe_btn @if ($subscribed) btn-success @else btn-secondary @endif">
                 @lang('common.subscribe')
@@ -51,7 +51,7 @@ if (Auth::check()) {
                 </li>
             </ul>
         </div>
-    @endif
+    @endauth
 
     <p class="group_desc">{!! $group->sidebar !!}</p>
 </div>

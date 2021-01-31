@@ -9,17 +9,14 @@ use Strimoid\Models\User;
 
 class UpdateUserPoints extends Command
 {
-    /** @var string */
     protected $name = 'lara:updateuserpoints';
-
-    /** @var string */
     protected $description = 'Updates user points amount.';
 
     public function handle(): void
     {
-        \DB::connection()->disableQueryLog();
+        DB::connection()->disableQueryLog();
 
-        $conn = \DB::connection('stats');
+        $conn = DB::connection('stats');
         $conn->disableQueryLog();
 
         $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))

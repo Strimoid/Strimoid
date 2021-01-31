@@ -31,7 +31,7 @@
                 <i class="fa fa-comments"></i>
                 <a href="{{ route('content_comments_slug', [$content, Str::slug($content->title)]) }}"
                    class="content_comments">
-                    {!! Lang::choice('pluralization.comments', intval($content->comments_count)) !!}</a>
+                    {!! Lang::choice('pluralization.comments', (int) $content->comments_count) !!}</a>
 
                 <i class="fa fa-tag"></i>
                 <a href="{!! route('group_contents', $content->group) !!}" class="content_group"
@@ -52,7 +52,7 @@
 
                 <i class="fa fa-link"></i>
                 <span class="content_comments">
-                    {!! intval($content->related_count) !!}
+                    {!! (int) $content->related_count !!}
                 </span>
 
                 <i class="fa fa-clock-o"></i>
@@ -70,11 +70,11 @@
         </p>
     </div>
 
-    @if (Auth::check() && Auth::user()->isModerator($content->group_id))
+    @can('softRemove', $content)
     <div class="content_actions pull-right">
         <a class="content_remove_link action_link">
             <i class="fa fa-trash"></i> usuń
         </a>
     </div>
-    @endif
+    @endcan
 </div>

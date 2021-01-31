@@ -14,9 +14,9 @@
     </p>
 </div>
 
-<div itemscope itemtype="http://schema.org/EmailMessage">
+<div itemscope itemtype="https://schema.org/EmailMessage">
     <meta itemprop="description" content="Aktywuj konto w serwisie {{ config('app.name') }}"/>
-    <div itemprop="action" itemscope itemtype="http://schema.org/ViewAction">
+    <div itemprop="action" itemscope itemtype="https://schema.org/ViewAction">
         <link itemprop="url" href="{!! URL::to('account/activate', [$user->activation_token]) !!}"/>
         <meta itemprop="name" content="Aktywuj konto"/>
     </div>

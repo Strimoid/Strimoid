@@ -5,6 +5,7 @@ namespace Strimoid\Providers;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Pdp\Rules;
 use Strimoid\Helpers\OEmbed;
@@ -21,12 +22,12 @@ class AppServiceProvider extends ServiceProvider
         $dsn = config('services.raven.dsn');
 
         if (!empty($dsn)) {
-            $this->app->register(\Jenssegers\Raven\RavenServiceProvider::class);
+            $this->app->register('Jenssegers\Raven\RavenServiceProvider');
         }
 
         Paginator::useBootstrap();
 
-        \Request::setTrustedProxies(
+        Request::setTrustedProxies(
             ['10.0.0.0/8', '172.16.0.0/12', 'fd00::/8'],
             \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
         );

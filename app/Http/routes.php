@@ -2,6 +2,8 @@
 
 // @codingStandardsIgnoreFile
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/health', ['uses' => 'HealthController@health']);
 
 /* Auth ============================================================================================================= */

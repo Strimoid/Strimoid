@@ -2,14 +2,15 @@
 
 namespace Strimoid\Api\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Strimoid\Models\Notification;
 
 class AuthController extends BaseController
 {
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
-        $remember = $request->input('remember') == 'true' ? true : false;
+        $remember = $request->input('remember') === 'true';
 
         if (auth()->attempt(['name' => $request->input('username'),
             'password' => $request->input('password'), 'is_activated' => true, ], $remember)) {
@@ -32,12 +33,12 @@ class AuthController extends BaseController
         auth()->logout();
     }
 
-    public function sync()
+    public function sync(): array
     {
         return $this->getUserData();
     }
 
-    private function getUserData()
+    private function getUserData(): array
     {
         $notifications = Notification::with([
                 'user' => function ($q): void {

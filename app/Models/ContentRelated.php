@@ -2,6 +2,7 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Strimoid\Models\Traits\HasThumbnail;
 use Strimoid\Models\Traits\HasVotes;
 
@@ -31,12 +32,12 @@ class ContentRelated extends BaseModel
         static::bootTraits();
     }
 
-    public function content()
+    public function content(): BelongsTo
     {
         return $this->belongsTo(Content::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

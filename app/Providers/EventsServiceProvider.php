@@ -2,13 +2,13 @@
 
 namespace Strimoid\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Carbon;
-use Config;
-use Guzzle;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Request;
+use Illuminate\Support\Str;
+use Strimoid\Facades\Guzzle;
 use Strimoid\Handlers\Events\NewActionHandler;
 use Strimoid\Handlers\Events\NotificationsHandler;
 use Strimoid\Handlers\Events\PubSubHandler;
@@ -26,7 +26,7 @@ class EventsServiceProvider extends ServiceProvider
         });
 
         $events->listen('auth.login', function ($user): void {
-            $user->last_login = new Carbon();
+            $user->last_login = Carbon::now();
             $user->last_ip = Request::getClientIp();
             $user->save();
         });
@@ -47,7 +47,7 @@ class EventsServiceProvider extends ServiceProvider
                         'room' => '#strimoid',
                         'text' => 'Mamy nowego użytkownika ' . $user->name . '!',
                     ]]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 }
             }
         );
@@ -71,7 +71,7 @@ class EventsServiceProvider extends ServiceProvider
                         'text' => '[' . $entry->group->name . '] '
                             . $entry->user->name . ': ' . $text,
                     ]]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 }
             }
         );

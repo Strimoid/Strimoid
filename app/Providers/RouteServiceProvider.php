@@ -5,6 +5,7 @@ namespace Strimoid\Providers;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
@@ -25,8 +26,6 @@ class RouteServiceProvider extends ServiceProvider
      * This namespace is applied to the controller routes in your routes file.
      *
      * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
      */
     protected $namespace = 'Strimoid\Http\Controllers';
 
@@ -76,20 +75,20 @@ class RouteServiceProvider extends ServiceProvider
 
     public function map(): void
     {
-        \Route::group([
+        Route::group([
             'middleware' => 'web',
             'namespace' => $this->namespace,
         ], function ($router): void {
             require app_path('Http/routes.php');
         });
 
-        \Route::group([
+        Route::group([
             'namespace' => $this->namespace,
         ], function ($router): void {
-            \Route::get('/i/duck/{username}', 'DuckController@drawDuck');
-            \Route::get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
+            Route::get('/i/duck/{username}', 'DuckController@drawDuck');
+            Route::get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
                 ->where(['format' => '\w{3}']);
-            \Route::get('/i/{folder}/{filename}.{format}', 'ImageController@showImage')
+            Route::get('/i/{folder}/{filename}.{format}', 'ImageController@showImage')
                 ->where(['format' => '\w{3}']);
         });
     }

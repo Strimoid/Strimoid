@@ -2,9 +2,11 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
 use Hashids;
-use Str;
+use Illuminate\Support\Str;
 use Strimoid\Models\Traits\HasUserRelationship;
 
 class Notification extends BaseModel
@@ -14,12 +16,12 @@ class Notification extends BaseModel
     protected $table = 'notifications';
     protected $visible = ['id', 'created_at', 'user', 'read', 'title', 'type', 'url'];
 
-    public function targets()
+    public function targets(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'notification_targets')->withPivot('read');
     }
 
-    public function element()
+    public function element(): MorphTo
     {
         return $this->morphTo();
     }
@@ -33,7 +35,7 @@ class Notification extends BaseModel
         $this->title = $text;
     }
 
-    public function getReadAttribute()
+    public function getReadAttribute(): bool
     {
         if (!isset($this->pivot)) {
             return false;
@@ -42,7 +44,7 @@ class Notification extends BaseModel
         return Auth::check() ? $this->pivot->read : false;
     }
 
-    public function getURL()
+    public function getURL(): ?string
     {
         $url = null;
         $params = null;
@@ -91,8 +93,7 @@ class Notification extends BaseModel
             return null;
         }
 
-        $class = get_class($this->element);
-        $class = class_basename($class);
+        $class = class_basename($this->element);
 
         return trans('notifications.types.' . $class);
     }

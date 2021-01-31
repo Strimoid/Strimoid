@@ -14,9 +14,6 @@ class ContentRepository extends Repository implements ContentRepositoryContract
         $this->content = $content;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContentsFrom($from, $sortBy = 'created_at', $perPage = null)
     {
         $builder = $from->contents();
@@ -29,9 +26,6 @@ class ContentRepository extends Repository implements ContentRepositoryContract
         return $builder->get();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPopularContentsFrom($from, $sortBy = 'created_at', $perPage = null)
     {
         $builder = $from->contents();
@@ -44,9 +38,6 @@ class ContentRepository extends Repository implements ContentRepositoryContract
         return $builder->get();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNewContentsFrom($from, $sortBy = 'created_at', $perPage = null)
     {
     }

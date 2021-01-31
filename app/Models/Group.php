@@ -70,7 +70,7 @@ class Group extends BaseModel
             $relation->whereNotIn('domain', $blockedDomains);
         }
 
-        if ($tab == 'popular') {
+        if ($tab === 'popular') {
             $threshold = $this->popular_threshold ?: 1;
             $relation->where('score', '>', $threshold);
         }
@@ -92,7 +92,7 @@ class Group extends BaseModel
 
     public function checkAccess(): void
     {
-        if ($this->type == 'private') {
+        if ($this->type === 'private') {
             if (!Auth::check() || !Auth::user()->isModerator($this)) {
                 App::abort(403, 'Access denied');
             }
@@ -149,10 +149,10 @@ class Group extends BaseModel
         }
     }
 
-    public function banUser(User $user, $reason = '')
+    public function banUser(User $user, $reason = ''): void
     {
         if ($user->isBanned($this)) {
-            return false;
+            return;
         }
 
         $ban = new GroupBan();
@@ -165,7 +165,7 @@ class Group extends BaseModel
         $ban->save();
     }
 
-    public function getAvatarPathAttribute()
+    public function getAvatarPathAttribute(): string
     {
         $host = config('app.cdn_host');
 

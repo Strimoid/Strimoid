@@ -20,9 +20,9 @@
     </table>
     <!-- /button -->
 
-    <div itemscope itemtype="http://schema.org/EmailMessage">
+    <div itemscope itemtype="https://schema.org/EmailMessage">
         <meta itemprop="description" content="Zmiana hasła w serwisie {{ config('app.name') }}"/>
-        <div itemprop="action" itemscope itemtype="http://schema.org/ViewAction">
+        <div itemprop="action" itemscope itemtype="https://schema.org/ViewAction">
             <link itemprop="url" href="{{ URL::to('password/reset', [$token]) }}"/>
             <meta itemprop="name" content="Zmień hasło"/>
         </div>

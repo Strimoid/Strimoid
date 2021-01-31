@@ -2,7 +2,9 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
@@ -11,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 use Strimoid\Contracts\Repositories\UserRepository;
+use Strimoid\Facades\PDP;
 use Strimoid\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -42,7 +45,7 @@ class UserController extends BaseController
             ->setMaxAge(3600);
     }
 
-    public function changePassword(Request $request)
+    public function changePassword(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'password' => 'required|confirmed|min:6',
@@ -56,7 +59,7 @@ class UserController extends BaseController
             ->with('success_msg', 'Hasło zostało zmienione.');
     }
 
-    public function changeEmail(Request $request)
+    public function changeEmail(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'email' => 'required|email|unique_email:users|real_email',
@@ -77,7 +80,7 @@ class UserController extends BaseController
             ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
-    public function confirmEmailChange($token)
+    public function confirmEmailChange($token): RedirectResponse
     {
         if ($token !== user()->email_change_token) {
             return redirect()->to('')->with('danger_msg', 'Błędny token.');
@@ -132,13 +135,13 @@ class UserController extends BaseController
             'token'
         );
 
-        $response = $this->passwords->reset($credentials, function ($user, $password) {
+        $response = $this->passwords->reset($credentials, function ($user, $password) use($request) {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token) {
-                $cacheKey = 'registration.' . md5(request()->getClientIp());
+                $cacheKey = 'registration.' . md5($request->getClientIp());
 
                 if (Cache::has($cacheKey)) {
-                    return abort(500);
+                    abort(500);
                 }
 
                 $user->unset('activation_token');
@@ -151,14 +154,12 @@ class UserController extends BaseController
             auth()->login($user);
         });
 
-        switch ($response) {
-            case PasswordBroker::PASSWORD_RESET:
-                return redirect('/');
-            default:
-                return redirect()->back()
-                    ->withInput($request->only('email'))
-                    ->withErrors(['email' => trans($response)]);
-        }
+        return match ($response) {
+            PasswordBroker::PASSWORD_RESET => redirect('/'),
+            default => redirect()->back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => trans($response)]),
+        };
     }
 
     public function showLoginForm()
@@ -177,7 +178,7 @@ class UserController extends BaseController
             'password' => 'required|confirmed|user_password',
         ]);
 
-        user()->removed_at = new Carbon();
+        user()->removed_at = Carbon::now();
         user()->type = 'deleted';
 
         user()->save();
@@ -195,17 +196,17 @@ class UserController extends BaseController
 
         $data = [];
 
-        if ($type == 'contents') {
+        if ($type === 'contents') {
             $data['contents'] = $user->contents()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'comments') {
+        } elseif ($type === 'comments') {
             $data['comments'] = $user->comments()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'comment_replies') {
+        } elseif ($type === 'comment_replies') {
             $data['replies'] = $user->commentReplies()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'entries') {
+        } elseif ($type === 'entries') {
             $data['entries'] = $user->entries()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'entry_replies') {
+        } elseif ($type === 'entry_replies') {
             $data['replies'] = $user->entryReplies()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'moderated') {
+        } elseif ($type === 'moderated') {
             $data['moderated'] = $user->moderatedGroups()->paginate(25);
         } else {
             $data['actions'] = $user->actions()->with('element')->orderBy('created_at', 'desc')->paginate(15);
@@ -244,7 +245,7 @@ class UserController extends BaseController
     public function blockUser($user)
     {
         user()->blockedUsers()->attach($user);
-        \Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
+        Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }
@@ -252,7 +253,7 @@ class UserController extends BaseController
     public function unblockUser($user)
     {
         user()->blockedUsers()->detach($user);
-        \Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
+        Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }

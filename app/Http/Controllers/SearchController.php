@@ -2,9 +2,10 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Carbon;
 use DateInterval;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 use Strimoid\Models\Group;
@@ -27,24 +28,15 @@ class SearchController extends BaseController
                 $query
             );
 
-            switch ($request->get('t')) {
-                case 'e':
-                    $builder = Entry::where('text', 'ilike', '%' . $keywords . '%');
-                    break;
-                case 'g':
-                    $builder = Group::where('name', 'ilike', '%' . $keywords . '%')
-                        ->orWhere('urlname', 'like', '%' . $keywords . '%')
-                        // ->orWhere('tags', $keywords)
-;
-                    break;
-                case 'c':
-                default:
-                    $builder = Content::where(function ($query) use ($keywords): void {
-                        $query->where('title', 'ilike', '%' . $keywords . '%')
-                                ->orWhere('description', 'ilike', '%' . $keywords . '%');
-                    });
-                    break;
-            }
+            $builder = match ($request->get('t')) {
+                'e' => Entry::where('text', 'ilike', '%' . $keywords . '%'),
+                'g' => Group::where('name', 'ilike', '%' . $keywords . '%')
+                    ->orWhere('urlname', 'like', '%' . $keywords . '%'),
+                default => Content::where(function ($query) use ($keywords): void {
+                    $query->where('title', 'ilike', '%' . $keywords . '%')
+                        ->orWhere('description', 'ilike', '%' . $keywords . '%');
+                }),
+            };
 
             $this->builder = $builder;
             $this->setupFilters($query);
@@ -118,16 +110,16 @@ class SearchController extends BaseController
             $value = 'PT' . Str::upper($value);
             $time = Carbon::now()->sub(new DateInterval($value));
 
-            $this->builder->where('created_at', '>', carbon_to_md($time));
+            $this->builder->where('created_at', '>', $time);
         } catch (\Exception $e) {
         }
     }
 
     protected function filterNSFW($value): void
     {
-        if ($value == 'yes') {
+        if ($value === 'yes') {
             $this->builder->where('nsfw', true);
-        } elseif ($value == 'no') {
+        } elseif ($value === 'no') {
             $this->builder->where('nsfw', '!=', true);
         }
     }

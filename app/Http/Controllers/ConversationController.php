@@ -2,6 +2,7 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Strimoid\Models\Conversation;
@@ -34,16 +35,16 @@ class ConversationController extends BaseController
     public function showCreateForm($user = null)
     {
         $conversations = $this->getConversations();
-        $username = $user ? $user->name : '';
+        $username = $user->name ?? '';
 
         return view('conversations.create', compact('conversations', 'username'));
     }
 
-    public function createConversation(Request $request)
+    public function createConversation(Request $request): RedirectResponse
     {
         $target = User::name(request('username'))->firstOrFail();
 
-        if ($target->getKey() == auth()->id()) {
+        if ($target->getKey() === auth()->id()) {
             return redirect()->action('ConversationController@showCreateForm')
                 ->withInput()
                 ->with('danger_msg', 'Ekhm... wysyłanie wiadomości do samego siebie chyba nie ma sensu ;)');
@@ -80,7 +81,7 @@ class ConversationController extends BaseController
         return redirect()->to('/conversations');
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage(Request $request): RedirectResponse
     {
         $ids = Hashids::decode($request->input('id'));
         $id = current($ids);

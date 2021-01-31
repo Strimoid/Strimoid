@@ -18,12 +18,9 @@ class FolderRepository extends Repository implements FolderRepositoryContract
         $this->users = $users;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getByName(string $userName, string $folderName): ?Folder
+    public function getByName(string $ownerName, string $folderName): ?Folder
     {
-        $user = $this->users->getByName($userName);
+        $user = $this->users->getByName($ownerName);
 
         if (!$user) {
             return null;

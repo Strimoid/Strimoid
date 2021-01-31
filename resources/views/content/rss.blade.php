@@ -8,7 +8,7 @@
         <title>Strm: strona główna</title>
         <link>https://strm.pl/</link>
         <description>Ostatnio popularne treści na portalu Strm.pl</description>
-        <atom:link href="{{ Request::url() }}" rel="self"></atom:link>
+        <atom:link href="{{ request()->url() }}" rel="self"></atom:link>
         <image>
             <url>https://strm.pl/static/img/logo.png</url>
             <title>{{ config('app.name') }}</title>

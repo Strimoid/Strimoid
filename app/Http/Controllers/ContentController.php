@@ -2,8 +2,11 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Queue;
@@ -17,6 +20,7 @@ use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Illuminate\Support\Facades\Validator;
+use Strimoid\Handlers\DownloadThumbnail;
 
 class ContentController extends BaseController
 {
@@ -38,8 +42,6 @@ class ContentController extends BaseController
 
     /**
      * Display contents from given group.
-
-     * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
     public function showContentsFromGroup(Request $request, string $groupName = null)
     {
@@ -59,7 +61,7 @@ class ContentController extends BaseController
         $group = $this->groups->requireByName($groupName);
         view()->share('group', $group);
 
-        if (auth()->guest() && $group->isPrivate) {
+        if ($group->isPrivate && auth()->guest()) {
             return redirect()->guest('login');
         }
 
@@ -73,8 +75,6 @@ class ContentController extends BaseController
 
     /**
      * Display contents from given folder.
-     *
-     * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
     public function showContentsFromFolder(Request $request)
     {
@@ -103,13 +103,13 @@ class ContentController extends BaseController
         $builder->with('group', 'user');
 
         if (Auth::check()) {
-            $builder->with('usave', 'vote');
+            $builder->with('userSave', 'vote');
         }
 
         $this->filterByTime($builder, request('time'));
 
         // Paginate and attach parameters to paginator links
-        $perPage = Setting::get('entries_per_page', 25);
+        $perPage = Setting::get('entries_per_page');
         $contents = $builder->paginate($perPage);
         $contents->appends($request->only(['sort', 'time', 'all']));
 
@@ -132,7 +132,6 @@ class ContentController extends BaseController
 
     /**
      * Generate RSS feed from given collection of contents.
-     *
      */
     protected function generateRssFeed($contents): \Symfony\Component\HttpFoundation\Response
     {
@@ -167,15 +166,18 @@ class ContentController extends BaseController
 
     public function showEditForm(Content $content)
     {
-        if (!$content->canEdit(user())) {
-            return Redirect::route('content_comments', $content->getKey())
-                ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
+        $policyDecision = Gate::inspect('edit', $content);
+
+        if ($policyDecision->denied()) {
+            return redirect()
+                ->route('content_comments', $content->getKey())
+                ->with('danger_msg', $policyDecision->message());
         }
 
         return view('content.edit', compact('content'));
     }
 
-    public function addContent(Request $request)
+    public function addContent(Request $request): RedirectResponse
     {
         $rules = [
             'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
@@ -223,7 +225,7 @@ class ContentController extends BaseController
         $content->save();
 
         if (request('thumbnail') === 'on') {
-            Queue::push('Strimoid\Handlers\DownloadThumbnail', [
+            Queue::push(DownloadThumbnail::class, [
                 'id' => $content->getKey(),
             ]);
         }
@@ -231,11 +233,14 @@ class ContentController extends BaseController
         return Redirect::route('content_comments', $content);
     }
 
-    public function editContent(Request $request, Content $content)
+    public function editContent(Request $request, Content $content): RedirectResponse
     {
-        if (!$content->canEdit(user())) {
-            return Redirect::route('content_comments', $content->getKey())
-                ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
+        $policyDecision = Gate::inspect('edit', $content);
+
+        if ($policyDecision->denied()) {
+            return redirect()
+                ->route('content_comments', $content->getKey())
+                ->with('danger_msg', $policyDecision->message());
         }
 
         $rules = [
@@ -271,44 +276,32 @@ class ContentController extends BaseController
         return Redirect::route('content_comments', $content);
     }
 
-    public function removeContent(Content $content = null)
+    public function removeContent(Content $content = null): JsonResponse
     {
         $id = hashids_decode(request('id'));
         $content = $content ?: Content::findOrFail($id);
 
-        if ($content->created_at->diffInMinutes() > 60) {
-            return Response::json([
-                'status' => 'error',
-                'error' => 'Minął dozwolony czas na usunięcie treści.',
-            ]);
-        }
+        $this->authorize('remove', $content);
 
-        if (Auth::id() === $content->user_id) {
-            $content->forceDelete();
-
-            return Response::json(['status' => 'ok']);
-        }
-
-        return Response::json([
-            'status' => 'error',
-            'error' => 'Nie masz uprawnień do usunięcia tej treści.',
-        ]);
-    }
-
-    public function softRemoveContent()
-    {
-        $id = hashids_decode(request('id'));
-        $content = Content::findOrFail($id);
-
-        if ($content->canRemove(user())) {
-            $content->deletedBy()->associate(user());
-            $content->save();
-
-            $content->delete();
-
+        if ($content->forceDelete()) {
             return Response::json(['status' => 'ok']);
         }
 
         return Response::json(['status' => 'error']);
+    }
+
+    public function softRemoveContent(): JsonResponse
+    {
+        $id = hashids_decode(request('id'));
+        $content = Content::findOrFail($id);
+
+        $this->authorize('softRemove', $content);
+
+        $content->deletedBy()->associate(user());
+        $content->save();
+
+        $content->delete();
+
+        return Response::json(['status' => 'ok']);
     }
 }

@@ -2,16 +2,14 @@
 
 namespace Strimoid\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Strimoid\Models\User;
 use Symfony\Component\Console\Input\InputArgument;
 
 class DeleteUser extends Command
 {
-    /** @var string */
     protected $name = 'lara:deleteuser';
-
-    /** @var string */
     protected $description = 'Deletes user.';
 
     public function handle(): void
@@ -19,7 +17,7 @@ class DeleteUser extends Command
         $user = User::findOrFail($this->argument('username'));
 
         if ($this->confirm('Do you really want to remove user: ' . $user->name . '? [yes|no]')) {
-            $user->removed_at = new MongoDate();
+            $user->removed_at = Carbon::now();
             $user->type = 'deleted';
             $user->unset(['age', 'description', 'email', 'last_login', 'last_ip',
                 'location', 'password', 'settings', 'sex', 'shadow_email', ]);
@@ -31,7 +29,6 @@ class DeleteUser extends Command
         }
 
         /*
-
         foreach (Content::where('user_id', $this->argument('username'))->get() as $obj)
             $obj->delete();
 
@@ -49,7 +46,6 @@ class DeleteUser extends Command
 
         foreach (ContentRelated::where('user_id', $this->argument('username'))->get() as $obj)
             $obj->delete();
-
         */
     }
 

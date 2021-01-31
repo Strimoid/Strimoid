@@ -62,7 +62,7 @@
 @include('global.form.input_select', ['name' => 'language', 'label' => 'Język', 'value' => setting('language'), 'options' => setting()->getOptions('language')])
 @include('global.form.input_select', ['name' => 'timezone', 'label' => 'Strefa czasowa', 'value' => setting('timezone'), 'options' => setting()->getOptions('timezone')])
 
-@include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => setting('css_style'), 'placeholder' => 'http://link.do/stylu.css'])
+@include('global.form.input_value', ['type' => 'text', 'name' => 'css_style', 'label' => 'Własny styl CSS', 'value' => setting('css_style'), 'placeholder' => 'https://link.do/stylu.css'])
 
 @include('global.form.submit')
 

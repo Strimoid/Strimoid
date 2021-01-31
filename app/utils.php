@@ -8,7 +8,7 @@ use Stringy\Stringy;
 use Vinkla\Hashids\Facades\Hashids;
 
 if (!function_exists('shadow')) {
-    function shadow($text)
+    function shadow($text): string
     {
         $text = Str::ascii($text);
         return Str::lower($text);
@@ -41,9 +41,9 @@ if (!function_exists('parse_usernames')) {
 
             if ($content) {
                 return '[' . str_replace('_', '\_', $content->title) . '](' . $content->getSlug() . ')';
-            } else {
-                return 'c/' . $matches[1];
             }
+
+            return 'c/' . $matches[1];
         }, $body);
 
         $body = preg_replace_callback('/(?<=^|\s)u\/([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
@@ -71,7 +71,7 @@ if (!function_exists('parse_usernames')) {
             $fakeGroup = class_exists('Folders\\' . Str::studly($matches[1]));
 
             if ($target || $fakeGroup) {
-                $urlname = $target ? $target->urlname : $matches[1];
+                $urlname = $target->urlname ?? $matches[1];
 
                 return '[g/' . str_replace('_', '\_', $urlname) . '](/g/' . $urlname . ')';
             }
@@ -85,7 +85,7 @@ if (!function_exists('parse_usernames')) {
 
 if (!function_exists('toBool')) {
     // Convert to boolean
-    function toBool($var)
+    function toBool($var): bool
     {
         $lower = strtolower($var);
 
@@ -93,7 +93,7 @@ if (!function_exists('toBool')) {
             $result = true;
         }
 
-        return isset($result) && $result ?: false;
+        return $result ?? false;
     }
 }
 

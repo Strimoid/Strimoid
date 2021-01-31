@@ -3,8 +3,8 @@
 namespace Strimoid\Providers;
 
 use Illuminate\Support\Facades\Auth;
-use DB;
-use Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +25,7 @@ class ValidatorServiceProvider extends ServiceProvider
                 ->where($attribute, $value)
                 ->count();
 
-            return $count == 0;
+            return $count === 0;
         });
 
         Validator::extend('safe_url', fn ($attribute, $value, $parameters) => Str::startsWith($value, 'http'));

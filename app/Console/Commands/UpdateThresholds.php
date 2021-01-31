@@ -3,20 +3,18 @@
 namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 
 class UpdateThresholds extends Command
 {
-    /** @var string */
     protected $name = 'lara:updatethresholds';
-
-    /** @var string */
     protected $description = 'Updates thresholds.';
 
     public function handle(): void
     {
-        \DB::connection()->disableQueryLog();
+        DB::connection()->disableQueryLog();
 
         foreach (Group::all() as $group) {
             $builder = Content::where('group_id', $group->getKey())
@@ -53,7 +51,7 @@ class UpdateThresholds extends Command
         $median = $array[$middle_index]; // assume an odd # of items
 
         // Handle the even case by averaging the middle 2 items
-        if ($iCount % 2 == 0) {
+        if ($iCount % 2 === 0) {
             $median = ($median + $array[$middle_index - 1]) / 2;
         }
 

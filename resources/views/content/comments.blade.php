@@ -37,7 +37,7 @@
                     <i class="fa fa-comments"></i>
                     <a href="{{ route('content_comments_slug', [$content, Str::slug($content->title)]) }}"
                        class="content_comments">
-                        {!! Lang::choice('pluralization.comments', intval($content->comments_count)) !!}</a>
+                        {!! Lang::choice('pluralization.comments', (int) $content->comments_count) !!}</a>
 
                     <i class="fa fa-tag"></i>
                     <a href="{!! route('group_contents', $content->group) !!}" class="content_group"
@@ -58,7 +58,7 @@
 
                     <i class="fa fa-link"></i>
                         <span class="content_comments">
-                            {!! intval($content->related_count) !!}
+                            {!! (int) $content->related_count !!}
                         </span>
 
                     <i class="fa fa-clock-o"></i>
@@ -67,13 +67,13 @@
                         {{ $content->createdAgo() }}
                     </time>
 
-                    @if (Auth::check())
+                    @auth
                         @if ($content->isSaved())
                             <i class="fa fa-star action_link save_content" title="zapisz"></i>
                         @else
                             <i class="fa fa-star-o action_link save_content" title="zapisz"></i>
                         @endif
-                    @endif
+                    @endauth
                 </small>
             </p>
         </div>
@@ -110,9 +110,9 @@
 <div class="page-header clearfix">
     <h4 class="pull-left">Powiązane</h4>
 
-    @if (Auth::check())
+    @auth
         <button type="button" class="btn btn-sm btn-secondary pull-right add_related_btn" data-toggle="button">+dodaj</button>
-    @endif
+    @endauth
 </div>
 
 {!! Form::open(['action' => ['RelatedController@addRelated', $content], 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) !!}
@@ -177,11 +177,11 @@
             @if ($related->eng) <span class="eng">[ENG]</span> @endif
             @if ($related->nsfw) <span class="nsfw">[+18]</span> @endif
 
-            @if (Auth::check() && Auth::id() == $related->user->getKey())
+            @can('remove', $related)
                 <a class="related_remove_link" data-id="{!! $related->hashId() !!}">
                     <i class="fa fa-trash"></i>
                 </a>
-            @endif
+            @endcan
         </h4>
         <span class="info">
             Dodane <time pubdate datetime="{!! $related->created_at->format('c') !!}" title="{!! $related->getLocalTime() !!}">{!! $related->created_at->diffForHumans() !!}</time>
@@ -232,7 +232,7 @@
 
 </div>
 
-@if (Auth::check())
+@auth
 <div class="page-header">
     <h4>@lang('common.add comment')</h4>
 </div>
@@ -262,7 +262,7 @@
         {!! Form::close() !!}
     </div>
 </div>
-@endif
+@endauth
 
 @stop
 

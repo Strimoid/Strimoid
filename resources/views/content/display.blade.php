@@ -1,7 +1,7 @@
 @extends('global.master')
 
 @section('head')
-    @if (Request::path() == '/')
+    @if (request()->path() == '/')
         <link rel="search" type="application/opensearchdescription+xml" href="https://strm.pl/static/xml/search/contents.xml" title="Strimoid - treści">
         <link rel="search" type="application/opensearchdescription+xml" href="https://strm.pl/static/xml/search/entries.xml" title="Strimoid - wpisy">
         <link rel="search" type="application/opensearchdescription+xml" href="https://strm.pl/static/xml/search/groups.xml" title="Strimoid - grupy">

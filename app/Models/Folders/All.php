@@ -4,6 +4,7 @@ namespace Strimoid\Models\Folders;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Strimoid\Models\Content;
 use Strimoid\Models\FakeFolder;
 
 class All extends FakeFolder
@@ -23,18 +24,18 @@ class All extends FakeFolder
         return $builder;
     }
 
-    public function contents($tab = null, $sortBy = null): Builder
+    public function contents(string $tab = null, string $sortBy = null): Builder
     {
-        $builder = static::getBuilder('Strimoid\Models\Content');
+        $builder = $this->getBuilder(Content::class);
 
         if (Auth::check()) {
             $blockedDomains = Auth::user()->blockedDomains();
             $builder->whereNotIn('domain', $blockedDomains);
         }
 
-        if ($tab == 'new') {
+        if ($tab === 'new') {
             $builder->frontpage(false);
-        } elseif ($tab == 'popular') {
+        } elseif ($tab === 'popular') {
             $builder->frontpage(true);
             $sortBy = $sortBy ?: 'frontpage_at';
         }

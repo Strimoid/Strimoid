@@ -56,7 +56,7 @@
 
     @foreach ($recommendedGroups as $recommended)
     @if (!Auth::user()->isSubscriber($recommended))
-    <div class="row" style="margin: 15px 0px;" data-name="{!! $recommended->urlname !!}">
+    <div class="row" style="margin: 15px 0;" data-name="{!! $recommended->urlname !!}">
         <div style="float: left; width: 50px;">
             <a href="{!! route('group_contents', ['group' => $recommended->urlname]) !!}" rel="nofollow" target="_blank">
                 <img src="{!! $recommended->getAvatarPath() !!}" style="height: 40px; width: 40px; border-radius: 3px;">

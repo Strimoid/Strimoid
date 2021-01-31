@@ -2,6 +2,7 @@
 
 namespace Strimoid\Api\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
@@ -50,7 +51,7 @@ class CommentController extends BaseController
         return $builder->paginate($perPage);
     }
 
-    public function store(Request $request, $content)
+    public function store(Request $request, $content): JsonResponse
     {
         $this->validate($request, Comment::validationRules());
 
@@ -72,7 +73,7 @@ class CommentController extends BaseController
         ]);
     }
 
-    public function storeReply(Request $request, $comment)
+    public function storeReply(Request $request, $comment): JsonResponse
     {
         $this->validate($request, CommentReply::validationRules());
         $content = $comment->content;

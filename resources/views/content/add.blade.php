@@ -47,7 +47,7 @@
         <div class="col-lg-4">
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('thumbnail', 'on', Input::get('thumbnail') == 'no' ? false : true) !!} @lang('common.thumbnail')
+                    {!! Form::checkbox('thumbnail', 'on', Input::get('thumbnail') !== 'no') !!} @lang('common.thumbnail')
                 </label>
             </div>
             <div class="checkbox">
@@ -77,7 +77,7 @@
     <script src="/static/js/simplemde.min.js"></script>
 
     <script>
-        var editor = new SimpleMDE($('.md_editor')[0]);
+        const editor = new SimpleMDE($('.md_editor')[0]);
         editor.render();
     </script>
 @endsection

@@ -24,10 +24,10 @@ class Pjax
         $responseTitle = $crawler->filter('head > title');
         $responseContainer = $crawler->filter($selector);
 
-        if ($responseContainer->count() != 0) {
+        if ($responseContainer->count() !== 0) {
             $title = '';
 
-            if ($responseTitle->count() != 0) {
+            if ($responseTitle->count() !== 0) {
                 $title = '<title>' . $responseTitle->html() . '</title>';
             }
 

@@ -19,6 +19,7 @@
     },
     "require": {
         "php": ">=8.0",
+        "ext-apcu": "*",
         "laravel/framework": "^8.0",
         "laravelcollective/html": "^6.0",
         "intervention/image": "^2.3",
