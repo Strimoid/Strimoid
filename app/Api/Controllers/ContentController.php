@@ -3,7 +3,7 @@
 namespace Strimoid\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Queue;
+use Illuminate\Support\Facades\Queue;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;

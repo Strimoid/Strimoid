@@ -2,7 +2,7 @@
 
 namespace Strimoid\Models;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Hashids;
 use Str;
 use Strimoid\Models\Traits\HasUserRelationship;

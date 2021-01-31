@@ -2,12 +2,12 @@
 
 namespace Strimoid\Providers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use DB;
 use Hash;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class ValidatorServiceProvider extends ServiceProvider
 {

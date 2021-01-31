@@ -2,9 +2,9 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Response;
+use Illuminate\Support\Facades\Response;
 use Str;
 use Strimoid\Models\Folder;
 use Strimoid\Models\Group;

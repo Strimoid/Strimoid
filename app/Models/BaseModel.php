@@ -8,7 +8,7 @@ use Date;
 use DateTimeZone;
 use Hashids;
 use Illuminate\Database\Eloquent\Model;
-use Setting;
+use Strimoid\Settings\Facades\Setting;
 use Watson\Rememberable\Rememberable;
 
 abstract class BaseModel extends Model

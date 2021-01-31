@@ -2,7 +2,7 @@
 
 namespace Strimoid\Models\Folders;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Strimoid\Models\Content;
 use Strimoid\Models\FakeFolder;

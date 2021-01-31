@@ -2,12 +2,12 @@
 
 namespace Strimoid\Http\Controllers;
 
-use App;
-use Auth;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Response;
-use Route;
-use Setting;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
+use Strimoid\Settings\Facades\Setting;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;

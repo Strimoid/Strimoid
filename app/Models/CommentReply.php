@@ -2,7 +2,7 @@
 
 namespace Strimoid\Models;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 
 class CommentReply extends Comment

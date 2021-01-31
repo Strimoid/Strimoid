@@ -2,21 +2,21 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Queue;
-use Redirect;
-use Response;
-use Route;
-use Setting;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
+use Strimoid\Settings\Facades\Setting;
 use Strimoid\Contracts\Repositories\ContentRepository;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class ContentController extends BaseController
 {
@@ -147,7 +147,7 @@ class ContentController extends BaseController
         $sortBy = request('sort');
 
         if (in_array($sortBy, ['uv', 'replies'])) {
-            $content->comments = $content->comments->sortBy(fn ($comment) => $sortBy == 'uv' ? $comment->uv : $comment->replies->count())->reverse();
+            $content->comments = $content->comments->sortBy(fn ($comment) => $sortBy === 'uv' ? $comment->uv : $comment->replies->count())->reverse();
         }
 
         view()->share('group', $content->group);
@@ -183,7 +183,7 @@ class ContentController extends BaseController
             'groupname' => 'required|exists:groups,urlname',
         ];
 
-        if (request('type') == 'link') {
+        if (request('type') === 'link') {
             $rules['url'] = 'required|url_custom|max:2048';
         } else {
             $rules['text'] = 'required|min:1|max:50000';
@@ -200,7 +200,7 @@ class ContentController extends BaseController
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
-        if ($group->type == 'announcements'
+        if ($group->type === 'announcements'
             && !user()->isModerator($group)) {
             return Redirect::action('ContentController@showAddForm')
                 ->withInput()
@@ -211,7 +211,7 @@ class ContentController extends BaseController
             'title', 'description', 'nsfw', 'eng',
         ]));
 
-        if (request('type') == 'link') {
+        if (request('type') === 'link') {
             $content->url = request('url');
         } else {
             $content->text = request('text');
@@ -222,7 +222,7 @@ class ContentController extends BaseController
 
         $content->save();
 
-        if (request('thumbnail') == 'on') {
+        if (request('thumbnail') === 'on') {
             Queue::push('Strimoid\Handlers\DownloadThumbnail', [
                 'id' => $content->getKey(),
             ]);

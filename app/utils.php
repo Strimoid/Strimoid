@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Str;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
 use Stringy\Stringy;
+use Vinkla\Hashids\Facades\Hashids;
 
 if (!function_exists('shadow')) {
     function shadow($text)
@@ -87,7 +89,7 @@ if (!function_exists('toBool')) {
     {
         $lower = strtolower($var);
 
-        if ($var === true || $lower == 'on' || $lower == 'true') {
+        if ($var === true || $lower === 'on' || $lower === 'true') {
             $result = true;
         }
 
@@ -107,7 +109,7 @@ if (!function_exists('between')) {
 if (!function_exists('hashids_decode')) {
     function hashids_decode($raw)
     {
-        $ids = \Hashids::decode($raw);
+        $ids = Hashids::decode($raw);
 
         return current($ids);
     }

@@ -5,6 +5,7 @@ namespace Strimoid\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -20,7 +21,7 @@ class GroupController extends BaseController
     {
         $builder = Group::with('creator')->where('type', '!=', 'private');
 
-        if (request('sort') == 'newest') {
+        if (request('sort') === 'newest') {
             $builder->orderBy('created_at', 'desc');
         } else {
             $builder->orderBy('subscribers_count', 'desc');
@@ -151,7 +152,7 @@ class GroupController extends BaseController
             'labels' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
         ]);
 
-        $settings['enable_labels'] = request('enable_labels') == 'on' ? true : false;
+        $settings['enable_labels'] = request('enable_labels') === 'on' ? true : false;
 
         $group->settings = $settings;
 
@@ -234,7 +235,7 @@ class GroupController extends BaseController
         }
 
         user()->subscribedGroups()->attach($group);
-        \Cache::tags(['user.subscribed-groups', 'u.' . auth()->id()])->flush();
+        Cache::tags(['user.subscribed-groups', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }
@@ -242,7 +243,7 @@ class GroupController extends BaseController
     public function unsubscribeGroup($group)
     {
         user()->subscribedGroups()->detach($group);
-        \Cache::tags(['user.subscribed-groups', 'u.' . auth()->id()])->flush();
+        Cache::tags(['user.subscribed-groups', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }
@@ -252,7 +253,7 @@ class GroupController extends BaseController
         $group->checkAccess();
 
         user()->blockedGroups()->attach($group);
-        \Cache::tags(['user.blocked-groups', 'u.' . auth()->id()])->flush();
+        Cache::tags(['user.blocked-groups', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }
@@ -260,7 +261,7 @@ class GroupController extends BaseController
     public function unblockGroup($group)
     {
         user()->blockedGroups()->detach();
-        \Cache::tags(['user.blocked-groups', 'u.' . auth()->id()])->flush();
+        Cache::tags(['user.blocked-groups', 'u.' . auth()->id()])->flush();
 
         return Response::json(['status' => 'ok']);
     }

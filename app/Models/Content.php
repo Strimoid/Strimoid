@@ -4,9 +4,8 @@ namespace Strimoid\Models;
 
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OEmbed;
-use PDP;
-use Str;
+use Strimoid\Facades\OEmbed;
+use Illuminate\Support\Str;
 use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasSaves;

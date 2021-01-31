@@ -2,7 +2,7 @@
 
 namespace Strimoid\Http\Controllers\Group;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupModerator;

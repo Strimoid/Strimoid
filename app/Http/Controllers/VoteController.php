@@ -2,8 +2,7 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Auth;
-use Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Strimoid\Models\Comment;
@@ -13,6 +12,7 @@ use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\User;
+use Vinkla\Hashids\Facades\Hashids;
 
 class VoteController extends BaseController
 {
@@ -163,7 +163,7 @@ class VoteController extends BaseController
      */
     private function getObject(string $id, string $type)
     {
-        $id = \Hashids::decode($id);
+        $id = Hashids::decode($id);
         $id = current($id);
 
         switch ($type) {

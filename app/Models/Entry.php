@@ -2,7 +2,7 @@
 
 namespace Strimoid\Models;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasNotificationsRelationship;

@@ -2,7 +2,7 @@
 
 namespace Strimoid\Models\Traits;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\Save;
 
 trait HasSaves

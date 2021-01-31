@@ -2,13 +2,14 @@
 
 namespace Strimoid\Http\Controllers;
 
+use Illuminate\Http\Response;
 use SyHolloway\MrColor\Color;
 
 class DuckController extends BaseController
 {
     protected int $salt = 0;
 
-    public function drawDuck($username)
+    public function drawDuck($username): Response
     {
         do {
             $color = $this->getRandomColor($username);
@@ -35,7 +36,7 @@ class DuckController extends BaseController
             ->setMaxAge(86400);
     }
 
-    protected function getRandomColor($username)
+    protected function getRandomColor($username): Color
     {
         $hash = md5($username . $this->salt++);
         $hex = substr($hash, -6);

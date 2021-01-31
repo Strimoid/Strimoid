@@ -2,7 +2,7 @@
 
 namespace Strimoid\Models;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Folder extends BaseModel

@@ -2,11 +2,11 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Redirect;
 use Strimoid\Models\Conversation;
 use Strimoid\Models\User;
+use Vinkla\Hashids\Facades\Hashids;
 
 class ConversationController extends BaseController
 {
@@ -82,7 +82,7 @@ class ConversationController extends BaseController
 
     public function sendMessage(Request $request)
     {
-        $ids = \Hashids::decode($request->input('id'));
+        $ids = Hashids::decode($request->input('id'));
         $id = current($ids);
 
         $conversation = Conversation::withUser(Auth::id())

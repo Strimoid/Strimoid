@@ -6,8 +6,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use League\OAuth2\Server\AuthorizationServer;
-use League\OAuth2\Server\Exception\OAuthException;
-use Response;
+use Illuminate\Support\Facades\Response;
 use Strimoid\Models\OAuth\Client;
 
 class OAuthController extends BaseController

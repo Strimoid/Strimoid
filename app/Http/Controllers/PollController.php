@@ -3,7 +3,10 @@
 namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Strimoid\Models\Content;
 
 class PollController extends BaseController

@@ -2,11 +2,11 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use OEmbed;
-use Redirect;
-use Response;
+use Strimoid\Facades\OEmbed;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Strimoid\Models\ContentRelated;
 
 class RelatedController extends BaseController
@@ -50,7 +50,7 @@ class RelatedController extends BaseController
         $related = $related instanceof ContentRelated
             ?: ContentRelated::findOrFail(hashids_decode($request->get('id')));
 
-        if (Auth::id() == $related->user->getKey()) {
+        if (Auth::id() === $related->user->getKey()) {
             $related->delete();
 
             return Response::json(['status' => 'ok']);
@@ -74,7 +74,7 @@ class RelatedController extends BaseController
             'title', 'url', 'nsfw', 'eng',
         ]));
 
-        if ($request->get('thumbnail') != 'false' && $request->get('thumbnail') != 'off') {
+        if ($request->get('thumbnail') !== 'false' && $request->get('thumbnail') !== 'off') {
             $url = OEmbed::getThumbnail($this->url);
             if ($url) {
                 $related->setThumbnail($url);

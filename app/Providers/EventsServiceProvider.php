@@ -2,7 +2,7 @@
 
 namespace Strimoid\Providers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon;
 use Config;
 use Guzzle;
