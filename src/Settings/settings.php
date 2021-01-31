@@ -1,12 +1,10 @@
 <?php
 
-$timezones = static function () {
-    return collect(\DateTimeZone::listIdentifiers())->mapWithKeys(function ($timezone) {
-        $key = 'timezones.' . Str::lower($timezone);
+$timezones = static fn() => collect(\DateTimeZone::listIdentifiers())->mapWithKeys(function ($timezone) {
+    $key = 'timezones.' . Str::lower($timezone);
 
-        return [$timezone => trans($key)];
-    });
-};
+    return [$timezone => trans($key)];
+});
 
 Setting::add('enter_send', 'checkbox', [
     'default' => 'false',

@@ -96,11 +96,8 @@ class CommentController extends BaseController
 
     public function edit(Request $request, Comment $comment): Response
     {
+        $this->authorize('edit', $comment);
         $this->validate($request, $comment->validationRules());
-
-        if (!$comment->canEdit()) {
-            abort(403);
-        }
 
         $comment->update($request->only('text'));
 
@@ -109,9 +106,7 @@ class CommentController extends BaseController
 
     public function remove(Comment $comment): Response
     {
-        if (!$comment->canRemove()) {
-            abort(403);
-        }
+        $this->authorize('remove', $comment);
 
         $comment->delete();
 

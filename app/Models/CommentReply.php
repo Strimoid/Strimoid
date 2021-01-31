@@ -40,13 +40,13 @@ class CommentReply extends Comment
         return $this->belongsTo(Comment::class);
     }
 
-    public function isLast()
+    public function isLast(): bool
     {
         $lastId = $this->parent->replies()
             ->orderBy('created_at', 'desc')
             ->value('id');
 
-        return $lastId == $this->getKey();
+        return $lastId === $this->getKey();
     }
 
     public function getURL()
@@ -54,16 +54,5 @@ class CommentReply extends Comment
         $url = route('content_comments', $this->parent->content);
 
         return $url . '#' . $this->hashId();
-    }
-
-    public function canEdit()
-    {
-        return Auth::id() == $this->user_id && $this->isLast();
-    }
-
-    public function canRemove()
-    {
-        return Auth::id() == $this->user_id
-            || Auth::user()->isModerator($this->group_id);
     }
 }

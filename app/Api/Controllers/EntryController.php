@@ -3,6 +3,7 @@
 namespace Strimoid\Api\Controllers;
 
 use Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Strimoid\Models\Entry;
@@ -56,7 +57,7 @@ class EntryController extends BaseController
         return array_merge($entry->toArray(), ['replies' => $entry->replies->toArray()]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         if ($request->has('group')) {
             $request->merge(['groupname' => request('group')]);
@@ -84,7 +85,7 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', '_id' => $entry->getKey(), 'entry' => $entry]);
     }
 
-    public function storeReply(Request $request, Entry $entry): \Symfony\Component\HttpFoundation\Response
+    public function storeReply(Request $request, Entry $entry): JsonResponse
     {
         $this->validate($request, EntryReply::validationRules());
 
@@ -103,8 +104,9 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', '_id' => $reply->getKey(), 'reply' => $reply]);
     }
 
-    public function edit(Request $request, Entry $entry): \Symfony\Component\HttpFoundation\Response
+    public function edit(Request $request, Entry $entry): JsonResponse
     {
+        $this->authorize('edit', $entry);
         $this->validate($request, $entry->validationRules());
 
         if (!$entry->canEdit()) {
@@ -116,11 +118,9 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', 'parsed' => $entry->text]);
     }
 
-    public function remove(Entry $entry): \Symfony\Component\HttpFoundation\Response
+    public function remove(Entry $entry): JsonResponse
     {
-        if (!$entry->canRemove()) {
-            abort(403, 'Access denied');
-        }
+        $this->authorize('remove', $entry);
 
         $entry->delete();
 

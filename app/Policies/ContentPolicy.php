@@ -7,22 +7,13 @@ use Strimoid\Models\User;
 
 class ContentPolicy
 {
-    public function before(User $user, $ability): ?bool
-    {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
-        return null;
-    }
-
-    public function update(User $user, Content $content)
+    public function edit(User $user, Content $content): bool
     {
         return $user->id === $content->user->id;
     }
 
-    public function delete(User $user, Content $content)
+    public function remove(User $user, Content $content): bool
     {
-        return $user->id === $content->user->id;
+        return $user->id === $content->user->id || $user->isModerator($content->group_id);
     }
 }

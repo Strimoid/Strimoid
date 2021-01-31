@@ -6,10 +6,7 @@ use Strimoid\Models\Content;
 
 class ContentCreated
 {
-    private Content $content;
-
-    public function __construct(Content $content)
+    public function __construct(private Content $content)
     {
-        $this->content = $content;
     }
 }

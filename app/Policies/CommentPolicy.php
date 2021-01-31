@@ -2,16 +2,18 @@
 
 namespace Strimoid\Policies;
 
+use Strimoid\Models\Comment;
 use Strimoid\Models\User;
 
 class CommentPolicy
 {
-    public function before(User $user, $ability): ?bool
+    public function edit(User $user, Comment $comment)
     {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
+        return $user->id === $comment->user->id && $comment->replies()->count() === 0;
+    }
 
-        return null;
+    public function remove(User $user, Comment $comment): bool
+    {
+        return $user->id === $comment->user->id || $user->isModerator($comment->group_id);
     }
 }

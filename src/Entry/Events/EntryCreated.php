@@ -8,11 +8,8 @@ use Strimoid\Models\Entry;
 
 class EntryCreated implements ShouldBroadcast
 {
-    public Entry $entry;
-
-    public function __construct(Entry $entry)
+    public function __construct(public Entry $entry)
     {
-        $this->entry = $entry;
     }
 
     public function broadcastAs(): string

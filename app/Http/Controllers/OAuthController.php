@@ -39,16 +39,6 @@ class OAuthController extends BaseController
         }
     }
 
-    public function authorizationForm(): void
-    {
-        //
-    }
-
-    public function authorize(): void
-    {
-        //
-    }
-
     public function listApps()
     {
         $apps = Client::where('user_id', Auth::id())->get();

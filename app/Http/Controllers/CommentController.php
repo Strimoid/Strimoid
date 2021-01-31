@@ -108,10 +108,6 @@ class CommentController extends BaseController
         return Response::json(['status' => 'ok', 'comment' => $comment]);
     }
 
-    /**
-     * Add new reply to given Comment object.
-     *
-     */
     public function addReply(Request $request, Comment $parent): \Symfony\Component\HttpFoundation\Response
     {
         $this->validate($request, CommentReply::validationRules());
@@ -139,16 +135,14 @@ class CommentController extends BaseController
 
     public function editComment(Request $request)
     {
-        $class = $request->get('type') == 'comment'
+        $class = $request->get('type') === 'comment'
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
 
-        if (!$comment->canEdit()) {
-            app()->abort(403, 'Access denied');
-        }
-
+        $this->authorize('edit', $comment);
         $this->validate($request, CommentReply::validationRules());
+
         $comment->update($request->only('text'));
 
         return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
@@ -156,14 +150,14 @@ class CommentController extends BaseController
 
     public function removeComment(Request $request)
     {
-        $class = $request->get('type') == 'comment'
+        $class = $request->get('type') === 'comment'
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
 
-        if ($comment->canRemove()) {
-            $comment->delete();
+        $this->authorize('remove', $comment);
 
+        if ($comment->delete()) {
             return Response::json(['status' => 'ok']);
         }
 

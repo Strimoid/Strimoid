@@ -64,14 +64,12 @@ $isReply = isset($isReply) ? true : false;
     <div class="comment_actions pull-right">
         <a class="comment_reply_link action_link">odpowiedz</a>
 
-        @if (Auth::check())
-            @if ($comment->canRemove(Auth::user()))
-                <a class="comment_remove_link action_link">usuń</a>
-            @endif
-            @if ($comment->canEdit(Auth::user()))
-                <a class="comment_edit_link action_link">edytuj</a>
-            @endif
-        @endif
+        @can('remove', $comment)
+            <a class="comment_remove_link action_link">usuń</a>
+        @endcan
+        @can('edit', $comment)
+            <a class="comment_edit_link action_link">edytuj</a>
+        @endcan
 
         <a href="{!! $comment->getURL() !!}">#</a>
     </div>

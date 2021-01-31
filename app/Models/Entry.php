@@ -78,9 +78,4 @@ class Entry extends BaseModel
     {
         return $this->isAuthor() && $this->replies_count == 0;
     }
-
-    public function canRemove()
-    {
-        return $this->isAuthor() || user()->isModerator($this->group_id);
-    }
 }

@@ -6,12 +6,8 @@ use Strimoid\Models\User;
 
 class GroupPolicy
 {
-    public function before(User $user, $ability): ?bool
+    public function create(): bool
     {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
-        return null;
+        return true;
     }
 }

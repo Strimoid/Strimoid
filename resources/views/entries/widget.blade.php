@@ -60,14 +60,14 @@
             @endif
 
             <a class="entry_reply_link action_link">@lang('common.reply')</a>
-
-            @if ($entry->canRemove(user()))
-                <a class="entry_remove_link action_link">@lang('common.delete')</a>
-            @endif
-            @if ($entry->canEdit(user()))
-                <a class="entry_edit_link action_link">@lang('common.edit')</a>
-            @endif
         @endif
+
+        @can('remove', $entry)
+            <a class="entry_remove_link action_link">@lang('common.delete')</a>
+        @endcan
+        @can('edit', $entry)
+            <a class="entry_edit_link action_link">@lang('common.edit')</a>
+        @endcan
 
         <a href="{!! $entry->getURL() !!}">#</a>
     </div>

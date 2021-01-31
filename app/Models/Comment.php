@@ -79,14 +79,4 @@ class Comment extends BaseModel
     {
         return route('content_comments', $this->content) . '#' . $this->hashId();
     }
-
-    public function canEdit()
-    {
-        return Auth::id() === $this->user_id && $this->replies()->count() == 0;
-    }
-
-    public function canRemove()
-    {
-        return Auth::id() === $this->user_id || Auth::user()->isModerator($this->group_id);
-    }
 }

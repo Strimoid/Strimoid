@@ -4,7 +4,7 @@ namespace Strimoid\Settings\Services;
 
 class SettingsService
 {
-    protected $settings = [];
+    protected array $settings = [];
 
     public function add(string $key, string $type, array $options = []): void
     {

@@ -4,6 +4,7 @@ namespace Strimoid\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Response;
 use Route;
@@ -154,14 +155,16 @@ class EntryController extends BaseController
     public function editEntry(Request $request)
     {
         $id = hashids_decode($request->input('id'));
-        $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
+        $class = $request->input('type') === 'entry_reply' ? EntryReply::class : Entry::class;
 
         $entry = $class::findOrFail($id);
 
-        if (!$entry->canEdit()) {
+        $policyDecision = Gate::inspect('update', $entry);
+
+        if ($policyDecision->denied()) {
             return Response::json([
                 'status' => 'error',
-                'error' => 'Pojawiła się już odpowiedź na twój wpis.',
+                'error' => $policyDecision->message(),
             ]);
         }
 
@@ -176,14 +179,15 @@ class EntryController extends BaseController
     public function removeEntry(Request $request, $id = null)
     {
         $id = hashids_decode($id ?: $request->get('id'));
-        $class = $request->input('type') == 'entry_reply' ? EntryReply::class : Entry::class;
+        $class = $request->input('type') === 'entry_reply' ? EntryReply::class : Entry::class;
 
+        /** @var Entry|EntryReply $entry */
         $entry = $class::findOrFail($id);
 
-        if ($entry->canRemove()) {
-            if ($entry->delete()) {
-                return Response::json(['status' => 'ok']);
-            }
+        $this->authorize('remove', $entry);
+
+        if ($entry->delete()) {
+            return Response::json(['status' => 'ok']);
         }
 
         return Response::json(['status' => 'error'], 500);

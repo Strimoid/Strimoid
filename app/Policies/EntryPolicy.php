@@ -8,30 +8,21 @@ use Strimoid\Models\User;
 
 class EntryPolicy
 {
-    public function before(User $user, $ability): ?bool
-    {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
-        return null;
-    }
-
     public function edit(User $user, Entry $entry): Response
     {
-        if ($entry->replies_count !== 0) {
-            return Response::deny();
+        if ($entry->replies()->count() !== 0) {
+            return Response::deny('Pojawiła się już odpowiedź na twój wpis');
         }
 
         if ($user->id !== $entry->user->id) {
-            return Response::deny();
+            return Response::deny('You do not own this entry');
         }
 
         return Response::allow();
     }
 
-    public function delete(User $user, Entry $entry)
+    public function remove(User $user, Entry $entry): bool
     {
-        return $user->id === $entry->user->id;
+        return $user->id === $entry->user->id || $user->isModerator($entry->group_id);
     }
 }
