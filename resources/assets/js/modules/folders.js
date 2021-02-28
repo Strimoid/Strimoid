@@ -13,14 +13,14 @@ function FoldersModule () {
 
 FoldersModule.prototype.createFolder = function (e) {
   // Return if key is not enter
-  if (e.keyCode != 13)
+  if (e.keyCode !== 13)
     return
 
   var input = this
   var group = $(input).parents('.folder-menu').first().attr('data-group')
 
   $.post('/ajax/folder/create', { name: $(input).val(), groupname: group }, function (data) {
-    if (data.status == 'ok') {
+    if (data.status === 'ok') {
       var template = _.template('<li><label><input type="checkbox" data-id="<%= id %>" checked> <%= name %></label></li>')
       var html = template({ id: data.id, name: $(input).val() })
 
@@ -36,13 +36,13 @@ FoldersModule.prototype.modifyFolder = function () {
 
   if (this.checked) {
     $.post('/ajax/folder/add_group', { folder: $(this).attr('data-id'), group: group }, function (data) {
-      if (data.status == 'ok')
+      if (data.status === 'ok')
         $(input).prop('disabled', false)
     })
 
   } else {
     $.post('/ajax/folder/remove_group', { folder: $(this).attr('data-id'), group: group }, function (data) {
-      if (data.status == 'ok')
+      if (data.status === 'ok')
         $(input).prop('disabled', false)
     })
   }
@@ -56,7 +56,7 @@ FoldersModule.prototype.publishFolder = function () {
 
   if (button.hasClass('btn-success')) {
     $.post('/ajax/folder/edit', { folder: id, public: 'false' }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(button).removeClass('btn-success')
         $(button).addClass('btn-default')
       }
@@ -64,7 +64,7 @@ FoldersModule.prototype.publishFolder = function () {
     })
   } else {
     $.post('/ajax/folder/edit', { folder: id, public: 'true' }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(button).removeClass('btn-default')
         $(button).addClass('btn-success')
       }
@@ -78,7 +78,7 @@ FoldersModule.prototype.removeFolder = function () {
   bootbox.confirm('Na pewno chcesz usunąć wybrany folder?', function (result) {
     if (result)
       $.post('/ajax/folder/remove', { folder: id }, function (data) {
-        if (data.status == 'ok')
+        if (data.status === 'ok')
           window.location.href = '/'
       })
   })
@@ -93,7 +93,7 @@ FoldersModule.prototype.addGroup = function () {
     return false
 
   $.post('/ajax/folder/add_group', { folder: folder, group: group }, function (data) {
-    if (data.status == 'ok') {
+    if (data.status === 'ok') {
       var template = _.template('<li class="list-group-item" style="padding: 5px 15px" ><a href="/g/<%= group %>"><%= group %></a><button type="button" class="btn btn-xs btn-danger folder_remove_group pull-right" data-group="<%= group %>"><span class="glyphicon glyphicon-trash"></span></button></li>')
       var html = template({ group: group })
 
@@ -114,7 +114,7 @@ FoldersModule.prototype.removeGroup = function () {
   var group = $(this).attr('data-group')
 
   $.post('/ajax/folder/remove_group', { folder: folder, group: group }, function (data) {
-    if (data.status == 'ok')
+    if (data.status === 'ok')
       $(row).remove()
   })
 }

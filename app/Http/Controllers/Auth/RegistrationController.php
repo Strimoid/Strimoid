@@ -12,9 +12,12 @@ use Strimoid\Models\User;
 
 class RegistrationController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Mail\Mailer $mailer, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Config\Repository $configRepository)
+    {
+    }
     public function showRegisterForm()
     {
-        return view('user.register');
+        return $this->viewFactory->make('user.register');
     }
 
     public function processRegistration(Request $request)
@@ -27,7 +30,7 @@ class RegistrationController extends BaseController
 
         $ipHash = md5($request->getClientIp());
 
-        if (Cache::has('registration.' . $ipHash)) {
+        if ($this->cacheManager->has('registration.' . $ipHash)) {
             abort(500);
         }
 
@@ -39,11 +42,11 @@ class RegistrationController extends BaseController
         $user->activation_token = Str::random(16);
         $user->save();
 
-        Mail::send('emails.auth.activate', compact('user'), function (Message $message) use ($user): void {
+        $this->mailer->send('emails.auth.activate', compact('user'), function (Message $message) use ($user): void {
             $message->to($user->email, $user->name)->subject('Witaj na Strm.pl!');
         });
 
-        return redirect()->to('')->with(
+        return $this->redirector->to('')->with(
             'success_msg',
             'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, ' .
             'klikając na link przesłany na twój adres email.'
@@ -55,20 +58,20 @@ class RegistrationController extends BaseController
         $user = User::where('activation_token', $token)->firstOrFail();
 
         $ipHash = md5($request->getClientIp());
-        if (Cache::has('registration.' . $ipHash)) {
+        if ($this->cacheManager->has('registration.' . $ipHash)) {
             abort(500);
         }
 
         $user->is_activated = true;
         $user->save();
 
-        auth()->login($user);
+        $this->guard->login($user);
 
-        Cache::put('registration.' . $ipHash, 'true', now()->addWeek());
+        $this->cacheManager->put('registration.' . $ipHash, 'true', now()->addWeek());
 
-        return redirect()->to('/kreator')->with(
+        return $this->redirector->to('/kreator')->with(
             'success_msg',
-            'Witaj w gronie użytkowników serwisu ' . config('app.name') . '! ;) ' .
+            'Witaj w gronie użytkowników serwisu ' . $this->configRepository->get('app.name') . '! ;) ' .
             'Zacznij od zasubskrybowania grup pasujących do twoich zainteresowań.'
         );
     }

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Cache;
 
 class SettingsController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector)
+    {
+    }
     public function showSettings()
     {
         $user = user();
@@ -18,7 +21,7 @@ class SettingsController extends BaseController
         $blockedUsers = $user->blockedUsers()->get();
         $bans = $user->bannedGroups()->get();
 
-        return view('user.settings', compact(
+        return $this->viewFactory->make('user.settings', compact(
             'user',
             'subscribedGroups',
             'blockedGroups',
@@ -54,8 +57,8 @@ class SettingsController extends BaseController
             setting()->set($key, $value);
         }
 
-        Cache::tags(['user.settings', 'u.' . auth()->id()])->flush();
+        $this->cacheManager->tags(['user.settings', 'u.' . $this->guard->id()])->flush();
 
-        return redirect()->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
+        return $this->redirector->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
     }
 }

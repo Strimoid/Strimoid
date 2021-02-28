@@ -10,6 +10,9 @@ use Symfony\Component\Mime\MimeTypes;
 class StaticFileController extends BaseController
 {
     private const CACHEABLE_EXTENSIONS = ['css', 'eot', 'js', 'png', 'svg', 'ttf', 'woff', 'woff2'];
+    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
 
     public function getStaticFile(Request $request): BinaryFileResponse
     {
@@ -24,7 +27,7 @@ class StaticFileController extends BaseController
         $extension = pathinfo($path, PATHINFO_EXTENSION);
         $mimeType = Arr::first($guesser->getMimeTypes($extension));
 
-        $response = response()->file($path, ['Content-Type' => $mimeType]);
+        $response = $this->responseFactory->file($path, ['Content-Type' => $mimeType]);
 
         if (in_array($extension, self::CACHEABLE_EXTENSIONS, false)) {
             $response = $response

@@ -5,6 +5,9 @@ namespace Strimoid\Settings\Services;
 class SettingsService
 {
     protected array $settings = [];
+    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard)
+    {
+    }
 
     public function add(string $key, string $type, array $options = []): void
     {
@@ -14,7 +17,7 @@ class SettingsService
 
     public function get(string $key)
     {
-        if (auth()->guest()) {
+        if ($this->guard->guest()) {
             return data_get($this->settings[$key], 'default');
         }
 

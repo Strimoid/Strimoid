@@ -17,28 +17,22 @@ use Strimoid\Settings\Facades\Setting;
 
 class EntryController extends BaseController
 {
-    protected FolderRepository $folders;
-
-    protected GroupRepository $groups;
-
-    public function __construct(FolderRepository $folders, GroupRepository $groups)
+    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private \Illuminate\Routing\Router $router, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Contracts\Auth\Access\Gate $gate)
     {
-        $this->groups = $groups;
-        $this->folders = $folders;
     }
 
     public function showEntriesFromGroup($groupName = null)
     {
         // If user is on homepage, then use proper group
-        if (!Route::input('groupname')) {
+        if (!$this->router->input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
         $group = $this->groups->requireByName($groupName);
-        view()->share('group', $group);
+        $this->viewFactory->share('group', $group);
 
-        if ($group->isPrivate && Auth::guest()) {
-            return redirect()->guest('login');
+        if ($group->isPrivate && $this->authManager->guest()) {
+            return $this->redirector->guest('login');
         }
 
         $builder = $group->entries();
@@ -48,11 +42,11 @@ class EntryController extends BaseController
 
     public function showEntriesFromFolder()
     {
-        $userName = Route::input('user') ?: Auth::id();
-        $folderName = Route::input('folder');
+        $userName = $this->router->input('user') ?: $this->authManager->id();
+        $folderName = $this->router->input('folder');
 
         $folder = $this->folders->getByName($userName, $folderName);
-        view()->share('folder', $folder);
+        $this->viewFactory->share('folder', $folder);
 
         $builder = $folder->entries();
 
@@ -64,29 +58,29 @@ class EntryController extends BaseController
         $builder->orderBy('created_at', 'desc')
             ->with(['group', 'user', 'replies', 'replies.user']);
 
-        if (Auth::check()) {
+        if ($this->authManager->check()) {
             $builder->with('vote', 'userSave', 'replies.vote');
         }
 
         $perPage = Setting::get('entries_per_page');
         $entries = $builder->paginate($perPage);
 
-        return view('entries.display', compact('entries'));
+        return $this->viewFactory->make('entries.display', compact('entries'));
     }
 
     public function showEntry(Entry $entry): View
     {
         $entries = [$entry];
-        view()->share('group', $entry->group);
+        $this->viewFactory->share('group', $entry->group);
 
-        return view('entries.display', compact('entries'));
+        return $this->viewFactory->make('entries.display', compact('entries'));
     }
 
     public function getEntryReplies($entry)
     {
         $replies = $entry->replies;
 
-        return view('entries.replies', compact('entry', 'replies'));
+        return $this->viewFactory->make('entries.replies', compact('entry', 'replies'));
     }
 
     public function getEntrySource(Request $request)
@@ -97,11 +91,11 @@ class EntryController extends BaseController
 
         $entry = $class::findOrFail($id);
 
-        if (auth()->id() !== $entry->user_id) {
+        if ($this->guard->id() !== $entry->user_id) {
             abort(403);
         }
 
-        return Response::json(['status' => 'ok', 'source' => $entry->text_source]);
+        return $this->responseFactory->json(['status' => 'ok', 'source' => $entry->text_source]);
     }
 
     public function addEntry(Request $request)
@@ -111,21 +105,23 @@ class EntryController extends BaseController
         $group = Group::name($request->get('groupname'))->firstOrFail();
         $group->checkAccess();
 
-        if (Auth::user()->isBanned($group)) {
-            return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
+        if ($this->authManager->user()->isBanned($group)) {
+            return $this->responseFactory->json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
-        if ($group->type === 'announcements' && !Auth::user()->isModerator($group)) {
-            return Response::json(['status' => 'error', 'error' => 'Nie możesz dodawać wpisów do wybranej grupy']);
+        if ($group->type === 'announcements' && !$this->authManager->user()->isModerator($group)) {
+            return $this->responseFactory->json(['status' => 'error', 'error' => 'Nie możesz dodawać wpisów do wybranej grupy']);
         }
 
         $entry = new Entry();
         $entry->text = $request->get('text');
-        $entry->user()->associate(Auth::user());
+        $entry->user()->associate($this->authManager->user());
         $entry->group()->associate($group);
         $entry->save();
 
-        return Response::json(['status' => 'ok']);
+        $html = $this->viewFactory->make('entries.widget', ['entry' => $entry])->render();
+
+        return $this->responseFactory->json(['status' => 'ok', 'entry' => $html]);
     }
 
     public function addReply(Request $request, $entry)
@@ -133,18 +129,18 @@ class EntryController extends BaseController
         $this->validate($request, EntryReply::validationRules());
 
         if (user()->isBanned($entry->group)) {
-            return Response::json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
+            return $this->responseFactory->json(['status' => 'error', 'error' => 'Zostałeś zbanowany w wybranej grupie']);
         }
 
         $reply = new EntryReply();
         $reply->text = $request->get('text');
-        $reply->user()->associate(Auth::user());
+        $reply->user()->associate($this->authManager->user());
         $entry->replies()->save($reply);
 
-        $replies = view('entries.replies', ['entry' => $entry, 'replies' => $entry->replies])
+        $replies = $this->viewFactory->make('entries.replies', ['entry' => $entry, 'replies' => $entry->replies])
             ->render();
 
-        return Response::json(['status' => 'ok', 'replies' => $replies]);
+        return $this->responseFactory->json(['status' => 'ok', 'replies' => $replies]);
     }
 
     public function editEntry(Request $request)
@@ -154,10 +150,10 @@ class EntryController extends BaseController
 
         $entry = $class::findOrFail($id);
 
-        $policyDecision = Gate::inspect('update', $entry);
+        $policyDecision = $this->gate->inspect('update', $entry);
 
         if ($policyDecision->denied()) {
-            return Response::json([
+            return $this->responseFactory->json([
                 'status' => 'error',
                 'error' => $policyDecision->message(),
             ]);
@@ -168,7 +164,7 @@ class EntryController extends BaseController
         $entry->text = $request->get('text');
         $entry->save();
 
-        return Response::json(['status' => 'ok', 'parsed' => $entry->text]);
+        return $this->responseFactory->json(['status' => 'ok', 'parsed' => $entry->text]);
     }
 
     public function removeEntry(Request $request, $id = null)
@@ -182,9 +178,9 @@ class EntryController extends BaseController
         $this->authorize('remove', $entry);
 
         if ($entry->delete()) {
-            return Response::json(['status' => 'ok']);
+            return $this->responseFactory->json(['status' => 'ok']);
         }
 
-        return Response::json(['status' => 'error'], 500);
+        return $this->responseFactory->json(['status' => 'error'], 500);
     }
 }

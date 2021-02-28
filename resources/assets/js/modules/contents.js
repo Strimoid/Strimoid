@@ -15,14 +15,14 @@ ContentsModule.prototype.saveContent = function (e) {
 
   if (button.hasClass('glyphicon-star')) {
     $.post('/ajax/content/remove_save', { content: content }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(button).removeClass('glyphicon-star')
         $(button).addClass('glyphicon-star-empty')
       }
     })
   } else {
     $.post('/ajax/content/add_save', { content: content }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(button).removeClass('glyphicon-star-empty')
         $(button).addClass('glyphicon-star')
       }
@@ -43,7 +43,7 @@ ContentsModule.prototype.findDuplicates = function () {
     $.post('/ajax/utils/get_title', { url: url, group: group }, function (data) {
       $('.duplicate_info').remove()
 
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         if (!$('input[name="title"]').val())
           $('input[name="title"]').val(data.title)
 

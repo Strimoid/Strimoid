@@ -11,11 +11,8 @@ use Jenssegers\Agent\Facades\Agent;
 
 class Locale
 {
-    private Guard $auth;
-
-    public function __construct(Guard $auth)
+    public function __construct(private Guard $auth, private \Illuminate\Foundation\Application $application, private \Illuminate\Contracts\Config\Repository $configRepository)
     {
-        $this->auth = $auth;
     }
 
     public function handle(Request $request, Closure $next)
@@ -26,7 +23,7 @@ class Locale
             $locale = $this->detectLocale();
         }
 
-        App::setLocale($locale);
+        $this->application->setLocale($locale);
         Carbon::setLocale($locale);
 
         return $next($request);
@@ -42,6 +39,6 @@ class Locale
             }
         }
 
-        return config('app.locale');
+        return $this->configRepository->get('app.locale');
     }
 }

@@ -10,11 +10,14 @@ use Strimoid\Models\Group;
 
 class JavascriptComposer
 {
+    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Config\Repository $configRepository)
+    {
+    }
     public function compose(View $view): void
     {
         $data = $view->getData();
 
-        if (Auth::check()) {
+        if ($this->authManager->check()) {
             $this->putUserInfo();
         }
 
@@ -29,7 +32,7 @@ class JavascriptComposer
         JavaScript::put([
             'config' => [
                 'env' => app()->environment(),
-                'pusher_key' => config('broadcasting.connections.pusher.key'),
+                'pusher_key' => $this->configRepository->get('broadcasting.connections.pusher.key'),
             ],
         ]);
     }

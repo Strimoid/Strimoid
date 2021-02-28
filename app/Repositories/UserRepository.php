@@ -8,11 +8,8 @@ use Strimoid\Models\User;
 
 class UserRepository implements UserRepositoryContract
 {
-    protected User $users;
-
-    public function __construct(User $user)
+    public function __construct(protected User $users)
     {
-        $this->users = $user;
     }
 
     public function getByName(string $name): ?User

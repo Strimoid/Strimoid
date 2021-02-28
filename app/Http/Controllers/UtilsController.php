@@ -4,15 +4,17 @@ namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Strimoid\Facades\OEmbed;
+use Strimoid\Helpers\OEmbed;
 use Strimoid\Models\Content;
 
 class UtilsController extends BaseController
 {
+    public function __construct(private OEmbed $oembed) {}
+
     public function getURLTitle(Request $request): array
     {
         $url = $request->get('url');
-        $data = OEmbed::getData($url);
+        $data = $this->oembed->getData($url);
 
         $title = data_get($data, 'meta.title', '');
         $title = Str::limit($title, 128);

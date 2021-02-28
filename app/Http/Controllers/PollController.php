@@ -11,21 +11,24 @@ use Strimoid\Models\Content;
 
 class PollController extends BaseController
 {
+    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Validation\Factory $validationFactory)
+    {
+    }
     public function addVote(Request $request, Content $content)
     {
         $poll = $content->poll;
 
         // No double voting, sorry
-        $hasVoted = in_array(Auth::id(), array_column($poll['votes'], 'user_id'));
+        $hasVoted = in_array($this->authManager->id(), array_column($poll['votes'], 'user_id'));
 
         if ($hasVoted) {
-            return Redirect::route('content_comments', $content->getKey())
+            return $this->redirector->route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Oddałeś już głos w tej ankiecie.');
         }
 
         // Check if poll isn't closed already
         if (isset($poll['ends_at']) && Carbon::now()->gte($poll['ends_at'])) {
-            return Redirect::route('content_comments', $content->getKey())
+            return $this->redirector->route('content_comments', $content->getKey())
                 ->with('danger_msg', 'Ankieta została już zakończona.');
         }
 
@@ -41,14 +44,14 @@ class PollController extends BaseController
         }
 
         // Now validate replies
-        $validator = Validator::make($request->all(), $rules, [
+        $validator = $this->validationFactory->make($request->all(), $rules, [
             'required' => 'Odpowiedź na to pytanie jest wymagana',
             'min' => 'Zaznaczyłeś zbyt małą liczbę odpowiedzi',
             'max' => 'Zaznaczyłeś zbyt dużą liczbę odpowiedzi',
         ]);
 
         if ($validator->fails()) {
-            return Redirect::route('content_comments', $content->getKey())
+            return $this->redirector->route('content_comments', $content->getKey())
                 ->withInput()
                 ->withErrors($validator);
         }
@@ -61,7 +64,7 @@ class PollController extends BaseController
 
             foreach ($optionIds as $optionId) {
                 if (!in_array($optionId, array_column($question['options'], '_id'))) {
-                    return Redirect::route('content_comments', $content->getKey())
+                    return $this->redirector->route('content_comments', $content->getKey())
                         ->withInput()
                         ->with('danger_msg', 'Wygląda na to, że jedna z odpowiedzi została usunięta. Spróbuj jeszcze raz.');
                 }
@@ -82,11 +85,11 @@ class PollController extends BaseController
             }
         }
 
-        $vote = ['created_at' => Carbon::now(), 'user_id' => Auth::id(), 'replies' => $replies];
+        $vote = ['created_at' => Carbon::now(), 'user_id' => $this->authManager->id(), 'replies' => $replies];
 
         $content->push('poll.votes', $vote);
 
-        return Redirect::route('content_comments', $content->getKey())
+        return $this->redirector->route('content_comments', $content->getKey())
             ->with('success_msg', 'Twój głos został dodany.');
     }
 }

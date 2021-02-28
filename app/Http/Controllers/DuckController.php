@@ -8,6 +8,9 @@ use SyHolloway\MrColor\Color;
 class DuckController extends BaseController
 {
     protected int $salt = 0;
+    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
 
     public function drawDuck($username): Response
     {
@@ -30,7 +33,7 @@ class DuckController extends BaseController
         $color->saturation = 1 - $color->saturation;
         $duck = str_replace('#AABBCC', $color, $duck);
 
-        return response($duck)
+        return $this->responseFactory->make($duck)
             ->header('Content-Type', 'image/svg+xml')
             ->setPublic()
             ->setMaxAge(86400);

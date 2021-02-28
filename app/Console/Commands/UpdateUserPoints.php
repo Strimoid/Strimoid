@@ -11,15 +11,19 @@ class UpdateUserPoints extends Command
 {
     protected $name = 'lara:updateuserpoints';
     protected $description = 'Updates user points amount.';
+    public function __construct(private \Illuminate\Database\DatabaseManager $databaseManager)
+    {
+        parent::__construct();
+    }
 
     public function handle(): void
     {
-        DB::connection()->disableQueryLog();
+        $this->databaseManager->connection()->disableQueryLog();
 
-        $conn = DB::connection('stats');
+        $conn = $this->databaseManager->connection('stats');
         $conn->disableQueryLog();
 
-        $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))
+        $rows = DailyAction::select($this->databaseManager->raw('user_id, Sum(points) as points'))
             ->with(['user' => function ($q): void {
                 $q->select(['name', 'avatar']);
             }])

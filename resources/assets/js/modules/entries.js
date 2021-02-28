@@ -17,14 +17,14 @@ EntriesModule.prototype.saveEntry = function (e) {
 
   if (button.hasClass('glyphicon-star')) {
     $.post('/ajax/entry/remove_save', { entry: entry }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(button).removeClass('glyphicon-star')
         $(button).addClass('glyphicon-star-empty')
       }
     })
   } else {
     $.post('/ajax/entry/add_save', { entry: entry }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(button).removeClass('glyphicon-star-empty')
         $(button).addClass('glyphicon-star')
       }
@@ -39,7 +39,9 @@ EntriesModule.prototype.addEntry = function (e) {
   $(form).find('.help-block').remove()
 
   $.post('/ajax/entry/add', $(form).serialize(), function (data) {
-    if (data.status == 'ok') {
+    if (data.status === 'ok') {
+
+      $('.entries').prepend(data.entry)
       $(form).trigger('reset')
     } else {
       $(form).find('.form-group').last().addClass('has-error')
@@ -58,7 +60,7 @@ EntriesModule.prototype.addReply = function (e) {
   $(form).find('.help-block').remove()
 
   $.post($(form).attr('action'), $(form).serialize(), function (data) {
-    if (data.status == 'ok') {
+    if (data.status === 'ok') {
       $(form).parent().remove()
 
       $(parent).nextUntil('.entry:not(.entry_reply)').remove()
@@ -86,10 +88,10 @@ EntriesModule.prototype.editEntry = function (e) {
   var entry = $(this).parent().parent()
   var entry_id = $(entry).attr('data-id')
   var entry_old_text = $(entry).find('.entry_text').html()
-  var type = (entry.hasClass('entry_reply') == true ? 'entry_reply' : 'entry')
+  var type = (entry.hasClass('entry_reply') === true ? 'entry_reply' : 'entry')
 
   $.post('/ajax/entry/source', { id: entry_id, type: type }, function (data) {
-    if (data.status == 'ok') {
+    if (data.status === 'ok') {
       $(entry).find('.entry_text').html('<form role="form" accept-charset="UTF-8" class="enter_send entry_edit"><input type="hidden" name="id" value="' + entry_id + '"><input type="hidden" name="type" value="' + type + '"><div class="form-group"><textarea name="text" class="form-control" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Zapisz</button><button type="button" class="btn btn-sm btn-secondary entry_edit_close">Anuluj</button></div><div class="clearfix"></div></form>')
       $(entry).find('textarea[name="text"]').val(data.source)
       $(entry).find('.entry_actions').hide()
@@ -99,7 +101,7 @@ EntriesModule.prototype.editEntry = function (e) {
         $(entry).find('.help-block').remove()
 
         $.post('/ajax/entry/edit', $(entry).find('form').serialize(), function (data) {
-          if (data.status == 'ok') {
+          if (data.status === 'ok') {
             $(entry).find('.entry_text').html(data.parsed)
             $(entry).find('.entry_actions').show()
           } else {

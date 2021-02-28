@@ -12,19 +12,22 @@ use Strimoid\Models\Group;
 class MasterComposer
 {
     private const DEFAULT_TITLE = 'Strm';
+    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Cache\CacheManager $cacheManager)
+    {
+    }
 
     public function compose(View $view): void
     {
         $data = $view->getData();
 
-        if (Auth::check()) {
-            $notifications = Auth::user()->notifications()
+        if ($this->authManager->check()) {
+            $notifications = $this->authManager->user()->notifications()
                 ->with('user')
                 ->orderBy('created_at', 'desc')
                 ->take(15)->get();
             $view->with('notifications', $notifications);
 
-            $unreadCount = Auth::user()->notifications()
+            $unreadCount = $this->authManager->user()->notifications()
                 ->wherePivot('read', false)
                 ->count();
             $view->with('newNotificationsCount', $unreadCount);
@@ -52,7 +55,7 @@ class MasterComposer
         $view->with('pageTitle', $pageTitle);
 
         // Needed by top bar with groups
-        $popularGroups = Cache::remember('popularGroups', now()->addHour(), fn () => Group::orderBy('subscribers_count', 'desc')
+        $popularGroups = $this->cacheManager->remember('popularGroups', now()->addHour(), fn () => Group::orderBy('subscribers_count', 'desc')
             ->take(30)->get(['id', 'name', 'urlname']));
         $view->with('popularGroups', $popularGroups);
     }

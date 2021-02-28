@@ -24,20 +24,8 @@ use Strimoid\Handlers\DownloadThumbnail;
 
 class ContentController extends BaseController
 {
-    protected ContentRepository $contents;
-
-    protected GroupRepository $groups;
-
-    protected FolderRepository $folders;
-
-    public function __construct(
-        ContentRepository $contents,
-        GroupRepository $groups,
-        FolderRepository $folders
-    ) {
-        $this->contents = $contents;
-        $this->groups = $groups;
-        $this->folders = $folders;
+    public function __construct(protected ContentRepository $contents, protected GroupRepository $groups, protected FolderRepository $folders, private \Illuminate\Routing\Router $router, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Contracts\Auth\Access\Gate $gate, private \Illuminate\Queue\QueueManager $queueManager, private \Illuminate\Validation\Factory $validationFactory)
+    {
     }
 
     /**
@@ -45,28 +33,28 @@ class ContentController extends BaseController
      */
     public function showContentsFromGroup(Request $request, string $groupName = null)
     {
-        $routeName = Route::currentRouteName();
+        $routeName = $this->router->currentRouteName();
         $tab = Str::contains($routeName, 'new') ? 'new' : 'popular';
 
         // If user is on homepage, then use proper group
-        if (!Route::input('groupname')) {
+        if (!$this->router->input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
         // Make it possible to browse everything by adding all parameter
-        if (request('all')) {
+        if ($request->input('all')) {
             $tab = null;
         }
 
         $group = $this->groups->requireByName($groupName);
-        view()->share('group', $group);
+        $this->viewFactory->share('group', $group);
 
-        if ($group->isPrivate && auth()->guest()) {
-            return redirect()->guest('login');
+        if ($group->isPrivate && $this->guard->guest()) {
+            return $this->redirector->guest('login');
         }
 
         $canSortBy = ['comments_count', 'uv', 'created_at', 'frontpage_at'];
-        $orderBy = in_array(request('sort'), $canSortBy) ? request('sort') : null;
+        $orderBy = in_array($request->input('sort'), $canSortBy) ? $request->input('sort') : null;
 
         $builder = $group->contents($tab, $orderBy);
 
@@ -78,20 +66,20 @@ class ContentController extends BaseController
      */
     public function showContentsFromFolder(Request $request)
     {
-        $tab = Str::contains(Route::currentRouteName(), 'new') ? 'new' : 'popular';
+        $tab = Str::contains($this->router->currentRouteName(), 'new') ? 'new' : 'popular';
 
-        $user = Route::input('user') ?: user();
-        $folderName = Route::input('folder');
+        $user = $this->router->input('user') ?: user();
+        $folderName = $this->router->input('folder');
 
         $folder = $this->folders->requireByName($user->name, $folderName);
-        view()->share('folder', $folder);
+        $this->viewFactory->share('folder', $folder);
 
         if (!$folder->canBrowse()) {
             abort(404);
         }
 
         $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
-        $orderBy = in_array(request('sort'), $canSortBy) ? request('sort') : null;
+        $orderBy = in_array($request->input('sort'), $canSortBy) ? $request->input('sort') : null;
 
         $builder = $folder->contents($tab, $orderBy);
 
@@ -102,11 +90,11 @@ class ContentController extends BaseController
     {
         $builder->with('group', 'user');
 
-        if (Auth::check()) {
+        if ($this->authManager->check()) {
             $builder->with('userSave', 'vote');
         }
 
-        $this->filterByTime($builder, request('time'));
+        $this->filterByTime($builder, $request->input('time'));
 
         // Paginate and attach parameters to paginator links
         $perPage = Setting::get('entries_per_page');
@@ -114,11 +102,11 @@ class ContentController extends BaseController
         $contents->appends($request->only(['sort', 'time', 'all']));
 
         // Return RSS feed for some of routes
-        if (Str::endsWith(Route::currentRouteName(), '_rss')) {
+        if (Str::endsWith($this->router->currentRouteName(), '_rss')) {
             return $this->generateRssFeed($contents);
         }
 
-        return view('content.display', compact('contents'));
+        return $this->viewFactory->make('content.display', compact('contents'));
     }
 
     protected function filterByTime($builder, $days): void
@@ -135,46 +123,46 @@ class ContentController extends BaseController
      */
     protected function generateRssFeed($contents): \Symfony\Component\HttpFoundation\Response
     {
-        return response()
+        return $this->responseFactory
             ->view('content.rss', compact('contents'))
             ->header('Content-Type', 'text/xml')
             ->setTtl(60);
     }
 
-    public function showComments(Content $content): View
+    public function showComments(Content $content, \Illuminate\Http\Request $request): View
     {
-        $sortBy = request('sort');
+        $sortBy = $request->input('sort');
 
         if (in_array($sortBy, ['uv', 'replies'])) {
             $content->comments = $content->comments->sortBy(fn ($comment) => $sortBy === 'uv' ? $comment->uv : $comment->replies->count())->reverse();
         }
 
-        view()->share('group', $content->group);
+        $this->viewFactory->share('group', $content->group);
 
-        return view('content.comments', compact('content'));
+        return $this->viewFactory->make('content.comments', compact('content'));
     }
 
     public function showFrame(Content $content)
     {
-        return view('content.frame', compact('content'));
+        return $this->viewFactory->make('content.frame', compact('content'));
     }
 
     public function showAddForm(): View
     {
-        return view('content.add');
+        return $this->viewFactory->make('content.add');
     }
 
     public function showEditForm(Content $content)
     {
-        $policyDecision = Gate::inspect('edit', $content);
+        $policyDecision = $this->gate->inspect('edit', $content);
 
         if ($policyDecision->denied()) {
-            return redirect()
+            return $this->redirector
                 ->route('content_comments', $content->getKey())
                 ->with('danger_msg', $policyDecision->message());
         }
 
-        return view('content.edit', compact('content'));
+        return $this->viewFactory->make('content.edit', compact('content'));
     }
 
     public function addContent(Request $request): RedirectResponse
@@ -185,7 +173,7 @@ class ContentController extends BaseController
             'groupname' => 'required|exists:groups,urlname',
         ];
 
-        if (request('type') === 'link') {
+        if ($request->input('type') === 'link') {
             $rules['url'] = 'required|url_custom|max:2048';
         } else {
             $rules['text'] = 'required|min:1|max:50000';
@@ -193,18 +181,18 @@ class ContentController extends BaseController
 
         $this->validate($request, $rules);
 
-        $group = Group::name(request('groupname'))->firstOrFail();
+        $group = Group::name($request->input('groupname'))->firstOrFail();
         $group->checkAccess();
 
         if (user()->isBanned($group)) {
-            return Redirect::action('ContentController@showAddForm')
+            return $this->redirector->action('ContentController@showAddForm')
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
         if ($group->type === 'announcements'
             && !user()->isModerator($group)) {
-            return Redirect::action('ContentController@showAddForm')
+            return $this->redirector->action('ContentController@showAddForm')
                 ->withInput()
                 ->with('danger_msg', 'Nie możesz dodawać treści do wybranej grupy');
         }
@@ -213,10 +201,10 @@ class ContentController extends BaseController
             'title', 'description', 'nsfw', 'eng',
         ]));
 
-        if (request('type') === 'link') {
-            $content->url = request('url');
+        if ($request->input('type') === 'link') {
+            $content->url = $request->input('url');
         } else {
-            $content->text = request('text');
+            $content->text = $request->input('text');
         }
 
         $content->user()->associate(user());
@@ -224,21 +212,21 @@ class ContentController extends BaseController
 
         $content->save();
 
-        if (request('thumbnail') === 'on') {
-            Queue::push(DownloadThumbnail::class, [
+        if ($request->input('thumbnail') === 'on') {
+            $this->queueManager->push(DownloadThumbnail::class, [
                 'id' => $content->getKey(),
             ]);
         }
 
-        return Redirect::route('content_comments', $content);
+        return $this->redirector->route('content_comments', $content);
     }
 
     public function editContent(Request $request, Content $content): RedirectResponse
     {
-        $policyDecision = Gate::inspect('edit', $content);
+        $policyDecision = $this->gate->inspect('edit', $content);
 
         if ($policyDecision->denied()) {
-            return redirect()
+            return $this->redirector
                 ->route('content_comments', $content->getKey())
                 ->with('danger_msg', $policyDecision->message());
         }
@@ -254,45 +242,45 @@ class ContentController extends BaseController
             $rules['url'] = 'required|url_custom|max:2048';
         }
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = $this->validationFactory->make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::action('ContentController@showEditForm', $content->getKey())
+            return $this->redirector->action('ContentController@showEditForm', $content->getKey())
                 ->withInput()
                 ->withErrors($validator);
         }
 
-        $data = request()->only(['title', 'description', 'nsfw', 'eng']);
+        $data = $request->only(['title', 'description', 'nsfw', 'eng']);
         $content->fill($data);
 
         if ($content->text) {
-            $content->text = request('text');
+            $content->text = $request->input('text');
         } else {
-            $content->url = request('url');
+            $content->url = $request->input('url');
         }
 
         $content->save();
 
-        return Redirect::route('content_comments', $content);
+        return $this->redirector->route('content_comments', $content);
     }
 
-    public function removeContent(Content $content = null): JsonResponse
+    public function removeContent(Content $content = null, \Illuminate\Http\Request $request): JsonResponse
     {
-        $id = hashids_decode(request('id'));
+        $id = hashids_decode($request->input('id'));
         $content = $content ?: Content::findOrFail($id);
 
         $this->authorize('remove', $content);
 
         if ($content->forceDelete()) {
-            return Response::json(['status' => 'ok']);
+            return $this->responseFactory->json(['status' => 'ok']);
         }
 
-        return Response::json(['status' => 'error']);
+        return $this->responseFactory->json(['status' => 'error']);
     }
 
-    public function softRemoveContent(): JsonResponse
+    public function softRemoveContent(\Illuminate\Http\Request $request): JsonResponse
     {
-        $id = hashids_decode(request('id'));
+        $id = hashids_decode($request->input('id'));
         $content = Content::findOrFail($id);
 
         $this->authorize('softRemove', $content);
@@ -302,6 +290,6 @@ class ContentController extends BaseController
 
         $content->delete();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

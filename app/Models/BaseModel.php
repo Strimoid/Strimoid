@@ -19,6 +19,10 @@ abstract class BaseModel extends Model
      * @var array Validation validationRules
      */
     protected static array $rules = [];
+    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard)
+    {
+        parent::__construct();
+    }
 
     /**
      * Return a timestamp as DateTime object.
@@ -88,7 +92,7 @@ abstract class BaseModel extends Model
 
     public function scopeUserCache($query, string $tag, int $minutes = 60): void
     {
-        $tags = ['user.' . $tag, 'u.' . auth()->id()];
+        $tags = ['user.' . $tag, 'u.' . $this->guard->id()];
         $query->remember($minutes)->cacheTags($tags);
     }
 }

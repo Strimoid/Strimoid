@@ -9,16 +9,19 @@ use Strimoid\Models\Entry;
 
 class SaveController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
     public function saveContent(Request $request)
     {
         $id = hashids_decode($request->get('content'));
         $content = Content::findOrFail($id);
 
         $content->saves()->create([
-            'user_id' => auth()->id(),
+            'user_id' => $this->guard->id(),
         ]);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function removeContent(Request $request)
@@ -28,7 +31,7 @@ class SaveController extends BaseController
 
         $content->userSave()->delete();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function saveEntry(Request $request)
@@ -37,10 +40,10 @@ class SaveController extends BaseController
         $entry = Entry::findOrFail($id);
 
         $entry->saves()->create([
-            'user_id' => auth()->id(),
+            'user_id' => $this->guard->id(),
         ]);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function removeEntry(Request $request)
@@ -50,6 +53,6 @@ class SaveController extends BaseController
 
         $entry->userSave()->delete();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

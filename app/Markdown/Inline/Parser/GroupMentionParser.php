@@ -9,6 +9,9 @@ use Strimoid\Models\Group;
 
 class GroupMentionParser implements InlineParserInterface
 {
+    public function __construct(private \Illuminate\Routing\UrlGenerator $urlGenerator)
+    {
+    }
     public function getCharacters(): array
     {
         return ['g'];
@@ -43,7 +46,7 @@ class GroupMentionParser implements InlineParserInterface
             return false;
         }
 
-        $groupUrl = route('group_contents', $group, false);
+        $groupUrl = $this->urlGenerator->route('group_contents', $group, false);
         $inlineContext->getContainer()->appendChild(new Link($groupUrl, 'g/' . $handle));
 
         return true;

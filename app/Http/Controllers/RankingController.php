@@ -10,9 +10,12 @@ use Strimoid\Models\Group;
 
 class RankingController extends BaseController
 {
+    public function __construct(private \Illuminate\Database\DatabaseManager $databaseManager, private \Illuminate\Contracts\View\Factory $viewFactory)
+    {
+    }
     public function showRanking(Request $request, string $group = null)
     {
-        $query = DailyAction::select(DB::raw('user_id, Sum(points) as points, Sum(contents) as contents,
+        $query = DailyAction::select($this->databaseManager->raw('user_id, Sum(points) as points, Sum(contents) as contents,
                 Sum(comments) as comments, Sum(entries) as entries, Sum(uv) as uv, Sum(dv) as dv'))
             ->with('user')
             ->groupBy('user_id')
@@ -31,12 +34,12 @@ class RankingController extends BaseController
 
         $data['users'] = $query->paginate(50);
 
-        return view('ranking.ranking', $data);
+        return $this->viewFactory->make('ranking.ranking', $data);
     }
 
     public function getIndex(Request $request)
     {
-        $query = DailyAction::select(DB::raw('user_id, Sum(points) as points, Sum(contents) as contents,
+        $query = DailyAction::select($this->databaseManager->raw('user_id, Sum(points) as points, Sum(contents) as contents,
                 Sum(comments) as comments, Sum(entries) as entries, Sum(uv) as uv, Sum(dv) as dv'))
             ->with('user')
             ->groupBy('user_id')

@@ -26,6 +26,12 @@ class Entry extends BaseModel
     protected $fillable = ['text'];
     protected $visible = ['id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies', ];
+    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\UrlGenerator $urlGenerator, private \Illuminate\Contracts\Auth\Guard $guard)
+    {
+        parent::__construct($guard);
+        parent::__construct($guard);
+        parent::__construct($guard);
+    }
 
     public function replies(): HasMany
     {
@@ -51,11 +57,11 @@ class Entry extends BaseModel
 
     public function isHidden()
     {
-        if (Auth::guest()) {
+        if ($this->authManager->guest()) {
             return false;
         }
 
-        return Auth::user()->isBlockingUser($this->user);
+        return $this->authManager->user()->isBlockingUser($this->user);
     }
 
     public function isLast()
@@ -65,12 +71,12 @@ class Entry extends BaseModel
 
     public function getURL()
     {
-        return route('single_entry', $this);
+        return $this->urlGenerator->route('single_entry', $this);
     }
 
     public function isAuthor(User $user = null)
     {
-        $userId = $user ? $user->getKey() : auth()->id();
+        $userId = $user ? $user->getKey() : $this->guard->id();
 
         return (int) $userId === (int) $this->user_id;
     }

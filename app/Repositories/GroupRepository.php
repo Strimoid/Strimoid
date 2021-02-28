@@ -8,11 +8,8 @@ use Strimoid\Models\Group;
 
 class GroupRepository extends Repository implements GroupRepositoryContract
 {
-    protected Group $group;
-
-    public function __construct(Group $group)
+    public function __construct(protected Group $group)
     {
-        $this->group = $group;
     }
 
     public function getByName(string $name)

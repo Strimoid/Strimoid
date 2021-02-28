@@ -7,11 +7,8 @@ use Strimoid\Models\Content;
 
 class ContentRepository extends Repository implements ContentRepositoryContract
 {
-    protected Content $content;
-
-    public function __construct(Content $content)
+    public function __construct(protected Content $content)
     {
-        $this->content = $content;
     }
 
     public function getContentsFrom($from, $sortBy = 'created_at', $perPage = null)

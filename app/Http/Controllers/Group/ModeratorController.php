@@ -12,6 +12,9 @@ use Strimoid\Models\User;
 
 class ModeratorController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
     public function showModeratorList($group)
     {
         $moderators = GroupModerator::where('group_id', $group->getKey())
@@ -19,24 +22,24 @@ class ModeratorController extends BaseController
             ->with('user')
             ->paginate(25);
 
-        return view('group.moderators', compact('group', 'moderators'));
+        return $this->viewFactory->make('group.moderators', compact('group', 'moderators'));
     }
 
-    public function addModerator()
+    public function addModerator(\Illuminate\Http\Request $request)
     {
-        $group = Group::name(request('groupname'))->firstOrFail();
-        $user = User::name(request('username'))->firstOrFail();
+        $group = Group::name($request->input('groupname'))->firstOrFail();
+        $user = User::name($request->input('username'))->firstOrFail();
 
         if (!user()->isAdmin($group)) {
             abort(403, 'Access denied');
         }
 
         if ($user->isModerator($group)) {
-            return redirect()->route('group_moderators', $group->urlname);
+            return $this->redirector->route('group_moderators', $group->urlname);
         }
 
         if ($user->isBlocking($group)) {
-            return redirect()->route('group_moderators', $group->urlname)
+            return $this->redirector->route('group_moderators', $group->urlname)
                 ->with('danger_msg', 'Nie możesz dodać wybranego użytkownika jako moderatora, ponieważ zablokował tą grupę.');
         }
 
@@ -44,7 +47,7 @@ class ModeratorController extends BaseController
         $moderator->group()->associate($group);
         $moderator->user()->associate($user);
 
-        $type = request('admin') === 'on' ? 'admin' : 'moderator';
+        $type = $request->input('admin') === 'on' ? 'admin' : 'moderator';
         $moderator->type = $type;
 
         $moderator->save();
@@ -71,22 +74,22 @@ class ModeratorController extends BaseController
         $action->group()->associate($group);
         $action->save();
 
-        Cache::tags(['user.moderated-groups', 'u.' . $user->getKey()])->flush();
+        $this->cacheManager->tags(['user.moderated-groups', 'u.' . $user->getKey()])->flush();
 
-        return redirect()->route('group_moderators', $group->urlname);
+        return $this->redirector->route('group_moderators', $group->urlname);
     }
 
-    public function removeModerator()
+    public function removeModerator(\Illuminate\Http\Request $request)
     {
-        $moderator = GroupModerator::findOrFail(request('id'));
+        $moderator = GroupModerator::findOrFail($request->input('id'));
         $group = $moderator->group;
 
         if (!user()->isAdmin($moderator->group)) {
             abort(403, 'Access denied');
         }
 
-        if ($moderator->user_id === $group->creator_id && Auth::id() !== $group->creator_id) {
-            return response()->json(['status' => 'error']);
+        if ($moderator->user_id === $group->creator_id && $this->authManager->id() !== $group->creator_id) {
+            return $this->responseFactory->json(['status' => 'error']);
         }
 
         $moderator->delete();
@@ -100,8 +103,8 @@ class ModeratorController extends BaseController
         $action->group()->associate($group);
         $action->save();
 
-        Cache::tags(['user.moderated-groups', 'u.' . $moderator->user_id])->flush();
+        $this->cacheManager->tags(['user.moderated-groups', 'u.' . $moderator->user_id])->flush();
 
-        return response()->json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

@@ -18,20 +18,23 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class VoteController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Database\DatabaseManager $databaseManager, private \Illuminate\Contracts\Config\Repository $configRepository)
+    {
+    }
     public function addVote(Request $request)
     {
         $object = $this->getObject($request->get('id'), $request->get('type'));
 
         if (!$object) {
-            return response()->make('Object not found', 404);
+            return $this->responseFactory->make('Object not found', 404);
         }
 
-        if ($this->getVoteElement($object, Auth::user())) {
-            return response()->make('Already voted', 400);
+        if ($this->getVoteElement($object, $this->authManager->user())) {
+            return $this->responseFactory->make('Already voted', 400);
         }
 
-        if ($object->user->getKey() === Auth::id()) {
-            return response()->make('Do not cheat', 400);
+        if ($object->user->getKey() === $this->authManager->id()) {
+            return $this->responseFactory->make('Do not cheat', 400);
         }
 
         if ($object instanceof ContentRelated) {
@@ -39,28 +42,28 @@ class VoteController extends BaseController
         } else {
             $group = $object->group;
         }
-        if (Auth::user()->isBanned($group)) {
-            return response()->make('Banned', 400);
+        if ($this->authManager->user()->isBanned($group)) {
+            return $this->responseFactory->make('Banned', 400);
         }
 
-        if (!apcu_add('anti_vote_flood.user.' . Auth::id(), 1, 1)) {
-            return response()->make('Don\'t flood', 400);
+        if (!apcu_add('anti_vote_flood.user.' . $this->authManager->id(), 1, 1)) {
+            return $this->responseFactory->make('Don\'t flood', 400);
         }
 
         $uv = $object->uv;
         $dv = $object->dv;
 
-        $up = request('up') === 'true';
+        $up = $request->input('up') === 'true';
 
-        DB::transaction(function () use ($up, $object): void {
+        $this->databaseManager->transaction(function () use ($up, $object): void {
             if ($up) {
                 $object->increment('uv');
                 $object->increment('score');
 
                 // small trigger, needed for pushing contents to front page
                 if ($object instanceof Content && !$object->frontpage_at
-                    && $object->uv > config('strimoid.homepage.threshold')
-                    && $object->created_at->diffInDays() < config('strimoid.homepage.time_limit')) {
+                    && $object->uv > $this->configRepository->get('strimoid.homepage.threshold')
+                    && $object->created_at->diffInDays() < $this->configRepository->get('strimoid.homepage.time_limit')) {
                     $object->frontpage_at = Carbon::now();
                     $object->save();
                 }
@@ -71,7 +74,7 @@ class VoteController extends BaseController
 
             $object->votes()->create([
                 'created_at' => Carbon::now(),
-                'user_id' => Auth::id(),
+                'user_id' => $this->authManager->id(),
                 'up' => $up,
             ]);
         });
@@ -82,22 +85,22 @@ class VoteController extends BaseController
             $dv++;
         }
 
-        return response()->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
+        return $this->responseFactory->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
 
-    public function removeVote()
+    public function removeVote(\Illuminate\Http\Request $request)
     {
-        $object = $this->getObject(request('id'), request('type'));
-        $vote = $this->getVoteElement($object, Auth::user());
+        $object = $this->getObject($request->input('id'), $request->input('type'));
+        $vote = $this->getVoteElement($object, $this->authManager->user());
 
         if (!$vote) {
-            return response()->make('Vote not found', 404);
+            return $this->responseFactory->make('Vote not found', 404);
         }
 
         $uv = $object->uv;
         $dv = $object->dv;
 
-        DB::transaction(function () use ($vote, $object): void {
+        $this->databaseManager->transaction(function () use ($vote, $object): void {
             if ($vote['up']) {
                 $object->decrement('uv');
                 $object->decrement('score');
@@ -115,20 +118,20 @@ class VoteController extends BaseController
             $dv--;
         }
 
-        return response()->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
+        return $this->responseFactory->json(['status' => 'ok', 'uv' => $uv, 'dv' => $dv]);
     }
 
-    public function getVoters()
+    public function getVoters(\Illuminate\Http\Request $request)
     {
-        $object = $this->getObject(request('id'), request('type'));
+        $object = $this->getObject($request->input('id'), $request->input('type'));
 
         if (!$object) {
-            return response()->make('Object not found', 404);
+            return $this->responseFactory->make('Object not found', 404);
         }
 
         $results = [];
 
-        $up = request('filter') === 'up';
+        $up = $request->input('filter') === 'up';
         $votes = $object->votes()->where('up', $up ? true : false)->get();
 
         foreach ($votes as $vote) {
@@ -142,7 +145,7 @@ class VoteController extends BaseController
 
         $results = array_reverse($results);
 
-        return response()->json(['status' => 'ok', 'voters' => $results]);
+        return $this->responseFactory->json(['status' => 'ok', 'voters' => $results]);
     }
 
     private function getVoteElement($object, User $user)

@@ -17,17 +17,23 @@ use Strimoid\Models\User;
 
 class EventsServiceProvider extends ServiceProvider
 {
+    public function __construct(private \Illuminate\Http\Request $request, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Config\Repository $configRepository)
+    {
+        parent::__construct();
+        parent::__construct();
+        parent::__construct();
+    }
     public function boot(Dispatcher $events): void
     {
         $this->app->booted(function () {
-            if (Request::getUser() && Request::getPassword()) {
-                return Auth::onceBasic('name');
+            if ($this->request->getUser() && $this->request->getPassword()) {
+                return $this->authManager->onceBasic('name');
             }
         });
 
         $events->listen('auth.login', function ($user): void {
             $user->last_login = Carbon::now();
-            $user->last_ip = Request::getClientIp();
+            $user->last_ip = $this->request->getClientIp();
             $user->save();
         });
 
@@ -36,7 +42,7 @@ class EventsServiceProvider extends ServiceProvider
         $events->listen(
             'eloquent.created: Strimoid\\Models\\User',
             function (User $user): void {
-                $url = config('app.hubot_url');
+                $url = $this->configRepository->get('app.hubot_url');
 
                 if (!$url) {
                     return;
@@ -47,7 +53,7 @@ class EventsServiceProvider extends ServiceProvider
                         'room' => '#strimoid',
                         'text' => 'Mamy nowego użytkownika ' . $user->name . '!',
                     ]]);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                 }
             }
         );
@@ -55,7 +61,7 @@ class EventsServiceProvider extends ServiceProvider
         $events->listen(
             'eloquent.created: Strimoid\\Models\\Entry',
             function (Entry $entry): void {
-                $url = config('app.hubot_url');
+                $url = $this->configRepository->get('app.hubot_url');
 
                 if (!$url) {
                     return;
@@ -71,7 +77,7 @@ class EventsServiceProvider extends ServiceProvider
                         'text' => '[' . $entry->group->name . '] '
                             . $entry->user->name . ': ' . $text,
                     ]]);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                 }
             }
         );

@@ -8,37 +8,40 @@ use Illuminate\View\View;
 
 class AuthController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Translation\Translator $translator)
+    {
+    }
     public function showLoginForm(): View
     {
-        return view('user.login');
+        return $this->viewFactory->make('user.login');
     }
 
     public function login(Request $request): RedirectResponse
     {
-        $result = auth()->attempt([
+        $result = $this->guard->attempt([
             'name' => $request->input('username'),
             'password' => $request->input('password'),
             'is_activated' => true,
         ], $request->input('remember') === 'true');
 
         if ($result) {
-            if (auth()->user()->removed_at || auth()->user()->blocked_at) {
-                auth()->logout();
+            if ($this->guard->user()->removed_at || $this->guard->user()->blocked_at) {
+                $this->guard->logout();
 
-                return redirect('/login')->with('warning_msg', trans('auth.invalid_credentials'));
+                return $this->redirector->back('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
             }
 
-            return redirect()->intended('');
+            return $this->redirector->intended('');
         }
 
-        return redirect('/login')->with('warning_msg', trans('auth.invalid_credentials'));
+        return $this->redirector->back('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
     }
 
     public function logout(): RedirectResponse
     {
-        auth()->logout();
+        $this->guard->logout();
 
-        return redirect('')->with('success_msg', trans('auth.logged_out'));
+        return $this->redirector->back('')->with('success_msg', $this->translator->trans('auth.logged_out'));
     }
 
     /*

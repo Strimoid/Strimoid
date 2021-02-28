@@ -14,6 +14,9 @@ use Strimoid\Models\User;
 class SearchController extends BaseController
 {
     protected $builder;
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory)
+    {
+    }
 
     public function search(Request $request)
     {
@@ -44,7 +47,7 @@ class SearchController extends BaseController
             $results = $this->builder->paginate(25);
         }
 
-        return view('search.main', compact('results'));
+        return $this->viewFactory->make('search.main', compact('results'));
     }
 
     protected function getArguments(string $text): array
@@ -66,23 +69,13 @@ class SearchController extends BaseController
         $arguments = $this->getArguments($text);
 
         foreach ($arguments as $key => $value) {
-            switch ($key) {
-                case 'g':
-                    $this->filterGroup($value);
-                    break;
-                case 'u':
-                    $this->filterUser($value);
-                    break;
-                case 't':
-                    $this->filterTime($value);
-                    break;
-                case 'd':
-                    $this->filterDomain($value);
-                    break;
-                case 'nsfw':
-                    $this->filterNSFW($value);
-                    break;
-            }
+            match ($key) {
+                'g' => $this->filterGroup($value),
+                'u' => $this->filterUser($value),
+                't' => $this->filterTime($value),
+                'd' => $this->filterDomain($value),
+                'nsfw' => $this->filterNSFW($value),
+            };
         }
     }
 
@@ -111,7 +104,7 @@ class SearchController extends BaseController
             $time = Carbon::now()->sub(new DateInterval($value));
 
             $this->builder->where('created_at', '>', $time);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
     }
 

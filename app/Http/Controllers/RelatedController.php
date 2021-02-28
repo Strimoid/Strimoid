@@ -11,19 +11,22 @@ use Strimoid\Models\ContentRelated;
 
 class RelatedController extends BaseController
 {
+    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
     public function addRelated(Request $request, $content)
     {
         $this->validate($request, ContentRelated::validationRules());
 
-        if (Auth::user()->isBanned($content->group)) {
-            return Redirect::route('content_comments', $content->getKey())
+        if ($this->authManager->user()->isBanned($content->group)) {
+            return $this->redirector->route('content_comments', $content->getKey())
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zbanowany w wybranej grupie');
         }
 
         if ($content->group->type === 'announcements'
-            && !Auth::user()->isModerator($content->group)) {
-            return Redirect::route('content_comments', $content->getKey())
+            && !$this->authManager->user()->isModerator($content->group)) {
+            return $this->redirector->route('content_comments', $content->getKey())
                 ->withInput()
                 ->with('danger_msg', 'Nie możesz dodawać powiązanych w tej grupie');
         }
@@ -31,7 +34,7 @@ class RelatedController extends BaseController
         $related = new ContentRelated($request->only([
             'title', 'url', 'nsfw', 'eng',
         ]));
-        $related->user()->associate(Auth::user());
+        $related->user()->associate($this->authManager->user());
         $related->content()->associate($content);
         if ($request->get('thumbnail') === 'on') {
             $url = OEmbed::getThumbnail($related->url);
@@ -42,7 +45,7 @@ class RelatedController extends BaseController
 
         $related->save();
 
-        return Redirect::route('content_comments', $content->hashid);
+        return $this->redirector->route('content_comments', $content->hashid);
     }
 
     public function removeRelated(Request $request, $related = null)
@@ -50,21 +53,21 @@ class RelatedController extends BaseController
         $related = $related instanceof ContentRelated
             ?: ContentRelated::findOrFail(hashids_decode($request->get('id')));
 
-        if (Auth::id() === $related->user->getKey()) {
+        if ($this->authManager->id() === $related->user->getKey()) {
             $related->delete();
 
-            return Response::json(['status' => 'ok']);
+            return $this->responseFactory->json(['status' => 'ok']);
         }
 
-        return Response::json(['status' => 'error']);
+        return $this->responseFactory->json(['status' => 'error']);
     }
 
     public function store(Request $request, $content)
     {
         $this->validate($request, ContentRelated::validationRules());
 
-        if (Auth::user()->isBanned($content->group)) {
-            return Response::json([
+        if ($this->authManager->user()->isBanned($content->group)) {
+            return $this->responseFactory->json([
                 'status' => 'error',
                 'error' => 'Użytkownik został zbanowany w wybranej grupie.',
             ]);
@@ -81,12 +84,12 @@ class RelatedController extends BaseController
             }
         }
 
-        $related->user()->associate(Auth::user());
+        $related->user()->associate($this->authManager->user());
         $related->content()->associate($content);
 
         $related->save();
 
-        return Response::json([
+        return $this->responseFactory->json([
             'status' => 'ok',
             '_id' => $related->hashId(),
             'related' => $related,

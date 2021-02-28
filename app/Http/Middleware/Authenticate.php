@@ -8,21 +8,18 @@ use Illuminate\Http\Request;
 
 class Authenticate
 {
-    protected Guard $auth;
-
-    public function __construct(Guard $auth)
+    public function __construct(protected Guard $auth, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Routing\Redirector $redirector)
     {
-        $this->auth = $auth;
     }
 
     public function handle(Request $request, Closure $next)
     {
         if ($this->auth->guest()) {
             if ($request->ajax()) {
-                return response('Unauthorized.', 401);
+                return $this->responseFactory->make('Unauthorized.', 401);
             }
 
-            return redirect()->guest('login');
+            return $this->redirector->guest('login');
         }
 
         return $next($request);

@@ -17,19 +17,22 @@ use Strimoid\Models\GroupModerator;
 
 class GroupController extends BaseController
 {
-    public function showList()
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Filesystem\FilesystemManager $filesystemManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Translation\Translator $translator, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard)
+    {
+    }
+    public function showList(\Illuminate\Http\Request $request)
     {
         $builder = Group::with('creator')->where('type', '!=', 'private');
 
-        if (request('sort') === 'newest') {
+        if ($request->input('sort') === 'newest') {
             $builder->orderBy('created_at', 'desc');
         } else {
             $builder->orderBy('subscribers_count', 'desc');
         }
 
-        $data['groups'] = $builder->paginate(20)->appends(['sort' => request('sort')]);
+        $data['groups'] = $builder->paginate(20)->appends(['sort' => $request->input('sort')]);
 
-        return view('group.list', $data);
+        return $this->viewFactory->make('group.list', $data);
     }
 
     public function showJSONList(): JsonResponse
@@ -46,7 +49,7 @@ class GroupController extends BaseController
             ];
         }
 
-        return Response::json($results)
+        return $this->responseFactory->json($results)
             ->setPublic()
             ->setMaxAge(3600);
     }
@@ -55,25 +58,25 @@ class GroupController extends BaseController
     {
         $names = user()->subscribedGroups()->getQuery()->pluck('urlname');
 
-        return Response::json(['status' => 'ok', 'groups' => $names]);
+        return $this->responseFactory->json(['status' => 'ok', 'groups' => $names]);
     }
 
-    public function showWizard()
+    public function showWizard(\Illuminate\Http\Request $request)
     {
         $builder = Group::where('type', '!=', 'private');
 
-        $sortBy = request('sort') === 'popularity'
+        $sortBy = $request->input('sort') === 'popularity'
         ? 'subscribers_count' : 'created_at';
         $builder->orderBy($sortBy, 'desc');
 
         $groups = $builder->paginate(10);
 
-        return view('group.wizard', compact('groups'));
+        return $this->viewFactory->make('group.wizard', compact('groups'));
     }
 
     public function showCreateForm()
     {
-        return view('group.create');
+        return $this->viewFactory->make('group.create');
     }
 
     public function showSettings(Group $group)
@@ -83,7 +86,7 @@ class GroupController extends BaseController
         }
 
         $filename = $group->style ?: Str::lower($group->urlname) . '.css';
-        $disk = Storage::disk('styles');
+        $disk = $this->filesystemManager->disk('styles');
 
         $data['group'] = $group;
         $data['css'] = $disk->exists($filename) ? $disk->get($filename) : '';
@@ -96,7 +99,7 @@ class GroupController extends BaseController
             ->where('group_id', $group->getKey())
             ->get();
 
-        return view('group.settings', $data);
+        return $this->viewFactory->make('group.settings', $data);
     }
 
     public function saveProfile(Request $request, $group)
@@ -113,16 +116,16 @@ class GroupController extends BaseController
             'tags' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
         ]);
 
-        $group->name = request('name');
-        $group->description = request('description');
+        $group->name = $request->input('name');
+        $group->description = $request->input('description');
 
-        $group->sidebar = request('sidebar');
+        $group->sidebar = $request->input('sidebar');
 
         if ($request->hasFile('avatar')) {
             $group->setAvatar($request->file('avatar')->getRealPath());
         }
 
-        if (request('nsfw') === 'on') {
+        if ($request->input('nsfw') === 'on') {
             $group->nsfw = true;
         } elseif ($group->nsfw) {
             $group->nsfw = false;
@@ -141,7 +144,7 @@ class GroupController extends BaseController
 
         $group->save();
 
-        return Redirect::action('GroupController@showSettings', $group)
+        return $this->redirector->action('GroupController@showSettings', $group)
             ->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
@@ -155,18 +158,18 @@ class GroupController extends BaseController
             'labels' => 'max:1000|regex:/^[a-z0-9,\pL ]+$/u',
         ]);
 
-        $settings['enable_labels'] = request('enable_labels') === 'on';
+        $settings['enable_labels'] = $request->input('enable_labels') === 'on';
 
         $group->settings = $settings;
 
-        $labels = explode(',', request('labels'));
+        $labels = explode(',', $request->input('labels'));
         $labels = array_map('trim', $labels);
 
         $group->labels = $labels;
 
         $group->save();
 
-        return Redirect::action('GroupController@showSettings', $group)->with(
+        return $this->redirector->action('GroupController@showSettings', $group)->with(
             'success_msg',
             'Zmiany zostały zapisane.'
         );
@@ -180,10 +183,10 @@ class GroupController extends BaseController
 
         $this->validate($request, ['css' => 'max:15000']);
 
-        $group->setStyle(request('css'));
+        $group->setStyle($request->input('css'));
         $group->save();
 
-        return Redirect::action('GroupController@showSettings', $group)->with(
+        return $this->redirector->action('GroupController@showSettings', $group)->with(
             'success_msg',
             'Zmiany zostały zapisane.'
         );
@@ -192,7 +195,7 @@ class GroupController extends BaseController
     public function createGroup(Request $request)
     {
         // Require 15 minutes break before creating next group
-        $group = Group::where('creator_id', Auth::id())
+        $group = Group::where('creator_id', $this->authManager->id())
             ->orderBy('created_at', 'desc')
             ->first();
 
@@ -200,9 +203,9 @@ class GroupController extends BaseController
             $request->flash();
 
             $diff = 30 - $group->created_at->diffInMinutes();
-            $minutes = Lang::choice('pluralization.minutes', $diff);
+            $minutes = $this->translator->choice('pluralization.minutes', $diff);
 
-            return Redirect::action('GroupController@showCreateForm')
+            return $this->redirector->action('GroupController@showCreateForm')
                 ->with('danger_msg', 'Kolejną grupę będziesz mógł utworzyć za ' . $minutes);
         }
 
@@ -213,9 +216,9 @@ class GroupController extends BaseController
         ]);
 
         $group = new Group();
-        $group->urlname = request('urlname');
-        $group->name = request('groupname');
-        $group->description = request('description');
+        $group->urlname = $request->input('urlname');
+        $group->name = $request->input('groupname');
+        $group->description = $request->input('description');
         $group->creator()->associate(user());
         $group->save();
 
@@ -225,7 +228,7 @@ class GroupController extends BaseController
         $moderator->type = 'admin';
         $moderator->save();
 
-        return Redirect::route('group_contents', $group->urlname)
+        return $this->redirector->route('group_contents', $group->urlname)
             ->with('success_msg', 'Nowa grupa o nazwie ' . $group->name . ' została utworzona.');
     }
 
@@ -234,21 +237,21 @@ class GroupController extends BaseController
         $group->checkAccess();
 
         if (user()->isSubscriber($group)) {
-            return Response::make('Already subscribed', 400);
+            return $this->responseFactory->make('Already subscribed', 400);
         }
 
         user()->subscribedGroups()->attach($group);
-        Cache::tags(['user.subscribed-groups', 'u.' . auth()->id()])->flush();
+        $this->cacheManager->tags(['user.subscribed-groups', 'u.' . $this->guard->id()])->flush();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function unsubscribeGroup($group)
     {
         user()->subscribedGroups()->detach($group);
-        Cache::tags(['user.subscribed-groups', 'u.' . auth()->id()])->flush();
+        $this->cacheManager->tags(['user.subscribed-groups', 'u.' . $this->guard->id()])->flush();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function blockGroup($group)
@@ -256,17 +259,17 @@ class GroupController extends BaseController
         $group->checkAccess();
 
         user()->blockedGroups()->attach($group);
-        Cache::tags(['user.blocked-groups', 'u.' . auth()->id()])->flush();
+        $this->cacheManager->tags(['user.blocked-groups', 'u.' . $this->guard->id()])->flush();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function unblockGroup($group)
     {
         user()->blockedGroups()->detach();
-        Cache::tags(['user.blocked-groups', 'u.' . auth()->id()])->flush();
+        $this->cacheManager->tags(['user.blocked-groups', 'u.' . $this->guard->id()])->flush();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function wizard($tag = null)
@@ -282,13 +285,13 @@ class GroupController extends BaseController
             $groups = Group::orderBy('id', 'desc')->paginate(25);
         }
 
-        return view('group.wizard', ['popular_tags' => $popularTags, 'groups' => $groups]);
+        return $this->viewFactory->make('group.wizard', ['popular_tags' => $popularTags, 'groups' => $groups]);
     }
 
     public function getSidebar($group)
     {
         $sidebar = $group->sidebar;
 
-        return Response::json(compact('sidebar'));
+        return $this->responseFactory->json(compact('sidebar'));
     }
 }

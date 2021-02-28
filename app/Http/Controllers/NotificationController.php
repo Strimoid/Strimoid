@@ -12,13 +12,16 @@ use Strimoid\Models\NotificationTarget;
 
 class NotificationController extends BaseController
 {
+    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Validation\Factory $validationFactory, private \Illuminate\Foundation\Application $application)
+    {
+    }
     public function showJSONList($count)
     {
         if ($count > 50 || $count < 0) {
             $count = 50;
         }
 
-        $notifications = Notification::target(['user_id' => Auth::id()])
+        $notifications = Notification::target(['user_id' => $this->authManager->id()])
             ->orderBy('created_at', 'desc')
             ->take($count)->get();
 
@@ -36,65 +39,65 @@ class NotificationController extends BaseController
             ];
         }
 
-        return Response::json(['notifications' => $list]);
+        return $this->responseFactory->json(['notifications' => $list]);
     }
 
     public function showJSONCount()
     {
-        $newNotificationsCount = Notification::target(['user_id' => Auth::id(), 'read' => false]);
+        $newNotificationsCount = Notification::target(['user_id' => $this->authManager->id(), 'read' => false]);
 
         $results['new'] = (int) $newNotificationsCount;
 
-        return Response::json($results);
+        return $this->responseFactory->json($results);
     }
 
     public function showList()
     {
-        $notifications = Notification::target(['user_id' => Auth::id()])
+        $notifications = Notification::target(['user_id' => $this->authManager->id()])
             ->orderBy('created_at', 'desc')->paginate(30);
 
-        return view('notifications.list', ['notifications' => $notifications]);
+        return $this->viewFactory->make('notifications.list', ['notifications' => $notifications]);
     }
 
     public function markAllAsRead()
     {
-        NotificationTarget::where('user_id', Auth::id())
+        NotificationTarget::where('user_id', $this->authManager->id())
             ->where('read', false)
             ->update(['read' => true]);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function registerGCM(Request $request)
     {
-        $validator = Validator::make($request->all(), ['gcm_regid' => 'required|max:200']);
+        $validator = $this->validationFactory->make($request->all(), ['gcm_regid' => 'required|max:200']);
 
         if ($validator->fails()) {
-            return Response::json(['status' => 'error', 'error' => $validator->messages()->first()]);
+            return $this->responseFactory->json(['status' => 'error', 'error' => $validator->messages()->first()]);
         }
 
-        Auth::user()->update($request->only('gcm_regid'));
+        $this->authManager->user()->update($request->only('gcm_regid'));
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function listNotifications()
     {
         return Notification::with('user')
-            ->target(['user_id' => Auth::id()])
+            ->target(['user_id' => $this->authManager->id()])
             ->orderBy('created_at', 'desc')
             ->paginate(50);
     }
 
     public function edit(Request $request, Notification $notification)
     {
-        if (!in_array(Auth::id(), array_column($notification->_targets, 'user_id'))) {
-            App::abort(403, 'Access denied');
+        if (!in_array($this->authManager->id(), array_column($notification->_targets, 'user_id'))) {
+            $this->application->abort(403, 'Access denied');
         }
 
-        $notification->target(['user_id' => Auth::id()])
+        $notification->target(['user_id' => $this->authManager->id()])
             ->update($request->only('read'));
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

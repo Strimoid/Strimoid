@@ -14,6 +14,9 @@ use Strimoid\Models\Group;
 
 class FolderController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Foundation\Application $application, private \Illuminate\Validation\Factory $validationFactory, private \Illuminate\Routing\Redirector $redirector)
+    {
+    }
     public function displayFolder(): void
     {
     }
@@ -31,7 +34,7 @@ class FolderController extends BaseController
             $folder->groups()->attach($group);
         }
 
-        return Response::json(['status' => 'ok', 'id' => $folder->getKey()]);
+        return $this->responseFactory->json(['status' => 'ok', 'id' => $folder->getKey()]);
     }
 
     public function editFolder(Request $request)
@@ -48,39 +51,39 @@ class FolderController extends BaseController
 
         $folder->save();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function copyFolder(Request $request)
     {
         $folder = Folder::findUserFolderOrFail($request->get('user'), $request->get('folder'));
 
-        if (!$folder->public && $folder->user->getKey() !== Auth::id()) {
-            App::abort(404);
+        if (!$folder->public && $folder->user->getKey() !== $this->authManager->id()) {
+            $this->application->abort(404);
         }
 
-        $validator = Validator::make($request->all(), [
+        $validator = $this->validationFactory->make($request->all(), [
             'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
         ]);
 
         if ($validator->fails()) {
-            return Redirect::route('user_folder_contents', [$request->get('user'), $request->get('folder')])
+            return $this->redirector->route('user_folder_contents', [$request->get('user'), $request->get('folder')])
                 ->with('danger_msg', $validator->messages()->first());
         }
 
         $id = Str::slug($request->get('name'));
 
         if (Folder::find($id)) {
-            return Redirect::route('user_folder_contents', [$request->get('user'), $request->get('folder')])
+            return $this->redirector->route('user_folder_contents', [$request->get('user'), $request->get('folder')])
                 ->with('danger_msg', 'Folder z podaną nazwą już istnieje.');
         }
 
         $folder->exists = false;
         $folder->name = $request->get('name');
 
-        Auth::user()->folders()->save($folder);
+        $this->authManager->user()->folders()->save($folder);
 
-        return Redirect::route('folder_contents', $id)->with('info_msg', 'Folder został skopiowany.');
+        return $this->redirector->route('folder_contents', $id)->with('info_msg', 'Folder został skopiowany.');
     }
 
     public function removeFolder(Request $request)
@@ -88,7 +91,7 @@ class FolderController extends BaseController
         $folder = Folder::findOrFail($request->get('folder'));
         $folder->delete();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function addToFolder(Request $request)
@@ -98,7 +101,7 @@ class FolderController extends BaseController
 
         $folder->groups()->attach($group);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function removeFromFolder(Request $request)
@@ -108,6 +111,6 @@ class FolderController extends BaseController
 
         $folder->groups()->detach($group);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

@@ -15,7 +15,7 @@ CommentsModule.prototype.addComment = function (e) {
   $(form).find('.help-block').remove()
 
   $.post(`/c/${id}/comment`, $(form).serialize(), function (data) {
-    if (data.status == 'ok') {
+    if (data.status === 'ok') {
       $(form).trigger('reset')
 
       $('.comments').append(data.comment)
@@ -37,7 +37,7 @@ CommentsModule.prototype.addReply = function (e) {
   $(form).find('.help-block').remove()
 
   $.post($(form).attr('action'), $(form).serialize(), function (data) {
-    if (data.status == 'ok') {
+    if (data.status === 'ok') {
       $(form).parent().remove()
 
       $(parent).nextUntil('.comment:not(.comment_reply)').remove()

@@ -34,8 +34,9 @@ class Content extends BaseModel
     protected $fillable = ['title', 'description', 'nsfw', 'eng', 'text', 'url'];
     protected $hidden = ['text', 'text_source', 'updated_at'];
 
-    public function __construct($attributes = [])
+    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Auth\Guard $guard, $attributes = [], private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Routing\UrlGenerator $urlGenerator)
     {
+        parent::__construct($guard);
         static::deleted(function (Content $content): void {
             Notification::where('content_id', $this->getKey())->delete();
 
@@ -47,6 +48,8 @@ class Content extends BaseModel
         });
 
         parent::__construct($attributes);
+        parent::__construct($guard);
+        parent::__construct($guard);
     }
 
     public function deletedBy(): BelongsTo
@@ -66,7 +69,7 @@ class Content extends BaseModel
 
     public function getDomain(): string
     {
-        return $this->domain ?: config('app.domain');
+        return $this->domain ?: $this->configRepository->get('app.domain');
     }
 
     public function getEmbed($autoPlay = true)
@@ -87,7 +90,7 @@ class Content extends BaseModel
     {
         $params = [$this, Str::slug($this->title)];
 
-        return route('content_comments_slug', $params);
+        return $this->urlGenerator->route('content_comments_slug', $params);
     }
 
     public function setNsfwAttribute($value): void
@@ -122,7 +125,7 @@ class Content extends BaseModel
 
     public static function validate($input)
     {
-        $validator = Validator::make($input, static::$rules);
+        $validator = (new \Illuminate\Validation\Factory())->*($input, static::$rules);
 
         $validator->sometimes('text', 'required|min:1|max:50000', fn ($input) => $input->text);
 

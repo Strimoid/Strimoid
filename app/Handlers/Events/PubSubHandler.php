@@ -12,15 +12,18 @@ use Strimoid\Models\Notification;
 
 class PubSubHandler
 {
+    public function __construct(private \Illuminate\Events\Dispatcher $dispatcher)
+    {
+    }
     public function subscribe(Dispatcher $events): void
     {
         $events->listen(
             'eloquent.created: ' . Entry::class,
-            fn(Entry $entry) => event(new EntryCreated($entry))
+            fn(Entry $entry) => $this->dispatcher->dispatch(new EntryCreated($entry))
         );
         $events->listen(
             'eloquent.created: ' . EntryReply::class,
-            fn(EntryReply $reply) => event(new EntryReplyCreated($reply))
+            fn(EntryReply $reply) => $this->dispatcher->dispatch(new EntryReplyCreated($reply))
         );
         // $events->listen('eloquent.created: ' . Notification::class, self::class . '@onNewNotification');
     }

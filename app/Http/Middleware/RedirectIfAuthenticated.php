@@ -9,17 +9,14 @@ use Illuminate\Http\Request;
 
 class RedirectIfAuthenticated
 {
-    protected Guard $auth;
-
-    public function __construct(Guard $auth)
+    public function __construct(protected Guard $auth, private \Illuminate\Contracts\Routing\UrlGenerator $urlGenerator)
     {
-        $this->auth = $auth;
     }
 
     public function handle(Request $request, Closure $next)
     {
         if ($this->auth->check()) {
-            return new RedirectResponse(url('/'));
+            return new RedirectResponse($this->urlGenerator->to('/'));
         }
 
         return $next($request);

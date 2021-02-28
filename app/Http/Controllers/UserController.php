@@ -19,14 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
-    protected UserRepository $users;
-
-    protected PasswordBroker $passwords;
-
-    public function __construct(UserRepository $users, PasswordBroker $passwords)
+    public function __construct(protected UserRepository $users, protected PasswordBroker $passwords, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Mail\Mailer $mailer, private \Illuminate\Translation\Translator $translator, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard)
     {
-        $this->users = $users;
-        $this->passwords = $passwords;
     }
 
     public function showJSONList(): JsonResponse
@@ -40,7 +34,7 @@ class UserController extends BaseController
             ];
         }
 
-        return Response::json($users)
+        return $this->responseFactory->json($users)
             ->setPublic()
             ->setMaxAge(3600);
     }
@@ -55,7 +49,7 @@ class UserController extends BaseController
         user()->password = $request->get('password');
         user()->save();
 
-        return redirect()->action('SettingsController@showSettings')
+        return $this->redirector->action('SettingsController@showSettings')
             ->with('success_msg', 'Hasło zostało zmienione.');
     }
 
@@ -65,32 +59,32 @@ class UserController extends BaseController
             'email' => 'required|email|unique_email:users|real_email',
         ]);
 
-        $email = Str::lower(request('email'));
+        $email = Str::lower($request->input('email'));
 
         user()->new_email = $email;
         user()->email_change_token = Str::random(16);
 
         user()->save();
 
-        Mail::send('emails.auth.email_change', ['user' => user()], function ($message) use ($email): void {
+        $this->mailer->send('emails.auth.email_change', ['user' => user()], function ($message) use ($email): void {
             $message->to($email, user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
-        return redirect()->action('SettingsController@showSettings')
+        return $this->redirector->action('SettingsController@showSettings')
             ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
     public function confirmEmailChange($token): RedirectResponse
     {
         if ($token !== user()->email_change_token) {
-            return redirect()->to('')->with('danger_msg', 'Błędny token.');
+            return $this->redirector->to('')->with('danger_msg', 'Błędny token.');
         }
 
         user()->email = user()->new_email;
         user()->unset(['email_change_token', 'new_email']);
         user()->save();
 
-        return redirect()->to('')->with('success_msg', 'Adres email został zmieniony.');
+        return $this->redirector->to('')->with('success_msg', 'Adres email został zmieniony.');
     }
 
     public function remindPassword(Request $request)
@@ -102,13 +96,13 @@ class UserController extends BaseController
 
             switch ($response) {
                 case PasswordBroker::RESET_LINK_SENT:
-                    return redirect()->back()->with('status', trans($response));
+                    return $this->redirector->back()->with('status', $this->translator->trans($response));
                 case PasswordBroker::INVALID_USER:
-                    return redirect()->back()->withErrors(['email' => trans($response)]);
+                    return $this->redirector->back()->withErrors(['email' => $this->translator->trans($response)]);
             }
         }
 
-        return view('user.remind');
+        return $this->viewFactory->make('user.remind');
     }
 
     public function showPasswordResetForm($token = null)
@@ -117,7 +111,7 @@ class UserController extends BaseController
             throw new NotFoundHttpException();
         }
 
-        return view('user.reset')->with('token', $token);
+        return $this->viewFactory->make('user.reset')->with('token', $token);
     }
 
     public function resetPassword(Request $request)
@@ -140,7 +134,7 @@ class UserController extends BaseController
             if ($user->activation_token) {
                 $cacheKey = 'registration.' . md5($request->getClientIp());
 
-                if (Cache::has($cacheKey)) {
+                if ($this->cacheManager->has($cacheKey)) {
                     abort(500);
                 }
 
@@ -151,25 +145,25 @@ class UserController extends BaseController
             $user->password = $password;
             $user->save();
 
-            auth()->login($user);
+            $this->guard->login($user);
         });
 
         return match ($response) {
-            PasswordBroker::PASSWORD_RESET => redirect('/'),
-            default => redirect()->back()
+            PasswordBroker::PASSWORD_RESET => $this->redirector->back('/'),
+            default => $this->redirector->back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => trans($response)]),
+                ->withErrors(['email' => $this->translator->trans($response)]),
         };
     }
 
     public function showLoginForm()
     {
-        return view('user.login');
+        return $this->viewFactory->make('user.login');
     }
 
     public function showRemoveAccountForm()
     {
-        return view('user.remove');
+        return $this->viewFactory->make('user.remove');
     }
 
     public function removeAccount(Request $request)
@@ -183,9 +177,9 @@ class UserController extends BaseController
 
         user()->save();
 
-        auth()->logout();
+        $this->guard->logout();
 
-        return redirect()->to('')->with('success_msg', 'Twoje konto zostało usunięte.');
+        return $this->redirector->to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
 
     public function showProfile(User $user, string $type = 'all')
@@ -215,7 +209,7 @@ class UserController extends BaseController
         $data['type'] = $type;
         $data['user'] = $user;
 
-        return view('user.profile', $data);
+        return $this->viewFactory->make('user.profile', $data);
     }
 
     public function saveProfile(Request $request)
@@ -230,46 +224,46 @@ class UserController extends BaseController
 
         $user = user();
 
-        $data = request()->only(['sex', 'age', 'location', 'description']);
+        $data = $request->only(['sex', 'age', 'location', 'description']);
         $user->fill($data);
 
-        if (request()->hasFile('avatar')) {
-            $user->setAvatar(request()->file('avatar')->getRealPath());
+        if ($request->hasFile('avatar')) {
+            $user->setAvatar($request->file('avatar')->getRealPath());
         }
 
         $user->save();
 
-        return redirect()->route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
+        return $this->redirector->route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
     public function blockUser($user)
     {
         user()->blockedUsers()->attach($user);
-        Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
+        $this->cacheManager->tags(['user.blocked-users', 'u.' . $this->guard->id()])->flush();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function unblockUser($user)
     {
         user()->blockedUsers()->detach($user);
-        Cache::tags(['user.blocked-users', 'u.' . auth()->id()])->flush();
+        $this->cacheManager->tags(['user.blocked-users', 'u.' . $this->guard->id()])->flush();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function observeUser($user)
     {
         user()->followedUsers()->attach($user);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function unobserveUser($user)
     {
         user()->followedUsers()->detach($user);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function blockDomain($domain)
@@ -278,20 +272,20 @@ class UserController extends BaseController
         $domain = PDP::resolve($domain)->getRegistrableDomain();
 
         if (!$domain) {
-            return Response::json([
+            return $this->responseFactory->json([
                 'status' => 'error', 'error' => 'Nieprawidłowa domena',
             ]);
         }
 
         user()->push('_blocked_domains', $domain, true);
 
-        return Response::json(['status' => 'ok', 'domain' => $domain]);
+        return $this->responseFactory->json(['status' => 'ok', 'domain' => $domain]);
     }
 
     public function unblockDomain($domain)
     {
         user()->pull('_blocked_domains', $domain);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

@@ -8,29 +8,32 @@ use Strimoid\Models\Notification;
 
 class AuthController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
     public function login(Request $request): JsonResponse
     {
         $remember = $request->input('remember') === 'true';
 
-        if (auth()->attempt(['name' => $request->input('username'),
+        if ($this->guard->attempt(['name' => $request->input('username'),
             'password' => $request->input('password'), 'is_activated' => true, ], $remember)) {
             if (user()->removed_at || user()->blocked_at) {
-                auth()->logout();
+                $this->guard->logout();
 
-                return response()->json(['error' => 'Account blocked or removed'], 400);
+                return $this->responseFactory->json(['error' => 'Account blocked or removed'], 400);
             }
 
             $data = $this->getUserData();
 
-            return response()->json($data);
+            return $this->responseFactory->json($data);
         }
 
-        return response()->json(['error' => 'Invalid login or password'], 400);
+        return $this->responseFactory->json(['error' => 'Invalid login or password'], 400);
     }
 
     public function logout(): void
     {
-        auth()->logout();
+        $this->guard->logout();
     }
 
     public function sync(): array
@@ -45,7 +48,7 @@ class AuthController extends BaseController
                     $q->select('avatar');
                 },
             ])
-            ->target(auth()->id())
+            ->target($this->guard->id())
             ->orderBy('created_at', 'desc')
             ->take(15)->get();
 

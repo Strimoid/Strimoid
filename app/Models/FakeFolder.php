@@ -13,13 +13,13 @@ abstract class FakeFolder
 
     abstract protected function getBuilder(string $model): Builder;
 
-    public function __construct()
+    public function __construct(private \Illuminate\Translation\Translator $translator)
     {
-        $urlname = get_class($this);
+        $urlname = $this::class;
         $urlname = class_basename($urlname);
 
         $this->urlname = Str::lower($urlname);
-        $this->name = trans('groups.' . $this->urlname);
+        $this->name = $this->translator->trans('groups.' . $this->urlname);
     }
 
     public function comments(string $sortBy = null): Builder

@@ -138,6 +138,10 @@ $(document).ready(function () {
 
         if (window.blocked_users.includes(e.entry.user.name) || window.blocked_groups.includes(e.entry.group.urlname))
           return
+
+        if (window.username && window.username === e.entry.user.name)
+          return
+
         if (window.group && window.group !== 'all') {
           if (window.group === 'subscribed' && !window.subscribed_groups.includes(e.entry.group.urlname))
             return
@@ -146,6 +150,7 @@ $(document).ready(function () {
           else if (window.group !== e.entry.group.urlname)
             return
         }
+
         const template = require('./templates/entries/widget.html')
         $(template(e.entry)).hide().fadeIn(1000).insertBefore($('.entry').eq(1))
       })
@@ -174,7 +179,7 @@ $(document).ready(function () {
     if ($(content).data('preview-loading'))
       return
 
-    if ($(content).find('.content_preview').length == 0) {
+    if ($(content).find('.content_preview').length === 0) {
       $(content).data('preview-loading', true)
 
       $.get('/ajax/content/' + content_id + '/embed', function (data) {
@@ -198,7 +203,7 @@ $(document).ready(function () {
     bootbox.confirm('Na pewno chcesz usunąć wybraną treść?', function (result) {
       if (result)
         $.post('/ajax/content/remove', { id: content_id }, function (data) {
-          if (data.status == 'ok')
+          if (data.status === 'ok')
             window.location.href = '/'
         })
     })
@@ -211,7 +216,7 @@ $(document).ready(function () {
     bootbox.confirm('Na pewno chcesz usunąć wybraną treść?', function (result) {
       if (result)
         $.post('/ajax/mod/content/remove', { id: content_id }, function (data) {
-          if (data.status == 'ok')
+          if (data.status === 'ok')
             $(content).fadeOut()
         })
     })
@@ -224,7 +229,7 @@ $(document).ready(function () {
     bootbox.confirm('Na pewno chcesz usunąć powiązany link?', function (result) {
       if (result)
         $.post('/ajax/related/remove', { id: related_id }, function (data) {
-          if (data.status == 'ok')
+          if (data.status === 'ok')
             $(related).fadeOut()
         })
     })
@@ -237,7 +242,7 @@ $(document).ready(function () {
     bootbox.confirm('Na pewno chcesz odbanować wybranego użytkownika?', function (result) {
       if (result)
         $.post('/groups/unban', { id: ban_id }, function (data) {
-          if (data.status == 'ok')
+          if (data.status === 'ok')
             $(ban).fadeOut()
         })
     })
@@ -250,7 +255,7 @@ $(document).ready(function () {
     bootbox.confirm('Na pewno chcesz usunąć wybranego moderatora?', function (result) {
       if (result)
         $.post('/groups/remove_moderator', { id: mod_id }, function (data) {
-          if (data.status == 'ok')
+          if (data.status === 'ok')
             $(mod).fadeOut()
         })
     })
@@ -262,7 +267,7 @@ $(document).ready(function () {
 
     if (button.hasClass('btn-success')) {
       $.post('/ajax/folder/edit', { folder: id, public: 'false' }, function (data) {
-        if (data.status == 'ok') {
+        if (data.status === 'ok') {
           $(button).removeClass('btn-success')
           $(button).addClass('btn-default')
         }
@@ -270,7 +275,7 @@ $(document).ready(function () {
       })
     } else {
       $.post('/ajax/folder/edit', { folder: id, public: 'true' }, function (data) {
-        if (data.status == 'ok') {
+        if (data.status === 'ok') {
           $(button).removeClass('btn-default')
           $(button).addClass('btn-success')
         }
@@ -279,25 +284,22 @@ $(document).ready(function () {
   })
 
   $('body').on('click', 'a.entry_reply_link', function () {
-    var link = $(this)
-    var entry = $(this).parent().parent()
-    var author = $(entry).find('.entry_author').text().trim()
+    const link = $(this)
+    const entry = $(this).parent().parent()
+    const author = $(entry).find('.entry_author').text().trim()
 
-    if (entry.hasClass('entry_reply'))
-      var parent = $(entry).prevAll('.entry:not(.entry_reply)').first()
-    else
-      var parent = $(entry)
+    const parent = entry.hasClass('entry_reply') ? $(entry).prevAll('.entry:not(.entry_reply)').first() : $(entry)
 
-    var existingField = $(parent).nextUntil('.entry:not(.entry_reply)').find('textarea.reply')
+    const existingField = $(parent).nextUntil('.entry:not(.entry_reply)').find('textarea.reply')
 
     if (existingField.length) {
       $(existingField).focus().val($(existingField).val() + '@' + author + ': ')
       return
     }
 
-    var entry_id = $(parent).attr('data-id')
+    const entryId = $(parent).attr('data-id')
 
-    $(entry).after('<div class="entry entry_reply"><form role="form" action="/entry/' + entry_id + '/reply" method="POST" accept-charset="UTF-8" class="enter_send entry_add_reply"><input type="hidden" name="id" value="' + entry_id + '"><div class="form-group"><textarea name="text" class="form-control reply" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Wyślij</button><button type="button" class="btn btn-sm btn-secondary entry_reply_close">Anuluj</button></div></form></div><div class="clearfix"></div>')
+    $(entry).after('<div class="entry entry_reply"><form role="form" action="/entry/' + entryId + '/reply" method="POST" accept-charset="UTF-8" class="enter_send entry_add_reply"><input type="hidden" name="id" value="' + entryId + '"><div class="form-group"><textarea name="text" class="form-control reply" rows="3"></textarea></div><div class="btn-group pull-right"><button type="submit" class="btn btn-sm btn-primary">Wyślij</button><button type="button" class="btn btn-sm btn-secondary entry_reply_close">Anuluj</button></div></form></div><div class="clearfix"></div>')
 
     $(entry).next().find('textarea').focus().val('@' + author + ': ')
 
@@ -329,13 +331,13 @@ $(document).ready(function () {
   $('body').on('click', 'a.entry_remove_link', function () {
     var entry = $(this).parent().parent()
     var entry_id = $(entry).attr('data-id')
-    var type = (entry.hasClass('entry_reply') == true ? 'entry_reply' : 'entry')
+    var type = (entry.hasClass('entry_reply') ? 'entry_reply' : 'entry')
 
     bootbox.confirm('Na pewno chcesz usunąć wybrany wpis?', function (result) {
       if (result)
         $.post('/ajax/entry/remove', { id: entry_id, type: type }, function (data) {
-          if (data.status == 'ok') {
-            if (type == 'entry')
+          if (data.status === 'ok') {
+            if (type === 'entry')
               $(entry).nextUntil('.entry:not(.entry_reply)').andSelf().remove()
             else
               $(entry).remove()
@@ -464,10 +466,10 @@ $(document).ready(function () {
     var comment = $(this).parent().parent()
     var comment_id = $(comment).attr('data-id')
     var comment_old_text = $(comment).find('.comment_text').html()
-    var type = (comment.hasClass('comment_reply') == true ? 'comment_reply' : 'comment')
+    var type = (comment.hasClass('comment_reply') ? 'comment_reply' : 'comment')
 
     $.post('/ajax/comment/source', { id: comment_id, type: type }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(comment).find('.comment_text').html('<form role="form" accept-charset="UTF-8" class="enter_send"><input type="hidden" name="id" value="' + comment_id + '"><div class="form-group"><textarea name="text" class="form-control" rows="3"></textarea></div><div class="btn-group pull-right"><button type="button" class="btn btn-sm btn-primary comment_edit_save">Zapisz</button><button type="button" class="btn btn-sm comment_edit_close">Anuluj</button></div><div class="clearfix"></div></form>')
         $(comment).find('textarea[name="text"]').val(data.source)
         $(comment).find('.comment_actions').hide()
@@ -476,7 +478,7 @@ $(document).ready(function () {
           var comment_new_text = $(comment).find('textarea[name="text"]').val()
 
           $.post('/ajax/comment/edit', { id: comment_id, type: type, text: comment_new_text }, function (data) {
-            if (data.status == 'ok') {
+            if (data.status === 'ok') {
               $(comment).find('.comment_text').html(data.parsed)
               $(comment).find('.comment_actions').show()
             }
@@ -494,13 +496,13 @@ $(document).ready(function () {
   $('body').on('click', '.comment_remove_link', function () {
     var comment = $(this).parent().parent()
     var comment_id = $(comment).attr('data-id')
-    var type = (comment.hasClass('comment_reply') == true ? 'comment_reply' : 'comment')
+    var type = (comment.hasClass('comment_reply') ? 'comment_reply' : 'comment')
 
     bootbox.confirm('Na pewno chcesz usunąć wybrany wpis?', function (result) {
       if (result)
         $.post('/ajax/comment/remove', { id: comment_id, type: type }, function (data) {
-          if (data.status == 'ok') {
-            if (type == 'comment')
+          if (data.status === 'ok') {
+            if (type === 'comment')
               $(comment).nextUntil('.comment:not(.comment_reply)').andSelf().remove()
             else
               $(comment).remove()

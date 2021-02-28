@@ -6,9 +6,12 @@ use Illuminate\View\View;
 
 class GroupBarComposer
 {
+    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard)
+    {
+    }
     public function compose(View $view): void
     {
-        if (auth()->check()) {
+        if ($this->guard->check()) {
             $subscriptions = user()->subscribedGroups()
                 ->pluck('urlname')
                 ->sortBy(null, SORT_NATURAL | SORT_FLAG_CASE);

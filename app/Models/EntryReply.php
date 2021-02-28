@@ -18,6 +18,11 @@ class EntryReply extends Entry
     protected $fillable = ['text'];
     protected $hidden = ['entry_id', 'updated_at'];
     protected $table = 'entry_replies';
+    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Auth\AuthManager $authManager, \Illuminate\Routing\UrlGenerator $urlGenerator, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Auth\AuthManager $authManager, \Illuminate\Routing\UrlGenerator $urlGenerator, \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\UrlGenerator $urlGenerator, private \Illuminate\Contracts\Auth\Guard $guard)
+    {
+        parent::__construct($guard, $guard, $guard, $authManager, $urlGenerator, $guard);
+        parent::__construct($guard, $guard, $guard, $authManager, $urlGenerator, $guard);
+    }
 
     public static function boot(): void
     {
@@ -54,16 +59,16 @@ class EntryReply extends Entry
     {
         $parentHashId = Hashids::encode($this->parent_id);
 
-        return route('single_entry', $parentHashId) . '#' . $this->hashId();
+        return $this->urlGenerator->route('single_entry', $parentHashId) . '#' . $this->hashId();
     }
 
     public function canEdit(): bool
     {
-        return auth()->id() === $this->user_id && $this->isLast();
+        return $this->guard->id() === $this->user_id && $this->isLast();
     }
 
     public function canRemove(): bool
     {
-        return auth()->id() === $this->user_id || user()->isModerator($this->group_id);
+        return $this->guard->id() === $this->user_id || user()->isModerator($this->group_id);
     }
 }

@@ -15,6 +15,12 @@ class Notification extends BaseModel
 
     protected $table = 'notifications';
     protected $visible = ['id', 'created_at', 'user', 'read', 'title', 'type', 'url'];
+    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\UrlGenerator $urlGenerator, private \Illuminate\Translation\Translator $translator)
+    {
+        parent::__construct($guard);
+        parent::__construct($guard);
+        parent::__construct($guard);
+    }
 
     public function targets(): BelongsToMany
     {
@@ -41,7 +47,7 @@ class Notification extends BaseModel
             return false;
         }
 
-        return Auth::check() ? $this->pivot->read : false;
+        return $this->authManager->check() ? $this->pivot->read : false;
     }
 
     public function getURL(): ?string
@@ -58,29 +64,29 @@ class Notification extends BaseModel
             return null;
         }
 
-        $class = get_class($this->element);
+        $class = $this->element::class;
 
         switch ($class) {
             case Entry::class:
-                $url = route('single_entry', $this->element);
+                $url = $this->urlGenerator->route('single_entry', $this->element);
                 break;
             case EntryReply::class:
-                $url = route('single_entry', Hashids::encode($this->element->parent_id));
+                $url = $this->urlGenerator->route('single_entry', Hashids::encode($this->element->parent_id));
                 $params .= '#' . $this->element->hashId();
                 break;
             case Comment::class:
-                $url = route('content_comments', Hashids::encode($this->element->content_id));
+                $url = $this->urlGenerator->route('content_comments', Hashids::encode($this->element->content_id));
                 $params .= '#' . $this->element->hashId();
                 break;
             case CommentReply::class:
-                $url = route('content_comments', Hashids::encode($this->element->parent->content_id));
+                $url = $this->urlGenerator->route('content_comments', Hashids::encode($this->element->parent->content_id));
                 $params .= '#' . $this->element->hashId();
                 break;
             case Conversation::class:
-                $url = route('conversation', $this->element);
+                $url = $this->urlGenerator->route('conversation', $this->element);
                 break;
             case 'moderator':
-                $url = route('group_contents', $this->element);
+                $url = $this->urlGenerator->route('group_contents', $this->element);
                 break;
         }
 
@@ -95,7 +101,7 @@ class Notification extends BaseModel
 
         $class = class_basename($this->element);
 
-        return trans('notifications.types.' . $class);
+        return $this->translator->trans('notifications.types.' . $class);
     }
 
     public function getThumbnailPath()

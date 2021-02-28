@@ -18,6 +18,10 @@ class ContentRelated extends BaseModel
     protected $table = 'content_related';
     protected $hidden = ['content_id', 'user_id', 'updated_at'];
     protected $fillable = ['title', 'nsfw', 'eng', 'url'];
+    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\UrlGenerator $urlGenerator)
+    {
+        parent::__construct($guard);
+    }
 
     public static function boot(): void
     {
@@ -51,7 +55,7 @@ class ContentRelated extends BaseModel
 
     public function getURL()
     {
-        return $this->url ?: route('content_comments', $this->getKey());
+        return $this->url ?: $this->urlGenerator->route('content_comments', $this->getKey());
     }
 
     public function setNsfwAttribute($value): void

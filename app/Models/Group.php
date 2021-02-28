@@ -27,6 +27,13 @@ class Group extends BaseModel
         'id', 'avatar', 'created_at', 'creator',
         'description', 'sidebar', 'subscribers', 'name', 'urlname',
     ];
+    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Foundation\Application $application, private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Filesystem\FilesystemManager $filesystemManager)
+    {
+        parent::__construct($guard);
+        parent::__construct($guard);
+        parent::__construct($guard);
+        parent::__construct($guard);
+    }
 
     public function creator()
     {
@@ -37,8 +44,8 @@ class Group extends BaseModel
     {
         $relation = $this->hasMany(Entry::class);
 
-        if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
+        if ($this->authManager->check()) {
+            $blockedUsers = $this->authManager->user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
         }
 
@@ -50,8 +57,8 @@ class Group extends BaseModel
         $relation = $this->hasMany(Comment::class);
         $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
-        if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
+        if ($this->authManager->check()) {
+            $blockedUsers = $this->authManager->user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
         }
 
@@ -62,11 +69,11 @@ class Group extends BaseModel
     {
         $relation = $this->hasMany(Content::class);
 
-        if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
+        if ($this->authManager->check()) {
+            $blockedUsers = $this->authManager->user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
 
-            $blockedDomains = Auth::user()->blockedDomains();
+            $blockedDomains = $this->authManager->user()->blockedDomains();
             $relation->whereNotIn('domain', $blockedDomains);
         }
 
@@ -93,8 +100,8 @@ class Group extends BaseModel
     public function checkAccess(): void
     {
         if ($this->type === 'private') {
-            if (!Auth::check() || !Auth::user()->isModerator($this)) {
-                App::abort(403, 'Access denied');
+            if (!$this->authManager->check() || !$this->authManager->user()->isModerator($this)) {
+                $this->application->abort(403, 'Access denied');
             }
         }
     }
@@ -109,7 +116,7 @@ class Group extends BaseModel
 
     public function getAvatarPath(int $width = null, int $height = null)
     {
-        $host = config('app.cdn_host');
+        $host = $this->configRepository->get('app.cdn_host');
 
         if ($this->avatar && $width && $height) {
             return $host . '/' . $width . 'x' . $height . '/groups/' . $this->avatar;
@@ -124,7 +131,7 @@ class Group extends BaseModel
 
     public function setStyle($css): void
     {
-        $disk = Storage::disk('styles');
+        $disk = $this->filesystemManager->disk('styles');
 
         // Compatibility with old saving method
         $filename = Str::lower($this->urlname) . '.css';
@@ -144,7 +151,7 @@ class Group extends BaseModel
     public function deleteStyle(): void
     {
         if ($this->style) {
-            Storage::disk('styles')->delete($this->style);
+            $this->filesystemManager->disk('styles')->delete($this->style);
             $this->style = null;
         }
     }
@@ -159,7 +166,7 @@ class Group extends BaseModel
 
         $ban->group()->associate($this);
         $ban->user()->associate($user);
-        $ban->moderator()->associate(Auth::user());
+        $ban->moderator()->associate($this->authManager->user());
         $ban->reason = $reason;
 
         $ban->save();
@@ -167,7 +174,7 @@ class Group extends BaseModel
 
     public function getAvatarPathAttribute(): string
     {
-        $host = config('app.cdn_host');
+        $host = $this->configRepository->get('app.cdn_host');
 
         if ($this->avatar) {
             return $host . '/groups/' . $this->avatar;

@@ -25,6 +25,11 @@ class Comment extends BaseModel
     protected $table = 'comments';
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
+    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\UrlGenerator $urlGenerator)
+    {
+        parent::__construct($guard);
+        parent::__construct($guard);
+    }
 
     public static function boot(): void
     {
@@ -70,15 +75,15 @@ class Comment extends BaseModel
 
     public function isHidden(): bool
     {
-        if (Auth::guest()) {
+        if ($this->authManager->guest()) {
             return false;
         }
 
-        return Auth::user()->isBlockingUser($this->user);
+        return $this->authManager->user()->isBlockingUser($this->user);
     }
 
     public function getURL(): string
     {
-        return route('content_comments', $this->content) . '#' . $this->hashId();
+        return $this->urlGenerator->route('content_comments', $this->content) . '#' . $this->hashId();
     }
 }

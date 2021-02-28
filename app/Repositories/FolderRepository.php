@@ -8,14 +8,8 @@ use Strimoid\Models\Folder;
 
 class FolderRepository extends Repository implements FolderRepositoryContract
 {
-    protected Folder $folder;
-
-    protected UserRepositoryContract $users;
-
-    public function __construct(Folder $folder, UserRepositoryContract $users)
+    public function __construct(protected Folder $folder, protected UserRepositoryContract $users)
     {
-        $this->folder = $folder;
-        $this->users = $users;
     }
 
     public function getByName(string $ownerName, string $folderName): ?Folder

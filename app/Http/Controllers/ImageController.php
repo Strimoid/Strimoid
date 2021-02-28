@@ -11,12 +11,12 @@ class ImageController extends BaseController
 {
     private Server $server;
 
-    public function __construct(ServerFactory $serverFactory)
+    public function __construct(ServerFactory $serverFactory, private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
         $this->server = $serverFactory->create([
             'source' => storage_path('uploads'),
             'cache' => '/tmp/strimoid/glide/',
-            'driver' => config('image.driver'),
+            'driver' => $this->configRepository->get('image.driver'),
         ]);
 
         $this->server->setResponseFactory(
@@ -34,7 +34,7 @@ class ImageController extends BaseController
         $sourcePath = $folder . DIRECTORY_SEPARATOR . $filename . '.' . $format;
 
         if ($width > 1_000 || $height > 1_000) {
-            return response('invalid image size', 400);
+            return $this->responseFactory->make('invalid image size', 400);
         }
 
         try {
@@ -42,8 +42,8 @@ class ImageController extends BaseController
                 'w' => (int) $width,
                 'h' => (int) $height,
             ]);
-        } catch (FileNotFoundException $exception) {
-            return response(null, 404);
+        } catch (FileNotFoundException) {
+            return $this->responseFactory->make(null, 404);
         }
     }
 }

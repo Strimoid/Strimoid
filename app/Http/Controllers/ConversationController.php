@@ -11,13 +11,16 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class ConversationController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Auth\AuthManager $authManager)
+    {
+    }
     public function showConversation($conversation = null)
     {
         $conversations = $this->getConversations();
 
         $data['messages'] = [];
 
-        if ($conversation && $conversation->users->where('id', auth()->id())->count()) {
+        if ($conversation && $conversation->users->where('id', $this->guard->id())->count()) {
         } elseif ($conversations->first()) {
             $conversation = $conversations->first();
         }
@@ -29,7 +32,7 @@ class ConversationController extends BaseController
             $data['messages'] = $conversation->messages()->paginate(50);
         }
 
-        return view('conversations.display', $data);
+        return $this->viewFactory->make('conversations.display', $data);
     }
 
     public function showCreateForm($user = null)
@@ -37,35 +40,35 @@ class ConversationController extends BaseController
         $conversations = $this->getConversations();
         $username = $user->name ?? '';
 
-        return view('conversations.create', compact('conversations', 'username'));
+        return $this->viewFactory->make('conversations.create', compact('conversations', 'username'));
     }
 
     public function createConversation(Request $request): RedirectResponse
     {
-        $target = User::name(request('username'))->firstOrFail();
+        $target = User::name($request->input('username'))->firstOrFail();
 
-        if ($target->getKey() === auth()->id()) {
-            return redirect()->action('ConversationController@showCreateForm')
+        if ($target->getKey() === $this->guard->id()) {
+            return $this->redirector->action('ConversationController@showCreateForm')
                 ->withInput()
                 ->with('danger_msg', 'Ekhm... wysyłanie wiadomości do samego siebie chyba nie ma sensu ;)');
         }
 
         if ($target->isBlockingUser(user())) {
-            return redirect()->action('ConversationController@showCreateForm')
+            return $this->redirector->action('ConversationController@showCreateForm')
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zablokowany przez wybranego użytkownika.');
         }
 
         $this->validate($request, ['text' => 'required|max:10000']);
 
-        $conversation = Conversation::withUser(auth()->id())
+        $conversation = Conversation::withUser($this->guard->id())
             ->withUser($target->getKey())
             ->first();
 
         if (!$conversation) {
             $conversation = Conversation::create([]);
             $conversation->users()->attach([
-                auth()->id(), $target->getKey(),
+                $this->guard->id(), $target->getKey(),
             ]);
         } else {
             $conversation->notifications()
@@ -74,11 +77,11 @@ class ConversationController extends BaseController
         }
 
         $conversation->messages()->create([
-            'user_id' => Auth::id(),
+            'user_id' => $this->authManager->id(),
             'text' => $request->input('text'),
         ]);
 
-        return redirect()->to('/conversations');
+        return $this->redirector->to('/conversations');
     }
 
     public function sendMessage(Request $request): RedirectResponse
@@ -86,13 +89,13 @@ class ConversationController extends BaseController
         $ids = Hashids::decode($request->input('id'));
         $id = current($ids);
 
-        $conversation = Conversation::withUser(Auth::id())
+        $conversation = Conversation::withUser($this->authManager->id())
             ->where('id', $id)->firstOrFail();
 
         $target = $conversation->target();
 
-        if ($target->isBlockingUser(Auth::user())) {
-            return redirect()->route('conversation', $conversation->getKey())
+        if ($target->isBlockingUser($this->authManager->user())) {
+            return $this->redirector->route('conversation', $conversation->getKey())
                 ->withInput()
                 ->with('danger_msg', 'Zostałeś zablokowany przez wybranego użytkownika.');
         }
@@ -102,17 +105,17 @@ class ConversationController extends BaseController
         $conversation->notifications()->where('user_id', $target->getKey())->delete();
 
         $conversation->messages()->create([
-            'user_id' => Auth::id(),
+            'user_id' => $this->authManager->id(),
             'text' => $request->input('text'),
         ]);
 
-        return redirect()->route('conversation', $conversation);
+        return $this->redirector->route('conversation', $conversation);
     }
 
     private function getConversations()
     {
         return Conversation::with('lastMessage')
-            ->withUser(Auth::id())
+            ->withUser($this->authManager->id())
             ->get()
             ->sortBy(fn ($conversation) => $conversation->lastMessage->created_at)->reverse();
     }

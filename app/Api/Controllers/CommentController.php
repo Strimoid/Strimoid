@@ -12,28 +12,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends BaseController
 {
-    protected FolderRepository $folders;
-
-    protected GroupRepository $groups;
-
-    public function __construct(FolderRepository $folders, GroupRepository $groups)
+    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
-        $this->groups = $groups;
-        $this->folders = $folders;
     }
 
     public function index(Request $request)
     {
         if ($request->has('folder')) {
-            $username = request('user', auth()->id());
-            $entity = $this->folders->getByName($username, request('folder'));
+            $username = $request->input('user', $this->guard->id());
+            $entity = $this->folders->getByName($username, $request->input('folder'));
         } else {
-            $groupName = request('group', 'all');
+            $groupName = $request->input('group', 'all');
             $entity = $this->groups->getByName($groupName);
         }
 
-        $sortBy = in_array(request('sort'), ['uv', 'created_at'])
-            ? request('sort') : 'created_at';
+        $sortBy = in_array($request->input('sort'), ['uv', 'created_at'])
+            ? $request->input('sort') : 'created_at';
 
         $builder = $entity->comments($sortBy)->with([
             'user', 'group', 'replies', 'replies.user',
@@ -41,11 +35,11 @@ class CommentController extends BaseController
 
         // Time filter
         if ($request->has('time')) {
-            $builder->fromDaysAgo(request('time'));
+            $builder->fromDaysAgo($request->input('time'));
         }
 
         $perPage = $request->has('per_page')
-            ? between(request('per_page'), 1, 100)
+            ? between($request->input('per_page'), 1, 100)
             : 20;
 
         return $builder->paginate($perPage);
@@ -56,19 +50,19 @@ class CommentController extends BaseController
         $this->validate($request, Comment::validationRules());
 
         if (user()->isBanned($content->group)) {
-            return response()->json([
+            return $this->responseFactory->json([
                 'status' => 'error',
                 'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
         $comment = new Comment();
-        $comment->text = request('text');
+        $comment->text = $request->input('text');
         $comment->user()->associate(user());
         $comment->content()->associate($content);
         $comment->save();
 
-        return response()->json([
+        return $this->responseFactory->json([
             'status' => 'ok', '_id' => $comment->getKey(), 'comment' => $comment,
         ]);
     }
@@ -79,18 +73,18 @@ class CommentController extends BaseController
         $content = $comment->content;
 
         if (user()->isBanned($content->group)) {
-            return response()->json([
+            return $this->responseFactory->json([
                 'status' => 'error',
                 'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
         $reply = new CommentReply();
-        $reply->text = request('text');
+        $reply->text = $request->input('text');
         $reply->user()->associate(user());
         $comment->replies()->save($comment);
 
-        return response()->json([
+        return $this->responseFactory->json([
             'status' => 'ok', '_id' => $reply->getKey(), 'comment' => $reply,
         ]);
     }
@@ -102,7 +96,7 @@ class CommentController extends BaseController
 
         $comment->update($request->only('text'));
 
-        return response()->json(['status' => 'ok', 'comment' => $comment]);
+        return $this->responseFactory->json(['status' => 'ok', 'comment' => $comment]);
     }
 
     public function remove(Comment $comment): Response
@@ -111,6 +105,6 @@ class CommentController extends BaseController
 
         $comment->delete();
 
-        return response()->json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }
