@@ -16,22 +16,25 @@ class GenerateSitemap extends Command
     protected $name = 'lara:generatesitemap';
     protected $description = 'Generate sitemap.';
 
-    public function __construct(private UrlGenerator $urlGenerator, private \Illuminate\Foundation\Application $application)
+    private UrlGenerator $urlGenerator;
+
+    public function __construct(UrlGenerator $urlGenerator)
     {
-        parent::__construct();
+        $this->urlGenerator = $urlGenerator;
+
         parent::__construct();
     }
 
     public function handle(): void
     {
         // Generate groups sitemap
-        $sitemap = \Illuminate\Support\Facades\App::get('sitemap');
+        $sitemap = app('sitemap');
         $x = 1;
 
         foreach (Group::all() as $group) {
-            $sitemap->add($this->urlGenerator->to($this->urlGenerator->route('group_contents', $group->getKey())), null, '1.0', 'daily');
-            $sitemap->add($this->urlGenerator->to($this->urlGenerator->route('group_contents_new', $group->getKey())), null, '1.0', 'daily');
-            $sitemap->add($this->urlGenerator->to($this->urlGenerator->route('group_entries', $group->getKey())), null, '1.0', 'daily');
+            $sitemap->add(URL::to($this->urlGenerator->route('group_contents', $group->getKey())), null, '1.0', 'daily');
+            $sitemap->add(URL::to($this->urlGenerator->route('group_contents_new', $group->getKey())), null, '1.0', 'daily');
+            $sitemap->add(URL::to($this->urlGenerator->route('group_entries', $group->getKey())), null, '1.0', 'daily');
 
             if (!$x % 100) {
                 $this->info($x . ' groups processed');
@@ -46,13 +49,13 @@ class GenerateSitemap extends Command
         unset($sitemap);
 
         // Generate entries sitemap
-        $sitemap = $this->application->make('sitemap');
+        $sitemap = App::make('sitemap');
         $x = 1;
 
         foreach (Content::all() as $content) {
             $route = $this->urlGenerator->route('content_comments_slug', [$content->getKey(), Str::slug($content->title)]);
 
-            $sitemap->add($this->urlGenerator->to($route), $content->modified_at, '1.0', 'daily');
+            $sitemap->add(URL::to($route), $content->modified_at, '1.0', 'daily');
 
             if (!$x % 100) {
                 $this->info($x . ' contents processed');
@@ -67,13 +70,13 @@ class GenerateSitemap extends Command
         unset($sitemap);
 
         // Generate contents sitemap
-        $sitemap = $this->application->make('sitemap');
+        $sitemap = App::make('sitemap');
         $x = 1;
 
         foreach (Entry::all() as $entry) {
             $route = $this->urlGenerator->route('single_entry', $entry->getKey());
 
-            $sitemap->add($this->urlGenerator->to($route), $entry->modified_at, '1.0', 'daily');
+            $sitemap->add(URL::to($route), $entry->modified_at, '1.0', 'daily');
 
             if (!$x % 100) {
                 $this->info($x . ' entries processed');
@@ -88,11 +91,11 @@ class GenerateSitemap extends Command
         unset($sitemap);
 
         // Generate global sitemap
-        $sitemap = $this->application->make('sitemap');
+        $sitemap = App::make('sitemap');
 
-        $sitemap->addSitemap($this->urlGenerator->to('sitemap-groups.xml'));
-        $sitemap->addSitemap($this->urlGenerator->to('sitemap-contents.xml'));
-        $sitemap->addSitemap($this->urlGenerator->to('sitemap-entries.xml'));
+        $sitemap->addSitemap(URL::to('sitemap-groups.xml'));
+        $sitemap->addSitemap(URL::to('sitemap-contents.xml'));
+        $sitemap->addSitemap(URL::to('sitemap-entries.xml'));
 
         $sitemap->store('sitemapindex', 'sitemap');
     }

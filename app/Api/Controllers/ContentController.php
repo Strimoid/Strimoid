@@ -15,48 +15,54 @@ use Strimoid\Handlers\DownloadThumbnail;
 
 class ContentController extends BaseController
 {
-    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Queue\QueueManager $queueManager, private \Illuminate\Contracts\Auth\Access\Gate $gate)
+    protected FolderRepository $folders;
+
+    protected GroupRepository $groups;
+
+    public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
+        $this->folders = $folders;
+        $this->groups = $groups;
     }
 
     public function index(Request $request)
     {
         if ($request->has('folder')) {
-            $username = $request->input('user', $this->guard->id());
-            $entity = $this->folders->getByName($username, $request->input('folder'));
+            $username = request('user', auth()->id());
+            $entity = $this->folders->getByName($username, request('folder'));
         } else {
-            $groupName = $request->input('group', 'all');
+            $groupName = request('group', 'all');
             $entity = $this->groups->requireByName($groupName);
         }
 
-        $type = $request->input('type', 'all');
+        $type = request('type', 'all');
         $canSortBy = ['comments', 'uv', 'created_at', 'frontpage_at'];
-        $orderBy = in_array($request->input('sort'), $canSortBy)
-            ? $request->input('sort')
+        $orderBy = in_array(request('sort'), $canSortBy)
+            ? request('sort')
             : null;
 
         $builder = $entity->contents($type, $orderBy)->with('group', 'user');
 
         // Time filter
-        $time = $request->input('time');
+        $time = request('time');
         if ($time) {
             $builder->fromDaysAgo($time);
         }
 
         // Domain filter
-        $domain = $request->input('domain');
+        $domain = request('domain');
         if ($domain) {
             $builder->where('domain', $domain);
         }
 
         // User filter
         if ($request->has('user')) {
-            $user = User::name($request->input('user'))->firstOrFail();
+            $user = User::name(request('user'))->firstOrFail();
             $builder->where('user_id', $user->getKey());
         }
 
         $perPage = $request->has('per_page')
-            ? between($request->input('per_page'), 1, 100)
+            ? between(request('per_page'), 1, 100)
             : 20;
 
         return $builder->paginate($perPage);
@@ -79,7 +85,7 @@ class ContentController extends BaseController
             'group' => 'required|exists:groups,urlname',
         ];
 
-        if ($request->input('text')) {
+        if (request('text')) {
             $rules['text'] = 'required|min:1|max:50000';
         } else {
             $rules['url'] = 'required|url_custom';
@@ -87,18 +93,18 @@ class ContentController extends BaseController
 
         $this->validate($request, $rules);
 
-        $group = Group::name($request->input('group'))->firstOrFail();
+        $group = Group::name(request('group'))->firstOrFail();
         $group->checkAccess();
 
         if (user()->isBanned($group)) {
-            return $this->responseFactory->json([
+            return response()->json([
                 'status' => 'error',
                 'error' => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 
         if ($group->type === 'announcements' && !user()->isModerator($group)) {
-            return $this->responseFactory->json([
+            return response()->json([
                 'status' => 'error',
                 'error' => 'Użytkownik nie może dodawać treści w tej grupie.',
             ], 400);
@@ -108,10 +114,10 @@ class ContentController extends BaseController
             'title', 'description', 'nsfw', 'eng',
         ]));
 
-        if ($request->input('text')) {
-            $content->text = $request->input('text');
+        if (request('text')) {
+            $content->text = request('text');
         } else {
-            $content->url = $request->input('url');
+            $content->url = request('url');
         }
 
         $content->user()->associate(user());
@@ -124,22 +130,22 @@ class ContentController extends BaseController
 
         if ($thumbnail !== 'false' && $thumbnail !== 'off') {
             $content->thumbnail_loading = true;
-            $this->queueManager->push(DownloadThumbnail::class, [
+            Queue::push(DownloadThumbnail::class, [
                 'id' => $content->getKey(),
             ]);
         }
 
-        return $this->responseFactory->json([
+        return response()->json([
             'status' => 'ok', '_id' => $content->getKey(), 'content' => $content,
         ]);
     }
 
     public function edit(Request $request, Content $content): JsonResponse
     {
-        $policyDecision = $this->gate->inspect('edit', $content);
+        $policyDecision = Gate::inspect('edit', $content);
 
         if ($policyDecision->denied()) {
-            return $this->responseFactory->json([
+            return response()->json([
                 'status' => 'error', 'error' => $policyDecision->message(),
             ], 400);
         }
@@ -162,6 +168,6 @@ class ContentController extends BaseController
 
         $content->update($request->only($fields));
 
-        return $this->responseFactory->json(['status' => 'ok']);
+        return response()->json(['status' => 'ok']);
     }
 }

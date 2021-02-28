@@ -153,11 +153,13 @@ class NotificationsHandler
 
     /**
      * Send notifications to given users.
+     *
+     * @param array|string $targets
      */
-    protected function sendNotifications(array|string $targets, Closure $callback, User $sourceUser): void
+    protected function sendNotifications($targets, Closure $callback, User $sourceUser): void
     {
         $users = is_array($targets)
-            ? new \Illuminate\Support\Collection($targets)
+            ? collect($targets)
             : $this->findMentionedUsers($targets);
 
         $notification = new Notification();

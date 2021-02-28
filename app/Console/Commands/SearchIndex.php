@@ -15,15 +15,14 @@ class SearchIndex extends Command
 
     private Client $client;
 
-    public function __construct(private \Illuminate\Contracts\Config\Repository $configRepository)
+    public function __construct()
     {
         parent::__construct();
 
         $this->client = new Client(
-            $this->configRepository->get('strimoid.meilisearch.url'),
-            $this->configRepository->get('strimoid.meilisearch.master_key')
+            config('strimoid.meilisearch.url'),
+            config('strimoid.meilisearch.master_key')
         );
-        parent::__construct();
     }
 
     public function handle(): void

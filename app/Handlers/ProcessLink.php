@@ -7,14 +7,11 @@ use Strimoid\Models\Content;
 
 class ProcessLink
 {
-    public function __construct(private \Illuminate\Contracts\Config\Repository $configRepository)
-    {
-    }
     public function fire($job, $data): void
     {
         $content = Content::findOrFail($data['id']);
 
-        $url = $this->configRepository->get('app.iframely_host') . '/oembed';
+        $url = config('app.iframely_host') . '/oembed';
         $response = Guzzle::get($url, [
             'query' => ['url' => $content->url],
         ])->json();

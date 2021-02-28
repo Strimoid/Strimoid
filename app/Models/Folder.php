@@ -22,10 +22,6 @@ class Folder extends BaseModel
     protected static array $rules = [
         'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u',
     ];
-    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Auth\AuthManager $authManager)
-    {
-        parent::__construct($guard);
-    }
 
     public function groups(): BelongsToMany
     {
@@ -70,7 +66,7 @@ class Folder extends BaseModel
 
     public function canBrowse()
     {
-        $isOwner = $this->user->getKey() === $this->authManager->id();
+        $isOwner = $this->user->getKey() === Auth::id();
 
         return $this->public || $isOwner;
     }

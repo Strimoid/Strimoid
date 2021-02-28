@@ -17,9 +17,6 @@ class OEmbed
         'image/' => 'embedImage',
         'video/' => 'embedVideo',
     ];
-    public function __construct(private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Log\LogManager $logManager)
-    {
-    }
 
     public function getThumbnail(string $url): ?string
     {
@@ -30,7 +27,7 @@ class OEmbed
             $thumbnail = Arr::first($images);
 
             return data_get($thumbnail, 'href');
-        } catch (RequestException) {
+        } catch (RequestException $e) {
             return null;
         }
     }
@@ -47,7 +44,7 @@ class OEmbed
     {
         $query = array_filter([
             'url' => $url,
-            'api_key' => $this->configRepository->get('strimoid.oembed.api_key'),
+            'api_key' => config('strimoid.oembed.api_key'),
         ]);
 
         /** @var Response $response */
@@ -90,11 +87,11 @@ class OEmbed
             $key .= '.no-ap';
         }
 
-        return $this->cacheManager->rememberForever($key, function () use ($url, $autoPlay) {
+        return Cache::rememberForever($key, function () use ($url, $autoPlay) {
             try {
                 return $this->fetchEmbedCode($url, $autoPlay);
             } catch (\Throwable $throwable) {
-                $this->logManager->warning('Failed to fetch embed code: ' . $throwable->getMessage());
+                Log::warning('Failed to fetch embed code: ' . $throwable->getMessage());
                 return null;
             }
         });
@@ -105,7 +102,7 @@ class OEmbed
         $query = array_filter([
             'ssl' => 'true',
             'url' => $url,
-            'api_key' => $this->configRepository->get('strimoid.oembed.api_key'),
+            'api_key' => config('strimoid.oembed.api_key'),
         ]);
 
         if ($autoPlay) {
@@ -169,7 +166,7 @@ class OEmbed
 
     protected function endpoint(): string
     {
-        $baseUrl = $this->configRepository->get('strimoid.oembed.url');
+        $baseUrl = config('strimoid.oembed.url');
 
         return $baseUrl . '/iframely';
     }

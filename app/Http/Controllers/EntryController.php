@@ -119,7 +119,7 @@ class EntryController extends BaseController
         $entry->group()->associate($group);
         $entry->save();
 
-        $html = $this->viewFactory->make('entries.widget', ['entry' => $entry])->render();
+        $html = $this->viewFactory->make('entries.widget', ['entry' => $entry, 'isReply' => false])->render();
 
         return $this->responseFactory->json(['status' => 'ok', 'entry' => $html]);
     }

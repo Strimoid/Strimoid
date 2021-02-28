@@ -12,11 +12,6 @@ use Strimoid\Helpers\OEmbed;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function __construct(private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Http\Request $request)
-    {
-        parent::__construct();
-        parent::__construct();
-    }
     public function boot(): void
     {
         if ($this->app->environment('local')) {
@@ -24,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         }
 
-        $dsn = $this->configRepository->get('services.raven.dsn');
+        $dsn = config('services.raven.dsn');
 
         if (!empty($dsn)) {
             $this->app->register('Jenssegers\Raven\RavenServiceProvider');
@@ -32,7 +27,10 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrap();
 
-        $this->request->setTrustedProxies(['10.0.0.0/8', '172.16.0.0/12', 'fd00::/8'], \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL);
+        Request::setTrustedProxies(
+            ['10.0.0.0/8', '172.16.0.0/12', 'fd00::/8'],
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
+        );
     }
 
     public function register(): void

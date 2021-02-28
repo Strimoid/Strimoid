@@ -11,11 +11,6 @@ class FacebookPost extends Command
 {
     protected $name = 'lara:fbpost';
     protected $description = 'Posts most popular content to FB fanpage.';
-    public function __construct(private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Routing\UrlGenerator $urlGenerator)
-    {
-        parent::__construct();
-        parent::__construct();
-    }
 
     public function handle(): void
     {
@@ -25,9 +20,9 @@ class FacebookPost extends Command
             ->firstOrFail();
 
         $params = [
-            'access_token' => $this->configRepository->get('social.facebook.page_token'),
+            'access_token' => config('social.facebook.page_token'),
             'name' => $content->title,
-            'link' => $this->urlGenerator->route('content_comments', $content->getKey()),
+            'link' => route('content_comments', $content->getKey()),
             'description' => $content->description,
         ];
 

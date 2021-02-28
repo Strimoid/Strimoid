@@ -12,10 +12,6 @@ class Conversation extends BaseModel
 {
     protected $table = 'conversations';
     protected $visible = ['id', 'created_at', 'users', 'lastMessage'];
-    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Auth\AuthManager $authManager)
-    {
-        parent::__construct($guard);
-    }
 
     public function lastMessage(): HasOne
     {
@@ -39,7 +35,7 @@ class Conversation extends BaseModel
 
     public function target(): User
     {
-        return $this->users->filter(fn ($value) => $value->getKey() !== $this->authManager->id())->first();
+        return $this->users->filter(fn ($value) => $value->getKey() !== Auth::id())->first();
     }
 
     public function scopeWithUser($query, $userName): void

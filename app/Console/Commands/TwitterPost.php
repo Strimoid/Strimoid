@@ -13,10 +13,6 @@ class TwitterPost extends Command
 {
     protected $name = 'lara:twitterpost';
     protected $description = 'Posts most popular content to Twitter.';
-    public function __construct(private \Illuminate\Contracts\Config\Repository $configRepository)
-    {
-        parent::__construct();
-    }
 
     public function handle(): void
     {
@@ -31,10 +27,10 @@ class TwitterPost extends Command
         ]);
 
         $oauth = new Oauth1([
-            'consumer_key' => $this->configRepository->get('social.twitter.consumer_key'),
-            'consumer_secret' => $this->configRepository->get('social.twitter.consumer_secret'),
-            'token' => $this->configRepository->get('social.twitter.token'),
-            'token_secret' => $this->configRepository->get('social.twitter.token_secret'),
+            'consumer_key' => config('social.twitter.consumer_key'),
+            'consumer_secret' => config('social.twitter.consumer_secret'),
+            'token' => config('social.twitter.token'),
+            'token_secret' => config('social.twitter.token_secret'),
         ]);
 
         $client->getEmitter()->attach($oauth);

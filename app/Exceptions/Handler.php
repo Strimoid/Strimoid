@@ -23,17 +23,11 @@ class Handler extends ExceptionHandler
         TokenMismatchException::class,
         ValidationException::class,
     ];
-    public function __construct(private \Illuminate\Log\LogManager $logManager, private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
-    {
-        parent::__construct();
-        parent::__construct();
-        parent::__construct();
-    }
 
     public function report(Throwable $exception): void
     {
         if ($this->shouldReport($exception)) {
-            $this->logManager->error($exception);
+            Log::error($exception);
         }
 
         parent::report($exception);
@@ -54,7 +48,7 @@ class Handler extends ExceptionHandler
         }
         */
 
-        if ($this->configRepository->get('app.debug')) {
+        if (config('app.debug')) {
             $handler = new PrettyPageHandler();
             $handler->setEditor('sublime');
 
@@ -63,7 +57,7 @@ class Handler extends ExceptionHandler
             $whoops->allowQuit(false);
             $whoops->writeToOutput(false);
 
-            return $this->responseFactory->make($whoops->handleException($exception));
+            return response($whoops->handleException($exception));
         }
 
         return parent::render($request, $exception);

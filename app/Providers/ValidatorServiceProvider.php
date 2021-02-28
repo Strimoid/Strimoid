@@ -11,16 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ValidatorServiceProvider extends ServiceProvider
 {
-    public function __construct(private \Illuminate\Validation\Factory $validationFactory, private \Illuminate\Database\DatabaseManager $databaseManager, private \Illuminate\Contracts\Hashing\Hasher $hasher, private \Illuminate\Auth\AuthManager $authManager)
-    {
-        parent::__construct();
-        parent::__construct();
-        parent::__construct();
-        parent::__construct();
-    }
     public function boot(): void
     {
-        $this->validationFactory->extend('unique_email', function ($attribute, $value, $parameters) {
+        Validator::extend('unique_email', function ($attribute, $value, $parameters) {
             if (isset($parameters[1])) {
                 $attribute = $parameters[1];
             }
@@ -28,18 +21,18 @@ class ValidatorServiceProvider extends ServiceProvider
             $value = str_replace('.', '', $value);
             $value = preg_replace('/\+(.)*@/', '@', $value);
 
-            $count = $this->databaseManager->table($parameters[0])
+            $count = DB::table($parameters[0])
                 ->where($attribute, $value)
                 ->count();
 
             return $count === 0;
         });
 
-        $this->validationFactory->extend('safe_url', fn ($attribute, $value, $parameters) => Str::startsWith($value, 'http'));
+        Validator::extend('safe_url', fn ($attribute, $value, $parameters) => Str::startsWith($value, 'http'));
 
-        $this->validationFactory->extend('url_custom', fn ($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value));
+        Validator::extend('url_custom', fn ($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value));
 
-        $this->validationFactory->extend('real_email', function ($attribute, $value, $parameters) {
+        Validator::extend('real_email', function ($attribute, $value, $parameters) {
             $blockedDomains = [
 
                 // normal mail mail providers (used to spam)
@@ -120,12 +113,12 @@ class ValidatorServiceProvider extends ServiceProvider
 
             try {
                 return !in_array($parts[count($parts) - 2] . '.' . $parts[count($parts) - 1], $blockedDomains);
-            } catch (\Throwable) {
+            } catch (\Throwable $throwable) {
                 return false;
             }
         });
 
-        $this->validationFactory->extend('strong_password', function ($attribute, $value, $parameters) {
+        Validator::extend('strong_password', function ($attribute, $value, $parameters) {
             $easyPasswords = [
                 '111111', '121212', '123456', 'qwerty', 'polska', 'zaq12wsx', '111111', 'aaaaaa', 'matrix', 'monika', 'marcin',
                 'misiek', 'master', 'abc123', 'qwerty1', 'qazwsx', 'mateusz', 'strims', 'strimoid', 'qwe123', 'zzzzzz',
@@ -134,7 +127,7 @@ class ValidatorServiceProvider extends ServiceProvider
             return !in_array($value, $easyPasswords);
         });
 
-        $this->validationFactory->extend('reserved_groupnames', function ($attribute, $value, $parameters) {
+        Validator::extend('reserved_groupnames', function ($attribute, $value, $parameters) {
             $names = [
                 'subscribed', 'moderated', 'blocked', 'random', 'all', 'observed', 'saved',
                 'subskrybowane', 'moderowane', 'zablokowane', 'blokowane', 'losowa', 'losowe',
@@ -147,7 +140,7 @@ class ValidatorServiceProvider extends ServiceProvider
             return !in_array($value, $names);
         });
 
-        $this->validationFactory->extend('user_password', fn ($attribute, $value, $parameters) => $this->hasher->check($value, $this->authManager->user()->password));
+        Validator::extend('user_password', fn ($attribute, $value, $parameters) => Hash::check($value, Auth::user()->password));
     }
 
     public function register(): void

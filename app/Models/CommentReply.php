@@ -18,10 +18,6 @@ class CommentReply extends Comment
     protected $hidden = ['text_source', 'updated_at'];
     protected $fillable = ['text'];
     protected $table = 'comment_replies';
-    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Auth\AuthManager $authManager, \Illuminate\Routing\UrlGenerator $urlGenerator, private \Illuminate\Routing\UrlGenerator $urlGenerator)
-    {
-        parent::__construct($guard, $guard, $authManager, $urlGenerator);
-    }
 
     public static function boot(): void
     {
@@ -56,7 +52,7 @@ class CommentReply extends Comment
 
     public function getURL(): string
     {
-        $url = $this->urlGenerator->route('content_comments', $this->parent->content);
+        $url = route('content_comments', $this->parent->content);
 
         return $url . '#' . $this->hashId();
     }

@@ -28,10 +28,6 @@ class RouteServiceProvider extends ServiceProvider
      * In addition, it is set as the URL generator's root namespace.
      */
     protected $namespace = 'Strimoid\Http\Controllers';
-    public function __construct(private \Illuminate\Routing\Router $router)
-    {
-        parent::__construct();
-    }
 
     public function boot(): void
     {
@@ -69,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
                 }
 
                 return $className::findOrFail($ids[0]);
-            } catch (ModelNotFoundException) {
+            } catch (ModelNotFoundException $e) {
                 throw new NotFoundHttpException();
             }
         };
@@ -79,20 +75,20 @@ class RouteServiceProvider extends ServiceProvider
 
     public function map(): void
     {
-        $this->router->group([
+        Route::group([
             'middleware' => 'web',
             'namespace' => $this->namespace,
         ], function ($router): void {
             require app_path('Http/routes.php');
         });
 
-        $this->router->group([
+        Route::group([
             'namespace' => $this->namespace,
         ], function ($router): void {
-            $this->router->get('/i/duck/{username}', 'DuckController@drawDuck');
-            $this->router->get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
+            Route::get('/i/duck/{username}', 'DuckController@drawDuck');
+            Route::get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
                 ->where(['format' => '\w{3}']);
-            $this->router->get('/i/{folder}/{filename}.{format}', 'ImageController@showImage')
+            Route::get('/i/{folder}/{filename}.{format}', 'ImageController@showImage')
                 ->where(['format' => '\w{3}']);
         });
     }

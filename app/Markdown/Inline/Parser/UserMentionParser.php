@@ -9,9 +9,6 @@ use Strimoid\Models\User;
 
 class UserMentionParser implements InlineParserInterface
 {
-    public function __construct(private \Illuminate\Routing\UrlGenerator $urlGenerator)
-    {
-    }
     public function getCharacters(): array
     {
         return ['@'];
@@ -42,7 +39,7 @@ class UserMentionParser implements InlineParserInterface
             return false;
         }
 
-        $profileUrl = $this->urlGenerator->route('user_profile', $user, false);
+        $profileUrl = route('user_profile', $user, false);
         $inlineContext->getContainer()->appendChild(new Link($profileUrl, '@' . $handle));
 
         return true;

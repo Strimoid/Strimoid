@@ -16,16 +16,12 @@ class UpdateStats extends Command
 {
     protected $name = 'lara:updatestats';
     protected $description = 'Updates stats.';
-    public function __construct(private \Illuminate\Database\DatabaseManager $databaseManager)
-    {
-        parent::__construct();
-    }
 
     public function handle(): void
     {
-        $this->databaseManager->connection()->disableQueryLog();
+        DB::connection()->disableQueryLog();
 
-        $conn = $this->databaseManager->connection();
+        $conn = DB::connection();
         $conn->disableQueryLog();
 
         $firstDay = Carbon::create(2013, 1, 1);
@@ -98,7 +94,7 @@ class UpdateStats extends Command
 
     protected function getFieldName($action): ?string
     {
-        $className = $action->element::class;
+        $className = get_class($action->element);
 
         switch ($className) {
             case Content::class:

@@ -9,19 +9,15 @@ use Strimoid\Models\FakeFolder;
 
 class All extends FakeFolder
 {
-    public function __construct(\Illuminate\Translation\Translator $translator, private \Illuminate\Auth\AuthManager $authManager)
-    {
-        parent::__construct($translator);
-    }
     protected function getBuilder(string $model): Builder
     {
         $builder = with(new $model())->newQuery();
 
-        if ($this->authManager->check()) {
-            $blockedGroups = $this->authManager->user()->blockedGroups()->pluck('id');
+        if (Auth::check()) {
+            $blockedGroups = Auth::user()->blockedGroups()->pluck('id');
             $builder->whereNotIn('group_id', $blockedGroups);
 
-            $blockedUsers = $this->authManager->user()->blockedUsers()->pluck('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $builder->whereNotIn('user_id', $blockedUsers);
         }
 
@@ -32,8 +28,8 @@ class All extends FakeFolder
     {
         $builder = $this->getBuilder(Content::class);
 
-        if ($this->authManager->check()) {
-            $blockedDomains = $this->authManager->user()->blockedDomains();
+        if (Auth::check()) {
+            $blockedDomains = Auth::user()->blockedDomains();
             $builder->whereNotIn('domain', $blockedDomains);
         }
 

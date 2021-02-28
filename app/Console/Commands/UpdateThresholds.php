@@ -11,14 +11,10 @@ class UpdateThresholds extends Command
 {
     protected $name = 'lara:updatethresholds';
     protected $description = 'Updates thresholds.';
-    public function __construct(private \Illuminate\Database\DatabaseManager $databaseManager)
-    {
-        parent::__construct();
-    }
 
     public function handle(): void
     {
-        $this->databaseManager->connection()->disableQueryLog();
+        DB::connection()->disableQueryLog();
 
         foreach (Group::all() as $group) {
             $builder = Content::where('group_id', $group->getKey())

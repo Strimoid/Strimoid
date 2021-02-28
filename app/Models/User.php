@@ -33,14 +33,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'age' => 'integer',
         'settings' => 'array',
     ];
-    public function __construct(\Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Hashing\BcryptHasher $bcryptHasher, private \Illuminate\Database\DatabaseManager $databaseManager, private \Illuminate\Contracts\Auth\Guard $guard)
-    {
-        parent::__construct($guard);
-        parent::__construct($guard);
-        parent::__construct($guard);
-        parent::__construct($guard);
-        parent::__construct($guard);
-    }
 
     public function getColoredName(): string
     {
@@ -51,10 +43,10 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function getAvatarPath(int $width = null, int $height = null)
     {
-        $host = $this->configRepository->get('app.cdn_host');
+        $host = config('app.cdn_host');
 
         // Show default avatar if user is blocked
-        if ($this->authManager->check() && $this->authManager->user()->isBlockingUser($this)) {
+        if (Auth::check() && Auth::user()->isBlockingUser($this)) {
             return $this->getDefaultAvatarPath();
         }
 
@@ -96,7 +88,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function setPasswordAttribute($value): void
     {
-        $this->attributes['password'] = $this->bcryptHasher->make($value);
+        $this->attributes['password'] = bcrypt($value);
     }
 
     public function actions()
@@ -176,7 +168,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function blockedDomains(): object
     {
-        return $this->databaseManager->table('user_blocked_domains')->where('user_id', $this->getKey())->pluck('domain');
+        return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->pluck('domain');
     }
 
     public function isBanned(Group $group): bool
@@ -207,7 +199,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.moderated-groups', 'u.' . $this->guard->id()];
+        $cacheTags = ['users.moderated-groups', 'u.' . auth()->id()];
         $moderatedGroupsIds = $this->moderatedGroups()->remember(60)->cacheTags($cacheTags)->pluck('groups.id');
 
         return $moderatedGroupsIds->contains($group);
@@ -219,7 +211,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.subscribed-groups', 'u.' . $this->guard->id()];
+        $cacheTags = ['users.subscribed-groups', 'u.' . auth()->id()];
         $subscribedGroupsIds = $this->subscribedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
         return $subscribedGroupsIds->contains($group);
@@ -231,7 +223,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.blocked-groups', 'u.' . $this->guard->id()];
+        $cacheTags = ['users.blocked-groups', 'u.' . auth()->id()];
         $blockedGroupsIds = $this->blockedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
         return $blockedGroupsIds->contains($group);
@@ -248,7 +240,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             $user = $user->getKey();
         }
 
-        $cacheTags = ['users.blocked-users', 'u.' . $this->guard->id()];
+        $cacheTags = ['users.blocked-users', 'u.' . auth()->id()];
         $blockedUsersIds = $this->blockedUsers()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
         return $blockedUsersIds->contains($user);
