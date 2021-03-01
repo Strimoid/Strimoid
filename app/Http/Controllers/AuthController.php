@@ -11,6 +11,7 @@ class AuthController extends BaseController
     public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Translation\Translator $translator)
     {
     }
+
     public function showLoginForm(): View
     {
         return $this->viewFactory->make('user.login');
@@ -28,20 +29,20 @@ class AuthController extends BaseController
             if ($this->guard->user()->removed_at || $this->guard->user()->blocked_at) {
                 $this->guard->logout();
 
-                return $this->redirector->back('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
+                return $this->redirector->away('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
             }
 
             return $this->redirector->intended('');
         }
 
-        return $this->redirector->back('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
+        return $this->redirector->away('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
     }
 
     public function logout(): RedirectResponse
     {
         $this->guard->logout();
 
-        return $this->redirector->back('')->with('success_msg', $this->translator->trans('auth.logged_out'));
+        return $this->redirector->back()->with('success_msg', $this->translator->trans('auth.logged_out'));
     }
 
     /*
