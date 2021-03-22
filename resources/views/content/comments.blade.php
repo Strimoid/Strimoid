@@ -5,6 +5,8 @@
 @stop
 
 @section('head')
+    <link rel="canonical" href="{{ route('content_comments_slug', [$content, Str::slug($content->title)]) }}">
+
     @if ($content->thumbnail) <meta property="og:image" content="https:{!! $content->getThumbnailPath() !!}"> @endif
     @if ($content->description) <meta name="description" content="{{{ $content->description }}}"> @endif
 @stop
