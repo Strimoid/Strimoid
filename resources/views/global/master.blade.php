@@ -61,20 +61,8 @@ $navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top
 @yield('scripts')
 
 @if (!config('app.debug'))
-    @if (config('services.piwik.host') && config('services.piwik.site_id'))
-        <script type="text/javascript">
-            var _paq = _paq || [];
-            _paq.push(['trackPageView']);
-            _paq.push(['enableLinkTracking']);
-            (function() {
-                var u="{{ config('services.piwik.host') }}";
-                _paq.push(['setTrackerUrl', u+'piwik.php']);
-                _paq.push(['setSiteId', {{ (int) config('services.piwik.site_id') }}]);
-                var d=document,g=d.createElement('script'),s=d.getElementsByTagName('script')[0];
-                g.type='text/javascript';g.async=true;g.defer=true;g.src=u+'piwik.js';s.parentNode.insertBefore(g,s)
-            })();
-        </script>
-        <noscript><p><img src="{{ config('services.piwik.host') }}piwik.php?idsite=1" style="border:0"></p></noscript>
+    @if (config('strimoid.html_snippet'))
+        {!! config('strimoid.html_snippet') !!}
     @endif
 
     @if (config('services.raven.public_dsn'))

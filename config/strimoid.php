@@ -2,6 +2,7 @@
 
 return [
 
+    'html_snippet' => env('HTML_SNIPPET', ''),
     'homepage' => [
         'threshold'  => 2,
         'time_limit' => 7,
