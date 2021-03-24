@@ -44,7 +44,7 @@ class EntryReply extends Entry
     public function isLast(): bool
     {
         $lastId = $this->parent->replies()
-            ->orderBy('created_at', 'desc')
+            ->reorder('created_at', 'desc')
             ->value('id');
 
         return $lastId === $this->getKey();

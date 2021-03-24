@@ -49,7 +49,7 @@ class Entry extends BaseModel
         $this->attributes['text_source'] = $text;
     }
 
-    public function isHidden()
+    public function isHidden(): bool
     {
         if (Auth::guest()) {
             return false;
@@ -58,12 +58,12 @@ class Entry extends BaseModel
         return Auth::user()->isBlockingUser($this->user);
     }
 
-    public function isLast()
+    public function isLast(): bool
     {
         return $this->replies_count === 0;
     }
 
-    public function getURL()
+    public function getURL(): string
     {
         return route('single_entry', $this);
     }
