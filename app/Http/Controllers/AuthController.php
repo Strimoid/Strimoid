@@ -45,15 +45,4 @@ class AuthController extends BaseController
         return $this->redirector->back()->with('success_msg', $this->translator->trans('auth.logged_out'));
     }
 
-    /*
-    public function authenticatePusher(Request $request, PusherManager $pusher): string
-    {
-        $channelName = 'privateU' . auth()->id();
-        $socketId = $request->input('socket_id');
-
-        $pusher->connection();
-
-        return $pusher->socket_auth($channelName, $socketId);
-    }
-    */
 }

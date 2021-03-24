@@ -41,6 +41,12 @@ return [
             ],
         ],
 
+        'mercure' => [
+            'driver' => 'mercure',
+            'url' => env('MERCURE_URL'),
+            'secret' => env('MERCURE_SECRET'),
+        ],
+
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',

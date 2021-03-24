@@ -51,8 +51,9 @@
         "tightenco/ziggy": "^1.0",
         "gliterd/laravel-backblaze-b2": "^1.2",
         "meilisearch/meilisearch-laravel-scout": "^0.12.0",
-        "pusher/pusher-php-server": "~4.0",
-        "php-http/guzzle6-adapter": "^2.0"
+        "pusher/pusher-php-server": "^4.0",
+        "php-http/guzzle6-adapter": "^2.0",
+        "mvanduijker/laravel-mercure-broadcaster": "^3.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.2",
@@ -67,7 +68,7 @@
         "codeception/module-rest": "^1.0",
         "codeception/module-asserts": "^1.0",
         "codeception/module-filesystem": "^1.0",
-        "rector/rector": "^0.9"
+        "rector/rector": "^0.10"
     },
     "autoload": {
         "classmap": [
