@@ -24,12 +24,12 @@ use Strimoid\Policies\GroupPolicy;
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        Comment::class => CommentPolicy::class,
         CommentReply::class => CommentReplyPolicy::class,
+        Comment::class => CommentPolicy::class,
         Content::class => ContentPolicy::class,
         ContentRelated::class => ContentRelatedPolicy::class,
-        Entry::class => EntryPolicy::class,
         EntryReply::class => EntryReplyPolicy::class,
+        Entry::class => EntryPolicy::class,
         Group::class => GroupPolicy::class,
     ];
 

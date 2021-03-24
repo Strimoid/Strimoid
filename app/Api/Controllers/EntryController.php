@@ -109,10 +109,6 @@ class EntryController extends BaseController
         $this->authorize('edit', $entry);
         $this->validate($request, $entry->validationRules());
 
-        if (!$entry->canEdit()) {
-            abort(403, 'Access denied');
-        }
-
         $entry->update($request->only('text'));
 
         return response()->json(['status' => 'ok', 'parsed' => $entry->text]);

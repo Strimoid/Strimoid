@@ -67,16 +67,4 @@ class Entry extends BaseModel
     {
         return route('single_entry', $this);
     }
-
-    public function isAuthor(User $user = null)
-    {
-        $userId = $user ? $user->getKey() : auth()->id();
-
-        return (int) $userId === (int) $this->user_id;
-    }
-
-    public function canEdit()
-    {
-        return $this->isAuthor() && $this->replies_count === 0;
-    }
 }

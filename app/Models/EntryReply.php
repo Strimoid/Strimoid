@@ -56,14 +56,4 @@ class EntryReply extends Entry
 
         return route('single_entry', $parentHashId) . '#' . $this->hashId();
     }
-
-    public function canEdit(): bool
-    {
-        return auth()->id() === $this->user_id && $this->isLast();
-    }
-
-    public function canRemove(): bool
-    {
-        return auth()->id() === $this->user_id || user()->isModerator($this->group_id);
-    }
 }

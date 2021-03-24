@@ -150,7 +150,7 @@ class EntryController extends BaseController
 
         $entry = $class::findOrFail($id);
 
-        $policyDecision = $this->gate->inspect('update', $entry);
+        $policyDecision = $this->gate->inspect('edit', $entry);
 
         if ($policyDecision->denied()) {
             return $this->responseFactory->json([
