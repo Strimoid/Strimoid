@@ -1,4 +1,4 @@
-version: '2'
+version: "3.9"
 services:
   nginx:
     image: nginx:1.19-alpine
@@ -11,14 +11,11 @@ services:
   php:
     build: .
     image: quay.io/strimoid/strimoid
-    links:
-     - beanstalkd
+    depends_on:
      - postgres
      - redis
-  beanstalkd:
-    image: schickling/beanstalkd
   postgres:
-    image: postgres:12-alpine
+    image: postgres:13-alpine
     environment:
      - POSTGRES_USER=strimoid
      - POSTGRES_PASSWORD=strimoid
