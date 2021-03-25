@@ -34,6 +34,6 @@ trait HasSaves
             return false;
         }
 
-        return (bool) $this->userSave();
+        return (bool) $this->userSave()->exists();
     }
 }

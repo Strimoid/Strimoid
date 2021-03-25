@@ -2,7 +2,7 @@ function EntriesModule () {
 
   if (window.username) {
     // $('span.save_entry').click(this.saveEntry);
-    $('body').delegate('span.save_entry', 'click', this.saveEntry)
+    $('body').delegate('.save_entry', 'click', this.saveEntry)
 
     $('body').on('submit', 'form.entry_add', this.addEntry)
     $('body').on('submit', 'form.entry_add_reply', this.addReply)
@@ -15,18 +15,16 @@ EntriesModule.prototype.saveEntry = function (e) {
   var button = $(this)
   var entry = $(this).parents('[data-id]').attr('data-id')
 
-  if (button.hasClass('glyphicon-star')) {
+  if (button.hasClass('fa-star')) {
     $.post('/ajax/entry/remove_save', { entry: entry }, function (data) {
       if (data.status === 'ok') {
-        $(button).removeClass('glyphicon-star')
-        $(button).addClass('glyphicon-star-empty')
+        $(button).removeClass('fa-star').addClass('fa-star-o')
       }
     })
   } else {
     $.post('/ajax/entry/add_save', { entry: entry }, function (data) {
       if (data.status === 'ok') {
-        $(button).removeClass('glyphicon-star-empty')
-        $(button).addClass('glyphicon-star')
+        $(button).removeClass('fa-star-o').addClass('fa-star')
       }
     })
   }

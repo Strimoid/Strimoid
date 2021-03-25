@@ -10,7 +10,10 @@ class Save extends BaseModel
 
     public const UPDATED_AT = null;
 
-    public static $unguarded = true;
+    public $incrementing = false;
+    protected $primaryKey = null;
+
+    protected static $unguarded = true;
 
     public function element()
     {
