@@ -1,12 +1,9 @@
 dependencies:
-- name: beanstalkd
-  repository: https://strimoid.github.io/helm-charts/
-  version: 1.0.0
 - name: postgresql
-  repository: https://charts.helm.sh/stable
-  version: 3.11.7
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.3.13
 - name: redis
-  repository: https://charts.helm.sh/stable
-  version: 6.1.4
-digest: sha256:e8a27b0b94930d4bf7968060675e56dcdc74393721abd847c9b02f8fae60579d
-generated: "2020-12-22T20:25:16.2738079+01:00"
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.9.0
+digest: sha256:2bee0d1067f5baca98585beeb19e2a606d5f33509d2046c35533665df22ec695
+generated: "2021-03-26T15:57:22.5914638+01:00"

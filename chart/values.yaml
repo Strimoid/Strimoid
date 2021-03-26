@@ -62,8 +62,12 @@ affinity: {}
 env: {}
 secretEnv: {}
 
-beanstalkd:
-  enabled: true
+cron:
+  replicaCount: 1
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 
 postgresql:
   enabled: true
@@ -74,3 +78,4 @@ postgresql:
 
 redis:
   enabled: true
+  usePassword: false

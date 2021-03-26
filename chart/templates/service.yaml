@@ -16,4 +16,5 @@ spec:
       name: fastcgi
   selector:
     app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    app.kubernetes.io/component: web
     app.kubernetes.io/instance: {{ .Release.Name }}
