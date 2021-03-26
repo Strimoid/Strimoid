@@ -50,6 +50,7 @@ return [
     'folders'  => 'Foldery',
 
     // Other
+    'check also'       => 'Sprawdź też',
     'options'          => 'Opcje',
     'description'      => 'Opis',
     'title'            => 'Tytuł',

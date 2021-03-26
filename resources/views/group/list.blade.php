@@ -45,14 +45,14 @@
     <a href="{!! action('GroupController@showCreateForm') !!}">
         <button type="button" class="btn btn-primary w-100 group_subscribe_btn">
             <i class="fa fa-plus mr-1"></i>
-            {{ Str::ucfirst(trans('groups.create group')) }}
+            {{ Str::ucfirst(trans('groups.create')) }}
         </button>
     </a>
 </div>
 
 @if (isset($recommendedGroups))
 <div class="well popular_contents_widget">
-    <h4>Sprawdź też</h4>
+    <h4>{{ __('common.check also') }}</h4>
 
     @foreach ($recommendedGroups as $recommended)
     @if (!Auth::user()->isSubscriber($recommended))

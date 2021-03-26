@@ -54,6 +54,7 @@ return [
 
     // Other
     'account'          => 'Account',
+    'check also'       => 'Check also',
     'options'          => 'Options',
     'description'      => 'Description',
     'title'            => 'Title',
