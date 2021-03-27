@@ -1,107 +1,116 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
-use Auth;
+namespace Strimoid\Http\Controllers;
+
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Input;
-use Response;
-use Str;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Strimoid\Models\Folder;
 use Strimoid\Models\Group;
 
 class FolderController extends BaseController
 {
-    public function displayFolder()
+    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Foundation\Application $application, private \Illuminate\Validation\Factory $validationFactory, private \Illuminate\Routing\Redirector $redirector)
+    {
+    }
+    public function displayFolder(): void
     {
     }
 
     public function createFolder(Request $request)
     {
-        $this->validate($request, Folder::rules());
+        $this->validate($request, Folder::validationRules());
 
-        $folder = Auth::user()->folders()->create([
-            'name' => Input::get('name'),
+        $folder = user()->folders()->create([
+            'name' => $request->get('name'),
         ]);
 
-        if (Input::has('groupname')) {
-            $group = Group::findOrFail(Input::get('groupname'));
+        if ($request->has('groupname')) {
+            $group = Group::findOrFail($request->get('groupname'));
             $folder->groups()->attach($group);
         }
 
-        return Response::json(['status' => 'ok', 'id' => $folder->getKey()]);
+        return $this->responseFactory->json(['status' => 'ok', 'id' => $folder->getKey()]);
     }
 
     public function editFolder(Request $request)
     {
-        $folder = Folder::findOrFail(Input::get('folder'));
+        $folder = Folder::findOrFail($request->get('folder'));
 
         $this->validate($request, [
-            'name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
+            'name' => 'min:1|max:64|regex:/^[a-z0-9\pL ]+$/u',
         ]);
 
-        if (Input::has('public')) {
-            $folder->public = Input::get('public') == 'true';
+        if ($request->has('public')) {
+            $folder->public = $request->get('public') === 'true';
         }
 
         $folder->save();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
-    public function copyFolder()
+    public function copyFolder(Request $request)
     {
-        $folder = Folder::findUserFolderOrFail(Input::get('user'), Input::get('folder'));
+        $folder = Folder::findUserFolderOrFail($request->get('user'), $request->get('folder'));
 
-        if (!$folder->public && $folder->user->getKey() != Auth::id()) {
-            App::abort(404);
+        if (!$folder->public && $folder->user->getKey() !== $this->authManager->id()) {
+            $this->application->abort(404);
         }
 
-        $validator = Validator::make(Input::all(), ['name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u']);
+        $validator = $this->validationFactory->make($request->all(), [
+            'name' => 'required|min:1|max:64|regex:/^[a-z0-9\pL ]+$/u'
+        ]);
 
         if ($validator->fails()) {
-            return Redirect::route('user_folder_contents', [Input::get('user'), Input::get('folder')])
+            return $this->redirector->route('user_folder_contents', [$request->get('user'), $request->get('folder')])
                 ->with('danger_msg', $validator->messages()->first());
         }
 
-        $id = Str::slug(Input::get('name'));
+        $id = Str::slug($request->get('name'));
 
         if (Folder::find($id)) {
-            return Redirect::route('user_folder_contents', [Input::get('user'), Input::get('folder')])
+            return $this->redirector->route('user_folder_contents', [$request->get('user'), $request->get('folder')])
                 ->with('danger_msg', 'Folder z podaną nazwą już istnieje.');
         }
 
         $folder->exists = false;
-        $folder->name = Input::get('name');
+        $folder->name = $request->get('name');
 
-        Auth::user()->folders()->save($folder);
+        $this->authManager->user()->folders()->save($folder);
 
-        return Redirect::route('folder_contents', $id)->with('info_msg', 'Folder został skopiowany.');
+        return $this->redirector->route('folder_contents', $id)->with('info_msg', 'Folder został skopiowany.');
     }
 
-    public function removeFolder()
+    public function removeFolder(Request $request)
     {
-        $folder = Folder::findOrFail(Input::get('folder'));
+        $folder = Folder::findOrFail($request->get('folder'));
         $folder->delete();
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
-    public function addToFolder()
+    public function addToFolder(Request $request)
     {
-        $group = Group::findOrFail(Input::get('group'));
-        $folder = Folder::findOrFail(Input::get('folder'));
+        $group = Group::findOrFail($request->get('group'));
+        $folder = Folder::findOrFail($request->get('folder'));
 
         $folder->groups()->attach($group);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
-    public function removeFromFolder()
+    public function removeFromFolder(Request $request)
     {
-        $group = Group::findOrFail(Input::get('group'));
-        $folder = Folder::findOrFail(Input::get('folder'));
+        $group = Group::findOrFail($request->get('group'));
+        $folder = Folder::findOrFail($request->get('folder'));
 
         $folder->groups()->detach($group);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

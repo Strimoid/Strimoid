@@ -1,8 +1,11 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
 
-use Auth;
+namespace Strimoid\Api\Controllers;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Input;
+use Illuminate\Support\Str;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Folder;
@@ -10,18 +13,18 @@ use Strimoid\Models\Group;
 
 class EntryController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
         $folderName = request('folder');
-        $groupName = Input::has('group') ? shadow(request('group')) : 'all';
+        $groupName = $request->has('group') ? shadow(request('group')) : 'all';
 
-        $className = 'Strimoid\\Models\\Folders\\'.studly_case($folderName ?: $groupName);
+        $className = 'Strimoid\\Models\\Folders\\' . Str::studly($folderName ?: $groupName);
 
-        if (Input::has('folder') && !class_exists('Folders\\'.studly_case($folderName))) {
-            $user = Input::has('user') ? User::findOrFail(request('user')) : user();
+        if ($request->has('folder') && !class_exists('Folders\\' . Str::studly($folderName))) {
+            $user = $request->has('user') ? User::findOrFail(request('user')) : user();
             $folder = Folder::findUserFolderOrFail($user->getKey(), request('folder'));
 
-            if (!$folder->public && (auth()->guest() || $user->getKey() != auth()->id())) {
+            if (!$folder->public && (auth()->guest() || $user->getKey() !== auth()->id())) {
                 abort(404);
             }
 
@@ -39,7 +42,7 @@ class EntryController extends BaseController
         $builder->with(['user', 'group', 'replies', 'replies.user'])
             ->orderBy('created_at', 'desc');
 
-        $perPage = Input::has('per_page')
+        $perPage = $request->has('per_page')
             ? between(request('per_page'), 1, 100)
             : 20;
 
@@ -51,18 +54,16 @@ class EntryController extends BaseController
         $entry->load(['user', 'group']);
 
         // loading of embedded relations is broken atm :(
-        $entry = array_merge($entry->toArray(), ['replies' => $entry->replies->toArray()]);
-
-        return $entry;
+        return array_merge($entry->toArray(), ['replies' => $entry->replies->toArray()]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        if (Input::has('group')) {
-            Input::merge(['groupname' => request('group')]);
+        if ($request->has('group')) {
+            $request->merge(['groupname' => request('group')]);
         }
 
-        $this->validate($request, Entry::rules());
+        $this->validate($request, Entry::validationRules());
 
         $group = Group::name(request('group'))->firstOrFail();
         $group->checkAccess();
@@ -71,7 +72,7 @@ class EntryController extends BaseController
             return response()->json(['status' => 'error', 'error' => 'Użytkownik został zbanowany w wybranej grupie.'], 400);
         }
 
-        if ($group->type == 'announcements' && !user()->isModerator($group)) {
+        if ($group->type === 'announcements' && !user()->isModerator($group)) {
             return response()->json(['status' => 'error', 'error' => 'Użytkownik nie może dodawać wpisów w tej grupie.'], 400);
         }
 
@@ -84,20 +85,14 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', '_id' => $entry->getKey(), 'entry' => $entry]);
     }
 
-    /**
-     * @param Request $request
-     * @param Entry   $entry
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function storeReply(Request $request, $entry)
+    public function storeReply(Request $request, Entry $entry): JsonResponse
     {
-        $this->validate($request, EntryReply::rules());
+        $this->validate($request, EntryReply::validationRules());
 
         if (user()->isBanned($entry->group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
+                'error' => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 
@@ -109,35 +104,19 @@ class EntryController extends BaseController
         return response()->json(['status' => 'ok', '_id' => $reply->getKey(), 'reply' => $reply]);
     }
 
-    /**
-     * @param Request $request
-     * @param Entry   $entry
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function edit(Request $request, $entry)
+    public function edit(Request $request, Entry $entry): JsonResponse
     {
-        $this->validate($request, $entry->rules());
+        $this->authorize('edit', $entry);
+        $this->validate($request, $entry->validationRules());
 
-        if (! $entry->canEdit()) {
-            abort(403, 'Access denied');
-        }
-
-        $entry->update(Input::only('text'));
+        $entry->update($request->only('text'));
 
         return response()->json(['status' => 'ok', 'parsed' => $entry->text]);
     }
 
-    /**
-     * @param Entry $entry
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function remove($entry)
+    public function remove(Entry $entry): JsonResponse
     {
-        if (! $entry->canRemove()) {
-            abort(403, 'Access denied');
-        }
+        $this->authorize('remove', $entry);
 
         $entry->delete();
 

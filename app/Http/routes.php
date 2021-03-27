@@ -1,4 +1,10 @@
-<?php // @codingStandardsIgnoreFile
+<?php
+
+// @codingStandardsIgnoreFile
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/health', ['uses' => 'HealthController@health']);
 
 /* Auth ============================================================================================================= */
 Route::get('/login', ['middleware' => 'guest', 'as' => 'login_form', 'uses' => 'AuthController@showLoginForm']);
@@ -30,7 +36,7 @@ Route::get('/account/activate/{token}', 'Auth\RegistrationController@activateAcc
 Route::get('/remind', ['as' => 'auth.remind', 'uses' => 'UserController@remindPassword']);
 Route::post('/remind', 'UserController@remindPassword');
 
-Route::get('/password/reset/{token}', 'UserController@showPasswordResetForm');
+Route::get('/password/reset/{token}', ['as' => 'password.reset', 'uses' => 'UserController@showPasswordResetForm']);
 Route::post('/password/reset/{token}', 'UserController@resetPassword');
 
 Route::get('/account/remove', 'UserController@showRemoveAccountForm');
@@ -58,16 +64,15 @@ Route::post('/settings/save/settings', ['middleware' => 'auth', 'uses' => 'Setti
 /* Conversations ==================================================================================================== */
 Route::get('/conversations', ['middleware' => 'auth', 'uses' => 'ConversationController@showConversation']);
 Route::get('/conversation/{conversation}', [
-    'as'         => 'conversation',
+    'as' => 'conversation',
     'middleware' => 'auth',
-    'uses'       => 'ConversationController@showConversation',
+    'uses' => 'ConversationController@showConversation',
 ]);
 
-Route::get('/conversations/new', ['middleware' => 'auth', 'uses' => 'ConversationController@showCreateForm']);
-Route::get('/conversations/new/{user}', [
-    'as'         => 'conversation.new_user',
+Route::get('/conversations/new/{user?}', [
+    'as' => 'conversation.new_user',
     'middleware' => 'auth',
-    'uses'       => 'ConversationController@showCreateForm',
+    'uses' => 'ConversationController@showCreateForm',
 ]);
 
 Route::post('/conversations/new', ['middleware' => 'auth', 'uses' => 'ConversationController@createConversation']);
@@ -88,22 +93,22 @@ Route::get('/new', ['as' => 'global_contents_new', 'uses' => 'ContentController@
 Route::get('/new/rss', ['as' => 'global_contents_new_rss', 'uses' => 'ContentController@showContentsFromGroup']);
 
 Route::get('/g/{groupname}', [
-    'as'   => 'group_contents',
+    'as' => 'group_contents',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/g/{groupname}/rss', [
-    'as'   => 'group_contents_rss',
+    'as' => 'group_contents_rss',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/g/{groupname}/new', [
-    'as'   => 'group_contents_new',
+    'as' => 'group_contents_new',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
 Route::get('/g/{groupname}/new/rss', [
-    'as'   => 'group_contents_new_rss',
+    'as' => 'group_contents_new_rss',
     'uses' => 'ContentController@showContentsFromGroup',
 ]);
 
@@ -136,7 +141,7 @@ Route::post('/c/{content}/add_vote', ['middleware' => 'auth', 'uses' => 'PollCon
 Route::get('/comments', ['as' => 'global_comments', 'uses' => 'CommentController@showCommentsFromGroup']);
 
 Route::get('/g/{groupname}/comments', [
-    'as'   => 'group_comments',
+    'as' => 'group_comments',
     'uses' => 'CommentController@showCommentsFromGroup',
 ]);
 
@@ -150,17 +155,17 @@ Route::post('/ajax/comment/remove', ['middleware' => 'auth', 'uses' => 'CommentC
 Route::get('/entries', ['as' => 'global_entries', 'uses' => 'EntryController@showEntriesFromGroup']);
 
 Route::get('/g/{groupname}/entries', [
-    'as'   => 'group_entries',
+    'as' => 'group_entries',
     'uses' => 'EntryController@showEntriesFromGroup',
 ]);
 
 Route::get('/e/{entry}', [
-    'as'   => 'single_entry',
+    'as' => 'single_entry',
     'uses' => 'EntryController@showEntry',
 ]);
 
 Route::get('/er/{entry_reply}', [
-    'as'   => 'single_entry_reply',
+    'as' => 'single_entry_reply',
     'uses' => 'EntryController@showEntry',
 ]);
 
@@ -245,11 +250,11 @@ Route::post('/ajax/entry/remove_save', ['middleware' => 'auth', 'uses' => 'SaveC
 Route::post('/ajax/utils/get_title', ['middleware' => 'auth', 'uses' => 'UtilsController@getURLTitle']);
 
 /* Static pages ===================================================================================================== */
-Route::get('/cookies', function () { return view('static.cookies'); });
-Route::get('/contact', function () { return view('static.contact'); });
-Route::get('/guide', function () { return view('static.guide'); });
-Route::get('/rules', function () { return view('static.rules'); });
-Route::get('/tag/{tag}', function ($tag) { return view('static.tag', ['tag' => $tag]); });
+Route::get('/cookies', fn () => view('static.cookies'));
+Route::get('/contact', fn () => view('static.contact'));
+Route::get('/guide', fn () => view('static.guide'));
+Route::get('/rules', fn () => view('static.rules'));
+Route::get('/tag/{tag}', fn ($tag) => view('static.tag', ['tag' => $tag]));
 
 /* Search =========================================================================================================== */
 Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);
@@ -258,9 +263,4 @@ Route::get('/search', ['as' => 'search', 'uses' => 'SearchController@search']);
 Route::get('/ranking', ['as' => 'ranking', 'uses' => 'RankingController@showRanking']);
 Route::get('/g/{group}/ranking', ['as' => 'group_ranking', 'uses' => 'RankingController@showRanking']);
 
-/* Media ============================================================================================================ */
-Route::get('/i/duck/{username}.svg', 'DuckController@drawDuck');
-Route::get('/i/{width}x{height}/{folder}/{filename}.{format}', 'ImageController@resizeImage')
-    ->where(['format' => '\w{3}']);
-Route::get('/i/{folder}/{filename}.{format}', 'ImageController@showImage')
-    ->where(['format' => '\w{3}']);
+Route::fallback('StaticFileController@getStaticFile')->withoutMiddleware(['web']);

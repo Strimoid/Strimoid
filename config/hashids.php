@@ -2,20 +2,20 @@
 
 return [
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Connection Name
-	|--------------------------------------------------------------------------
-	|
-	| Here you may specify which of the connections below you wish to use as
-	| your default connection for all work. Of course, you may use many
-	| connections at once using the manager class.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Default Connection Name
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which of the connections below you wish to use as
+    | your default connection for all work. Of course, you may use many
+    | connections at once using the manager class.
+    |
+    */
 
-	'default' => 'main',
+    'default' => 'main',
 
-	/*
+    /*
     |--------------------------------------------------------------------------
     | Hashids Connections
     |--------------------------------------------------------------------------
@@ -26,14 +26,14 @@ return [
     |
     */
 
-	'connections' => [
+    'connections' => [
 
-		'main' => [
-			'salt'     => env('HASHIDS_SALT', 'your-salt-string'),
-			'length'   => '8',
-			'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
-		],
+        'main' => [
+            'salt'     => env('HASHIDS_SALT', 'your-salt-string'),
+            'length'   => '8',
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+        ],
 
-	]
+    ],
 
 ];

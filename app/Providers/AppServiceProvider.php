@@ -1,22 +1,18 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Illuminate\Pagination\BootstrapFourPresenter;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Pdp\Parser;
-use Pdp\PublicSuffixListManager;
+use Pdp\Rules;
 use Strimoid\Helpers\OEmbed;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->environment('local')) {
             $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
@@ -29,37 +25,30 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register('Jenssegers\Raven\RavenServiceProvider');
         }
 
-        $locale = config('app.locale');
-        Carbon::setLocale($locale);
+        Paginator::useBootstrap();
 
-        Paginator::presenter(function ($paginator) {
-            return new BootstrapFourPresenter($paginator);
-        });
+        Request::setTrustedProxies(
+            ['10.0.0.0/8', '172.16.0.0/12', 'fd00::/8'],
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
+        );
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
-        $this->app->bind('guzzle', function () {
-            return new Client([
-                'connect_timeout' => 3,
-                'timeout'         => 10,
-            ]);
+        $this->app->bind('guzzle', fn () => new Client([
+            'connect_timeout' => 3,
+            'timeout' => 10,
+        ]));
+
+        $this->app->bind('pdp', function() {
+            $path = base_path('vendor/jeremykendall/php-domain-parser/data/pdp-PSL_FULL_5a3cc7f81795bb2e48e848af42d287b4.cache');
+            $serialized = file_get_contents($path);
+            $unserialized = unserialize($serialized);
+            $data = json_decode($unserialized, true);
+
+            return new Rules($data, IDNA_DEFAULT, IDNA_DEFAULT);
         });
 
-        $this->app->bind('pdp', function () {
-            $pslManager = new PublicSuffixListManager();
-            $parser = new Parser($pslManager->getList());
-
-            return $parser;
-        });
-
-        $this->app->bind('oembed', function () {
-            return new OEmbed();
-        });
+        $this->app->bind('oembed', fn () => new OEmbed());
     }
 }

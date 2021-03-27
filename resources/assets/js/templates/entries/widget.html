@@ -1,0 +1,44 @@
+<div class="panel-default entry" data-id="{{ id }}">
+    <a name="{{ id }}"></a>
+
+    <div class="entry_avatar">
+        {{#if user.avatar }}
+            <img src="{{ user.avatar }}" alt="{{ user.name }}">
+        {{else}}
+            <img src="/i/duck/{{ user.name }}.svg" alt="{{ user.name }}">
+        {{/if}}
+    </div>
+
+    <div class="panel-heading entry_header" data-hover="user_widget" data-user="{{ user.name }}">
+        <a href="/u/{{ user.name }}" class="entry_author">{{ user.name }}</a>
+
+        <span class="pull-right">
+            <i class="fa fa-tag"></i>
+            <a href="/g/{{ group.urlname }}" class="entry_group" data-hover="group_widget" data-group="{{ group.urlname }}">
+                g/{{ group.urlname }}
+            </a>
+
+            <i class="fa fa-clock-o"></i>
+            <a href="/e/{{ id }}">
+                <time pubdate title="{{ created_at }}">chwilę temu</time>
+            </a>
+
+            <span class="voting" data-id="{{ id }}" state="none" data-type="entry">
+                <button type="button" class="btn btn-secondary btn-xs vote-btn-up">
+                    <i class="fa fa-arrow-up vote-up"></i>
+                    <span class="count">0</span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-xs vote-btn-down">
+                    <i class="fa fa-arrow-down vote-down"></i>
+                    <span class="count">0</span>
+                </button>
+            </span>
+        </span>
+    </div>
+    <div class="entry_text md">{{{ text }}}</div>
+    <div class="entry_actions pull-right">
+        <i class="fa fa-star-o action_link save_entry" title="zapisz"></i>
+        <a class="entry_reply_link action_link">odpowiedz</a>
+        <a href="/e/{{ id }}">#</a>
+    </div>
+</div>

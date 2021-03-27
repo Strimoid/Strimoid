@@ -1,6 +1,9 @@
-<?php namespace Strimoid\Models;
+<?php
 
-use Strimoid\Helpers\MarkdownParser;
+namespace Strimoid\Models;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Strimoid\Facades\Markdown;
 
 class ConversationMessage extends BaseModel
 {
@@ -11,19 +14,19 @@ class ConversationMessage extends BaseModel
 
     protected static $unguarded = true;
 
-    public function conversation()
+    public function conversation(): BelongsTo
     {
         return $this->belongsTo(Conversation::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function setTextAttribute($text)
+    public function setTextAttribute($text): void
     {
-        $this->attributes['text'] = MarkdownParser::instance()->text($text);
+        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 }

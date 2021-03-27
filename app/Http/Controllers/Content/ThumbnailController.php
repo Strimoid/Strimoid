@@ -1,58 +1,64 @@
-<?php namespace Strimoid\Http\Controllers\Content;
+<?php
 
+namespace Strimoid\Http\Controllers\Content;
+
+use Illuminate\Support\Facades\Gate;
+use Strimoid\Helpers\OEmbed;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Content;
 
 class ThumbnailController extends BaseController
 {
-    /**
-     * @param Content $content
-     *
-     * @return \Illuminate\View\View
-     */
-    public function chooseThumbnail($content)
+    public function __construct(private OEmbed $oembed, private \Illuminate\Contracts\Auth\Access\Gate $gate, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Log\Writer $writer, private \Illuminate\Session\SessionManager $sessionManager, private \Illuminate\Contracts\View\Factory $viewFactory) {}
+
+    public function chooseThumbnail(Content $content)
     {
-        if (!$content->canEdit(user())) {
-            return redirect()->route('content_comments', $content->getKey())
-                ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
+        $policyDecision = $this->gate->inspect('edit', $content);
+
+        if ($policyDecision->denied()) {
+            return $this->redirector
+                ->route('content_comments', $content->getKey())
+                ->with('danger_msg', $policyDecision->message());
         }
+
+        $thumbnails = [];
 
         try {
-            $thumbnails = \OEmbed::getThumbnails($content->url);
-        } catch (\Exception $e) {
-            $thumbnails = [];
+            $thumbnails = $this->oembed->getThumbnails($content->url);
+        } catch (\Exception $exception) {
+            $this->writer->error($exception);
         }
 
-        $thumbnails[] = 'http://img.bitpixels.com/getthumbnail?code=74491&size=200&url='.urlencode($content->url);
+        $thumbnails[] = 'https://img.bitpixels.com/getthumbnail?code=74491&size=200&url=' . urlencode($content->url);
 
-        session(compact('thumbnails'));
+        $this->sessionManager->put(compact('thumbnails'));
 
-        return view('content.thumbnails', compact('content', 'thumbnails'));
+        return $this->viewFactory->make('content.thumbnails', compact('content', 'thumbnails'));
     }
 
-    /**
-     * @return mixed
-     */
-    public function saveThumbnail()
+    public function saveThumbnail(\Illuminate\Http\Request $request)
     {
-        $id = hashids_decode(request('id'));
+        $id = hashids_decode($request->input('id'));
         $content = Content::findOrFail($id);
 
-        $thumbnails = session('thumbnails', []);
+        $policyDecision = $this->gate->inspect('edit', $content);
 
-        if (!$content->canEdit(user())) {
-            return redirect()->route('content_comments', $content->getKey())
-                ->with('danger_msg', 'Minął czas dozwolony na edycję treści.');
+        if ($policyDecision->denied()) {
+            return $this->redirector
+                ->route('content_comments', $content->getKey())
+                ->with('danger_msg', $policyDecision->message());
         }
 
-        $index = (int) request('thumbnail');
+        $thumbnails = $this->sessionManager->get('thumbnails', []);
 
-        if (request()->has('thumbnail') && isset($thumbnails[$index])) {
+        $index = (int) $request->input('thumbnail');
+
+        if ($request->has('thumbnail') && isset($thumbnails[$index])) {
             $content->setThumbnail($thumbnails[$index]);
         } else {
             $content->removeThumbnail();
         }
 
-        return redirect()->route('content_comments', $content);
+        return $this->redirector->route('content_comments', $content);
     }
 }

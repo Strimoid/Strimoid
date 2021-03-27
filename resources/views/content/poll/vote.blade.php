@@ -1,4 +1,4 @@
-{!! Form::open(['action' => ['PollController@addVote', $content->_id], 'class' => 'poll']) !!}
+{!! Form::open(['action' => ['PollController@addVote', $content->hashId()], 'class' => 'poll']) !!}
 @foreach ($poll['questions'] as $questionId => $question)
     <div class="question">
         <h4>{{{ $question['title'] }}}</h4>

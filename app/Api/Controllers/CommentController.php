@@ -1,37 +1,30 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
 
+namespace Strimoid\Api\Controllers;
+
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Input;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends BaseController
 {
-    /**
-     * @var FolderRepository
-     */
-    protected $folders;
+    protected FolderRepository $folders;
 
-    /**
-     * @var GroupRepository
-     */
-    protected $groups;
+    protected GroupRepository $groups;
 
-    /**
-     * @param FolderRepository $folders
-     * @param GroupRepository  $groups
-     */
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
         $this->groups = $groups;
         $this->folders = $folders;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if (Input::has('folder')) {
+        if ($request->has('folder')) {
             $username = request('user', auth()->id());
             $entity = $this->folders->getByName($username, request('folder'));
         } else {
@@ -47,25 +40,25 @@ class CommentController extends BaseController
         ]);
 
         // Time filter
-        if (Input::has('time')) {
+        if ($request->has('time')) {
             $builder->fromDaysAgo(request('time'));
         }
 
-        $perPage = Input::has('per_page')
+        $perPage = $request->has('per_page')
             ? between(request('per_page'), 1, 100)
             : 20;
 
         return $builder->paginate($perPage);
     }
 
-    public function store(Request $request, $content)
+    public function store(Request $request, $content): JsonResponse
     {
-        $this->validate($request, Comment::rules());
+        $this->validate($request, Comment::validationRules());
 
         if (user()->isBanned($content->group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
@@ -80,15 +73,15 @@ class CommentController extends BaseController
         ]);
     }
 
-    public function storeReply(Request $request, $comment)
+    public function storeReply(Request $request, $comment): JsonResponse
     {
-        $this->validate($request, CommentReply::rules());
+        $this->validate($request, CommentReply::validationRules());
         $content = $comment->content;
 
         if (user()->isBanned($content->group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
@@ -102,39 +95,19 @@ class CommentController extends BaseController
         ]);
     }
 
-    /**
-     * Edit comment text.
-     *
-     * @param Request $request Request instance
-     * @param Comment $comment Comment instance
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function edit(Request $request, $comment)
+    public function edit(Request $request, Comment $comment): Response
     {
-        $this->validate($request, $comment->rules());
+        $this->authorize('edit', $comment);
+        $this->validate($request, $comment->validationRules());
 
-        if (! $comment->canEdit()) {
-            abort(403);
-        }
-
-        $comment->update(Input::only('text'));
+        $comment->update($request->only('text'));
 
         return response()->json(['status' => 'ok', 'comment' => $comment]);
     }
 
-    /**
-     * Remove comment.
-     *
-     * @param Comment $comment Comment instance
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function remove($comment)
+    public function remove(Comment $comment): Response
     {
-        if (! $comment->canRemove()) {
-            abort(403);
-        }
+        $this->authorize('remove', $comment);
 
         $comment->delete();
 

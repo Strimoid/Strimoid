@@ -1,12 +1,14 @@
-<?php namespace Strimoid\Providers;
+<?php
 
-use Auth;
-use Carbon;
-use Config;
-use Guzzle;
+namespace Strimoid\Providers;
+
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Request;
+use Illuminate\Support\Str;
+use Strimoid\Facades\Guzzle;
 use Strimoid\Handlers\Events\NewActionHandler;
 use Strimoid\Handlers\Events\NotificationsHandler;
 use Strimoid\Handlers\Events\PubSubHandler;
@@ -15,14 +17,7 @@ use Strimoid\Models\User;
 
 class EventsServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @param Dispatcher $events
-     *
-     * @return void
-     */
-    public function boot(Dispatcher $events)
+    public function boot(Dispatcher $events): void
     {
         $this->app->booted(function () {
             if (Request::getUser() && Request::getPassword()) {
@@ -30,36 +25,39 @@ class EventsServiceProvider extends ServiceProvider
             }
         });
 
-        $events->listen('auth.login', function ($user) {
-            $user->last_login = new Carbon();
+        $events->listen('auth.login', function ($user): void {
+            $user->last_login = Carbon::now();
             $user->last_ip = Request::getClientIp();
             $user->save();
         });
 
         /* IRC Notification */
 
-        $events->listen('eloquent.created: Strimoid\\Models\\User',
-            function (User $user) {
-                $url = Config::get('app.hubot_url');
+        $events->listen(
+            'eloquent.created: Strimoid\\Models\\User',
+            function (User $user): void {
+                $url = config('app.hubot_url');
 
-                if (! $url) {
+                if (!$url) {
                     return;
                 }
 
                 try {
                     Guzzle::post($url, ['json' => [
                         'room' => '#strimoid',
-                        'text' => 'Mamy nowego użytkownika '.$user->name.'!',
+                        'text' => 'Mamy nowego użytkownika ' . $user->name . '!',
                     ]]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 }
-            });
+            }
+        );
 
-        $events->listen('eloquent.created: Strimoid\\Models\\Entry',
-            function (Entry $entry) {
-                $url = Config::get('app.hubot_url');
+        $events->listen(
+            'eloquent.created: Strimoid\\Models\\Entry',
+            function (Entry $entry): void {
+                $url = config('app.hubot_url');
 
-                if (! $url) {
+                if (!$url) {
                     return;
                 }
 
@@ -70,24 +68,20 @@ class EventsServiceProvider extends ServiceProvider
 
                     Guzzle::post($url, ['json' => [
                         'room' => '#strimoid-entries',
-                        'text' => '['.$entry->group->name.'] '
-                            .$entry->user->name.': '.$text,
+                        'text' => '[' . $entry->group->name . '] '
+                            . $entry->user->name . ': ' . $text,
                     ]]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                 }
-            });
+            }
+        );
 
         $events->subscribe(NewActionHandler::class);
         $events->subscribe(NotificationsHandler::class);
         $events->subscribe(PubSubHandler::class);
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
     }
 }

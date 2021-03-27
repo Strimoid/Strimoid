@@ -1,50 +1,42 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Carbon\Carbon;
-use Date;
+use Carbon\CarbonInterface;
 use DateTimeZone;
-use Eloquent;
-use Hashids;
-use Setting;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Date;
+use Strimoid\Settings\Facades\Setting;
+use Vinkla\Hashids\Facades\Hashids;
 use Watson\Rememberable\Rememberable;
 
-abstract class BaseModel extends Eloquent
+abstract class BaseModel extends Model
 {
     use Rememberable;
 
     /**
-     * @var array Validation rules
+     * @var array Validation validationRules
      */
-    protected static $rules = [];
+    protected static array $rules = [];
 
     /**
      * Return a timestamp as DateTime object.
-     *
-     * @param  mixed  $value
-     * @return \Jenssegers\Date\Date
      */
-    protected function asDateTime($value)
+    protected function asDateTime($value): CarbonInterface
     {
         $value = parent::asDateTime($value);
+
         return Date::instance($value);
     }
 
-    /**
-     * Get time ago from object creation.
-     *
-     * @return string
-     */
-    public function createdAgo()
+    public function createdAgo(): string
     {
         return $this->created_at->diffForHumans();
     }
 
-    /**
-     * Get formatted time, converted to current user timezone.
-     *
-     * @return mixed
-     */
-    public function getLocalTime()
+    /** Get formatted time, converted to current user timezone */
+    public function getLocalTime(): string
     {
         $timezone = Setting::get('timezone');
         $timezone = new DateTimeZone($timezone);
@@ -52,64 +44,51 @@ abstract class BaseModel extends Eloquent
         return $this->created_at->setTimeZone($timezone)->format('d/m/Y H:i:s');
     }
 
-    /**
-     * Get validation rules.
-     *
-     * @return array
-     */
-    public static function rules()
+    public static function validationRules(): array
     {
         return static::$rules;
     }
 
-    /**
-     * Get hashed object id.
-     *
-     * @return string
-     */
-    public function hashId()
+    public function hashId(): string
     {
         return Hashids::encode($this->getKey());
     }
 
-    /**
-     * Get hashed object id.
-     *
-     * @return string
-     */
-    public function getHashIdAttribute()
+    public function getHashIdAttribute(): string
     {
         return $this->hashId();
     }
 
-    /**
-     * Get the value of the model's route key.
-     *
-     * @return string
-     */
-    public function getRouteKey()
+    public function getRouteKey(): string
     {
         return $this->hashId();
+    }
+
+    public function toArray(): array
+    {
+        $serialized = parent::toArray();
+
+        if (array_key_exists('id', $serialized)) {
+            $serialized['id'] = $this->hashId();
+        }
+
+        return $serialized;
     }
 
     /* Scopes */
 
-    /**
-     * Filter by created time ago.
-     *
-     * @param $query
-     * @param $days
-     */
-    public function scopeFromDaysAgo($query, $days)
+    public function scopeFromDaysAgo($query, $days): void
     {
+        $days = (int) $days;
+
         $fromTime = Carbon::now()->subDays($days)
             ->hour(0)->minute(0)->second(0);
         $query->where('created_at', '>', $fromTime->toDateTimeString());
     }
 
-    public function scopeUserCache($query, string $tag, int $minutes = 60)
+    public function scopeUserCache($query, string $tag, int $minutes = 60): void
     {
-        $tags = ['user.'.$tag, 'u.'.auth()->id()];
+        $tags = ['user.' . $tag, 'u.' . auth()->id()];
         $query->remember($minutes)->cacheTags($tags);
     }
 }

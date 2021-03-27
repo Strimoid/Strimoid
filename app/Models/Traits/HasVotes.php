@@ -1,21 +1,18 @@
-<?php namespace Strimoid\Models\Traits;
+<?php
 
-use Auth;
+namespace Strimoid\Models\Traits;
+
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Strimoid\Models\Vote;
 
 trait HasVotes
 {
     /**
-     * @var  string  uv|dv|none
+     * Votes relationship.
      */
-    protected $vote_state;
-
-    /**
-     * Object votes relationship.
-     *
-     * @return mixed
-     */
-    public function votes()
+    public function votes(): MorphMany
     {
         return $this->morphMany(Vote::class, 'element');
     }
@@ -23,21 +20,18 @@ trait HasVotes
     /**
      * Currently authenticated user vote.
      *
-     * @return mixed
      */
-    public function vote()
+    public function vote(): MorphOne
     {
         return $this->morphOne(Vote::class, 'element')->where('user_id', Auth::id());
     }
 
     /**
      * Get vote state of current user.
-     *
-     * @return string none|uv|dv
      */
-    public function getVoteState()
+    public function getVoteState(): string
     {
-        if (Auth::guest() || ! $this->votes()) {
+        if (Auth::guest() || !$this->votes()) {
             return 'none';
         }
 
@@ -50,12 +44,7 @@ trait HasVotes
         return $vote->up ? 'uv' : 'dv';
     }
 
-    /**
-     * Attribute alias for vote state.
-     *
-     * @return string
-     */
-    public function getVoteStateAttribute()
+    public function getVoteStateAttribute(): string
     {
         return $this->getVoteState();
     }

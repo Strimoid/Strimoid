@@ -1,10 +1,12 @@
-<?php namespace Strimoid\Settings\Services;
+<?php
+
+namespace Strimoid\Settings\Services;
 
 class SettingsService
 {
-    protected $settings = [];
+    protected array $settings = [];
 
-    public function add(string $key, string $type, array $options = [])
+    public function add(string $key, string $type, array $options = []): void
     {
         $this->settings[$key] = $options;
         $this->settings[$key]['type'] = $type;
@@ -17,10 +19,11 @@ class SettingsService
         }
 
         $value = user()->settings()->userCache('settings')->where('key', $key)->first();
+
         return $value ? $value->value : $this->settings[$key]['default'];
     }
 
-    public function set(string $key, $value)
+    public function set(string $key, $value): void
     {
         user()->settings()->updateOrCreate(compact('key'), compact('value'));
     }
@@ -32,6 +35,7 @@ class SettingsService
         }
 
         $options = data_get($this->settings[$key], 'options', []);
+
         return value($options);
     }
 

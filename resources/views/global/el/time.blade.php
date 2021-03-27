@@ -1,5 +1,7 @@
 <?php
 
+use Strimoid\Settings\Facades\Setting;
+
 $timezone = Setting::get('timezone');
 $timezone = new DateTimeZone($timezone);
 

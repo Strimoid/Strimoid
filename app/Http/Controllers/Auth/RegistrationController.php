@@ -1,16 +1,23 @@
-<?php namespace Strimoid\Http\Controllers\Auth;
+<?php
 
-use Cache;
+namespace Strimoid\Http\Controllers\Auth;
+
 use Illuminate\Http\Request;
-use Mail;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\User;
 
 class RegistrationController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Mail\Mailer $mailer, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Config\Repository $configRepository)
+    {
+    }
     public function showRegisterForm()
     {
-        return view('user.register');
+        return $this->viewFactory->make('user.register');
     }
 
     public function processRegistration(Request $request)
@@ -18,32 +25,30 @@ class RegistrationController extends BaseController
         $this->validate($request, [
             'username' => 'required|min:2|max:30|unique:users,name|regex:/^[a-zA-Z0-9_]+$/i',
             'password' => 'required|min:6',
-            'email'    => 'required|email|unique_email:users|real_email',
+            'email' => 'required|email|unique_email:users|real_email',
         ]);
 
         $ipHash = md5($request->getClientIp());
 
-        if (Cache::has('registration.'.$ipHash)) {
+        if ($this->cacheManager->has('registration.' . $ipHash)) {
             abort(500);
         }
 
-        $email = $request->input('email');
-
         $user = new User();
-        $user->name     = $request->input('username');
+        $user->name = $request->input('username');
         $user->password = $request->input('password');
-        $user->email    = $email;
-        $user->last_ip  = $request->getClientIp();
-        $user->activation_token = str_random(16);
+        $user->email = $request->input('email');
+        $user->last_ip = $request->getClientIp();
+        $user->activation_token = Str::random(16);
         $user->save();
 
-        Mail::send('emails.auth.activate', compact('user'), function ($message) use ($user, $email) {
-            $message->to($email, $user->name)->subject('Witaj na Strimoid.pl!');
+        $this->mailer->send('emails.auth.activate', compact('user'), function (Message $message) use ($user): void {
+            $message->to($user->email, $user->name)->subject('Witaj na Strm.pl!');
         });
 
-        return redirect()->to('')->with(
+        return $this->redirector->to('')->with(
             'success_msg',
-            'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, '.
+            'Aby zakończyć rejestrację musisz jeszcze aktywować swoje konto, ' .
             'klikając na link przesłany na twój adres email.'
         );
     }
@@ -53,21 +58,21 @@ class RegistrationController extends BaseController
         $user = User::where('activation_token', $token)->firstOrFail();
 
         $ipHash = md5($request->getClientIp());
-        if (Cache::has('registration.'.$ipHash)) {
+        if ($this->cacheManager->has('registration.' . $ipHash)) {
             abort(500);
         }
 
         $user->is_activated = true;
         $user->save();
 
-        auth()->login($user);
+        $this->guard->login($user);
 
-        Cache::put('registration.'.$ipHash, 'true', 60 * 24 * 7);
+        $this->cacheManager->put('registration.' . $ipHash, 'true', now()->addWeek());
 
-        return redirect()->to('/kreator')->with(
+        return $this->redirector->to('/kreator')->with(
             'success_msg',
-            'Witaj w gronie użytkowników serwisu '.config('app.site_name').'! ;) '.
-            'Zacznij od zasubskrybowania dowolnej ilości grup, pasujących do twoich zainteresowań.'
+            'Witaj w gronie użytkowników serwisu ' . $this->configRepository->get('app.name') . '! ;) ' .
+            'Zacznij od zasubskrybowania grup pasujących do twoich zainteresowań.'
         );
     }
 }

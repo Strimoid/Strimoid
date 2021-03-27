@@ -14,7 +14,7 @@
                 @include('global.el.time', ['date' => $reply->created_at])
             </a>
 
-            <span class="voting" data-id="{!! $reply->hashId() !!}" data-state="{!! $reply->getVoteState() !!}" data-type="comment_reply">
+            <span class="voting" data-id="{!! $reply->hashId() !!}" state="{!! $reply->getVoteState() !!}" data-type="comment_reply">
                 <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($reply->getVoteState() == 'uv') btn-success @endif">
                     <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $reply->uv !!}</span>
                 </button>

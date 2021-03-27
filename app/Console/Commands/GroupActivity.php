@@ -1,39 +1,18 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Strimoid\Models\Content;
+use Strimoid\Models\Entry;
+use Strimoid\Models\Group;
 
 class GroupActivity extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $name = 'lara:groupactivity';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Update group activity meter.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): void
     {
         $x = 1;
 
@@ -46,7 +25,7 @@ class GroupActivity extends Command
             $group->activity = 2;
 
             // Low activity, when nothing was added last week
-            if ($total == 0) {
+            if ($total === 0) {
                 $group->activity = 1;
             }
 
@@ -60,33 +39,13 @@ class GroupActivity extends Command
 
             $group->save();
 
-            if (!($x % 100)) {
-                $this->info($x.' groups processed');
+            if (!$x % 100) {
+                $this->info($x . ' groups processed');
             }
 
             $x++;
         }
 
         $this->info('All groups processed');
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

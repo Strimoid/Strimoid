@@ -1,6 +1,7 @@
-<?php namespace Strimoid\Api\Controllers\Content;
+<?php
+
+namespace Strimoid\Api\Controllers\Content;
 
 class RelatedController
 {
-
 }

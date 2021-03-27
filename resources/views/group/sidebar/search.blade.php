@@ -1,10 +1,10 @@
 <div class="well group_search_widget">
     {!! Form::open(['action' => 'SearchController@search', 'method' => 'GET']) !!}
     <div class="input-group">
-        {!! Form::text('q', '', ['class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...']) !!}
+        {!! Form::text('q', '', ['class' => 'form-control', 'placeholder' => trans('common.search') . '...']) !!}
 
-        <div class="input-group-btn">
-            <button type="submit" class="btn btn-primary">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary" aria-label="{{ trans('common.search') }}">
                 <i class="fa fa-search"></i>
             </button>
         </div>

@@ -1,45 +1,23 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
 
+namespace Strimoid\Console\Commands;
+
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Strimoid\Models\User;
 use Symfony\Component\Console\Input\InputArgument;
 
 class DeleteUser extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $name = 'lara:deleteuser';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Deletes user.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): void
     {
         $user = User::findOrFail($this->argument('username'));
 
-        if ($this->confirm('Do you really want to remove user: '.$user->name.'? [yes|no]')) {
-            $user->removed_at = new MongoDate();
+        if ($this->confirm('Do you really want to remove user: ' . $user->name . '? [yes|no]')) {
+            $user->removed_at = Carbon::now();
             $user->type = 'deleted';
             $user->unset(['age', 'description', 'email', 'last_login', 'last_ip',
                 'location', 'password', 'settings', 'sex', 'shadow_email', ]);
@@ -51,7 +29,6 @@ class DeleteUser extends Command
         }
 
         /*
-
         foreach (Content::where('user_id', $this->argument('username'))->get() as $obj)
             $obj->delete();
 
@@ -69,29 +46,13 @@ class DeleteUser extends Command
 
         foreach (ContentRelated::where('user_id', $this->argument('username'))->get() as $obj)
             $obj->delete();
-
         */
     }
 
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],
         ];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

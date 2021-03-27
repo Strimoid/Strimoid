@@ -1,5 +1,11 @@
-<?php namespace Strimoid\Models;
+<?php
 
+namespace Strimoid\Models;
+
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 
 class Conversation extends BaseModel
@@ -7,36 +13,34 @@ class Conversation extends BaseModel
     protected $table = 'conversations';
     protected $visible = ['id', 'created_at', 'users', 'lastMessage'];
 
-    public function lastMessage()
+    public function lastMessage(): HasOne
     {
         return $this->hasOne(ConversationMessage::class)->orderBy('created_at', 'desc');
     }
 
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(ConversationMessage::class)->orderBy('created_at', 'desc');
     }
 
-    public function notifications()
+    public function notifications(): MorphMany
     {
         return $this->morphMany(Notification::class, 'element');
     }
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'conversation_users');
     }
 
-    public function target()
+    public function target(): User
     {
-        return $this->users->filter(function($value) {
-                return $value->getKey() != Auth::id();
-            })->first();
+        return $this->users->filter(fn ($value) => $value->getKey() !== Auth::id())->first();
     }
 
-    public function scopeWithUser($query, $userName)
+    public function scopeWithUser($query, $userName): void
     {
-        $query->whereHas('users', function($q) use($userName) {
+        $query->whereHas('users', function ($q) use ($userName): void {
             $q->where('user_id', $userName);
         });
     }

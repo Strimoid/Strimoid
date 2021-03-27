@@ -1,7 +1,10 @@
-<?php namespace Strimoid\Models;
+<?php
 
-use Auth;
-use Strimoid\Helpers\MarkdownParser;
+namespace Strimoid\Models;
+
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
+use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 use Strimoid\Models\Traits\HasSaves;
@@ -13,8 +16,8 @@ class Entry extends BaseModel
     use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
     use HasSaves, HasVotes;
 
-    protected static $rules = [
-        'text'      => 'required|min:1|max:2500',
+    protected static array $rules = [
+        'text' => 'required|min:1|max:2500',
         'groupname' => 'required|exists:groups,urlname',
     ];
 
@@ -24,9 +27,9 @@ class Entry extends BaseModel
     protected $visible = ['id', 'created_at', 'user', 'group', 'text', 'text_source',
         'uv', 'dv', 'votes', 'vote_state', 'replies', ];
 
-    public function replies()
+    public function replies(): HasMany
     {
-        return $this->hasMany(EntryReply::class, 'parent_id');
+        return $this->hasMany(EntryReply::class, 'parent_id')->orderBy('created_at');
     }
 
     public function delete()
@@ -40,13 +43,13 @@ class Entry extends BaseModel
         return parent::delete();
     }
 
-    public function setTextAttribute($text)
+    public function setTextAttribute($text): void
     {
-        $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
+        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 
-    public function isHidden()
+    public function isHidden(): bool
     {
         if (Auth::guest()) {
             return false;
@@ -55,30 +58,13 @@ class Entry extends BaseModel
         return Auth::user()->isBlockingUser($this->user);
     }
 
-    public function isLast()
+    public function isLast(): bool
     {
-        return $this->replies_count == 0;
+        return $this->replies_count === 0;
     }
 
-    public function getURL()
+    public function getURL(): string
     {
         return route('single_entry', $this);
-    }
-
-    public function isAuthor(User $user = null)
-    {
-        $userId = $user ? $user->getKey() : auth()->id();
-
-        return (int) $userId === (int) $this->user_id;
-    }
-
-    public function canEdit()
-    {
-        return $this->isAuthor() && $this->replies_count == 0;
-    }
-
-    public function canRemove()
-    {
-        return $this->isAuthor() || user()->isModerator($this->group_id);
     }
 }

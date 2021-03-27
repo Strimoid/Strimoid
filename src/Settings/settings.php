@@ -1,11 +1,13 @@
 <?php
 
-$timezones = function () {
-    return collect(\DateTimeZone::listIdentifiers())->map(function ($timezone) {
-        $key = 'timezones.'.Str::lower($timezone);
-        return [$timezone => trans($key)];
-    })->flatten(1);
-};
+use Illuminate\Support\Str;
+use Strimoid\Settings\Facades\Setting;
+
+$timezones = static fn() => collect(\DateTimeZone::listIdentifiers())->mapWithKeys(function ($timezone) {
+    $key = 'timezones.' . Str::lower($timezone);
+
+    return [$timezone => trans($key)];
+});
 
 Setting::add('enter_send', 'checkbox', [
     'default' => 'false',
@@ -27,6 +29,15 @@ Setting::add('entries_per_page', 'select', [
     'options' => [
         10 => 10, 20 => 20, 25 => 25, 50 => 50, 100 => 100,
     ],
+]);
+
+Setting::add('language', 'select', [
+    'default' => 'auto',
+    'options' => [
+        'auto' => 'Wykryj automatycznie',
+        'pl' => 'Polski',
+        'en' => 'English',
+    ]
 ]);
 
 Setting::add('timezone', 'select', [

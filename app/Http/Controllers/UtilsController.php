@@ -1,20 +1,26 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
-use OEmbed;
+namespace Strimoid\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Strimoid\Helpers\OEmbed;
 use Strimoid\Models\Content;
 
 class UtilsController extends BaseController
 {
-    public function getURLTitle()
+    public function __construct(private OEmbed $oembed) {}
+
+    public function getURLTitle(Request $request): array
     {
-        $url = request('url');
-        $data = OEmbed::getData($url);
+        $url = $request->get('url');
+        $data = $this->oembed->getData($url);
 
         $title = data_get($data, 'meta.title', '');
-        $title = str_limit($title, 128);
+        $title = Str::limit($title, 128);
 
         $description = data_get($data, 'meta.description', '');
-        $description = str_limit($description, 255);
+        $description = Str::limit($description, 255);
 
         // Find duplicates
         $duplicates = Content::where('url', $url)

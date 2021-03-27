@@ -1,24 +1,14 @@
-<?php namespace Strimoid\Contracts\Repositories;
+<?php
+
+namespace Strimoid\Contracts\Repositories;
+
+use Strimoid\Exceptions\EntityNotFoundException;
+use Strimoid\Models\Folder;
 
 interface FolderRepository
 {
-    /**
-     * Get folder with given name.
-     *
-     * @param  $ownerName   string  Name of folder owner
-     * @param  $folderName  string  Folder name
-     *
-     * @return \Strimoid\Models\Folder
-     */
-    public function getByName($ownerName, $folderName);
+    public function getByName(string $ownerName, string $folderName): ?Folder;
 
-    /**
-     * Get folder with given name and throw exception if not found.
-     *
-     * @param  $ownerName   string  Name of folder owner
-     * @param  $folderName  string  Folder name
-     *
-     * @return \Strimoid\Models\Folder
-     */
-    public function requireByName(... $params);
+    /** @throws EntityNotFoundException */
+    public function requireByName(...$params);
 }

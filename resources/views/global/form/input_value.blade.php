@@ -18,14 +18,14 @@ $options = [
 
 ?>
 
-<div class="form-group @if ($errors->has($name)) has-error @endif">
+<div class="form-group row @if ($errors->has($name)) has-error @endif">
     <label for="{!! $name !!}" class="col-lg-3 control-label">{!! $label !!}</label>
 
     <div class="col-lg-6">
         @if ($type == 'text')
             {!! Form::text($name, $value, $options) !!}
         @elseif ($type == 'textarea')
-            {!! Form::textarea($name, $value, array_add($options, 'rows', $rows)) !!}
+            {!! Form::textarea($name, $value, Arr::add($options, 'rows', $rows)) !!}
         @elseif ($type == 'email')
             {!! Form::email($name, $value, $options) !!}
         @elseif ($type == 'password')

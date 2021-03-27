@@ -5,7 +5,7 @@
         @include('comments.widget', ['comment' => $comment, 'contentLink' => true])
     @endforeach
 
-    {!! $comments->links() !!}
+    {!! $comments->onEachSide(2)->links() !!}
 @stop
 
 @section('sidebar')

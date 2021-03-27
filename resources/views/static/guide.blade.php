@@ -26,12 +26,12 @@
         <td><del>test</del></td>
     </tr>
     <tr>
-        <td>http://strimoid.pl</td>
-        <td><a href="http://strimoid.pl" rel="nofollow">http://strimoid.pl</a></td>
+        <td>https://strm.pl</td>
+        <td><a href="https://strm.pl" rel="nofollow">https://strm.pl</a></td>
     </tr>
     <tr>
-        <td>[test](http://strimoid.pl)</td>
-        <td><a href="http://strimoid.pl" rel="nofollow">test</a></td>
+        <td>[test](https://strm.pl)</td>
+        <td><a href="https://strm.pl" rel="nofollow">test</a></td>
     </tr>
     <tr>
         <td>`test`</td>

@@ -1,7 +1,9 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
 
-use Carbon;
-use DB;
+namespace Strimoid\Console\Commands;
+
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
@@ -12,32 +14,15 @@ use Strimoid\Models\UserAction;
 
 class UpdateStats extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $name = 'lara:updatestats';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Updates stats.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): void
     {
         DB::connection()->disableQueryLog();
 
-        $conn = DB::connection('stats');
+        $conn = DB::connection();
         $conn->disableQueryLog();
-        $conn->statement('pragma synchronous = off;');
 
         $firstDay = Carbon::create(2013, 1, 1);
 
@@ -82,15 +67,15 @@ class UpdateStats extends Command
                 }
             } else {
                 $data = [
-                    'day'      => $day,
-                    'user_id'  => $action->user_id,
+                    'day' => $day,
+                    'user_id' => $action->user_id,
                     'group_id' => $object->group_id,
-                    'uv'       => $object->uv,
-                    'dv'       => $object->dv,
+                    'uv' => $object->uv,
+                    'dv' => $object->dv,
                     'contents' => 0,
                     'comments' => 0,
-                    'entries'  => 0,
-                    'points'   => $points,
+                    'entries' => 0,
+                    'points' => $points,
                 ];
 
                 $data[$fieldName] = 1;
@@ -99,15 +84,15 @@ class UpdateStats extends Command
             }
 
             // Show progress
-            if (! ($x++ % 100)) {
-                $this->info($x.' actions processed');
+            if (!$x++ % 100) {
+                $this->info($x . ' actions processed');
             }
         }
 
         $this->info('All actions processed');
     }
 
-    protected function getFieldName($action)
+    protected function getFieldName($action): ?string
     {
         $className = get_class($action->element);
 
@@ -123,6 +108,8 @@ class UpdateStats extends Command
             case EntryReply::class:
                 return 'entries';
         }
+
+        return null;
     }
 
     protected function calculatePoints($action, $object)
@@ -135,28 +122,6 @@ class UpdateStats extends Command
         $actionScoreModifier = 0.5;
         $actionScore = round($actionScoreBase * $actionScoreModifier);
 
-        $points = $actionPoints + $actionScore;
-
-        return $points;
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
+        return $actionPoints + $actionScore;
     }
 }

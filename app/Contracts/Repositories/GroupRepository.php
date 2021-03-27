@@ -1,25 +1,13 @@
-<?php namespace Strimoid\Contracts\Repositories;
+<?php
+
+namespace Strimoid\Contracts\Repositories;
+
+use Strimoid\Exceptions\EntityNotFoundException;
 
 interface GroupRepository
 {
-    /**
-     * Get group with given name.
-     *
-     * @param  $name  string  Group name
-     *
-     * @return \Strimoid\Models\Group
-     */
-    public function getByName($name);
+    public function getByName(string $name);
 
-    /**
-     * Get group with given name and throw
-     * exception if not found.
-     *
-     * @param  $name  string  Group name
-     *
-     * @throws \Strimoid\Exceptions\EntityNotFoundException
-     *
-     * @return \Strimoid\Models\Group
-     */
-    public function requireByName(... $params);
+    /** @throws EntityNotFoundException */
+    public function requireByName(...$params);
 }

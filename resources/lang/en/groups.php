@@ -1,6 +1,7 @@
 <?php
 
 return [
+    // Group types
     'all'        => 'popular',
     'subscribed' => 'subscribed',
     'moderated'  => 'moderated',
@@ -12,4 +13,8 @@ return [
     'blocked'    => 'blocked',
     'banned'     => 'banned',
     'popular'    => 'popular',
+    'new'        => 'new',
+
+    // Actions
+    'create' => 'Create group',
 ];

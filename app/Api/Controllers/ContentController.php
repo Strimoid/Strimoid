@@ -1,25 +1,23 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
 
+namespace Strimoid\Api\Controllers;
+
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Input;
-use Queue;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Queue;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
+use Strimoid\Handlers\DownloadThumbnail;
 
 class ContentController extends BaseController
 {
-    /**
-     * @var FolderRepository
-     */
-    protected $folders;
+    protected FolderRepository $folders;
 
-    /**
-     * @var GroupRepository
-     */
-    protected $groups;
+    protected GroupRepository $groups;
 
     public function __construct(FolderRepository $folders, GroupRepository $groups)
     {
@@ -27,12 +25,9 @@ class ContentController extends BaseController
         $this->groups = $groups;
     }
 
-    /**
-     * @return mixed
-     */
-    public function index()
+    public function index(Request $request)
     {
-        if (Input::has('folder')) {
+        if ($request->has('folder')) {
             $username = request('user', auth()->id());
             $entity = $this->folders->getByName($username, request('folder'));
         } else {
@@ -61,24 +56,19 @@ class ContentController extends BaseController
         }
 
         // User filter
-        if (Input::has('user')) {
+        if ($request->has('user')) {
             $user = User::name(request('user'))->firstOrFail();
             $builder->where('user_id', $user->getKey());
         }
 
-        $perPage = Input::has('per_page')
+        $perPage = $request->has('per_page')
             ? between(request('per_page'), 1, 100)
             : 20;
 
         return $builder->paginate($perPage);
     }
 
-    /**
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function show(Content $content)
+    public function show(Content $content): Content
     {
         $content->load([
             'related', 'comments', 'comments.user', 'comments.replies', 'group', 'user',
@@ -87,19 +77,12 @@ class ContentController extends BaseController
         return $content;
     }
 
-    /**
-     * Add new content.
-     *
-     * @param Request $request
-     *
-     * @return mixed
-     */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $rules = [
-            'title'       => 'required|min:1|max:128|not_in:edit,thumbnail',
+            'title' => 'required|min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
-            'group'       => 'required|exists:groups,urlname',
+            'group' => 'required|exists:groups,urlname',
         ];
 
         if (request('text')) {
@@ -116,14 +99,14 @@ class ContentController extends BaseController
         if (user()->isBanned($group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Użytkownik został zbanowany w wybranej grupie.',
+                'error' => 'Użytkownik został zbanowany w wybranej grupie.',
             ], 400);
         }
 
-        if ($group->type == 'announcements' && ! user()->isModerator($group)) {
+        if ($group->type === 'announcements' && !user()->isModerator($group)) {
             return response()->json([
                 'status' => 'error',
-                'error'  => 'Użytkownik nie może dodawać treści w tej grupie.',
+                'error' => 'Użytkownik nie może dodawać treści w tej grupie.',
             ], 400);
         }
 
@@ -145,9 +128,9 @@ class ContentController extends BaseController
         // Download thumbnail in background to don't waste user time
         $thumbnail = $request->get('thumbnail');
 
-        if ($thumbnail != 'false' && $thumbnail != 'off') {
+        if ($thumbnail !== 'false' && $thumbnail !== 'off') {
             $content->thumbnail_loading = true;
-            Queue::push('Strimoid\Handlers\DownloadThumbnail', [
+            Queue::push(DownloadThumbnail::class, [
                 'id' => $content->getKey(),
             ]);
         }
@@ -157,22 +140,18 @@ class ContentController extends BaseController
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @param Content $content
-     *
-     * @return mixed
-     */
-    public function edit(Request $request, $content)
+    public function edit(Request $request, Content $content): JsonResponse
     {
-        if (! $content->canEdit(user())) {
+        $policyDecision = Gate::inspect('edit', $content);
+
+        if ($policyDecision->denied()) {
             return response()->json([
-                'status' => 'error', 'error' => 'Minął czas dozwolony na edycję treści.',
+                'status' => 'error', 'error' => $policyDecision->message(),
             ], 400);
         }
 
         $rules = [
-            'title'       => 'min:1|max:128|not_in:edit,thumbnail',
+            'title' => 'min:1|max:128|not_in:edit,thumbnail',
             'description' => 'max:255',
         ];
 
@@ -185,8 +164,10 @@ class ContentController extends BaseController
         $this->validate($request, $rules);
 
         $fields = ['title', 'description', 'nsfw', 'eng'];
-        $fields[] = ($content->text) ? 'text' : 'url';
+        $fields[] = $content->text ? 'text' : 'url';
 
-        $content->update(Input::only($fields));
+        $content->update($request->only($fields));
+
+        return response()->json(['status' => 'ok']);
     }
 }

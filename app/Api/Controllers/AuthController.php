@@ -1,18 +1,22 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
 
+namespace Strimoid\Api\Controllers;
+
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Strimoid\Models\Notification;
 
 class AuthController extends BaseController
 {
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
-        $remember = $request->input('remember') == 'true' ? true : false;
+        $remember = $request->input('remember') === 'true';
 
         if (auth()->attempt(['name' => $request->input('username'),
-            'password' => $request->input('password'), 'is_activated' => true], $remember)) {
+            'password' => $request->input('password'), 'is_activated' => true, ], $remember)) {
             if (user()->removed_at || user()->blocked_at) {
                 auth()->logout();
+
                 return response()->json(['error' => 'Account blocked or removed'], 400);
             }
 
@@ -24,20 +28,22 @@ class AuthController extends BaseController
         return response()->json(['error' => 'Invalid login or password'], 400);
     }
 
-    public function logout()
+    public function logout(): void
     {
         auth()->logout();
     }
 
-    public function sync()
+    public function sync(): array
     {
         return $this->getUserData();
     }
 
-    private function getUserData()
+    private function getUserData(): array
     {
         $notifications = Notification::with([
-                'user' => function ($q) { $q->select('avatar'); }
+                'user' => function ($q): void {
+                    $q->select('avatar');
+                },
             ])
             ->target(auth()->id())
             ->orderBy('created_at', 'desc')
@@ -45,10 +51,10 @@ class AuthController extends BaseController
 
         $data = array_merge(user()->toArray(), [
             'subscribed_groups' => user()->subscribedGroups(),
-            'blocked_groups'    => user()->blockedGroups(),
-            'moderated_groups'  => user()->moderatedGroups(),
-            'folders'           => user()->folders(),
-            'notifications'     => $notifications,
+            'blocked_groups' => user()->blockedGroups(),
+            'moderated_groups' => user()->moderatedGroups(),
+            'folders' => user()->folders(),
+            'notifications' => $notifications,
         ]);
 
         return ['user' => $data];

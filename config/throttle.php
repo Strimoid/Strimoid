@@ -25,6 +25,6 @@ return [
     |
     */
 
-    'driver' => null,
+    'driver' => env('THROTTLE_DRIVER'),
 
 ];

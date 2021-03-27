@@ -3,7 +3,7 @@
 @section('content')
 
 @if (Auth::check() && Auth::user()->isModerator($group))
-{!! Form::open(['action' => 'GroupController@addBan', 'class' => 'form-horizontal']) !!}
+{!! Form::open(['action' => 'Group\BanController@addBan', 'class' => 'form-horizontal']) !!}
 
 <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
 
@@ -11,7 +11,7 @@
 @include('global.form.input', ['type' => 'text', 'name' => 'reason', 'label' => 'Powód zbanowania'])
 
 <div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
+    <div class="col-lg-6 offset-lg-3">
         <div class="checkbox">
             <label>
                 {!! Form::checkbox('everywhere') !!} Zablokuj we wszystkich grupach
@@ -20,11 +20,7 @@
     </div>
 </div>
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-primary pull-right">Zbanuj</button>
-    </div>
-</div>
+@include('global.form.submit', ['label' => 'Zbanuj'])
 
 {!! Form::close() !!}
 @endif

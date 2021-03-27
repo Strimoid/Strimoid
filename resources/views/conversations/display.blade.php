@@ -5,14 +5,11 @@
 @if (!$messages)
 {!! Form::open(['action' => 'ConversationController@createConversation', 'class' => 'form-horizontal']) !!}
 
-@include('global.form.input', ['type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'])
-@include('global.form.input', ['type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'])
+    @include('global.form.input', ['type' => 'text', 'name' => 'username', 'label' => 'Nazwa użytkownika'])
+    @include('global.form.input', ['type' => 'textarea', 'name' => 'text', 'label' => 'Wiadomość'])
 
-<div class="form-group">
-    <div class="col-lg-offset-3 col-lg-6">
-        <button type="submit" class="btn btn-primary">Wyślij</button>
-    </div>
-</div>
+    @include('global.form.submit', ['label' => 'Wyślij'])
+
 {!! Form::close() !!}
 @else
 

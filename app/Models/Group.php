@@ -1,25 +1,23 @@
-<?php namespace Strimoid\Models;
+<?php
 
-use App;
-use Auth;
-use Input;
-use Strimoid\Helpers\MarkdownParser;
+namespace Strimoid\Models;
+
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasAvatar;
 
 class Group extends BaseModel
 {
     use HasAvatar;
 
-    protected $avatarPath = 'groups/';
+    protected string $avatarPath = 'groups/';
     protected $attributes = [
         'type' => 'public',
     ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'subscribers_count' => 'integer',
     ];
@@ -27,7 +25,7 @@ class Group extends BaseModel
     protected $table = 'groups';
     protected $visible = [
         'id', 'avatar', 'created_at', 'creator',
-        'description', 'sidebar', 'subscribers', 'name', 'urlname'
+        'description', 'sidebar', 'subscribers', 'name', 'urlname',
     ];
 
     public function creator()
@@ -40,7 +38,7 @@ class Group extends BaseModel
         $relation = $this->hasMany(Entry::class);
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
         }
 
@@ -53,7 +51,7 @@ class Group extends BaseModel
         $relation->orderBy($sortBy ?: 'created_at', 'desc');
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
         }
 
@@ -65,14 +63,14 @@ class Group extends BaseModel
         $relation = $this->hasMany(Content::class);
 
         if (Auth::check()) {
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $relation->whereNotIn('user_id', $blockedUsers);
 
             $blockedDomains = Auth::user()->blockedDomains();
             $relation->whereNotIn('domain', $blockedDomains);
         }
 
-        if ($tab == 'popular') {
+        if ($tab === 'popular') {
             $threshold = $this->popular_threshold ?: 1;
             $relation->where('score', '>', $threshold);
         }
@@ -92,9 +90,9 @@ class Group extends BaseModel
         return $this->belongsToMany(User::class, 'group_moderators');
     }
 
-    public function checkAccess()
+    public function checkAccess(): void
     {
-        if ($this->type == 'private') {
+        if ($this->type === 'private') {
             if (!Auth::check() || !Auth::user()->isModerator($this)) {
                 App::abort(403, 'Access denied');
             }
@@ -109,23 +107,27 @@ class Group extends BaseModel
         return parent::delete();
     }
 
-    public function getAvatarPath()
+    public function getAvatarPath(int $width = null, int $height = null)
     {
         $host = config('app.cdn_host');
 
+        if ($this->avatar && $width && $height) {
+            return $host . '/' . $width . 'x' . $height . '/groups/' . $this->avatar;
+        }
+
         if ($this->avatar) {
-            return $host.'/groups/'.$this->avatar;
+            return $host . '/groups/' . $this->avatar;
         }
 
         return '/static/img/default_avatar.png';
     }
 
-    public function setStyle($css)
+    public function setStyle($css): void
     {
         $disk = Storage::disk('styles');
 
         // Compatibility with old saving method
-        $filename = Str::lower($this->urlname).'.css';
+        $filename = Str::lower($this->urlname) . '.css';
         if ($disk->exists($filename)) {
             $disk->delete($filename);
         }
@@ -133,24 +135,24 @@ class Group extends BaseModel
         $this->deleteStyle();
 
         if ($css) {
-            $this->style = $this->urlname.'.'.Str::random(8).'.css';
+            $this->style = $this->urlname . '.' . Str::random(8) . '.css';
 
             $disk->put($this->style, $css);
         }
     }
 
-    public function deleteStyle()
+    public function deleteStyle(): void
     {
         if ($this->style) {
             Storage::disk('styles')->delete($this->style);
-            $this->unset('style');
+            $this->style = null;
         }
     }
 
-    public function banUser(User $user, $reason = '')
+    public function banUser(User $user, $reason = ''): void
     {
         if ($user->isBanned($this)) {
-            return false;
+            return;
         }
 
         $ban = new GroupBan();
@@ -158,39 +160,34 @@ class Group extends BaseModel
         $ban->group()->associate($this);
         $ban->user()->associate($user);
         $ban->moderator()->associate(Auth::user());
-        $ban->reason = Input::get('reason');
+        $ban->reason = $reason;
 
         $ban->save();
     }
 
-    public function getAvatarPathAttribute()
+    public function getAvatarPathAttribute(): string
     {
-        $host = Config::get('app.cdn_host');
+        $host = config('app.cdn_host');
 
         if ($this->avatar) {
-            return $host.'/groups/'.$this->avatar;
+            return $host . '/groups/' . $this->avatar;
         }
 
-        return $host.'/static/img/default_avatar.png';
+        return $host . '/static/img/default_avatar.png';
     }
 
-    public function setSidebarAttribute($text)
+    public function setSidebarAttribute($text): void
     {
-        $this->attributes['sidebar'] = MarkdownParser::instance()->text(parse_usernames($text));
+        $this->attributes['sidebar'] = Markdown::convertToHtml(parse_usernames($text));
         $this->attributes['sidebar_source'] = $text;
     }
 
-    /**
-     * Get the value of the model's route key.
-     *
-     * @return string
-     */
-    public function getRouteKey()
+    public function getRouteKey(): string
     {
         return $this->urlname;
     }
 
-    public function scopeName($query, $name)
+    public function scopeName($query, $name): void
     {
         $query->where('urlname', $name);
     }

@@ -1,6 +1,6 @@
 @extends('global.master')
 
-<?php $q = Input::get('q'); $t = Input::get('t') ? Input::get('t'): 'c'; ?>
+<?php $q = Input::get('q'); $t = Input::get('t') ?: 'c'; ?>
 
 @section('content')
 {!! Form::open(['method' => 'GET', 'style' => 'margin-bottom: 20px']) !!}
@@ -8,7 +8,7 @@
     {!! Form::text('q', Input::get('q'), ['class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...']) !!}
     <input type="hidden" name="t" value="{{{ Input::get('t') }}}">
 
-    <div class="input-group-btn">
+    <div class="input-group-append">
         <button type="submit" class="btn btn-secondary btn-primary">Szukaj</button>
     </div>
 </div>
@@ -17,18 +17,14 @@
 @if (isset($results))
 
 @if ($t == 'c')
-    @foreach ($results as $content)
-        @include('content.widget', ['content' => $content])
-    @endforeach
+    @each('content.widget', $results, 'content')
 @elseif ($t == 'e')
-    @foreach ($results as $entry)
-        @include('entries.widget', ['entry' => $entry])
+    @foreach ($results as $reply)
+        @include('entries.widget', ['entry' => $reply, 'isReply' => false])
     @endforeach
 @elseif ($t == 'g')
     <div class="group_list">
-    @foreach ($results as $group)
-        @include('group.widget', ['group' => $group])
-    @endforeach
+        @each('group.widget', $results, 'group')
     </div>
 
     <?php $group = null; ?>

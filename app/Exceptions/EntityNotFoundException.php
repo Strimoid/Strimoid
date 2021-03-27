@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Exceptions;
+<?php
+
+namespace Strimoid\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

@@ -1,152 +1,141 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
-use Cache;
-use Carbon;
+namespace Strimoid\Http\Controllers;
+
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
+use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\Request;
-use Input;
-use Mail;
-use PDP;
-use Response;
-use Str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Str;
 use Strimoid\Contracts\Repositories\UserRepository;
+use Strimoid\Facades\PDP;
 use Strimoid\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
-    /**
-     * @var UserRepository
-     */
-    protected $users;
-
-    /**
-     * The password broker implementation.
-     *
-     * @var PasswordBroker
-     */
-    protected $passwords;
-
-    /**
-     * @param UserRepository $users
-     * @param PasswordBroker $passwords
-     */
-    public function __construct(UserRepository $users, PasswordBroker $passwords)
+    public function __construct(protected UserRepository $users, protected PasswordBroker $passwords, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Mail\Mailer $mailer, private \Illuminate\Translation\Translator $translator, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard)
     {
-        $this->users = $users;
-        $this->passwords = $passwords;
     }
 
-    public function showJSONList()
+    public function showJSONList(): JsonResponse
     {
         $users = [];
 
         foreach (User::all() as $user) {
             $users[] = [
-                'value'  => $user->name,
+                'value' => $user->name,
                 'avatar' => $user->getAvatarPath(),
             ];
         }
 
-        return $users;
+        return $this->responseFactory->json($users)
+            ->setPublic()
+            ->setMaxAge(3600);
     }
 
-    public function changePassword(Request $request)
+    public function changePassword(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'password'     => 'required|confirmed|min:6',
+            'password' => 'required|confirmed|min:6',
             'old_password' => 'required|user_password',
         ]);
 
         user()->password = $request->get('password');
         user()->save();
 
-        return redirect()->action('SettingsController@showSettings')
+        return $this->redirector->action('SettingsController@showSettings')
             ->with('success_msg', 'Hasło zostało zmienione.');
     }
 
-    public function changeEmail(Request $request)
+    public function changeEmail(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'email' => 'required|email|unique_email:users|real_email',
         ]);
 
-        $email = Str::lower(request('email'));
+        $email = Str::lower($request->input('email'));
 
         user()->new_email = $email;
         user()->email_change_token = Str::random(16);
 
         user()->save();
 
-        Mail::send('emails.auth.email_change', ['user' => user()], function ($message) use ($email) {
+        $this->mailer->send('emails.auth.email_change', ['user' => user()], function ($message) use ($email): void {
             $message->to($email, user()->name)->subject('Potwierdź zmianę adresu email');
         });
 
-        return redirect()->action('SettingsController@showSettings')
+        return $this->redirector->action('SettingsController@showSettings')
             ->with('success_msg', 'Na podany adres email został wysłany link umożliwiający potwierdzenie zmiany.');
     }
 
-    public function confirmEmailChange($token)
+    public function confirmEmailChange($token): RedirectResponse
     {
         if ($token !== user()->email_change_token) {
-            return redirect()->to('')->with('danger_msg', 'Błędny token.');
+            return $this->redirector->to('')->with('danger_msg', 'Błędny token.');
         }
 
         user()->email = user()->new_email;
         user()->unset(['email_change_token', 'new_email']);
         user()->save();
 
-        return redirect()->to('')->with('success_msg', 'Adres email został zmieniony.');
+        return $this->redirector->to('')->with('success_msg', 'Adres email został zmieniony.');
     }
 
     public function remindPassword(Request $request)
     {
-        if (Input::has('email')) {
+        if ($request->has('email')) {
             $this->validate($request, ['email' => 'required|email']);
 
-            $response = $this->passwords->sendResetLink($request->only('email'), function ($m) {
-                $m->subject('Zmiana hasła w serwisie Strimoid.pl');
-            });
+            $response = $this->passwords->sendResetLink($request->only('email'));
 
             switch ($response) {
                 case PasswordBroker::RESET_LINK_SENT:
-                    return redirect()->back()->with('status', trans($response));
+                    return $this->redirector->back()->with('status', $this->translator->trans($response));
                 case PasswordBroker::INVALID_USER:
-                    return redirect()->back()->withErrors(['email' => trans($response)]);
+                    return $this->redirector->back()->withErrors(['email' => $this->translator->trans($response)]);
             }
         }
 
-        return view('user.remind');
+        return $this->viewFactory->make('user.remind');
     }
 
     public function showPasswordResetForm($token = null)
     {
-        if (is_null($token)) {
+        if (!$token) {
             throw new NotFoundHttpException();
         }
 
-        return view('user.reset')->with('token', $token);
+        return $this->viewFactory->make('user.reset')->with('token', $token);
     }
 
     public function resetPassword(Request $request)
     {
         $this->validate($request, [
-            'token'    => 'required',
-            'email'    => 'required|email',
+            'token' => 'required',
+            'email' => 'required|email',
             'password' => 'required|confirmed',
         ]);
 
         $credentials = $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email',
+            'password',
+            'password_confirmation',
+            'token'
         );
 
-        $response = $this->passwords->reset($credentials, function ($user, $password) {
+        $response = $this->passwords->reset($credentials, function ($user, $password) use($request) {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token) {
-                $cacheKey = 'registration.'.md5(request()->getClientIp());
+                $cacheKey = 'registration.' . md5($request->getClientIp());
 
-                if (Cache::has($cacheKey)) {
-                    return abort(500);
+                if ($this->cacheManager->has($cacheKey)) {
+                    abort(500);
                 }
 
                 $user->unset('activation_token');
@@ -156,27 +145,25 @@ class UserController extends BaseController
             $user->password = $password;
             $user->save();
 
-            auth()->login($user);
+            $this->guard->login($user);
         });
 
-        switch ($response) {
-            case PasswordBroker::PASSWORD_RESET:
-                return redirect('/');
-            default:
-                return redirect()->back()
-                    ->withInput($request->only('email'))
-                    ->withErrors(['email' => trans($response)]);
-        }
+        return match ($response) {
+            PasswordBroker::PASSWORD_RESET => $this->redirector->back('/'),
+            default => $this->redirector->back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => $this->translator->trans($response)]),
+        };
     }
 
     public function showLoginForm()
     {
-        return view('user.login');
+        return $this->viewFactory->make('user.login');
     }
 
     public function showRemoveAccountForm()
     {
-        return view('user.remove');
+        return $this->viewFactory->make('user.remove');
     }
 
     public function removeAccount(Request $request)
@@ -185,25 +172,17 @@ class UserController extends BaseController
             'password' => 'required|confirmed|user_password',
         ]);
 
-        user()->removed_at = new Carbon();
+        user()->removed_at = Carbon::now();
         user()->type = 'deleted';
 
         user()->save();
 
-        auth()->logout();
+        $this->guard->logout();
 
-        return redirect()->to('')->with('success_msg', 'Twoje konto zostało usunięte.');
+        return $this->redirector->to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
 
-    /**
-     * Show user profile view.
-     *
-     * @param  User  $user
-     * @param  string $type
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showProfile($user, $type = 'all')
+    public function showProfile(User $user, string $type = 'all')
     {
         if ($user->removed_at) {
             abort(404, 'Użytkownik usunął konto.');
@@ -211,17 +190,17 @@ class UserController extends BaseController
 
         $data = [];
 
-        if ($type == 'contents') {
+        if ($type === 'contents') {
             $data['contents'] = $user->contents()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'comments') {
+        } elseif ($type === 'comments') {
             $data['comments'] = $user->comments()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'comment_replies') {
+        } elseif ($type === 'comment_replies') {
             $data['replies'] = $user->commentReplies()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'entries') {
+        } elseif ($type === 'entries') {
             $data['entries'] = $user->entries()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'entry_replies') {
+        } elseif ($type === 'entry_replies') {
             $data['replies'] = $user->entryReplies()->orderBy('created_at', 'desc')->paginate(15);
-        } elseif ($type == 'moderated') {
+        } elseif ($type === 'moderated') {
             $data['moderated'] = $user->moderatedGroups()->paginate(25);
         } else {
             $data['actions'] = $user->actions()->with('element')->orderBy('created_at', 'desc')->paginate(15);
@@ -230,78 +209,83 @@ class UserController extends BaseController
         $data['type'] = $type;
         $data['user'] = $user;
 
-        return view('user.profile', $data);
+        return $this->viewFactory->make('user.profile', $data);
     }
 
     public function saveProfile(Request $request)
     {
         $this->validate($request, [
-            'sex'         => 'in:male,female',
-            'avatar'      => 'image|max:1024',
-            'age'         => 'integer|min:1900|max:2010',
-            'location'    => 'max:32',
+            'sex' => 'in:male,female,unknown',
+            'avatar' => 'image|max:1024',
+            'age' => 'integer|min:1900|max:2020',
+            'location' => 'max:32',
             'description' => 'max:250',
         ]);
 
         $user = user();
 
-        $data = request()->only(['sex', 'age', 'location', 'description']);
+        $data = $request->only(['sex', 'age', 'location', 'description']);
         $user->fill($data);
 
-        if (request()->hasFile('avatar')) {
-            $user->setAvatar(request()->file('avatar')->getRealPath());
+        if ($request->hasFile('avatar')) {
+            $user->setAvatar($request->file('avatar')->getRealPath());
         }
 
         $user->save();
 
-        return redirect()->route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
+        return $this->redirector->route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
     public function blockUser($user)
     {
         user()->blockedUsers()->attach($user);
-        \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
-        return Response::json(['status' => 'ok']);
+        $this->cacheManager->tags(['user.blocked-users', 'u.' . $this->guard->id()])->flush();
+
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function unblockUser($user)
     {
         user()->blockedUsers()->detach($user);
-        \Cache::tags(['user.blocked-users', 'u.'.auth()->id()])->flush();
-        return Response::json(['status' => 'ok']);
+        $this->cacheManager->tags(['user.blocked-users', 'u.' . $this->guard->id()])->flush();
+
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function observeUser($user)
     {
         user()->followedUsers()->attach($user);
-        return Response::json(['status' => 'ok']);
+
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function unobserveUser($user)
     {
         user()->followedUsers()->detach($user);
-        return Response::json(['status' => 'ok']);
+
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 
     public function blockDomain($domain)
     {
-        $domain = PDP::parseUrl($domain)->host->registerableDomain;
+        $domain = (new Uri($domain))->getHost();
+        $domain = PDP::resolve($domain)->getRegistrableDomain();
 
-        if (! $domain) {
-            return Response::json([
+        if (!$domain) {
+            return $this->responseFactory->json([
                 'status' => 'error', 'error' => 'Nieprawidłowa domena',
             ]);
         }
 
         user()->push('_blocked_domains', $domain, true);
 
-        return Response::json(['status' => 'ok', 'domain' => $domain]);
+        return $this->responseFactory->json(['status' => 'ok', 'domain' => $domain]);
     }
 
     public function unblockDomain($domain)
     {
         user()->pull('_blocked_domains', $domain);
 
-        return Response::json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

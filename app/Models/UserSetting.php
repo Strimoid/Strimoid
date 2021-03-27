@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -8,21 +10,15 @@ class UserSetting extends BaseModel
     public $incrementing = false;
 
     protected $table = 'user_settings';
-    protected $primaryKey = ['key', 'user_id'];
+    protected array $primaryKeys = ['key', 'user_id'];
 
     protected static $unguarded = true;
 
-    /**
-     * Set the keys for a save update query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function setKeysForSaveQuery(Builder $query)
+    protected function setKeysForSaveQuery($query): Builder
     {
-        foreach ($this->getKeyName() as $key) {
+        foreach ($this->primaryKeys as $key) {
             if (!$this->$key) {
-                throw new \Exception(__METHOD__ . 'Missing part of the primary key: ' . $key);
+                throw new \RuntimeException(__METHOD__ . 'Missing part of the primary key: ' . $key);
             }
 
             $query->where($key, '=', $this->$key);

@@ -2,9 +2,9 @@
 
 return [
 
-    'all' => 'Wszystkie',
+    'all'          => 'Wszystkie',
     'mark as read' => 'Oznacz jako przeczytane',
-    'empty' => 'Nie posiadasz żadnych powiadomień.',
+    'empty'        => 'Nie posiadasz żadnych powiadomień.',
 
     'types' => [
         'Content'             => 'Treść',
@@ -15,6 +15,6 @@ return [
         'EntryReply'          => 'Odpowiedź na wpis',
         'ConversationMessage' => 'Konwersacja',
         'Conversation'        => 'Nowa wiadomość w konwersacji',
-    ]
+    ],
 
 ];

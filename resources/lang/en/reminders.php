@@ -13,12 +13,12 @@ return [
     |
     */
 
-    "password" => "Your password must be at least six characters and match the confirmation.",
+    'password' => 'Your password must be at least six characters and match the confirmation.',
 
-    "user"     => "No user with such e-mail address.",
+    'user'     => 'No user with such e-mail address.',
 
-    "token"    => "Password reset token is invalid.",
+    'token'    => 'Password reset token is invalid.',
 
-    "sent" => "Password reminder sent!",
+    'sent' => 'Password reminder sent!',
 
 ];

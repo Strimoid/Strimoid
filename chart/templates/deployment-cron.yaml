@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "strimoid.fullname" . }}-cron
+  labels:
+    app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    app.kubernetes.io/component: cron
+    helm.sh/chart: {{ include "strimoid.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.cron.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "strimoid.name" . }}
+      app.kubernetes.io/component: cron
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/name: {{ include "strimoid.name" . }}
+        app.kubernetes.io/component: cron
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-cron
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["php", "/src/artisan", "schedule:work"]
+          envFrom:
+            - configMapRef:
+                name: {{ template "strimoid.fullname" . }}
+            - secretRef:
+                name: {{ template "strimoid.fullname" . }}
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: storage
+              mountPath: /src/storage/uploads
+              subPath: uploads
+          {{- end }}
+          resources:
+            {{- toYaml .Values.cron.resources | nindent 12 }}
+      {{- with .Values.cron.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.cron.affinity }}
+    affinity:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.cron.tolerations }}
+    tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if .Values.persistence.enabled }}
+    volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (include "strimoid.fullname" .) }}
+    {{- end -}}

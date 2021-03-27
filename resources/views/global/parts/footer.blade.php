@@ -32,22 +32,16 @@
 
 <hr>
 
-<div class="pull-left">
+<div class="pull-left mb-4">
     {{ trans('common.website uses') }} <a href="/cookies" rel="nofollow">{{ trans('common.cookie files') }}.</a>
 </div>
-<div class="pull-right">
+<div class="pull-right mb-4">
     <a class="toggle_night_mode">
         <i class="fa fa-adjust"></i>
         {{ trans('common.night mode') }}
     </a>
 
     <div class="social-links">
-        <a href="//www.facebook.com/Strimoid">
-            <i class="fa fa-facebook-square"></i>
-        </a>
-        <a href="//twitter.com/strimoid">
-            <i class="fa fa-twitter-square"></i>
-        </a>
         <a href="//github.com/strimoid/strimoid">
             <i class="fa fa-github-square"></i>
         </a>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>{{{ $content->title }}} - Strimoid.pl</title>
+    <title>{{{ $content->title }}} - {{ config('app.name') }}</title>
 
     <link rel="stylesheet" href="/static/css/frame.css">
 </head>
@@ -16,7 +16,7 @@
         <h1>Strimoid</h1>
 
         <h1>
-            <a href="{!! route('content_comments', $content->_id) !!}">{{{ $content->title }}}</a>
+            <a href="{!! route('content_comments', $content->hashId()) !!}">{{{ $content->title }}}</a>
 
         </h1>
 

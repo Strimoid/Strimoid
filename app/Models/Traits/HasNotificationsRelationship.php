@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models\Traits;
+<?php
+
+namespace Strimoid\Models\Traits;
 
 use Strimoid\Models\Notification;
 
@@ -7,7 +9,6 @@ trait HasNotificationsRelationship
     /**
      * Notifications relationship.
      *
-     * @return mixed
      */
     public function notifications()
     {

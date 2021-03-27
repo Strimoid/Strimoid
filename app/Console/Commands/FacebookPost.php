@@ -1,32 +1,18 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
 
-use Carbon;
-use Guzzle;
+namespace Strimoid\Console\Commands;
+
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Strimoid\Facades\Guzzle;
 use Strimoid\Models\Content;
 
 class FacebookPost extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $name = 'lara:fbpost';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Posts most popular content to FB fanpage.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): void
     {
         $dayBefore = Carbon::now()->subDay();
         $content = Content::where('created_at', '>', $dayBefore)
@@ -35,9 +21,9 @@ class FacebookPost extends Command
 
         $params = [
             'access_token' => config('social.facebook.page_token'),
-            'name'         => $content->title,
-            'link'         => route('content_comments', $content->getKey()),
-            'description'  => $content->description,
+            'name' => $content->title,
+            'link' => route('content_comments', $content->getKey()),
+            'description' => $content->description,
         ];
 
         if ($content->thumbnail) {

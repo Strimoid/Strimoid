@@ -1,21 +1,27 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
+namespace Strimoid\Http\Controllers;
+
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Input;
+use Illuminate\Support\Facades\Cache;
 
 class SettingsController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector)
+    {
+    }
     public function showSettings()
     {
         $user = user();
 
-        $subscribedGroups = $user->subscribedGroups();
-        $blockedGroups    = $user->blockedGroups();
-        $moderatedGroups  = $user->moderatedGroups();
-        $blockedUsers     = $user->blockedUsers()->get();
-        $bans             = $user->bannedGroups();
+        $subscribedGroups = $user->subscribedGroups()->get();
+        $blockedGroups = $user->blockedGroups()->get();
+        $moderatedGroups = $user->moderatedGroups()->get();
+        $blockedUsers = $user->blockedUsers()->get();
+        $bans = $user->bannedGroups()->get();
 
-        return view('user.settings', compact(
+        return $this->viewFactory->make('user.settings', compact(
             'user',
             'subscribedGroups',
             'blockedGroups',
@@ -25,32 +31,34 @@ class SettingsController extends BaseController
         ));
     }
 
-    public function saveSettings(Request $request)
+    public function saveSettings(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'css_style'         => 'url|safe_url|max:250',
+            'css_style' => 'nullable|url|safe_url|max:250',
             'contents_per_page' => 'integer|min:1|max:100',
-            'entries_per_page'  => 'integer|min:1|max:100',
-            'timezone'          => 'timezone',
+            'entries_per_page' => 'integer|min:1|max:100',
+            'language' => 'in:auto,en,pl',
+            'timezone' => 'timezone',
         ]);
 
-        $settings['enter_send'] = Input::get('enter_send') == 'on' ? true : false;
-        $settings['pin_navbar'] = Input::get('pin_navbar') == 'on' ? true : false;
-        $settings['notifications_sound'] = Input::get('notifications_sound') == 'on' ? true : false;
-        $settings['homepage_subscribed'] = Input::get('homepage_subscribed') == 'on' ? true : false;
-        $settings['disable_groupstyles'] = Input::get('disable_groupstyles') == 'on' ? true : false;
-        $settings['css_style'] = Input::get('css_style');
-        $settings['contents_per_page'] = (int) Input::get('contents_per_page');
-        $settings['entries_per_page'] = (int) Input::get('entries_per_page');
-        $settings['timezone'] = Input::get('timezone');
-        $settings['notifications.auto_read'] = Input::get('notifications.auto_read') == 'on' ? true : false;
+        $settings['enter_send'] = $request->get('enter_send') === 'on';
+        $settings['pin_navbar'] = $request->get('pin_navbar') === 'on';
+        $settings['notifications_sound'] = $request->get('notifications_sound') === 'on';
+        $settings['homepage_subscribed'] = $request->get('homepage_subscribed') === 'on';
+        $settings['disable_groupstyles'] = $request->get('disable_groupstyles') === 'on';
+        $settings['css_style'] = $request->get('css_style');
+        $settings['contents_per_page'] = (int) $request->get('contents_per_page');
+        $settings['entries_per_page'] = (int) $request->get('entries_per_page');
+        $settings['language'] = $request->get('language');
+        $settings['timezone'] = $request->get('timezone');
+        $settings['notifications.auto_read'] = $request->get('notifications.auto_read') === 'on';
 
         foreach ($settings as $key => $value) {
             setting()->set($key, $value);
         }
 
-        \Cache::tags(['user.settings', 'u.'.auth()->id()])->flush();
+        $this->cacheManager->tags(['user.settings', 'u.' . $this->guard->id()])->flush();
 
-        return redirect()->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
+        return $this->redirector->route('user_settings')->with('success_msg', 'Ustawienia zostały zapisane.');
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models\OAuth;
+<?php
+
+namespace Strimoid\Models\OAuth;
 
 use Strimoid\Models\BaseModel;
 use Strimoid\Models\Traits\HasUserRelationship;

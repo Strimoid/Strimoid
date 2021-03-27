@@ -18,7 +18,7 @@ class AuthCest
         $I->dontSeeAuthentication();
         $I->amOnPage('/login');
         $I->submitForm('.main_col form', [
-            'username' => 'tobin74',
+            'username' => 'julian85',
             'password' => 'qwe123',
         ]);
         $I->seeAuthentication();
@@ -56,5 +56,16 @@ class AuthCest
             'email'    => 'new@user.com',
         ]);
         $I->seeRecord('users', ['name' => 'NewUser']);
+    }
+
+    public function sendPasswordReminder(FunctionalTester $I)
+    {
+        $I->dontSeeAuthentication();
+        $I->amOnPage('/remind');
+        $I->submitForm('.main_col form', [
+            'email' => 'nigel.trantow@hotmail.com',
+        ]);
+
+        // TODO: check if password reminder was sent
     }
 }

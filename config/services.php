@@ -32,12 +32,7 @@ return [
         'secret'        => env('SPARKPOST_SECRET'),
     ],
 
-    'piwik' => [
-        'host'          => env('PIWIK_HOST'),
-        'site_id'       => env('PIWIK_ID'),
-    ],
-
-    /**
+    /*
     |--------------------------------------------------------------------------
     | Raven - used for reporting errors to Sentry
     |--------------------------------------------------------------------------
@@ -52,6 +47,19 @@ return [
         'dsn'           => env('RAVEN_DSN'),
         'public_dsn'    => env('RAVEN_PUBLIC_DSN'),
         'level'         => env('RAVEN_LEVEL', 'error'),
+    ],
+
+    /** Social services */
+
+    'facebook' => [
+        'page_token'      => env('FACEBOOK_PAGE_TOKEN'),
+    ],
+
+    'twitter' => [
+        'consumer_key'    => env('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
+        'token'           => env('TWITTER_TOKEN'),
+        'token_secret'    => env('TWITTER_TOKEN_SECRET'),
     ],
 
 ];

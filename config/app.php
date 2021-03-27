@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'site_name' => 'Strimoid.pl',
+    'name' => 'Strm.pl',
+    'domain' => 'strm.pl',
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +82,7 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'pl'),
+    'locale' => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,21 +96,6 @@ return [
     */
 
     'fallback_locale' => 'en',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the log settings for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Settings: "single", "daily", "syslog"
-    |
-    */
-
-    'log' => 'daily',
 
     /*
     |--------------------------------------------------------------------------
@@ -154,6 +140,7 @@ return [
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
         Illuminate\Pagination\PaginationServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
@@ -171,6 +158,7 @@ return [
         Strimoid\Providers\AppServiceProvider::class,
         Strimoid\Providers\ComposerServiceProvider::class,
         Strimoid\Providers\EventsServiceProvider::class,
+        Strimoid\Providers\MarkdownServiceProvider::class,
         Strimoid\Providers\RepositoriesServiceProvider::class,
         Strimoid\Providers\RouteServiceProvider::class,
         Strimoid\Providers\ValidatorServiceProvider::class,
@@ -179,26 +167,21 @@ return [
         /*
          * Third party Service Providers...
          */
-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-        Barryvdh\Cors\ServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
-        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Lord\Laroute\LarouteServiceProvider::class,
-        LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
-        LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
         Msurguy\Honeypot\HoneypotServiceProvider::class,
         Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
+        Tightenco\Ziggy\ZiggyServiceProvider::class,
         TwigBridge\ServiceProvider::class,
-        Vinkla\Algolia\AlgoliaServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
-        Vinkla\Pusher\PusherServiceProvider::class,
-
     ],
 
     /*
@@ -213,62 +196,19 @@ return [
     */
 
     'aliases' => [
-
-        'App'                => Illuminate\Support\Facades\App::class,
-        'Artisan'            => Illuminate\Support\Facades\Artisan::class,
+        'Arr'                => Illuminate\Support\Arr::class,
         'Auth'               => Illuminate\Support\Facades\Auth::class,
-        'Blade'              => Illuminate\Support\Facades\Blade::class,
-        'Cache'              => Illuminate\Support\Facades\Cache::class,
-        'Config'             => Illuminate\Support\Facades\Config::class,
-        'Cookie'             => Illuminate\Support\Facades\Cookie::class,
-        'Crypt'              => Illuminate\Support\Facades\Crypt::class,
-        'DB'                 => Illuminate\Support\Facades\DB::class,
-        'Eloquent'           => Illuminate\Database\Eloquent\Model::class,
-        'Event'              => Illuminate\Support\Facades\Event::class,
-        'File'               => Illuminate\Support\Facades\File::class,
-        'Hash'               => Illuminate\Support\Facades\Hash::class,
-        'Input'              => Illuminate\Support\Facades\Input::class,
+        'Input'              => Illuminate\Support\Facades\Request::class,
         'Lang'               => Illuminate\Support\Facades\Lang::class,
-        'Log'                => Illuminate\Support\Facades\Log::class,
-        'Mail'               => Illuminate\Support\Facades\Mail::class,
-        'Password'           => Illuminate\Support\Facades\Password::class,
-        'Queue'              => Illuminate\Support\Facades\Queue::class,
-        'Redirect'           => Illuminate\Support\Facades\Redirect::class,
-        'Redis'              => Illuminate\Support\Facades\Redis::class,
         'Request'            => Illuminate\Support\Facades\Request::class,
         'Response'           => Illuminate\Support\Facades\Response::class,
         'Route'              => Illuminate\Support\Facades\Route::class,
-        'Schema'             => Illuminate\Support\Facades\Schema::class,
         'Session'            => Illuminate\Support\Facades\Session::class,
         'Storage'            => Illuminate\Support\Facades\Storage::class,
         'URL'                => Illuminate\Support\Facades\URL::class,
-        'Validator'          => Illuminate\Support\Facades\Validator::class,
-        'View'               => Illuminate\Support\Facades\View::class,
         'Form'               => Collective\Html\FormFacade::class,
         'Html'               => Collective\Html\HtmlFacade::class,
         'Str'                => Illuminate\Support\Str::class,
-        'BootstrapPresenter' => Illuminate\Pagination\BootstrapThreePresenter::class,
-
-        'Algolia'    => Vinkla\Algolia\Facades\Algolia::class,
-        'Authorizer' => LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade::class,
-        'Carbon'     => Carbon\Carbon::class,
-        'Date'       => Carbon\Carbon::class,
-        'Debugbar'   => Barryvdh\Debugbar\Facade::class,
-        'Flash'      => Laracasts\Flash\Flash::class,
-        'Gravatar'   => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
-        'Hashids'    => Vinkla\Hashids\Facades\Hashids::class,
-        'Image'      => Intervention\Image\Facades\Image::class,
-        'Markdown'   => GrahamCampbell\Markdown\Facades\Markdown::class,
-        'Setting'    => Strimoid\Settings\Facades\Setting::class,
-        'Settings'   => Strimoid\Settings\Facades\Setting::class,
-        'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
-        'Throttle'   => GrahamCampbell\Throttle\Facades\Throttle::class,
-        'Twig'       => TwigBridge\Facade\Twig::class,
-
-        'PDP'       => Strimoid\Facades\PDP::class,
-        'Guzzle'    => Strimoid\Facades\Guzzle::class,
-        'OEmbed'    => Strimoid\Facades\OEmbed::class,
-
     ],
 
 ];

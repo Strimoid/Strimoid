@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 class GroupModerator extends BaseModel
 {
@@ -6,11 +8,11 @@ class GroupModerator extends BaseModel
 
     public function group()
     {
-        return $this->belongsTo('Strimoid\Models\Group');
+        return $this->belongsTo(Group::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('Strimoid\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

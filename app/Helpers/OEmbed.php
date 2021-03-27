@@ -1,54 +1,69 @@
-<?php namespace Strimoid\Helpers;
+<?php
 
-use Cache;
-use Config;
-use Guzzle;
+namespace Strimoid\Helpers;
+
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Strimoid\Facades\Guzzle;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class OEmbed
 {
-    protected $mimetypes = [
+    protected array $mimetypes = [
         'audio/' => 'embedAudio',
         'image/' => 'embedImage',
         'video/' => 'embedVideo',
     ];
 
-    public function getThumbnail(string $url)
+    public function getThumbnail(string $url): ?string
     {
         try {
             $data = $this->getData($url);
 
-            $image = array_first($data['links']['thumbnail'], function ($key, $value) {
-                return $this->isImage($value);
-            });
+            $images = $this->extractImages($data['links'] ?? []);
+            $thumbnail = Arr::first($images);
 
-            return data_get($image, 'href', null);
+            return data_get($thumbnail, 'href');
         } catch (RequestException $e) {
+            return null;
         }
-
-        return null;
     }
 
-    public function getThumbnails(string $url)
+    public function getThumbnails(string $url): array
     {
         $data = $this->getData($url);
+        $images = $this->extractImages($data['links'] ?? []);
 
-        $data = array_where($data['links']['thumbnail'], function ($key, $value) {
-            return $this->isImage($value);
-        });
-
-        $data = array_pluck($data, 'href');
-
-        return $data;
+        return Arr::pluck($images, 'href');
     }
 
-    public function getData(string $url)
+    public function getData(string $url): array
     {
-        $query = ['url' => $url];
-        return Guzzle::get($this->endpoint(), compact('query'))->json();
+        $query = array_filter([
+            'url' => $url,
+            'api_key' => config('strimoid.oembed.api_key'),
+        ]);
+
+        /** @var Response $response */
+        $response = Guzzle::get($this->endpoint(), compact('query'));
+
+        return json_decode($response->getBody(), true);
     }
 
-    protected function isImage($link)
+    protected function extractImages(array $links): array
+    {
+        $thumbnails = $links['thumbnail'] ?? [];
+        $files = $links['file'] ?? [];
+
+        $sources = array_merge($thumbnails, $files);
+
+        return array_filter($sources, fn ($value) => $this->isImage($value));
+    }
+
+    protected function isImage(array $link)
     {
         $rel = data_get($link, 'rel', []);
         $type = data_get($link, 'type');
@@ -57,59 +72,58 @@ class OEmbed
             return true;
         }
 
-        if (in_array('file', $rel) && starts_with($type, 'image')) {
+        if (in_array('file', $rel) && Str::startsWith($type, 'image')) {
             return true;
         }
 
         return false;
     }
 
-    public function getEmbedHtml($url, $autoPlay = true)
+    public function getEmbedHtml(string $url, bool $autoPlay = true)
     {
         $key = md5($url);
 
-        if (! $autoPlay) {
+        if (!$autoPlay) {
             $key .= '.no-ap';
         }
 
-        $html = Cache::driver('oembed')
-            ->rememberForever($key, function () use ($url, $autoPlay) {
-                return $this->fetchJson($url, $autoPlay);
-            });
-
-        return $html;
+        return Cache::rememberForever($key, function () use ($url, $autoPlay) {
+            try {
+                return $this->fetchEmbedCode($url, $autoPlay);
+            } catch (\Throwable $throwable) {
+                Log::warning('Failed to fetch embed code: ' . $throwable->getMessage());
+                return null;
+            }
+        });
     }
 
-    /**
-     * @param $url
-     * @param boolean $autoPlay
-     * @return bool|string
-     */
-    protected function fetchJson($url, $autoPlay)
+    protected function fetchEmbedCode(string $url, bool $autoPlay): string
     {
-        try {
-            $query = ['ssl' => 'true', 'url' => $url];
+        $query = array_filter([
+            'ssl' => 'true',
+            'url' => $url,
+            'api_key' => config('strimoid.oembed.api_key'),
+        ]);
 
-            if ($autoPlay) {
-                $query['autoplay'] = 'true';
-            }
-
-            $data = Guzzle::get($this->endpoint(), compact('query'))->json();
-
-            return $this->processData($data);
-        } catch (RequestException $e) {
+        if ($autoPlay) {
+            $query['autoplay'] = 'true';
         }
 
-        return false;
+        $data = (string) Guzzle::get($this->endpoint(), compact('query'))->getBody();
+        $data = \GuzzleHttp\json_decode($data, true);
+
+        return $this->processData($data);
     }
 
-    protected function processData($data)
+    protected function processData($data): ?string
     {
         if (array_key_exists('html', $data)) {
             return $data['html'];
         }
 
-        foreach ($data['links'] as $link) {
+        $links = $data['links'] ?? [];
+
+        foreach ($links as $link) {
             $rel = data_get($link, 'rel', []);
 
             if (in_array('file', $rel)) {
@@ -121,13 +135,13 @@ class OEmbed
             }
         }
 
-        return false;
+        return '';
     }
 
     protected function embedMedia($link)
     {
         foreach ($this->mimetypes as $mimetype => $function) {
-            if (starts_with($link['type'], $mimetype)) {
+            if (Str::startsWith($link['type'], $mimetype)) {
                 return $this->{$function}($link['href']);
             }
         }
@@ -137,28 +151,23 @@ class OEmbed
 
     protected function embedAudio($href)
     {
-        return '<audio src="'.$href.'"controls autoplay></audio>';
+        return '<audio src="' . $href . '"controls autoplay></audio>';
     }
 
     protected function embedImage($href)
     {
-        return '<img src="'.$href.'">';
+        return '<img src="' . $href . '">';
     }
 
     protected function embedVideo($href)
     {
-        return '<video src="'.$href.'"controls autoplay></audio>';
+        return '<video src="' . $href . '"controls autoplay></audio>';
     }
 
-    /**
-     * Return OEmbed API endpoint URL.
-     *
-     * @return string
-     */
-    protected function endpoint()
+    protected function endpoint(): string
     {
-        $host = config('strimoid.oembed');
+        $baseUrl = config('strimoid.oembed.url');
 
-        return $host.'/iframely';
+        return $baseUrl . '/iframely';
     }
 }

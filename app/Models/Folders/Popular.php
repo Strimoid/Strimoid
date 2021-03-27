@@ -1,10 +1,14 @@
-<?php namespace Strimoid\Models\Folders;
+<?php
 
+namespace Strimoid\Models\Folders;
+
+use Illuminate\Database\Eloquent\Builder;
 use Strimoid\Models\FakeFolder;
+use Strimoid\Models\Content;
 
 class Popular extends FakeFolder
 {
-    protected function getBuilder($model)
+    protected function getBuilder(string $model): Builder
     {
         $builder = with(new $model())->newQuery();
 
@@ -101,20 +105,20 @@ class Popular extends FakeFolder
             'MetaSecurity',
             ];
 
-        $builder->whereHas('group', function($q) use($groups) {
+        $builder->whereHas('group', function ($q) use ($groups): void {
             $q->whereIn('name', $groups);
         });
 
         return $builder;
     }
 
-    public function contents($tab = null, $sortBy = null)
+    public function contents(string $tab = null, string $sortBy = null): Builder
     {
-        $builder = static::getBuilder('Strimoid\Models\Content');
+        $builder = $this->getBuilder(Content::class);
 
-        if ($tab == 'new') {
+        if ($tab === 'new') {
             $builder->frontpage(false);
-        } elseif ($tab == 'popular') {
+        } elseif ($tab === 'popular') {
             $builder->frontpage(true);
             $sortBy = $sortBy ?: 'frontpage_at';
         }

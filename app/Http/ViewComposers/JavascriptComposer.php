@@ -1,6 +1,8 @@
-<?php namespace Strimoid\Http\ViewComposers;
+<?php
 
-use Auth;
+namespace Strimoid\Http\ViewComposers;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use JavaScript;
 use Strimoid\Models\Content;
@@ -8,11 +10,14 @@ use Strimoid\Models\Group;
 
 class JavascriptComposer
 {
-    public function compose(View $view)
+    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Config\Repository $configRepository)
+    {
+    }
+    public function compose(View $view): void
     {
         $data = $view->getData();
 
-        if (Auth::check()) {
+        if ($this->authManager->check()) {
             $this->putUserInfo();
         }
 
@@ -26,16 +31,16 @@ class JavascriptComposer
 
         JavaScript::put([
             'config' => [
-                'env'        => app()->environment(),
-                'pusher_key' => config('broadcasting.connections.pusher.key'),
-            ]
+                'env' => app()->environment(),
+                'pusher_key' => $this->configRepository->get('broadcasting.connections.pusher.key'),
+            ],
         ]);
     }
 
-    protected function putUserInfo()
+    protected function putUserInfo(): void
     {
         JavaScript::put([
-            'user'     => user(),
+            'user' => user(),
             'settings' => user()->settings,
         ]);
     }

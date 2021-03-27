@@ -1,61 +1,43 @@
-<?php namespace Strimoid\Handlers\Events;
+<?php
 
+namespace Strimoid\Handlers\Events;
+
+use Illuminate\Events\Dispatcher;
+use Pusher\Laravel\Facades\Pusher;
+use Strimoid\Entry\Events\EntryCreated;
+use Strimoid\Entry\Events\EntryReplyCreated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Notification;
-use Vinkla\Pusher\Facades\Pusher;
 
 class PubSubHandler
 {
-    /**
-     * Register the listeners for the subscriber.
-     *
-     * @param \Illuminate\Events\Dispatcher $events
-     */
-    public function subscribe($events)
+    public function subscribe(Dispatcher $events): void
     {
-        $events->listen('eloquent.created: '.Entry::class, self::class.'@onNewEntry');
-        $events->listen('eloquent.created: '.EntryReply::class, self::class.'@onNewEntryReply');
-        $events->listen('eloquent.created: '.Notification::class, self::class.'@onNewNotification');
-    }
-
-    public function onNewEntry(Entry $entry)
-    {
-        $arrayEntry = $entry->toArray();
-        $additionalData = array(
-            'hashId' => $entry->hashId(),
-            'avatarPath' => $entry->user->getAvatarPath(),
-            'entryUrl' => $entry->getURL(),
+        $events->listen(
+            'eloquent.created: ' . Entry::class,
+            fn(Entry $entry) => event(new EntryCreated($entry))
         );
-
-        Pusher::trigger('entries', 'new-entry', array_merge($arrayEntry, $additionalData));
-    }
-
-    public function onNewEntryReply(EntryReply $reply)
-    {
-        $arrayEntry = $reply->toArray();
-        $additionalData = array(
-            'hashId' => $reply->hashId(),
-            'avatarPath' => $reply->user->getAvatarPath(),
-            'entryUrl' => $reply->getURL(),
+        $events->listen(
+            'eloquent.created: ' . EntryReply::class,
+            fn(EntryReply $reply) => event(new EntryReplyCreated($reply))
         );
-
-        Pusher::trigger('entry.'.$reply->parent->hashId(), 'new-reply', array_merge($arrayEntry, $additionalData));
+        // $events->listen('eloquent.created: ' . Notification::class, self::class . '@onNewNotification');
     }
 
-    public function onNewNotification(Notification $notification)
+    public function onNewNotification(Notification $notification): void
     {
         foreach ($notification->targets as $target) {
-            $channelName = 'privateU'.$target->id;
+            $channelName = 'privateU' . $target->id;
             $notificationData = [
-                'id'    => $notification->hashId(),
-                'type'  => $notification->getTypeDescription(),
+                'id' => $notification->hashId(),
+                'type' => $notification->getTypeDescription(),
                 'title' => $notification->title,
-                'img'   => $notification->getThumbnailPath(),
-                'url'   => $notification->getURL(true),
+                'img' => $notification->getThumbnailPath(),
+                'url' => $notification->getURL(),
             ];
 
-            Pusher::trigger($channelName, 'new-notification', $notificationData);
+            // Pusher::trigger($channelName, 'new-notification', $notificationData);
         }
     }
 }

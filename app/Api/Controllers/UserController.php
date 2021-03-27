@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 use Strimoid\Models\GroupModerator;
 use Strimoid\Models\User;
@@ -30,21 +32,21 @@ class UserController
     public function getInfo($user)
     {
         $stats = [
-            'contents'         => (int) $user->contents->count(),
-            'comments'         => (int) $user->comments->count(),
-            'entries'          => (int) $user->entries->count(),
-            'moderated_groups' => intval(GroupModerator::where('user_id', $user->getKey())->count()),
+            'contents' => (int) $user->contents->count(),
+            'comments' => (int) $user->comments->count(),
+            'entries' => (int) $user->entries->count(),
+            'moderated_groups' => (int) GroupModerator::where('user_id', $user->getKey())->count(),
         ];
 
         return [
-            'name'        => $user->name,
-            'age'         => $user->age,
-            'avatar'      => $user->avatar,
+            'name' => $user->name,
+            'age' => $user->age,
+            'avatar' => $user->avatar,
             'description' => $user->description,
-            'joined'      => current($user->created_at),
-            'location'    => $user->location,
-            'sex'         => $user->sex,
-            'stats'       => $stats,
+            'joined' => current($user->created_at),
+            'location' => $user->location,
+            'sex' => $user->sex,
+            'stats' => $stats,
         ];
     }
 }

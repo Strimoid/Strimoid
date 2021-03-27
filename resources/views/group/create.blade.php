@@ -4,14 +4,16 @@
 <div class="row">
     {!! Form::open(['action' => 'GroupController@createGroup', 'class' => 'form-horizontal']) !!}
 
-    <div class="form-group @if ($errors->has('urlname')) has-error @endif">
+    <div class="form-group row @if ($errors->has('urlname')) has-error @endif">
         <label for="urlname" class="col-lg-3 control-label">Adres grupy</label>
 
         <div class="col-lg-6">
             <div class="input-group">
-                <span class="input-group-addon">g/</span>
-                {!! Form::text('urlname', null, ['class' => 'form-control',
-                    'placeholder' => 'Adres grupy']) !!}
+                <div class="input-group-prepend">
+                    <span class="input-group-text">g/</span>
+                </div>
+
+                {!! Form::text('urlname', null, ['class' => 'form-control', 'placeholder' => 'Adres grupy']) !!}
             </div>
 
             @if($errors->has('urlname'))
@@ -50,12 +52,8 @@
         </div>
     </div>--}}
 
+    @include('global.form.submit', ['label' => trans('groups.create')])
 
-    <div class="form-group">
-        <div class="col-lg-offset-3 col-lg-6">
-            <button type="submit" class="btn btn-secondary">Stwórz grupę</button>
-        </div>
-    </div>
     {!! Form::close() !!}
 </div>
 @stop

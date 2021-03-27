@@ -28,14 +28,14 @@
                 </time>
             </a>
 
-            <span class="voting" data-id="{!! $entry->hashId() !!}" data-state="{!! $entry->getVoteState() !!}"
+            <span class="voting" data-id="{!! $entry->hashId() !!}" state="{!! $entry->getVoteState() !!}"
                   @if (!$isReply) data-type="entry" @else data-type="entry_reply" @endif>
-                <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($entry->getVoteState() == 'uv') btn-success @endif">
-                    <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $entry->uv !!}</span>
+                <button type="button" class="btn btn-light btn-xs vote-btn-up @if ($entry->getVoteState() == 'uv') btn-success @endif">
+                    <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! (int) $entry->uv !!}</span>
                 </button>
 
-                <button type="button" class="btn btn-secondary btn-xs vote-btn-down @if ($entry->getVoteState() == 'dv') btn-danger @endif">
-                    <i class="fa fa-arrow-down vote-down"></i> <span class="count">{!! $entry->dv !!}</span>
+                <button type="button" class="btn btn-light btn-xs vote-btn-down @if ($entry->getVoteState() == 'dv') btn-danger @endif">
+                    <i class="fa fa-arrow-down vote-down"></i> <span class="count">{!! (int) $entry->dv !!}</span>
                 </button>
             </span>
         </span>
@@ -52,22 +52,22 @@
     @endif
 
     <div class="entry_actions pull-right">
-        @if (Auth::check())
+        @auth
             @if(!$isReply && $entry->isSaved())
                 <i class="fa fa-star action_link save_entry" title="zapisz"></i>
             @elseif (!$isReply)
                 <i class="fa fa-star-o action_link save_entry" title="zapisz"></i>
             @endif
 
-            <a class="entry_reply_link action_link">odpowiedz</a>
+            <a class="entry_reply_link action_link">@lang('common.reply')</a>
+        @endauth
 
-            @if ($entry->canRemove(user()))
-                <a class="entry_remove_link action_link">usuń</a>
-            @endif
-            @if ($entry->canEdit(user()))
-                <a class="entry_edit_link action_link">edytuj</a>
-            @endif
-        @endif
+        @can('remove', $entry)
+            <a class="entry_remove_link action_link">@lang('common.delete')</a>
+        @endcan
+        @can('edit', $entry)
+            <a class="entry_edit_link action_link">@lang('common.edit')</a>
+        @endcan
 
         <a href="{!! $entry->getURL() !!}">#</a>
     </div>

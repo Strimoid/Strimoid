@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -7,26 +9,10 @@ use Strimoid\Models\User;
 
 class UpdateUserPoints extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $name = 'lara:updateuserpoints';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Updates user points amount.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): void
     {
         DB::connection()->disableQueryLog();
 
@@ -34,7 +20,9 @@ class UpdateUserPoints extends Command
         $conn->disableQueryLog();
 
         $rows = DailyAction::select(DB::raw('user_id, Sum(points) as points'))
-            ->with(['user' => function ($q) { $q->select(['name', 'avatar']); }])
+            ->with(['user' => function ($q): void {
+                $q->select(['name', 'avatar']);
+            }])
             ->groupBy('user_id')
             ->orderBy('points', 'desc')
             ->get();
@@ -47,15 +35,5 @@ class UpdateUserPoints extends Command
         }
 
         $this->info('All users processed');
-    }
-
-    protected function getArguments() : array
-    {
-        return [];
-    }
-
-    protected function getOptions() : array
-    {
-        return [];
     }
 }

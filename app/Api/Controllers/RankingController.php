@@ -1,6 +1,7 @@
-<?php namespace Strimoid\Api\Controllers;
+<?php
+
+namespace Strimoid\Api\Controllers;
 
 class RankingController
 {
-
 }

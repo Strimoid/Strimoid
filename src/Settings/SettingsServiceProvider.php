@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Settings;
+<?php
+
+namespace Strimoid\Settings;
 
 use Illuminate\Support\ServiceProvider;
 use Strimoid\Settings\Services\SettingsService;
@@ -8,7 +10,7 @@ class SettingsServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
         $settingsPath = base_path('src/Settings/settings.php');
         $this->loadSettingsFrom($settingsPath);
@@ -17,11 +19,9 @@ class SettingsServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton('settings', function () {
-            return new SettingsService();
-        });
+        $this->app->singleton('settings', fn() => new SettingsService());
     }
 
     /**

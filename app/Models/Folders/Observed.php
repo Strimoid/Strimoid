@@ -1,21 +1,23 @@
-<?php namespace Strimoid\Models\Folders;
+<?php
 
-use Auth;
+namespace Strimoid\Models\Folders;
+
+use Illuminate\Database\Eloquent\Builder;
 use Strimoid\Models\FakeFolder;
 
 class Observed extends FakeFolder
 {
-    public $isPrivate = true;
+    public bool $isPrivate = true;
 
-    protected function getBuilder($model)
+    protected function getBuilder(string $model): Builder
     {
         $builder = with(new $model())->newQuery();
 
-        $observedUsers = Auth::user()->followedUsers()->lists('id');
+        $observedUsers = user()->followedUsers()->pluck('id');
         $builder->whereIn('user_id', $observedUsers);
 
-        $blockedGroups = Auth::user()->blockedGroups()->lists('id');
-        $builder->whereNotIn('group_id', (array) $blockedGroups);
+        $blockedGroups = user()->blockedGroups()->pluck('id');
+        $builder->whereNotIn('group_id', $blockedGroups);
 
         return $builder;
     }

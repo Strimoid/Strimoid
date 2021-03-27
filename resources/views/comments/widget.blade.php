@@ -1,6 +1,6 @@
 <?php
 
-$isReply = isset($isReply) ? true : false;
+$isReply = isset($isReply);
 
 ?>
 
@@ -37,7 +37,7 @@ $isReply = isset($isReply) ? true : false;
                 </a>
             @endif
 
-            <span class="voting" data-id="{!! $comment->hashId() !!}" data-state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
+            <span class="voting" data-id="{!! $comment->hashId() !!}" state="{!! $comment->getVoteState() !!}" @if (!$isReply) data-type="comment" @else data-type="comment_reply" @endif>
                 <button type="button" class="btn btn-secondary btn-xs vote-btn-up @if ($comment->getVoteState() == 'uv') btn-success @endif">
                     <i class="fa fa-arrow-up vote-up"></i> <span class="count">{!! $comment->uv !!}</span>
                 </button>
@@ -64,14 +64,12 @@ $isReply = isset($isReply) ? true : false;
     <div class="comment_actions pull-right">
         <a class="comment_reply_link action_link">odpowiedz</a>
 
-        @if (Auth::check())
-            @if ($comment->canRemove(Auth::user()))
-                <a class="comment_remove_link action_link">usuń</a>
-            @endif
-            @if ($comment->canEdit(Auth::user()))
-                <a class="comment_edit_link action_link">edytuj</a>
-            @endif
-        @endif
+        @can('remove', $comment)
+            <a class="comment_remove_link action_link">usuń</a>
+        @endcan
+        @can('edit', $comment)
+            <a class="comment_edit_link action_link">edytuj</a>
+        @endcan
 
         <a href="{!! $comment->getURL() !!}">#</a>
     </div>

@@ -14,19 +14,23 @@ $options = [
 
 ?>
 
-<div class="form-group @if ($errors->has($name)) has-error @endif">
+<div class="form-group row @if ($errors->has($name)) has-error @endif">
     <label for="{!! $name !!}" class="col-lg-3 control-label">{!! $label !!}</label>
 
     <div class="col-lg-6">
         <div class="input-group">
-            <span class="input-group-addon">
-                <span class="fa fa-fw fa-{!! $icon !!}"></span>
+            @if ($icon ?? null)
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-fw fa-{!! $icon !!}"></i>
+                </span>
             </span>
+            @endif
 
             @if ($type == 'text')
                 {!! Form::text($name, null, $options) !!}
             @elseif ($type == 'textarea')
-                {!! Form::textarea($name, null, array_add($options, 'rows', $rows)) !!}
+                {!! Form::textarea($name, null, Arr::add($options, 'rows', $rows)) !!}
             @elseif ($type == 'email')
                 {!! Form::email($name, null, $options) !!}
             @elseif ($type == 'password')

@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Repositories;
+<?php
+
+namespace Strimoid\Repositories;
 
 use Strimoid\Contracts\Repositories\UserRepository as UserRepositoryContract;
 use Strimoid\Exceptions\EntityNotFoundException;
@@ -6,35 +8,20 @@ use Strimoid\Models\User;
 
 class UserRepository implements UserRepositoryContract
 {
-    /**
-     * @var User
-     */
-    protected $users;
-
-    /**
-     * @param User $user
-     */
-    public function __construct(User $user)
+    public function __construct(protected User $users)
     {
-        $this->users = $user;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getByName($name)
+    public function getByName(string $name): ?User
     {
         return $this->users->name($name)->first();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function requireByName($name)
+    public function requireByName(string $name): User
     {
         $user = $this->getByName($name);
 
-        if (! $user) {
+        if (!$user) {
             throw new EntityNotFoundException();
         }
 

@@ -1,45 +1,49 @@
-<?php namespace Strimoid\Models;
+<?php
 
-use Auth;
-use Config;
-use DB;
+namespace Strimoid\Models;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Str;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Str;
 use Strimoid\Models\Traits\HasAvatar;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, HasAvatar;
+    use Authenticatable, Authorizable, CanResetPassword, HasApiTokens, HasAvatar, Notifiable;
 
-    protected $avatarPath  = 'avatars/';
-    protected $dates       = ['last_login'];
-    protected $table       = 'users';
-    protected $fillable    = [
+    protected string $avatarPath = 'avatars/';
+    protected $dates = ['last_login'];
+    protected $table = 'users';
+    protected $fillable = [
         'age', 'description', 'location', 'sex',
     ];
-    protected $visible     = [
+    protected $visible = [
         'id', 'age', 'avatar', 'created_at',
         'description', 'location', 'sex', 'name',
     ];
     protected $casts = [
+        'age' => 'integer',
         'settings' => 'array',
     ];
 
-    public function getColoredName()
+    public function getColoredName(): string
     {
         $type = $this->type ?: 'normal';
 
-        return '<span class="user_'.$type.'">'.$this->name.'</span>';
+        return '<span class="user_' . $type . '">' . $this->name . '</span>';
     }
 
-    public function getAvatarPath($width = null, $height = null)
+    public function getAvatarPath(int $width = null, int $height = null)
     {
-        $host = Config::get('app.cdn_host');
+        $host = config('app.cdn_host');
 
         // Show default avatar if user is blocked
         if (Auth::check() && Auth::user()->isBlockingUser($this)) {
@@ -47,22 +51,22 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         }
 
         if ($this->avatar && $width && $height) {
-            return $host.'/'.$width.'x'.$height.'/avatars/'.$this->avatar;
-        } elseif ($this->avatar) {
-            return $host.'/avatars/'.$this->avatar;
+            return $host . '/' . $width . 'x' . $height . '/avatars/' . $this->avatar;
+        }
+
+        if ($this->avatar) {
+            return $host . '/avatars/' . $this->avatar;
         }
 
         return $this->getDefaultAvatarPath();
     }
 
-    public function getDefaultAvatarPath()
+    public function getDefaultAvatarPath(): string
     {
-        $host = Config::get('app.cdn_host');
-
-        return $host.'/duck/'.$this->name.'.svg';
+        return '/i/duck/' . $this->name . '.svg';
     }
 
-    public function getSexClass()
+    public function getSexClass(): string
     {
         if ($this->sex && in_array($this->sex, ['male', 'female'])) {
             return $this->sex;
@@ -71,17 +75,18 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return 'nosex';
     }
 
-    public function setEmailAttribute($value)
+    public function setAgeAttribute($value): void
+    {
+        $this->attributes['age'] = $value ?: null;
+    }
+
+    public function setEmailAttribute($value): void
     {
         $lowercase = Str::lower($value);
         $this->attributes['email'] = $lowercase;
-
-        $shadow = shadow_email($value);
-        // TODO:
-        //$this->attributes['shadow_email'] = $shadow;
     }
 
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = bcrypt($value);
     }
@@ -153,30 +158,30 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 
     public function blockedUsers()
     {
-        return $this->belongsToMany(User::class, 'user_blocked_users', 'source_id', 'target_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'user_blocked_users', 'source_id', 'target_id')->withTimestamps();
     }
 
     public function followedUsers()
     {
-        return $this->belongsToMany(User::class, 'user_followed_users', 'source_id', 'target_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'user_followed_users', 'source_id', 'target_id')->withTimestamps();
     }
 
-    public function blockedDomains()
+    public function blockedDomains(): object
     {
-        return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->lists('domain');
+        return DB::table('user_blocked_domains')->where('user_id', $this->getKey())->pluck('domain');
     }
 
-    public function isBanned(Group $group)
+    public function isBanned(Group $group): bool
     {
-        return $this->bannedGroups()->where('group_id', $group)->exists();
+        return $this->bannedGroups()->where('group_id', $group->id)->exists();
     }
 
-    public function isSuperAdmin()
+    public function isSuperAdmin(): bool
     {
         return $this->type === 'admin';
     }
 
-    public function isAdmin($group)
+    public function isAdmin($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
@@ -188,70 +193,65 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
             ->exists();
     }
 
-    public function isModerator($group)
+    public function isModerator($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.moderated-groups', 'u.'.auth()->id()];
+        $cacheTags = ['users.moderated-groups', 'u.' . auth()->id()];
         $moderatedGroupsIds = $this->moderatedGroups()->remember(60)->cacheTags($cacheTags)->pluck('groups.id');
 
-        return $moderatedGroupsIds->has($group);
+        return $moderatedGroupsIds->contains($group);
     }
 
-    public function isSubscriber($group)
+    public function isSubscriber($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.subscribed-groups', 'u.'.auth()->id()];
+        $cacheTags = ['users.subscribed-groups', 'u.' . auth()->id()];
         $subscribedGroupsIds = $this->subscribedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
-        return $subscribedGroupsIds->has($group);
+        return $subscribedGroupsIds->contains($group);
     }
 
-    public function isBlocking($group)
+    public function isBlocking($group): bool
     {
         if ($group instanceof Group) {
             $group = $group->getKey();
         }
 
-        $cacheTags = ['users.blocked-groups', 'u.'.auth()->id()];
+        $cacheTags = ['users.blocked-groups', 'u.' . auth()->id()];
         $blockedGroupsIds = $this->blockedGroups()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
-        return $blockedGroupsIds->has($group);
+        return $blockedGroupsIds->contains($group);
     }
 
-    public function isObservingUser($user)
+    public function isObservingUser($user): bool
     {
         return false;
     }
 
-    public function isBlockingUser($user)
+    public function isBlockingUser($user): bool
     {
-        if ($user instanceof User) {
+        if ($user instanceof self) {
             $user = $user->getKey();
         }
 
-        $cacheTags = ['users.blocked-users', 'u.'.auth()->id()];
+        $cacheTags = ['users.blocked-users', 'u.' . auth()->id()];
         $blockedUsersIds = $this->blockedUsers()->remember(60)->cacheTags($cacheTags)->pluck('id');
 
-        return $blockedUsersIds->has($user);
+        return $blockedUsersIds->contains($user);
     }
 
-    /**
-     * Get the value of the model's route key.
-     *
-     * @return string
-     */
-    public function getRouteKey()
+    public function getRouteKey(): string
     {
         return $this->name;
     }
 
-    public function scopeName($query, $value)
+    public function scopeName($query, $value): void
     {
         $query->where('name', $value);
     }

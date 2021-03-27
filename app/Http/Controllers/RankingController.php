@@ -1,59 +1,60 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
-use Carbon;
-use DB;
-use Input;
+namespace Strimoid\Http\Controllers;
+
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Strimoid\Models\DailyAction;
 use Strimoid\Models\Group;
-use Strimoid\Models\User;
 
 class RankingController extends BaseController
 {
-    public function showRanking($group = null)
+    public function __construct(private \Illuminate\Database\DatabaseManager $databaseManager, private \Illuminate\Contracts\View\Factory $viewFactory)
     {
-        $query = DailyAction::select(DB::raw('user_id, Sum(points) as points, Sum(contents) as contents,
+    }
+    public function showRanking(Request $request, string $group = null)
+    {
+        $query = DailyAction::select($this->databaseManager->raw('user_id, Sum(points) as points, Sum(contents) as contents,
                 Sum(comments) as comments, Sum(entries) as entries, Sum(uv) as uv, Sum(dv) as dv'))
             ->with('user')
             ->groupBy('user_id')
             ->orderBy('points', 'desc');
 
         if ($group) {
+            $group = Group::name($group)->firstOrFail();
             $query->where('group_id', $group->getKey());
             $data['group'] = $group;
         }
 
-        if (Input::has('user')) {
-            $user = User::name(Input::get('user'))->firstOrFail();
-        }
-
         // Time filter
-        $time = intval(Input::get('time')) ?: 90;
+        $time = (int) $request->get('time') ?: 90;
         $fromDay = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1)) - $time;
         $query->where('day', '>', $fromDay);
 
         $data['users'] = $query->paginate(50);
 
-        return view('ranking.ranking', $data);
+        return $this->viewFactory->make('ranking.ranking', $data);
     }
 
-    public function getIndex()
+    public function getIndex(Request $request)
     {
-        $query = DailyAction::select(DB::raw('user_id, Sum(points) as points, Sum(contents) as contents,
+        $query = DailyAction::select($this->databaseManager->raw('user_id, Sum(points) as points, Sum(contents) as contents,
                 Sum(comments) as comments, Sum(entries) as entries, Sum(uv) as uv, Sum(dv) as dv'))
             ->with('user')
             ->groupBy('user_id')
             ->orderBy('points', 'desc');
 
-        if (Input::has('group')) {
-            $group = Group::name(Input::get('group'))->firstOrFail();
+        if ($request->has('group')) {
+            $group = Group::name($request->get('group'))->firstOrFail();
             $query->where('group_id', $group->getKey());
 
             $data['group'] = $group;
         }
 
         // Time filter
-        if (Input::has('time')) {
-            $fromDay = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1)) - Input::get('time');
+        if ($request->has('time')) {
+            $fromDay = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1)) - $request->get('time');
             $query->where('day', '>', $fromDay);
         }
 

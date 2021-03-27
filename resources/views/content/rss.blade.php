@@ -5,14 +5,14 @@
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Strimoid: strona główna</title>
-        <link>https://strimoid.pl/</link>
-        <description>Ostatnio popularne treści na portalu Strimoid.pl</description>
-        <atom:link href="{{ Request::url() }}" rel="self"></atom:link>
+        <title>Strm: strona główna</title>
+        <link>https://strm.pl/</link>
+        <description>Ostatnio popularne treści na portalu Strm.pl</description>
+        <atom:link href="{{ request()->url() }}" rel="self"></atom:link>
         <image>
-            <url>https://strimoid.pl/static/img/logo.png</url>
-            <title>Strimoid</title>
-            <link>https://strimoid.pl/</link>
+            <url>https://strm.pl/static/img/logo.png</url>
+            <title>{{ config('app.name') }}</title>
+            <link>https://strm.pl/</link>
         </image>
         @foreach($contents as $content)
             <item>

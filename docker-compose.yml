@@ -1,25 +1,23 @@
-version: '2'
+version: "3.9"
 services:
-  web:
-    build: .
-    image: strimoid/strimoid
-    environment:
-     - MYSQL_HOST=mariadb
-     - MYSQL_USERNAME=root
+  nginx:
+    image: nginx:1.19-alpine
     ports:
-     - "8000:8000"
-    volumes:
-     - .:/src
+      - "8000:80"
     links:
-     - beanstalkd
-     - mariadb
+      - php
+    volumes:
+      - ./config/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  php:
+    build: .
+    image: quay.io/strimoid/strimoid
+    depends_on:
+     - postgres
      - redis
-  mariadb:
-    image: mariadb
+  postgres:
+    image: postgres:13-alpine
     environment:
-     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-     - MYSQL_DATABASE=strimoid
+     - POSTGRES_USER=strimoid
+     - POSTGRES_PASSWORD=strimoid
   redis:
-    image: redis
-  beanstalkd:
-    image: schickling/beanstalkd
+    image: redis:6.0-alpine

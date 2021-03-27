@@ -61,11 +61,6 @@ return [
             'connection' => 'default',
         ],
 
-        'oembed' => [
-            'driver' => 'file',
-            'path'   => storage_path().'/framework/cache',
-        ],
-
     ],
 
     /*

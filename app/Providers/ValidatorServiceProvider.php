@@ -1,20 +1,17 @@
-<?php namespace Strimoid\Providers;
+<?php
 
-use Auth;
-use DB;
-use Hash;
+namespace Strimoid\Providers;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
-use Str;
-use Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class ValidatorServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         Validator::extend('unique_email', function ($attribute, $value, $parameters) {
             if (isset($parameters[1])) {
@@ -28,16 +25,12 @@ class ValidatorServiceProvider extends ServiceProvider
                 ->where($attribute, $value)
                 ->count();
 
-            return $count == 0;
+            return $count === 0;
         });
 
-        Validator::extend('safe_url', function ($attribute, $value, $parameters) {
-            return starts_with($value, 'http');
-        });
+        Validator::extend('safe_url', fn ($attribute, $value, $parameters) => Str::startsWith($value, 'http'));
 
-        Validator::extend('url_custom', function ($attribute, $value, $parameters) {
-            return preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value);
-        });
+        Validator::extend('url_custom', fn ($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value));
 
         Validator::extend('real_email', function ($attribute, $value, $parameters) {
             $blockedDomains = [
@@ -113,14 +106,16 @@ class ValidatorServiceProvider extends ServiceProvider
                 'freemail.ms', 'hideme.be', 'anonymbox.com', 'poczter.eu', 'ssoia.com', 'my10minutemail.com',
                 '10minutmail.pl', 'co.za', 'tryalert.com', 'tmpeml.info',
                 'mytrashmail.com', 'cbair.com', 'doiea.com',
-
-                'karpdami.linuxpl.info', 'cebuloid.pl', 'cebulion.pl', 'atingo.pl', 'reign77.pl', 'beltheze.edl.pl',
             ];
 
             $domain = explode('@', $value, 2);
             $parts = explode('.', Str::lower($domain[1]));
 
-            return !in_array($parts[count($parts)-2].'.'.$parts[count($parts)-1], $blockedDomains);
+            try {
+                return !in_array($parts[count($parts) - 2] . '.' . $parts[count($parts) - 1], $blockedDomains);
+            } catch (\Throwable $throwable) {
+                return false;
+            }
         });
 
         Validator::extend('strong_password', function ($attribute, $value, $parameters) {
@@ -145,17 +140,10 @@ class ValidatorServiceProvider extends ServiceProvider
             return !in_array($value, $names);
         });
 
-        Validator::extend('user_password', function ($attribute, $value, $parameters) {
-            return Hash::check($value, Auth::user()->password);
-        });
+        Validator::extend('user_password', fn ($attribute, $value, $parameters) => Hash::check($value, Auth::user()->password));
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
     }
 }

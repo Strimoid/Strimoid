@@ -1,5 +1,9 @@
-<?php namespace Strimoid\Http\Controllers\Group;
+<?php
 
+namespace Strimoid\Http\Controllers\Group;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupBan;
@@ -7,6 +11,9 @@ use Strimoid\Models\User;
 
 class BanController extends BaseController
 {
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
     public function showBannedList($group)
     {
         $bans = GroupBan::where('group_id', $group->getKey())
@@ -14,21 +21,21 @@ class BanController extends BaseController
             ->with('user')
             ->paginate(25);
 
-        return view('group.bans', compact('group', 'bans'));
+        return $this->viewFactory->make('group.bans', compact('group', 'bans'));
     }
 
-    public function addBan()
+    public function addBan(\Illuminate\Http\Request $request): RedirectResponse
     {
-        $user = User::name(request('username'))->firstOrFail();
-        $group = Group::name(request('groupname'))->firstOrFail();
+        $user = User::name($request->input('username'))->firstOrFail();
+        $group = Group::name($request->input('groupname'))->firstOrFail();
 
-        $this->validate(request(), ['reason' => 'max:255']);
+        $this->validate($request, ['reason' => 'max:255']);
 
-        if (request('everywhere') == '1') {
+        if ($request->input('everywhere') === '1') {
             foreach (user()->moderatedGroups as $group) {
                 $ban = GroupBan::where('group_id', $group->id)->where('user_id', $user->id)->first();
                 if (!$ban) {
-                    $group->banUser($user, request('reason'));
+                    $group->banUser($user, $request->input('reason'));
                 }
             }
         } else {
@@ -37,16 +44,16 @@ class BanController extends BaseController
             }
             $ban = GroupBan::where('group_id', $group->id)->where('user_id', $user->id)->first();
             if (!$ban) {
-                $group->banUser($user, request('reason'));
+                $group->banUser($user, $request->input('reason'));
             }
         }
 
-        return redirect()->route('group_banned', $group);
+        return $this->redirector->route('group_banned', $group);
     }
 
-    public function removeBan()
+    public function removeBan(\Illuminate\Http\Request $request): JsonResponse
     {
-        $ban = GroupBan::findOrFail(request('id'));
+        $ban = GroupBan::findOrFail($request->input('id'));
 
         if (!user()->isModerator($ban->group)) {
             abort(403, 'Access denied');
@@ -54,6 +61,6 @@ class BanController extends BaseController
 
         $ban->delete();
 
-        return response()->json(['status' => 'ok']);
+        return $this->responseFactory->json(['status' => 'ok']);
     }
 }

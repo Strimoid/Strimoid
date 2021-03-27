@@ -1,12 +1,12 @@
 <?php
-    $isOwner = auth()->check() && user()->getKey() === $folder->user->_id;
+    $isOwner = auth()->check() && user()->getKey() === $folder->user->getKey();
 ?>
 
 <div class="well">
     <h4>Folder {{ $folder->name }}</h4>
 
     @if (auth()->check())
-    <div class="btn-group" data-id="{{ $folder->_id }}">
+    <div class="btn-group" data-id="{{ $folder->hashId() }}">
         @if ($isOwner)
         <button type="button" class="btn btn-sm @if ($folder->public) btn-success @else btn-secondary @endif folder_publish"><span class="glyphicon glyphicon-lock"></span> Opublikuj</button>
         @endif
@@ -17,12 +17,12 @@
             <li style="padding: 5px">
                 {!! Form::open(['action' => 'FolderController@copyFolder', 'class' => 'form-horizontal']) !!}
                 <div class="input-group">
-                    <input type="hidden" name="user" value="{!! $folder->user->_id !!}">
-                    <input type="hidden" name="folder" value="{!! $folder->_id !!}">
+                    <input type="hidden" name="user" value="{!! $folder->user->name !!}">
+                    <input type="hidden" name="folder" value="{!! $folder->hashId() !!}">
 
                     <input type="text" class="form-control" name="name" placeholder="Nazwa folderu...">
 
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                         <button class="btn btn-primary" type="submit">Skopiuj</button>
                     </span>
                 </div>
@@ -36,12 +36,10 @@
     </div>
     @endif
 
-    <ul class="list-group folder_groups" data-folder="{{ $folder->_id }}" style="margin-top: 20px">
-        <?php $folderGroups = $folder->groups; natcasesort($folderGroups); ?>
-
-        @foreach ($folderGroups as $group)
+    <ul class="list-group folder_groups" data-folder="{{ $folder->hashId() }}" style="margin-top: 20px">
+        @foreach ($folder->groups->sortBy('name') as $group)
         <li class="list-group-item" style="padding: 5px 15px" >
-            <a href="{!! route('group_contents', $group) !!}">{{ $group }}</a>
+            <a href="{!! route('group_contents', $group) !!}">{{ $group->name }}</a>
 
             @if ($isOwner)
             <button type="button" class="btn btn-xs btn-danger folder_remove_group pull-right" data-group="{{ $group }}">
@@ -57,7 +55,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control group_typeahead" name="group" placeholder="Dodaj grupę...">
 
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                         <button class="btn btn-primary" type="submit">Dodaj</button>
                     </span>
                 </div>

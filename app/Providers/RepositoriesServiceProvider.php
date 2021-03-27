@@ -1,29 +1,22 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
-    /**
-     * List of repositories to bind.
-     *
-     * @var array
-     */
-    protected $repositories = [
+    protected array $repositories = [
         'content', 'folder', 'group', 'user',
     ];
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         foreach ($this->repositories as $repository) {
-            $studly = studly_case($repository);
-            $contract = 'Strimoid\\Contracts\\Repositories\\'.$studly.'Repository';
-            $repo = 'Strimoid\\Repositories\\'.$studly.'Repository';
+            $studly = Str::studly($repository);
+            $contract = 'Strimoid\\Contracts\\Repositories\\' . $studly . 'Repository';
+            $repo = 'Strimoid\\Repositories\\' . $studly . 'Repository';
 
             $this->app->bind($contract, $repo);
         }

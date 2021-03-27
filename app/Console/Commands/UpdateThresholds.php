@@ -1,39 +1,18 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Strimoid\Models\Content;
+use Strimoid\Models\Group;
 
 class UpdateThresholds extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $name = 'lara:updatethresholds';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Updates thresholds.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): void
     {
         DB::connection()->disableQueryLog();
 
@@ -49,7 +28,7 @@ class UpdateThresholds extends Command
             if ($count < 10) {
                 $threshold = 2;
             } else {
-                $threshold = $this->median($builder->lists('uv'));
+                $threshold = $this->median($builder->pluck('uv'));
                 $threshold = round($threshold);
                 $threshold = max(2, $threshold);
             }
@@ -59,13 +38,10 @@ class UpdateThresholds extends Command
         }
     }
 
-    /**
-     * @return double
-     */
-    public function median($array)
+    public function median($array): float
     {
         // perhaps all non numeric values should filtered out of $array here?
-        $iCount = count($array);
+        $iCount = is_countable($array) ? count($array) : 0;
 
         // if we're down here it must mean $array
         // has at least 1 item in the array.
@@ -75,30 +51,10 @@ class UpdateThresholds extends Command
         $median = $array[$middle_index]; // assume an odd # of items
 
         // Handle the even case by averaging the middle 2 items
-        if ($iCount % 2 == 0) {
+        if ($iCount % 2 === 0) {
             $median = ($median + $array[$middle_index - 1]) / 2;
         }
 
         return $median;
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

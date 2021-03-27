@@ -1,7 +1,7 @@
 <div class="well content_sort_widget">
     <div class="btn-group btn-block">
         <div class="btn-group half-width">
-            <button type="button" class="btn btn-secondary btn-block dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-sort"></i>
                 @lang('common.sort')
                 <span class="caret"></span>
@@ -20,13 +20,15 @@
         </div>
 
         <div class="btn-group half-width">
-            <button type="button" class="btn btn-block btn-secondary dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-block btn-light dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-calendar"></i>
                 @lang('common.filter')
                 <span class="caret"></span>
             </button>
             <div class="dropdown-menu content_filter">
-                <a class="dropdown-item action_link @if (!Input::has('time')) selected @endif" data-time="">Wszystkie</a>
+                <a class="dropdown-item action_link @if (!Input::has('time')) selected @endif" data-time="">
+                    Wszystkie
+                </a>
 
                 <a class="dropdown-item action_link @if (Input::get('time') == '1d') selected @endif" data-time="1d">
                     Z ostatnich 24 godzin

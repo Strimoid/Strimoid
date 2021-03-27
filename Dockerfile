@@ -1,35 +1,33 @@
-FROM php:fpm-alpine
+### ---------------------
+### web assets stage
+### ---------------------
+FROM node:alpine AS assets
 
-EXPOSE 8000
-VOLUME /src/storage
+WORKDIR /src
+COPY package.json /src
+RUN npm install -q
 
-# Install Alpine Linux packages
-RUN apk update && apk add autoconf git icu-dev imagemagick-dev openssl-dev
-
-# Install PHP extensions
-RUN docker-php-ext-install exif intl openssl pcntl pdo pdo_mysql
-
-RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS libtool && \
-    pecl install apcu && \
-    pecl install imagick && \
-    docker-php-ext-enable apcu imagick && \
-    apk del .phpize-deps
-
-# Install Dockerize
-ENV DOCKERIZE_VERSION v0.2.0
-RUN curl -SL https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    | tar xzC /usr/local/bin
-
-# Copy source files
 COPY . /src
+RUN npm run build
+
+### ---------------------
+### final stage
+### ---------------------
+FROM quay.io/strimoid/php:8.0
+
+EXPOSE 80
+
+ENV PATH $PATH:/src:/src/vendor/bin
 WORKDIR /src
 
-# Install Composer dependencies
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer install
+COPY config/docker/php/prod.ini /usr/local/etc/php/conf.d/custom.ini
+COPY config/docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 
-# Environment variables
-ENV MYSQL_HOST mariadb
+COPY . /src
+COPY --from=assets /src/public/assets /src/public/assets
 
-ENTRYPOINT ["/src/artisan"]
-CMD ["serve", "--host", "0.0.0.0"]
+# TODO: remove --ignore-platform-reqs after dingo/api upgrade
+RUN composer install --ignore-platform-reqs --no-interaction --no-progress
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]

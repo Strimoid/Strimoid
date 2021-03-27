@@ -1,13 +1,16 @@
-<?php namespace Strimoid\Models;
+<?php
 
-use Auth;
+namespace Strimoid\Models;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 
 class CommentReply extends Comment
 {
     use HasNotificationsRelationship;
 
-    protected static $rules = [
+    protected static array $rules = [
         'text' => 'required|min:1|max:5000',
     ];
 
@@ -16,50 +19,41 @@ class CommentReply extends Comment
     protected $fillable = ['text'];
     protected $table = 'comment_replies';
 
-    public static function boot()
+    public static function boot(): void
     {
-        static::creating(function ($comment) {
+        static::creating(function ($comment): void {
             $comment->group_id = $comment->parent->group_id;
         });
 
-        static::created(function ($reply) {
+        static::created(function ($reply): void {
             $reply->parent->content->increment('comments_count');
         });
 
-        static::deleted(function ($reply) {
+        static::deleted(function ($reply): void {
             $reply->parent->content->decrement('comments_count');
         });
 
         static::bootTraits();
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
     }
 
-    public function isLast()
+    public function isLast(): bool
     {
         $lastId = $this->parent->replies()
-            ->orderBy('created_at', 'desc')
+            ->reorder('created_at', 'desc')
             ->value('id');
-        return $lastId == $this->getKey();
+
+        return $lastId === $this->getKey();
     }
 
-    public function getURL()
+    public function getURL(): string
     {
         $url = route('content_comments', $this->parent->content);
-        return $url.'#'.$this->hashId();
-    }
 
-    public function canEdit()
-    {
-        return Auth::id() == $this->user_id && $this->isLast();
-    }
-
-    public function canRemove()
-    {
-        return Auth::id() == $this->user_id
-            || Auth::user()->isModerator($this->group_id);
+        return $url . '#' . $this->hashId();
     }
 }

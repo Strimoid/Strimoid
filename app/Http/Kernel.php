@@ -1,6 +1,15 @@
-<?php namespace Strimoid\Http;
+<?php
 
+namespace Strimoid\Http;
+
+use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
+use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class Kernel extends HttpKernel
 {
@@ -10,28 +19,40 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
-        'Illuminate\Cookie\Middleware\EncryptCookies',
-        'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
-        'Illuminate\Session\Middleware\StartSession',
-        'Illuminate\View\Middleware\ShareErrorsFromSession',
-        'LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware',
-        'Strimoid\Http\Middleware\CheckForReadOnlyMode',
-        'Strimoid\Http\Middleware\VerifyCsrfToken',
-        'Strimoid\Http\Middleware\RateLimit',
-        'Strimoid\Http\Middleware\NotificationMarkRead',
-        'Strimoid\Http\Middleware\Pjax',
+        Middleware\RateLimit::class,
+    ];
+
+    /**
+     * The application's route middleware groups.
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            'bindings',
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            ShareErrorsFromSession::class,
+            Middleware\Locale::class,
+            Middleware\VerifyCsrfToken::class,
+            Middleware\NotificationMarkRead::class,
+
+            // TODO: needs to be updated for new version of Pjax
+            // Middleware\Pjax::class,
+        ],
+        'api' => [
+            'bindings',
+            'throttle:60,1',
+        ],
     ];
 
     /**
      * The application's route middleware.
-     *
-     * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => 'Strimoid\Http\Middleware\Authenticate',
-        'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-        'guest'      => 'Strimoid\Http\Middleware\RedirectIfAuthenticated',
-        'oauth'      => 'Strimoid\Http\Middleware\OAuth',
+        'auth' => Middleware\Authenticate::class,
+        'auth.basic' => AuthenticateWithBasicAuth::class,
+        'bindings' => SubstituteBindings::class,
+        'can' => Authorize::class,
+        'guest' => Middleware\RedirectIfAuthenticated::class,
     ];
 }

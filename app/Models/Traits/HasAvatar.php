@@ -1,45 +1,39 @@
-<?php namespace Strimoid\Models\Traits;
+<?php
+
+namespace Strimoid\Models\Traits;
 
 use Image;
-use Storage;
-use Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * Class HasAvatar.
  */
 trait HasAvatar
 {
-    /**
-     * Set entity avatar to image from given path.
-     *
-     * @param $file
-     */
-    public function setAvatar($file)
+    public function setAvatar(string $file): void
     {
         $this->deleteAvatar();
 
-        $filename = Str::random(8).'.png';
+        $filename = Str::random(8) . '.png';
 
         $img = Image::make($file);
         $img->fit(100, 100);
         $img->encode('png');
 
-        $path = $this->avatarPath.$filename;
+        $path = $this->avatarPath . $filename;
         Storage::disk('uploads')->put($path, $img);
 
         $this->avatar = $filename;
     }
 
-    /**
-     * Delete entity avatar.
-     */
-    public function deleteAvatar()
+    public function deleteAvatar(): void
     {
-        if (! $this->avatar) {
+        if (!$this->avatar) {
             return;
         }
 
-        $path = $this->avatarPath.$this->avatar;
+        $path = $this->avatarPath . $this->avatar;
         Storage::disk('uploads')->delete($path);
 
         $this->avatar = null;

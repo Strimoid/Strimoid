@@ -1,37 +1,41 @@
-<?php namespace Strimoid\Models\Folders;
+<?php
 
-use Auth;
+namespace Strimoid\Models\Folders;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+use Strimoid\Models\Content;
 use Strimoid\Models\FakeFolder;
 
 class All extends FakeFolder
 {
-    protected function getBuilder($model)
+    protected function getBuilder(string $model): Builder
     {
         $builder = with(new $model())->newQuery();
 
         if (Auth::check()) {
-            $blockedGroups = Auth::user()->blockedGroups()->lists('id');
+            $blockedGroups = Auth::user()->blockedGroups()->pluck('id');
             $builder->whereNotIn('group_id', $blockedGroups);
 
-            $blockedUsers = Auth::user()->blockedUsers()->lists('id');
+            $blockedUsers = Auth::user()->blockedUsers()->pluck('id');
             $builder->whereNotIn('user_id', $blockedUsers);
         }
 
         return $builder;
     }
 
-    public function contents($tab = null, $sortBy = null)
+    public function contents(string $tab = null, string $sortBy = null): Builder
     {
-        $builder = static::getBuilder('Strimoid\Models\Content');
+        $builder = $this->getBuilder(Content::class);
 
         if (Auth::check()) {
             $blockedDomains = Auth::user()->blockedDomains();
             $builder->whereNotIn('domain', $blockedDomains);
         }
 
-        if ($tab == 'new') {
+        if ($tab === 'new') {
             $builder->frontpage(false);
-        } elseif ($tab == 'popular') {
+        } elseif ($tab === 'popular') {
             $builder->frontpage(true);
             $sortBy = $sortBy ?: 'frontpage_at';
         }

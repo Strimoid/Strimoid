@@ -1,26 +1,20 @@
-<?php namespace Strimoid\Repositories;
+<?php
 
+namespace Strimoid\Repositories;
+
+use Illuminate\Support\Str;
 use Strimoid\Contracts\Repositories\GroupRepository as GroupRepositoryContract;
 use Strimoid\Models\Group;
 
 class GroupRepository extends Repository implements GroupRepositoryContract
 {
-    /**
-     * @var Group
-     */
-    protected $group;
-
-    public function __construct(Group $group)
+    public function __construct(protected Group $group)
     {
-        $this->group = $group;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getByName($name)
+    public function getByName(string $name)
     {
-        $className = 'Strimoid\\Models\\Folders\\'.studly_case($name);
+        $className = 'Strimoid\\Models\\Folders\\' . Str::studly($name);
 
         if (class_exists($className)) {
             return new $className();

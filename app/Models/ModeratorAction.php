@@ -1,13 +1,15 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 class ModeratorAction extends BaseModel
 {
     protected $table = 'moderator_actions';
 
-    const TYPE_MODERATOR_ADDED      = 1;
-    const TYPE_MODERATOR_REMOVED    = 2;
-    const TYPE_SETTINGS_CHANGED     = 3;
-    const TYPE_STYLE_CHANGED        = 4;
+    public const TYPE_MODERATOR_ADDED = 1;
+    public const TYPE_MODERATOR_REMOVED = 2;
+    public const TYPE_SETTINGS_CHANGED = 3;
+    public const TYPE_STYLE_CHANGED = 4;
 
     public function moderator()
     {

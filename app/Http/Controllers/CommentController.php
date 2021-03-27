@@ -1,47 +1,38 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
-use App;
-use Auth;
+namespace Strimoid\Http\Controllers;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Input;
-use Response;
-use Route;
-use Setting;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
+use Strimoid\Settings\Facades\Setting;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
+use Strimoid\Models\Content;
 
 class CommentController extends BaseController
 {
-    /**
-     * @var FolderRepository
-     */
-    protected $folders;
-
-    /**
-     * @var GroupRepository
-     */
-    protected $groups;
-
-    public function __construct(FolderRepository $folders, GroupRepository $groups)
+    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private \Illuminate\Routing\Router $router, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Foundation\Application $application, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
-        $this->groups = $groups;
-        $this->folders = $folders;
     }
 
-    public function showCommentsFromGroup($groupName = 'all')
+    public function showCommentsFromGroup(string $groupName = null)
     {
         // If user is on homepage, then use proper group
-        if (! Route::input('groupname')) {
+        if (!$this->router->input('groupname')) {
             $groupName = $this->homepageGroup();
         }
 
         $group = $this->groups->getByName($groupName);
-        view()->share('group', $group);
+        $this->viewFactory->share('group', $group);
 
-        if (Auth::guest() && $group->isPrivate) {
-            return redirect()->guest('login');
+        if ($group->isPrivate && $this->authManager->guest()) {
+            return $this->redirector->guest('login');
         }
 
         $builder = $group->comments();
@@ -51,11 +42,11 @@ class CommentController extends BaseController
 
     public function showCommentsFromFolder()
     {
-        $userName = Route::input('user') ?: Auth::id();
-        $folderName = Route::input('folder');
+        $userName = $this->router->input('user') ?: $this->authManager->id();
+        $folderName = $this->router->input('folder');
 
         $folder = $this->folders->getByName($userName, $folderName);
-        view()->share('folder', $folder);
+        $this->viewFactory->share('folder', $folder);
 
         $builder = $folder->comments();
 
@@ -67,114 +58,104 @@ class CommentController extends BaseController
         $builder->orderBy('created_at', 'desc')
                 ->with(['user', 'vote']);
 
-        $perPage = Setting::get('entries_per_page', 25);
+        $perPage = Setting::get('entries_per_page');
         $comments = $builder->paginate($perPage);
 
-        return view('comments.list', compact('comments'));
+        return $this->viewFactory->make('comments.list', compact('comments'));
     }
 
-    public function getCommentSource()
+    public function getCommentSource(Request $request): JsonResponse
     {
-        $class = Input::get('type') == 'comment'
-            ? Comment::class : CommentReply::class;
+        $class = $request->get('type') === 'comment' ? Comment::class : CommentReply::class;
 
-        $id = hashids_decode(Input::get('id'));
+        $id = hashids_decode($request->get('id'));
         $comment = $class::findOrFail($id);
 
-        if (Auth::id() !== $comment->user_id) {
-            App::abort(403, 'Access denied');
+        if ($this->authManager->id() !== $comment->user_id) {
+            $this->application->abort(403, 'Access denied');
         }
 
-        return Response::json(['status' => 'ok', 'source' => $comment->text_source]);
+        return $this->responseFactory->json(['status' => 'ok', 'source' => $comment->text_source]);
     }
 
-    public function addComment(Request $request, $content)
+    public function addComment(Request $request, Content $content): JsonResponse
     {
-        $this->validate($request, Comment::rules());
+        $this->validate($request, Comment::validationRules());
 
-        if (Auth::user()->isBanned($content->group)) {
-            return Response::json([
+        if ($this->authManager->user()->isBanned($content->group)) {
+            return $this->responseFactory->json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
         $comment = new Comment([
-            'text' => Input::get('text'),
+            'text' => $request->get('text'),
         ]);
 
-        $comment->user()->associate(Auth::user());
+        $comment->user()->associate($this->authManager->user());
         $comment->content()->associate($content);
 
         $comment->save();
 
-        $comment = view('comments.widget', compact('comment'))->render();
+        $comment = $this->viewFactory->make('comments.widget', compact('comment'))->render();
 
-        return Response::json(['status' => 'ok', 'comment' => $comment]);
+        return $this->responseFactory->json(['status' => 'ok', 'comment' => $comment]);
     }
 
-    /**
-     * Add new reply to given Comment object.
-     *
-     * @param  Request  $request
-     * @param  Comment  $parent
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function addReply(Request $request, $parent)
+    public function addReply(Request $request, Comment $parent): \Symfony\Component\HttpFoundation\Response
     {
-        $this->validate($request, CommentReply::rules());
+        $this->validate($request, CommentReply::validationRules());
 
         $content = $parent->content;
 
-        if (Auth::user()->isBanned($content->group)) {
-            return Response::json([
+        if ($this->authManager->user()->isBanned($content->group)) {
+            return $this->responseFactory->json([
                 'status' => 'error',
-                'error'  => 'Zostałeś zbanowany w tej grupie',
+                'error' => 'Zostałeś zbanowany w tej grupie',
             ]);
         }
 
         $comment = new CommentReply([
-            'text' => Input::get('text'),
+            'text' => $request->get('text'),
         ]);
-        $comment->user()->associate(Auth::user());
+        $comment->user()->associate($this->authManager->user());
 
         $parent->replies()->save($comment);
 
-        $replies = view('comments.replies', ['replies' => $parent->replies])->render();
+        $replies = $this->viewFactory->make('comments.replies', ['replies' => $parent->replies])->render();
 
-        return Response::json(['status' => 'ok', 'replies' => $replies]);
+        return $this->responseFactory->json(['status' => 'ok', 'replies' => $replies]);
     }
 
-    public function editComment(Request $request)
+    public function editComment(Request $request): JsonResponse
     {
-        $class = (Input::get('type') == 'comment')
+        $class = $request->get('type') === 'comment'
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
 
-        if (! $comment->canEdit()) {
-            app()->abort(403, 'Access denied');
-        }
+        $this->authorize('edit', $comment);
+        $this->validate($request, CommentReply::validationRules());
 
-        $this->validate($request, CommentReply::rules());
-        $comment->update(Input::only('text'));
+        $comment->update($request->only('text'));
 
-        return Response::json(['status' => 'ok', 'parsed' => $comment->text]);
+        return $this->responseFactory->json(['status' => 'ok', 'parsed' => $comment->text]);
     }
 
-    public function removeComment(Request $request)
+    public function removeComment(Request $request): JsonResponse
     {
-        $class = (Input::get('type') == 'comment')
+        $class = $request->get('type') === 'comment'
             ? Comment::class : CommentReply::class;
         $id = hashids_decode($request->input('id'));
         $comment = $class::findOrFail($id);
 
-        if ($comment->canRemove()) {
-            $comment->delete();
-            return Response::json(['status' => 'ok']);
+        $this->authorize('remove', $comment);
+
+        if ($comment->delete()) {
+            return $this->responseFactory->json(['status' => 'ok']);
         }
 
-        return Response::json(['status' => 'error']);
+        return $this->responseFactory->json(['status' => 'error']);
     }
 }

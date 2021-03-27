@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  php:
+    build:
+      args:
+        - IMAGE_TAG
+    image: quay.io/strimoid/strimoid:${IMAGE_TAG}

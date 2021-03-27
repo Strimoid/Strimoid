@@ -1,0 +1,43 @@
+name: Build & deploy - production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Docker configuration
+        run: mkdir -p $HOME/.docker; echo $DOCKER_CONFIG | base64 -d > $HOME/.docker/config.json
+        env:
+          DOCKER_CONFIG: ${{ secrets.DOCKER_CONFIG }}
+      - name: Build the Docker image
+        run: docker-compose up -d --build
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          COMPOSE_FILE: docker-compose.yml:docker-compose.ci.yml
+      - name: Push the Docker image
+        run: docker push quay.io/strimoid/strimoid:${{ github.sha }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Kubernetes credentials
+        run: mkdir -p $HOME/.kube; echo $K8S_CONFIG | base64 -d > $HOME/.kube/config; chmod 0600 $HOME/.kube/config
+        env:
+          K8S_CONFIG: ${{ secrets.K8S_CONFIG }}
+      - name: Build Helm chart dependencies
+        run: |
+          helm repo add stable https://charts.helm.sh/stable
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add strimoid https://strimoid.github.io/helm-charts/
+          helm dependency build ./chart
+      - name: Upgrade Helm release
+        run: |
+          helm upgrade strimoid ./chart \
+            --wait --set image.tag=${{ github.sha }} \
+            --values <(helm get values strimoid)

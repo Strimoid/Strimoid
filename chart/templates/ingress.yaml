@@ -1,0 +1,42 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "strimoid.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    helm.sh/chart: {{ include "strimoid.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: FCGI
+    nginx.ingress.kubernetes.io/fastcgi-index: index.php
+    nginx.ingress.kubernetes.io/fastcgi-params-configmap: {{ include "strimoid.fullname" . }}-fastcgi
+    {{- if .Values.ingress.annotations }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- end }}
+spec:
+{{- if .Values.ingress.tls }}
+  tls:
+  {{- range .Values.ingress.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: fastcgi
+        {{- end }}
+  {{- end }}
+{{- end }}

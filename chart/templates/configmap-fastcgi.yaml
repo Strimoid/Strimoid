@@ -1,0 +1,13 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "strimoid.fullname" . }}-fastcgi
+  labels:
+    app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    helm.sh/chart: {{ include "strimoid.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  SCRIPT_FILENAME: "/src/public/index.php"
+{{- end }}

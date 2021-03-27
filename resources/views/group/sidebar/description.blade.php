@@ -3,7 +3,7 @@
 $subscribed = false;
 $blocked = false;
 
-if (Auth::check()) {
+if (auth()->check()) {
     $subscribed = user()->isSubscriber($group);
     $blocked = user()->isBlocking($group);
 }
@@ -24,10 +24,10 @@ if (Auth::check()) {
         </div>
     </div>
 
-    @if (Auth::check())
+    @auth
         <div class="btn-group btn-group-justified group_buttons" data-name="{{ $group->urlname }}">
             <button type="button" class="btn btn-sm group_subscribe_btn @if ($subscribed) btn-success @else btn-secondary @endif">
-                Subskrybuj
+                @lang('common.subscribe')
             </button>
             <button type="button" class="btn btn-sm group_block_btn @if ($blocked) btn-danger @else btn-secondary @endif" title="@lang('common.block')">
                 <i class="fa fa-ban"></i>
@@ -40,7 +40,7 @@ if (Auth::check()) {
                 @foreach (user()->folders as $folder)
                     <li>
                         <label>
-                            <input type="checkbox" class="modify_folder" data-id="{!! $folder->_id !!}" {{ in_array($group->getKey(), $folder->groups) ? 'checked' : '' }}>
+                            <input type="checkbox" class="modify_folder" data-id="{!! $folder->id !!}" {{ $folder->groups->pluck('id')->contains($group->getKey()) ? 'checked' : '' }}>
                             {{{ $folder->name }}}
                         </label>
                     </li>
@@ -51,7 +51,7 @@ if (Auth::check()) {
                 </li>
             </ul>
         </div>
-    @endif
+    @endauth
 
     <p class="group_desc">{!! $group->sidebar !!}</p>
 </div>

@@ -1,28 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
 
-    <Subject>http://strimoid.pl</Subject>
+    <Subject>https://strm.pl</Subject>
 
-    <Property type="http://www.oexchange.org/spec/0.8/prop/vendor">Strimoid</Property>
-    <Property type="http://www.oexchange.org/spec/0.8/prop/title">Strimoid</Property>
-    <Property type="http://www.oexchange.org/spec/0.8/prop/name">Strimoid</Property>
-    <Property type="http://www.oexchange.org/spec/0.8/prop/prompt">Dodaj na Strimoidzie</Property>
+    <Property type="http://www.oexchange.org/spec/0.8/prop/vendor">Strm</Property>
+    <Property type="http://www.oexchange.org/spec/0.8/prop/title">Strm</Property>
+    <Property type="http://www.oexchange.org/spec/0.8/prop/name">Strm</Property>
+    <Property type="http://www.oexchange.org/spec/0.8/prop/prompt">Dodaj na Strm</Property>
 
     <Link
             rel= "icon"
-            href="http://strimoid.pl/favicon.ico"
-            type="image/vnd.microsoft.icon"
-            />
+            href="https://strm.pl/favicon.ico"
+            type="image/vnd.microsoft.icon" />
 
     <Link
             rel= "icon32"
-            href="http://strimoid.pl/static/img/logo32.png"
-            type="image/png"
-            />
+            href="https://strm.pl/static/img/logo32.png"
+            type="image/png" />
 
     <Link
             rel= "http://www.oexchange.org/spec/0.8/rel/offer"
-            href="http://strimoid.pl/add"
-            type="text/html"
-            />
+            href="https://strm.pl/add"
+            type="text/html" />
 </XRD>

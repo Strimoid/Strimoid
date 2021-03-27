@@ -17,8 +17,10 @@
         {!! Form::text('q', '', ['class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...']) !!}
         <input type="hidden" name="t" value="g">
 
-        <div class="input-group-btn">
-            <button type="submit" class="btn btn-primary">Szukaj</button>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i>
+            </button>
         </div>
     </div>
     {!! Form::close() !!}
@@ -28,12 +30,12 @@
     <div class="row">
         <div class="btn-group col-lg-12">
             <a href="{!! action('GroupController@showList') !!}"
-               class="col-lg-6 btn {{ Input::get('sort') == '' ? 'btn-primary' : 'btn-secondary' }}">
-                Popularne
+               class="col-lg-6 btn {{ Input::get('sort') == '' ? 'btn-secondary' : 'btn-light' }}">
+                {{ Str::ucfirst(trans('groups.popular')) }}
             </a>
             <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}"
-               class="col-lg-6 btn {{ Input::get('sort') == 'newest' ? 'btn-primary' : 'btn-secondary' }}">
-                Nowe
+               class="col-lg-6 btn {{ Input::get('sort') == 'newest' ? 'btn-secondary' : 'btn-light' }}">
+                {{ Str::ucfirst(trans('groups.new')) }}
             </a>
         </div>
     </div>
@@ -41,20 +43,20 @@
 
 <div class="well">
     <a href="{!! action('GroupController@showCreateForm') !!}">
-        <button type="button" class="btn btn-secondary group_subscribe_btn">
-            <i class="fa fa-plus"></i>
-            Załóż nową grupę
+        <button type="button" class="btn btn-primary w-100 group_subscribe_btn">
+            <i class="fa fa-plus mr-1"></i>
+            {{ Str::ucfirst(trans('groups.create')) }}
         </button>
     </a>
 </div>
 
 @if (isset($recommendedGroups))
 <div class="well popular_contents_widget">
-    <h4>Sprawdź też</h4>
+    <h4>{{ __('common.check also') }}</h4>
 
     @foreach ($recommendedGroups as $recommended)
     @if (!Auth::user()->isSubscriber($recommended))
-    <div class="row" style="margin: 15px 0px;" data-name="{!! $recommended->urlname !!}">
+    <div class="row" style="margin: 15px 0;" data-name="{!! $recommended->urlname !!}">
         <div style="float: left; width: 50px;">
             <a href="{!! route('group_contents', ['group' => $recommended->urlname]) !!}" rel="nofollow" target="_blank">
                 <img src="{!! $recommended->getAvatarPath() !!}" style="height: 40px; width: 40px; border-radius: 3px;">

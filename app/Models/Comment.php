@@ -1,7 +1,11 @@
-<?php namespace Strimoid\Models;
+<?php
 
-use Auth;
-use Strimoid\Helpers\MarkdownParser;
+namespace Strimoid\Models;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
+use Strimoid\Facades\Markdown;
 use Strimoid\Models\Traits\HasGroupRelationship;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 use Strimoid\Models\Traits\HasSaves;
@@ -13,7 +17,7 @@ class Comment extends BaseModel
     use HasGroupRelationship, HasUserRelationship, HasNotificationsRelationship;
     use HasSaves, HasVotes;
 
-    protected static $rules = [
+    protected static array $rules = [
         'text' => 'required|min:1|max:5000',
     ];
 
@@ -22,27 +26,29 @@ class Comment extends BaseModel
     protected $fillable = ['text'];
     protected $hidden = ['_replies', 'content_id', 'text_source', 'updated_at'];
 
-    public static function boot()
+    public static function boot(): void
     {
-        static::creating(function ($comment) {
+        static::creating(function ($comment): void {
             $comment->group_id = $comment->content->group_id;
         });
 
-        static::created(function ($comment) {
+        static::created(function ($comment): void {
             $comment->content->increment('comments_count');
         });
 
         static::bootTraits();
     }
 
-    public function content()
+    public function content(): BelongsTo
     {
         return $this->belongsTo(Content::class)->withTrashed();
     }
 
-    public function replies()
+    public function replies(): HasMany
     {
-        return $this->hasMany(CommentReply::class, 'parent_id')->with('user');
+        return $this->hasMany(CommentReply::class, 'parent_id')
+            ->orderBy('created_at')
+            ->with('user');
     }
 
     public function delete()
@@ -56,13 +62,13 @@ class Comment extends BaseModel
         return parent::delete();
     }
 
-    public function setTextAttribute($text)
+    public function setTextAttribute($text): void
     {
-        $this->attributes['text'] = MarkdownParser::instance()->text(parse_usernames($text));
+        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text));
         $this->attributes['text_source'] = $text;
     }
 
-    public function isHidden()
+    public function isHidden(): bool
     {
         if (Auth::guest()) {
             return false;
@@ -71,18 +77,8 @@ class Comment extends BaseModel
         return Auth::user()->isBlockingUser($this->user);
     }
 
-    public function getURL()
+    public function getURL(): string
     {
-        return route('content_comments', $this->content).'#'.$this->hashId();
-    }
-
-    public function canEdit()
-    {
-        return Auth::id() === $this->user_id && $this->replies()->count() == 0;
-    }
-
-    public function canRemove()
-    {
-        return Auth::id() === $this->user_id || Auth::user()->isModerator($this->group_id);
+        return route('content_comments', $this->content) . '#' . $this->hashId();
     }
 }

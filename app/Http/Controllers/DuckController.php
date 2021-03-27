@@ -1,12 +1,18 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
+namespace Strimoid\Http\Controllers;
+
+use Illuminate\Http\Response;
 use SyHolloway\MrColor\Color;
 
 class DuckController extends BaseController
 {
-    protected $salt = 0;
+    protected int $salt = 0;
+    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    {
+    }
 
-    public function drawDuck($username)
+    public function drawDuck($username): Response
     {
         do {
             $color = $this->getRandomColor($username);
@@ -19,21 +25,25 @@ class DuckController extends BaseController
         $duck = str_replace('#CCBBAA', $color, $duck);
 
         // Background color
-        ($color->hue > 180)
+        $color->hue > 180
             ? $color->hue -= 180
-            : $color->hue += 180 ;
+            : $color->hue += 180;
 
         $color->lightness = 1 - $color->lightness;
         $color->saturation = 1 - $color->saturation;
         $duck = str_replace('#AABBCC', $color, $duck);
 
-        return response($duck)->header('Content-Type', 'image/svg+xml');
+        return $this->responseFactory->make($duck)
+            ->header('Content-Type', 'image/svg+xml')
+            ->setPublic()
+            ->setMaxAge(86400);
     }
 
-    protected function getRandomColor($username)
+    protected function getRandomColor($username): Color
     {
-        $hash = md5($username.$this->salt++);
+        $hash = md5($username . $this->salt++);
         $hex = substr($hash, -6);
+
         return Color::create(compact('hex'));
     }
 }

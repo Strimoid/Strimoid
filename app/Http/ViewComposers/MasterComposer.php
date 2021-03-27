@@ -1,71 +1,62 @@
-<?php namespace Strimoid\Http\ViewComposers;
+<?php
 
-use Auth;
-use Cache;
+namespace Strimoid\Http\ViewComposers;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
-use Setting;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
+use Strimoid\Settings\Facades\Setting;
 use Strimoid\Models\Group;
 
 class MasterComposer
 {
-    /**
-     * Create a new profile composer.
-     */
-    public function __construct()
+    private const DEFAULT_TITLE = 'Strm';
+    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Cache\CacheManager $cacheManager)
     {
     }
 
-    /**
-     * Bind data to the view.
-     *
-     * @param View $view
-     *
-     * @return void
-     */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $data = $view->getData();
 
-        if (Auth::check()) {
-            $notifications = Auth::user()->notifications()
+        if ($this->authManager->check()) {
+            $notifications = $this->authManager->user()->notifications()
                 ->with('user')
                 ->orderBy('created_at', 'desc')
                 ->take(15)->get();
             $view->with('notifications', $notifications);
 
-            $unreadCount = Auth::user()->notifications()
+            $unreadCount = $this->authManager->user()->notifications()
                 ->wherePivot('read', false)
                 ->count();
             $view->with('newNotificationsCount', $unreadCount);
         }
 
         // Get object from which we can extract name to use as page title
-        $currentGroup = head(array_only($data, ['group', 'folder', 'fakeGroup']));
+        $currentGroup = head(Arr::only($data, ['group', 'folder', 'fakeGroup']));
 
         $view->with('currentGroup', $currentGroup);
 
-        if (isset($currentGroup) && isset($currentGroup->name)) {
+        if (isset($currentGroup, $currentGroup->name)) {
             $pageTitle = $currentGroup->name;
 
-            // Homepage title shall always be Strimoid.pl
-            if ($currentGroup->urlname == 'all' && !Setting::get('homepage_subscribed', false)) {
-                $pageTitle = 'Strimoid';
+            if ($currentGroup->urlname === 'all' && !Setting::get('homepage_subscribed')) {
+                $pageTitle = self::DEFAULT_TITLE;
             }
 
-            if ($currentGroup->urlname == 'subscribed' && Setting::get('homepage_subscribed', false)) {
-                $pageTitle = 'Strimoid';
+            if ($currentGroup->urlname === 'subscribed' && Setting::get('homepage_subscribed')) {
+                $pageTitle = self::DEFAULT_TITLE;
             }
         } else {
-            $pageTitle = 'Strimoid';
+            $pageTitle = self::DEFAULT_TITLE;
         }
 
         $view->with('pageTitle', $pageTitle);
 
         // Needed by top bar with groups
-        $popularGroups = Cache::remember('popularGroups', 60, function () {
-            return Group::orderBy('subscribers_count', 'desc', true)
-                ->take(30)->get(['id', 'name', 'urlname']);
-        });
+        $popularGroups = $this->cacheManager->remember('popularGroups', now()->addHour(), fn () => Group::orderBy('subscribers_count', 'desc')
+            ->take(30)->get(['id', 'name', 'urlname']));
         $view->with('popularGroups', $popularGroups);
     }
 }

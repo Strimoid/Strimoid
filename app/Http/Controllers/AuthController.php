@@ -1,73 +1,48 @@
-<?php namespace Strimoid\Http\Controllers;
+<?php
 
+namespace Strimoid\Http\Controllers;
+
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Vinkla\Pusher\PusherManager;
+use Illuminate\View\View;
 
 class AuthController extends BaseController
 {
-    /**
-     * Show login form.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showLoginForm()
+    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Translation\Translator $translator)
     {
-        return view('user.login');
     }
 
-    /**
-     * Try to log in with credentials from request.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function login(Request $request)
+    public function showLoginForm(): View
     {
-        $result = auth()->attempt([
-            'name'         => $request->input('username'),
-            'password'     => $request->input('password'),
+        return $this->viewFactory->make('user.login');
+    }
+
+    public function login(Request $request): RedirectResponse
+    {
+        $result = $this->guard->attempt([
+            'name' => $request->input('username'),
+            'password' => $request->input('password'),
             'is_activated' => true,
-        ], $request->input('remember') == 'true');
+        ], $request->input('remember') === 'true');
 
         if ($result) {
-            if (auth()->user()->removed_at || auth()->user()->blocked_at) {
-                auth()->logout();
-                return redirect('/login')->with('warning_msg', trans('auth.invalid_credentials'));
+            if ($this->guard->user()->removed_at || $this->guard->user()->blocked_at) {
+                $this->guard->logout();
+
+                return $this->redirector->away('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
             }
 
-            return redirect()->intended('');
+            return $this->redirector->intended('');
         }
 
-        return redirect('/login')->with('warning_msg', trans('auth.invalid_credentials'));
+        return $this->redirector->away('/login')->with('warning_msg', $this->translator->trans('auth.invalid_credentials'));
     }
 
-    /**
-     * Logout current user.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function logout()
+    public function logout(): RedirectResponse
     {
-        auth()->logout();
-        return redirect('')->with('success_msg', trans('auth.logged_out'));
+        $this->guard->logout();
+
+        return $this->redirector->back()->with('success_msg', $this->translator->trans('auth.logged_out'));
     }
 
-    /**
-     * Generate Pusher authentication token for currently logged user.
-     *
-     * @param  Request $request
-     * @param  PusherManager $pusher
-     *
-     * @return string
-     */
-    public function authenticatePusher(Request $request, PusherManager $pusher)
-    {
-        $channelName = 'privateU'.auth()->id();
-        $socketId = $request->input('socket_id');
-
-        $pusher->connection();
-
-        return $pusher->socket_auth($channelName, $socketId);
-    }
 }

@@ -1,43 +1,21 @@
-<?php namespace Strimoid\Console\Commands;
+<?php
+
+namespace Strimoid\Console\Commands;
 
 use Illuminate\Console\Command;
+use Strimoid\Models\User;
 use Symfony\Component\Console\Input\InputArgument;
 
 class DeleteAvatar extends Command
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $name = 'lara:delavatar';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Deletes user avatar.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
+    public function handle(): void
     {
         if (!$this->argument('username')) {
-            print 'no username given';
+            $this->error('no username given');
+            return;
         }
 
         $user = User::findOrFail($this->argument('username'));
@@ -45,25 +23,10 @@ class DeleteAvatar extends Command
         $user->save();
     }
 
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['username', InputArgument::REQUIRED, 'User name.'],
         ];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 }

@@ -1,15 +1,13 @@
-<?php namespace Strimoid\Models\Traits;
+<?php
 
+namespace Strimoid\Models\Traits;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Strimoid\Models\User;
 
 trait HasUserRelationship
 {
-    /**
-     * User relationship.
-     *
-     * @return mixed
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

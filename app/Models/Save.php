@@ -1,13 +1,19 @@
-<?php namespace Strimoid\Models;
+<?php
+
+namespace Strimoid\Models;
 
 use Strimoid\Models\Traits\HasUserRelationship;
-use Strimoid\Models\Traits\NoUpdatedAt;
 
 class Save extends BaseModel
 {
-    use HasUserRelationship, NoUpdatedAt;
+    use HasUserRelationship;
 
-    public static $unguarded = true;
+    public const UPDATED_AT = null;
+
+    public $incrementing = false;
+    protected $primaryKey = null;
+
+    protected static $unguarded = true;
 
     public function element()
     {

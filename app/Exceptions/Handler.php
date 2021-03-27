@@ -1,23 +1,21 @@
-<?php namespace Strimoid\Exceptions;
+<?php
 
-use Exception;
+namespace Strimoid\Exceptions;
+
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use League\OAuth2\Server\Exception\OAuthException;
-use Log;
-use Response;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Throwable;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * A list of the exception types that should not be reported.
-     *
-     * @var array
-     */
     protected $dontReport = [
         AuthorizationException::class,
         HttpException::class,
@@ -26,57 +24,42 @@ class Handler extends ExceptionHandler
         ValidationException::class,
     ];
 
-    /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param \Exception $e
-     *
-     * @return void
-     */
-    public function report(Exception $e)
+    public function report(Throwable $exception): void
     {
-        if ($this->shouldReport($e)) {
-            Log::error($e);
+        if ($this->shouldReport($exception)) {
+            Log::error($exception);
         }
 
-        parent::report($e);
+        parent::report($exception);
     }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Exception               $e
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $e)
+    public function render($request, Throwable $exception): Response
     {
-        if ($this->isHttpException($e)) {
-            return $this->renderHttpException($e);
-        } elseif ($e instanceof OAuthException) {
-            return Response::json([
-                'error'     => $e->errorType,
-                'message'   => $e->getMessage(),
-            ], $e->httpStatusCode);
+        if ($this->isHttpException($exception)) {
+            return $this->renderHttpException($exception);
         }
+
+        /*
+        if ($exception instanceof OAuthException) {
+            return Response::json([
+                'error' => $exception->errorType,
+                'message' => $exception->getMessage(),
+            ], $exception->httpStatusCode);
+        }
+        */
 
         if (config('app.debug')) {
-            $handler = new \Whoops\Handler\PrettyPageHandler;
+            $handler = new PrettyPageHandler();
             $handler->setEditor('sublime');
 
-            $whoops = new \Whoops\Run;
+            $whoops = new Run();
             $whoops->pushHandler($handler);
+            $whoops->allowQuit(false);
+            $whoops->writeToOutput(false);
 
-            return response(
-                $whoops->handleException($e),
-                $e->getStatusCode(),
-                $e->getHeaders()
-            );
+            return response($whoops->handleException($exception));
         }
 
-        return parent::render($request, $e);
+        return parent::render($request, $exception);
     }
 }

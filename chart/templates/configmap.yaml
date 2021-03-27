@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "strimoid.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "strimoid.name" . }}
+    helm.sh/chart: {{ include "strimoid.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  {{- if .Values.postgresql.enabled }}
+  DB_HOST: {{ template "strimoid.postgresql.fullname" . }}
+  DB_DATABASE: {{ .Values.postgresql.postgresDatabase | quote }}
+  DB_PORT: {{ .Values.postgresql.service.port | quote }}
+  {{- end }}
+  {{- if .Values.redis.enabled }}
+  CACHE_DRIVER: redis
+  REDIS_HOST: {{ template "strimoid.redis.fullname" . }}
+  REDIS_PORT: {{ .Values.redis.master.port | quote }}
+  {{- end }}
+  {{- range $key, $value := .Values.env }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}

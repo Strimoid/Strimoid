@@ -1,4 +1,6 @@
-<?php namespace Strimoid\Providers;
+<?php
+
+namespace Strimoid\Providers;
 
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\ServiceProvider;
@@ -8,24 +10,14 @@ use Strimoid\Http\ViewComposers\MasterComposer;
 
 class ComposerServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @param ViewFactory $view
-     */
-    public function boot(ViewFactory $view)
+    public function boot(ViewFactory $view): void
     {
         $view->composer('global.master', MasterComposer::class);
         $view->composer('global.master', JavascriptComposer::class);
         $view->composer('global.parts.groupbar', GroupBarComposer::class);
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
     }
 }

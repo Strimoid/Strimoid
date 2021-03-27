@@ -1,25 +1,17 @@
-<?php namespace Strimoid\Models;
+<?php
 
-use Str;
+namespace Strimoid\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 abstract class FakeFolder
 {
-    /**
-     * @var string
-     */
-    public $urlname;
+    public string $urlname;
 
-    /**
-     * @var bool
-     */
-    public $isPrivate = false;
+    public bool $isPrivate = false;
 
-    /**
-     * @param  $model  Class name of requested model
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    abstract protected function getBuilder($model);
+    abstract protected function getBuilder(string $model): Builder;
 
     public function __construct()
     {
@@ -27,33 +19,21 @@ abstract class FakeFolder
         $urlname = class_basename($urlname);
 
         $this->urlname = Str::lower($urlname);
-        $this->name = trans('groups.'.$this->urlname);
+        $this->name = trans('groups.' . $this->urlname);
     }
 
-    /**
-     * @param string $sortBy
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function comments($sortBy = null)
+    public function comments(string $sortBy = null): Builder
     {
         $builder = static::getBuilder(Comment::class);
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
-
         return $builder;
     }
 
-    /**
-     * @param null $tab
-     * @param null $sortBy
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function contents($tab = null, $sortBy = null)
+    public function contents(string $tab = null, string $sortBy = null): Builder
     {
         $builder = static::getBuilder(Content::class);
 
-        if ($tab == 'popular') {
+        if ($tab === 'popular') {
             $builder->popular();
         }
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
@@ -61,13 +41,8 @@ abstract class FakeFolder
         return $builder;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function entries()
+    public function entries(): Builder
     {
-        $builder = static::getBuilder(Entry::class);
-
-        return $builder;
+        return static::getBuilder(Entry::class);
     }
 }

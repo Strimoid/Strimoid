@@ -1,38 +1,34 @@
-@media (max-width: 768px) {
-
-  /* notifications dropdown */
-  .navbar-collapse {
-    width: 300px;
-    max-height: 360px;
-    position: absolute;
-    right: 15px;
-    background: #242424;
+@include media-breakpoint-down(xs) {
+  .navbar > .container {
+    max-width: none;
   }
 
-  .navbar-nav.navbar-right {
-    background: #3C3C3C;
-    border-top: 1px solid #686868;
+  .navbar .logo {
+    display: none;
   }
 
-  .navbar-nav.navbar-right > li > a {
-    background: #333;
+  .navbar-tabs .nav-item:first-child a {
+    padding-left: 0;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .navbar .username {
+    display: none
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .hidden-md-down {
+    display: none;
   }
 
-  .navbar-inverse .navbar-nav.navbar-right > .open > a {
-    background-color: #3C3C3C;
+  .night_mode_toggler {
+    display: none;
   }
 
-  .navbar-nav.navbar-right > li {
-    float: left;
-    width: 50%;
-  }
-
-  .navbar-nav.navbar-right > .notifications_dropdown {
-    width: 33%;
-  }
-
-  .navbar-nav.navbar-right > .user_dropdown {
-    width: 67%;
+  .navbar-tabs .nav-item {
+    padding: 8px 0;
   }
 
   .navbar-nav .open .notifications {
@@ -78,6 +74,11 @@
   .comment .comment_actions, .entry .entry_actions {
     visibility: visible;
   }
+}
+
+@media (max-width: 768px) {
+
+
 }
 
 @media (max-width: 400px) {

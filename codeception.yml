@@ -8,14 +8,17 @@ settings:
     bootstrap: _bootstrap.php
     colors: false
     memory_limit: 1024M
+coverage:
+    enabled: true
+    include:
+        - app/*
 modules:
     config:
         Laravel5:
-            cleanup: true
             environment_file: .env.test
         Db:
-            dsn: ''
-            user: ''
+            dsn: 'mysql:host=mariadb;dbname=strimoid'
+            user: 'root'
             password: ''
             dump: tests/_data/dump.sql
         REST:

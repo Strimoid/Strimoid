@@ -1,43 +1,25 @@
-<?php namespace Strimoid\Http\Middleware;
+<?php
+
+namespace Strimoid\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 
 class Authenticate
 {
-    /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
-
-    /**
-     * Create a new filter instance.
-     *
-     * @param Guard $auth
-     */
-    public function __construct(Guard $auth)
+    public function __construct(protected Guard $auth, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Routing\Redirector $redirector)
     {
-        $this->auth = $auth;
     }
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if ($this->auth->guest()) {
             if ($request->ajax()) {
-                return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
+                return $this->responseFactory->make('Unauthorized.', 401);
             }
+
+            return $this->redirector->guest('login');
         }
 
         return $next($request);

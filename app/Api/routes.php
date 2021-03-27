@@ -1,10 +1,10 @@
-<?php // @codingStandardsIgnoreFile
+<?php
 
-/* @var $api Dingo\Api\Routing\Router */
+// @codingStandardsIgnoreFile
 
-$api->get('/', function () {
-    return '<a href="https://developers.strm.pl">API Documentation</a>';
-});
+/** @var Dingo\Api\Routing\Router $api */
+
+$api->get('/', fn () => '<a href="https://developers.strm.pl">API Documentation</a>');
 
 $api->get('me', ['middleware' => 'auth', 'uses' => 'UserController@showCurrentUser']);
 

@@ -1,39 +1,39 @@
 @extends('global.master')
 
 @section('content')
-    @if ($type == 'contents')
+    @if ($type === 'contents')
         @foreach ($contents as $content)
             @include('content.widget', ['content' => $content])
         @endforeach
 
         {!! $contents->render() !!}
-    @elseif ($type == 'comments')
+    @elseif ($type === 'comments')
         @foreach ($comments as $comment)
             @include('user.widgets.comment', ['comment' => $comment])
         @endforeach
 
         {!! $comments->render() !!}
-    @elseif ($type == 'comment_replies')
+    @elseif ($type === 'comment_replies')
         @foreach ($replies as $reply)
             @include('user.widgets.comment', ['comment' => $reply->parent])
             @include('user.widgets.comment_reply', ['reply' => $reply])
         @endforeach
 
         {!! $replies->render() !!}
-    @elseif ($type == 'entries')
+    @elseif ($type === 'entries')
         @foreach ($entries as $entry)
             @include('user.widgets.entry', ['entry' => $entry])
         @endforeach
 
         {!! $entries->render() !!}
-    @elseif ($type == 'entry_replies')
+    @elseif ($type === 'entry_replies')
         @foreach ($replies as $reply)
             @include('user.widgets.entry', ['entry' => $reply->parent])
             @include('user.widgets.entry_reply', ['reply' => $reply])
         @endforeach
 
         {!! $replies->render() !!}
-    @elseif ($type == 'moderated')
+    @elseif ($type === 'moderated')
     <?php $x = $moderated->firstItem() ?>
         <table class="table">
             <thead>
@@ -123,14 +123,14 @@
         <div class="col-lg-8">
             <p><strong>Dołączył:</strong> {!! $user->created_at->diffForHumans() !!}</p>
 
-            @if (Auth::check())
+            @auth
                 @if ($user->age)
                     <p><strong>Wiek:</strong> {!! (date('Y') - $user->age) !!}</p>
                 @endif
                 @if ($user->location)
                     <p><strong>Miejscowość:</strong> {{{ $user->location }}}</p>
-            @endif
-            @endif
+                @endif
+            @endauth
 
             @if ($user->description)
                 <p class="desc">{{{ $user->description }}}</p>
@@ -168,38 +168,38 @@ $blocked = user()->isBlockingUser($user);
 
     <ul class="nav nav-pills nav-stacked">
         <li class="nav-item">
-            <a class="nav-link {{ $type == 'all' ? 'active' : '' }}"
+            <a class="nav-link {{ $type === 'all' ? 'active' : '' }}"
                href="{!! route('user_profile', $user->name) !!}">Wszystkie akcje</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $type == 'contents' ? 'active' : '' }}"
+            <a class="nav-link {{ $type === 'contents' ? 'active' : '' }}"
                href="{!! route('user_profile.type_filter', [$user->name, 'contents']) !!}">
-                {!! Lang::choice('pluralization.contents', intval($user->contents()->count())) !!}</a>
+                {!! Lang::choice('pluralization.contents', (int) $user->contents()->count()) !!}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $type == 'comments' ? 'active' : '' }}"
+            <a class="nav-link {{ $type === 'comments' ? 'active' : '' }}"
                href="{!! route('user_profile.type_filter', [$user->name, 'comments']) !!}">
-                {!! Lang::choice('pluralization.comments', intval($user->comments()->count())) !!}</a>
+                {!! Lang::choice('pluralization.comments', (int) $user->comments()->count()) !!}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $type == 'comment_replies' ? 'active' : '' }}"
+            <a class="nav-link {{ $type === 'comment_replies' ? 'active' : '' }}"
                href="{!! route('user_profile.type_filter', [$user->name, 'comment_replies']) !!}">
-                {!! Lang::choice('pluralization.replies', intval($user->commentReplies()->count())) !!} na komentarze</a>
+                {!! Lang::choice('pluralization.replies', (int) $user->commentReplies()->count()) !!} na komentarze</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $type == 'entries' ? 'active' : '' }}"
+            <a class="nav-link {{ $type === 'entries' ? 'active' : '' }}"
                href="{!! route('user_profile.type_filter', [$user->name, 'entries']) !!}">
-                {!! Lang::choice('pluralization.entries', intval($user->entries()->count())) !!}</a>
+                {!! Lang::choice('pluralization.entries', (int) $user->entries()->count()) !!}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $type == 'entry_replies' ? 'active' : '' }}"
+            <a class="nav-link {{ $type === 'entry_replies' ? 'active' : '' }}"
                href="{!! route('user_profile.type_filter', [$user->name, 'entry_replies']) !!}">
-                {!! Lang::choice('pluralization.replies', intval($user->entryReplies()->count())) !!} na wpisy</a>
+                {!! Lang::choice('pluralization.replies', (int) $user->entryReplies()->count()) !!} na wpisy</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $type == 'moderated' ? 'active' : '' }}"
+            <a class="nav-link {{ $type === 'moderated' ? 'active' : '' }}"
                href="{!! route('user_profile.type_filter', [$user->name, 'moderated']) !!}">
-                {!! Lang::choice('pluralization.moderatedgroups', intval($user->moderatedGroups()->count())) !!}</a>
+                {!! Lang::choice('pluralization.moderatedgroups', (int) $user->moderatedGroups()->count()) !!}</a>
         </li>
     </ul>
 </div>

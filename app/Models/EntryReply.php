@@ -1,12 +1,16 @@
-<?php namespace Strimoid\Models;
+<?php
 
+namespace Strimoid\Models;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
+use Vinkla\Hashids\Facades\Hashids;
 
 class EntryReply extends Entry
 {
     use HasNotificationsRelationship;
 
-    protected static $rules = [
+    protected static array $rules = [
         'text' => 'required|min:1|max:2500',
     ];
 
@@ -15,48 +19,41 @@ class EntryReply extends Entry
     protected $hidden = ['entry_id', 'updated_at'];
     protected $table = 'entry_replies';
 
-    public static function boot()
+    public static function boot(): void
     {
-        static::creating(function ($reply) {
+        static::creating(function ($reply): void {
             $reply->group_id = $reply->parent->group_id;
         });
 
-        static::created(function ($reply) {
+        static::created(function ($reply): void {
             $reply->parent->increment('replies_count');
         });
 
-        static::deleted(function ($reply) {
+        static::deleted(function ($reply): void {
             $reply->parent->decrement('replies_count');
         });
 
         parent::boot();
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Entry::class);
     }
 
-    public function isLast()
+    public function isLast(): bool
     {
         $lastId = $this->parent->replies()
-            ->orderBy('created_at', 'desc')
+            ->reorder('created_at', 'desc')
             ->value('id');
-        return $lastId == $this->getKey();
+
+        return $lastId === $this->getKey();
     }
 
-    public function getURL()
+    public function getURL(): string
     {
-        return route('single_entry', $this->parent_id).'#'.$this->hashId();
-    }
+        $parentHashId = Hashids::encode($this->parent_id);
 
-    public function canEdit()
-    {
-        return auth()->id() === $this->user_id && $this->isLast();
-    }
-
-    public function canRemove()
-    {
-        return auth()->id() === $this->user_id || user()->isModerator($this->group_id);
+        return route('single_entry', $parentHashId) . '#' . $this->hashId();
     }
 }
