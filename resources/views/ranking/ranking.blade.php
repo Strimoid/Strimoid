@@ -18,29 +18,9 @@
     @foreach ($users as $index => $user)
     <tr @if(Auth::check() && $user->user_id == Auth::id()) class="warning" @endif>
         <td>{!! ( $index + $users->firstItem() ) !!}</td>
-        <?php
-            $day = Carbon::now()->diffInDays(Carbon::create(2013, 1, 1));
-
-            $query = \Strimoid\Models\DailyAction::where('user_id', $user->user_id)
-                ->select(DB::raw('SUM(points) as points, day'))
-                ->groupBy('day')
-                ->orderBy('day', 'asc');
-
-            if (isset($group)) $query->where('group_id', $group->getKey());
-
-            $results = $query->pluck('points', 'day');
-
-            $chartData = [];
-
-            for ($i = $day; $i >= ($day - 30); $i--) {
-                $chartData[$i] = $results[$i] ?? 0;
-            }
-
-        ?>
         <td>
             <img src="{!! $user->user->getAvatarPath(20, 20) !!}" style="width: 20px; height: 20px">
             <a href="{!! route('user_profile', $user->user) !!}">{!! $user->user->name !!}</a>
-            <img src="https://chart.googleapis.com/chart?chs=100x20&cht=ls&chco=0077CC&chf=bg,s,FFFFFF00&chds=a&chd=t:{!! implode(',', $chartData) !!}" class="pull-right">
         </td>
         <td>{!! $user->contents !!}</td>
         <td>{!! $user->comments !!}</td>
