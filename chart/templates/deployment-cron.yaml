@@ -47,16 +47,16 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     {{- with .Values.cron.affinity }}
-    affinity:
-      {{- toYaml . | nindent 8 }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.cron.tolerations }}
-    tolerations:
-      {{- toYaml . | nindent 8 }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- if .Values.persistence.enabled }}
-    volumes:
-      - name: storage
-        persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim | default (include "strimoid.fullname" .) }}
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "strimoid.fullname" .) }}
     {{- end -}}
