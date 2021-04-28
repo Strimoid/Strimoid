@@ -18,7 +18,7 @@
         "sass-loader": "^11.0.1",
         "standard": "^16.0.3",
         "style-loader": "^2.0.0",
-        "webpack": "^5.35.0",
+        "webpack": "^5.36.0",
         "webpack-assets-manifest": "^5.0.5",
         "webpack-cli": "^4.6.0",
         "webpack-dev-server": "^3.11.2",
