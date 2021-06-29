@@ -13,7 +13,7 @@
         "imports-loader": "^2.0.0",
         "mini-css-extract-plugin": "^1.5.0",
         "node-sass": "^5.0.0",
-        "postcss-loader": "^5.0.0",
+        "postcss-loader": "^6.1.0",
         "react-hot-loader": "^4.13.0",
         "sass-loader": "^11.0.1",
         "standard": "^16.0.3",
