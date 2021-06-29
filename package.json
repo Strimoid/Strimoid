@@ -6,7 +6,7 @@
         "@babel/preset-react": "^7.13.13",
         "babel-loader": "^8.2.2",
         "css-loader": "^5.2.4",
-        "expose-loader": "^2.0.0",
+        "expose-loader": "^3.0.0",
         "file-loader": "^6.2.0",
         "handlebars": "^4.7.7",
         "handlebars-loader": "^1.7.1",
