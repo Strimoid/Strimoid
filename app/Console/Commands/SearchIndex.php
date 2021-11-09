@@ -20,8 +20,8 @@ class SearchIndex extends Command
         parent::__construct();
 
         $this->client = new Client(
-            config('strimoid.meilisearch.url'),
-            config('strimoid.meilisearch.master_key')
+            config('scout.meilisearch.host'),
+            config('scout.meilisearch.key')
         );
     }
 

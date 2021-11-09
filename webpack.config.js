@@ -13,7 +13,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: '[name].[hash:8].js',
+        filename: '[name].[fullhash:8].js',
         chunkFilename: '[id].[chunkhash:8].js',
         path: resolve(__dirname, 'public/assets'),
         publicPath: '/assets/',
@@ -57,7 +57,7 @@ module.exports = {
             React: 'react',
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[hash:8].css',
+            filename: '[name].[fullhash:8].css',
             chunkFilename: '[id].[chunkhash:8].css'
         }),
         new WebpackAssetsManifest({
