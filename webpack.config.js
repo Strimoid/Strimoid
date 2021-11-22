@@ -13,8 +13,9 @@ module.exports = {
         ],
     },
     output: {
-        filename: '[name].[fullhash:8].js',
+        filename: '[name].[hash:8].js',
         chunkFilename: '[id].[chunkhash:8].js',
+        assetModuleFilename: '[name].[hash:8][ext][query]',
         path: resolve(__dirname, 'public/assets'),
         publicPath: '/assets/',
     },
@@ -43,10 +44,7 @@ module.exports = {
             },
             {
                 test: /\.(ico|jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[sha512:hash:base64:8].[ext]'
-                }
+                type: 'asset/resource'
             },
         ],
     },
@@ -57,7 +55,7 @@ module.exports = {
             React: 'react',
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[fullhash:8].css',
+            filename: '[name].[hash:8].css',
             chunkFilename: '[id].[chunkhash:8].css'
         }),
         new WebpackAssetsManifest({
