@@ -11,9 +11,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: fastcgi
+      targetPort: http
       protocol: TCP
-      name: fastcgi
+      name: http
   selector:
     app.kubernetes.io/name: {{ include "strimoid.name" . }}
     app.kubernetes.io/component: web

@@ -39,7 +39,7 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  name: fastcgi
+                  name: http
         {{- end }}
   {{- end }}
 {{- end }}
