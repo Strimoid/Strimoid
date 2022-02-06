@@ -41,7 +41,6 @@
         "laravel/socialite": "^5.0",
         "symfony/dom-crawler": "^5.0",
         "symfony/css-selector": "^5.0",
-        "dingo/api": "^3.0",
         "thomaswelton/laravel-gravatar": "^1.1",
         "syholloway/mrcolor": "^0.0.1",
         "league/glide-laravel": "^1.0",
@@ -52,7 +51,8 @@
         "gliterd/laravel-backblaze-b2": "^1.2",
         "pusher/pusher-php-server": "^4.0",
         "php-http/guzzle6-adapter": "^2.0",
-        "mvanduijker/laravel-mercure-broadcaster": "^3.2"
+        "mvanduijker/laravel-mercure-broadcaster": "^3.2",
+        "api-ecosystem-for-laravel/dingo-api": "^3.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.2",

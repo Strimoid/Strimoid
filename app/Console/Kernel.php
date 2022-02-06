@@ -20,7 +20,6 @@ class Kernel extends ConsoleKernel
         FacebookPost::class,
         TwitterPost::class,
         UpdateStats::class,
-        SearchIndex::class,
     ];
 
     protected function schedule(Schedule $schedule): void
