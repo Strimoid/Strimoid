@@ -129,7 +129,7 @@ class ContentController extends BaseController
             ->setTtl(60);
     }
 
-    public function showComments(Content $content, \Illuminate\Http\Request $request): View
+    public function showComments(Content $content, Request $request): View
     {
         $sortBy = $request->input('sort');
 
@@ -264,10 +264,10 @@ class ContentController extends BaseController
         return $this->redirector->route('content_comments', $content);
     }
 
-    public function removeContent(Content $content = null, \Illuminate\Http\Request $request): JsonResponse
+    public function removeContent(Request $request): JsonResponse
     {
         $id = hashids_decode($request->input('id'));
-        $content = $content ?: Content::findOrFail($id);
+        $content = Content::findOrFail($id);
 
         $this->authorize('remove', $content);
 
@@ -275,10 +275,10 @@ class ContentController extends BaseController
             return $this->responseFactory->json(['status' => 'ok']);
         }
 
-        return $this->responseFactory->json(['status' => 'error']);
+        return $this->responseFactory->json(['status' => 'error'], 500);
     }
 
-    public function softRemoveContent(\Illuminate\Http\Request $request): JsonResponse
+    public function softRemoveContent(Request $request): JsonResponse
     {
         $id = hashids_decode($request->input('id'));
         $content = Content::findOrFail($id);
