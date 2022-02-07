@@ -2,14 +2,19 @@
 
 namespace Strimoid\Http\Controllers\Content;
 
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Session\SessionManager;
+use Illuminate\Support\Facades\Log;
 use Strimoid\Helpers\OEmbed;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Content;
 
 class ThumbnailController extends BaseController
 {
-    public function __construct(private OEmbed $oembed, private \Illuminate\Contracts\Auth\Access\Gate $gate, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Log\Writer $writer, private \Illuminate\Session\SessionManager $sessionManager, private \Illuminate\Contracts\View\Factory $viewFactory)
+    public function __construct(private OEmbed $oembed, private Gate $gate, private Redirector $redirector, private SessionManager $sessionManager, private Factory $viewFactory)
     {
     }
 
@@ -28,7 +33,7 @@ class ThumbnailController extends BaseController
         try {
             $thumbnails = $this->oembed->getThumbnails($content->url);
         } catch (\Exception $exception) {
-            $this->writer->error($exception);
+            Log::warning($exception);
         }
 
         $thumbnails[] = 'https://img.bitpixels.com/getthumbnail?code=74491&size=200&url=' . urlencode($content->url);
@@ -38,7 +43,7 @@ class ThumbnailController extends BaseController
         return $this->viewFactory->make('content.thumbnails', compact('content', 'thumbnails'));
     }
 
-    public function saveThumbnail(\Illuminate\Http\Request $request)
+    public function saveThumbnail(Request $request)
     {
         $id = hashids_decode($request->input('id'));
         $content = Content::findOrFail($id);
