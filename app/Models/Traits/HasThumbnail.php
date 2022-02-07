@@ -2,10 +2,10 @@
 
 namespace Strimoid\Models\Traits;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Strimoid\Facades\OEmbed;
-use Illuminate\Support\Facades\Storage;
 
 trait HasThumbnail
 {

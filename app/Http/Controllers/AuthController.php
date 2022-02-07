@@ -47,5 +47,4 @@ class AuthController extends BaseController
 
         return $this->redirector->back()->with('success_msg', __('auth.logged_out'));
     }
-
 }

@@ -3,8 +3,8 @@
 namespace Strimoid\Models\Folders;
 
 use Illuminate\Database\Eloquent\Builder;
-use Strimoid\Models\FakeFolder;
 use Strimoid\Models\Content;
+use Strimoid\Models\FakeFolder;
 
 class Popular extends FakeFolder
 {

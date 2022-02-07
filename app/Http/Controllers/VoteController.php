@@ -3,8 +3,8 @@
 namespace Strimoid\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;

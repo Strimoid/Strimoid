@@ -3,12 +3,12 @@
 namespace Strimoid\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
@@ -129,7 +129,7 @@ class UserController extends BaseController
             'token'
         );
 
-        $response = $this->passwords->reset($credentials, function ($user, $password) use($request) {
+        $response = $this->passwords->reset($credentials, function ($user, $password) use ($request) {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token) {
                 $cacheKey = 'registration.' . md5($request->getClientIp());

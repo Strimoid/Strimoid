@@ -2,8 +2,8 @@
 
 namespace Strimoid\Models\Folders;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\FakeFolder;
 
 class Notvoted extends FakeFolder

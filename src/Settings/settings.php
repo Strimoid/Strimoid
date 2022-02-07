@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Strimoid\Settings\Facades\Setting;
 
-$timezones = static fn() => collect(\DateTimeZone::listIdentifiers())->mapWithKeys(function ($timezone) {
+$timezones = static fn () => collect(\DateTimeZone::listIdentifiers())->mapWithKeys(function ($timezone) {
     $key = 'timezones.' . Str::lower($timezone);
 
     return [$timezone => trans($key)];

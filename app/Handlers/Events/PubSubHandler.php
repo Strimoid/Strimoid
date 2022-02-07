@@ -16,11 +16,11 @@ class PubSubHandler
     {
         $events->listen(
             'eloquent.created: ' . Entry::class,
-            fn(Entry $entry) => event(new EntryCreated($entry))
+            fn (Entry $entry) => event(new EntryCreated($entry))
         );
         $events->listen(
             'eloquent.created: ' . EntryReply::class,
-            fn(EntryReply $reply) => event(new EntryReplyCreated($reply))
+            fn (EntryReply $reply) => event(new EntryReplyCreated($reply))
         );
         // $events->listen('eloquent.created: ' . Notification::class, self::class . '@onNewNotification');
     }

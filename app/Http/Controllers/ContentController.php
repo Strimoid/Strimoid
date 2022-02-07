@@ -4,23 +4,23 @@ namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
-use Strimoid\Settings\Facades\Setting;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Strimoid\Contracts\Repositories\ContentRepository;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
+use Strimoid\Handlers\DownloadThumbnail;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
-use Illuminate\Support\Facades\Validator;
-use Strimoid\Handlers\DownloadThumbnail;
+use Strimoid\Settings\Facades\Setting;
 
 class ContentController extends BaseController
 {

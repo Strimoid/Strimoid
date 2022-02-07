@@ -20,6 +20,6 @@ class SpoilerRenderer implements InlineRendererInterface
             new HtmlElement('span', ['class' => 'spoiler'], $spoiler->getContent()),
         ];
 
-        return implode('', array_map(fn($element) => (string) $element, $elements));
+        return implode('', array_map(fn ($element) => (string) $element, $elements));
     }
 }

@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             'timeout' => 10,
         ]));
 
-        $this->app->bind('pdp', function() {
+        $this->app->bind('pdp', function () {
             $path = base_path('vendor/jeremykendall/php-domain-parser/data/pdp-PSL_FULL_5a3cc7f81795bb2e48e848af42d287b4.cache');
             $serialized = file_get_contents($path);
             $unserialized = unserialize($serialized);

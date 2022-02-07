@@ -2,9 +2,9 @@
 
 namespace Strimoid\Models;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Strimoid\Models\Traits\HasUserRelationship;
 
 class Folder extends BaseModel

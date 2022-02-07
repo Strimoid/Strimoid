@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
 use Strimoid\Contracts\Repositories\FolderRepository;
 use Strimoid\Contracts\Repositories\GroupRepository;
+use Strimoid\Handlers\DownloadThumbnail;
 use Strimoid\Models\Content;
 use Strimoid\Models\Group;
 use Strimoid\Models\User;
-use Strimoid\Handlers\DownloadThumbnail;
 
 class ContentController extends BaseController
 {

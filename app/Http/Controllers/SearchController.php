@@ -35,10 +35,12 @@ class SearchController extends BaseController
                 'e' => Entry::where('text', 'ilike', '%' . $keywords . '%'),
                 'g' => Group::where('name', 'ilike', '%' . $keywords . '%')
                     ->orWhere('urlname', 'like', '%' . $keywords . '%'),
-                default => Content::where(function ($query) use ($keywords): void {
+                default => Content::where(
+                    function ($query) use ($keywords): void {
                     $query->where('title', 'ilike', '%' . $keywords . '%')
                         ->orWhere('description', 'ilike', '%' . $keywords . '%');
-                }),
+                }
+                ),
             };
 
             $this->builder = $builder;

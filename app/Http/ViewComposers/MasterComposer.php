@@ -2,12 +2,12 @@
 
 namespace Strimoid\Http\ViewComposers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Strimoid\Settings\Facades\Setting;
 use Strimoid\Models\Group;
+use Strimoid\Settings\Facades\Setting;
 
 class MasterComposer
 {

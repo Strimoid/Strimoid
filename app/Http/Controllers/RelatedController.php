@@ -2,11 +2,11 @@
 
 namespace Strimoid\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Strimoid\Facades\OEmbed;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
+use Strimoid\Facades\OEmbed;
 use Strimoid\Models\ContentRelated;
 
 class RelatedController extends BaseController

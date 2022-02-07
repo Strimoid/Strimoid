@@ -9,7 +9,9 @@ use Strimoid\Models\Content;
 
 class ThumbnailController extends BaseController
 {
-    public function __construct(private OEmbed $oembed, private \Illuminate\Contracts\Auth\Access\Gate $gate, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Log\Writer $writer, private \Illuminate\Session\SessionManager $sessionManager, private \Illuminate\Contracts\View\Factory $viewFactory) {}
+    public function __construct(private OEmbed $oembed, private \Illuminate\Contracts\Auth\Access\Gate $gate, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Log\Writer $writer, private \Illuminate\Session\SessionManager $sessionManager, private \Illuminate\Contracts\View\Factory $viewFactory)
+    {
+    }
 
     public function chooseThumbnail(Content $content)
     {

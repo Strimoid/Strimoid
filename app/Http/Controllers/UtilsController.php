@@ -9,7 +9,9 @@ use Strimoid\Models\Content;
 
 class UtilsController extends BaseController
 {
-    public function __construct(private OEmbed $oembed) {}
+    public function __construct(private OEmbed $oembed)
+    {
+    }
 
     public function getURLTitle(Request $request): array
     {

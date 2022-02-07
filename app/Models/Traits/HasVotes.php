@@ -2,9 +2,9 @@
 
 namespace Strimoid\Models\Traits;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Strimoid\Models\Vote;
 
 trait HasVotes

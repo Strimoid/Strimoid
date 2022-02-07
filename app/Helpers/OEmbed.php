@@ -2,13 +2,13 @@
 
 namespace Strimoid\Helpers;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Strimoid\Facades\Guzzle;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Strimoid\Facades\Guzzle;
 
 class OEmbed
 {

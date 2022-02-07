@@ -2,9 +2,9 @@
 
 namespace Strimoid\Models\Traits;
 
-use Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Image;
 
 /**
  * Class HasAvatar.

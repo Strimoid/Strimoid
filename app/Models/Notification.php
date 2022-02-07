@@ -2,10 +2,10 @@
 
 namespace Strimoid\Models;
 
+use Hashids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
-use Hashids;
 use Illuminate\Support\Str;
 use Strimoid\Models\Traits\HasUserRelationship;
 

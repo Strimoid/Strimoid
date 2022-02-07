@@ -3,8 +3,8 @@
 namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\Conversation;
 use Strimoid\Models\User;
 use Vinkla\Hashids\Facades\Hashids;
