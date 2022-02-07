@@ -54,8 +54,8 @@ $suggestedGroup = (isset($group) && $group instanceof Strimoid\Models\Group) ? $
     @include('group.sidebar.add_content')
 
     @if (isset($group) && $group instanceof Strimoid\Models\Group)
-        @include('group.sidebar.description', compact($group))
-        @include('group.sidebar.stats', compact($group))
+        @include('group.sidebar.description', compact('group'))
+        @include('group.sidebar.stats', compact('group'))
     @endif
 
     @include('group.sidebar.popular_entries')
