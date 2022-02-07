@@ -8,9 +8,16 @@ use Strimoid\Models\User;
 
 class ContentPolicy
 {
+    public function before(User $user, $ability)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+    }
+
     public function edit(User $user, Content $content): Response
     {
-        if ($user->id === $content->user->id) {
+        if ($user->id !== $content->user->id) {
             return Response::deny('You are not an author of this content');
         }
 
