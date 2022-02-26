@@ -26,11 +26,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Paginator::useBootstrap();
-
-        Request::setTrustedProxies(
-            ['10.0.0.0/8', '172.16.0.0/12', 'fd00::/8'],
-            \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
-        );
     }
 
     public function register(): void

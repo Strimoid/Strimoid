@@ -165,8 +165,7 @@ class VoteController extends BaseController
 
     private function getObject(string $id, string $type)
     {
-        $id = Hashids::decode($id);
-        $id = current($id);
+        $id = hashids_decode($id);
 
         switch ($type) {
             case 'content':

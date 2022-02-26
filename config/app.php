@@ -154,7 +154,6 @@ return [
         /*
          * Application Service Providers...
          */
-        Strimoid\Providers\ApiServiceProvider::class,
         Strimoid\Providers\AppServiceProvider::class,
         Strimoid\Providers\ComposerServiceProvider::class,
         Strimoid\Providers\EventsServiceProvider::class,
@@ -169,7 +168,6 @@ return [
          */
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Dingo\Api\Provider\LaravelServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
@@ -178,7 +176,6 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Msurguy\Honeypot\HoneypotServiceProvider::class,
-        Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
         Tightenco\Ziggy\ZiggyServiceProvider::class,
         TwigBridge\ServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,

@@ -29,10 +29,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'Strimoid\Http\Controllers';
 
+    protected $apiNamespace = 'Strimoid\Api\Controllers';
+
     public function boot(): void
     {
-        parent::boot();
-
         $router = $this->app->make(Router::class);
 
         $this->bindModel($router, 'content', Content::class);
@@ -80,6 +80,13 @@ class RouteServiceProvider extends ServiceProvider
             'namespace' => $this->namespace,
         ], function ($router): void {
             require app_path('Http/routes.php');
+        });
+
+        Route::group([
+            'prefix' => 'api',
+            'namespace' => $this->apiNamespace,
+        ], function ($router): void {
+            require app_path('Api/routes.php');
         });
 
         Route::group([

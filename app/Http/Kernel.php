@@ -19,7 +19,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        Middleware\RateLimit::class,
+        Middleware\TrustProxies::class,
     ];
 
     /**
