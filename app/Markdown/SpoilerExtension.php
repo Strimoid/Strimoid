@@ -2,9 +2,7 @@
 
 namespace Strimoid\Markdown;
 
-use League\CommonMark\ConfigurableEnvironmentInterface;
-use League\CommonMark\Event\DocumentParsedEvent;
-use League\CommonMark\Extension\Autolink\AutolinkExtension;
+use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Inline\Parser\InlineParserInterface;
 use Strimoid\Markdown\Inline\Element\Spoiler;
@@ -13,11 +11,11 @@ use Strimoid\Markdown\Inline\Renderer\SpoilerRenderer;
 
 final class SpoilerExtension implements ExtensionInterface
 {
-    public function register(ConfigurableEnvironmentInterface $environment): void
+    public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment
             ->addInlineParser(new SpoilerParser())
-            ->addInlineRenderer(Spoiler::class, new SpoilerRenderer())
+            ->addRenderer(Spoiler::class, new SpoilerRenderer())
         ;
     }
 }

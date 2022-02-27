@@ -2,22 +2,22 @@
 
 namespace Strimoid\Markdown\Inline\Renderer;
 
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
 use Strimoid\Markdown\Inline\Element\Spoiler;
 
-class SpoilerRenderer implements InlineRendererInterface
+class SpoilerRenderer implements NodeRendererInterface
 {
-    public function render(AbstractInline $inline, ElementRendererInterface $htmlRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         /** @var Spoiler $spoiler */
-        $spoiler = $inline;
+        $spoiler = $node;
 
         $elements = [
             new HtmlElement('a', ['class' => 'show_spoiler'], 'Pokaż ukrytą treść'),
-            new HtmlElement('span', ['class' => 'spoiler'], $spoiler->getContent()),
+            new HtmlElement('span', ['class' => 'spoiler'], $spoiler->getLiteral()),
         ];
 
         return implode('', array_map(fn ($element) => (string) $element, $elements));

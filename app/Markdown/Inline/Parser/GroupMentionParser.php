@@ -2,16 +2,17 @@
 
 namespace Strimoid\Markdown\Inline\Parser;
 
-use League\CommonMark\Inline\Element\Link;
-use League\CommonMark\Inline\Parser\InlineParserInterface;
-use League\CommonMark\InlineParserContext;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
+use League\CommonMark\Parser\Inline\InlineParserInterface;
+use League\CommonMark\Parser\Inline\InlineParserMatch;
+use League\CommonMark\Parser\InlineParserContext;
 use Strimoid\Models\Group;
 
 class GroupMentionParser implements InlineParserInterface
 {
-    public function getCharacters(): array
+    public function getMatchDefinition(): InlineParserMatch
     {
-        return ['g'];
+        return InlineParserMatch::string('g/');
     }
 
     public function parse(InlineParserContext $inlineContext): bool
@@ -48,4 +49,6 @@ class GroupMentionParser implements InlineParserInterface
 
         return true;
     }
+
+
 }

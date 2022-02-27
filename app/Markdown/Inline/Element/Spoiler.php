@@ -2,7 +2,7 @@
 
 namespace Strimoid\Markdown\Inline\Element;
 
-use League\CommonMark\Inline\Element\AbstractStringContainer;
+use League\CommonMark\Node\Inline\AbstractStringContainer;
 
 class Spoiler extends AbstractStringContainer
 {
