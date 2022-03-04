@@ -10,7 +10,7 @@
         "handlebars": "^4.7.7",
         "handlebars-loader": "^1.7.1",
         "imports-loader": "^3.1.1",
-        "mini-css-extract-plugin": "^2.5.3",
+        "mini-css-extract-plugin": "^2.6.0",
         "postcss-loader": "^6.2.1",
         "react-hot-loader": "^4.13.0",
         "sass": "^1.49.9",
