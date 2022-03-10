@@ -24,7 +24,7 @@
         "webpack-merge": "^5.8.0"
     },
     "dependencies": {
-        "@bugsnag/js": "^7.16.1",
+        "@bugsnag/js": "^7.16.2",
         "autosize": "^5.0.1",
         "axios": "^0.26.0",
         "bootbox": "^5.5.2",
