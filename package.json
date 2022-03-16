@@ -33,7 +33,7 @@
         "font-awesome": "^4.7.0",
         "image-picker": "^0.3.1",
         "js-cookie": "^3.0.1",
-        "laravel-echo": "^1.11.3",
+        "laravel-echo": "^1.11.4",
         "lodash": "^4.17.21",
         "perfect-scrollbar": "^1.5.5",
         "pjax": "^0.2.8",
