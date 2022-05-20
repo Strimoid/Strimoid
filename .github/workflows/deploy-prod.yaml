@@ -39,6 +39,6 @@ jobs:
           helm dependency build ./chart
       - name: Upgrade Helm release
         run: |
-          helm upgrade strimoid ./chart \
+          helm upgrade strm-prod ./chart \
             --wait --set image.tag=${{ github.sha }} \
-            --values <(helm get values strimoid)
+            --values <(helm get values strm-prod)
