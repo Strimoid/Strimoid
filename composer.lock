@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3089fe6cb7f0972ce29e334a2c79052",
+    "content-hash": "6ff783ff0914e7443d1e5eb8e4ce2e61",
     "packages": [
         {
             "name": "brick/math",
@@ -10182,20 +10182,20 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "10.1.0",
+            "version": "11.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "dcad0cff507fc3e56bf345dcd634dbea3ce0917e"
+                "reference": "6293642287121f5036d0a4962c04b18a490691b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/dcad0cff507fc3e56bf345dcd634dbea3ce0917e",
-                "reference": "dcad0cff507fc3e56bf345dcd634dbea3ce0917e",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/6293642287121f5036d0a4962c04b18a490691b1",
+                "reference": "6293642287121f5036d0a4962c04b18a490691b1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "conflict": {
                 "friendsofphp/php-cs-fixer": "<3.0",
@@ -10207,7 +10207,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "9.5-dev"
+                    "dev-main": "10.3-dev"
                 }
             },
             "autoload": {
@@ -10221,7 +10221,7 @@
             ],
             "description": "Prefixed scoped version of ECS package",
             "support": {
-                "source": "https://github.com/symplify/easy-coding-standard/tree/10.1.0"
+                "source": "https://github.com/symplify/easy-coding-standard/tree/11.0.6"
             },
             "funding": [
                 {
@@ -10233,7 +10233,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-21T11:18:44+00:00"
+            "time": "2022-06-29T14:12:16+00:00"
         }
     ],
     "aliases": [],
@@ -10248,5 +10248,5 @@
         "ext-apcu": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
