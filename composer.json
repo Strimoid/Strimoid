@@ -57,7 +57,7 @@
         "doctrine/dbal": "^3.0",
         "laracasts/generators": "^2.0",
         "mockery/mockery": "^1.0",
-        "symplify/easy-coding-standard": "^10.0",
+        "symplify/easy-coding-standard": "^11.0",
         "nunomaduro/larastan": "^2.0",
         "rector/rector": "^0.12"
     },
