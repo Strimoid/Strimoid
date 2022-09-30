@@ -59,7 +59,7 @@
         "mockery/mockery": "^1.0",
         "symplify/easy-coding-standard": "^10.0",
         "nunomaduro/larastan": "^2.0",
-        "rector/rector": "^0.12"
+        "rector/rector": "^0.14"
     },
     "autoload": {
         "classmap": [
