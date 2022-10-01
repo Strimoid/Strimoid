@@ -42,7 +42,7 @@
         "symfony/css-selector": "^6.0",
         "syholloway/mrcolor": "^0.0.1",
         "league/glide-laravel": "^1.0",
-        "laravel/passport": "^10.0",
+        "laravel/passport": "^11.2",
         "danielstjules/stringy": "^3.1",
         "bugsnag/bugsnag-laravel": "^2.0",
         "tightenco/ziggy": "^1.0",
