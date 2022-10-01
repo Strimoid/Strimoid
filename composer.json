@@ -27,7 +27,7 @@
         "guzzlehttp/guzzle": "^7.0",
         "guzzlehttp/oauth-subscriber": "^0.6",
         "graham-campbell/markdown": "14.0.x-dev",
-        "graham-campbell/throttle": "^8.0",
+        "graham-campbell/throttle": "^9.0",
         "jenssegers/agent": "^2.3",
         "laracasts/flash": "^3.0",
         "laracasts/utilities": "^3.0",
@@ -36,13 +36,13 @@
         "filp/whoops": "^2.1",
         "msurguy/honeypot": "^1.0",
         "pda/pheanstalk": "^4.0",
-        "rcrowe/twigbridge": "^0.13",
+        "rcrowe/twigbridge": "^0.14",
         "laravel/socialite": "^5.0",
         "symfony/dom-crawler": "^6.0",
         "symfony/css-selector": "^6.0",
         "syholloway/mrcolor": "^0.0.1",
         "league/glide-laravel": "^1.0",
-        "laravel/passport": "^10.0",
+        "laravel/passport": "^11.2",
         "danielstjules/stringy": "^3.1",
         "bugsnag/bugsnag-laravel": "^2.0",
         "tightenco/ziggy": "^1.0",
@@ -57,9 +57,9 @@
         "doctrine/dbal": "^3.0",
         "laracasts/generators": "^2.0",
         "mockery/mockery": "^1.0",
-        "symplify/easy-coding-standard": "^10.0",
+        "symplify/easy-coding-standard": "^11.1",
         "nunomaduro/larastan": "^2.0",
-        "rector/rector": "^0.12"
+        "rector/rector": "^0.14"
     },
     "autoload": {
         "classmap": [
