@@ -15,7 +15,7 @@
         "react-hot-loader": "^4.13.1",
         "sass": "^1.57.1",
         "sass-loader": "^12.6.0",
-        "standard": "^16.0.4",
+        "standard": "^17.0.0",
         "style-loader": "^3.3.1",
         "webpack": "^5.75.0",
         "webpack-assets-manifest": "^5.1.0",
