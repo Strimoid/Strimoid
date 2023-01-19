@@ -25,7 +25,7 @@
     },
     "dependencies": {
         "@bugsnag/js": "^7.18.0",
-        "autosize": "^4.0.4",
+        "autosize": "^5.0.2",
         "axios": "^0.26.1",
         "bootbox": "^5.5.3",
         "bootstrap": "^4.6.2",
