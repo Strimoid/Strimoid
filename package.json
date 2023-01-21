@@ -39,7 +39,7 @@
         "perfect-scrollbar": "^1.5.5",
         "pjax": "^0.2.8",
         "popper.js": "^1.16.1",
-        "pusher-js": "^6.0.3",
+        "pusher-js": "^8.0.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-player": "^2.11.0",
