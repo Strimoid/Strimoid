@@ -9,14 +9,14 @@
 <?php
 
 $currentRoute = Route::currentRouteName() ?: '';
-$navbarClass = (auth()->check() && @user()->settings['pin_navbar']) ? 'fixed-top' : 'static-top';
+$navbarClass = setting('pin_navbar') ? 'fixed-top' : 'static-top';
 
 ?>
 
 @include('global.parts.groupbar')
 @include('global.parts.navbar')
 
-<div class="container @if (@user()->settings['pin_navbar']) navbar-fixed-margin @endif">
+<div class="container @if (setting('pin_navbar')) navbar-fixed-margin @endif">
     <div class="row">
         <div class="main_col @yield('content_class', 'col-md-8')">
             @include('flash::message')
