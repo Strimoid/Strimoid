@@ -64,8 +64,9 @@ UsersModule.prototype.blockUser = function () {
 
 UsersModule.prototype.renderActionsWidget = function () {
   const username = $(this).attr('data-user')
+  const template = require('../templates/users/tooltip.html')
 
-  return _.tpl['users-tooltip']({
+  return template({
     username: username,
     observe_class: _.includes(window.observed_users, username) ? 'btn-success' : 'btn-secondary',
     block_class: _.includes(window.blocked_users, username) ? 'btn-danger' : 'btn-secondary'

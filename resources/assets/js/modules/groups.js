@@ -54,8 +54,9 @@ GroupsModule.prototype.blockGroup = function () {
 
 GroupsModule.prototype.renderActionsWidget = function () {
   const groupname = $(this).attr('data-group').replace(/^g\//, '')
+  const template = require('../templates/groups/tooltip.html')
 
-  return _.tpl['groups-tooltip']({
+  return template({
     groupname: groupname,
     subscribe_class: _.includes(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-secondary',
     block_class: _.includes(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-secondary'
