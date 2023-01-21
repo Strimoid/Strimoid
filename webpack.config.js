@@ -13,9 +13,9 @@ module.exports = {
         ],
     },
     output: {
-        filename: '[name].[fullhash:8].js',
+        filename: '[name].[hash:8].js',
         chunkFilename: '[id].[chunkhash:8].js',
-        assetModuleFilename: '[name].[fullhash:8][ext][query]',
+        assetModuleFilename: '[name].[hash:8][ext][query]',
         path: resolve(__dirname, 'public/assets'),
         publicPath: '/assets/',
     },
