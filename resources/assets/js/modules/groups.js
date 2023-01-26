@@ -58,8 +58,8 @@ GroupsModule.prototype.renderActionsWidget = function () {
 
   return template({
     groupname: groupname,
-    subscribe_class: window.subscribed_groups.includes(groupname) ? 'btn-success' : 'btn-secondary',
-    block_class: window.blocked_groups.includes(groupname) ? 'btn-danger' : 'btn-secondary'
+    subscribe_class: window.subscribed_groups.includes(groupname) ? 'btn-success' : 'btn-light',
+    block_class: window.blocked_groups.includes(groupname) ? 'btn-danger' : 'btn-light'
   })
 }
 

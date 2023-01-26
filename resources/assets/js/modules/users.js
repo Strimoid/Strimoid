@@ -69,8 +69,8 @@ UsersModule.prototype.renderActionsWidget = function () {
 
   return template({
     username: username,
-    observe_class: window.observed_users.includes(username) ? 'btn-success' : 'btn-secondary',
-    block_class: window.blocked_users.includes(username) ? 'btn-danger' : 'btn-secondary'
+    observe_class: window.observed_users.includes(username) ? 'btn-success' : 'btn-light',
+    block_class: window.blocked_users.includes(username) ? 'btn-danger' : 'btn-light'
   })
 }
 
