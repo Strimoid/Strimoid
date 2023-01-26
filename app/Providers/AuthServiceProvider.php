@@ -4,7 +4,6 @@ namespace Strimoid\Providers;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Laravel\Passport\Passport;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
@@ -44,7 +43,5 @@ class AuthServiceProvider extends ServiceProvider
 
             return null;
         });
-
-        Passport::routes();
     }
 }
