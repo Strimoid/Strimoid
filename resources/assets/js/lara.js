@@ -3,6 +3,8 @@ import Bloodhound from 'corejs-typeahead'
 import loadjQueryPlugin from 'corejs-typeahead'
 import Pusher from 'pusher-js'
 import Echo from 'laravel-echo'
+import { filter, includes, template } from 'lodash'
+
 
 require('bootstrap')
 require('timeago')
@@ -649,9 +651,9 @@ $(document).ready(function () {
         url: '/groups.json',
         filter: function (d) {
           if (window.settings && window.settings.homepage_subscribed)
-            return _.filter(d, function (g) { return _.includes(window.subscribed_groups, g.value) })
+            return filter(d, g => includes(window.subscribed_groups, g.value))
           else
-            return _.filter(d, function (g) { return !_.includes(window.blocked_groups, g.value) })
+            return filter(d, g => !includes(window.blocked_groups, g.value))
         }
       },
       sorter: function (a, b) {
@@ -666,7 +668,7 @@ $(document).ready(function () {
       source: groups.ttAdapter(),
       display: 'value',
       templates: {
-        suggestion: _.template('<div><img src="<%= avatar %>" class="avatar"><p><%= value %><span class="count">[<%= contents %>]</span></p></div>')
+        suggestion: template('<div><img src="<%= avatar %>" class="avatar"><p><%= value %><span class="count">[<%= contents %>]</span></p></div>')
       }
     })
 
@@ -677,7 +679,7 @@ $(document).ready(function () {
         url: '/users.json',
         filter: function (d) {
           if (window.blocked_users)
-            return _.filter(d, function (u) { return !_.includes(window.blocked_users, u.value) })
+            return filter(d, u => !includes(window.blocked_users, u.value))
           else
             return d
         }
@@ -691,7 +693,7 @@ $(document).ready(function () {
         name: 'users',
         source: users.ttAdapter(),
         templates: {
-          suggestion: _.template('<img src="<%= avatar %>" class="avatar"><p><%= value %></p>')
+          suggestion: template('<img src="<%= avatar %>" class="avatar"><p><%= value %></p>')
         }
       }
     ])

@@ -1,3 +1,5 @@
+import { template } from 'lodash'
+
 function FoldersModule () {
 
   if (window.username) {
@@ -21,8 +23,8 @@ FoldersModule.prototype.createFolder = function (e) {
 
   $.post('/ajax/folder/create', { name: $(input).val(), groupname: group }, function (data) {
     if (data.status === 'ok') {
-      var template = _.template('<li><label><input type="checkbox" data-id="<%= id %>" checked> <%= name %></label></li>')
-      var html = template({ id: data.id, name: $(input).val() })
+      var render = template('<li><label><input type="checkbox" data-id="<%= id %>" checked> <%= name %></label></li>')
+      var html = render({ id: data.id, name: $(input).val() })
 
       $(html).insertBefore($(input).parents().eq(1).find('.divider'))
       $(input).val('')
@@ -94,8 +96,8 @@ FoldersModule.prototype.addGroup = function () {
 
   $.post('/ajax/folder/add_group', { folder: folder, group: group }, function (data) {
     if (data.status === 'ok') {
-      var template = _.template('<li class="list-group-item" style="padding: 5px 15px" ><a href="/g/<%= group %>"><%= group %></a><button type="button" class="btn btn-xs btn-danger folder_remove_group pull-right" data-group="<%= group %>"><span class="glyphicon glyphicon-trash"></span></button></li>')
-      var html = template({ group: group })
+      var render = template('<li class="list-group-item" style="padding: 5px 15px" ><a href="/g/<%= group %>"><%= group %></a><button type="button" class="btn btn-xs btn-danger folder_remove_group pull-right" data-group="<%= group %>"><span class="glyphicon glyphicon-trash"></span></button></li>')
+      var html = render({ group: group })
 
       var lastChild = $('.folder_groups').children().last()
 

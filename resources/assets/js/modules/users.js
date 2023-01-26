@@ -1,3 +1,5 @@
+import { without } from 'lodash'
+
 const axios = require('axios').default
 
 function UsersModule () {
@@ -27,7 +29,7 @@ UsersModule.prototype.observeUser = function () {
         .removeClass('btn-success')
         .addClass('btn-default')
 
-      window.observed_users = _.without(window.observed_users, name)
+      window.observed_users = without(window.observed_users, name)
     })
   } else {
     axios.post(`/u/${name}/observe`).then(() => {
@@ -50,7 +52,7 @@ UsersModule.prototype.blockUser = function () {
         .removeClass('btn-danger')
         .addClass('btn-default')
 
-      window.blocked_users = _.without(window.blocked_users, name)
+      window.blocked_users = without(window.blocked_users, name)
     })
   } else {
     axios.post(`/u/${name}/block`).then(() => {

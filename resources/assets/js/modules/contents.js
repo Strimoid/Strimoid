@@ -1,3 +1,5 @@
+import { last, template } from 'lodash'
+
 function ContentsModule () {
 
   if (window.username) {
@@ -51,10 +53,10 @@ ContentsModule.prototype.findDuplicates = function () {
           $('textarea[name="description"]').val(data.description)
 
         if (data.duplicates.length) {
-          var last = _.last(data.duplicates)
+          var last = last(data.duplicates)
 
-          var template = _.template('<p class="help-block duplicate_info"><span class="glyphicon glyphicon-info-sign"></span> Link został już dodany do wybranej grupy:<br><a href="/c/<%= id %>"><%= title %></a></p>')
-          var html = template({ id: last._id, title: last.title })
+          var render = template('<p class="help-block duplicate_info"><span class="glyphicon glyphicon-info-sign"></span> Link został już dodany do wybranej grupy:<br><a href="/c/<%= id %>"><%= title %></a></p>')
+          var html = render({ id: last._id, title: last.title })
 
           $(input).parent().append(html)
         }
