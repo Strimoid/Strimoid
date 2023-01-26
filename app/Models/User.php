@@ -25,8 +25,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     protected $fillable = [
         'age', 'description', 'location', 'sex',
     ];
+    protected $appends = ['avatar_url'];
     protected $visible = [
-        'id', 'age', 'avatar', 'created_at',
+        'id', 'age', 'avatar', 'avatar_url', 'created_at',
         'description', 'location', 'sex', 'name',
     ];
     protected $casts = [
@@ -64,6 +65,11 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     public function getDefaultAvatarPath(): string
     {
         return '/i/duck/' . $this->name . '.svg';
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        return $this->getAvatarPath();
     }
 
     public function getSexClass(): string

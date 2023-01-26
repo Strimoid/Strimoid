@@ -2,11 +2,7 @@
     <a name="{{ id }}"></a>
 
     <div class="entry_avatar">
-        {{#if user.avatar }}
-            <img src="{{ user.avatar }}" alt="{{ user.name }}">
-        {{else}}
-            <img src="/i/duck/{{ user.name }}.svg" alt="{{ user.name }}">
-        {{/if}}
+        <img src="{{ user.avatar_url }}" alt="{{ user.name }}">
     </div>
 
     <div class="panel-heading entry_header" data-hover="user_widget" data-user="{{ user.name }}">
