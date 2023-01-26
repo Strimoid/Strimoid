@@ -116,7 +116,7 @@ class Content extends BaseModel
         $parser->config('headers', true);
         */
 
-        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text));
+        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text))->getContent();
         $this->attributes['text_source'] = $text;
     }
 

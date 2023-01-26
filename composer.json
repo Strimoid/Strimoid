@@ -18,7 +18,7 @@
         "irc": "irc://irc.freenode.org/strimoid"
     },
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-apcu": "*",
         "laravel/framework": "^9.2",
         "laravelcollective/html": "^6.0",

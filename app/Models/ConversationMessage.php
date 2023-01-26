@@ -26,7 +26,7 @@ class ConversationMessage extends BaseModel
 
     public function setTextAttribute($text): void
     {
-        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text));
+        $this->attributes['text'] = Markdown::convertToHtml(parse_usernames($text))->getContent();
         $this->attributes['text_source'] = $text;
     }
 }

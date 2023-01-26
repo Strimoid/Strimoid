@@ -3,10 +3,10 @@
 namespace Strimoid\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Output\RenderedContentInterface;
 
 /**
- * @method static string convertToHtml(string $commonMark)
+ * @method static RenderedContentInterface convertToHtml(string $commonMark)
  */
 class Markdown extends Facade
 {

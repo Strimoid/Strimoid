@@ -178,7 +178,7 @@ class Group extends BaseModel
 
     public function setSidebarAttribute($text): void
     {
-        $this->attributes['sidebar'] = Markdown::convertToHtml(parse_usernames($text));
+        $this->attributes['sidebar'] = Markdown::convertToHtml(parse_usernames($text))->getContent();
         $this->attributes['sidebar_source'] = $text;
     }
 
