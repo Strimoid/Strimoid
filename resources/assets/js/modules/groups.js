@@ -7,7 +7,7 @@ function GroupsModule () {
       .on('click', 'button.group_block_btn', this.blockGroup)
 
     $('[data-hover=group_widget]').popover({
-      html: true, placement: 'bottom', trigger: 'hover', delay: 500, content: this.renderActionsWidget
+      html: true, sanitize: false, placement: 'bottom', trigger: 'hover', delay: 500, content: this.renderActionsWidget
     })
   }
 }
@@ -58,8 +58,8 @@ GroupsModule.prototype.renderActionsWidget = function () {
 
   return template({
     groupname: groupname,
-    subscribe_class: _.includes(window.subscribed_groups, groupname) ? 'btn-success' : 'btn-secondary',
-    block_class: _.includes(window.blocked_groups, groupname) ? 'btn-danger' : 'btn-secondary'
+    subscribe_class: window.subscribed_groups.includes(groupname) ? 'btn-success' : 'btn-secondary',
+    block_class: window.blocked_groups.includes(groupname) ? 'btn-danger' : 'btn-secondary'
   })
 }
 
