@@ -2,7 +2,8 @@
 
 namespace Strimoid\Http\ViewComposers;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\View\View;
 use JavaScript;
 use Strimoid\Models\Content;
@@ -10,9 +11,12 @@ use Strimoid\Models\Group;
 
 class JavascriptComposer
 {
-    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Config\Repository $configRepository)
-    {
+    public function __construct(
+        private AuthManager $authManager,
+        private Repository $configRepository
+    ) {
     }
+
     public function compose(View $view): void
     {
         $data = $view->getData();

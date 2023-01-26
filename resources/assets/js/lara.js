@@ -90,11 +90,10 @@ $(document).ready(function () {
       forceTLS: true
     })
 
-    /*
-    echo.private('.privateU' + window.username).listen('notification.created', function (data) {
-      notificationsModule.onNotificationReceived(data)
+    echo.private(`notifications.${window.AppData.user.id}`).listen('.notification.created', function (event) {
+      console.log(`new notification event received`, event)
+      notificationsModule.onNotificationReceived(event.notification)
     })
-    */
 
     var thumbnail = $('.img-thumbnail.refreshing')
 
@@ -110,7 +109,7 @@ $(document).ready(function () {
       echo.channel('entry.' + $this.data('id')).listen('.entryReply.created', (e) => {
         console.debug('new entry reply event received!', e)
 
-        if (window.blocked_users.includes(e.user.name))
+        if (window.blocked_users.includes(e.entryReply.user.name))
           return
 
         let lastReply = $this.nextUntil(':not(.entry_reply)').last()

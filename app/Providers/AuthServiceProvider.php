@@ -38,8 +38,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         $gate->before(function ($user, $ability) {
-            dd('test');
-
             if ($user->isSuperAdmin()) {
                 return true;
             }

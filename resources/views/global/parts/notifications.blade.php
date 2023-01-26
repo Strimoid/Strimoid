@@ -8,20 +8,20 @@
         <div class="notifications_scroll">
             <div class="notifications_list">
                 @foreach ($notifications as $notification)
-                    <a href="{!! $notification->getURL() !!}" class="@if (!$notification->read) new @endif" data-id="{!! $notification->hashId() !!}">
+                    <a href="{!! $notification->url !!}" class="@if (!$notification->read) new @endif" data-id="{{ $notification->hashId() }}">
                         @if ($notification->user)
-                            <img src="{!! $notification->user->getAvatarPath() !!}" class="pull-left">
+                            <img src="{!! $notification->thumbnail_path !!}" class="pull-left">
                         @endif
 
                         <div class="media-body">
-                            {!! $notification->title !!}
+                            {{ $notification->title }}
 
                             <br>
                             <small class="pull-left">
-                                {!! $notification->getTypeDescription() !!}
+                                {{ $notification->type }}
                             </small>
                             <small class="pull-right">
-                                <time pubdate title="{!! $notification->getLocalTime() !!}">{!! $notification->created_at->diffForHumans() !!}</time>
+                                <time pubdate title="{!! $notification->getLocalTime() !!}">{{ $notification->created_at->diffForHumans() }}</time>
                             </small>
                         </div>
 

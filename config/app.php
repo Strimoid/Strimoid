@@ -155,6 +155,7 @@ return [
          * Application Service Providers...
          */
         Strimoid\Providers\AppServiceProvider::class,
+        Strimoid\Providers\BroadcastServiceProvider::class,
         Strimoid\Providers\ComposerServiceProvider::class,
         Strimoid\Providers\EventsServiceProvider::class,
         Strimoid\Providers\MarkdownServiceProvider::class,

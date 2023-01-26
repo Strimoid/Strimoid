@@ -18,10 +18,14 @@
 
     @foreach ($notifications as $notification)
     <tr>
-        <td>{!! $notification->getTypeDescription() !!}</td>
-        <td><a href="{!! $notification->getURL() !!}">{!! $notification->title !!}</a></td>
+        <td>{{ $notification->type }}</td>
+        <td><a href="{!! $notification->url !!}">{{ $notification->title }}</a></td>
         <td>{{ $notification->user->name }}</td>
-        <td><time pubdate datetime="{!! $notification->created_at->format('c') !!}" title="{!! $notification->getLocalTime() !!}">{!! $notification->created_at->diffForHumans() !!}</time></td>
+        <td>
+            <time pubdate datetime="{!! $notification->created_at->format('c') !!}" title="{!! $notification->getLocalTime() !!}">
+                {!! $notification->created_at->diffForHumans() !!}
+            </time>
+        </td>
     </tr>
     @endforeach
 

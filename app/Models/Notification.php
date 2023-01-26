@@ -14,7 +14,9 @@ class Notification extends BaseModel
     use HasUserRelationship;
 
     protected $table = 'notifications';
-    protected $visible = ['id', 'created_at', 'user', 'read', 'title', 'type', 'url'];
+
+    protected $appends = ['thumbnail_path', 'type', 'url'];
+    protected $visible = ['id', 'created_at', 'user', 'read', 'title', 'thumbnail_path', 'type', 'url'];
 
     public function targets(): BelongsToMany
     {
@@ -44,7 +46,7 @@ class Notification extends BaseModel
         return Auth::check() ? $this->pivot->read : false;
     }
 
-    public function getURL(): ?string
+    public function getUrlAttribute(): ?string
     {
         $url = null;
         $params = null;
@@ -87,7 +89,7 @@ class Notification extends BaseModel
         return $url . $params;
     }
 
-    public function getTypeDescription()
+    public function getTypeAttribute(): ?string
     {
         if (!$this->element) {
             return null;
@@ -98,7 +100,7 @@ class Notification extends BaseModel
         return trans('notifications.types.' . $class);
     }
 
-    public function getThumbnailPath()
+    public function getThumbnailPathAttribute(): string
     {
         return $this->user->getAvatarPath();
     }

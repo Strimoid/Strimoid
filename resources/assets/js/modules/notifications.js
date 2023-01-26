@@ -70,7 +70,7 @@ NotificationsModule.prototype.markAsRead = function (id) {
 }
 
 NotificationsModule.prototype.renderNotification = function (notification) {
-  var html = '<a href="' + notification.url + '" class="new" data-id="' + notification.tag + '"><img src="' + notification.img + '" class="pull-left"><div class="media-body">' + notification.title
+  var html = '<a href="' + notification.url + '" class="new" data-id="' + notification.id + '"><img src="' + notification.thumbnail_path + '" class="pull-left"><div class="media-body">' + notification.title
   html += '<br><small class="pull-left">' + notification.type + '</small><small class="pull-right">'
   html += '<time pubdate title="' + notification.time + '">chwilę temu</time></small></div><div class="clearfix"></div></a>'
 

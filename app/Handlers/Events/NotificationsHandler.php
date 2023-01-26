@@ -13,6 +13,7 @@ use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Notification;
 use Strimoid\Models\User;
+use Strimoid\Notification\Events\NotificationCreated;
 
 /**
  * Create new Notification when user
@@ -168,6 +169,8 @@ class NotificationsHandler
         $notification->save();
 
         $this->addTargets($notification, $users);
+
+        event(new NotificationCreated($notification));
     }
 
     protected function addTargets(Notification $notification, Collection $users): void

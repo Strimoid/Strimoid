@@ -33,8 +33,8 @@ class NotificationController extends BaseController
                 'title' => $notification->title,
                 'time' => $notification->getLocalTime(),
                 'time_ago' => $notification->created_at->diffForHumans(),
-                'type' => $notification->getTypeDescription(),
-                'url' => $notification->getURL(),
+                'type' => $notification->type,
+                'url' => $notification->url,
                 'img' => $notification->getThumbnailPath(),
             ];
         }

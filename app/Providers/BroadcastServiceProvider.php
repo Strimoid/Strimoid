@@ -11,9 +11,8 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         Broadcast::routes();
 
-        /*
-         * Authenticate the user's personal channel...
-         */
-        Broadcast::channel('App.User.*', fn ($user, $userId) => (int) $user->id === (int) $userId);
+        Broadcast::channel('notifications.{userId}', fn($user, $userId) =>
+            $user->hashId() === $userId
+        );
     }
 }
