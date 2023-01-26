@@ -3,9 +3,11 @@
 namespace Strimoid\Entry\Events;
 
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Strimoid\Models\EntryReply;
+use Vinkla\Hashids\Facades\Hashids;
 
-class EntryReplyCreated
+class EntryReplyCreated implements ShouldBroadcast
 {
     public function __construct(public EntryReply $entryReply)
     {
@@ -18,6 +20,6 @@ class EntryReplyCreated
 
     public function broadcastOn(): Channel
     {
-        return new Channel('entry.' . $this->entryReply->hashId());
+        return new Channel('entry.' . Hashids::encode($this->entryReply->parent_id));
     }
 }
