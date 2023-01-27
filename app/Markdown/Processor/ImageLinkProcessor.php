@@ -11,10 +11,9 @@
 
 namespace Strimoid\Markdown\Processor;
 
-use GuzzleHttp\Psr7\Uri;
 use League\CommonMark\EnvironmentInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
-use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 
 class ImageLinkProcessor
 {
@@ -41,6 +40,7 @@ class ImageLinkProcessor
 
     private function markLinkAsImage(Link $link): void
     {
-        $link->data['attributes']['class'] = trim(($link->data['attributes']['class'] ?? '') . ' image');
+        $class = $link->data->get('attributes.class', '');
+        $link->data->set('attributes.class', trim($class) . ' image');
     }
 }
