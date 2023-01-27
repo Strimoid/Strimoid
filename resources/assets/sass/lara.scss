@@ -3,6 +3,10 @@ body > .container {
   padding-top: 20px;
 }
 
+body > .container.navbar-fixed-margin {
+  padding-top: 109px;
+}
+
 @media (min-width: 992px) {
   .main_col {
     width: 72%;
@@ -21,9 +25,7 @@ body > .container {
   padding: 15px;
 }
 
-.navbar-fixed-margin {
-  padding-top: 109px;
-}
+
 
 .btn-default {
   border-color: #E4E4E4;
