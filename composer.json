@@ -23,7 +23,7 @@
         "laravel/framework": "^9.2",
         "laravelcollective/html": "^6.0",
         "intervention/image": "^2.3",
-        "jeremykendall/php-domain-parser": "^5.3",
+        "jeremykendall/php-domain-parser": "^6.3",
         "guzzlehttp/guzzle": "^7.0",
         "guzzlehttp/oauth-subscriber": "^0.6",
         "graham-campbell/markdown": "14.0.x-dev",
