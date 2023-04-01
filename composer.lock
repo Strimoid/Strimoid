@@ -10721,16 +10721,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "11.2.5",
+            "version": "11.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "e6ac94f220604f4a3ddc99619e5b570238f3360c"
+                "url": "https://github.com/easy-coding-standard/easy-coding-standard.git",
+                "reference": "d4159e06c0970e71a2a58d350160241e7cb3994b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/e6ac94f220604f4a3ddc99619e5b570238f3360c",
-                "reference": "e6ac94f220604f4a3ddc99619e5b570238f3360c",
+                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/d4159e06c0970e71a2a58d350160241e7cb3994b",
+                "reference": "d4159e06c0970e71a2a58d350160241e7cb3994b",
                 "shasum": ""
             },
             "require": {
@@ -10738,7 +10738,8 @@
             },
             "conflict": {
                 "friendsofphp/php-cs-fixer": "<3.0",
-                "squizlabs/php_codesniffer": "<3.6"
+                "squizlabs/php_codesniffer": "<3.6",
+                "symplify/coding-standard": "<11.3"
             },
             "bin": [
                 "bin/ecs"
@@ -10754,9 +10755,15 @@
                 "MIT"
             ],
             "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer",
+            "keywords": [
+                "Code style",
+                "automation",
+                "fixer",
+                "static analysis"
+            ],
             "support": {
-                "issues": "https://github.com/symplify/easy-coding-standard/issues",
-                "source": "https://github.com/symplify/easy-coding-standard/tree/11.2.5"
+                "issues": "https://github.com/easy-coding-standard/easy-coding-standard/issues",
+                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/11.3.2"
             },
             "funding": [
                 {
@@ -10768,7 +10775,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-25T12:39:27+00:00"
+            "time": "2023-03-22T15:28:51+00:00"
         }
     ],
     "aliases": [],
