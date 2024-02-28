@@ -26,19 +26,22 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.ARGO_REPO }}
+          token: ${{ secrets.GIT_TOKEN }}
       - name: Setup Kubernetes credentials
         run: mkdir -p $HOME/.kube; echo $K8S_CONFIG | base64 -d > $HOME/.kube/config; chmod 0600 $HOME/.kube/config
         env:
           K8S_CONFIG: ${{ secrets.K8S_CONFIG }}
-      - name: Build Helm chart dependencies
+      - name: Update manifest
         run: |
-          helm repo add stable https://charts.helm.sh/stable
-          helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo add strimoid https://strimoid.github.io/helm-charts/
-          helm dependency build ./chart
-      - name: Upgrade Helm release
+          cd strimoid/qa
+          kustomize edit set image strimoid=quay.io/strimoid/strimoid:$GITHUB_SHA
+      - name: Commit changes
         run: |
-          helm upgrade strm-qa ./chart \
-            --wait --set image.tag=${{ github.sha }} \
-            --values <(helm get values strm-qa)
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add strimoid/qa/kustomization.yaml
+          git commit -m "Bump strm-qa to $GITHUB_SHA (GitHub Actions)"
+          git push
