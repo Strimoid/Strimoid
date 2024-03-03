@@ -13,7 +13,7 @@ RUN npm run build
 ### ---------------------
 ### final stage
 ### ---------------------
-FROM quay.io/strimoid/php:8.2
+FROM quay.io/strimoid/php:8.3
 
 EXPOSE 80
 
