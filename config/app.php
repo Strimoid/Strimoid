@@ -177,7 +177,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Msurguy\Honeypot\HoneypotServiceProvider::class,
-        Tightenco\Ziggy\ZiggyServiceProvider::class,
+        Tighten\Ziggy\ZiggyServiceProvider::class,
         TwigBridge\ServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
     ],
