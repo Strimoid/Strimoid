@@ -94,7 +94,7 @@ class UpdateStats extends Command
 
     protected function getFieldName($action): ?string
     {
-        $className = get_class($action->element);
+        $className = $action->element::class;
 
         switch ($className) {
             case Content::class:

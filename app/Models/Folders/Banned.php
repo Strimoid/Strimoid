@@ -16,7 +16,7 @@ class Banned extends FakeFolder
             redirect()->guest('login');
         }
 
-        $builder = with(new $model())->newQuery();
+        $builder = (new $model())->newQuery();
 
         $bannedGroups = Auth::user()->bannedGroups()->pluck('id');
         $builder->whereIn('group_id', $bannedGroups);

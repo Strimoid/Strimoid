@@ -24,7 +24,7 @@ use Strimoid\Settings\Facades\Setting;
 
 class ContentController extends BaseController
 {
-    public function __construct(protected ContentRepository $contents, protected GroupRepository $groups, protected FolderRepository $folders, private \Illuminate\Routing\Router $router, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Contracts\Auth\Access\Gate $gate, private \Illuminate\Queue\QueueManager $queueManager, private \Illuminate\Validation\Factory $validationFactory)
+    public function __construct(protected ContentRepository $contents, protected GroupRepository $groups, protected FolderRepository $folders, private readonly \Illuminate\Routing\Router $router, private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Contracts\Auth\Guard $guard, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private readonly \Illuminate\Contracts\Auth\Access\Gate $gate, private readonly \Illuminate\Queue\QueueManager $queueManager, private readonly \Illuminate\Validation\Factory $validationFactory)
     {
     }
 

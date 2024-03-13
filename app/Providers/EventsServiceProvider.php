@@ -47,7 +47,7 @@ class EventsServiceProvider extends ServiceProvider
                         'room' => '#strimoid',
                         'text' => 'Mamy nowego użytkownika ' . $user->name . '!',
                     ]]);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                 }
             }
         );
@@ -62,8 +62,8 @@ class EventsServiceProvider extends ServiceProvider
                 }
 
                 try {
-                    $text = strip_tags($entry->text);
-                    $text = trim(preg_replace('/\s+/', ' ', $text));
+                    $text = strip_tags((string) $entry->text);
+                    $text = trim((string) preg_replace('/\s+/', ' ', $text));
                     $text = Str::limit($text, 100);
 
                     Guzzle::post($url, ['json' => [
@@ -71,7 +71,7 @@ class EventsServiceProvider extends ServiceProvider
                         'text' => '[' . $entry->group->name . '] '
                             . $entry->user->name . ': ' . $text,
                     ]]);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                 }
             }
         );

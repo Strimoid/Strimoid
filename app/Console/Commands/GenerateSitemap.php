@@ -16,12 +16,8 @@ class GenerateSitemap extends Command
     protected $name = 'lara:generatesitemap';
     protected $description = 'Generate sitemap.';
 
-    private UrlGenerator $urlGenerator;
-
-    public function __construct(UrlGenerator $urlGenerator)
+    public function __construct(private readonly UrlGenerator $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
-
         parent::__construct();
     }
 

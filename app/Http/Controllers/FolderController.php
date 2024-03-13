@@ -14,7 +14,7 @@ use Strimoid\Models\Group;
 
 class FolderController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Foundation\Application $application, private \Illuminate\Validation\Factory $validationFactory, private \Illuminate\Routing\Redirector $redirector)
+    public function __construct(private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Foundation\Application $application, private readonly \Illuminate\Validation\Factory $validationFactory, private readonly \Illuminate\Routing\Redirector $redirector)
     {
     }
     public function displayFolder(): void

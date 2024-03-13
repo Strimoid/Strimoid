@@ -17,7 +17,7 @@ use Strimoid\Models\GroupModerator;
 
 class GroupController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Filesystem\FilesystemManager $filesystemManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Translation\Translator $translator, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard)
+    public function __construct(private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private readonly \Illuminate\Filesystem\FilesystemManager $filesystemManager, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Translation\Translator $translator, private readonly \Illuminate\Cache\CacheManager $cacheManager, private readonly \Illuminate\Contracts\Auth\Guard $guard)
     {
     }
     public function showList(\Illuminate\Http\Request $request)
@@ -162,7 +162,7 @@ class GroupController extends BaseController
 
         $group->settings = $settings;
 
-        $labels = explode(',', $request->input('labels'));
+        $labels = explode(',', (string) $request->input('labels'));
         $labels = array_map('trim', $labels);
 
         $group->labels = $labels;

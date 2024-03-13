@@ -11,7 +11,7 @@ class All extends FakeFolder
 {
     protected function getBuilder(string $model): Builder
     {
-        $builder = with(new $model())->newQuery();
+        $builder = (new $model())->newQuery();
 
         if (Auth::check()) {
             $blockedGroups = Auth::user()->blockedGroups()->pluck('id');

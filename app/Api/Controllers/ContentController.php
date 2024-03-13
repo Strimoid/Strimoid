@@ -15,14 +15,8 @@ use Strimoid\Models\User;
 
 class ContentController extends BaseController
 {
-    protected FolderRepository $folders;
-
-    protected GroupRepository $groups;
-
-    public function __construct(FolderRepository $folders, GroupRepository $groups)
+    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups)
     {
-        $this->folders = $folders;
-        $this->groups = $groups;
     }
 
     public function index(Request $request)

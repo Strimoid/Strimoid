@@ -10,7 +10,7 @@ use Symfony\Component\Mime\MimeTypes;
 class StaticFileController extends BaseController
 {
     private const CACHEABLE_EXTENSIONS = ['css', 'eot', 'js', 'png', 'svg', 'ttf', 'woff', 'woff2'];
-    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    public function __construct(private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
     }
 

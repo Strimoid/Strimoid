@@ -8,7 +8,7 @@ use SyHolloway\MrColor\Color;
 class DuckController extends BaseController
 {
     protected int $salt = 0;
-    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    public function __construct(private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
     }
 

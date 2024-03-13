@@ -27,7 +27,7 @@ class OEmbed
             $thumbnail = Arr::first($images);
 
             return data_get($thumbnail, 'href');
-        } catch (RequestException $e) {
+        } catch (RequestException) {
             return null;
         }
     }

@@ -5,12 +5,12 @@ namespace Strimoid\Http\Controllers;
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Contracts\Auth\PasswordBroker;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Str;
 use Strimoid\Contracts\Repositories\UserRepository;
 use Strimoid\Facades\PDP;
@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends BaseController
 {
-    public function __construct(protected UserRepository $users, protected PasswordBroker $passwords, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Mail\Mailer $mailer, private \Illuminate\Translation\Translator $translator, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard)
+    public function __construct(protected UserRepository $users, protected PasswordBroker $passwords, private readonly ResponseFactory $responseFactory, private readonly Redirector $redirector, private readonly \Illuminate\Mail\Mailer $mailer, private readonly \Illuminate\Translation\Translator $translator, private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Cache\CacheManager $cacheManager, private readonly \Illuminate\Contracts\Auth\Guard $guard)
     {
     }
 
@@ -87,7 +87,7 @@ class UserController extends BaseController
         return $this->redirector->to('')->with('success_msg', 'Adres email został zmieniony.');
     }
 
-    public function remindPassword(Request $request)
+    public function remindPassword(Request $request): View|RedirectResponse
     {
         if ($request->has('email')) {
             $this->validate($request, ['email' => 'required|email']);
@@ -105,7 +105,7 @@ class UserController extends BaseController
         return $this->viewFactory->make('user.remind');
     }
 
-    public function showPasswordResetForm($token = null)
+    public function showPasswordResetForm($token = null): View
     {
         if (!$token) {
             throw new NotFoundHttpException();
@@ -114,7 +114,7 @@ class UserController extends BaseController
         return $this->viewFactory->make('user.reset')->with('token', $token);
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'token' => 'required',
@@ -132,7 +132,7 @@ class UserController extends BaseController
         $response = $this->passwords->reset($credentials, function ($user, $password) use ($request) {
             // Email confirmed, we may activate account if user didn't that yet
             if ($user->activation_token) {
-                $cacheKey = 'registration.' . md5($request->getClientIp());
+                $cacheKey = 'registration.' . md5((string) $request->getClientIp());
 
                 if ($this->cacheManager->has($cacheKey)) {
                     abort(500);
@@ -156,17 +156,17 @@ class UserController extends BaseController
         };
     }
 
-    public function showLoginForm()
+    public function showLoginForm(): View
     {
         return $this->viewFactory->make('user.login');
     }
 
-    public function showRemoveAccountForm()
+    public function showRemoveAccountForm(): View
     {
         return $this->viewFactory->make('user.remove');
     }
 
-    public function removeAccount(Request $request)
+    public function removeAccount(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'password' => 'required|confirmed|user_password',
@@ -182,7 +182,7 @@ class UserController extends BaseController
         return $this->redirector->to('')->with('success_msg', 'Twoje konto zostało usunięte.');
     }
 
-    public function showProfile(User $user, string $type = 'all')
+    public function showProfile(User $user, string $type = 'all'): View
     {
         if ($user->removed_at) {
             abort(404, 'Użytkownik usunął konto.');
@@ -212,7 +212,7 @@ class UserController extends BaseController
         return $this->viewFactory->make('user.profile', $data);
     }
 
-    public function saveProfile(Request $request)
+    public function saveProfile(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'sex' => 'in:male,female,unknown',
@@ -236,7 +236,7 @@ class UserController extends BaseController
         return $this->redirector->route('user_settings')->with('success_msg', 'Zmiany zostały zapisane.');
     }
 
-    public function blockUser($user)
+    public function blockUser($user): JsonResponse
     {
         user()->blockedUsers()->attach($user);
         $this->cacheManager->tags(['user.blocked-users', 'u.' . $this->guard->id()])->flush();
@@ -244,7 +244,7 @@ class UserController extends BaseController
         return $this->responseFactory->json(['status' => 'ok']);
     }
 
-    public function unblockUser($user)
+    public function unblockUser($user): JsonResponse
     {
         user()->blockedUsers()->detach($user);
         $this->cacheManager->tags(['user.blocked-users', 'u.' . $this->guard->id()])->flush();
@@ -252,24 +252,24 @@ class UserController extends BaseController
         return $this->responseFactory->json(['status' => 'ok']);
     }
 
-    public function observeUser($user)
+    public function observeUser($user): JsonResponse
     {
         user()->followedUsers()->attach($user);
 
         return $this->responseFactory->json(['status' => 'ok']);
     }
 
-    public function unobserveUser($user)
+    public function unobserveUser($user): JsonResponse
     {
         user()->followedUsers()->detach($user);
 
         return $this->responseFactory->json(['status' => 'ok']);
     }
 
-    public function blockDomain($domain)
+    public function blockDomain($domain): JsonResponse
     {
         $domain = (new Uri($domain))->getHost();
-        $domain = PDP::resolve($domain)->getRegistrableDomain();
+        $domain = PDP::resolve($domain)->registrableDomain()->toString();
 
         if (!$domain) {
             return $this->responseFactory->json([
@@ -282,7 +282,7 @@ class UserController extends BaseController
         return $this->responseFactory->json(['status' => 'ok', 'domain' => $domain]);
     }
 
-    public function unblockDomain($domain)
+    public function unblockDomain($domain): JsonResponse
     {
         user()->pull('_blocked_domains', $domain);
 

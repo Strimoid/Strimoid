@@ -11,7 +11,7 @@ class Observed extends FakeFolder
 
     protected function getBuilder(string $model): Builder
     {
-        $builder = with(new $model())->newQuery();
+        $builder = (new $model())->newQuery();
 
         $observedUsers = user()->followedUsers()->pluck('id');
         $builder->whereIn('user_id', $observedUsers);

@@ -30,7 +30,7 @@ class Folder extends BaseModel
 
     public function comments($sortBy = null)
     {
-        $builder = with(new Comment())->newQuery();
+        $builder = Comment::newQuery();
         $builder->orderBy($sortBy ?: 'created_at', 'desc');
 
         $groupIds = $this->groups->pluck('id');
@@ -41,7 +41,7 @@ class Folder extends BaseModel
 
     public function contents($tab = null, $sortBy = null)
     {
-        $builder = with(new Content())->newQuery();
+        $builder = Content::newQuery();
 
         $groupIds = $this->groups->pluck('id');
         $builder->whereIn('group_id', $groupIds);
@@ -56,7 +56,7 @@ class Folder extends BaseModel
 
     public function entries()
     {
-        $builder = with(new Entry())->newQuery();
+        $builder = Entry::newQuery();
 
         $groupIds = $this->groups->pluck('id');
         $builder->whereIn('group_id', $groupIds);
@@ -64,7 +64,7 @@ class Folder extends BaseModel
         return $builder;
     }
 
-    public function canBrowse()
+    public function canBrowse(): bool
     {
         $isOwner = $this->user->getKey() === Auth::id();
 

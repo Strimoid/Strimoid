@@ -12,8 +12,8 @@ use Strimoid\Models\Group;
 class JavascriptComposer
 {
     public function __construct(
-        private AuthManager $authManager,
-        private Repository $configRepository
+        private readonly AuthManager $authManager,
+        private readonly Repository $configRepository
     ) {
     }
 

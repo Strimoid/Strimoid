@@ -40,31 +40,31 @@ if (!function_exists('parse_usernames')) {
             $content = Content::find($contentId[0]);
 
             if ($content) {
-                return '[' . str_replace('_', '\_', $content->title) . '](' . $content->getSlug() . ')';
+                return '[' . str_replace('_', '\_', (string) $content->title) . '](' . $content->getSlug() . ')';
             }
 
             return 'c/' . $matches[1];
-        }, $body);
+        }, (string) $body);
 
         $body = preg_replace_callback('/(?<=^|\s)u\/([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = User::name($matches[1])->first();
 
             if ($target) {
-                return '[u/' . str_replace('_', '\_', $target->name) . '](/u/' . $target->name . ')';
+                return '[u/' . str_replace('_', '\_', (string) $target->name) . '](/u/' . $target->name . ')';
             }
 
             return 'u/' . $matches[1];
-        }, $body);
+        }, (string) $body);
 
         $body = preg_replace_callback('/(?<=^|\s)@([a-z0-9_-]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = User::name($matches[1])->first();
 
             if ($target) {
-                return '[@' . str_replace('_', '\_', $target->name) . '](/u/' . $target->name . ')';
+                return '[@' . str_replace('_', '\_', (string) $target->name) . '](/u/' . $target->name . ')';
             }
 
             return '@' . $matches[1];
-        }, $body);
+        }, (string) $body);
 
         $body = preg_replace_callback('/(?<=^|\s)(?<=\s|^)g\/([a-z0-9_-żźćńółęąśŻŹĆĄŚĘŁÓŃ]+)(?=$|\s|:|.)/i', function ($matches) {
             $target = Group::name($matches[1])->first();
@@ -77,7 +77,7 @@ if (!function_exists('parse_usernames')) {
             }
 
             return 'g/' . $matches[1];
-        }, $body);
+        }, (string) $body);
 
         return $body;
     }
@@ -87,7 +87,7 @@ if (!function_exists('toBool')) {
     // Convert to boolean
     function toBool($var): bool
     {
-        $lower = strtolower($var);
+        $lower = strtolower((string) $var);
 
         if ($var === true || $lower === 'on' || $lower === 'true') {
             $result = true;

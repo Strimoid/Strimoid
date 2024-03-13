@@ -12,7 +12,7 @@ class Subscribed extends FakeFolder
 
     protected function getBuilder(string $model): Builder
     {
-        $builder = with(new $model())->newQuery();
+        $builder = (new $model())->newQuery();
 
         $subscribedGroups = Auth::user()->subscribedGroups()->pluck('id');
         $builder->whereIn('group_id', $subscribedGroups);

@@ -17,7 +17,7 @@ use Strimoid\Settings\Facades\Setting;
 
 class EntryController extends BaseController
 {
-    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private \Illuminate\Routing\Router $router, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Contracts\Auth\Access\Gate $gate)
+    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private readonly \Illuminate\Routing\Router $router, private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Contracts\Auth\Guard $guard, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private readonly \Illuminate\Contracts\Auth\Access\Gate $gate)
     {
     }
 

@@ -9,7 +9,7 @@ use Strimoid\Models\Entry;
 
 class SaveController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    public function __construct(private readonly \Illuminate\Contracts\Auth\Guard $guard, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
     }
     public function saveContent(Request $request)

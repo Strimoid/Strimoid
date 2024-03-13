@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class RedirectIfAuthenticated
 {
-    public function __construct(protected Guard $auth, private \Illuminate\Contracts\Routing\UrlGenerator $urlGenerator)
+    public function __construct(protected Guard $auth, private readonly \Illuminate\Contracts\Routing\UrlGenerator $urlGenerator)
     {
     }
 

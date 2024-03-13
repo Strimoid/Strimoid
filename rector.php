@@ -2,24 +2,20 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
-use Rector\Php74\Rector\Property\TypedPropertyRector;
-use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
+use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
+use RectorLaravel\Set\LaravelSetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    // get parameters
-    $parameters = $containerConfigurator->parameters();
-
-    // Define what rule sets will be applied
-    $parameters->set(Option::SETS, [
-        // SetList::DEAD_CODE,
-        SetList::LARAVEL_60,
+return RectorConfig::configure()
+    ->withPaths([
+        __DIR__ . '/app',
+        __DIR__ . '/src',
+    ])
+    // uncomment to reach your current PHP version
+    ->withPhpSets()
+    ->withRules([
+        AddVoidReturnTypeWhereNoReturnRector::class,
+    ])
+    ->withSets([
+        LaravelSetList::LARAVEL_100,
     ]);
-
-    // get services (needed for register a single rule)
-    // $services = $containerConfigurator->services();
-
-    // register a single rule
-    // $services->set(TypedPropertyRector::class);
-};

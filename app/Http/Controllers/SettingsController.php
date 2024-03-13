@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 class SettingsController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Routing\Redirector $redirector)
+    public function __construct(private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Cache\CacheManager $cacheManager, private readonly \Illuminate\Contracts\Auth\Guard $guard, private readonly \Illuminate\Routing\Redirector $redirector)
     {
     }
     public function showSettings()

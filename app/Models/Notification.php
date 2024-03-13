@@ -30,8 +30,8 @@ class Notification extends BaseModel
 
     public function setTitle($title): void
     {
-        $clean = preg_replace('/<span class="spoiler">(.*?)<\/span>/s', '', $title);
-        $clean = strip_tags($clean);
+        $clean = preg_replace('/<span class="spoiler">(.*?)<\/span>/s', '', (string) $title);
+        $clean = strip_tags((string) $clean);
         $text = Str::limit($clean, 60);
 
         $this->title = $text;
@@ -60,7 +60,7 @@ class Notification extends BaseModel
             return null;
         }
 
-        $class = get_class($this->element);
+        $class = $this->element::class;
 
         switch ($class) {
             case Entry::class:

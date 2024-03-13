@@ -14,7 +14,7 @@ use Strimoid\Markdown\SpoilerExtension;
 
 class MarkdownServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton('markdown', function () {
             $config = [

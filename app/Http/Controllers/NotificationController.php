@@ -12,7 +12,7 @@ use Strimoid\Models\NotificationTarget;
 
 class NotificationController extends BaseController
 {
-    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Validation\Factory $validationFactory, private \Illuminate\Foundation\Application $application)
+    public function __construct(private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Validation\Factory $validationFactory, private readonly \Illuminate\Foundation\Application $application)
     {
     }
     public function showJSONList($count)

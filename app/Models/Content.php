@@ -29,10 +29,10 @@ class Content extends BaseModel
     ];
 
     protected $table = 'contents';
-    protected $dates = ['deleted_at', 'frontpage_at'];
     protected $appends = ['hashid', 'vote_state'];
     protected $fillable = ['title', 'description', 'nsfw', 'eng', 'text', 'url'];
     protected $hidden = ['text', 'text_source', 'updated_at'];
+    protected $casts = ['deleted_at' => 'datetime', 'frontpage_at' => 'datetime'];
 
     public function __construct($attributes = [])
     {

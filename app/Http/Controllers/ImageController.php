@@ -9,9 +9,9 @@ use League\Glide\ServerFactory;
 
 class ImageController extends BaseController
 {
-    private Server $server;
+    private readonly Server $server;
 
-    public function __construct(ServerFactory $serverFactory, private \Illuminate\Contracts\Config\Repository $configRepository, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    public function __construct(ServerFactory $serverFactory, private readonly \Illuminate\Contracts\Config\Repository $configRepository, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
         $this->server = $serverFactory->create([
             'source' => storage_path('uploads'),

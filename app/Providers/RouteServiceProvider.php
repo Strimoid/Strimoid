@@ -65,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
                 }
 
                 return $className::findOrFail($ids[0]);
-            } catch (ModelNotFoundException $e) {
+            } catch (ModelNotFoundException) {
                 throw new NotFoundHttpException();
             }
         };

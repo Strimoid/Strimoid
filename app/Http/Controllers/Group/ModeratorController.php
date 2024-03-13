@@ -12,7 +12,7 @@ use Strimoid\Models\User;
 
 class ModeratorController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    public function __construct(private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Cache\CacheManager $cacheManager, private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
     }
     public function showModeratorList($group)

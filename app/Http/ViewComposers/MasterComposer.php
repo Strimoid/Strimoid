@@ -12,7 +12,7 @@ use Strimoid\Settings\Facades\Setting;
 class MasterComposer
 {
     private const DEFAULT_TITLE = 'Strm';
-    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Cache\CacheManager $cacheManager)
+    public function __construct(private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Cache\CacheManager $cacheManager)
     {
     }
 

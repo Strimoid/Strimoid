@@ -12,7 +12,7 @@ class Moderated extends FakeFolder
 
     protected function getBuilder(string $model): Builder
     {
-        $builder = with(new $model())->newQuery();
+        $builder = (new $model())->newQuery();
 
         $moderatedGroups = Auth::user()->moderatedGroups()->select('groups.id')->pluck('id');
         $builder->whereIn('group_id', $moderatedGroups);

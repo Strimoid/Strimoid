@@ -10,7 +10,7 @@ use Strimoid\Models\Group;
 
 class RankingController extends BaseController
 {
-    public function __construct(private \Illuminate\Database\DatabaseManager $databaseManager, private \Illuminate\Contracts\View\Factory $viewFactory)
+    public function __construct(private readonly \Illuminate\Database\DatabaseManager $databaseManager, private readonly \Illuminate\Contracts\View\Factory $viewFactory)
     {
     }
     public function showRanking(Request $request, string $group = null)

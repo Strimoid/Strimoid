@@ -12,7 +12,7 @@ use Strimoid\Models\User;
 
 class RegistrationController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Cache\CacheManager $cacheManager, private \Illuminate\Mail\Mailer $mailer, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\Config\Repository $configRepository)
+    public function __construct(private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Cache\CacheManager $cacheManager, private readonly \Illuminate\Mail\Mailer $mailer, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Contracts\Auth\Guard $guard, private readonly \Illuminate\Contracts\Config\Repository $configRepository)
     {
     }
     public function showRegisterForm()
@@ -28,7 +28,7 @@ class RegistrationController extends BaseController
             'email' => 'required|email|unique_email:users|real_email',
         ]);
 
-        $ipHash = md5($request->getClientIp());
+        $ipHash = md5((string) $request->getClientIp());
 
         if ($this->cacheManager->has('registration.' . $ipHash)) {
             abort(500);
@@ -57,7 +57,7 @@ class RegistrationController extends BaseController
     {
         $user = User::where('activation_token', $token)->firstOrFail();
 
-        $ipHash = md5($request->getClientIp());
+        $ipHash = md5((string) $request->getClientIp());
         if ($this->cacheManager->has('registration.' . $ipHash)) {
             abort(500);
         }

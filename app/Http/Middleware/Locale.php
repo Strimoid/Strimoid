@@ -11,7 +11,7 @@ use Jenssegers\Agent\Facades\Agent;
 
 class Locale
 {
-    public function __construct(private Guard $auth, private \Illuminate\Foundation\Application $application, private \Illuminate\Contracts\Config\Repository $configRepository)
+    public function __construct(private readonly Guard $auth, private readonly \Illuminate\Foundation\Application $application, private readonly \Illuminate\Contracts\Config\Repository $configRepository)
     {
     }
 

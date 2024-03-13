@@ -9,9 +9,9 @@ use Illuminate\View\View;
 class AuthController extends BaseController
 {
     public function __construct(
-        private \Illuminate\Contracts\View\Factory $viewFactory,
-        private \Illuminate\Contracts\Auth\Guard $guard,
-        private \Illuminate\Routing\Redirector $redirector
+        private readonly \Illuminate\Contracts\View\Factory $viewFactory,
+        private readonly \Illuminate\Contracts\Auth\Guard $guard,
+        private readonly \Illuminate\Routing\Redirector $redirector
     ) {
     }
 

@@ -15,9 +15,6 @@ abstract class BaseModel extends Model
 {
     use Rememberable;
 
-    /**
-     * @var array Validation validationRules
-     */
     protected static array $rules = [];
 
     /**

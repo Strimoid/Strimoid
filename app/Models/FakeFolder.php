@@ -15,7 +15,7 @@ abstract class FakeFolder
 
     public function __construct()
     {
-        $urlname = get_class($this);
+        $urlname = static::class;
         $urlname = class_basename($urlname);
 
         $this->urlname = Str::lower($urlname);

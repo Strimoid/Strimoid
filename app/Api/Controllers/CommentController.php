@@ -12,14 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends BaseController
 {
-    protected FolderRepository $folders;
-
-    protected GroupRepository $groups;
-
-    public function __construct(FolderRepository $folders, GroupRepository $groups)
+    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups)
     {
-        $this->groups = $groups;
-        $this->folders = $folders;
     }
 
     public function index(Request $request)

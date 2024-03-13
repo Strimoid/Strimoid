@@ -11,7 +11,7 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class ConversationController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\Auth\Guard $guard, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Auth\AuthManager $authManager)
+    public function __construct(private readonly \Illuminate\Contracts\Auth\Guard $guard, private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Auth\AuthManager $authManager)
     {
     }
     public function showConversation($conversation = null)

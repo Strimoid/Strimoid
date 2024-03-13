@@ -14,7 +14,7 @@ use Strimoid\Models\Content;
 
 class ThumbnailController extends BaseController
 {
-    public function __construct(private OEmbed $oembed, private Gate $gate, private Redirector $redirector, private SessionManager $sessionManager, private Factory $viewFactory)
+    public function __construct(private readonly OEmbed $oembed, private readonly Gate $gate, private readonly Redirector $redirector, private readonly SessionManager $sessionManager, private readonly Factory $viewFactory)
     {
     }
 
@@ -36,7 +36,7 @@ class ThumbnailController extends BaseController
             Log::warning($exception);
         }
 
-        $thumbnails[] = 'https://img.bitpixels.com/getthumbnail?code=74491&size=200&url=' . urlencode($content->url);
+        $thumbnails[] = 'https://img.bitpixels.com/getthumbnail?code=74491&size=200&url=' . urlencode((string) $content->url);
 
         $this->sessionManager->put(compact('thumbnails'));
 

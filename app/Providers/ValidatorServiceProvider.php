@@ -30,7 +30,7 @@ class ValidatorServiceProvider extends ServiceProvider
 
         Validator::extend('safe_url', fn ($attribute, $value, $parameters) => Str::startsWith($value, 'http'));
 
-        Validator::extend('url_custom', fn ($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', $value));
+        Validator::extend('url_custom', fn ($attribute, $value, $parameters) => preg_match('@^https?://[^\s/$.?#].[^\s]*$@iS', (string) $value));
 
         Validator::extend('real_email', function ($attribute, $value, $parameters) {
             $blockedDomains = [
@@ -113,7 +113,7 @@ class ValidatorServiceProvider extends ServiceProvider
 
             try {
                 return !in_array($parts[count($parts) - 2] . '.' . $parts[count($parts) - 1], $blockedDomains);
-            } catch (\Throwable $throwable) {
+            } catch (\Throwable) {
                 return false;
             }
         });

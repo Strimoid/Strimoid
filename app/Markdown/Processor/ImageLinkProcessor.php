@@ -41,6 +41,6 @@ class ImageLinkProcessor
     private function markLinkAsImage(Link $link): void
     {
         $class = $link->data->get('attributes.class', '');
-        $link->data->set('attributes.class', trim($class) . ' image');
+        $link->data->set('attributes.class', trim((string) $class) . ' image');
     }
 }

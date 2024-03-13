@@ -14,7 +14,7 @@ use Strimoid\Models\User;
 class SearchController extends BaseController
 {
     protected $builder;
-    public function __construct(private \Illuminate\Contracts\View\Factory $viewFactory)
+    public function __construct(private readonly \Illuminate\Contracts\View\Factory $viewFactory)
     {
     }
 
@@ -28,7 +28,7 @@ class SearchController extends BaseController
             $keywords = preg_replace(
                 '/((\w+):(\w+\pL.))+\s?/i',
                 '',
-                $query
+                (string) $query
             );
 
             $builder = match ($request->get('t')) {

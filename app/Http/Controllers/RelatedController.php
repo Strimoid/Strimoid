@@ -11,7 +11,7 @@ use Strimoid\Models\ContentRelated;
 
 class RelatedController extends BaseController
 {
-    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    public function __construct(private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
     }
     public function addRelated(Request $request, $content)

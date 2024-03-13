@@ -20,7 +20,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     use Authenticatable, Authorizable, CanResetPassword, HasApiTokens, HasAvatar, Notifiable;
 
     protected string $avatarPath = 'avatars/';
-    protected $dates = ['last_login'];
     protected $table = 'users';
     protected $fillable = [
         'age', 'description', 'location', 'sex',
@@ -33,6 +32,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     protected $casts = [
         'age' => 'integer',
         'settings' => 'array',
+        'last_login' => 'datetime',
     ];
 
     public function getColoredName(): string

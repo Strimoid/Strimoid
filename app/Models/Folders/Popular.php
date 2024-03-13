@@ -10,7 +10,7 @@ class Popular extends FakeFolder
 {
     protected function getBuilder(string $model): Builder
     {
-        $builder = with(new $model())->newQuery();
+        $builder = (new $model())->newQuery();
 
         $groups = [
             'Nauka',

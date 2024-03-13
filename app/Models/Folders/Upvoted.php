@@ -12,7 +12,7 @@ class Upvoted extends FakeFolder
 
     protected function getBuilder(string $model): Builder
     {
-        $builder = with(new $model())->newQuery();
+        $builder = (new $model())->newQuery();
 
         $builder->where('votes.user_id', Auth::id())
             ->where('votes.up', true);

@@ -17,7 +17,7 @@ use Strimoid\Settings\Facades\Setting;
 
 class CommentController extends BaseController
 {
-    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private \Illuminate\Routing\Router $router, private \Illuminate\Contracts\View\Factory $viewFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Foundation\Application $application, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
+    public function __construct(protected FolderRepository $folders, protected GroupRepository $groups, private readonly \Illuminate\Routing\Router $router, private readonly \Illuminate\Contracts\View\Factory $viewFactory, private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Foundation\Application $application, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory)
     {
     }
 

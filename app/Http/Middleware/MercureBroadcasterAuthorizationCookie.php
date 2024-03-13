@@ -47,7 +47,7 @@ class MercureBroadcasterAuthorizationCookie
             $token,
             15,
             '/.well-known/mercure',
-            parse_url(config('app.url'), PHP_URL_HOST),
+            parse_url((string) config('app.url'), PHP_URL_HOST),
             $secure,
             true
         );

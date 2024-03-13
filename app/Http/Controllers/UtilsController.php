@@ -9,7 +9,7 @@ use Strimoid\Models\Content;
 
 class UtilsController extends BaseController
 {
-    public function __construct(private OEmbed $oembed)
+    public function __construct(private readonly OEmbed $oembed)
     {
     }
 

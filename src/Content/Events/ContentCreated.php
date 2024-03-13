@@ -6,7 +6,7 @@ use Strimoid\Models\Content;
 
 class ContentCreated
 {
-    public function __construct(private Content $content)
+    public function __construct(private readonly Content $content)
     {
     }
 }

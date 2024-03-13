@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class Authenticate
 {
-    public function __construct(protected Guard $auth, private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Routing\Redirector $redirector)
+    public function __construct(protected Guard $auth, private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private readonly \Illuminate\Routing\Redirector $redirector)
     {
     }
 

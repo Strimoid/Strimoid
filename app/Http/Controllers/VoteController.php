@@ -18,7 +18,7 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class VoteController extends BaseController
 {
-    public function __construct(private \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Database\DatabaseManager $databaseManager, private \Illuminate\Contracts\Config\Repository $configRepository)
+    public function __construct(private readonly \Illuminate\Contracts\Routing\ResponseFactory $responseFactory, private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Database\DatabaseManager $databaseManager, private readonly \Illuminate\Contracts\Config\Repository $configRepository)
     {
     }
     public function addVote(Request $request)
@@ -166,22 +166,14 @@ class VoteController extends BaseController
     private function getObject(string $id, string $type)
     {
         $id = hashids_decode($id);
-
-        switch ($type) {
-            case 'content':
-                return Content::findOrFail($id);
-            case 'related':
-                return ContentRelated::findOrFail($id);
-            case 'entry':
-                return Entry::findOrFail($id);
-            case 'entry_reply':
-                return EntryReply::findOrFail($id);
-            case 'comment':
-                return Comment::findOrFail($id);
-            case 'comment_reply':
-                return CommentReply::findOrFail($id);
-        }
-
-        return null;
+        return match ($type) {
+            'content' => Content::findOrFail($id),
+            'related' => ContentRelated::findOrFail($id),
+            'entry' => Entry::findOrFail($id),
+            'entry_reply' => EntryReply::findOrFail($id),
+            'comment' => Comment::findOrFail($id),
+            'comment_reply' => CommentReply::findOrFail($id),
+            default => null,
+        };
     }
 }

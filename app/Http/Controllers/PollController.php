@@ -11,7 +11,7 @@ use Strimoid\Models\Content;
 
 class PollController extends BaseController
 {
-    public function __construct(private \Illuminate\Auth\AuthManager $authManager, private \Illuminate\Routing\Redirector $redirector, private \Illuminate\Validation\Factory $validationFactory)
+    public function __construct(private readonly \Illuminate\Auth\AuthManager $authManager, private readonly \Illuminate\Routing\Redirector $redirector, private readonly \Illuminate\Validation\Factory $validationFactory)
     {
     }
     public function addVote(Request $request, Content $content)
