@@ -23,7 +23,7 @@
         "laravel/framework": "^10.0",
         "laravelcollective/html": "^6.0",
         "intervention/image": "^2.3",
-        "jeremykendall/php-domain-parser": "^5.3",
+        "jeremykendall/php-domain-parser": "^6.0",
         "guzzlehttp/guzzle": "^7.0",
         "guzzlehttp/oauth-subscriber": "^0.6",
         "graham-campbell/markdown": "^15.0",
@@ -77,7 +77,6 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "Pdp\\Installer::updateLocalCache",
             "@php artisan ide-helper:generate -M",
             "@php artisan package:discover --ansi"
         ],

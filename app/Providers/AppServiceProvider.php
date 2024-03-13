@@ -36,12 +36,8 @@ class AppServiceProvider extends ServiceProvider
         ]));
 
         $this->app->bind('pdp', function () {
-            $path = base_path('vendor/jeremykendall/php-domain-parser/data/pdp-PSL_FULL_5a3cc7f81795bb2e48e848af42d287b4.cache');
-            $serialized = file_get_contents($path);
-            $unserialized = unserialize($serialized);
-            $data = json_decode($unserialized, true);
-
-            return new Rules($data, IDNA_DEFAULT, IDNA_DEFAULT);
+            $path = resource_path('public-suffix-list.dat');
+            return Rules::fromPath($path);
         });
 
         $this->app->bind('oembed', fn () => new OEmbed());
