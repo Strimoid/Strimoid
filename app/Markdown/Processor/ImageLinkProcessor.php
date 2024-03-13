@@ -11,7 +11,6 @@
 
 namespace Strimoid\Markdown\Processor;
 
-use League\CommonMark\EnvironmentInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 

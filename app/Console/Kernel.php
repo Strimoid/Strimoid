@@ -7,7 +7,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Strimoid\Console\Commands\AddModerator;
 use Strimoid\Console\Commands\ChangePassword;
 use Strimoid\Console\Commands\FacebookPost;
-use Strimoid\Console\Commands\SearchIndex;
 use Strimoid\Console\Commands\TwitterPost;
 use Strimoid\Console\Commands\UpdateStats;
 

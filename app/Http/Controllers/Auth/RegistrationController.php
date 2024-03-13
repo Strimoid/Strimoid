@@ -4,8 +4,6 @@ namespace Strimoid\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\User;

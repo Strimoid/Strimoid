@@ -21,7 +21,7 @@ class NotificationCreated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return $this->notification->targets->map(
-            fn($target) => new PrivateChannel('notifications.' . Hashids::encode($target->id))
+            fn ($target) => new PrivateChannel('notifications.' . Hashids::encode($target->id))
         )->toArray();
     }
 }

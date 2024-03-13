@@ -3,10 +3,6 @@
 namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
 use Strimoid\Models\Notification;
 use Strimoid\Models\NotificationTarget;
 

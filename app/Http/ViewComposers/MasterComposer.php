@@ -4,8 +4,6 @@ namespace Strimoid\Http\ViewComposers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Strimoid\Models\Group;
 use Strimoid\Settings\Facades\Setting;
 

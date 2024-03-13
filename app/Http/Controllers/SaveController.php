@@ -3,7 +3,6 @@
 namespace Strimoid\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Strimoid\Models\Content;
 use Strimoid\Models\Entry;
 

@@ -11,7 +11,6 @@ use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
 use Strimoid\Models\Group;
-use Strimoid\Models\User;
 use Strimoid\Policies\CommentPolicy;
 use Strimoid\Policies\CommentReplyPolicy;
 use Strimoid\Policies\ContentPolicy;

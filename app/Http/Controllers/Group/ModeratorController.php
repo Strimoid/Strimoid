@@ -2,8 +2,6 @@
 
 namespace Strimoid\Http\Controllers\Group;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Strimoid\Http\Controllers\BaseController;
 use Strimoid\Models\Group;
 use Strimoid\Models\GroupModerator;

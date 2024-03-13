@@ -26,7 +26,6 @@ if (!function_exists('shadow_email')) {
 }
 
 if (!function_exists('parse_usernames')) {
-
     // Change "@username" and "g/groupname" into markdown links
     function parse_usernames($body)
     {

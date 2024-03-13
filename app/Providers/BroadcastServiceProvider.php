@@ -11,7 +11,9 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         Broadcast::routes();
 
-        Broadcast::channel('notifications.{userId}', fn($user, $userId) =>
+        Broadcast::channel(
+            'notifications.{userId}',
+            fn ($user, $userId) =>
             $user->hashId() === $userId
         );
     }

@@ -3,7 +3,6 @@
 namespace Strimoid\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\Traits\HasNotificationsRelationship;
 
 class CommentReply extends Comment

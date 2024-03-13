@@ -37,9 +37,9 @@ class SearchController extends BaseController
                     ->orWhere('urlname', 'like', '%' . $keywords . '%'),
                 default => Content::where(
                     function ($query) use ($keywords): void {
-                    $query->where('title', 'ilike', '%' . $keywords . '%')
-                        ->orWhere('description', 'ilike', '%' . $keywords . '%');
-                }
+                        $query->where('title', 'ilike', '%' . $keywords . '%')
+                            ->orWhere('description', 'ilike', '%' . $keywords . '%');
+                    }
                 ),
             };
 

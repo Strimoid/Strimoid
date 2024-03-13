@@ -2,7 +2,6 @@
 
 namespace Strimoid\Models;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Strimoid\Models\Traits\HasUserRelationship;

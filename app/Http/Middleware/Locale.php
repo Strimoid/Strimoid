@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Jenssegers\Agent\Facades\Agent;
 
 class Locale

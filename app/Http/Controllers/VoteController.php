@@ -4,17 +4,13 @@ namespace Strimoid\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Strimoid\Models\Comment;
 use Strimoid\Models\CommentReply;
 use Strimoid\Models\Content;
 use Strimoid\Models\ContentRelated;
 use Strimoid\Models\Entry;
 use Strimoid\Models\EntryReply;
-use Strimoid\Models\Traits\HasVotes;
 use Strimoid\Models\User;
-use Vinkla\Hashids\Facades\Hashids;
 
 class VoteController extends BaseController
 {

@@ -4,7 +4,6 @@ namespace Strimoid\Markdown;
 
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\ExtensionInterface;
-use League\CommonMark\Inline\Parser\InlineParserInterface;
 use Strimoid\Markdown\Inline\Element\Spoiler;
 use Strimoid\Markdown\Inline\Parser\SpoilerParser;
 use Strimoid\Markdown\Inline\Renderer\SpoilerRenderer;

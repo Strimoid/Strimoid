@@ -2,9 +2,20 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(SetList::PSR_12);
-};
+return ECSConfig::configure()
+    ->withPaths([
+        __DIR__ . '/app',
+        __DIR__ . '/src',
+    ])
+
+    // add a single rule
+    ->withRules([
+        NoUnusedImportsFixer::class,
+    ])
+
+    ->withPreparedSets(
+        psr12: true,
+    );

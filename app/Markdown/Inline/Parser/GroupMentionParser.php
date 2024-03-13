@@ -49,6 +49,4 @@ class GroupMentionParser implements InlineParserInterface
 
         return true;
     }
-
-
 }
