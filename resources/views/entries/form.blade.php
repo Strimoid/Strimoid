@@ -14,14 +14,12 @@
         </div>
 
         <div class="form-group col-lg-12 pull-right @if ($errors->has('groupname')) has-error @endif">
-            <div class="input-group input-group-appended flex-nowrap">
+            <div class="input-group flex-nowrap">
                 {!! Form::text('groupname', $suggestedGroup, ['class' => 'form-control group_typeahead', 'placeholder' => 'podaj nazwę grupy...', 'autocomplete' => 'off']) !!}
 
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">
-                        @lang('common.add')
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-primary">
+                    @lang('common.add')
+                </button>
             </div>
 
             @if($errors->has('groupname'))

@@ -8,12 +8,12 @@ else
 ?>
 
 <div class="well add_content_widget">
-    <div class="btn-group btn-block">
-        <a href="{!! $url !!}" class="btn btn-primary half-width" rel="nofollow">
+    <div class="btn-group btn-block w-100">
+        <a href="{!! $url !!}" class="btn btn-primary w-50" rel="nofollow">
             <i class="fa fa-link"></i>
             @lang('common.add link')
         </a>
-        <a href="{!! $url !!}#content" class="btn btn-primary half-width" rel="nofollow">
+        <a href="{!! $url !!}#content" class="btn btn-primary w-50" rel="nofollow">
             <i class="fa fa-file-text-o"></i>
             @lang('common.add content')
         </a>

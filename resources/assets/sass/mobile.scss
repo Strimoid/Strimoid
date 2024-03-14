@@ -1,4 +1,4 @@
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(sm) {
   .navbar > .container {
     max-width: none;
   }
@@ -10,9 +10,7 @@
   .navbar-tabs .nav-item:first-child a {
     padding-left: 0;
   }
-}
 
-@include media-breakpoint-down(sm) {
   .navbar .username {
     display: none
   }

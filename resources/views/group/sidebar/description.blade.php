@@ -32,7 +32,7 @@ if (auth()->check()) {
             <button type="button" class="btn btn-sm group_block_btn @if ($blocked) btn-danger @else btn-secondary @endif" title="@lang('common.block')">
                 <i class="fa fa-ban"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" title="@lang('common.folders')">
+            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" title="@lang('common.folders')">
                 <span class="fa fa-folder-open"></span>
                 <span class="caret"></span>
             </button>

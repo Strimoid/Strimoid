@@ -13,13 +13,13 @@
         <div class="row" style="margin-bottom: 20px">
             <ul class="nav nav-tabs col-lg-6 offset-lg-3">
                 <li class="nav-item w-50">
-                    <a class="nav-link active" href="#link" data-toggle="tab">
+                    <a class="nav-link active" href="#link" data-bs-toggle="tab">
                         <i class="fa fa-link"></i>
                         @lang('common.add link')
                     </a>
                 </li>
                 <li class="nav-item w-50">
-                    <a class="nav-link" href="#content" data-toggle="tab">
+                    <a class="nav-link" href="#content" data-bs-toggle="tab">
                         <i class="fa fa-pencil"></i>
                         @lang('common.add content')
                     </a>

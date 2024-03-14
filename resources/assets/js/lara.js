@@ -6,43 +6,13 @@ import Echo from 'laravel-echo'
 import { filter, includes, template } from 'lodash'
 
 
-require('bootstrap')
+import { Dropdown, Tooltip, Toast, Popover } from 'bootstrap'
+
 require('timeago')
 require('image-picker')
 
 const axios = require('axios').default
 const Cookies = require('js-cookie')
-
-var originalLeave = $.fn.popover.Constructor.prototype._leave
-$.fn.popover.Constructor.prototype._leave = function (event, context) {
-  var dataKey = this.constructor.DATA_KEY
-  var self = this
-
-  context = context || $(event.currentTarget).data(dataKey)
-
-  if (!context) {
-    context = new this.constructor(
-      event.currentTarget,
-      this._getDelegateConfig()
-    )
-    $(event.currentTarget).data(dataKey, context)
-  }
-
-  originalLeave.call(this, event, context)
-
-  if ($(event.currentTarget)) {
-    var container = $(context.tip)
-
-    container.one('mouseenter', function () {
-      //We entered the actual popover – call off the dogs
-      clearTimeout(context._timeout)
-      //Let's monitor popover content instead
-      container.one('mouseleave', function () {
-        $.fn.popover.Constructor.prototype._leave.call(self, event, context)
-      })
-    })
-  }
-}
 
 import NotificationsModule from './modules/notifications'
 import VotesModule from './modules/votes'
@@ -83,6 +53,10 @@ $(document).ready(function () {
   const commentsModule = new CommentsModule()
   const entriesModule = new EntriesModule()
   const pollsModule = new PollsModule()
+
+  Array
+    .from(document.querySelectorAll('[data-toggle="popover"]'))
+    .forEach(popoverTriggerEl => new Popover(popoverTriggerEl))
 
   if (AppData.user && window.WebSocket && AppData.config.pusher_key) {
     const echo = new Echo({

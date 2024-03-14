@@ -1,5 +1,5 @@
 <li class="nav-item dropdown notifications_dropdown">
-    <a href="#" data-toggle="dropdown">
+    <a href="#" data-bs-toggle="dropdown">
         <span class="fa fa-globe notifications_icon @if ($newNotificationsCount > 0) notifications_icon_new @endif"></span>
         <span class="badge @if (!$newNotificationsCount) hide @endif">{{ $newNotificationsCount }}</span>
     </a>
