@@ -4,7 +4,9 @@ namespace Strimoid\Providers;
 
 use GuzzleHttp\Client;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Pdp\Rules;
 use Strimoid\Helpers\OEmbed;
 
@@ -24,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Paginator::useBootstrap();
+
+        Blade::directive('ucFirstLang', function (string $key) {
+            return "<?php echo Str::ucfirst(trans($key)) ?>";
+        });
     }
 
     public function register(): void

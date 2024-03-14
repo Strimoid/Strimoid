@@ -8,13 +8,13 @@
             </button>
             <div class="dropdown-menu content_sort">
                 <a class="dropdown-item action_link @if (!Input::has('sort')) selected @endif" data-sort="">
-                    Domyślne
+                    {{ ucfirst(trans('common.sorting.default')) }}
                 </a>
-                <a class="dropdown-item action_link @if (Input::get('sort') == 'uv') selected @endif" data-sort="uv">
-                    Liczba UV
+                <a class="dropdown-item action_link @if (Input::get('sort') === 'uv') selected @endif" data-sort="uv">
+                    {{ ucfirst(trans('common.sorting.number_of_uv')) }}
                 </a>
-                <a class="dropdown-item action_link @if (Input::get('sort') == 'comments') selected @endif" data-sort="comments">
-                    Liczba komentarzy
+                <a class="dropdown-item action_link @if (Input::get('sort') === 'comments') selected @endif" data-sort="comments">
+                    {{ ucfirst(trans('common.sorting.number_of_comments')) }}
                 </a>
             </div>
         </div>
@@ -27,19 +27,19 @@
             </button>
             <div class="dropdown-menu content_filter">
                 <a class="dropdown-item action_link @if (!Input::has('time')) selected @endif" data-time="">
-                    Wszystkie
+                    {{ ucfirst(trans('common.filtering.all')) }}
                 </a>
 
-                <a class="dropdown-item action_link @if (Input::get('time') == '1d') selected @endif" data-time="1d">
-                    Z ostatnich 24 godzin
+                <a class="dropdown-item action_link @if (Input::get('time') === '1d') selected @endif" data-time="1d">
+                    {{ ucfirst(trans('common.filtering.last_24_hours')) }}
                 </a>
 
-                <a class="dropdown-item action_link @if (Input::get('time') == '5d') selected @endif" data-time="5d">
-                    Z ostatnich 5 dni
+                <a class="dropdown-item action_link @if (Input::get('time') === '5d') selected @endif" data-time="5d">
+                    {{ ucfirst(trans('common.filtering.last_5_days')) }}
                 </a>
 
-                <a class="dropdown-item action_link @if (Input::get('time') == '30d') selected @endif" data-time="30d">
-                    Z ostatnich 30 dni
+                <a class="dropdown-item action_link @if (Input::get('time') === '30d') selected @endif" data-time="30d">
+                    {{ ucfirst(trans('common.filtering.last_30_days')) }}
                 </a>
             </div>
         </div>

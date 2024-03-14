@@ -9,25 +9,32 @@
                 --}}
 
                 {!! Form::open(['action' => 'AuthController@login', 'class' => 'navbar-form']) !!}
-                <input type="text" name="username" placeholder="Login" class="form-control" style="margin-bottom: 10px" autofocus>
-                <input type="password" name="password" placeholder="Hasło" class="form-control" style="margin-bottom: 10px">
+                <input type="text" name="username" placeholder="{{ ucfirst(trans('auth.username')) }}" class="form-control" style="margin-bottom: 10px" autofocus>
+                <input type="password" name="password" placeholder="{{ ucfirst(trans('auth.password')) }}" class="form-control" style="margin-bottom: 10px">
 
                 <div class="m-b-1">
                     <label class="c-input c-checkbox">
                         <input type="checkbox" name="remember" value="true">
                         <span class="c-indicator"></span>
-                        Zapamiętaj mnie
+                        {{ ucfirst(trans('auth.remember')) }}
                     </label>
 
-                    <a href="{{ route('auth.remind') }}" class="pull-right">Zapomniałeś hasła?</a>
+                    <a href="{{ route('auth.remind') }}" class="pull-right">
+                        {{ ucfirst(trans('auth.forgot_password')) }}
+                    </a>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Zaloguj</button>
+                <button type="submit" class="btn btn-primary btn-block">
+                    {{ ucfirst(trans('auth.sign_in')) }}
+                </button>
                 {!! Form::close() !!}
 
                 <hr>
 
-                Nie masz jeszcze konta? <a href="{{ route('auth.register') }}">Załóż je!</a>
+                {{ ucfirst(trans('auth.no_account_yet')) }}
+                <a href="{{ route('auth.register') }}">
+                    {{ ucfirst(trans('auth.create_it')) }}
+                </a>
             </div>
         </div>
     </div>

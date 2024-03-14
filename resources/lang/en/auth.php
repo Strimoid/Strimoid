@@ -10,6 +10,8 @@ return [
     'register'            => 'sign up',
     'registration'        => 'sign up',
     'logging in'          => 'log in',
-    'sign in'             => 'sign in',
-    'forgot password?'    => 'forgot password?',
+    'sign_in'             => 'sign in',
+    'forgot_password'     => 'forgot password?',
+    'no_account_yet'      => 'don\'t have an account yet?',
+    'create_it'           => 'create it!',
 ];
