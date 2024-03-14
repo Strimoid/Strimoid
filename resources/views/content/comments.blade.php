@@ -199,7 +199,7 @@
         <h4 class="pull-left">@lang('common.comments')</h4>
 
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
                 <i class="fa fa-sort"></i> @lang('common.sort')
                 <span class="caret"></span>
             </button>

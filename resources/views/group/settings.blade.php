@@ -3,11 +3,11 @@
 @section('content')
 <div>
     <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profil</a></li>
-        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ustawienia</a></li>
-        <li class="nav-item"><a class="nav-link" href="#style" data-toggle="tab">Styl CSS</a></li>
-        <li class="nav-item"><a class="nav-link" href="#moderators" data-toggle="tab">Moderatorzy</a></li>
-        <li class="nav-item"><a class="nav-link" href="#blocked" data-toggle="tab">Zablokowani użytkownicy</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#profile" data-bs-toggle="tab">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="#settings" data-bs-toggle="tab">Ustawienia</a></li>
+        <li class="nav-item"><a class="nav-link" href="#style" data-bs-toggle="tab">Styl CSS</a></li>
+        <li class="nav-item"><a class="nav-link" href="#moderators" data-bs-toggle="tab">Moderatorzy</a></li>
+        <li class="nav-item"><a class="nav-link" href="#blocked" data-bs-toggle="tab">Zablokowani użytkownicy</a></li>
     </ul>
 
     <div id="myTabContent" class="tab-content">

@@ -1,5 +1,5 @@
 <li class="nav-item dropdown user_dropdown">
-    <a href="#" data-toggle="dropdown">
+    <a href="#" data-bs-toggle="dropdown">
         <img src="{!! user()->getAvatarPath(50, 50) !!}" alt="{{ user()->name }}">
         <span class="username">{{ user()->name }}</span>
     </a>

@@ -4,66 +4,66 @@
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="#profile" data-toggle="tab">
+            <a class="nav-link active" href="#profile" data-bs-toggle="tab">
                 <span class="fa fa-user"></span>
                 {{ strans('common.profile')->upperCaseFirst() }}
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#settings" data-toggle="tab">
+            <a class="nav-link" href="#settings" data-bs-toggle="tab">
                 <i class="fa fa-wrench"></i>
                 {{ strans('common.settings')->upperCaseFirst() }}
             </a>
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
                 <i class="fa fa-lock"></i>
                 {{ strans('common.account')->upperCaseFirst() }}
                 <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#password" data-toggle="tab">Zmiana hasła</a>
-                <a class="dropdown-item" href="#email" data-toggle="tab">Zmiana adresu email</a>
+                <a class="dropdown-item" href="#password" data-bs-toggle="tab">Zmiana hasła</a>
+                <a class="dropdown-item" href="#email" data-bs-toggle="tab">Zmiana adresu email</a>
             </div>
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
                 {{ strans('common.domains')->upperCaseFirst() }} <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#domains" data-toggle="tab">Zablokowane</a>
+                <a class="dropdown-item" href="#domains" data-bs-toggle="tab">Zablokowane</a>
             </div>
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
                 {{ strans('common.groups')->upperCaseFirst() }} <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#subscribed" data-toggle="tab">
+                <a class="dropdown-item" href="#subscribed" data-bs-toggle="tab">
                     {{ strans('groups.subscribed')->upperCaseFirst() }}
                 </a>
-                <a class="dropdown-item" href="#moderated" data-toggle="tab">
+                <a class="dropdown-item" href="#moderated" data-bs-toggle="tab">
                     {{ strans('groups.moderated')->upperCaseFirst() }}
                 </a>
-                <a class="dropdown-item" href="#blocked" data-toggle="tab">
+                <a class="dropdown-item" href="#blocked" data-bs-toggle="tab">
                     {{ strans('groups.blocked')->upperCaseFirst() }}
                 </a>
-                <a class="dropdown-item" href="#bans" data-toggle="tab">
+                <a class="dropdown-item" href="#bans" data-bs-toggle="tab">
                     {{ strans('groups.banned')->upperCaseFirst() }}
                 </a>
             </div>
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
                 {{ strans('common.users')->upperCaseFirst() }} <span class="caret"></span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#blockedusers" data-toggle="tab">Zablokowani użytownicy</a>
+                <a class="dropdown-item" href="#blockedusers" data-bs-toggle="tab">Zablokowani użytownicy</a>
             </div>
         </li>
     </ul>

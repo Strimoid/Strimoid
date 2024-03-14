@@ -1,3 +1,5 @@
+import { Popover } from 'bootstrap'
+
 function VotesModule () {
 
   if (window.username) {
@@ -39,7 +41,7 @@ function VotesModule () {
       filter = 'down'
 
     $.post('/ajax/vote/get_voters', { id: cid, type: type, filter: filter }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         var content = ''
 
         data.voters.forEach(function (vote) {
@@ -54,16 +56,16 @@ function VotesModule () {
           content += '<span style="color: #929292" title="' + vote.time + '">(' + vote.time_ago + ')</span></div>'
         })
 
-        var popover = $(button).data('bs.popover')
+        const popover = Popover.getOrCreateInstance(button)
 
-        if (content == '')
-          popover.config.content = 'brak głosów'
+        if (content === '')
+          popover.setContent({ '.popover-body': 'brak głosów' })
         else
-          popover.config.content = content
+          popover.setContent({ '.popover-body': content })
 
-        popover.config.animation = false
-        popover.show()
-        popover.config.animation = true
+        //popover.config.animation = false
+        //popover.show()
+        //popover.config.animation = true
       }
     })
   })
@@ -75,9 +77,9 @@ VotesModule.prototype.addUpvote = function () {
   var state = $(content).attr('state')
   var type = $(content).attr('data-type')
 
-  if (state == 'uv') {
+  if (state === 'uv') {
     $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(content).find('.vote-btn-up').removeClass('btn-success')
         $(content).attr('state', 'none')
       }
@@ -85,14 +87,14 @@ VotesModule.prototype.addUpvote = function () {
       $(content).find('.vote-btn-up .count').text(data.uv)
       $(content).find('.vote-btn-down .count').text(data.dv)
     })
-  } else if (state == 'dv') {
+  } else if (state === 'dv') {
     $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(content).find('.vote-btn-down').removeClass('btn-danger')
         $(content).attr('state', 'none')
 
         $.post('/ajax/vote/add', { id: cid, type: type, up: 'true' }, function (data) {
-          if (data.status == 'ok') {
+          if (data.status === 'ok') {
             $(content).find('.vote-btn-up').addClass('btn-success')
             $(content).attr('state', 'uv')
           }
@@ -102,9 +104,9 @@ VotesModule.prototype.addUpvote = function () {
         })
       }
     })
-  } else if (state == 'none') {
+  } else if (state === 'none') {
     $.post('/ajax/vote/add', { id: cid, type: type, up: 'true' }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(content).find('.vote-btn-up').addClass('btn-success')
         $(content).attr('state', 'uv')
       }
@@ -121,14 +123,14 @@ VotesModule.prototype.addDownvote = function () {
   var state = $(content).attr('state')
   var type = $(content).attr('data-type')
 
-  if (state == 'uv') {
+  if (state === 'uv') {
     $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(content).find('.vote-btn-up').removeClass('btn-success')
         $(content).attr('state', 'none')
 
         $.post('/ajax/vote/add', { id: cid, type: type, up: 'false' }, function (data) {
-          if (data.status == 'ok') {
+          if (data.status === 'ok') {
             $(content).find('.vote-btn-down').addClass('btn-danger')
             $(content).attr('state', 'dv')
           }
@@ -138,9 +140,9 @@ VotesModule.prototype.addDownvote = function () {
         })
       }
     })
-  } else if (state == 'dv') {
+  } else if (state === 'dv') {
     $.post('/ajax/vote/remove', { id: cid, type: type }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(content).find('.vote-btn-down').removeClass('btn-danger')
         $(content).attr('state', 'none')
       }
@@ -148,9 +150,9 @@ VotesModule.prototype.addDownvote = function () {
       $(content).find('.vote-btn-up .count').text(data.uv)
       $(content).find('.vote-btn-down .count').text(data.dv)
     })
-  } else if (state == 'none') {
+  } else if (state === 'none') {
     $.post('/ajax/vote/add', { id: cid, type: type, up: 'false' }, function (data) {
-      if (data.status == 'ok') {
+      if (data.status === 'ok') {
         $(content).find('.vote-btn-down').addClass('btn-danger')
         $(content).attr('state', 'dv')
       }

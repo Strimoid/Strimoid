@@ -7,6 +7,10 @@ body > .container.navbar-fixed-margin {
   padding-top: 109px;
 }
 
+a {
+  text-decoration: none;
+}
+
 @media (min-width: 992px) {
   .main_col {
     width: 72%;
@@ -272,14 +276,6 @@ thead .glyphicon {
 }
 
 /* UTILS */
-.full-width {
-  width: 100%;
-}
-
-.half-width {
-  width: 50%;
-}
-
 .hide {
   display: none;
 }
@@ -317,4 +313,8 @@ thead .glyphicon {
 
 .main_col > nav > .pagination {
   width: 100%;
+}
+
+.form-group {
+  margin-bottom: 1rem;
 }

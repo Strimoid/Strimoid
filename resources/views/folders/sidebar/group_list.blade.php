@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-sm @if ($folder->public) btn-success @else btn-secondary @endif folder_publish"><span class="glyphicon glyphicon-lock"></span> Opublikuj</button>
         @endif
 
-        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-file"></span> Skopiuj</button>
+        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown"><span class="glyphicon glyphicon-file"></span> Skopiuj</button>
 
         <ul class="dropdown-menu" role="menu">
             <li style="padding: 5px">
