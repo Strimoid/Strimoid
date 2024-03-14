@@ -28,7 +28,7 @@
         "@bugsnag/js": "^7.22.4",
         "autosize": "^5.0.2",
         "axios": "^1.6.7",
-        "bootbox": "^5.5.3",
+        "bootbox": "^6.0.0",
         "bootstrap": "^4.6.2",
         "corejs-typeahead": "^1.3.4",
         "font-awesome": "^4.7.0",
