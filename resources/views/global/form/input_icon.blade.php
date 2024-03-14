@@ -20,21 +20,19 @@ $options = [
     <div class="col-lg-6">
         <div class="input-group">
             @if ($icon ?? null)
-            <span class="input-group-prepend">
                 <span class="input-group-text">
                     <i class="fa fa-fw fa-{!! $icon !!}"></i>
                 </span>
-            </span>
             @endif
 
-            @if ($type == 'text')
-                {!! Form::text($name, null, $options) !!}
-            @elseif ($type == 'textarea')
-                {!! Form::textarea($name, null, Arr::add($options, 'rows', $rows)) !!}
-            @elseif ($type == 'email')
-                {!! Form::email($name, null, $options) !!}
-            @elseif ($type == 'password')
-                {!! Form::password($name, $options) !!}
+            @if ($type === 'text')
+                {{ html()->text($name)->attributes($options) }}
+            @elseif ($type === 'textarea')
+                {{ html()->textarea($name)->attributes($options)->rows($rows) }}
+            @elseif ($type === 'email')
+                {{ html()->email($name)->attributes($options) }}
+            @elseif ($type === 'password')
+                {{ html()->password($name)->attributes($options) }}
             @endif
         </div>
 

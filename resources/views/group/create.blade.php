@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(['action' => 'GroupController@createGroup', 'class' => 'form-horizontal']) !!}
+    {{ html()->form(action: action('GroupController@createGroup'))->class(['form-horizontal'])->open() }}
 
     <div class="form-group row @if ($errors->has('urlname')) has-error @endif">
         <label for="urlname" class="col-lg-3 control-label">Adres grupy</label>
@@ -13,7 +13,7 @@
                     <span class="input-group-text">g/</span>
                 </div>
 
-                {!! Form::text('urlname', null, ['class' => 'form-control', 'placeholder' => 'Adres grupy']) !!}
+                {{ html()->text('urlname')->class('form-control')->placeholder('Adres grupy') }}
             </div>
 
             @if($errors->has('urlname'))
@@ -54,7 +54,7 @@
 
     @include('global.form.submit', ['label' => trans('groups.create')])
 
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
 @stop
 

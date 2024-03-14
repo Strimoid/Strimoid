@@ -12,9 +12,9 @@
 
 @section('sidebar')
 <div class="well group_search_widget">
-    {!! Form::open(['action' => 'SearchController@search', 'method' => 'GET']) !!}
+    {{ html()->form('GET', action('SearchController@search'))->open() }}
     <div class="input-group">
-        {!! Form::text('q', '', ['class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...']) !!}
+        {{ html()->text('q')->class('form-control')->placeholder('podaj wyszukiwaną frazę...') }}
         <input type="hidden" name="t" value="g">
 
         <div class="input-group-append">
@@ -23,7 +23,7 @@
             </button>
         </div>
     </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
 
 <div class="well">
@@ -31,11 +31,11 @@
         <div class="btn-group col-lg-12">
             <a href="{!! action('GroupController@showList') !!}"
                class="col-lg-6 btn {{ Input::get('sort') == '' ? 'btn-secondary' : 'btn-light' }}">
-                {{ Str::ucfirst(trans('groups.popular')) }}
+                @ucFirstLang('groups.popular')
             </a>
             <a href="{!! action('GroupController@showList', ['sort' => 'newest']) !!}"
-               class="col-lg-6 btn {{ Input::get('sort') == 'newest' ? 'btn-secondary' : 'btn-light' }}">
-                {{ Str::ucfirst(trans('groups.new')) }}
+               class="col-lg-6 btn {{ Input::get('sort') === 'newest' ? 'btn-secondary' : 'btn-light' }}">
+                @ucFirstLang('groups.new')
             </a>
         </div>
     </div>
@@ -45,7 +45,7 @@
     <a href="{!! action('GroupController@showCreateForm') !!}">
         <button type="button" class="btn btn-primary w-100 group_subscribe_btn">
             <i class="fa fa-plus mr-1"></i>
-            {{ Str::ucfirst(trans('groups.create')) }}
+            @ucFirstLang('groups.create')
         </button>
     </a>
 </div>

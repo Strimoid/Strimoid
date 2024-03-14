@@ -7,10 +7,9 @@
 
                 <hr>
                 --}}
-
-                {!! Form::open(['action' => 'AuthController@login', 'class' => 'navbar-form']) !!}
-                <input type="text" name="username" placeholder="{{ ucfirst(trans('auth.username')) }}" class="form-control" style="margin-bottom: 10px" autofocus>
-                <input type="password" name="password" placeholder="{{ ucfirst(trans('auth.password')) }}" class="form-control" style="margin-bottom: 10px">
+                {{ html()->form(action: action('AuthController@login'))->class(['navbar-form'])->open() }}
+                <input type="text" name="username" placeholder="@ucFirstLang('auth.username')" class="form-control" style="margin-bottom: 10px" autofocus>
+                <input type="password" name="password" placeholder="@ucFirstLang('auth.password')" class="form-control" style="margin-bottom: 10px">
 
                 <div class="m-b-1">
                     <label class="c-input c-checkbox">
@@ -24,10 +23,10 @@
                     </a>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">
+                <button type="submit" class="btn btn-primary w-100 mt-3">
                     {{ ucfirst(trans('auth.sign_in')) }}
                 </button>
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
 
                 <hr>
 

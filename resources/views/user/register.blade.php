@@ -1,19 +1,16 @@
 @extends('global.master')
 
 @section('title')
-    {{ Str::ucfirst(trans('auth.registration')) }}
+    @ucFirstLang('auth.registration')
 @stop
 
 @section('content')
-    <h1 class="mb-4">{{ Str::ucfirst(trans('auth.registration')) }}</h1>
+    <h1 class="mb-4">@ucFirstLang('auth.registration')</h1>
 
     <hr class="my-4">
 
     <div class="row">
-        {!! Form::open([
-            'action' => 'Auth\RegistrationController@processRegistration',
-            'class' => 'form-horizontal w-100'
-        ]) !!}
+        {{ html()->form(action: action('Auth\RegistrationController@processRegistration'))->class(['form-horizontal', 'w-100'])->open() }}
             @include('global.form.input_icon', [
                 'type' => 'text', 'name' => 'username', 'label' => trans('auth.username'), 'icon' => 'user'
             ])
@@ -29,6 +26,6 @@
                     <button type="submit" class="btn btn-primary">{{ trans('auth.register') }}</button>
                 </div>
             </div>
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     </div>
 @stop

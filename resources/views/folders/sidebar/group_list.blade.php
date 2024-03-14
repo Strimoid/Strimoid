@@ -15,7 +15,7 @@
 
         <ul class="dropdown-menu" role="menu">
             <li style="padding: 5px">
-                {!! Form::open(['action' => 'FolderController@copyFolder', 'class' => 'form-horizontal']) !!}
+                {{ html()->form(action: action('FolderController@copyFolder'))->class(['form-horizontal'])->open() }}
                 <div class="input-group">
                     <input type="hidden" name="user" value="{!! $folder->user->name !!}">
                     <input type="hidden" name="folder" value="{!! $folder->hashId() !!}">
@@ -26,7 +26,7 @@
                         <button class="btn btn-primary" type="submit">Skopiuj</button>
                     </span>
                 </div>
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             </li>
         </ul>
 

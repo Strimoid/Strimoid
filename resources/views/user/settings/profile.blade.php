@@ -1,9 +1,4 @@
-{!! Form::open([
-    'action' => 'UserController@saveProfile',
-    'class' => 'form-horizontal',
-    'style' => 'margin-top: 20px',
-    'files' => true
-]) !!}
+{{ html()->form(action: action('UserController@saveProfile'))->class(['form-horizontal', 'mt-5'])->acceptsFiles()->open() }}
 
 <div class="form-group row">
     <label class="col-lg-3 control-label">{{ s(trans('auth.username'))->upperCaseFirst() }}</label>
@@ -22,7 +17,7 @@
 <div class="form-group row @if ($errors->has('avatar')) has-error @endif">
     <label class="col-lg-3 control-label">Avatar</label>
     <div class="col-lg-6">
-        {!! Form::file('avatar') !!}
+        {{ html()->file('avatar') }}
 
         @if ($errors->has('avatar'))
             <p class="help-block">{!! $errors->first('avatar') !!}</p>
@@ -37,4 +32,4 @@
 @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => 'O sobie', 'value' => $user->description])
 @include('global.form.submit')
 
-{!! Form::close() !!}
+{{ html()->form()->close() }}

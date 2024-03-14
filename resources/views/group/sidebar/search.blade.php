@@ -1,7 +1,7 @@
 <div class="well group_search_widget">
-    {!! Form::open(['action' => 'SearchController@search', 'method' => 'GET']) !!}
+    {{ html()->form('GET', action('SearchController@search'))->open() }}
     <div class="input-group">
-        {!! Form::text('q', '', ['class' => 'form-control', 'placeholder' => trans('common.search') . '...']) !!}
+        {{ html()->text('q')->class('form-control')->placeholder(trans('common.search') . '...') }}
 
         <div class="input-group-append">
             <button type="submit" class="btn btn-primary" aria-label="{{ trans('common.search') }}">
@@ -9,5 +9,5 @@
             </button>
         </div>
     </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>

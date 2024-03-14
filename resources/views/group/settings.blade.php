@@ -12,7 +12,7 @@
 
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="profile">
-            {!! Form::open(['action' => ['GroupController@saveProfile', $group], 'class' => 'form-horizontal', 'style' => 'margin-top: 20px', 'files' => true]) !!}
+            {{ html()->form(action: action('GroupController@saveProfile', $group))->class(['form-horizontal', 'mt-5'])->acceptsFiles()->open() }}
 
             <div class="form-group">
                 <label class="col-lg-3 control-label">Adres grupy</label>
@@ -26,7 +26,7 @@
             <div class="form-group @if ($errors->has('avatar')) has-error @endif">
                 <label class="col-lg-3 control-label">Avatar</label>
                 <div class="col-lg-6">
-                    {!! Form::file('avatar') !!}
+                    {{ html()->file('avatar') }}
 
                     @if($errors->has('avatar'))
                     <p class="help-block">{!! $errors->first('avatar') !!}</p>
@@ -45,7 +45,7 @@
                     <button type="submit" class="btn btn-primary">Zapisz</button>
                 </div>
             </div>
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         </div>
 
         <div class="tab-pane fade" id="settings">
@@ -67,7 +67,7 @@
             @include('global.form.input_tags', ['type' => 'text', 'name' => 'labels', 'label' => 'Lista etykiet', 'noun' => 'Etykiety', 'tags' => $group->labels])
             @include('global.form.submit')
 
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
             --}}
         </div>
 

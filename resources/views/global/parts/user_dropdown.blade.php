@@ -29,7 +29,7 @@
             {{ trans('common.logout') }}
         </a>
 
-        {!! Form::open(['action' => 'AuthController@logout', 'class' => 'logout_form']) !!}
-        {!! Form::close() !!}
+        {{ html()->form(action: action('AuthController@logout'))->class(['logout_form'])->open() }}
+        {{ html()->form()->close() }}
     </div>
 </li>

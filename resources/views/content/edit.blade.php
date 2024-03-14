@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open(['action' => ['ContentController@editContent', $content], 'class' => 'form-horizontal']) !!}
+    {{ html()->form(action: action('ContentController@editContent', $content))->class(['form-horizontal'])->open() }}
 
     @include('global.form.input_value', ['type' => 'text', 'name' => 'title', 'label' => 'Nazwa treści', 'value' => $content->title])
     @include('global.form.input_value', ['type' => 'textarea', 'name' => 'description', 'label' => 'Opis treści', 'value' => $content->description])
@@ -18,12 +18,12 @@
         <div class="col-lg-6">
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('nsfw', 'on', $content->nsfw) !!} Treść +18
+                    {{ html()->checkbox('nsfw', $content->nsfw, 'on') }} Treść +18
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('eng', 'on', $content->eng) !!} Treść w języku angielskim
+                    {{ html()->checkbox('eng', $content->eng, 'on') }} Treść w języku angielskim
                 </label>
             </div>
         </div>
@@ -31,7 +31,7 @@
 
     @include('global.form.submit', ['label' => 'Zapisz zmiany'])
 
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
 @stop
 

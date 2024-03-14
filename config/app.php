@@ -169,7 +169,6 @@ return [
          * Third party Service Providers...
          */
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
@@ -205,8 +204,6 @@ return [
         'Session'            => Illuminate\Support\Facades\Session::class,
         'Storage'            => Illuminate\Support\Facades\Storage::class,
         'URL'                => Illuminate\Support\Facades\URL::class,
-        'Form'               => Collective\Html\FormFacade::class,
-        'Html'               => Collective\Html\HtmlFacade::class,
         'Str'                => Illuminate\Support\Str::class,
     ],
 
