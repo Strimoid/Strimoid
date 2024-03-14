@@ -30,16 +30,16 @@
 
 @section('sidebar')
 <div class="well group_search_widget">
-    {!! Form::open(['action' => 'SearchController@search', 'method' => 'GET']) !!}
+    {{ html()->form('GET', action('SearchController@search'))->open() }}
     <div class="input-group">
-        {!! Form::text('q', '', ['class' => 'form-control', 'placeholder' => 'podaj wyszukiwaną frazę...']) !!}
+        {{ html()->text('q')->class('form-control')->placeholder('podaj wyszukiwaną frazę...') }}
         <input type="hidden" name="t" value="g">
 
         <div class="input-group-append">
             <button type="submit" class="btn btn-primary">Szukaj</button>
         </div>
     </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
 
 <div class="well">

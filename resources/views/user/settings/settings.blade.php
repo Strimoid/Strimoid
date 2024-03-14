@@ -1,4 +1,4 @@
-{!! Form::open(['action' => 'SettingsController@saveSettings', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
+{{ html()->form(action: action('SettingsController@saveSettings'))->class(['form-horizontal', 'mt-5'])->open() }}
 
 <div class="form-group row">
     <label class="col-lg-3 control-label">Opcje</label>
@@ -6,12 +6,12 @@
     <div class="col-lg-6">
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('enter_send', 'on', setting('enter_send')) !!} Wysyłaj treści/komentarze enterem
+                {{ html()->checkbox('enter_send', setting('enter_send'), 'on') }} Wysyłaj treści/komentarze enterem
             </label>
         </div>
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('homepage_subscribed', 'on', setting('homepage_subscribed')) !!} Subskrybowane jako strona główna serwisu
+                {{ html()->checkbox('homepage_subscribed', setting('homepage_subscribed'), 'on') }} Subskrybowane jako strona główna serwisu
             </label>
         </div>
     </div>
@@ -28,12 +28,12 @@
         </div>
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('notifications_sound', 'on', setting('notifications_sound')) !!} Odtwarzaj dźwięk po otrzymaniu powiadomienia
+                {{ html()->checkbox('notifications_sound', setting('notifications_sound'), 'on') }} Odtwarzaj dźwięk po otrzymaniu powiadomienia
             </label>
         </div>
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('notifications[auto_read]', 'on', setting('notifications.auto_read')) !!} Automatycznie oznaczaj powiadomienia jako przeczytane
+                {{ html()->checkbox('notifications[auto_read]', setting('notifications.auto_read'), 'on') }} Automatycznie oznaczaj powiadomienia jako przeczytane
             </label>
         </div>
     </div>
@@ -45,12 +45,12 @@
     <div class="col-lg-6">
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('pin_navbar', 'on', setting('pin_navbar'))  !!} Przypnij górny pasek
+                {{ html()->checkbox('pin_navbar', setting('pin_navbar'), 'on') }} Przypnij górny pasek
             </label>
         </div>
         <div class="checkbox">
             <label>
-                {!! Form::checkbox('disable_groupstyles', 'on', setting('disable_groupstyles'))  !!} Wyłącz style grup
+                {{ html()->checkbox('disable_groupstyles', setting('disable_groupstyles'), 'on') }} Wyłącz style grup
             </label>
         </div>
     </div>
@@ -66,4 +66,4 @@
 
 @include('global.form.submit')
 
-{!! Form::close() !!}
+{{ html()->form()->close() }}

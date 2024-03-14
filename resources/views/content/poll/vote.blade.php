@@ -1,4 +1,4 @@
-{!! Form::open(['action' => ['PollController@addVote', $content->hashId()], 'class' => 'poll']) !!}
+{{ html()->form(action: action('PollController@addVote', $content->hashId())->class(['poll'])->open() }}
 @foreach ($poll['questions'] as $questionId => $question)
     <div class="question">
         <h4>{{{ $question['title'] }}}</h4>
@@ -18,4 +18,4 @@
 @endforeach
 
 <button type="submit" class="btn btn-primary">Zagłosuj</button>
-{!! Form::close() !!}
+{{ html()->form()->close() }}

@@ -22,14 +22,14 @@ $options = [
     <label for="{!! $name !!}" class="col-lg-3 control-label">{!! $label !!}</label>
 
     <div class="col-lg-6">
-        @if ($type == 'text')
-            {!! Form::text($name, $value, $options) !!}
-        @elseif ($type == 'textarea')
-            {!! Form::textarea($name, $value, Arr::add($options, 'rows', $rows)) !!}
-        @elseif ($type == 'email')
-            {!! Form::email($name, $value, $options) !!}
-        @elseif ($type == 'password')
-            {!! Form::password($name, $options) !!}
+        @if ($type === 'text')
+            {{ html()->text($name, $value)->class('form-control')->attributes($options) }}
+        @elseif ($type === 'textarea')
+            {{ html()->textarea($name, $value)->attributes($options)->rows($rows) }}
+        @elseif ($type === 'email')
+            {{ html()->email($name, $value)->attributes($options) }}
+        @elseif ($type === 'password')
+            {{ html()->password($name, $value)->attributes($options) }}
         @endif
 
         @if ($errors->has($name))

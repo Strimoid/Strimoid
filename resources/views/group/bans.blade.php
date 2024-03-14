@@ -2,28 +2,28 @@
 
 @section('content')
 
-@if (Auth::check() && Auth::user()->isModerator($group))
-{!! Form::open(['action' => 'Group\BanController@addBan', 'class' => 'form-horizontal']) !!}
+    @if (Auth::check() && Auth::user()->isModerator($group))
+        {{ html()->form(action: action('Group\BanController@addBan'))->class(['form-horizontal'])->open() }}
 
-<input type="hidden" name="groupname" value="{!! $group->urlname !!}">
+        <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
 
-@include('global.form.input', ['type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'])
-@include('global.form.input', ['type' => 'text', 'name' => 'reason', 'label' => 'Powód zbanowania'])
+        @include('global.form.input', ['type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'])
+        @include('global.form.input', ['type' => 'text', 'name' => 'reason', 'label' => 'Powód zbanowania'])
 
-<div class="form-group">
-    <div class="col-lg-6 offset-lg-3">
-        <div class="checkbox">
-            <label>
-                {!! Form::checkbox('everywhere') !!} Zablokuj we wszystkich grupach
-            </label>
+        <div class="form-group">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="checkbox">
+                    <label>
+                        {{ html()->checkbox('everywhere') }} Zablokuj we wszystkich grupach
+                    </label>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-@include('global.form.submit', ['label' => 'Zbanuj'])
+        @include('global.form.submit', ['label' => 'Zbanuj'])
 
-{!! Form::close() !!}
-@endif
+        {{ html()->form()->close() }}
+    @endif
 
 <table class="table">
     <thead>

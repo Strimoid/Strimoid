@@ -1,12 +1,12 @@
 @extends('global.master')
 
 @section('content')
-{!! Form::open(['action' => 'UserController@remindPassword', 'class' => 'form-horizontal']) !!}
+    {{ html()->form(action: action('UserController@remindPassword'))->class(['form-horizontal'])->open() }}
 
-@include('global.form.input', ['type' => 'email', 'name' => 'email', 'label' => 'Adres email'])
-@include('global.form.submit', ['label' => 'Dalej'])
+    @include('global.form.input', ['type' => 'email', 'name' => 'email', 'label' => 'Adres email'])
+    @include('global.form.submit', ['label' => 'Dalej'])
 
-{!! Form::close() !!}
+    {{ html()->form()->close() }}
 @stop
 
 @section('sidebar')

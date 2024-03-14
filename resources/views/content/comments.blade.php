@@ -117,7 +117,7 @@
     @endauth
 </div>
 
-{!! Form::open(['action' => ['RelatedController@addRelated', $content], 'class' => 'form-horizontal related_add_form', 'style' => 'display: none; margin-top: 20px;']) !!}
+    {{ html()->form(action: action('RelatedController@addRelated', $content))->class(['form-horizontal', 'related_add_form', 'mt-5'])->style('display: none')->open() }}
 
     @include('global.form.input', ['type' => 'text', 'name' => 'title', 'label' => 'Tytuł linku'])
     @include('global.form.input', ['type' => 'text', 'name' => 'url', 'label' => 'Adres URL'])
@@ -128,17 +128,17 @@
         <div class="col-lg-6">
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('thumbnail', 'on', true) !!} Miniaturka
+                    {{ html()->checkbox('thumbnail', true, 'on') }} Miniaturka
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('nsfw', 'on') !!} Treść +18
+                    {{ html()->checkbox('nsfw', value: 'on') }} Treść +18
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('eng', 'on') !!} Treść w języku angielskim
+                    {{ html()->checkbox('eng', value: 'on') }} Treść w języku angielskim
                 </label>
             </div>
         </div>
@@ -146,7 +146,7 @@
 
     @include('global.form.submit', ['label' => 'Dodaj powiązany link'])
 
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 
 @if (!count($content->related))
     Brak powiązanych.
@@ -245,11 +245,11 @@
     </div>
 
     <div class="comment_text">
-        {!! Form::open(['class' => 'comment_add enter_send']) !!}
+        {{ html()->form()->class(['comment_add', 'enter_send'])->open() }}
         <input name="id" type="hidden" value="{!! $content->hashId() !!}">
 
         <div class="form-group @if ($errors->has('text')) has-error @endif col-lg-12">
-            {!! Form::textarea('text', null, ['class' => 'form-control enter_send', 'placeholder' => 'Treść komentarza...', 'rows' => 3]) !!}
+            {{ html()->textarea('text')->class(['form-control', 'enter_send'])->placeholder('Treść komentarza...')->rows(3) }}
 
              @if ($errors->has('text'))
                 <p class="help-block">{!! $errors->first('text') !!}</p>
@@ -261,7 +261,7 @@
                     @lang('common.add')
                 </button>
         </div>
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     </div>
 </div>
 @endauth

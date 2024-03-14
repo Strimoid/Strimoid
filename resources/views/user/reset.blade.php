@@ -3,13 +3,13 @@
 @section('content')
 @if (Session::has('error'))
 <div class="alert alert-dismissable alert-danger">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
     {!! trans(Session::get('reason')) !!}
 </div>
 @endif
 
-{!! Form::open(['class' => 'form-horizontal']) !!}
-{!! Form::hidden('token', $token) !!}
+{{ html()->form()->class(['form-horizontal'])->open() }}
+{{ html()->hidden('token', $token) }}
 
 @include('global.form.input', ['type' => 'email', 'name' => 'email', 'label' => 'Adres email'])
 @include('global.form.input', ['type' => 'password', 'name' => 'password', 'label' => 'Nowe hasło'])
@@ -17,7 +17,7 @@
 
 @include('global.form.submit')
 
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 @stop
 
 @section('sidebar')

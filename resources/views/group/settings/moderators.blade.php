@@ -1,8 +1,8 @@
 <div class="tab-pane fade" id="moderators">
     @if (Auth::check() && Auth::user()->isAdmin($group))
-        {!! Form::open(['action' => 'Group\ModeratorController@addModerator', 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
+        {{ html()->form(action: action('Group\ModeratorController@addModerator'))->class(['form-horizontal', 'mt-5'])->open() }}
 
-        <input type="hidden" name="groupname" value="{!! $group->urlname !!}">
+        <input type="hidden" name="groupname" value="{{ $group->urlname }}">
 
         @include('global.form.input', ['type' => 'text', 'name' => 'username', 'class' => 'user_typeahead', 'label' => 'Nazwa użytkownika'])
 
@@ -10,7 +10,7 @@
             <div class="col-lg-6 offset-lg-3">
                 <div class="checkbox">
                     <label>
-                        {!! Form::checkbox('admin') !!} <span class="has_tooltip" data-toggle="tooltip" title="Pozwala edytować ustawienia i listę moderatorów">Admin</span>
+                        {{ html()->checkbox('admin') }} <span class="has_tooltip" data-toggle="tooltip" title="Pozwala edytować ustawienia i listę moderatorów">Admin</span>
                     </label>
                 </div>
             </div>
@@ -18,7 +18,7 @@
 
         @include('global.form.submit', ['label' => 'Dodaj moderatora'])
 
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endif
 
     <table class="table">

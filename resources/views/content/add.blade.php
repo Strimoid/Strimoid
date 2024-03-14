@@ -2,10 +2,8 @@
 
 @section('content')
 <div class="row">
-    {!! Form::open([
-        'action' => 'ContentController@addContent',
-        'class' => 'col-lg-12 content_add_form'
-    ]) !!}
+    {{ html()->form(action: action('ContentController@addContent'))->class(['col-lg-12', 'content_add_form'])->open() }}
+
     <input type="hidden" name="type" value="link">
 
     <p id="currentTab"></p>
@@ -47,17 +45,17 @@
         <div class="col-lg-4">
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('thumbnail', 'on', Input::get('thumbnail') !== 'no') !!} @lang('common.thumbnail')
+                    {{ html()->checkbox('thumbnail', Input::get('thumbnail') !== 'no', 'on') }} @lang('common.thumbnail')
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('nsfw', 'on', Input::has('18')) !!} @lang('common.nsfw')
+                    {{ html()->checkbox('nsfw', Input::has('18'), 'on') }} @lang('common.nsfw')
                 </label>
             </div>
             <div class="checkbox">
                 <label>
-                    {!! Form::checkbox('eng', 'on', Input::has('eng')) !!} @lang('content.foreign language')
+                    {{ html()->checkbox('eng', Input::has('eng'), 'on') }} @lang('content.foreign language')
                 </label>
             </div>
         </div>
@@ -68,7 +66,7 @@
             </button>
         </div>
     </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
 @stop
 

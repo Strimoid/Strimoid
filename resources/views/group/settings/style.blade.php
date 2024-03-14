@@ -1,5 +1,5 @@
 <div class="tab-pane fade" id="style">
-    {!! Form::open(['action' => ['GroupController@saveStyle', $group->urlname], 'class' => 'form-horizontal', 'style' => 'margin-top: 20px']) !!}
+    {{ html()->form(action: action('GroupController@saveStyle', $group->urlname))->class(['form-horizontal', 'mt-5'])->open() }}
 
     @include('global.form.input_value', ['type' => 'textarea', 'class' => 'css_editor', 'name' => 'css', 'label' => 'Styl CSS', 'rows' => '20', 'value' => $css])
 
@@ -8,5 +8,5 @@
             <button type="submit" class="btn btn-primary">Zapisz</button>
         </div>
     </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
