@@ -34,7 +34,7 @@
         "vinkla/hashids": "^12.0",
         "filp/whoops": "^2.1",
         "msurguy/honeypot": "dev-l11-compatibility",
-        "pda/pheanstalk": "^4.0",
+        "pda/pheanstalk": "^5.0",
         "rcrowe/twigbridge": "^0.14",
         "laravel/socialite": "^5.0",
         "symfony/dom-crawler": "^7.0",
