@@ -15,18 +15,13 @@ RUN npm run build
 ### ---------------------
 FROM quay.io/strimoid/php:8.3
 
-EXPOSE 80
-
-ENV PATH $PATH:/src:/src/vendor/bin
-WORKDIR /src
+ENV CADDY_GLOBAL_OPTIONS "auto_https off"
+ENV SERVER_NAME :80
+ENV PATH $PATH:/app:/app/vendor/bin
 
 COPY config/docker/php/prod.ini /usr/local/etc/php/conf.d/custom.ini
-COPY config/docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 
-COPY . /src
-COPY --from=assets /src/public/assets /src/public/assets
+COPY . /app
+COPY --from=assets /src/public/assets /app/public/assets
 
 RUN composer install --no-interaction --no-progress
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["php-fpm"]

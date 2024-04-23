@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   php:
     environment:
@@ -7,13 +6,12 @@ services:
     volumes:
      - .:/src
      - ./config/docker/php/dev.ini:/usr/local/etc/php/conf.d/custom.ini
-     - ./config/docker/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
   php-init:
     build: .
     image: quay.io/strimoid/strimoid
     environment:
       - DB_HOST=postgres
-    command: "/src/artisan migrate:fresh --seed"
+    command: "php artisan migrate:fresh --seed"
     restart: on-failure
   postgres:
     ports:
