@@ -14,7 +14,7 @@
         "mini-css-extract-plugin": "^2.9.0",
         "postcss-loader": "^8.1.1",
         "react-refresh": "^0.14.2",
-        "sass": "^1.77.2",
+        "sass": "^1.77.4",
         "sass-loader": "^14.2.1",
         "standard": "^17.1.0",
         "style-loader": "^3.3.4",
