@@ -19,8 +19,8 @@ Route::post('contents', ['middleware' => 'auth', 'uses' => 'ContentController@st
 Route::patch('contents/{content}', ['middleware' => 'auth', 'uses' => 'ContentController@edit']);
 Route::delete('contents/{content}', ['middleware' => 'auth', 'uses' => 'ContentController@removeContent']);
 
-Route::post('contents/{content}/related', ['middleware' => 'auth', 'uses' => 'Content\RelatedController@store']);
-Route::delete('related/{related}', ['middleware' => 'auth', 'uses' => 'Content\RelatedController@removeRelated']);
+// Route::post('contents/{content}/related', ['middleware' => 'auth', 'uses' => 'Content\RelatedController@store']);
+// Route::delete('related/{related}', ['middleware' => 'auth', 'uses' => 'Content\RelatedController@removeRelated']);
 
 // Comments
 Route::get('comments', ['uses' => 'CommentController@index']);
@@ -47,20 +47,20 @@ Route::get('conversations', ['middleware' => 'auth', 'uses' => 'ConversationCont
 Route::get('messages', ['middleware' => 'auth', 'uses' => 'ConversationController@getMessages']);
 
 // Notifications
-Route::get('notifications', [
-    'middleware' => 'auth', 'uses' => 'NotificationController@listNotifications',
-]);
-Route::patch('notification/{notification}', [
-    'middleware' => 'auth', 'uses' => 'NotificationController@edit',
-]);
+// Route::get('notifications', [
+//     'middleware' => 'auth', 'uses' => 'NotificationController@listNotifications',
+// ]);
+// Route::patch('notification/{notification}', [
+//     'middleware' => 'auth', 'uses' => 'NotificationController@edit',
+// ]);
 
-Route::post('notifications/register_gcm', [
-    'middleware' => 'auth', 'uses' => 'NotificationController@registerGCM',
-]);
+// Route::post('notifications/register_gcm', [
+//     'middleware' => 'auth', 'uses' => 'NotificationController@registerGCM',
+// ]);
 
 // Ranking
-Route::get('ranking', 'RankingController@getIndex');
+// Route::get('ranking', 'RankingController@getIndex');
 
 // Voting
-Route::post('votes', ['middleware' => 'auth', 'uses' => 'VoteController@addVote']);
-Route::delete('votes', ['middleware' => 'auth', 'uses' => 'VoteController@removeVote']);
+// Route::post('votes', ['middleware' => 'auth', 'uses' => 'VoteController@addVote']);
+// Route::delete('votes', ['middleware' => 'auth', 'uses' => 'VoteController@removeVote']);

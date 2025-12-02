@@ -13,15 +13,15 @@ Route::post('/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout
 Route::post('/pusher/auth', ['middleware' => 'auth', 'uses' => 'AuthController@authenticatePusher']);
 
 /* OAuth2 =========================================================================================================== */
-Route::post('/oauth2/token', 'OAuthController@getAccessToken');
+// Route::post('/oauth2/token', 'OAuthController@getAccessToken');
 
-Route::get('/oauth2/authorize', ['middleware' => 'auth', 'uses' => 'OAuthController@authorizationForm']);
-Route::post('/oauth2/authorize', ['middleware' => 'auth', 'uses' => 'OAuthController@authorize']);
+// Route::get('/oauth2/authorize', ['middleware' => 'auth', 'uses' => 'OAuthController@authorizationForm']);
+// Route::post('/oauth2/authorize', ['middleware' => 'auth', 'uses' => 'OAuthController@authorize']);
 
-Route::get('/oauth2/apps', ['middleware' => 'auth', 'uses' => 'OAuthController@listApps']);
+// Route::get('/oauth2/apps', ['middleware' => 'auth', 'uses' => 'OAuthController@listApps']);
 
-Route::get('/oauth2/add_app', ['middleware' => 'auth', 'uses' => 'OAuthController@addAppForm']);
-Route::post('/oauth2/add_app', ['middleware' => 'auth', 'uses' => 'OAuthController@addApp']);
+// Route::get('/oauth2/add_app', ['middleware' => 'auth', 'uses' => 'OAuthController@addAppForm']);
+// Route::post('/oauth2/add_app', ['middleware' => 'auth', 'uses' => 'OAuthController@addApp']);
 
 /* Users ============================================================================================================ */
 Route::post('/me/blocked_domain/{domain}', ['middleware' => 'auth', 'uses' => 'UserController@blockDomain']);
