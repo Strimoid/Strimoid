@@ -13,7 +13,7 @@ RUN npm run build
 ### ---------------------
 ### final stage
 ### ---------------------
-FROM quay.io/strimoid/php:8.3
+FROM quay.io/strimoid/php:8.5
 
 ENV CADDY_GLOBAL_OPTIONS "auto_https off"
 ENV SERVER_NAME :80
