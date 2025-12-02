@@ -2,14 +2,9 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                {{--
-                <a class="btn btn-secondary btn-block" href="">Zaloguj przez Facebook</a>
-
-                <hr>
-                --}}
                 {{ html()->form(action: action('AuthController@login'))->class(['navbar-form'])->open() }}
-                <input type="text" name="username" placeholder="@ucFirstLang('auth.username')" class="form-control" style="margin-bottom: 10px" autofocus>
-                <input type="password" name="password" placeholder="@ucFirstLang('auth.password')" class="form-control" style="margin-bottom: 10px">
+                <input type="text" name="username" placeholder="@ucFirstLang('auth.username')" class="form-control" style="margin-bottom: 10px" autocomplete="username" autofocus>
+                <input type="password" name="password" placeholder="@ucFirstLang('auth.password')" class="form-control" style="margin-bottom: 10px" autocomplete="current-password">
 
                 <div class="m-b-1">
                     <label class="c-input c-checkbox">

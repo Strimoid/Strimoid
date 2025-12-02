@@ -7,10 +7,11 @@ if ( ! isset($class))
 else
     $class = 'form-control '. $class;
 
-$options = [
+$options = array_filter([
     'class' => $class,
-    'placeholder' => $label
-];
+    'placeholder' => $label,
+    'autocomplete' => $autocomplete ?? null,
+]);
 
 ?>
 

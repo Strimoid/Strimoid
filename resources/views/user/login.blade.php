@@ -5,10 +5,10 @@
     {{ html()->form(action: action('AuthController@login'))->class(['form-horizontal', 'w-100'])->open() }}
 
     @include('global.form.input_icon', [
-        'type' => 'text', 'name' => 'username', 'label' => ucfirst(trans('auth.username')), 'icon' => 'user'
+        'type' => 'text', 'name' => 'username', 'label' => ucfirst(trans('auth.username')), 'icon' => 'user', 'autocomplete' => 'username'
     ])
     @include('global.form.input_icon', [
-        'type' => 'password', 'name' => 'password', 'label' => ucfirst(trans('auth.password')), 'icon' => 'lock'
+        'type' => 'password', 'name' => 'password', 'label' => ucfirst(trans('auth.password')), 'icon' => 'lock', 'autocomplete' => 'current-password'
     ])
 
     <div class="form-group">
