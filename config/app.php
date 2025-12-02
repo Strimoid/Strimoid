@@ -170,7 +170,7 @@ return [
          */
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         GrahamCampbell\Throttle\ThrottleServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
+        Intervention\Image\Laravel\ServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
@@ -197,6 +197,7 @@ return [
         'Arr'                => Illuminate\Support\Arr::class,
         'Auth'               => Illuminate\Support\Facades\Auth::class,
         'Input'              => Illuminate\Support\Facades\Request::class,
+        'Js'                 => Illuminate\Support\Js::class,
         'Lang'               => Illuminate\Support\Facades\Lang::class,
         'Request'            => Illuminate\Support\Facades\Request::class,
         'Response'           => Illuminate\Support\Facades\Response::class,

@@ -137,14 +137,14 @@ if (!function_exists('setting')) {
 }
 
 if (!function_exists('s')) {
-    function s($str, string $encoding = null): Stringy
+    function s($str, ?string $encoding = null): Stringy
     {
         return new Stringy($str, $encoding);
     }
 }
 
 if (!function_exists('strans')) {
-    function strans($id = null, $replace = [], $locale = null, string $encoding = null): Stringy
+    function strans($id = null, $replace = [], $locale = null, ?string $encoding = null): Stringy
     {
         $str = app('translator')->get($id, $replace, $locale);
         return new Stringy($str, $encoding);

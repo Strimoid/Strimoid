@@ -8,9 +8,9 @@ services:
      - postgres
      - redis
   postgres:
-    image: postgres:16.2-alpine
+    image: postgres:18.1-alpine
     environment:
      - POSTGRES_USER=strimoid
      - POSTGRES_PASSWORD=strimoid
   redis:
-    image: redis:7.2-alpine
+    image: redis:8.4-alpine
