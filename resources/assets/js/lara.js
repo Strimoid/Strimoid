@@ -8,11 +8,11 @@ import { filter, includes, template } from 'lodash'
 
 import { Dropdown, Tooltip, Toast, Popover } from 'bootstrap'
 
-require('timeago')
-require('image-picker')
+import 'timeago'
+import 'image-picker'
 
-const axios = require('axios').default
-const Cookies = require('js-cookie')
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 import NotificationsModule from './modules/notifications'
 import VotesModule from './modules/votes'
@@ -94,8 +94,10 @@ $(document).ready(function () {
           lastReply = $this
         }
 
-        const template = require('./templates/entries/reply.html')
-        $(template(e.entryReply)).hide().fadeIn(1000).insertAfter(lastReply)
+        import('./templates/entries/reply.html').then(module => {
+          const template = module.default
+          $(template(e.entryReply)).hide().fadeIn(1000).insertAfter(lastReply)
+        })
       })
     }
 
@@ -126,8 +128,10 @@ $(document).ready(function () {
             return
         }
 
-        const template = require('./templates/entries/widget.html')
-        $(template(e.entry)).hide().fadeIn(1000).insertBefore($('.entry').eq(1))
+        import('./templates/entries/widget.html').then(module => {
+          const template = module.default
+          $(template(e.entry)).hide().fadeIn(1000).insertBefore($('.entry').eq(1))
+        })
       })
     }
   }
@@ -347,7 +351,7 @@ $(document).ready(function () {
     return false
   })
 
-  function findYTVideos () {
+  function findYTVideos() {
     $('.md a[href*="youtube.com"]').each(function () {
       var url = $(this).attr('href')
       var regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:[^#]+)?(?:#)?(?:t=(\d+))?(?:\S+)?$/i
@@ -730,7 +734,7 @@ $(document).ready(function () {
   });
 
   (function () {
-    function numpf (n, s, t) {
+    function numpf(n, s, t) {
       // s - 2-4, 22-24, 32-34 ...
       // t - 5-21, 25-31, ...
       var n10 = n % 10

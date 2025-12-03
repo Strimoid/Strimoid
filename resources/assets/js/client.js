@@ -1,6 +1,11 @@
-require('expose-loader?exposes=$,jQuery!jquery')
-// require('expose-loader?Pjax!pjax')
-// require('expose-loader?React!react')
-// require('expose-loader?ReactDOM!react-dom')
+// Expose jQuery globally (replaces Webpack's expose-loader and ProvidePlugin)
+import jQuery from 'jquery';
+window.$ = window.jQuery = jQuery;
 
-require('./lara')
+// Expose React globally (replaces Webpack's ProvidePlugin)
+import React from 'react';
+import ReactDOM from 'react-dom';
+window.React = React;
+window.ReactDOM = ReactDOM;
+
+import './lara';

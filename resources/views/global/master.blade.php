@@ -39,7 +39,7 @@ $navbarClass = setting('pin_navbar') ? 'fixed-top' : 'static-top';
     @include('auth.login-modal')
 @endif
 
-<script src="{{ mix('client.js', 'assets') }}"></script>
+
 
 @if (auth()->check())
     <script>

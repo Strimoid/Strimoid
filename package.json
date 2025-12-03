@@ -1,28 +1,12 @@
 {
     "private": true,
     "devDependencies": {
-        "@babel/core": "^7.24.6",
-        "@babel/preset-env": "^7.24.6",
-        "@babel/preset-react": "^7.24.6",
-        "@pmmmwh/react-refresh-webpack-plugin": "^0.5.13",
-        "babel-loader": "^9.1.3",
-        "css-loader": "^6.11.0",
-        "expose-loader": "^5.0.0",
+        "@vitejs/plugin-react": "^5.1.1",
         "handlebars": "^4.7.8",
-        "handlebars-loader": "^1.7.3",
-        "imports-loader": "^5.0.0",
-        "mini-css-extract-plugin": "^2.9.0",
-        "postcss-loader": "^8.1.1",
-        "react-refresh": "^0.14.2",
+        "laravel-vite-plugin": "^2.0.1",
         "sass": "^1.77.2",
-        "sass-loader": "^14.2.1",
         "standard": "^17.1.0",
-        "style-loader": "^3.3.4",
-        "webpack": "^5.91.0",
-        "webpack-assets-manifest": "^5.2.1",
-        "webpack-cli": "^5.1.4",
-        "webpack-dev-server": "^5.0.4",
-        "webpack-merge": "^5.10.0"
+        "vite": "^7.2.6"
     },
     "dependencies": {
         "@bugsnag/js": "^8.6.0",
@@ -47,8 +31,8 @@
         "timeago": "^1.6.7"
     },
     "scripts": {
-        "build": "NODE_ENV=production webpack --mode production",
-        "dev": "NODE_ENV=development webpack --mode development --watch"
+        "build": "vite build",
+        "dev": "vite"
     },
     "babel": {
         "presets": [

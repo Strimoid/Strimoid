@@ -1,8 +1,8 @@
 import { without } from 'lodash'
+import axios from 'axios'
+import userTooltipTemplate from '../templates/users/tooltip.js'
 
-const axios = require('axios').default
-
-function UsersModule () {
+function UsersModule() {
   if (window.username) {
     $('body')
       .on('click', 'button.user_observe_btn', this.observeUser)
@@ -67,9 +67,8 @@ UsersModule.prototype.blockUser = function () {
 
 UsersModule.prototype.renderActionsWidget = function () {
   const username = $(this).attr('data-user')
-  const template = require('../templates/users/tooltip.html')
 
-  return template({
+  return userTooltipTemplate({
     username: username,
     observe_class: window.observed_users.includes(username) ? 'btn-success' : 'btn-light',
     block_class: window.blocked_users.includes(username) ? 'btn-danger' : 'btn-light'

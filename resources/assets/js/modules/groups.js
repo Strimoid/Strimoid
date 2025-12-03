@@ -1,6 +1,7 @@
-const axios = require('axios').default
+import axios from 'axios'
+import groupTooltipTemplate from '../templates/groups/tooltip.js'
 
-function GroupsModule () {
+function GroupsModule() {
   if (window.username) {
     $('body')
       .on('click', 'button.group_subscribe_btn', this.subscribeGroup)
@@ -54,9 +55,8 @@ GroupsModule.prototype.blockGroup = function () {
 
 GroupsModule.prototype.renderActionsWidget = function () {
   const groupname = $(this).attr('data-group').replace(/^g\//, '')
-  const template = require('../templates/groups/tooltip.html')
 
-  return template({
+  return groupTooltipTemplate({
     groupname: groupname,
     subscribe_class: window.subscribed_groups.includes(groupname) ? 'btn-success' : 'btn-light',
     block_class: window.blocked_groups.includes(groupname) ? 'btn-danger' : 'btn-light'

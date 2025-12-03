@@ -14,7 +14,10 @@
 
 <title>@yield('title', e($pageTitle))</title>
 
-<link href="{{ mix('client.css', 'assets') }}" rel="stylesheet">
+{{-- Load jQuery first to ensure it's available for inline scripts --}}
+@vite(['resources/assets/js/jquery-global.js'])
+
+@vite(['resources/assets/sass/app.sass', 'resources/assets/js/client.js'])
 
 @if (isset($group)  && $group instanceof Strimoid\Models\Group
         && $group->style  && !setting('disable_groupstyles'))

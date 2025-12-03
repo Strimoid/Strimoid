@@ -7,7 +7,8 @@ _ide_helper_models.php
 node_modules/
 bower_components/
 vendor/
-public/assets/
+public/build/
+public/hot
 tests/_output/*
 storage/oauth-private.key
 storage/oauth-public.key
